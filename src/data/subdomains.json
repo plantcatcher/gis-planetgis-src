@@ -1,0 +1,12 @@
+[
+  {
+    "title": "地理知识库",
+    "description": "系统整理地理学科核心知识点，做成可检索的结构化词条。",
+    "link": "https://wiki.planetgis.cn"
+  },
+  {
+    "title": "科普博客",
+    "description": "近 200 篇原创地理科普文章，涵盖自然地理、气候、人文与 GIS。",
+    "link": "https://blog.planetgis.cn"
+  }
+]
