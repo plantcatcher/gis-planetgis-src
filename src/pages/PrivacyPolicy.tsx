@@ -69,7 +69,6 @@ const PrivacyPolicy = () => {
               <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
                 <li><strong>Google Analytics：</strong>用于分析网站流量和用户行为</li>
                 <li><strong>Google AdSense：</strong>用于展示广告</li>
-                <li><strong>Supabase：</strong>用于网站后端数据存储</li>
               </ul>
               <p className="text-muted-foreground leading-relaxed mt-3">
                 这些第三方服务有其各自的隐私政策，我们建议您阅读它们以了解其数据处理方式。
