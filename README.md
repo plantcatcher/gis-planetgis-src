@@ -1,102 +1,87 @@
-# 欢迎使用你的秒哒应用代码包
-秒哒应用链接
-    URL:https://www.miaoda.cn/projects/app-9w5ce3j0h88x
+# 星球小捕手（PlanetGIS）源码
 
-## 介绍
+「星球小捕手」是一个自助探索的地理知识库，站点 **planetgis.cn**。四大方向——自然地理、人文地理、区域地理、地理信息技术（GIS），按主题随意翻阅，把课本里的知识点讲透、讲活。
 
-项目介绍
+纯静态站点（SSG 预渲染），无后端、无数据库。
+
+## 技术栈
+
+- 构建：**Vite + React + TypeScript**（rolldown-vite）
+- 样式：Tailwind CSS + Radix UI 组件体系
+- 内容：**Markdown 驱动**，编译期经 `import.meta.glob` 打包进 bundle，构建期预渲染为静态 HTML
+- 部署：Cloudflare Pages（连接 GitHub 自动构建）
 
 ## 目录结构
 
 ```
-├── README.md # 说明文档
-├── components.json # 组件库配置
-├── index.html # 入口文件
-├── package.json # 包管理
-├── postcss.config.js # postcss 配置
-├── public # 静态资源目录
-│   ├── favicon.png # 图标
-│   └── images # 图片资源
-├── src # 源码目录
-│   ├── App.tsx # 入口文件
-│   ├── components # 组件目录
-│   ├── contexts # 上下文目录
-│   ├── db # 数据库配置目录
-│   ├── hooks # 通用钩子函数目录
-│   ├── index.css # 全局样式
-│   ├── layout # 布局目录
-│   ├── lib # 工具库目录
-│   ├── main.tsx # 入口文件
-│   ├── routes.tsx # 路由配置
-│   ├── pages # 页面目录
-│   ├── services  # 数据库交互目录
-│   ├── types   # 类型定义目录
-├── tsconfig.app.json  # ts 前端配置文件
-├── tsconfig.json # ts 配置文件
-├── tsconfig.node.json # ts node端配置文件
-└── vite.config.ts # vite 配置文件
+.
+├── content/                # 全站内容（Markdown，日常只改这里）
+│   ├── articles/           # 科普文章
+│   ├── works/              # 地理可视化作品
+│   ├── tools/              # 地理小工具
+│   ├── learn/              # 地理学习条目（学科 + 学段 + 标签）
+│   └── changelog.md        # 更新日志
+├── public/                 # 静态资源（favicon、images、ads.txt、CNAME、robots.txt 等）
+├── scripts/                # 构建期脚本
+│   ├── prerender.mjs       # SSG 预渲染（遍历路由写 dist/<route>/index.html）
+│   ├── gen-sitemap.mjs     # 自动生成 dist/sitemap.xml
+│   └── baidu-push.mjs      # 百度主动推送（需环境变量，否则跳过）
+├── src/
+│   ├── components/         # 通用 / 布局 / 知识组件
+│   ├── pages/              # 页面（Home / Listing / ContentDetail / TagPage 等）
+│   ├── lib/                # 核心库（content.ts 内容解析、knowledge.ts 检索、seo.tsx 结构化数据）
+│   ├── data/               # 静态数据（如 subdomains.json 子站导航）
+│   ├── hooks/  contexts/   # 钩子与上下文
+│   ├── App.tsx  routes.tsx  main.tsx  entry-server.tsx
+│   └── index.css           # 全局样式（杂志长读式排版系统）
+├── index.html              # 入口 HTML（含 GA4 / AdSense / busuanzi 脚本）
+├── vite.config.ts          # Vite 配置
+└── package.json            # npm 脚本与依赖（lockfile: package-lock.json）
 ```
-
-## 技术栈
-
-Vite、TypeScript、React、Supabase
 
 ## 本地开发
 
-### 如何在本地编辑代码？
+要求 **Node.js ≥ 20**（Cloudflare 构建用 22），包管理用 **npm**（pnpm/yarn 已弃用）。
 
-您可以选择 [VSCode](https://code.visualstudio.com/Download) 或者您常用的任何 IDE 编辑器，唯一的要求是安装 Node.js 和 npm.
-
-### 环境要求
-
-```
-# Node.js ≥ 20
-# npm ≥ 10
-例如：
-# node -v   # v20.18.3
-# npm -v    # 10.8.2
+```bash
+npm install      # 安装依赖（生成 package-lock.json）
+npm run dev      # 启动开发服务器（默认 http://localhost:5173）
 ```
 
-具体安装步骤如下：
+## 构建
 
-### 在 Windows 上安装 Node.js
-
-```
-# Step 1: 访问Node.js官网：https://nodejs.org/，点击下载后，会根据你的系统自动选择合适的版本（32位或64位）。
-# Step 2: 运行安装程序：下载完成后，双击运行安装程序。
-# Step 3: 完成安装：按照安装向导完成安装过程。
-# Step 4: 验证安装：在命令提示符（cmd）或IDE终端（terminal）中输入 node -v 和 npm -v 来检查 Node.js 和 npm 是否正确安装。
+```bash
+npm run build
+# = tsc && vite build && node scripts/prerender.mjs && node scripts/gen-sitemap.mjs && node scripts/baidu-push.mjs
 ```
 
-### 在 macOS 上安装 Node.js
+产物输出到 `dist/`（含全部预渲染页面 + sitemap.xml）。
 
-```
-# Step 1: 使用Homebrew安装（推荐方法）：打开终端。输入命令brew install node并回车。如果尚未安装Homebrew，需要先安装Homebrew，
-可以通过在终端中运行如下命令来安装：
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-或者使用官网安装程序：访问Node.js官网。下载macOS的.pkg安装包。打开下载的.pkg文件，按照提示完成安装。
-# Step 2: 验证安装：在命令提示符（cmd）或IDE终端（terminal）中输入 node -v 和 npm -v 来检查 Node.js 和 npm 是否正确安装。
-```
+> 注意：`dist/ads.txt` 若被正在运行的 `npm run dev` / preview 进程锁占，构建会报 `EPERM`；先停掉 dev/preview 再构建即可。
 
-### 安装完后按照如下步骤操作：
+## 部署（Cloudflare Pages）
 
-```
-# Step 1: 下载代码包
-# Step 2: 解压代码包
-# Step 3: 用IDE打开代码包，进入代码目录
-# Step 4: IDE终端输入命令行，安装依赖：npm i
-# Step 5: IDE终端输入命令行，启动开发服务器：npm run dev -- --host 127.0.0.1
-```
+连接 GitHub 仓库 `plantcatcher/gis-planetgis-src`（分支 `main`），构建设置：
 
-### 如何开发后端服务？
+- **Build command**：`npm run build`
+- **Build output directory**：`dist`
+- **环境变量**（可选）：`NODE_VERSION=22`；`BAIDU_SITE` / `BAIDU_PUSH_TOKEN`（启用百度主动推送，不填则构建时跳过）
 
-配置环境变量，安装相关依赖
-如需使用数据库，请使用 supabase 官方版本或自行部署开源版本的 Supabase
+绑定自定义域名 `planetgis.cn` 后，Cloudflare 自动签发 SSL（建议 Full strict）。
 
-### 如何配置应用中的三方 API？
+> 旧的 `.github/workflows/deploy.yml`（GitHub Pages）已废弃，迁移 Cloudflare 后可删除。
 
-具体三方 API 调用方法，请参考帮助文档：[源码导出](https://cloud.baidu.com/doc/MIAODA/s/Xmewgmsq7)，了解更多详细内容。
+## 发布 / 更新内容
 
-## 了解更多
+日常更新**只改 `content/` 与 `src/data/subdomains.json`，无需碰 React 代码**：
 
-您也可以查看帮助文档：[源码导出](https://cloud.baidu.com/doc/MIAODA/s/Xmewgmsq7)，了解更多详细内容。
+- 新增文章 / 作品 / 工具：在 `content/{articles,works,tools}/` 放 `.md`，frontmatter 含 `slug / title / cover / summary / date / category / tags`。
+- 新增学习条目：在 `content/learn/` 放 `.md`，额外含 `subject`（自然 / 人文 / 区域 / GIS）与 `category`（初中 / 高中 / 大学 / 通识地理）。
+- 内容改动后 `npm run build` 重新生成静态页（或等 Cloudflare 自动部署）。
+
+## SEO 与统计
+
+- **自动 sitemap**：构建期从所有详情页 + 标签页生成 `dist/sitemap.xml`。
+- **百度主动推送**：`scripts/baidu-push.mjs` 读取 sitemap 调用百度搜索资源平台接口（需 `BAIDU_SITE` + `BAIDU_PUSH_TOKEN`）。
+- **结构化数据**：详情页注入 `BlogPosting` / `Course` JSON-LD，首页注入 `Organization` / `WebSite`。
+- **统计**：GA4（后台分析）+ AdSense（变现）+ 不蒜子 busuanzi（页面可见访客量）。
