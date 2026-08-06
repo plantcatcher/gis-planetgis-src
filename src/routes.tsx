@@ -6,6 +6,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import Terms from './pages/Terms';
 import ContentDetail from './pages/ContentDetail';
 import Changelog from './pages/Changelog';
+import TagPage from './pages/TagPage';
 import Listing from './pages/Listing';
 import type { ReactNode } from 'react';
 
@@ -58,6 +59,11 @@ const routes: RouteConfig[] = [
     element: <ContentDetail type="article" />
   },
   {
+    name: '学习详情',
+    path: '/learn/:slug',
+    element: <ContentDetail type="learn" />
+  },
+  {
     name: '更新日志',
     path: '/changelog',
     element: <Changelog />
@@ -73,6 +79,11 @@ const routes: RouteConfig[] = [
     element: <Listing type="article" />
   },
   {
+    name: '地理学习',
+    path: '/learn',
+    element: <Listing type="learn" />
+  },
+  {
     name: '地理小工具',
     path: '/tools',
     element: <Listing type="tool" />
@@ -81,6 +92,11 @@ const routes: RouteConfig[] = [
     name: '子站导航',
     path: '/subdomains',
     element: <Listing type="subdomain" />
+  },
+  {
+    name: '标签专题',
+    path: '/tag/:tag',
+    element: <TagPage />
   }
 ];
 

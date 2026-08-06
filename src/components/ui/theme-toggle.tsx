@@ -6,10 +6,8 @@ export function ThemeToggle() {
   const [isDark, setIsDark] = useState(() => {
     if (typeof window === 'undefined') return false; // SSR/SSG 默认浅色，避免 localStorage 报错
     const savedTheme = localStorage.getItem('theme');
-    return (
-      savedTheme === 'dark' ||
-      (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)
-    );
+    // 默认浅色：仅当用户之前明确选择过 dark 时才用暗色，不再跟随系统偏好
+    return savedTheme === 'dark';
   });
 
   useEffect(() => {

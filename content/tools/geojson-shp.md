@@ -5,6 +5,7 @@ summary: 将 GeoJSON 转换为 Shapefile，支持属性表保留与坐标系转�
 link: https://covertool.planetgis.cn
 order: 2
 category: 地理小工具
+tags: 地理, 地理工具, 地理小工具
 ---
 
 ## 介绍

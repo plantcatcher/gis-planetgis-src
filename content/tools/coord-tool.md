@@ -5,6 +5,7 @@ summary: 输入地址即可获取精确经纬度坐标，支持全球地址解�
 link: https://xyz.planetgis.cn
 order: 1
 category: 地理小工具
+tags: 地理, 地理工具, 地理小工具
 ---
 
 ## 介绍

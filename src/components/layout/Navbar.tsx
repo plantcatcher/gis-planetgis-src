@@ -5,22 +5,70 @@ import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { Menu, X } from 'lucide-react';
 
 const navLinks = [
-  { name: '首页', path: '/' },
+  { name: '站点导览', path: '/' },
+  { name: '地理学习', path: '/learn' },
   { name: '精选作品', path: '/works' },
   { name: '最新文章', path: '/articles' },
   { name: '地理小工具', path: '/tools' },
   { name: '子站导航', path: '/subdomains' },
-  { name: '更新日志', path: '/changelog' },
   { name: '关于我们', path: '/about' },
+  { name: '动态与规划', path: '/changelog' },
 ];
 
 const Navbar = () => {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastY = React.useRef(0);
 
   // 详情页（/works/xxx）也应高亮对应的一级导航。
-  const isActive = (path: string) =>
-    path === '/' ? location.pathname === '/' : location.pathname === path || location.pathname.startsWith(path + '/');
+  const isActive = (path: string) => {
+    if (path.startsWith('/#')) {
+      return location.pathname === '/' && location.hash === path.slice(1);
+    }
+    if (path === '/') return location.pathname === '/' && !location.hash;
+    return location.pathname === path || location.pathname.startsWith(path + '/');
+  };
+
+  // 首页内 section 锚点：同页平滑滚动，避免整页跳动。
+  const handleNav = (e: React.MouseEvent, path: string) => {
+    if (path === '/' && location.pathname === '/') {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    if (path.startsWith('/#') && location.pathname === '/') {
+      e.preventDefault();
+      const id = path.slice(2);
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+      window.history.replaceState(null, '', path);
+      setMobileMenuOpen(false);
+    }
+  };
+
+  // 首页：向下滚动隐藏、向上滚动或回到顶部显示；其他页常显。
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (location.pathname !== '/') {
+        setHidden(false);
+        document.documentElement.classList.remove('nav-hidden');
+      } else if (y <= 80) {
+        setHidden(false);
+        document.documentElement.classList.remove('nav-hidden');
+      } else if (y > lastY.current) {
+        setHidden(true);
+        document.documentElement.classList.add('nav-hidden');
+      } else if (y < lastY.current) {
+        setHidden(false);
+        document.documentElement.classList.remove('nav-hidden');
+      }
+      lastY.current = y;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [location.pathname]);
 
   useEffect(() => {
     setMobileMenuOpen(false);
@@ -29,8 +77,8 @@ const Navbar = () => {
   return (
     <motion.nav
       initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
+      animate={{ y: hidden ? '-100%' : 0, opacity: 1 }}
+      transition={{ duration: hidden ? 0.3 : 0.4, ease: 'easeOut' }}
       className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b"
     >
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -65,6 +113,7 @@ const Navbar = () => {
             <Link
               key={link.path}
               to={link.path}
+              onClick={(e) => handleNav(e, link.path)}
               className={`text-sm font-medium transition-colors ${
                 isActive(link.path)
                   ? 'text-primary'
@@ -103,8 +152,9 @@ const Navbar = () => {
                 <Link
                   key={link.path}
                   to={link.path}
+                  onClick={(e) => handleNav(e, link.path)}
                   className={`text-sm font-medium transition-colors ${
-                    location.pathname === link.path
+                    isActive(link.path)
                       ? 'text-primary'
                       : 'hover:text-primary'
                   }`}

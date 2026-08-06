@@ -12,6 +12,29 @@ function escapeHtml(s: string): string {
     .replace(/>/g, '&gt;');
 }
 
+// 标题 -> 锚点 id（中文安全，URL 片段可直接用）。带去重计数。
+function slugify(text: string): string {
+  const base = text
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w一-鿿-]/g, '');
+  return base || 'section';
+}
+
+function createIdMaker() {
+  const used: Record<string, number> = {};
+  return (text: string) => {
+    const base = slugify(text);
+    if (used[base] != null) {
+      used[base] += 1;
+      return `${base}-${used[base]}`;
+    }
+    used[base] = 0;
+    return base;
+  };
+}
+
 function inline(text: string): string {
   // 图片 ![alt](url)
   text = text.replace(
@@ -35,6 +58,7 @@ function inline(text: string): string {
 export function renderMarkdown(md: string): string {
   const lines = md.replace(/\r\n/g, '\n').split('\n');
   const html: string[] = [];
+  const makeId = createIdMaker();
   let i = 0;
   let listType: 'ul' | 'ol' | null = null;
   let inCode = false;
@@ -88,7 +112,8 @@ export function renderMarkdown(md: string): string {
     if (h) {
       closeList();
       const lvl = h[1].length;
-      html.push(`<h${lvl}>${inline(h[2])}</h${lvl}>`);
+      const text = h[2].trim();
+      html.push(`<h${lvl} id="${makeId(text)}">${inline(text)}</h${lvl}>`);
       i++;
       continue;
     }
@@ -158,4 +183,28 @@ export function renderMarkdown(md: string): string {
   }
   closeList();
   return html.join('\n');
+}
+
+// 抽取 h2/h3 标题作为目录（TOC）。id 生成逻辑与 renderMarkdown 一致，
+// 保证锚点跳转命中。跳过 h1（页面标题本身）与 h4 以下。
+export function extractHeadings(md: string): { level: number; text: string; id: string }[] {
+  const lines = md.replace(/\r\n/g, '\n').split('\n');
+  const makeId = createIdMaker();
+  const out: { level: number; text: string; id: string }[] = [];
+  let inCode = false;
+  for (const line of lines) {
+    if (/^```/.test(line)) {
+      inCode = !inCode;
+      continue;
+    }
+    if (inCode) continue;
+    const h = line.match(/^(#{1,4})\s+(.*)$/);
+    if (h) {
+      const lvl = h[1].length;
+      if (lvl < 2 || lvl > 3) continue;
+      const text = h[2].trim();
+      out.push({ level: lvl, text, id: makeId(text) });
+    }
+  }
+  return out;
 }

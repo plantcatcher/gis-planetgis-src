@@ -20,6 +20,7 @@ const pageNameMap: Record<string, string> = {
   works: '精选作品',
   tools: '地理小工具',
   articles: '最新文章',
+  learn: '地理学习',
   subdomains: '子站导航',
   changelog: '更新日志',
 };

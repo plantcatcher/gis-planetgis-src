@@ -10,6 +10,7 @@ All colors MUST be HSL.
 @layer base {
   :root {
     --radius: 0.5rem;
+    --nav-h: 4rem;
     --background: 210 40% 98%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
@@ -77,7 +78,14 @@ All colors MUST be HSL.
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 221.2 83.2% 53.3%;
     --destructive-foreground: 210 40% 98%;
+    /* 衬线标题字体（思源宋体 + 系统衬线中文兜底），为知识内容增加"知识感" */
+    --font-serif: 'Noto Serif SC', 'Songti SC', 'STSong', 'SimSun', serif;
   }
+}
+
+/* 标题使用衬线体；正文保持无衬线以保证阅读效率（line-height 1.8） */
+h1, h2, h3, .font-serif {
+  font-family: var(--font-serif);
 }
 
 @layer utilities {
@@ -97,6 +105,17 @@ All colors MUST be HSL.
     to {
       transform: rotate(360deg);
     }
+  }
+  /* 知识网格底纹：地图坐标感，用于知识板块背景 */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, hsl(var(--border) / 0.5) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.5) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .bg-grid-fade {
+    -webkit-mask-image: radial-gradient(ellipse at center, black 25%, transparent 78%);
+    mask-image: radial-gradient(ellipse at center, black 25%, transparent 78%);
   }
 }
 
@@ -124,6 +143,12 @@ All colors MUST be HSL.
   font-weight: 700;
   margin-top: 2rem;
   margin-bottom: 0.6rem;
+}
+/* 大纲锚点跳转时，标题不被固定导航栏遮挡 */
+.md-body h2,
+.md-body h3,
+.md-body h4 {
+  scroll-margin-top: 5.5rem;
 }
 .md-body h2 {
   font-size: 1.5rem;
@@ -213,4 +238,124 @@ All colors MUST be HSL.
 }
 .md-body summary::-webkit-details-marker {
   color: hsl(var(--primary));
+}
+
+/* ============================================================
+   杂志长读式 知识排版（编辑式）
+   仅作用于详情页 .md-body（列表/卡片不复用，drop cap 安全）
+   ============================================================ */
+.md-body {
+  font-size: 1.0625rem;   /* 略放大正文，长读更从容 */
+  line-height: 1.95;
+  letter-spacing: 0.01em;
+}
+/* 首字下沉：正文第一段首字放大 */
+.md-body > p:first-of-type::first-letter {
+  float: left;
+  font-family: var(--font-serif);
+  font-size: 3.6em;
+  line-height: 0.8;
+  font-weight: 700;
+  padding: 0.04em 0.14em 0 0;
+  color: hsl(var(--primary));
+}
+/* 导语 / standfirst：详情页用 .standfirst 包裹摘要 */
+.standfirst {
+  font-size: 1.2rem;
+  line-height: 1.75;
+  color: hsl(var(--muted-foreground));
+  font-weight: 400;
+  margin-bottom: 1.6rem;
+}
+/* 引文 / pull quote：居中大号衬线，上下细线 */
+.md-body blockquote {
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  line-height: 1.55;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  margin: 2.75rem auto;
+  max-width: 34rem;
+  padding: 1.4rem 0;
+  position: relative;
+}
+.md-body blockquote::before,
+.md-body blockquote::after {
+  content: '';
+  display: block;
+  width: 3rem;
+  height: 2px;
+  background: hsl(var(--primary));
+  margin: 0 auto;
+}
+.md-body blockquote::before { margin-bottom: 1.2rem; }
+.md-body blockquote::after { margin-top: 1.2rem; }
+.md-body blockquote p { display: inline; }
+/* 图注：图片后的斜体说明 */
+.md-body img + em,
+.md-body figure figcaption {
+  display: block;
+  text-align: center;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: hsl(var(--muted-foreground));
+  margin-top: 0.5rem;
+}
+/* 栏目标签 kicker（小号大字距大写） */
+.kicker {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: hsl(var(--primary));
+}
+/* 署名行 byline */
+.byline {
+  font-size: 0.85rem;
+  color: hsl(var(--muted-foreground));
+  letter-spacing: 0.02em;
+}
+/* 编辑式分隔线（带中点） */
+.rule-ornament {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: hsl(var(--border));
+}
+.rule-ornament::before,
+.rule-ornament::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: hsl(var(--border));
+}
+/* 详情页阅读栏宽度（舒适 measure，约 70 字符） */
+.reading-column {
+  max-width: 42rem;
+}
+
+/* ============================================================
+   首页双栏：左目录 + 右内容
+   ============================================================ */
+/* 锚点跳转时 section 不被固定导航栏遮挡 */
+main section[id] {
+  scroll-margin-top: 5rem;
+}
+/* 首页自动隐藏导航栏时，让 --nav-h 归零，主内容与左栏贴顶 */
+html.nav-hidden {
+  --nav-h: 0rem;
+}
+/* 左栏细滚动条 */
+aside::-webkit-scrollbar {
+  width: 6px;
+}
+aside::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 3px;
+}
+aside::-webkit-scrollbar-track {
+  background: transparent;
 }

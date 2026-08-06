@@ -6,6 +6,7 @@ summary: 可视化全球海平面上升，预测未来海岸线变迁，直观�
 link: https://sealevel.planetgis.cn
 order: 1
 category: 可视化作品
+tags: 地理, 地理可视化, 可视化作品
 ---
 
 ## 介绍

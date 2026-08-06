@@ -6,6 +6,7 @@ summary: 沉浸式三维地理数据可视化大屏，支持多维度数据叠�
 link: https://3dboard.planetgis.cn
 order: 2
 category: 可视化作品
+tags: 地理, 地理可视化, 可视化作品
 ---
 
 ## 介绍

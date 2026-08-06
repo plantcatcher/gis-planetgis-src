@@ -27,7 +27,7 @@ const vite = await createServer({
 });
 
 try {
-  const { getAllDetailPaths } = await vite.ssrLoadModule('/src/lib/content.ts');
+  const { getAllDetailPaths, getAllTagPaths } = await vite.ssrLoadModule('/src/lib/content.ts');
   const { render } = await vite.ssrLoadModule('/src/entry-server.tsx');
 
   const staticRoutes = [
@@ -38,10 +38,11 @@ try {
     '/terms',
     '/works',
     '/articles',
+    '/learn',
     '/tools',
     '/subdomains',
   ];
-  const allRoutes = [...staticRoutes, ...getAllDetailPaths()];
+  const allRoutes = [...staticRoutes, ...getAllDetailPaths(), ...getAllTagPaths()];
 
   const template = readFileSync(join(DIST, 'index.html'), 'utf-8');
 

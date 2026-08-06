@@ -6,6 +6,7 @@ summary: 通过卫星影像识别全球知名城市，在趣味挑战中锻炼�
 link: https://geoquiz.planetgis.cn
 order: 4
 category: 可视化作品
+tags: 地理, 地理可视化, 可视化作品
 ---
 
 ## 介绍
