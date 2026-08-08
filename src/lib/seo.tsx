@@ -23,19 +23,15 @@ const DEFAULT_OG = 'https://blogphoto.planetgis.cn/PicGo/2026-02-27-favicon-dec4
 /**
  * 由路由 pathname 生成规范地址（canonical）。
  *
- * 规范形式统一为「带末尾斜杠」：Cloudflare Pages 对扁平 `.html` 产物
- * （dist/about.html -> /about）实际是以「带尾斜杠」形式返回 200 的，
- * 即把 `/about` 308 跳到 `/about/`。因此 canonical 必须写成带尾斜杠的地址，
- * 与 CF 实际 200 的 URL 严格一致，否则爬虫抓 canonical 时还会再吃一次 308
- * —— 这正是百度抓取诊断「有跳转」标记的来源之一。
+ * 规范形式统一为「无末尾斜杠」，与 Cloudflare Pages 上的扁平 `.html` 产物
+ * （dist/about.html -> /about）严格对齐：爬虫命中的就是 200 页面本身，
+ * 不会再经过 308 斜杠归一化。这是百度抓取诊断标记「有跳转」的根源之一。
  */
 export function buildCanonical(pathname: string): string {
   let p = pathname || '/';
   if (!p.startsWith('/')) p = `/${p}`;
   p = p.split('?')[0].split('#')[0];
-  if (p !== '/') {
-    if (!p.endsWith('/')) p = `${p}/`;
-  }
+  if (p !== '/') p = p.replace(/\/+$/, '');
   return p === '/' ? `${SITE}/` : `${SITE}${p}`;
 }
 

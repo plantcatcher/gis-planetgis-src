@@ -94,7 +94,7 @@ const HomeSidebar: React.FC<{
           {subjects.map((s) => (
             <li key={s.name}>
               <Link
-                to={`/learn/?subject=${encodeURIComponent(s.name)}`}
+                to={`/learn?subject=${encodeURIComponent(s.name)}`}
                 className="flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
               >
                 <span className="inline-flex items-center gap-2 truncate">
@@ -107,7 +107,7 @@ const HomeSidebar: React.FC<{
           ))}
           <li>
             <Link
-              to="/learn/"
+              to="/learn"
               className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-primary font-medium hover:bg-primary/10 transition-colors"
             >
               <BookOpen className="w-4 h-4" />
@@ -137,7 +137,7 @@ const HomeSidebar: React.FC<{
           </li>
           <li>
             <Link
-              to="/changelog/"
+              to="/changelog"
               className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
             >
               <History className="w-4 h-4 text-primary/80" />

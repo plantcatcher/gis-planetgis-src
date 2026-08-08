@@ -24,13 +24,11 @@ function walk(dir, out = []) {
   return out;
 }
 
-/** dist 内文件路径 -> 线上 URL 路径（扁平 .html 输出；线上以带尾斜杠形式 200） */
+/** dist 内文件路径 -> 线上 URL 路径（扁平 .html 输出约定） */
 function fileToUrlPath(file) {
   let rel = relative(DIST, file).split(sep).join('/');
   if (rel === 'index.html') return '/';
-  let p = '/' + rel.replace(/\.html$/, '');
-  if (!p.endsWith('/')) p += '/';
-  return p;
+  return '/' + rel.replace(/\.html$/, '');
 }
 
 const files = walk(DIST);
@@ -127,8 +125,7 @@ if (existsSync(sitemapPath)) {
       errors.push(`sitemap: ${loc} 不是 ${SITE} 开头`);
       continue;
     }
-    let p = decodeURIComponent(loc.slice(SITE.length)) || '/';
-    if (p !== '/' && !p.endsWith('/')) p += '/';
+    const p = decodeURIComponent(loc.slice(SITE.length)) || '/';
     const hit = [...known].some((k) => decodeURIComponent(k) === p);
     if (!hit) errors.push(`sitemap: ${loc} 在 dist 中没有对应静态文件`);
   }

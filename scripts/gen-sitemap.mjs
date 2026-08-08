@@ -2,14 +2,13 @@
 // 路由清单与 prerender.mjs 共用 scripts/site-routes.mjs，保证 sitemap 里的每条 URL
 // 在 dist 里都有对应的静态产物（不会指向 404 或 3xx）。
 //
-// URL 一律使用「带末尾斜杠」形式（routeToUrl），与 Cloudflare Pages 实际返回 200
-// 的地址、页面 canonical 完全一致：爬虫抓 sitemap 时直接命中 200，不会经过
-// Cloudflare Pages 的斜杠归一化 308（/about -> /about/）。
+// URL 一律使用「无末尾斜杠」形式，与扁平 .html 产物、页面 canonical 完全一致，
+// 爬虫抓 sitemap 时直接命中 200，不会经过 Cloudflare Pages 的斜杠归一化 308。
 
 import { createServer } from 'vite';
 import { writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { collectRoutes, routeToUrl } from './site-routes.mjs';
+import { collectRoutes, SITE } from './site-routes.mjs';
 
 const ROOT = process.cwd();
 const DIST = join(ROOT, 'dist');
@@ -55,7 +54,7 @@ try {
       u.startsWith('/tag/');
     const priority = isDetail ? 0.7 : (STATIC_PRIORITY[u] ?? 0.6);
     entries.push(
-      `  <url>\n    <loc>${routeToUrl(u)}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>${priority.toFixed(1)}</priority>\n  </url>`,
+      `  <url>\n    <loc>${SITE}${u}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>${priority.toFixed(1)}</priority>\n  </url>`,
     );
   }
 

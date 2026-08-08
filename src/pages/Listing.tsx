@@ -72,7 +72,7 @@ const WorkGrid = () => (
     {getWorks().map((w, i) => (
       <CardAnim key={w.slug} delay={i * 0.08}>
         <Link
-          to={`/works/${w.slug}/`}
+          to={`/works/${w.slug}`}
           className="group block overflow-hidden rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 hover:shadow-lg transition-all duration-300"
         >
           <div className="aspect-video overflow-hidden relative">
@@ -100,7 +100,7 @@ const ToolGrid = () => (
     {getTools().map((t, i) => (
       <CardAnim key={t.slug} delay={i * 0.08}>
         <Link
-          to={`/tools/${t.slug}/`}
+          to={`/tools/${t.slug}`}
           className="group flex gap-6 p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-border/50 hover:border-secondary/50 hover:shadow-xl hover:shadow-secondary/10 transition-all duration-300"
         >
           <div className="shrink-0 w-16 h-16 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-white transition-colors">
@@ -398,7 +398,7 @@ const Listing: React.FC<{ type: ListingType }> = ({ type }) => {
       <PageMeta
         title={`${m.title} - 星球小捕手`}
         description={m.subtitle}
-        canonical={`https://planetgis.cn/${m.base}/`}
+        canonical={`https://planetgis.cn/${m.base}`}
       />
       <Breadcrumb />
       <div className="min-h-screen bg-background text-foreground">

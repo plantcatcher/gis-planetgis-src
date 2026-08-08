@@ -27,7 +27,7 @@ const KnowledgeCard = ({ item, showSubject = true }: { item: ContentItem; showSu
   const lead = leadOf(item);
   return (
     <Link
-      to={`/${base}/${item.slug}/`}
+      to={`/${base}/${item.slug}`}
       className="group flex flex-col overflow-hidden rounded-xl bg-background border border-border hover:border-primary/40 hover:shadow-lg transition-all duration-300 h-full"
     >
       <div className="relative aspect-[16/9] overflow-hidden bg-muted">
