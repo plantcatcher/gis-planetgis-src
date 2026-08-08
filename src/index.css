@@ -43,6 +43,8 @@ All colors MUST be HSL.
     --sidebar-border: 217 33% 18%;
     --sidebar-ring: 221.2 83.2% 53.3%;
     --destructive-foreground: 210 40% 98%;
+    /* 衬线标题字体（思源宋体 + 系统衬线中文兜底），为知识内容增加"知识感"；亮色/深色共用，确保默认浅色主题也启用宋体 */
+    --font-serif: 'Noto Serif SC', 'Songti SC', 'STSong', 'SimSun', serif;
   }
 
   .dark {
@@ -78,8 +80,6 @@ All colors MUST be HSL.
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 221.2 83.2% 53.3%;
     --destructive-foreground: 210 40% 98%;
-    /* 衬线标题字体（思源宋体 + 系统衬线中文兜底），为知识内容增加"知识感" */
-    --font-serif: 'Noto Serif SC', 'Songti SC', 'STSong', 'SimSun', serif;
   }
 }
 

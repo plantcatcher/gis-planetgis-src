@@ -1,5 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Compass } from 'lucide-react';
+
+/**
+ * 站点默认封面图：文章未显式设置 cover 时使用。
+ * 取自 blogphoto.planetgis.cn 图床；若加载失败回退到品牌渐变占位图。
+ */
+const DEFAULT_COVER =
+  'https://blogphoto.planetgis.cn/PicGo/2026-07-16-0cde5cfe8163254a8526fb8014a4d7cc-sz_424354.jpeg';
 
 interface CoverImageProps {
   cover?: string;
@@ -13,17 +20,33 @@ interface CoverImageProps {
 /**
  * 封面图组件。
  * - 有 cover：渲染真实图片（object-cover 填满父级容器）。
- * - 无 cover：渲染品牌渐变占位图，避免「空框 / 破图」，保证列表永远有视觉焦点。
+ * - 无 cover：渲染默认封面图（DEFAULT_COVER）；图床异常时回退品牌渐变占位图，
+ *   避免「空框 / 破图」，保证列表永远有视觉焦点。
  *
  * 父级需提供尺寸容器（如 aspect-[16/9] overflow-hidden）。
  */
 const CoverImage: React.FC<CoverImageProps> = ({ cover, title, className = '', lazy = false }) => {
+  const [imgFailed, setImgFailed] = useState(false);
+
   if (cover) {
     return (
       <img
         src={cover}
         alt={`${title} - 封面图`}
         loading={lazy ? 'lazy' : undefined}
+        className={`w-full h-full object-cover ${className}`}
+      />
+    );
+  }
+
+  // 无 cover：优先用默认封面图，加载失败则回退到渐变占位图
+  if (!imgFailed) {
+    return (
+      <img
+        src={DEFAULT_COVER}
+        alt={`${title} - 默认封面`}
+        loading={lazy ? 'lazy' : undefined}
+        onError={() => setImgFailed(true)}
         className={`w-full h-full object-cover ${className}`}
       />
     );

@@ -93,7 +93,7 @@ const Navbar = () => {
             whileHover={{ rotate: 360, transition: { duration: 0.5 } }}
           />
           <motion.span
-            className="font-bold text-xl tracking-tight"
+            className="font-serif font-bold text-xl tracking-tight"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}

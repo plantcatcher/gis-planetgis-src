@@ -6,7 +6,6 @@ date: 2026-08-08
 category: 初中地理
 subject: 自然地理
 tags: 地理, 初中地理
-cover: https://blogphoto.planetgis.cn/PicGo/2026-08-08-73b58795ae9aac452a20a75c1bc6a98b-sz_323468.jpeg
 ---
 
 ![天际线](https://blogphoto.planetgis.cn/PicGo/2026-08-08-87884e54d0e34d681a3059d92637e1fa-sz_1130891.jpeg)

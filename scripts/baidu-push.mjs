@@ -21,8 +21,9 @@ if (!process.env.BAIDU_PUSH_TOKEN && existsSync('.env')) {
   }
 }
 
-// 注意：百度 site 参数用纯域名（不带协议），如 planetgis.cn
-const SITE = process.env.BAIDU_SITE || 'planetgis.cn';
+// 与百度搜索资源平台生成的接口地址中的 site 参数保持一致。
+// 截图示例：https://planetgis.cn（带协议），故默认也带协议。
+const SITE = process.env.BAIDU_SITE || 'https://planetgis.cn';
 const TOKEN = process.env.BAIDU_PUSH_TOKEN;
 
 if (!TOKEN) {
