@@ -10,7 +10,19 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
-const SITE = process.env.BAIDU_SITE || 'https://planetgis.cn';
+// 轻量读取本地 .env（仅在 process.env 缺失时），不引入 dotenv 依赖。
+// 平台（如 Cloudflare Pages）已注入的环境变量优先，不会被 .env 覆盖。
+if (!process.env.BAIDU_PUSH_TOKEN && existsSync('.env')) {
+  for (const line of readFileSync('.env', 'utf-8').split('\n')) {
+    const m = line.match(/^\s*([\w.-]+)\s*=\s*(.*)\s*$/);
+    if (m && !process.env[m[1]]) {
+      process.env[m[1]] = m[2].replace(/^["']|["']$/g, '');
+    }
+  }
+}
+
+// 注意：百度 site 参数用纯域名（不带协议），如 planetgis.cn
+const SITE = process.env.BAIDU_SITE || 'planetgis.cn';
 const TOKEN = process.env.BAIDU_PUSH_TOKEN;
 
 if (!TOKEN) {
