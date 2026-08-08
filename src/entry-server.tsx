@@ -1,9 +1,8 @@
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import { resetSsrHead, getSsrHead, getSsrJsonLd } from './lib/seo';
-import Navbar from './components/layout/Navbar';
-import Footer from './components/layout/Footer';
-import AppRoutes from './AppRoutes';
+import { TooltipProvider } from './components/ui/tooltip';
+import AppShell from './AppShell';
 
 // 供 scripts/prerender.mjs 调用：把任意路由渲染成完整 HTML 字符串。
 // head 标签（标题 / 描述 / OG / JSON-LD）由各页面的 <PageMeta> 在渲染期间
@@ -11,15 +10,13 @@ import AppRoutes from './AppRoutes';
 export function render(url: string): { html: string; head: string } {
   resetSsrHead();
 
+  // 渲染树必须与客户端 App.tsx 完全一致（同为 TooltipProvider + AppShell），
+  // 否则 hydrateRoot 会判定 mismatch 而丢弃这里产出的静态 DOM。
   const html = renderToString(
     <StaticRouter location={url}>
-      <div className="flex flex-col min-h-screen">
-        <Navbar />
-        <main className="flex-grow">
-          <AppRoutes />
-        </main>
-        <Footer />
-      </div>
+      <TooltipProvider>
+        <AppShell />
+      </TooltipProvider>
     </StaticRouter>
   );
 

@@ -67,6 +67,27 @@
     }
     </script>
 
+    <!-- 兜底：禁用 JS 时，强制显示任何带初始隐藏内联样式的元素，
+         保证预渲染正文在无脚本环境下依然可见。 -->
+    <noscript>
+      <style>
+        [style*="opacity:0"] {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
+
+    <!-- 主题预置：首屏绘制前给 <html> 打 dark class，消除深色用户白闪。
+         仅操作 class，不含任何页面跳转逻辑。 -->
+    <script>
+      try {
+        if (localStorage.getItem('theme') === 'dark') {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    </script>
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDBDPNLN25"></script>
     <script>

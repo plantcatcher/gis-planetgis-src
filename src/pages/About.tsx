@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Globe, Compass, Box, ArrowRight, MessageCircle, Share2, Youtube, Instagram } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -25,7 +26,7 @@ const About = () => {
     <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-4xl mx-auto px-4 md:px-8 py-8">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
@@ -55,7 +56,7 @@ const About = () => {
             ].map((pillar, index) => (
               <motion.div
                 key={pillar.title}
-                initial={{ opacity: 0, y: 30 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.15, ease: "easeOut" }}
                 className="flex flex-col items-center text-center p-8 rounded-2xl bg-muted/50 border border-border/50"
@@ -80,7 +81,7 @@ const About = () => {
               ].map((stat, index) => (
                 <motion.div
                   key={stat.label}
-                  initial={{ opacity: 0, scale: 0.8 }}
+                  initial={false}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4, delay: 0.3 + index * 0.1, ease: "easeOut" }}
                 >
@@ -144,10 +145,13 @@ const About = () => {
 
           {/* CTA */}
           <div className="mt-12 text-center">
-            <Button size="lg" className="rounded-full px-8" onClick={() => {
-              window.location.href = '/';
-            }}>
-              返回首页 <ArrowRight className="ml-2 w-4 h-4" />
+            {/* 用真实 <a> 承载导航，而非 window.location 跳转：
+                既保证无 JS 环境下可点击，也避免搜索引擎把页面里的
+                location 赋值代码识别成「客户端跳转」。 */}
+            <Button asChild size="lg" className="rounded-full px-8">
+              <Link to="/">
+                返回首页 <ArrowRight className="ml-2 w-4 h-4" />
+              </Link>
             </Button>
           </div>
         </motion.div>

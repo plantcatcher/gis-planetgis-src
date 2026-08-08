@@ -75,8 +75,11 @@ const Navbar = () => {
   }, [location.pathname]);
 
   return (
+    // initial={false}：直接以 animate 的目标值渲染，不产出 opacity:0 的初始态。
+    // 预渲染 HTML 里若带 style="opacity:0"，在关闭 JS 或脚本加载失败时导航栏会
+    // 整块「隐形」——内容在 DOM 里却看不见。导航是站内链接的主要入口，必须默认可见。
     <motion.nav
-      initial={{ y: -100, opacity: 0 }}
+      initial={false}
       animate={{ y: hidden ? '-100%' : 0, opacity: 1 }}
       transition={{ duration: hidden ? 0.3 : 0.4, ease: 'easeOut' }}
       className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b"
@@ -87,14 +90,14 @@ const Navbar = () => {
             src="https://blogphoto.planetgis.cn/PicGo/2026-02-27-favicon-dec42c.png"
             alt="Logo"
             className="w-8 h-8 rounded-full"
-            initial={{ opacity: 0, scale: 0 }}
+            initial={false}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
             whileHover={{ rotate: 360, transition: { duration: 0.5 } }}
           />
           <motion.span
             className="font-serif font-bold text-xl tracking-tight"
-            initial={{ opacity: 0, x: -20 }}
+            initial={false}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
           >
@@ -104,7 +107,7 @@ const Navbar = () => {
 
         {/* Desktop nav */}
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={false}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.3, ease: 'easeOut' }}
           className="hidden md:flex items-center gap-8"

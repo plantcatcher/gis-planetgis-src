@@ -6,6 +6,7 @@
 // - 服务端：渲染期间把 head 数据写入模块级单例；预渲染脚本在 renderToString 之后读取并注入静态 HTML。
 
 import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export interface HeadData {
   title?: string;
@@ -15,8 +16,24 @@ export interface HeadData {
   type?: string;
 }
 
-const SITE = 'https://planetgis.cn';
+/** 站点 baseURL：全站 canonical / OG / 结构化数据的唯一来源 */
+export const SITE = 'https://planetgis.cn';
 const DEFAULT_OG = 'https://blogphoto.planetgis.cn/PicGo/2026-02-27-favicon-dec42c.png';
+
+/**
+ * 由路由 pathname 生成规范地址（canonical）。
+ *
+ * 规范形式统一为「无末尾斜杠」，与 Cloudflare Pages 上的扁平 `.html` 产物
+ * （dist/about.html -> /about）严格对齐：爬虫命中的就是 200 页面本身，
+ * 不会再经过 308 斜杠归一化。这是百度抓取诊断标记「有跳转」的根源之一。
+ */
+export function buildCanonical(pathname: string): string {
+  let p = pathname || '/';
+  if (!p.startsWith('/')) p = `/${p}`;
+  p = p.split('?')[0].split('#')[0];
+  if (p !== '/') p = p.replace(/\/+$/, '');
+  return p === '/' ? `${SITE}/` : `${SITE}${p}`;
+}
 
 // 服务端渲染期间收集的 head 数据（每次路由渲染前需 reset）。
 let ssrHead: HeadData = {};
@@ -36,15 +53,19 @@ export function getSsrJsonLd(): object[] {
 interface PageMetaProps {
   title: string;
   description: string;
-  /** Canonical URL；缺省按标题推导 */
+  /** Canonical URL；缺省由当前路由 pathname 自动推导（自引用） */
   canonical?: string;
   /** Open Graph 图片 */
   image?: string;
 }
 
 export function PageMeta({ title, description, canonical, image }: PageMetaProps) {
-  const canonicalUrl =
-    canonical || `${SITE}/${title.split(' ')[0].replace(/^-+/, '')}`;
+  // 缺省 canonical 由当前路由生成，保证「自引用」。
+  // 旧实现是用页面标题拼 URL（`${SITE}/${title.split(' ')[0]}`），会产出
+  // https://planetgis.cn/星球小捕手 这类根本不存在的地址，被搜索引擎判定为
+  // 指向其它 URL —— 百度抓取诊断的「有跳转」标记即源于此，务必不要改回去。
+  const { pathname } = useLocation();
+  const canonicalUrl = canonical || buildCanonical(pathname);
   const ogImage = image || DEFAULT_OG;
 
   // 客户端：直接操作 document.head
