@@ -32,21 +32,30 @@ export async function collectRoutes(vite) {
 }
 
 /**
- * 路由 -> dist 内的产物文件路径。
+ * 路由 -> 线上规范 URL（带末尾斜杠）。
  *
- * 采用「扁平 .html」而非「目录 / index.html」：
+ * Cloudflare Pages 对扁平 `.html` 产物实际以「带尾斜杠」形式返回 200
+ * （把 `/about` 308 跳到 `/about/` 后再读 about.html）。所以 sitemap、
+ * canonical、站内链接都必须用带尾斜杠的地址，与 CF 实际 200 的 URL 一致，
+ * 避免爬虫每抓一个 URL 都先吃一次 308（百度抓取诊断的「有跳转」标记）。
+ */
+export function routeToUrl(route) {
+  if (route === '/' || route === '') return `${SITE}/`;
+  let p = route.startsWith('/') ? route : `/${route}`;
+  p = p.split('?')[0].split('#')[0];
+  if (!p.endsWith('/')) p = `${p}/`;
+  return `${SITE}${p}`;
+}
+
+/**
+ * 路由 -> dist 内的产物文件路径（扁平 .html）。
  *   /about              -> dist/about.html
  *   /works/geo-xxx      -> dist/works/geo-xxx.html
  *   /                   -> dist/index.html
  *
- * 原因：Cloudflare Pages 对 `foo/index.html` 的规范地址是带斜杠的 `/foo/`，
- * 会把 `/foo` 308 跳到 `/foo/`；而本站 sitemap、canonical、站内链接用的全是
- * 无斜杠形式，于是爬虫每抓一个 URL 都先吃一次 308 —— 这正是百度抓取诊断
- * 标记「有跳转」的直接原因。改成 `foo.html` 后，无斜杠 URL 直接 200。
+ * 注意：文件仍是扁平 `.html`，但线上访问地址是带尾斜杠的 /about/（见 routeToUrl）。
  *
- * 另：路径里的中文标签必须 decode 后落盘（dist/tag/地理.html）。
- * 之前写成了字面量 `dist/tag/%E5%9C%B0%E7%90%86/`，Cloudflare 解码请求路径后
- * 匹配不到该文件，导致所有 /tag/* 都落进 SPA 兜底、返回首页内容。
+ * 路径里的中文标签必须 decode 后落盘（dist/tag/地理.html）。
  */
 export function routeToFile(dist, route) {
   if (route === '/') return join(dist, 'index.html');

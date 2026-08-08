@@ -319,7 +319,7 @@ const Home = () => {
             title="精选作品"
             lead="精选的地理可视化作品，用数据讲述地球的尺度与变迁——从海平面模拟到城市路网。"
             action={
-              <Link to="/works" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
+              <Link to="/works/" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
                 浏览全部作品 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             }
@@ -356,7 +356,7 @@ const Home = () => {
                   </motion.a>
                   <div className="mt-3 text-center">
                     <Link
-                      to={`/works/${work.slug}`}
+                      to={`/works/${work.slug}/`}
                       className="text-sm font-medium text-primary hover:underline inline-flex items-center gap-1"
                     >
                       查看详情与解读 <ArrowRight className="w-3 h-3" />
@@ -400,7 +400,7 @@ const Home = () => {
               title="按学科探索地理"
               lead="从自然地理到 GIS 技术，按学科与学段组织成可检索的自助知识库——随时来翻、随手可读。"
               action={
-                <Link to="/learn" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
+                <Link to="/learn/" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
                   进入完整知识库 <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               }
@@ -428,7 +428,7 @@ const Home = () => {
             title="地理小工具"
             lead="自研的在线地理工具，让经纬度查询、地形分析、格式转换不再有门槛。"
             action={
-              <Link to="/tools" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
+              <Link to="/tools/" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
                 查看全部工具 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             }
@@ -469,7 +469,7 @@ const Home = () => {
                   </motion.a>
                   <div className="mt-3 text-center">
                     <Link
-                      to={`/tools/${tool.slug}`}
+                      to={`/tools/${tool.slug}/`}
                       className="text-sm font-medium text-primary hover:underline inline-flex items-center gap-1"
                     >
                       查看详情与使用教程 <ArrowRight className="w-3 h-3" />
@@ -695,7 +695,7 @@ const Home = () => {
             title="动态与规划"
             lead="站点近期更新与未来规划，记录每一次迭代与新的内容方向。"
             action={
-              <Link to="/changelog" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
+              <Link to="/changelog/" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
                 查看完整更新日志 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             }

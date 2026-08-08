@@ -10,7 +10,7 @@ const KnowledgeMap = ({ stats }: { stats: SubjectStat[] }) => (
     {stats.map((s) => (
       <Link
         key={s.name}
-        to={`/learn?subject=${encodeURIComponent(s.name)}`}
+        to={`/learn/?subject=${encodeURIComponent(s.name)}`}
         className="group relative flex flex-col rounded-2xl border border-border bg-background p-5 overflow-hidden hover:border-primary/40 hover:shadow-lg transition-all"
       >
         <div className="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-primary/5 group-hover:bg-primary/10 transition-colors" />

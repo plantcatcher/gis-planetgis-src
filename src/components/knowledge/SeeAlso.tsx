@@ -19,7 +19,7 @@ const SeeAlso = ({ items }: { items: ContentItem[] }) => {
         {items.map((i) => (
           <li key={`${i.type}-${i.slug}`}>
             <Link
-              to={`/${TYPE_BASE[i.type]}/${i.slug}`}
+              to={`/${TYPE_BASE[i.type]}/${i.slug}/`}
               className="group flex items-start gap-2 rounded-lg border border-border/60 bg-card/60 p-3 hover:border-primary/40 hover:bg-primary/5 transition"
             >
               {i.subject && (

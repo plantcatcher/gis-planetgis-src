@@ -35,7 +35,7 @@ const TagPage: React.FC = () => {
       <PageMeta
         title={`${decoded} - 星球小捕手`}
         description={`星球小捕手关于「${decoded}」的地理科普内容合集，涵盖文章、学习与可视化作品，用系统化的方式把知识点讲透、讲活。`}
-        canonical={`https://planetgis.cn/tag/${encodeURIComponent(decoded)}`}
+        canonical={`https://planetgis.cn/tag/${encodeURIComponent(decoded)}/`}
       />
       <Breadcrumb items={[{ label: '首页', path: '/' }, { label: `标签：${decoded}` }]} />
       <div className="min-h-screen bg-background text-foreground">
@@ -57,7 +57,7 @@ const TagPage: React.FC = () => {
               {items.map((a, i) => (
                 <CardAnim key={`${a.type}-${a.slug}`} delay={i * 0.06}>
                   <Link
-                    to={`/${basePath[a.type]}/${a.slug}`}
+                    to={`/${basePath[a.type]}/${a.slug}/`}
                     className="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-zinc-900 border border-border/50 hover:border-primary/30 hover:shadow-lg transition-all duration-300 h-full"
                   >
                     <div className="aspect-[16/9] overflow-hidden bg-muted relative">

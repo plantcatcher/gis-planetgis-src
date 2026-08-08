@@ -34,7 +34,7 @@ const LOGO = 'https://blogphoto.planetgis.cn/PicGo/2026-02-27-favicon-dec42c.png
 // 携带 headline / author / datePublished / image / keywords，并嵌入"地理"关键词，
 // 帮助百度 / Google 理解页面主题，争取富媒体展示。独立组件以遵守 hooks 调用规则。
 const ArticleJsonLd: React.FC<{ item: ContentItem; type: ContentType }> = ({ item, type }) => {
-  const canonical = `https://planetgis.cn/${basePath[type]}/${item.slug}`;
+  const canonical = `https://planetgis.cn/${basePath[type]}/${item.slug}/`;
   const schema = {
     '@context': 'https://schema.org',
     '@type': type === 'learn' ? 'Course' : 'BlogPosting',
@@ -77,7 +77,7 @@ export default function ContentDetail({ type }: Props) {
       <PageMeta
         title={item.title}
         description={item.summary || item.title}
-        canonical={`https://planetgis.cn/${basePath[type]}/${item.slug}`}
+        canonical={`https://planetgis.cn/${basePath[type]}/${item.slug}/`}
         image={item.cover}
       />
 
@@ -129,7 +129,7 @@ export default function ContentDetail({ type }: Props) {
           {item.tags.map((t) => (
             <Link
               key={t}
-              to={`/tag/${encodeURIComponent(t)}`}
+              to={`/tag/${encodeURIComponent(t)}/`}
               className="px-3 py-1 rounded-full text-xs font-medium bg-muted hover:bg-primary/10 text-primary border border-border/50 transition-colors"
             >
               # {t}
@@ -161,7 +161,7 @@ export default function ContentDetail({ type }: Props) {
             {related.map((r) => (
               <Link
                 key={r.slug}
-                to={`/${basePath[type]}/${r.slug}`}
+                to={`/${basePath[type]}/${r.slug}/`}
                 className="group block p-4 rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 transition-all"
               >
                 <CoverImage

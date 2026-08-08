@@ -14,7 +14,7 @@ export default function Changelog() {
       <PageMeta
         title="更新日志"
         description={changelog.summary || '星球小捕手网站的功能更新、内容上新与产品规划记录。'}
-        canonical="https://planetgis.cn/changelog"
+        canonical="https://planetgis.cn/changelog/"
       />
 
       <nav className="text-sm text-muted-foreground mb-6">

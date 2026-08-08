@@ -24,7 +24,7 @@ const Footer = () => {
           <ul className="space-y-2 text-sm text-muted-foreground">
             {subjects.map((s) => (
               <li key={s.name}>
-                <Link to={`/learn?subject=${encodeURIComponent(s.name)}`} className="hover:text-primary transition-colors">
+                <Link to={`/learn/?subject=${encodeURIComponent(s.name)}`} className="hover:text-primary transition-colors">
                   {s.name}
                 </Link>
               </li>
@@ -37,7 +37,7 @@ const Footer = () => {
           <ul className="space-y-2 text-sm text-muted-foreground">
             {levels.map((l) => (
               <li key={l}>
-                <Link to="/learn" className="hover:text-primary transition-colors">
+                <Link to="/learn/" className="hover:text-primary transition-colors">
                   {l}
                 </Link>
               </li>
@@ -48,21 +48,21 @@ const Footer = () => {
         <div>
           <h4 className="font-semibold text-sm mb-3">内容板块</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/works" className="hover:text-primary transition-colors">可视化作品</Link></li>
-            <li><Link to="/articles" className="hover:text-primary transition-colors">科普文章</Link></li>
-            <li><Link to="/tools" className="hover:text-primary transition-colors">地理工具</Link></li>
-            <li><Link to="/subdomains" className="hover:text-primary transition-colors">子站导航</Link></li>
+            <li><Link to="/works/" className="hover:text-primary transition-colors">可视化作品</Link></li>
+            <li><Link to="/articles/" className="hover:text-primary transition-colors">科普文章</Link></li>
+            <li><Link to="/tools/" className="hover:text-primary transition-colors">地理工具</Link></li>
+            <li><Link to="/subdomains/" className="hover:text-primary transition-colors">子站导航</Link></li>
           </ul>
         </div>
 
         <div>
           <h4 className="font-semibold text-sm mb-3">关于</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/about" className="hover:text-primary transition-colors">关于我们</Link></li>
-            <li><Link to="/changelog" className="hover:text-primary transition-colors">更新日志</Link></li>
-            <li><Link to="/contact" className="hover:text-primary transition-colors">联系我们</Link></li>
-            <li><Link to="/privacy-policy" className="hover:text-primary transition-colors">隐私政策</Link></li>
-            <li><Link to="/terms" className="hover:text-primary transition-colors">服务条款</Link></li>
+            <li><Link to="/about/" className="hover:text-primary transition-colors">关于我们</Link></li>
+            <li><Link to="/changelog/" className="hover:text-primary transition-colors">更新日志</Link></li>
+            <li><Link to="/contact/" className="hover:text-primary transition-colors">联系我们</Link></li>
+            <li><Link to="/privacy-policy/" className="hover:text-primary transition-colors">隐私政策</Link></li>
+            <li><Link to="/terms/" className="hover:text-primary transition-colors">服务条款</Link></li>
           </ul>
         </div>
       </div>
