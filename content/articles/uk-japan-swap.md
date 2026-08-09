@@ -27,7 +27,7 @@ tags: 地理, 地理科普, 趣味科普
 - **更孤立的海洋位置**：远离欧陆，却紧邻东亚大陆边缘。
 - **帝国史重写**：殖民与海军扩张的舞台完全换了一套地理剧本。
 
-## 原文链接：[假如英日互换国土，世界格局会彻底大乱吗？ | 星球小捕手](https://blog.planetgis.cn/archives/b90caffe.html?highlight=英日)
+### 原文链接：[假如英日互换国土，世界格局会彻底大乱吗？ | 星球小捕手](https://blog.planetgis.cn/archives/b90caffe.html?highlight=英日)
 
 ## 常见问题 FAQ
 

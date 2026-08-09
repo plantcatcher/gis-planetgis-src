@@ -115,7 +115,7 @@ const PrivacyPolicy = () => {
                 如果您对本隐私政策有任何疑问或建议，请通过以下方式联系我们：
               </p>
               <ul className="list-disc pl-6 space-y-2 text-muted-foreground mt-3">
-                <li>微信公众号：那山那海那座城</li>
+                <li>微信公众号：星球小捕手</li>
                 <li>微博：<a href="https://weibo.com/u/5860040514" target="_blank" rel="noreferrer" className="text-primary hover:underline">@星球小捕手</a></li>
                 <li>B站：<a href="https://space.bilibili.com/31959835" target="_blank" rel="noreferrer" className="text-primary hover:underline">星球小捕手</a></li>
               </ul>

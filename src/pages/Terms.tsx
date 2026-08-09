@@ -93,7 +93,7 @@ const Terms = () => {
             <section>
               <h2 className="text-2xl font-bold mb-3">8. 联系方式</h2>
               <p className="text-muted-foreground leading-relaxed">
-                如对本服务条款有任何疑问，请通过微信公众号"那山那海那座城"或微博与我们联系。
+                如对本服务条款有任何疑问，请通过微信公众号"星球小捕手"或微博与我们联系。
               </p>
             </section>
           </div>

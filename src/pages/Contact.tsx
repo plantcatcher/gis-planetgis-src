@@ -6,7 +6,7 @@ import Breadcrumb from '@/components/common/Breadcrumb';
 
 const Contact = () => {
   const socialLinks = [
-    { platform: '微信公众号', handle: '那山那海那座城', desc: '搜索关注，获取最新地理科普推送', icon: MessageCircle, url: '#' },
+    { platform: '微信公众号', handle: '星球小捕手', desc: '搜索关注，获取最新地理科普推送', icon: MessageCircle, url: '#' },
     { platform: '微博', handle: '@星球小捕手', desc: '关注我们，参与地理话题讨论', icon: Share2, url: 'https://weibo.com/u/5860040514' },
     { platform: 'B站', handle: '星球小捕手', desc: '观看地理科普视频和可视化作品', icon: Youtube, url: 'https://space.bilibili.com/31959835' },
     { platform: '小红书', handle: '星球小捕手', desc: '查看地理知识卡片和图文内容', icon: Instagram, url: 'https://www.xiaohongshu.com/user/profile/5f91772d00000000010077da' },

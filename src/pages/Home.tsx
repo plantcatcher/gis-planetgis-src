@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Github, Youtube, MessageCircle, Instagram, Rss, ArrowRight, ExternalLink, Globe, Compass, Box, Share2, Calendar, Lightbulb } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { getWorks, getTools, getArticles, getLearns, getChangelogTimeline, getLearnSubjects } from '@/lib/content';
@@ -235,7 +236,7 @@ const Home = () => {
   const activeSection = useScrollSpy(navItems.map((n) => n.id));
 
   const socialLinks = [
-    { id: '1', platform: '微信', url: '那山那海那座城', icon_name: 'MessageCircle' },
+    { id: '1', platform: '微信', url: '星球小捕手', icon_name: 'MessageCircle' },
     { id: '2', platform: '微博', url: 'https://weibo.com/u/5860040514', icon_name: 'Share2' },
     { id: '3', platform: 'B站', url: 'https://space.bilibili.com/31959835', icon_name: 'Youtube' },
     { id: '4', platform: '小红书', url: 'https://www.xiaohongshu.com/user/profile/5f91772d00000000010077da', icon_name: 'Instagram' },
@@ -268,15 +269,7 @@ const Home = () => {
     inLanguage: 'zh-CN',
   });
 
-  const copyToClipboard = (text: string, platform: string) => {
-    navigator.clipboard.writeText(text)
-      .then(() => {
-        alert(`已复制${platform}账号: ${text}`);
-      })
-      .catch(err => {
-        console.error('复制失败:', err);
-      });
-  };
+  const [wechatOpen, setWechatOpen] = useState(false);
 
   const renderSection = (section: SectionConfig) => {
     switch (section.key) {
@@ -532,14 +525,14 @@ const Home = () => {
                   return (
                     <motion.button
                       key={link.id}
-                      onClick={() => copyToClipboard(link.url, link.platform)}
+                      onClick={() => setWechatOpen(true)}
                       initial={{ opacity: 1, y: 30 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.2, delay: index * 0.08, ease: 'easeOut' }}
                       viewport={{ once: true }}
                       whileHover={{ scale: 1.05, y: -5, transition: { duration: 0.2 } }}
                       className="flex flex-col items-center gap-3 p-5 rounded-2xl bg-primary/5 hover:bg-primary/10 border border-transparent hover:border-primary/20 transition-all group cursor-pointer"
-                      title={`点击复制${link.platform}账号`}
+                      title={`点击查看${link.platform}公众号二维码`}
                     >
                       <motion.div
                         whileHover={{ scale: 1.2, transition: { duration: 0.3 } }}
@@ -575,6 +568,23 @@ const Home = () => {
                 );
               })}
             </div>
+            <Dialog open={wechatOpen} onOpenChange={setWechatOpen}>
+              <DialogContent className="sm:max-w-sm">
+                <DialogHeader>
+                  <DialogTitle className="text-center">扫码关注微信公众号</DialogTitle>
+                  <DialogDescription className="text-center">
+                    打开微信「扫一扫」，关注「星球小捕手」获取最新地理科普与可视化作品。
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="flex justify-center py-2">
+                  <img
+                    src="/wechat-qr.png"
+                    alt="微信公众号二维码：星球小捕手"
+                    className="w-60 h-60 rounded-lg border border-border object-cover"
+                  />
+                </div>
+              </DialogContent>
+            </Dialog>
           </SectionWrapper>
         );
       case 'about':
@@ -682,7 +692,7 @@ const Home = () => {
                   ))}
                 </div>
                 <p className="text-center text-muted-foreground mt-6 text-sm">
-                  内容同步至 B 站、YouTube、小红书、微博、微信公众号（那山那海那座城）等平台
+                  内容同步至 B 站、YouTube、小红书、微博、微信公众号（星球小捕手）等平台
                 </p>
               </motion.div>
             </div>
@@ -710,8 +720,8 @@ const Home = () => {
                   {updateLog.map((item, index) => (
                     <li key={index} className="ml-6">
                       <span className="absolute -left-[7px] w-3.5 h-3.5 rounded-full bg-primary border-2 border-background" />
-                      <p className="text-sm text-muted-foreground">{item.date}</p>
-                      <p className="font-medium leading-snug">{item.title}</p>
+                      <p className="text-xs text-muted-foreground">{item.date}</p>
+                      <p className="text-sm font-medium leading-snug">{item.title}</p>
                     </li>
                   ))}
                 </ol>
