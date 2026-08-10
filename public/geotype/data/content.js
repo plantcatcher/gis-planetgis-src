@@ -1,0 +1,322 @@
+// 题库、人格、模板内容（v3：8 维人格完整 + 20 题覆盖全维度 + 三类城市 + 配对矩阵）
+// 维度：ocean 海洋 / mountain 山岳 / forest 森林 / desert 荒漠 / river 河流 / polar 极地 / volcano 火山 / cosmic 星空
+
+window.QUESTIONS = [
+  // ---------- 偏好题（显性，45%）----------
+  { id: "P1", type: "prefer", q: "如果选择长期居住地，你更向往？",
+    options: [
+      { text: "海边国际都市", dim: "ocean" },
+      { text: "山谷小城", dim: "mountain" },
+      { text: "森林乡村", dim: "forest" },
+      { text: "荒漠荒野", dim: "desert" },
+    ] },
+  { id: "P2", type: "prefer", q: "你的理想旅行方式是？",
+    options: [
+      { text: "探索不同文化", dim: "ocean" },
+      { text: "挑战自然极限", dim: "mountain" },
+      { text: "寻找安静空间", dim: "forest" },
+      { text: "寻找未知区域", dim: "desert" },
+    ] },
+  { id: "P3", type: "prefer", q: "一个完美的周末，你希望是？",
+    options: [
+      { text: "海岛潜水", dim: "ocean" },
+      { text: "登山徒步", dim: "mountain" },
+      { text: "林间露营", dim: "forest" },
+      { text: "沙漠公路", dim: "desert" },
+    ] },
+  { id: "P4", type: "prefer", q: "你最被什么吸引？",
+    options: [
+      { text: "远方的灯塔", dim: "ocean" },
+      { text: "沉默的雪峰", dim: "mountain" },
+      { text: "千年的古树", dim: "forest" },
+      { text: "无垠的星河", dim: "cosmic" },
+    ] },
+  { id: "P5", type: "prefer", q: "你偷偷羡慕的生活是？",
+    options: [
+      { text: "环球航行者", dim: "ocean" },
+      { text: "山间隐士", dim: "mountain" },
+      { text: "森林守护者", dim: "forest" },
+      { text: "荒野独行侠", dim: "desert" },
+    ] },
+  { id: "P6", type: "prefer", q: "你理想的工作环境是？",
+    options: [
+      { text: "开放协作大平层", dim: "ocean" },
+      { text: "独立安静书房", dim: "mountain" },
+      { text: "自然光咖啡馆", dim: "forest" },
+      { text: "随时移动办公", dim: "desert" },
+    ] },
+  { id: "P7", type: "prefer", q: "你属于一天的哪个时刻？",
+    options: [
+      { text: "清晨，万物刚醒", dim: "forest" },
+      { text: "正午，最饱满的光", dim: "ocean" },
+      { text: "深夜，万籁俱寂", dim: "cosmic" },
+      { text: "黄昏，燃烧般的时刻", dim: "volcano" },
+    ] },
+  { id: "P8", type: "prefer", q: "你更被哪种尺度打动？",
+    options: [
+      { text: "宏大全景的山脉", dim: "mountain" },
+      { text: "一花一世界的细节", dim: "forest" },
+      { text: "蜿蜒流淌的河", dim: "river" },
+      { text: "无垠的星河", dim: "cosmic" },
+    ] },
+  { id: "P9", type: "prefer", q: "哪种声音让你安定？",
+    options: [
+      { text: "海浪一遍遍拍打", dim: "ocean" },
+      { text: "风穿过松涛", dim: "forest" },
+      { text: "篝火噼啪作响", dim: "volcano" },
+      { text: "雪原彻底的寂静", dim: "polar" },
+    ] },
+  { id: "P10", type: "prefer", q: "你的边界感更像？",
+    options: [
+      { text: "海岛，被包围的安心", dim: "ocean" },
+      { text: "大陆，无限延伸的自由", dim: "desert" },
+      { text: "河边，流动中的归属", dim: "river" },
+      { text: "星空下，无垠中的渺小", dim: "cosmic" },
+    ] },
+
+  // ---------- 行为/本能题（隐性，25%）----------
+  { id: "B1", type: "behavior", q: "面对突发变化，你的第一反应？",
+    options: [
+      { text: "快速连接他人应对", dim: "ocean" },
+      { text: "先稳住阵脚再动", dim: "mountain" },
+      { text: "退到安静处消化", dim: "forest" },
+      { text: "独自冲进未知", dim: "desert" },
+    ] },
+  { id: "B2", type: "behavior", q: "朋友眼中的你，更像？",
+    options: [
+      { text: "人脉连接器", dim: "ocean" },
+      { text: "定海神针", dim: "mountain" },
+      { text: "深度倾听者", dim: "forest" },
+      { text: "独行侠", dim: "desert" },
+    ] },
+  { id: "B3", type: "behavior", q: "压力爆表时，你的避难所是？",
+    options: [
+      { text: "热闹人群", dim: "ocean" },
+      { text: "高处独处", dim: "mountain" },
+      { text: "自然绿地", dim: "forest" },
+      { text: "空旷远方", dim: "desert" },
+    ] },
+  { id: "B4", type: "behavior", q: "做重大决定时，你靠？",
+    options: [
+      { text: "先拉资源组局", dim: "ocean" },
+      { text: "步步为营规划", dim: "polar" },
+      { text: "深思后一击", dim: "forest" },
+      { text: "凭直觉莽", dim: "volcano" },
+    ] },
+  { id: "B5", type: "behavior", q: "你最想留下的是什么？",
+    options: [
+      { text: "广泛连接", dim: "ocean" },
+      { text: "扎实作品", dim: "mountain" },
+      { text: "深度关系", dim: "forest" },
+      { text: "独特印记", dim: "cosmic" },
+    ] },
+  { id: "B6", type: "behavior", q: "什么让你真正踏实？",
+    options: [
+      { text: "被需要被连接", dim: "ocean" },
+      { text: "看得见进展", dim: "mountain" },
+      { text: "关系有深度", dim: "forest" },
+      { text: "不被束缚", dim: "desert" },
+    ] },
+  { id: "B7", type: "behavior", q: "一个普通周末，你更可能？",
+    options: [
+      { text: "去城市里漫游", dim: "ocean" },
+      { text: "往山野里徒步", dim: "mountain" },
+      { text: "独处读书充电", dim: "forest" },
+      { text: "深夜写点什么", dim: "cosmic" },
+    ] },
+  { id: "B8", type: "behavior", q: "处理冲突时，你倾向？",
+    options: [
+      { text: "调解，把人连起来", dim: "ocean" },
+      { text: "划清边界，各自坚守", dim: "mountain" },
+      { text: "先冷处理，保持理性", dim: "polar" },
+      { text: "直接引爆，重组局面", dim: "volcano" },
+    ] },
+  { id: "B9", type: "behavior", q: "你更愿意积累什么？",
+    options: [
+      { text: "人脉与资源", dim: "ocean" },
+      { text: "扎实的作品", dim: "mountain" },
+      { text: "财富与自由", dim: "desert" },
+      { text: "视野与远见", dim: "cosmic" },
+    ] },
+  { id: "B10", type: "behavior", q: "你给人的第一感觉是？",
+    options: [
+      { text: "温暖、流动", dim: "ocean" },
+      { text: "冷静、理性", dim: "polar" },
+      { text: "炽热、直接", dim: "volcano" },
+      { text: "疏离、神秘", dim: "desert" },
+    ] },
+];
+
+// 人格定义（8 型完整：4 元素型 + 4 气质型）
+// base: 雷达四维基准 explore 探索 / connect 连接 / stable 稳定 / nature 自然
+window.PERSONAS = {
+  ocean:    { key:"ocean",    name:"海洋型",   en:"Ocean Explorer",    icon:"🌊", color:"#2f9be0",
+              keywords:"开放、连接、探索",
+              desc:"你习惯生活在人群与信息汇聚的地方。你相信连接能创造机会，对未知世界保持好奇。",
+              career:["外交贸易","媒体传播","旅游文旅","跨文化交流"],
+              life:"在人海中找到自己的坐标，是你与世界相处的方式。",
+              base:{explore:90, connect:95, stable:55, nature:50} },
+  mountain: { key:"mountain", name:"山岳型",   en:"Mountain Pioneer",  icon:"⛰️", color:"#8a6d3b",
+              keywords:"坚韧、挑战、成长",
+              desc:"你不畏惧缓慢而确定的积累。压力来时你先稳住阵脚，把每一步都踩实。",
+              career:["工程建筑","管理咨询","科学研究","山地向导"],
+              life:"把根基扎稳，高处自有不慌不忙的风景。",
+              base:{explore:55, connect:50, stable:95, nature:60} },
+  forest:   { key:"forest",   name:"森林型",   en:"Forest Guardian",   icon:"🌲", color:"#3a9d5d",
+              keywords:"自然、平衡、深度",
+              desc:"你珍视深度而非广度。比起喧闹的连接，你更在意少数关系里的真实与安静。",
+              career:["心理咨询","设计创意","自然保护","独立写作"],
+              life:"深度比广度更珍贵，安静里藏着你的力量。",
+              base:{explore:50, connect:60, stable:80, nature:95} },
+  desert:   { key:"desert",   name:"荒漠型",   en:"Desert Survivor",   icon:"🏜️", color:"#d99a3a",
+              keywords:"自由、生存、独立",
+              desc:"你享受辽阔与独处。束缚让你窒息，未知远方才是你的氧气。",
+              career:["自由职业","创业探险","销售拓展","户外领队"],
+              life:"不被束缚，远方才是你呼吸的地方。",
+              base:{explore:85, connect:35, stable:45, nature:55} },
+  river:    { key:"river",    name:"河流型",   en:"River Civilization", icon:"🌾", color:"#3f8f9e",
+              keywords:"流动、积累、传承",
+              desc:"你像河流一样，在流动中积累力量，把经历沉淀成可传承的东西。",
+              career:["教育教学","文化策展","金融投资","内容运营"],
+              life:"在流动中不慌不忙，沉淀出属于自己的河床。",
+              base:{explore:60, connect:70, stable:65, nature:60} },
+  polar:    { key:"polar",    name:"极地型",   en:"Polar Strategist",  icon:"❄️", color:"#6fa8c0",
+              keywords:"理性、规划、长期",
+              desc:"你用冷静与规划对抗不确定。真正的远见，是愿意为长期下注。",
+              career:["战略规划","数据分析","投资研究","系统架构"],
+              life:"用长期主义对抗不确定，冷是为了看得更清。",
+              base:{explore:45, connect:40, stable:88, nature:50} },
+  volcano:  { key:"volcano",  name:"火山型",   en:"Volcano Creator",   icon:"🌋", color:"#d9533b",
+              keywords:"创新、突破、改变",
+              desc:"你靠直觉与冲劲破局。停滞比失败更让你难受，你天生是来打破的。",
+              career:["产品创业","艺术创作","组织变革","前沿研发"],
+              life:"不破不立，停滞比失败更让你难受。",
+              base:{explore:75, connect:55, stable:35, nature:50} },
+  cosmic:   { key:"cosmic",   name:"星空型",   en:"Cosmic Explorer",   icon:"🌌", color:"#7b6bd6",
+              keywords:"想象、科技、未知",
+              desc:"你仰望的是常人忽略的远处。辽阔未知本身，就是你渴望的归宿。",
+              career:["科学研究","航天科技","哲学思考","前沿技术"],
+              life:"仰望远处，辽阔本身即是你的归宿。",
+              base:{explore:95, connect:45, stable:40, nature:70} },
+};
+
+// 反差洞察模板：以"向往维度 pref"为主键，找到"骨子里主型 main"的文案
+window.INSIGHTS = {
+  ocean: {
+    ocean:    "你是表里如一的海洋型——连接就是你呼吸的方式，世界因你而更连通。",
+    mountain: "你外向拥抱世界，骨子里却藏着一座山：真正让你安定的，是能稳住自己的重量。",
+    forest:   "你爱连接，内心却守着一片森林：热闹过后，你最想念的仍是深度。",
+    desert:   "你爱连接，却藏着荒野的灵魂——人群再密，你也偶尔想消失在远方。",
+    river:    "你向往远方，骨子里却是河流：你真正的力量，是在流动中把人连成网络。",
+    polar:    "你外向活跃，内心却极冷静：热闹是你的表象，规划才是你的底牌。",
+    volcano:  "你爱连接，骨子里却是火山：温和之下，你也想干脆引爆点什么。",
+    cosmic:   "你拥抱人群，骨子里却望向星空：最懂你的，是别人够不到的远处。",
+  },
+  mountain: {
+    mountain: "你是表里如一的的山岳型——把根基扎稳，是你对世界最温柔的倔强。",
+    ocean:    "你看似沉稳如山，骨子里却向往海洋：你渴望的突破，是走出去连接更广阔的世界。",
+    forest:   "你坚韧可靠，内心却有一片森林：在责任之外，你也想被安静地接住。",
+    desert:   "你稳如磐石，却藏着荒漠的冲动：偶尔，你也想抛下一切去旷野里失联。",
+    river:    "你沉稳可靠，骨子里却是河流：你想要的，是把积累慢慢流向远方。",
+    polar:    "你踏实坚韧，内心却极冷静：你早把每一步都算进了长期里。",
+    volcano:  "你稳如山，骨子里却有火山：该爆发时，你比谁都猛。",
+    cosmic:   "你扎根大地，骨子里却望星空：你爬得高，是为了看得更远。",
+  },
+  forest: {
+    forest:   "你是表里如一的森林型——深度与平衡，是你给世界最好的礼物。",
+    ocean:    "你安静如林，骨子里却向往海洋：你渴望的，是把这份深度带去更辽阔的连接。",
+    mountain: "你温柔平衡，内心却有一座山：该硬起来的时候，你比谁都稳。",
+    desert:   "你眷恋深度，却藏着荒漠的自由：再亲密的关系，也需要留一片自己的旷野。",
+    river:    "你安静如林，骨子里却是河流：你最珍贵的，是把故事慢慢讲给别人听。",
+    polar:    "你温柔包容，内心却极冷静：你的平和，其实是一种清醒。",
+    volcano:  "你温和如林，骨子里却有火山：被触到底线，你会烧得很干净。",
+    cosmic:   "你扎根土地，骨子里却望星空：你守着根，也想飞去远处。",
+  },
+  desert: {
+    desert:   "你是表里如一的荒漠型——自由不是逃避，是你与世界相处的方式。",
+    ocean:    "你向往独处与自由，骨子里却藏着海洋：你其实渴望被连接，只是不肯承认。",
+    mountain: "你热爱自由，内心却有一座山：你想要的突破，是先把自己稳稳接住。",
+    forest:   "你独行如风，却藏着一片森林：自由之外，你也需要被深度地看见。",
+    river:    "你爱自由，骨子里却是河流：你跑得再远，也总在寻找能停留的河床。",
+    polar:    "你疏离自由，内心却极冷静：你的独，是理性选择的孤独。",
+    volcano:  "你自由不羁，骨子里却有火山：你烧起来，连自己都拦不住。",
+    cosmic:   "你独行荒野，骨子里却望星空：你越远，越能看见自己的渺小与辽阔。",
+  },
+  river: {
+    river:    "你是表里如一的河流型——在流动中沉淀，是你最温柔的力量。",
+    ocean:    "你习惯积累，骨子里却向往海洋：你沉淀的一切，终想汇入更大的潮。",
+    mountain: "你流动温和，内心却有一座山：你绕得开障碍，却从不停下脚步。",
+    forest:   "你流动包容，内心却守着森林：你载着故事，也守着少数人的深度。",
+    desert:   "你温柔流动，骨子里却藏着荒漠：你干涸时，比谁都渴望远方。",
+    polar:    "你温和流动，内心却极冷静：你从不清算，只是默默规划流向。",
+    volcano:  "你缓缓流动，骨子里却有火山：你积蓄够了，会改道重生。",
+    cosmic:   "你贴地流动，骨子里却望星空：你载着人间烟火，也想着银河。",
+  },
+  polar: {
+    polar:    "你是表里如一的极地型——冷是为了看清，长期主义是你的底色。",
+    ocean:    "你理性克制，骨子里却向往海洋：你规划一切，也想偶尔被人群淹没。",
+    mountain: "你冷静长远，内心却有一座山：你下的每一注，都踩在实地上。",
+    forest:   "你理性清醒，内心却守着森林：你的冷，护着少数深度关系。",
+    desert:   "你冷静规划，骨子里却藏着荒漠：你算得再精，也想要一片无人的远方。",
+    river:    "你冷静长远，骨子里却是河流：你把理性，流成了可传承的河。",
+    volcano:  "你冷静克制，骨子里却有火山：你压住的，是随时要破局的冲动。",
+    cosmic:   "你冷眼理性，骨子里却望星空：你算尽当下，只为押注遥远的未来。",
+  },
+  volcano: {
+    volcano:  "你是表里如一的火山型——不破不立，停滞比失败更让你难受。",
+    ocean:    "你冲劲十足，骨子里却向往海洋：你引爆之后，最想要的还是连接。",
+    mountain: "你炽热直接，内心却有一座山：你烧完一轮，会沉淀成更实的自己。",
+    forest:   "你炽热直接，内心却守着森林：你烧得猛，也护着少数深度的人。",
+    desert:   "你炽热不羁，骨子里却藏着荒漠：你烧完，就想去无人之境独处。",
+    river:    "你炽热直接，骨子里却是河流：你把破坏，流成了新的秩序。",
+    polar:    "你炽热直接，内心却极冷静：你的莽，其实算过概率。",
+    cosmic:   "你炽热直接，骨子里却望星空：你烧，是为了够到更远的光。",
+  },
+  cosmic: {
+    cosmic:   "你是表里如一的星空型——辽阔未知，就是你渴望的归宿。",
+    ocean:    "你望向远处，骨子里却向往海洋：你飞得再高，也眷恋人间的连接。",
+    mountain: "你仰望星空，内心却有一座山：你想够到远处，先把脚下踩实。",
+    forest:   "你望向远处，内心却守着森林：你的辽阔，根扎在土地里。",
+    desert:   "你望向星空，骨子里却藏着荒漠：你越远，越享受无人的空旷。",
+    river:    "你望向远处，骨子里却是河流：你把银河，流成了人间的故事。",
+    polar:    "你望向星空，内心却极冷静：你浪漫，是用理性算出来的浪漫。",
+    volcano:  "你望向星空，骨子里却有火山：你够远，是想烧得更亮。",
+  },
+};
+
+// 推荐城市（需存在于 CITIES）：similar 相似 / complement 互补(反差) / travel 该去旅行的反差地
+window.RECOMMEND = {
+  ocean:    { similar:["东京","新加坡","上海","悉尼","青岛","厦门"],
+              complement:["拉萨","乌鲁木齐","银川"], travel:["里约热内卢","雷克雅未克"] },
+  mountain: { similar:["重庆","兰州","西宁"],
+              complement:["上海","深圳","广州"], travel:["开普敦","悉尼"] },
+  forest:   { similar:["昆明","贵阳","成都"],
+              complement:["深圳","上海","北京"], travel:["温哥华","新加坡"] },
+  desert:   { similar:["迪拜","银川","乌鲁木齐"],
+              complement:["上海","深圳","杭州"], travel:["开罗","孟买"] },
+  river:    { similar:["伦敦","巴黎","武汉","南京"],
+              complement:["拉萨","乌鲁木齐"], travel:["曼谷","首尔"] },
+  polar:    { similar:["莫斯科","哈尔滨","西宁","拉萨"],
+              complement:["三亚","深圳","广州"], travel:["雷克雅未克","开普敦"] },
+  volcano:  { similar:["东京","迪拜","孟买"],
+              complement:["拉萨","西宁"], travel:["里约热内卢","雷克雅未克"] },
+  cosmic:   { similar:["拉萨","西宁","乌鲁木齐"],
+              complement:["上海","深圳","东京"], travel:["雷克雅未克","开普敦"] },
+};
+
+// 配对兼容矩阵：返回与你主型最合拍的关系描述
+window.COMPAT = function (a, b) {
+  var P = window.PERSONAS;
+  if (a === b) return { score: 88, text: "同类相吸：你们共享同一种地理灵魂，默契十足，但也需要给彼此留白。" };
+  var opp = { ocean:"desert", desert:"ocean", mountain:"forest", forest:"mountain",
+              volcano:"polar", polar:"volcano", river:"cosmic", cosmic:"river" };
+  if (opp[a] === b) return { score: 96, text: "反差吸引：你是" + P[a].name + "，TA 是" + P[b].name +
+    "——对立的地理，恰好拼成完整的世界。" };
+  return { score: 72, text: "你们是两种不同的地理人格，差异带来新鲜感，也值得慢慢磨合。" };
+};
+
+// 气候中文映射
+window.CLIMATE_CN = {
+  tropical:"热带", subtropical:"亚热带", temperate:"温带", continental:"大陆性",
+  arid:"干旱", cold:"寒带", polar:"极地", mediterranean:"地中海型",
+};

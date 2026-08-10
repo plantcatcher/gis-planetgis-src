@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>中国地图拼图挑战</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5PJV4SBFG7"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-5PJV4SBFG7');
+  </script>
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo">🧩</span>
+        <div class="brand-text">
+          <h1>中国地图拼图挑战</h1>
+          <p class="subtitle" id="levelTitle">省级行政区 · 34 块</p>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button id="btnHome" class="btn ghost" title="返回主页">🏠</button>
+        <button id="btnSettings" class="btn ghost" title="设置">⚙ 设置</button>
+      </div>
+    </header>
+
+    <main class="stage">
+      <div class="map-wrap" id="mapWrap">
+        <div class="game-progress"><span id="progressFill"></span></div>
+        <svg id="map" xmlns="http://www.w3.org/2000/svg" aria-label="中国地图拼图">
+          <g id="viewport">
+            <g id="bgLayer"></g>
+            <g id="ghostLayer"></g>
+            <g id="pieceLayer"></g>
+          </g>
+        </svg>
+
+        <div class="hud hud-timer" id="hudTimer">⏱ <span id="timer">00:00</span></div>
+        <div class="hud hud-progress" id="hudProgress">🧩 <span id="progress">0</span>/<span id="total">34</span></div>
+        <div class="hud hud-mode" id="hudMode">练习模式</div>
+
+        <button id="btnNames" class="name-toggle" title="显示 / 隐藏各区域名称（练习模式）">🏷 名称</button>
+
+        <div class="zoom-controls" id="zoomControls">
+          <button id="zoomIn" aria-label="放大">＋</button>
+          <button id="zoomOut" aria-label="缩小">－</button>
+          <button id="zoomReset" aria-label="复位">⤾</button>
+        </div>
+
+        <div class="toast" id="toast"></div>
+      </div>
+
+      <section class="tray" id="tray" aria-label="碎片区">
+        <div class="tray-head">
+          <span>碎片区</span>
+          <span class="tray-hint">按住拖动到地图 · 可滚动浏览</span>
+        </div>
+        <svg id="traySvg" class="tray-svg" xmlns="http://www.w3.org/2000/svg" aria-label="省级行政区碎片">
+          <g id="trayContent"></g>
+        </svg>
+      </section>
+    </main>
+  </div>
+
+  <!-- 主页 / 封面 -->
+  <div id="homeScreen" class="home-screen">
+    <div class="home-inner">
+      <div class="home-topbar">
+        <button class="home-set-btn" id="homeHelp">⚙ 设置</button>
+      </div>
+
+      <div class="home-hero">
+        <div class="home-glow" aria-hidden="true"></div>
+        <svg id="homeMap" class="home-map" viewBox="0 0 1000 785" aria-hidden="true"></svg>
+        <div class="home-scan" aria-hidden="true"></div>
+        <div class="home-hero-text">
+          <div class="home-badge">🧩 地理 + AI 小游戏</div>
+          <div class="home-mid">
+            <h1 class="home-title">拼图中国</h1>
+            <p class="home-en">Piece China Together</p>
+          </div>
+          <p class="home-sub">把行政区拖回中国版图<br />边玩边记住每一寸山河</p>
+        </div>
+      </div>
+
+      <button class="btn-home-start" id="homeStart">开始游戏</button>
+      <p class="home-start-hint">点击进入 · 先选地图与模式</p>
+
+      <div class="home-section">
+        <div class="home-section-title">我的成绩</div>
+        <div class="home-stats" id="homeStats"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 开始：选择地图与模式 -->
+  <div class="modal-backdrop hidden" id="startModal">
+    <div class="modal start-panel">
+      <div class="start-head">
+        <h2>选择地图与模式</h2>
+        <button class="start-close" id="startClose" aria-label="关闭">✕</button>
+      </div>
+      <div class="start-scroll">
+        <div class="home-section">
+          <div class="home-section-title">选择地图</div>
+          <div class="home-levels" id="homeLevels"></div>
+          <div class="home-provinces hidden" id="homeProvinces"></div>
+        </div>
+        <div class="home-section">
+          <div class="home-section-title">选择模式</div>
+          <div class="mode-seg" id="homeModeSeg">
+            <button class="mode-seg-btn active" data-mode="practice">
+              <span class="ms-emoji">📚</span><span class="ms-text">练习</span>
+            </button>
+            <button class="mode-seg-btn" data-mode="challenge">
+              <span class="ms-emoji">⚡</span><span class="ms-text">挑战</span>
+            </button>
+          </div>
+          <div class="home-mode-desc" id="homeModeDesc">无时间限制 · 显示名称 · 适合学习</div>
+        </div>
+      </div>
+      <div class="home-picked" id="homePicked"></div>
+      <button class="btn-home-start" id="startConfirm">开始拼图</button>
+    </div>
+  </div>
+
+  <!-- 撒花画布 -->
+  <canvas id="confetti" class="confetti-canvas"></canvas>
+  <!-- 分享成绩卡离屏画布 -->
+  <canvas id="shareCanvas" class="share-canvas" hidden></canvas>
+
+  <!-- 知识卡片 -->
+  <div class="modal-backdrop hidden" id="cardModal">
+    <div class="modal card">
+      <div class="card-emoji" id="cardEmoji">🎉</div>
+      <h2 id="cardTitle">广东省 完成！</h2>
+      <div class="card-grid" id="cardGrid"></div>
+      <label class="card-suppress">
+        <input type="checkbox" id="cardSuppress" /> 以后不再自动弹出知识卡
+      </label>
+      <button class="btn primary block" id="cardClose">继续拼图</button>
+    </div>
+  </div>
+
+  <!-- 结算 -->
+  <div class="modal-backdrop hidden" id="resultModal">
+    <div class="modal">
+      <div class="card-emoji">🏆</div>
+      <h2>拼图完成！</h2>
+      <div class="result-grade" id="resultGrade"></div>
+      <div class="result-stats" id="resultStats"></div>
+      <div class="result-best" id="resultBest"></div>
+      <div class="result-history">
+        <div class="rh-title">最近成绩</div>
+        <div id="resultHistory"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn ghost" id="resultClose">关闭</button>
+        <button class="btn ghost" id="resultShare">📤 成绩卡</button>
+        <button class="btn primary" id="resultReplay">再来一局</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 成绩卡分享 -->
+  <div class="modal-backdrop hidden" id="shareModal">
+    <div class="modal">
+      <h2>成绩卡</h2>
+      <p class="modal-sub">长按图片可保存 · 分享到朋友圈 / 小红书</p>
+      <img id="shareImg" class="share-img" alt="成绩卡" />
+      <div class="modal-actions">
+        <a class="btn primary block" id="shareDownload" download="拼图中国成绩卡.png">⬇ 下载图片</a>
+        <button class="btn ghost block" id="shareClose">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 设置 -->
+  <div class="modal-backdrop hidden" id="settingsModal">
+    <div class="modal">
+      <h2>设置</h2>
+
+      <div class="set-block">
+        <div class="set-title">玩法说明</div>
+        <ul class="help-list">
+          <li>🧩 底部「碎片区」是当前关卡的各个区块，按住拖动到地图对应位置。</li>
+          <li>📍 把碎片<strong>中心</strong>拖到目标轮廓附近会自动吸附归位。</li>
+          <li>📚 练习模式显示名称、不计时；⚡ 挑战模式计时并记录成绩。</li>
+          <li>🔍 用 ＋/－ 缩放地图，拖拽空白处平移。</li>
+          <li>💡 每完成一块会弹出知识卡片，边玩边学地理。</li>
+        </ul>
+      </div>
+
+      <div class="set-block">
+        <div class="set-title">选项</div>
+        <button class="set-row" id="setAudio"><span>🔊 音效</span><span class="set-toggle"></span></button>
+        <button class="set-row" id="setBGM"><span>🎵 背景音乐</span><span class="set-toggle"></span></button>
+        <button class="set-row" id="setCards"><span>💡 知识卡弹窗</span><span class="set-toggle"></span></button>
+        <button class="set-row" id="setNames"><span>📍 省名显示（辅助）</span><span class="set-toggle"></span></button>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn ghost" id="setReshuffle">↻ 重新打乱</button>
+        <button class="btn primary" id="settingsClose">完成</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 成绩打通：注入 window.PlanetLearning.recordGame，写回主站「我的学习」档案 -->
+  <script src="/games-sync.js"></script>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

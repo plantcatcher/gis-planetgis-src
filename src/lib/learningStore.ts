@@ -54,8 +54,15 @@ export interface QuizRecord {
 
 export interface GameRecord {
   id: string;
+  /** 游戏标识：'geoquiz' | 'geoshape' | 'geotype' */
+  gameId: string;
   title: string;
-  score: number;
+  /** 副标题：如「答对 12 / 15」、人格类型名；可空 */
+  subtitle?: string;
+  /** 数值成绩；人格类游戏（geotype）为 null */
+  score: number | null;
+  /** 满分 / 总题数；可空 */
+  total?: number | null;
   takenAt: string;
 }
 
@@ -94,6 +101,12 @@ const SCHEMA_VERSION = 1;
 
 /** 最近学习保留条数 */
 export const MAX_RECENT = 12;
+
+/** 游戏成绩保留条数 */
+const MAX_GAME_RECORDS = 100;
+
+/** geoshape 累计成绩存储键（打包产物写入，不可改源码） */
+const GEOSHAPE_KEY = 'geoshape:v1';
 
 function createEmptyData(): LearningData {
   const now = new Date().toISOString();
@@ -217,4 +230,93 @@ export function update(mutator: (data: LearningData) => LearningData): LearningD
 /** 仅供调试/迁移：清空全部本地学习数据 */
 export function clearAll(): void {
   writeRaw(createEmptyData());
+}
+
+/**
+ * 追加一条游戏成绩（主站侧统一入口，含轻量去重）。
+ * 供 geoshape 的跨文档 storage 监听调用；geoquiz / geotype 由其页面
+ * 通过 games-sync.js 的 window.PlanetLearning.recordGame 写入同一份数据。
+ */
+function appendGameRecord(rec: GameRecord): void {
+  const data = getSnapshot();
+  const recs = data.games.records;
+  const last = recs[recs.length - 1];
+  // 去重：同游戏、同分数、2 秒内不重复落库
+  if (
+    last &&
+    last.gameId === rec.gameId &&
+    last.score === rec.score &&
+    Math.abs(new Date(last.takenAt).getTime() - new Date(rec.takenAt).getTime()) < 2000
+  ) {
+    return;
+  }
+  const next: LearningData = {
+    ...data,
+    games: { records: [...recs, rec].slice(-MAX_GAME_RECORDS) },
+  };
+  writeRaw(next);
+}
+
+/** 读取 geoshape 累计 stats（用于差值还原本局成绩） */
+function readGeoshapeStats(): { completions: number; correct: number; attempts: number } {
+  try {
+    const raw = window.localStorage.getItem(GEOSHAPE_KEY);
+    if (!raw) return { completions: 0, correct: 0, attempts: 0 };
+    const d = JSON.parse(raw) as { stats?: { completions?: number; correct?: number; attempts?: number } };
+    const s = d.stats || {};
+    return {
+      completions: s.completions || 0,
+      correct: s.correct || 0,
+      attempts: s.attempts || 0,
+    };
+  } catch {
+    return { completions: 0, correct: 0, attempts: 0 };
+  }
+}
+
+// geoshape 基线：模块加载时记录当前完成数，用于侦测「本局」完成。
+let geoshapeBaseline = readGeoshapeStats();
+
+/** 当 geoshape:v1 发生完成数自增时，用累计差值还原本局成绩并写入学习档案 */
+function syncGeoshapeFromStorage(): void {
+  const cur = readGeoshapeStats();
+  if (cur.completions > geoshapeBaseline.completions) {
+    const dCorrect = Math.max(0, cur.correct - geoshapeBaseline.correct);
+    const dAttempts = Math.max(0, cur.attempts - geoshapeBaseline.attempts);
+    appendGameRecord({
+      id: 'geoshape:' + Date.now(),
+      gameId: 'geoshape',
+      title: 'GeoShape · 看国家轮廓猜国家',
+      subtitle: '',
+      score: dCorrect,
+      total: dAttempts,
+      takenAt: new Date().toISOString(),
+    });
+    geoshapeBaseline = cur;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// 跨文档同步：游戏以 iframe 同源嵌入主站，其写入成绩后，顶层窗口需刷新缓存
+// 并重渲染。通过 storage 事件（同源其他文档写入时触发）与 iframe 主动
+// postMessage 双保险，确保「我的学习」页面即时反映最新成绩。
+// -----------------------------------------------------------------------------
+if (typeof window !== 'undefined') {
+  window.addEventListener('storage', (e: StorageEvent) => {
+    if (e.key === STORAGE_KEY || e.key === null) {
+      cache = null;
+      listeners.forEach((fn) => fn());
+    } else if (e.key === GEOSHAPE_KEY) {
+      // geoshape 以 iframe 同源嵌入，其完成写入 geoshape:v1 会触发本事件，
+      // 顶层窗口据此还原本局成绩并写入学习档案（不依赖 iframe 内桥脚本）。
+      syncGeoshapeFromStorage();
+    }
+  });
+  window.addEventListener('message', (e: MessageEvent) => {
+    const data = e.data as { __planetLearningUpdate?: boolean } | null;
+    if (data && data.__planetLearningUpdate) {
+      cache = null;
+      listeners.forEach((fn) => fn());
+    }
+  });
 }

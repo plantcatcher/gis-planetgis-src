@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>卫星之眼 · 看卫星图猜城市</title>
+  <meta name="description" content="从400公里高空俯瞰地球，你能认出这些城市吗？">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <!-- 成绩打通：把每局成绩同步到主站「我的学习」 -->
+  <script src="/games-sync.js"></script>
+</head>
+<body>
+  <!-- 星空背景 -->
+  <div class="stars-bg" id="starsBg"></div>
+
+  <!-- ==================== 首页 ==================== -->
+  <section class="view" id="homeView">
+    <div class="home-container">
+      <!-- 品牌视觉：地球 + 旋转轨道 + 卫星沿轨道运行 -->
+      <div class="brand-visual">
+        <!-- 外层轨道：渐变流光边框（纯视觉，不含子元素避免被mask裁剪） -->
+        <div class="orbit-track"></div>
+        <!-- 卫星旋转层：与轨道同步旋转，但不受mask影响 -->
+        <div class="orbit-satellite-arm">
+          <div class="orbit-satellite">🛰️</div>
+        </div>
+        <!-- 内层装饰轨道 -->
+        <div class="orbit-ring-inner"></div>
+        <!-- 地球居中 -->
+        <div class="earth-icon">🌍</div>
+        <!-- 地球光晕 -->
+        <div class="earth-glow"></div>
+      </div>
+
+      <div class="brand">
+        <span class="brand-kicker">🛰️ 太空地理挑战 · 看卫星图猜城市</span>
+        <div class="brand-header">
+          <h1 class="brand-title">
+            <span class="title-main" data-i18n="homeTitle">卫星之眼</span>
+            <span class="title-sub">EYE FROM SPACE</span>
+          </h1>
+          <button class="btn btn-icon-only settings-btn" id="settingsBtn" title="设置">⚙️</button>
+        </div>
+        <p class="brand-tagline" data-i18n="homeTagline">从 400 公里高空俯瞰地球，你能认出这些城市吗？每答对一题，解锁一段这座城市的独家秘闻。</p>
+      </div>
+
+      <div class="home-actions">
+        <button class="btn btn-primary btn-glow" id="startBtn">
+          <span class="btn-icon">🚀</span>
+          <span data-i18n="startBtn">开始挑战</span>
+        </button>
+        <button class="btn btn-accent" id="continueBtn" style="display:none;">
+          <span class="btn-icon">▶️</span>
+          <span data-i18n="continueBtn">继续挑战</span>
+          <span class="continue-badge" id="continueBadge">第3题</span>
+        </button>
+        <button class="btn btn-secondary" id="learnBtn">
+          <span class="btn-icon">🔍</span>
+          <span data-i18n="exploreBtn">探索城市</span>
+        </button>
+        <div class="best-score" id="homeBestScore" style="display:none;">
+          🏆 最佳成绩：<span class="score-num">0</span> 分
+        </div>
+      </div>
+
+      <div class="home-lower">
+        <div class="feature-cards">
+          <div class="section-head">
+            <h2 class="section-title">为什么值得玩</h2>
+            <p class="section-sub">真实卫星影像 × 100 座世界名城，边玩边涨地理知识</p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon">🛰️</div>
+            <div class="feat-title" data-i18n="featSatTitle">真实卫星图</div>
+            <div class="feat-desc" data-i18n="featSatDesc">Esri 高清卫星影像，无标注纯看图</div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon">🌆</div>
+            <div class="feat-title" data-i18n="featCitiesTitle">100 座名城</div>
+            <div class="feat-desc" data-i18n="featCitiesDesc">横跨五大洲，从北京到布宜诺斯艾利斯</div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon">🧠</div>
+            <div class="feat-title" data-i18n="featTriviaTitle">地理冷知识</div>
+            <div class="feat-desc" data-i18n="featTriviaDesc">每题解锁 3 条独家城市秘闻</div>
+          </div>
+        </div>
+
+        <!-- 个人数据概览：默认常显，作为探索征程起点 -->
+        <div class="stats-overview" id="statsOverview">
+          <div class="section-head">
+            <h2 class="section-title">你的探索征程</h2>
+            <p class="section-sub">已解锁的成就与各大洲探索进度</p>
+          </div>
+          <div class="stats-row">
+            <div class="stat-mini">
+              <span class="stat-mini-value" id="statTotalGames">0</span>
+              <span class="stat-mini-label" data-i18n="challengeCount">挑战次数</span>
+            </div>
+            <div class="stat-mini">
+              <span class="stat-mini-value" id="statTotalCities">0</span>
+              <span class="stat-mini-label" data-i18n="citiesSeen">遇过城市</span>
+            </div>
+            <div class="stat-mini">
+              <span class="stat-mini-value" id="statExplored">0</span>
+              <span class="stat-mini-label" data-i18n="explored">已探索</span>
+            </div>
+            <div class="stat-mini">
+              <span class="stat-mini-value" id="statAccuracy">0%</span>
+              <span class="stat-mini-label" data-i18n="accuracy">正确率</span>
+            </div>
+          </div>
+          <div class="continent-bars" id="continentBars"></div>
+          <p class="journey-empty-hint" id="journeyHint" style="display:none;">还没有挑战记录，点击「开始挑战」点亮你的征程 🚀</p>
+        </div>
+      </div>
+
+      <footer class="home-footer">
+        <p data-i18n="footer">卫星图来源：Esri World Imagery · 版权归属：星球小捕手</p>
+      </footer>
+    </div>
+  </section>
+
+  <!-- ==================== 游戏页 ==================== -->
+  <section class="view hidden" id="gameView">
+    <!-- 顶部状态栏 -->
+    <header class="game-header">
+      <div class="header-left">
+        <button class="btn-icon-only" id="quitBtn" title="退出">✕</button>
+        <span class="game-title-mini" data-i18n="gameTitle">卫星之眼</span>
+      </div>
+      <div class="header-center">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <span class="progress-text" id="progressText">1 / 10</span>
+      </div>
+      <div class="header-right">
+        <div class="score-display">
+          <span class="score-label" data-i18n="scoreLabel">得分</span>
+          <span class="score-value" id="currentScore">0</span>
+        </div>
+        <button class="btn-icon-only" id="muteBtn" title="静音">🔊</button>
+      </div>
+    </header>
+
+    <!-- 连击提示 -->
+    <div class="streak-banner" id="streakBanner"></div>
+
+    <!-- 游戏主体：卫星图 + 统一答题面板 -->
+    <div class="game-body">
+      <!-- 卫星图区域（始终占主体） -->
+      <div class="map-frame">
+        <div class="map-frame-corners">
+          <span class="corner corner-tl"></span>
+          <span class="corner corner-tr"></span>
+          <span class="corner corner-bl"></span>
+          <span class="corner corner-br"></span>
+        </div>
+        <div class="map-frame-label">SATELLITE VIEW</div>
+        <div class="map-section">
+          <div class="map-loader" id="mapLoader">
+            <div class="loader-ring"></div>
+            <p data-i18n="connecting">正在连接卫星...</p>
+          </div>
+          <div id="satelliteMap"></div>
+          <div class="map-overlay"></div>
+          <!-- 扫描线动效 -->
+          <div class="scan-line" id="scanLine"></div>
+        </div>
+        <!-- 底部提示条（渐变融入地图） -->
+        <div class="hint-bar" id="hintBar">
+          <span class="hint-bar-icon">💡</span>
+          <span class="hint-bar-text" id="hintBarText"></span>
+        </div>
+      </div>
+
+      <!-- 统一答题面板：选项 & 反馈+冷知识 共享空间 -->
+      <div class="answer-panel">
+        <!-- 选项视图（答题前） -->
+        <div class="panel-view options-view" id="optionsView">
+          <div class="options-grid" id="optionsGrid"></div>
+        </div>
+
+        <!-- 反馈视图（答题后） -->
+        <div class="panel-view feedback-view" id="feedbackView">
+          <div class="feedback-header">
+            <span class="feedback-icon" id="feedbackIcon"></span>
+            <span class="feedback-result" id="feedbackResult"></span>
+            <span class="feedback-score" id="feedbackScore"></span>
+          </div>
+          <div class="trivia-card">
+            <div class="trivia-header">
+              <span class="trivia-icon">💡</span>
+              <span class="trivia-label" data-i18n="geoTrivia">地理冷知识</span>
+            </div>
+            <div class="trivia-list" id="triviaList"></div>
+          </div>
+          <button class="btn btn-primary next-btn" id="nextBtn">
+            <span id="nextBtnText" data-i18n="nextBtn">下一题</span>
+            <span class="btn-arrow">→</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ==================== 结算页 ==================== -->
+  <section class="view hidden" id="resultView">
+    <div class="result-container">
+      <div id="screenshotArea">
+      <div class="result-emoji" id="resultEmoji">🛰️</div>
+      <h2 class="result-title" id="resultTitle">卫星之眼</h2>
+      <p class="result-desc" id="resultDesc">你的城市辨识力令人惊叹！</p>
+
+      <div class="result-stats">
+        <div class="stat-card">
+          <div class="stat-value" id="finalScore">0</div>
+          <div class="stat-label" data-i18n="totalScore">总分</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="correctCount">0</div>
+          <div class="stat-label" data-i18n="correctCount">答对</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="maxStreak">0</div>
+          <div class="stat-label" data-i18n="maxStreak">最高连击</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="accuracy">0%</div>
+          <div class="stat-label" data-i18n="accuracyRate">正确率</div>
+        </div>
+      </div>
+
+      <!-- 城市回顾 -->
+      <div class="review-section" id="reviewSection">
+        <h3 class="review-title">📍 本次挑战回顾</h3>
+        <div class="review-list" id="reviewList"></div>
+      </div>
+
+      <!-- 历史统计 -->
+      <div class="review-section" id="historyStatsSection" style="display:none;">
+        <h3 class="review-title" data-i18n="historyTitle">📊 历史数据</h3>
+        <div class="history-stats-grid" id="historyStatsGrid"></div>
+      </div>
+
+      <!-- 大洲分析 -->
+      <div class="review-section" id="continentSection" style="display:none;">
+        <h3 class="review-title" data-i18n="continentTitle">🌍 大洲战绩</h3>
+        <div class="continent-list" id="continentList"></div>
+      </div>
+
+      <!-- 熟悉与陌生 -->
+      <div class="review-section" id="familiarSection" style="display:none;">
+        <h3 class="review-title" data-i18n="familiarTitle">🎯 城市熟悉度</h3>
+        <div class="familiar-grid" id="familiarGrid"></div>
+      </div>
+
+      <!-- 分享区 -->
+      <div class="share-section">
+        <h3 class="share-title" data-i18n="shareTitle">分享给朋友</h3>
+        <div class="share-card" id="shareCard">
+          <div class="share-content" id="shareContent"></div>
+        </div>
+      </div>
+      </div>
+
+      <div class="share-actions">
+        <button class="btn btn-secondary" id="shareBtn">
+          <span data-i18n="shareBtn">📤 分享</span>
+        </button>
+        <button class="btn btn-secondary" id="saveScreenshotBtn">
+          <span data-i18n="saveScreenshot">📸 保存截图</span>
+        </button>
+      </div>
+
+      <div class="result-actions">
+        <button class="btn btn-primary btn-glow" id="restartBtn">
+          <span class="btn-icon">🔄</span>
+          <span data-i18n="playAgain">再来一局</span>
+        </button>
+        <button class="btn btn-ghost" id="backHomeBtn">
+          <span data-i18n="backHome">返回首页</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 学习模式页 ==================== -->
+  <section class="view hidden" id="learnView">
+    <!-- 顶部状态栏 -->
+    <header class="game-header learn-header">
+      <div class="header-left">
+        <button class="btn-icon-only" id="learnBackBtn" title="返回">✕</button>
+        <span class="game-title-mini" data-i18n="learnTitle">探索城市</span>
+      </div>
+      <div class="header-center">
+        <span class="learn-subtitle" data-i18n="learnSubtitle">从太空俯瞰 100 座名城</span>
+      </div>
+      <div class="header-right" style="flex:1;"></div>
+    </header>
+
+    <!-- 搜索栏 -->
+    <div class="learn-search-wrap">
+      <div class="learn-search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" class="learn-search-input" id="learnSearchInput" placeholder="搜索城市名称（如：北京、巴黎、纽约）" data-i18n-placeholder="searchPlaceholder" autocomplete="off">
+        <button class="search-clear" id="searchClear" style="display:none;">✕</button>
+      </div>
+      <!-- 搜索建议下拉 -->
+      <div class="search-suggestions" id="searchSuggestions" style="display:none;"></div>
+    </div>
+
+    <!-- 学习模式主体 -->
+    <div class="learn-body">
+      <!-- 地图区域 -->
+      <div class="learn-map-frame">
+        <div class="map-frame-corners">
+          <span class="corner corner-tl"></span>
+          <span class="corner corner-tr"></span>
+          <span class="corner corner-bl"></span>
+          <span class="corner corner-br"></span>
+        </div>
+        <div class="map-frame-label">SATELLITE VIEW</div>
+        <div class="learn-map-section">
+          <div class="map-loader" id="learnMapLoader">
+            <div class="loader-ring"></div>
+            <p data-i18n="connecting">正在连接卫星...</p>
+          </div>
+          <div id="learnMap"></div>
+          <div class="map-overlay"></div>
+        </div>
+        <!-- 地图操作提示 -->
+        <div class="learn-map-hint">
+          <span data-i18n="mapHint">🖱️ 滚轮缩放 · 拖拽移动</span>
+        </div>
+      </div>
+
+      <!-- 城市信息面板 -->
+      <div class="learn-info-panel" id="learnInfoPanel">
+        <div class="learn-info-empty" id="learnInfoEmpty">
+          <div class="empty-icon">🌍</div>
+          <p data-i18n="emptyHint">在上方搜索框输入城市名称</p>
+          <p class="empty-sub" data-i18n="emptySub">探索世界各地的卫星影像</p>
+        </div>
+        <div class="learn-info-content" id="learnInfoContent" style="display:none;">
+          <div class="learn-city-header">
+            <span class="learn-city-flag" id="learnCityFlag"></span>
+            <div class="learn-city-names">
+              <h2 class="learn-city-name" id="learnCityName"></h2>
+              <span class="learn-city-country" id="learnCityCountry"></span>
+            </div>
+          </div>
+          <div class="learn-city-feature" id="learnCityFeature"></div>
+          <div class="learn-hint-box">
+            <span class="learn-hint-icon">💡</span>
+            <span class="learn-hint-text" id="learnHintText"></span>
+          </div>
+          <div class="trivia-card learn-trivia">
+            <div class="trivia-header">
+              <span class="trivia-icon">💡</span>
+              <span class="trivia-label" data-i18n="geoTrivia">地理冷知识</span>
+            </div>
+            <div class="trivia-list" id="learnTriviaList"></div>
+          </div>
+          <div class="learn-nav-btns">
+            <button class="btn btn-secondary" id="learnPrevBtn">
+              <span data-i18n="prevCity">← 上一城</span>
+            </button>
+            <button class="btn btn-secondary" id="learnNextBtn">
+              <span data-i18n="nextCity">下一城 →</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- 设置弹窗 -->
+  <div class="modal-overlay hidden" id="settingsModal">
+    <div class="modal-box modal-box-wide">
+      <h3 data-i18n="settingsTitle">游戏设置</h3>
+      <div class="settings-modal-body">
+        <div class="setting-item">
+          <span class="setting-label" data-i18n="settingRandom">随机出题</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="settingRandom" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="setting-item">
+          <span class="setting-label" data-i18n="settingRepeat">允许重复出题</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="settingRepeat">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="setting-item">
+          <span class="setting-label" data-i18n="settingSound">声音</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="settingSound" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="setting-item">
+          <span class="setting-label" data-i18n="settingLang">语言</span>
+          <select id="settingLang" class="lang-select">
+            <option value="zh">中文</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+        <div class="settings-hint" id="settingsHint"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="closeSettings" data-i18n="closeBtn">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 退出确认弹窗 -->
+  <div class="modal-overlay hidden" id="quitModal">
+    <div class="modal-box">
+      <h3 data-i18n="quitTitle">确认退出？</h3>
+      <p data-i18n="quitDesc">进度已自动保存，下次可以继续挑战</p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="cancelQuit" data-i18n="continueGame">继续游戏</button>
+        <button class="btn btn-danger" id="confirmQuit" data-i18n="quit">退出</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast 提示 -->
+  <div class="toast" id="toast"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="storage.js"></script>
+  <script src="i18n.js"></script>
+  <script src="data.js"></script>
+  <script src="audio.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

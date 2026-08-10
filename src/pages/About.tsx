@@ -30,8 +30,8 @@ const About = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">关于星球小捕手</h1>
-          <p className="text-lg text-muted-foreground mb-12 leading-relaxed">
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">关于星球小捕手</h1>
+          <p className="text-base text-muted-foreground mb-12 leading-relaxed">
             一个专注于地球科学的独立创作者品牌。我们用数据讲述地球变化，用地图发现世界的温度——从南极冰盖消融到城市交通脉络，从古代文明的水利智慧到未来海平面的模拟预测，致力于让专业的地理知识变得直观、有趣、触手可及。
           </p>
 
@@ -64,7 +64,7 @@ const About = () => {
                 <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-4">
                   <pillar.icon className="w-7 h-7" />
                 </div>
-                <h3 className="text-xl font-bold mb-2">{pillar.title}</h3>
+                <h3 className="text-lg font-bold mb-2">{pillar.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{pillar.desc}</p>
               </motion.div>
             ))}
@@ -85,7 +85,7 @@ const About = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4, delay: 0.3 + index * 0.1, ease: "easeOut" }}
                 >
-                  <div className="text-3xl md:text-4xl font-extrabold text-primary mb-1">{stat.value}</div>
+                  <div className="text-2xl md:text-3xl font-extrabold text-primary mb-1">{stat.value}</div>
                   <div className="text-sm text-muted-foreground">{stat.label}</div>
                 </motion.div>
               ))}
@@ -97,7 +97,7 @@ const About = () => {
 
           {/* Our Mission */}
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold">我们的使命</h2>
+            <h2 className="text-xl font-bold">我们的使命</h2>
             <p className="text-muted-foreground leading-relaxed">
               地球科学不应该只存在于论文和实验室中。我们相信，每一个对世界充满好奇心的人，都有权利以直观、有趣的方式了解我们所居住的星球。无论是理解海平面上升对沿海城市的影响，还是探索城市道路网背后的规划逻辑，我们都致力于用技术让地理科学走出论文，走进每个人的日常。
             </p>
@@ -108,7 +108,7 @@ const About = () => {
 
           {/* Contact (merged with 关于我们 in top nav) */}
           <div className="mt-12 space-y-6">
-            <h2 className="text-2xl font-bold">联系我们</h2>
+            <h2 className="text-xl font-bold">联系我们</h2>
             <p className="text-muted-foreground leading-relaxed">
               有地理科普合作、内容建议或技术咨询需求？欢迎通过以下渠道与我们取得联系。
             </p>
@@ -127,7 +127,7 @@ const About = () => {
                       <Icon className="w-6 h-6" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-bold text-lg mb-1">{link.platform}</h3>
+                      <h3 className="font-bold text-base mb-1">{link.platform}</h3>
                       <p className="text-sm text-primary font-medium mb-1">{link.handle}</p>
                       <p className="text-sm text-muted-foreground">{link.desc}</p>
                     </div>

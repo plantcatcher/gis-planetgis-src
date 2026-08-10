@@ -3,10 +3,10 @@ slug: geoshape
 title: 看轮廓猜国家
 cover: /geoshape-cover.svg
 summary: 看一张没有标注的国家轮廓，猜出它是谁——每日 5 题、经典 10 题，按大洲与中国省份挑战，附 175 国知识百科与成就系统。
-link: https://geoshape.planetgis.cn/
+link: /geoshape
 order: 6
 category: 可视化作品
-tags: 地理, 地理可视化, 地理游戏
+tags: 地理, 地理可视化, 地理游戏, 游戏
 ---
 
 ## 介绍

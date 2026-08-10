@@ -86,8 +86,8 @@ const WorkGrid = () => (
             </div>
           </div>
           <div className="p-6">
-            <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{w.title}</h3>
-            <p className="text-muted-foreground line-clamp-2">{w.summary}</p>
+            <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors">{w.title}</h3>
+              <p className="text-sm text-muted-foreground line-clamp-2">{w.summary}</p>
           </div>
         </Link>
       </CardAnim>
@@ -107,10 +107,10 @@ const ToolGrid = () => (
             <Compass className="w-8 h-8" />
           </div>
           <div>
-            <h3 className="text-xl font-bold mb-1 flex items-center gap-2">
-              {t.title} <ExternalLink className="w-4 h-4" />
-            </h3>
-            <p className="text-muted-foreground">{t.summary}</p>
+              <h3 className="text-lg font-bold mb-1 flex items-center gap-2">
+                {t.title} <ExternalLink className="w-4 h-4" />
+              </h3>
+              <p className="text-sm text-muted-foreground">{t.summary}</p>
           </div>
         </Link>
       </CardAnim>
@@ -131,7 +131,7 @@ const SubdomainGrid = () => {
             className="group flex flex-col gap-2 items-start h-full p-4 rounded-2xl border border-primary/20 hover:border-primary transition-all hover:shadow-lg"
           >
             <Globe className="w-8 h-8 text-primary" />
-            <span className="font-bold text-lg">{s.title}</span>
+            <span className="font-bold text-base">{s.title}</span>
             <span className="text-xs text-muted-foreground w-full text-left">{s.description}</span>
             <span className="mt-auto text-xs text-primary flex items-center gap-1">
               前往 <ExternalLink className="w-3 h-3" />
@@ -353,7 +353,7 @@ const LearnGrid = () => {
               <section key={g.name}>
                 <div className="flex items-center gap-3 mb-4">
                   <SubjectIcon name={SUBJECT_META[g.name]?.icon || 'Globe'} className="w-5 h-5 text-primary" />
-                  <h2 className="font-serif text-xl font-bold">{g.name}</h2>
+                  <h2 className="font-serif text-lg font-bold">{g.name}</h2>
                   <span className="text-xs text-muted-foreground">{g.items.length} 篇</span>
                   <div className="flex-1 h-px bg-border" />
                 </div>
@@ -406,11 +406,11 @@ const Listing: React.FC<{ type: ListingType }> = ({ type }) => {
           <header className="mb-10">
             <p className="kicker mb-3">{type === 'learn' ? '自助知识库' : type === 'article' ? '深度图文' : type === 'work' ? '可视化作品' : type === 'tool' ? '在线工具' : '站点导航'}</p>
             <div className="flex items-end gap-4">
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight">{m.title}</h1>
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tight">{m.title}</h1>
               <div className="flex-1 h-[2px] bg-gradient-to-r from-primary/50 to-transparent mb-2" />
             </div>
             <div className="mt-3 h-1 w-14 bg-primary rounded-full" />
-            <p className="mt-4 text-lg text-muted-foreground leading-relaxed max-w-2xl">{m.subtitle}</p>
+            <p className="mt-4 text-base text-muted-foreground leading-relaxed max-w-2xl">{m.subtitle}</p>
           </header>
 
           {type === 'work' && <WorkGrid />}

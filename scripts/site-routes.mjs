@@ -17,9 +17,13 @@ export const staticRoutes = [
   '/articles',
   '/learn',
   '/tools',
+  '/games',
   '/my',
   '/subdomains',
   '/changelog',
+  '/geoquiz',
+  '/geoshape',
+  '/geotype',
 ];
 
 /**

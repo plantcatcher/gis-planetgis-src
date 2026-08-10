@@ -20,6 +20,7 @@ const STATIC_PRIORITY = {
   '/articles': 0.8,
   '/works': 0.8,
   '/tools': 0.8,
+  '/games': 0.8,
   '/about': 0.7,
   '/subdomains': 0.6,
   '/changelog': 0.5,

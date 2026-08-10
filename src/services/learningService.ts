@@ -18,7 +18,6 @@ import {
   type Achievement,
   MAX_RECENT,
   getSnapshot,
-  subscribe,
   update,
 } from '@/lib/learningStore';
 import { getItem, type ContentType, type ContentItem } from '@/lib/content';
@@ -290,8 +289,12 @@ export function getDashboard(): Dashboard {
     recent,
     favorites: favEntries,
     completed,
-    quizzes: data.quizzes.records,
-    games: data.games.records,
+    quizzes: [...data.quizzes.records].sort(
+      (a, b) => new Date(b.takenAt).getTime() - new Date(a.takenAt).getTime(),
+    ),
+    games: [...data.games.records].sort(
+      (a, b) => new Date(b.takenAt).getTime() - new Date(a.takenAt).getTime(),
+    ),
   };
 }
 

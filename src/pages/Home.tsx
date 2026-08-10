@@ -198,6 +198,7 @@ const Home = () => {
     { id: '1', key: 'profile', title: '关于我们', is_active: true },
     { id: '9', key: 'learn', title: '地理学习', is_active: true },
     { id: '2', key: 'works', title: '地理可视化作品', is_active: true },
+    { id: '2b', key: 'games', title: '地理小游戏', is_active: true },
     { id: '7', key: 'blog', title: '地理科普文章', is_active: true },
     { id: '3', key: 'tools', title: '地理小工具', is_active: true },
     { id: '4', key: 'subdomains', title: '子站导航', is_active: true },
@@ -211,10 +212,12 @@ const Home = () => {
   const plannedItems = [
     { title: '地形分析工具', desc: '上传高程数据即可自动生成剖面图与坡度分析，让地形特征一眼可读。' },
     { title: '星空观测指南', desc: '整理全年星座与深空天体的最佳观测时间地图，把天文放进地理框架。' },
-    { title: '地理知识库', desc: '系统梳理自然地理与人文地理核心知识点，做成可检索的结构化词条。' },
   ];
 
   const works = getWorks();
+  // 小游戏（带「游戏」标签）从「精选作品」中拆出，单独成「地理小游戏」板块
+  const games = works.filter((w) => (w.tags || []).includes('游戏'));
+  const worksShown = works.filter((w) => !(w.tags || []).includes('游戏'));
   const tools = getTools();
   const articles = getArticles();
   const learns = getLearns();
@@ -225,7 +228,8 @@ const Home = () => {
   const navItems = [
     { id: 'profile', label: '站点导览' },
     { id: 'learn', label: '地理学习', meta: String(learns.length) },
-    { id: 'works', label: '精选作品', meta: String(works.length) },
+    { id: 'works', label: '精选作品', meta: String(worksShown.length) },
+    { id: 'games', label: '地理小游戏', meta: String(games.length) },
     { id: 'blog', label: '最新文章', meta: String(articles.length) },
     { id: 'tools', label: '地理小工具', meta: String(tools.length) },
     { id: 'subdomains', label: '子站导航', meta: String(subdomains.length) },
@@ -319,7 +323,7 @@ const Home = () => {
             className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {works.map((work, index) => (
+              {worksShown.map((work, index) => (
                 <div key={work.slug} className="flex flex-col">
                   <motion.a
                     href={work.link}
@@ -356,6 +360,46 @@ const Home = () => {
                     </Link>
                   </div>
                 </div>
+              ))}
+            </div>
+          </SectionWrapper>
+        );
+      case 'games':
+        return (
+          <SectionWrapper
+            id="games"
+            title="地理小游戏"
+            lead="把地理知识变成可以玩的交互——看卫星图猜城市、看轮廓猜国家、测出你的地球人格。"
+            action={
+              <Link to="/games" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
+                进入游戏汇总页 <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            }
+            className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {games.map((game, index) => (
+                <CardAnim key={game.slug} delay={index * 0.05}>
+                  <Link
+                    to={game.link || `/${game.slug}`}
+                    className="group block overflow-hidden rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 hover:shadow-lg transition-all duration-300"
+                  >
+                    <div className="aspect-video overflow-hidden relative">
+                      <img
+                        src={game.cover}
+                        alt={`${game.title} - 星球小捕手地理小游戏`}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                        <span className="w-full text-center text-sm font-medium text-white/90">开始游戏 →</span>
+                      </div>
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{game.title}</h3>
+                      <p className="text-muted-foreground line-clamp-2">{game.summary}</p>
+                    </div>
+                  </Link>
+                </CardAnim>
               ))}
             </div>
           </SectionWrapper>
@@ -399,18 +443,7 @@ const Home = () => {
               }
               className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
             >
-            <KnowledgeMap stats={getSubjectStats()} className="mb-9" />
-
-            <div>
-              <SectionLabel className="mb-4">精选词条</SectionLabel>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {learns.slice(0, 6).map((learn, index) => (
-                  <CardAnim key={learn.slug} delay={index * 0.05}>
-                    <KnowledgeCard item={learn} />
-                  </CardAnim>
-                ))}
-              </div>
-            </div>
+            <KnowledgeMap stats={getSubjectStats()} className="mb-0" />
           </SectionWrapper>
         </>
       );
@@ -448,7 +481,7 @@ const Home = () => {
                       <Compass className="w-6 h-6" />
                     </motion.div>
                     <div>
-                      <h3 className="text-lg font-bold mb-1 flex items-center gap-2">
+                      <h3 className="text-base font-semibold mb-1 flex items-center gap-2 leading-snug">
                         {tool.title} <motion.span
                           initial={{ opacity: 1, x: -10 }}
                           whileHover={{ opacity: 1, x: 0 }}
@@ -457,7 +490,7 @@ const Home = () => {
                           <ExternalLink className="w-4 h-4" />
                         </motion.span>
                       </h3>
-                      <p className="text-muted-foreground">{tool.summary}</p>
+                      <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">{tool.summary}</p>
                     </div>
                   </motion.a>
                   <div className="mt-3 text-center">
@@ -675,8 +708,8 @@ const Home = () => {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
                   {[
                     { value: '200+', label: '科普文章' },
-                    { value: '7+', label: '在线工具' },
-                    { value: '4', label: '可视化作品' },
+                    { value: String(tools.length), label: '在线工具' },
+                    { value: String(worksShown.length), label: '可视化作品' },
                     { value: '6+', label: '内容平台' }
                   ].map((stat, index) => (
                     <motion.div

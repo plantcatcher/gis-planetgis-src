@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-label="中国地图拼图挑战 封面">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1220"/>
+      <stop offset="0.55" stop-color="#0e2147"/>
+      <stop offset="1" stop-color="#123a73"/>
+    </linearGradient>
+    <linearGradient id="stroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="45%" r="60%">
+      <stop offset="0" stop-color="#2563eb" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#2563eb" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3.2" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <rect width="1200" height="675" fill="url(#glow)"/>
+
+  <!-- 经纬网格 -->
+  <g stroke="#7dd3fc" stroke-opacity="0.10" stroke-width="1">
+    <line x1="0" y1="135" x2="1200" y2="135"/>
+    <line x1="0" y1="270" x2="1200" y2="270"/>
+    <line x1="0" y1="405" x2="1200" y2="405"/>
+    <line x1="0" y1="540" x2="1200" y2="540"/>
+    <line x1="200" y1="0" x2="200" y2="675"/>
+    <line x1="400" y1="0" x2="400" y2="675"/>
+    <line x1="600" y1="0" x2="600" y2="675"/>
+    <line x1="800" y1="0" x2="800" y2="675"/>
+    <line x1="1000" y1="0" x2="1000" y2="675"/>
+    <ellipse cx="600" cy="337" rx="560" ry="120" fill="none"/>
+    <ellipse cx="600" cy="337" rx="380" ry="250" fill="none"/>
+  </g>
+
+  <!-- 抽象中国轮廓：由拼图碎片拼合而成 -->
+  <g fill="#1d4ed8" fill-opacity="0.18" stroke="url(#stroke)" stroke-width="2.4" filter="url(#soft)">
+    <path d="M360 250
+             L470 215 L520 250 L560 225 L640 245 L720 220 L800 250
+             L840 300 L815 350 L760 360 L790 410 L720 430 L640 410
+             L580 430 L520 405 L470 425 L430 380 L380 370 L350 320
+             L375 285 Z"/>
+  </g>
+  <!-- 拼合缝（jigsaw 直线） -->
+  <g stroke="#22d3ee" stroke-opacity="0.45" stroke-width="1.6" stroke-dasharray="6 7">
+    <line x1="470" y1="215" x2="500" y2="430"/>
+    <line x1="560" y1="225" x2="540" y2="430"/>
+    <line x1="640" y1="245" x2="640" y2="410"/>
+    <line x1="720" y1="220" x2="700" y2="430"/>
+    <line x1="360" y1="300" x2="840" y2="320"/>
+  </g>
+
+  <!-- 散落的独立拼图块（带凸点） -->
+  <g fill="#22d3ee" fill-opacity="0.22" stroke="url(#stroke)" stroke-width="2.2" filter="url(#soft)">
+    <!-- 右上漂浮块 -->
+    <path d="M905 175
+             q-12 -26 14 -26 q26 0 14 26 l0 44 q12 26 -14 26 q-26 0 -14 -26 Z"/>
+    <!-- 左下漂浮块 -->
+    <path d="M205 470
+             q-10 -22 12 -22 q22 0 12 22 l0 38 q10 22 -12 22 q-22 0 -12 -22 Z"/>
+  </g>
+
+  <!-- 中央拼图图标（经典四凸块） -->
+  <g transform="translate(600,322)" stroke="url(#stroke)" stroke-width="9" fill="#0e2147" fill-opacity="0.65" filter="url(#soft)">
+    <path d="M-46 -46
+             h30 a14 14 0 1 1 28 0 h30
+             v30 a14 14 0 1 1 0 28 v30
+             h-30 a14 14 0 1 0 -28 0 h-30
+             v-30 a14 14 0 1 0 0 -28 Z"/>
+  </g>
+
+  <!-- 标题 -->
+  <text x="64" y="560" font-family="Arial, Helvetica, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="58" font-weight="800"
+        fill="#e0f2fe" fill-opacity="0.95" letter-spacing="2">中国地图拼图挑战</text>
+  <text x="66" y="600" font-family="Arial, Helvetica, 'PingFang SC', 'Microsoft YaHei', sans-serif" font-size="26" font-weight="600"
+        fill="#7dd3fc" fill-opacity="0.85" letter-spacing="1">拖动 34 块省级行政区，拼出你心中的中国</text>
+
+  <!-- 品牌角标 -->
+  <text x="1136" y="640" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700"
+        fill="#7dd3fc" fill-opacity="0.75" text-anchor="end" letter-spacing="1">星球小捕手</text>
+</svg>

@@ -359,3 +359,9 @@ aside::-webkit-scrollbar-thumb {
 aside::-webkit-scrollbar-track {
   background: transparent;
 }
+
+/* 更新日志页正文略缩（仅作用于 /changelog，不影响详情页全局 .md-body） */
+.changelog-page .md-body {
+  font-size: 1rem;
+  line-height: 1.85;
+}

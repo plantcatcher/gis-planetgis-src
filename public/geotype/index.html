@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的地球人格 · Geo Personality</title>
+  <link rel="stylesheet" href="styles.css?v=4">
+</head>
+<body>
+  <div id="app"></div>
+  <footer class="site-foot">
+    我的地球人格 Geo Personality · 通过地理环境与个人偏好，探索你属于哪一种地球居民
+    <span class="hot">热门城市：
+      <a href="cities/北京.html">北京</a>·
+      <a href="cities/上海.html">上海</a>·
+      <a href="cities/深圳.html">深圳</a>·
+      <a href="cities/广州.html">广州</a>·
+      <a href="cities/成都.html">成都</a>·
+      <a href="cities/杭州.html">杭州</a>·
+      <a href="cities/重庆.html">重庆</a>·
+      <a href="cities/拉萨.html">拉萨</a>·
+      <a href="cities/三亚.html">三亚</a>·
+      <a href="cities/台北.html">台北</a>
+    </span>
+  </footer>
+  <script src="data/cities.js"></script>
+  <script src="data/content.js"></script>
+  <!-- 天地图 JS API（浏览器端 Key，合规底图：含完整国界与南海诸岛） -->
+  <script src="https://api.tianditu.gov.cn/api?v=4.0&tk=e92d8558a9a7eb0709e7f895801bdcc9"></script>
+  <!-- Three.js（真 3D 地球自转；CDN 失败则由 app.js 降级为静态正射球图） -->
+  <script src="https://lib.baomitu.com/three.js/r128/three.min.js" onerror="window.__threeFailed=true;"></script>
+  <!-- 成绩打通：把测试结果同步到主站「我的学习」 -->
+  <script src="/games-sync.js"></script>
+  <script src="app.js?v=5"></script>
+</body>
+</html>

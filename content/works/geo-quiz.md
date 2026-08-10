@@ -3,10 +3,10 @@ slug: geo-quiz
 title: 看卫星图猜城市
 cover: https://blogphoto.planetgis.cn/PicGo/2026-07-28-北京.jpg
 summary: 通过卫星影像识别全球知名城市，在趣味挑战中锻炼地理眼力与空间认知能力。
-link: https://geoquiz.planetgis.cn
+link: /geoquiz
 order: 4
 category: 可视化作品
-tags: 地理, 地理可视化, 可视化作品
+tags: 地理, 地理可视化, 可视化作品, 游戏
 ---
 
 ## 介绍

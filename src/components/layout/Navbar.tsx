@@ -9,6 +9,7 @@ const navLinks = [
   { name: '站点导览', path: '/' },
   { name: '地理学习', path: '/learn' },
   { name: '精选作品', path: '/works' },
+  { name: '地理小游戏', path: '/games' },
   { name: '最新文章', path: '/articles' },
   { name: '地理小工具', path: '/tools' },
   { name: '子站导航', path: '/subdomains' },

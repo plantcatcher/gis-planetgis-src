@@ -9,6 +9,8 @@ import Changelog from './pages/Changelog';
 import TagPage from './pages/TagPage';
 import Listing from './pages/Listing';
 import MyLearning from './pages/MyLearning';
+import GameEmbed from './pages/GameEmbed';
+import Games from './pages/Games';
 import type { ReactNode } from 'react';
 
 interface RouteConfig {
@@ -88,6 +90,35 @@ const routes: RouteConfig[] = [
     name: '我的学习',
     path: '/my',
     element: <MyLearning />
+  },
+  {
+    name: '卫星之眼',
+    path: '/geoquiz',
+    element: <GameEmbed game="geoquiz" />,
+    visible: false,
+  },
+  {
+    name: '看轮廓猜国家',
+    path: '/geoshape',
+    element: <GameEmbed game="geoshape" />,
+    visible: false,
+  },
+  {
+    name: '地理人格测试',
+    path: '/geotype',
+    element: <GameEmbed game="geotype" />,
+    visible: false,
+  },
+  {
+    name: '中国地图拼图',
+    path: '/chinapuzzle',
+    element: <GameEmbed game="chinapuzzle" />,
+    visible: false,
+  },
+  {
+    name: '地理小游戏',
+    path: '/games',
+    element: <Games />,
   },
   {
     name: '地理小工具',

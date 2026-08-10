@@ -10,7 +10,7 @@ export default function Changelog() {
   if (!changelog) return <NotFound />;
 
   return (
-    <article className="max-w-3xl mx-auto px-4 py-12 md:py-16">
+    <article className="changelog-page max-w-3xl mx-auto px-4 py-12 md:py-16">
       <PageMeta
         title="更新日志"
         description={changelog.summary || '星球小捕手网站的功能更新、内容上新与产品规划记录。'}
@@ -24,9 +24,9 @@ export default function Changelog() {
       </nav>
 
       <header className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-bold mb-3">更新日志</h1>
+        <h1 className="text-2xl md:text-3xl font-bold mb-3">更新日志</h1>
         {changelog.summary && (
-          <p className="text-lg text-muted-foreground leading-relaxed">{changelog.summary}</p>
+          <p className="text-base text-muted-foreground leading-relaxed">{changelog.summary}</p>
         )}
       </header>
 

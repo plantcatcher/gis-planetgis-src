@@ -43,6 +43,11 @@ for (const file of files) {
   // 404 页不参与 canonical / 正文校验
   if (rel === '404.html') continue;
 
+  // 游戏内嵌静态资源（public/geoquiz|geoshape|geotype 复制而来）与游戏壳页
+  // 不是主站 React 路由，其结构（无 #root、canonical 指向子域、正文为游戏自身）
+  // 不应参与主站 SEO 校验，否则会误报并使构建失败。
+  if (/^(geoquiz|geoshape|geotype)/.test(rel)) continue;
+
   // 1) canonical 必须存在、必须是 ASCII 绝对地址、必须与自身路径一致（自引用）
   const canonical = (html.match(/rel="canonical"[^>]*href="([^"]*)"/) || [])[1];
   if (!canonical) {

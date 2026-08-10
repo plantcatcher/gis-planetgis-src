@@ -1,0 +1,227 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #060a1c;
+  --bg2: #0a1230;
+  --fg: #eaf0ff;
+  --muted: #8fa6c8;
+  --accent: #2f9be0;
+  --card: rgba(255,255,255,0.04);
+  --line: rgba(255,255,255,0.12);
+}
+html, body { height: 100%; }
+body {
+  /* 基础深色径向渐变（原背景），叠加细微噪点做抖动(dither)，消除大色块渐变在低色深屏上的颜色断层 */
+  background-color: var(--bg);
+  background-image:
+    url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='160'%20height='160'%3E%3Cfilter%20id='n'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.8'%20numOctaves='2'%20stitchTiles='stitch'/%3E%3C/filter%3E%3Crect%20width='100%25'%20height='100%25'%20filter='url(%23n)'%20opacity='0.55'/%3E%3C/svg%3E"),
+    radial-gradient(1200px 800px at 50% -10%, #14224f 0%, var(--bg) 60%);
+  background-repeat: repeat, no-repeat;
+  background-position: center, 0 0;
+  background-size: 160px 160px, auto;
+  background-blend-mode: overlay, normal;
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center;
+}
+#app { width: 100%; max-width: 640px; padding: 24px 18px 40px; flex: 1; }
+.site-foot {
+  width: 100%; text-align: center; color: var(--muted);
+  font-size: 12px; padding: 18px; opacity: .7;
+}
+.site-foot .hot { display: block; margin-top: 8px; font-size: 13px; color: var(--muted); }
+.site-foot .hot a { color: var(--accent); text-decoration: none; margin: 0 3px; }
+.site-foot .hot a:hover { text-decoration: underline; }
+
+/* 通用 */
+h1, h2, h3 { font-weight: 700; letter-spacing: .5px; }
+.sub { color: var(--muted); margin-top: 10px; }
+.cta {
+  display: inline-block; margin-top: 22px; padding: 14px 38px;
+  border: none; border-radius: 999px; cursor: pointer;
+  background: linear-gradient(135deg, #2f9be0, #6f6bd6);
+  color: #fff; font-size: 17px; font-weight: 700;
+  box-shadow: 0 8px 30px rgba(47,155,224,.35); transition: transform .15s;
+}
+.cta:hover { transform: translateY(-2px); }
+.ghost {
+  display: inline-block; margin-top: 12px; padding: 8px 18px;
+  border: 1px solid var(--line); border-radius: 999px; cursor: pointer;
+  background: transparent; color: var(--muted); font-size: 14px;
+}
+.ghost:hover { color: var(--fg); }
+
+/* 首页 */
+.home { text-align: center; padding-top: 8vh; }
+/* 地球：Three.js 真 3D 自转球体（球体网格 + 等距柱状地球纹理 + 真实 rotateY 自转）。
+   若 Three.js(CDN) 加载失败/超时，initEarth3D 自动降级为静态正射球图(assets/earth_ortho.png)。 */
+.earth {
+  width: 180px; height: 180px; margin: 0 auto 26px;
+  border-radius: 50%; position: relative; overflow: hidden;
+  background: #0a1730;                       /* 加载中/降级时的深色兜底，不闪白 */
+  box-shadow:
+    0 0 60px rgba(47,155,224,.45),
+    0 0 22px rgba(80,150,235,.5);            /* 大气辉光 */
+}
+.earth canvas { display: block; width: 100%; height: 100%; border-radius: 50%; }
+.home h1 { font-size: 30px; }
+.tip { margin-top: 26px; color: var(--muted); font-size: 13px; }
+
+/* 测试 */
+.quiz { padding-top: 4vh; }
+.progress { height: 6px; background: var(--line); border-radius: 999px; overflow: hidden; }
+.bar { height: 100%; background: linear-gradient(90deg, #2f9be0, #6f6bd6); transition: width .25s; }
+.meta { color: var(--muted); font-size: 13px; margin: 12px 0 18px; }
+.q { font-size: 22px; margin-bottom: 22px; line-height: 1.4; }
+.opts { display: flex; flex-direction: column; gap: 12px; }
+.opt {
+  text-align: left; padding: 16px 18px; border-radius: 14px; cursor: pointer;
+  background: var(--card); border: 1px solid var(--line); color: var(--fg);
+  font-size: 16px; transition: all .15s; display: flex; align-items: center; gap: 12px;
+}
+.opt:hover { border-color: var(--accent); background: rgba(47,155,224,.10); transform: translateX(3px); }
+.opt .num {
+  width: 24px; height: 24px; flex: none; border-radius: 50%;
+  background: rgba(255,255,255,.08); color: var(--muted);
+  display: grid; place-items: center; font-size: 13px;
+}
+
+/* 选城市 */
+.city { text-align: center; padding-top: 6vh; }
+.city input {
+  width: 100%; margin-top: 18px; padding: 14px 16px; border-radius: 12px;
+  background: var(--card); border: 1px solid var(--line); color: var(--fg);
+  font-size: 16px; outline: none;
+}
+.city input:focus { border-color: var(--accent); }
+
+/* 结果 */
+.result { padding-top: 2vh; }
+.hero {
+  text-align: center; border: 2px solid; border-radius: 20px; padding: 26px;
+  background: var(--card);
+}
+.big-icon { font-size: 72px; line-height: 1; }
+.type { font-size: 26px; font-weight: 800; margin-top: 8px; }
+.en { color: var(--muted); font-size: 15px; margin-top: 4px; }
+.insight {
+  margin: 20px 0; padding: 16px 18px; border-left: 3px solid var(--accent);
+  background: rgba(47,155,224,.08); border-radius: 0 12px 12px 0;
+  font-size: 16px; line-height: 1.6; font-style: italic;
+}
+.hidden-tag {
+  text-align: center; margin: -6px 0 18px; padding: 8px;
+  color: var(--muted); font-size: 14px;
+}
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
+.card h3 { font-size: 15px; margin-bottom: 12px; color: var(--fg); }
+.geo { color: var(--muted); font-size: 14px; line-height: 1.6; }
+.desc { color: var(--fg); font-size: 14px; line-height: 1.7; }
+.rec { list-style: none; display: flex; gap: 8px; flex-wrap: wrap; }
+.rec li { background: rgba(47,155,224,.14); color: #bfe0ff; padding: 6px 12px; border-radius: 999px; font-size: 13px; }
+.actions { text-align: center; margin-top: 22px; }
+.card-wrap { text-align: center; margin-top: 18px; }
+.card-img { max-width: 100%; border-radius: 14px; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
+.card-wrap .cta { margin-top: 14px; }
+
+@media (max-width: 520px) {
+  .grid2 { grid-template-columns: 1fr; }
+  .home h1 { font-size: 25px; }
+}
+
+/* 地图选点 */
+.map-wrap {
+  position: relative;
+  margin-top: 16px; border: 1px solid var(--line); border-radius: 16px;
+  overflow: hidden; background: #0a1024; text-align: left;
+}
+.map-tip { padding: 10px 14px; font-size: 14px; color: var(--fg); background: rgba(47,155,224,.12); }
+#mapDiv { width: 100%; height: 320px; background: #0a1024; }
+/* 仅隐藏天地图默认品牌 logo 容器，绝不可隐藏瓦片（瓦片 URL 含 tianditu，但 class 不含 logo）。
+   审图号 GS(2023)1312号 烘焙在影像注记瓦片(cia_w)内，不受影响。 */
+#mapDiv [class*="logo" i], #trackMap [class*="logo" i] { display: none !important; }
+.pick-status { padding: 8px 14px; font-size: 13px; color: var(--muted); min-height: 18px; }
+.pick-status.ok { color: #8ff0c0; }
+.pick-status.warn { color: #ffd27a; }
+.geo-note { padding: 6px 14px 10px; font-size: 11px; color: var(--muted); opacity: .8; }
+.map-pop {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(.96);
+  background: rgba(8,14,30,.88); color: #eaf4ff; border: 1px solid rgba(111,208,255,.5);
+  padding: 14px 20px; border-radius: 14px; font-size: 15px; line-height: 1.7; text-align: center;
+  box-shadow: 0 10px 40px rgba(0,0,0,.55); pointer-events: none; z-index: 50;
+  opacity: 0; transition: opacity .25s, transform .25s; max-width: 82%;
+}
+.map-pop b { color: #6fd0ff; }
+.map-pop.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.or { margin: 18px 0 4px; color: var(--muted); font-size: 13px; text-align: center; }
+/* 天地图默认控件在深色背景下可读 */
+.tdt-control-container .tdt-control { background: #fff !important; }
+
+/* 三地点选择 */
+.chips { display: flex; gap: 8px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
+.pc {
+  padding: 8px 16px; border-radius: 999px; cursor: pointer;
+  background: var(--card); border: 1px solid var(--line); color: var(--muted);
+  font-size: 14px; transition: all .15s;
+}
+.pc.on { border-color: var(--accent); color: #fff; background: rgba(47,155,224,.18); }
+.rows { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+.prow { display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: 12px; border: 1px solid transparent; }
+.prow.active { border-color: var(--accent); background: rgba(47,155,224,.08); }
+.prow label { width: 56px; flex: none; font-size: 14px; color: var(--muted); text-align: right; }
+.prow input {
+  flex: 1; padding: 12px 14px; border-radius: 12px;
+  background: var(--card); border: 1px solid var(--line); color: var(--fg);
+  font-size: 15px; outline: none; min-width: 0;
+}
+.prow input:focus { border-color: var(--accent); }
+
+/* 三重地理人格剖面 */
+.section-title { margin: 24px 0 12px; font-size: 17px; font-weight: 700; }
+.triple { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+.tcard { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 8px; text-align: center; flex: 0 1 260px; }
+.tcard.single { flex-basis: 300px; max-width: 300px; }
+.tlabel { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.ticon { font-size: 30px; line-height: 1; }
+.ticon.muted { color: var(--muted); opacity: .35; }
+.tname { font-size: 15px; font-weight: 700; margin-top: 6px; }
+.tcity { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.tdesc { font-size: 11px; color: var(--muted); margin-top: 6px; line-height: 1.4; }
+.traj {
+  margin: 14px 0 4px; padding: 14px 16px; border-left: 3px solid #3a9d5d;
+  background: rgba(58,157,93,.08); border-radius: 0 12px 12px 0;
+  font-size: 15px; line-height: 1.6; font-style: italic;
+}
+/* 轨迹地图 */
+.trackwrap { margin-top: 8px; }
+.track-map { width: 100%; height: 280px; border-radius: 16px; overflow: hidden; border: 1px solid var(--line); background: #0a1024; margin-top: 6px; }
+.track-note { color: var(--muted); font-size: 13px; text-align: center; padding: 12px; }
+.geo .geoline { margin-bottom: 10px; }
+.geo .glabel { display: inline-block; width: 54px; color: #bfe0ff; }
+
+/* 通用推荐列表 */
+.rec { margin: 6px 0 0; padding-left: 18px; }
+.rec li { font-size: 13px; margin-bottom: 4px; color: var(--fg); }
+
+/* 推荐城市三类 */
+.city-rec { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 8px; }
+.cr { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
+.cr h4 { margin: 0 0 8px; font-size: 13px; color: #bfe0ff; font-weight: 600; }
+.cr .rec { margin: 0; }
+.cr .rec li { font-size: 13px; color: var(--fg); margin-bottom: 4px; }
+
+/* 最佳拍档 */
+.matches { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 8px; }
+.match { display: flex; gap: 10px; align-items: flex-start; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
+.micon { font-size: 26px; line-height: 1; flex: none; }
+.minfo { flex: 1; min-width: 0; }
+.minfo b { font-size: 15px; }
+.mscore { font-size: 12px; color: var(--muted); margin-left: 8px; }
+.mtext { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+
+@media (max-width: 520px) {
+  .city-rec { grid-template-columns: 1fr; }
+  .matches { grid-template-columns: 1fr; }
+}
