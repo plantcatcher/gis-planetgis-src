@@ -46,6 +46,10 @@ try {
   const entries = [];
 
   for (const u of routes) {
+    // /my 是用户私有学习中心（数据存于本地 LocalStorage），全员返回的是空壳，
+    // 不应被搜索引擎收录，故排除出 sitemap（但仍参与预渲染，保证直链可访问）。
+    if (u === '/my') continue;
+
     const isDetail =
       u.startsWith('/works/') ||
       u.startsWith('/tools/') ||

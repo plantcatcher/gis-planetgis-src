@@ -8,6 +8,7 @@ import ContentDetail from './pages/ContentDetail';
 import Changelog from './pages/Changelog';
 import TagPage from './pages/TagPage';
 import Listing from './pages/Listing';
+import MyLearning from './pages/MyLearning';
 import type { ReactNode } from 'react';
 
 interface RouteConfig {
@@ -82,6 +83,11 @@ const routes: RouteConfig[] = [
     name: '地理学习',
     path: '/learn',
     element: <Listing type="learn" />
+  },
+  {
+    name: '我的学习',
+    path: '/my',
+    element: <MyLearning />
   },
   {
     name: '地理小工具',

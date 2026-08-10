@@ -21,6 +21,7 @@ const pageNameMap: Record<string, string> = {
   tools: '地理小工具',
   articles: '最新文章',
   learn: '地理学习',
+  my: '我的学习',
   subdomains: '子站导航',
   changelog: '更新日志',
 };

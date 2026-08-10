@@ -3,6 +3,9 @@ import PageMeta from '@/components/common/PageMeta';
 import CoverImage from '@/components/common/CoverImage';
 import { getItem, getRelated, type ContentType, type ContentItem } from '@/lib/content';
 import { renderMarkdown, extractHeadings } from '@/lib/markdown';
+import { buildContentKey } from '@/services/learningService';
+import LearningTracker from '@/components/learning/LearningTracker';
+import FavoriteButton from '@/components/learning/FavoriteButton';
 import { useJsonLd } from '@/lib/seo';
 import NotFound from './NotFound';
 import { ArrowRight } from 'lucide-react';
@@ -63,6 +66,7 @@ export default function ContentDetail({ type }: Props) {
   if (!item) return <NotFound />;
 
   const label = typeLabel[type];
+  const contentKey = buildContentKey(type, item.slug);
   const related = getRelated(type, item.slug, 3);
   const toc = type === 'article' || type === 'learn' ? extractHeadings(item.body) : [];
   const infobox = buildInfobox(item);
@@ -72,6 +76,7 @@ export default function ContentDetail({ type }: Props) {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-12 md:py-16">
+      <LearningTracker contentKey={contentKey} />
       <div className="lg:grid lg:grid-cols-[1fr_240px] lg:gap-12 lg:items-start">
         <article className="min-w-0 mx-auto reading-column w-full">
       <PageMeta
@@ -104,6 +109,9 @@ export default function ContentDetail({ type }: Props) {
           {(type === 'article' || type === 'learn') && (
             <><span className="opacity-40">·</span><span>{readingTime} 分钟阅读</span><span className="opacity-40">·</span><span>{wordCount} 字</span></>
           )}
+        </div>
+        <div className="mt-4">
+          <FavoriteButton contentKey={contentKey} variant="detail" />
         </div>
       </header>
 

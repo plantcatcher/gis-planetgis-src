@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
-import { Menu, X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Menu, X, User } from 'lucide-react';
 
 const navLinks = [
   { name: '站点导览', path: '/' },
@@ -130,6 +131,17 @@ const Navbar = () => {
 
         <div className="flex items-center gap-4">
           <ThemeToggle />
+          <Button
+            asChild
+            variant="ghost"
+            size="icon"
+            className={`rounded-full ${isActive('/my') ? 'text-primary bg-primary/10' : ''}`}
+            aria-label="我的学习"
+          >
+            <Link to="/my">
+              <User className="w-5 h-5" />
+            </Link>
+          </Button>
           <button
             className="md:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

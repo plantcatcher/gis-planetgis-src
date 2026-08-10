@@ -17,6 +17,7 @@ export const staticRoutes = [
   '/articles',
   '/learn',
   '/tools',
+  '/my',
   '/subdomains',
   '/changelog',
 ];
