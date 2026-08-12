@@ -6,6 +6,7 @@ date: 2026-08-08
 category: 大学地理
 subject: 地理信息技术
 tags: 地理, 大学地理
+cover: https://blogphoto.planetgis.cn/PicGo/2026-08-08-4a269f732bb8afda83a1b65e64a91817-sz_900144.png
 ---
 
 > **地理大模型，正在把 GIS 从"专家工具"变成一场"对话"**

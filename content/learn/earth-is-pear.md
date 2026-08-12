@@ -6,6 +6,7 @@ date: 2026-08-10
 category: 初中地理
 subject: 自然地理
 tags: 地理, 初中地理
+cover: https://blogphoto.planetgis.cn/PicGo/2026-08-10-ec43856db3f9792529e6fbb0aabb6163-sz_324369.png
 ---
 
 你课本上画的地球，是个完美的圆球。光滑、对称、哪里看都一样。

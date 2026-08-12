@@ -115,7 +115,7 @@ export default function ContentDetail({ type }: Props) {
         </div>
       </header>
 
-      {item.cover && (
+      {item.cover && type !== 'learn' && (
         <img
           src={item.cover}
           alt={item.title}
