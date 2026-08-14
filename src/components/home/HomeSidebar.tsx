@@ -38,7 +38,7 @@ const HomeSidebar: React.FC<{
   };
 
   return (
-    <aside className="lg:sticky lg:top-[var(--nav-h)] lg:h-[calc(100vh-var(--nav-h))] lg:overflow-y-auto lg:border-r lg:border-border/60 lg:pr-6 py-8 lg:py-10">
+    <aside className="hidden lg:block lg:sticky lg:top-[var(--nav-h)] lg:h-[calc(100vh-var(--nav-h))] lg:overflow-y-auto lg:border-r lg:border-border/60 lg:pr-6 py-8 lg:py-10">
       {/* 检索 */}
       <form
         onSubmit={(e) => {

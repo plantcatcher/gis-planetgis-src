@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Github, Youtube, MessageCircle, Instagram, Rss, ArrowRight, ExternalLink, Globe, Compass, Box, Share2, Calendar, Lightbulb } from 'lucide-react';
+import { Github, Youtube, MessageCircle, Instagram, Rss, ArrowRight, ExternalLink, Globe, Compass, Box, Share2, Calendar, Lightbulb, Newspaper } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { getWorks, getTools, getArticles, getLearns, getChangelogTimeline, getLearnSubjects } from '@/lib/content';
 import { getSubjectStats } from '@/lib/knowledge';
@@ -24,6 +24,7 @@ const iconMap: Record<string, any> = {
   Compass,
   Box,
   Share2,
+  Newspaper,
 };
 
 // 注意：所有 motion 的 initial 都保持 opacity:1，确保预渲染（SSG）产出的
@@ -241,6 +242,7 @@ const Home = () => {
 
   const socialLinks = [
     { id: '1', platform: '微信', url: '星球小捕手', icon_name: 'MessageCircle' },
+    { id: '7', platform: '公众号', url: '#', icon_name: 'Newspaper' },
     { id: '2', platform: '微博', url: 'https://weibo.com/u/5860040514', icon_name: 'Share2' },
     { id: '3', platform: 'B站', url: 'https://space.bilibili.com/31959835', icon_name: 'Youtube' },
     { id: '4', platform: '小红书', url: 'https://www.xiaohongshu.com/user/profile/5f91772d00000000010077da', icon_name: 'Instagram' },
@@ -274,6 +276,7 @@ const Home = () => {
   });
 
   const [wechatOpen, setWechatOpen] = useState(false);
+  const [officialOpen, setOfficialOpen] = useState(false);
 
   const renderSection = (section: SectionConfig) => {
     switch (section.key) {
@@ -577,6 +580,29 @@ const Home = () => {
                     </motion.button>
                   );
                 }
+                if (link.platform === '公众号') {
+                  return (
+                    <motion.button
+                      key={link.id}
+                      onClick={() => setOfficialOpen(true)}
+                      initial={{ opacity: 1, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.2, delay: index * 0.08, ease: 'easeOut' }}
+                      viewport={{ once: true }}
+                      whileHover={{ scale: 1.05, y: -5, transition: { duration: 0.2 } }}
+                      className="flex flex-col items-center gap-3 p-5 rounded-2xl bg-primary/5 hover:bg-primary/10 border border-transparent hover:border-primary/20 transition-all group cursor-pointer"
+                      title={`点击查看${link.platform}二维码`}
+                    >
+                      <motion.div
+                        whileHover={{ scale: 1.2, transition: { duration: 0.3 } }}
+                        className="w-10 h-10 rounded-full bg-white dark:bg-zinc-800 flex items-center justify-center shadow-md"
+                      >
+                        <Icon className="w-5 h-5 text-primary" />
+                      </motion.div>
+                      <span className="text-sm font-medium">{link.platform}</span>
+                    </motion.button>
+                  );
+                }
                 return (
                   <motion.a
                     key={link.id}
@@ -613,6 +639,23 @@ const Home = () => {
                   <img
                     src="/wechat-qr.png"
                     alt="微信公众号二维码：星球小捕手"
+                    className="w-60 h-60 rounded-lg border border-border object-cover"
+                  />
+                </div>
+              </DialogContent>
+            </Dialog>
+            <Dialog open={officialOpen} onOpenChange={setOfficialOpen}>
+              <DialogContent className="sm:max-w-sm">
+                <DialogHeader>
+                  <DialogTitle className="text-center">扫码关注公众号</DialogTitle>
+                  <DialogDescription className="text-center">
+                    打开微信「扫一扫」，关注「那山那海那座城」，获取最新地理科普文章。
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="flex justify-center py-2">
+                  <img
+                    src="/wechat-official-qr.jpg"
+                    alt="公众号二维码：那山那海那座城"
                     className="w-60 h-60 rounded-lg border border-border object-cover"
                   />
                 </div>
