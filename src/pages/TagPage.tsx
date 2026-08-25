@@ -12,6 +12,7 @@ const basePath: Record<ContentType, string> = {
   tool: 'tools',
   article: 'articles',
   learn: 'learn',
+  resource: 'downloads',
 };
 
 const CardAnim: React.FC<{ children: React.ReactNode; delay?: number }> = ({ children, delay = 0 }) => (

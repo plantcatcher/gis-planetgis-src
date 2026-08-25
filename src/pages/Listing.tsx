@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ExternalLink, Compass, Globe, Search, Download, Calendar, Lock, LayoutGrid, List } from 'lucide-react';
@@ -375,8 +375,13 @@ const Badges: React.FC<{ item: ContentItem }> = ({ item }) => (
 
 const ResourceGrid = () => {
   const all = getResources();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState('');
-  const [activeTag, setActiveTag] = useState<string | null>(null);
+  const [activeTag, setActiveTag] = useState<string | null>(searchParams.get('tag'));
+  // 从 URL ?tag= 同步（支持从资料详情页点标签跳转过来自动过滤）
+  useEffect(() => {
+    setActiveTag(searchParams.get('tag'));
+  }, [searchParams]);
   const [activeCategory, setActiveCategory] = useState('全部');
   const [activeAccess, setActiveAccess] = useState<'all' | 'open' | 'gated'>('all');
   const [view, setView] = useState<'grid' | 'list'>('list');
@@ -445,7 +450,7 @@ const ResourceGrid = () => {
         <div className="flex flex-wrap gap-2 mb-6">
           <button
             type="button"
-            onClick={() => setActiveTag(null)}
+            onClick={() => { setActiveTag(null); setSearchParams({}, { replace: true }); }}
             className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
               activeTag === null
                 ? 'bg-primary text-white'
@@ -458,7 +463,7 @@ const ResourceGrid = () => {
             <button
               key={t.tag}
               type="button"
-              onClick={() => setActiveTag(t.tag)}
+              onClick={() => { setActiveTag(t.tag); setSearchParams({ tag: t.tag }); }}
               className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                 activeTag === t.tag
                   ? 'bg-primary text-white'

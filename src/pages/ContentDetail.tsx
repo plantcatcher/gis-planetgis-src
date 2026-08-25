@@ -77,7 +77,7 @@ export default function ContentDetail({ type }: Props) {
   const wordCount = type === 'article' || type === 'learn' ? getWordCount(item) : 0;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-12 md:py-16">
+    <div className="max-w-6xl mx-auto px-4 pt-20 md:pt-24 pb-12 md:pb-16">
       <LearningTracker contentKey={contentKey} />
       <div className="lg:grid lg:grid-cols-[1fr_240px] lg:gap-12 lg:items-start">
         <article className="min-w-0 mx-auto reading-column w-full">

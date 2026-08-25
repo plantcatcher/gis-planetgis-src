@@ -88,7 +88,7 @@ const ResourceDetail: React.FC = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-12 md:py-16">
+    <div className="resource-detail max-w-5xl mx-auto px-4 pt-20 md:pt-24 pb-12 md:pb-16">
       <ResourceJsonLd item={item} />
       <PageMeta
         title={`${item.title} - 资料下载 - 星球小捕手`}
@@ -161,7 +161,7 @@ const ResourceDetail: React.FC = () => {
               {item.tags.map((t) => (
                 <Link
                   key={t}
-                  to={`/tag/${encodeURIComponent(t)}`}
+                  to={`/downloads?tag=${encodeURIComponent(t)}`}
                   className="px-3 py-1 rounded-full text-xs font-medium bg-muted hover:bg-primary/10 text-primary border border-border/50 transition-colors inline-flex items-center gap-1"
                 >
                   <Tag className="w-3 h-3" /> {t}
@@ -175,7 +175,7 @@ const ResourceDetail: React.FC = () => {
         <main>
           <header className="mb-6">
             <p className="kicker mb-3">{item.category || '资料下载'}</p>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight tracking-tight">{item.title}</h1>
+            <h1 className="text-2xl md:text-3xl font-bold mb-4 leading-tight tracking-tight">{item.title}</h1>
           </header>
 
           {/* 资料说明正文（预渲染，保证 SEO 正文完整） */}
@@ -275,19 +275,26 @@ const ResourceDetail: React.FC = () => {
             <ArrowRight className="w-5 h-5 text-primary" />
             相关资料
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
             {related.map((r) => (
               <Link
                 key={r.slug}
                 to={`/downloads/${r.slug}`}
-                className="group block p-4 rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 transition-all"
+                className="group flex items-center gap-2 px-3 py-2 rounded-lg bg-muted/40 hover:bg-muted border border-transparent hover:border-primary/30 transition-all"
               >
-                <span className="text-sm font-medium group-hover:text-primary transition-colors line-clamp-2">
+                <ArrowRight className="w-3.5 h-3.5 shrink-0 text-muted-foreground group-hover:text-primary transition-colors" />
+                <span className="text-sm font-medium group-hover:text-primary transition-colors line-clamp-2 flex-1 min-w-0">
                   {r.title}
                 </span>
-                {r.date && (
-                  <span className="block mt-1 text-xs text-muted-foreground">{r.date}</span>
-                )}
+                <span
+                  className={`shrink-0 text-[11px] px-1.5 py-0.5 rounded-full ${
+                    isResourceGated(r)
+                      ? 'bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400'
+                      : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400'
+                  }`}
+                >
+                  {isResourceGated(r) ? '需验证码' : '直接下载'}
+                </span>
               </Link>
             ))}
           </div>

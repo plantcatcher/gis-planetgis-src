@@ -569,7 +569,7 @@ const Home = () => {
             lead="星球小捕手旗下各主题子站，覆盖科普、工具与社区等不同入口。"
             className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
           >
-            <div className="space-y-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {subdomains.map((sub, index) => (
                 <motion.a
                   key={sub.link}
@@ -580,17 +580,13 @@ const Home = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.06, ease: 'easeOut' }}
                   viewport={{ once: true }}
-                  whileHover={{ scale: 1.01, transition: { duration: 0.2 } }}
-                  className="group flex gap-4 p-3 rounded-xl bg-background border border-border hover:border-primary/40 hover:shadow-md transition-all"
+                  whileHover={{ scale: 1.05, y: -5, transition: { duration: 0.2 } }}
+                  className="group flex flex-col gap-2 items-start h-full p-4 rounded-2xl border border-primary/20 hover:border-primary transition-all hover:shadow-lg"
                 >
-                  <div className="shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-                    <Globe className="w-5 h-5 sm:w-6 sm:h-6" />
-                  </div>
-                  <div className="flex flex-col flex-1 min-w-0 py-0.5">
-                    <span className="font-bold text-base group-hover:text-primary transition-colors">{sub.title}</span>
-                    <span className="text-xs text-muted-foreground mt-1 text-left">{sub.description}</span>
-                  </div>
-                  <span className="text-xs text-primary flex items-center gap-1 shrink-0 self-center">
+                  <Globe className="w-8 h-8 text-primary" />
+                  <span className="font-bold text-base">{sub.title}</span>
+                  <span className="text-xs text-muted-foreground w-full text-left">{sub.description}</span>
+                  <span className="mt-auto text-xs text-primary flex items-center gap-1">
                     前往 <ExternalLink className="w-3 h-3" />
                   </span>
                 </motion.a>
