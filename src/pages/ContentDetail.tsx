@@ -22,6 +22,7 @@ const typeLabel: Record<ContentType, string> = {
   tool: '地理小工具',
   article: '文章',
   learn: '地理学习',
+  resource: '资料下载',
 };
 
 const basePath: Record<ContentType, string> = {
@@ -29,6 +30,7 @@ const basePath: Record<ContentType, string> = {
   tool: 'tools',
   article: 'articles',
   learn: 'learn',
+  resource: 'downloads',
 };
 
 const LOGO = 'https://blogphoto.planetgis.cn/PicGo/2026-02-27-favicon-dec42c.png';

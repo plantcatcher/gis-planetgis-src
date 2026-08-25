@@ -10,6 +10,7 @@ import TagPage from './pages/TagPage';
 import Listing from './pages/Listing';
 import MyLearning from './pages/MyLearning';
 import GameEmbed from './pages/GameEmbed';
+import ResourceDetail from './pages/ResourceDetail';
 import Games from './pages/Games';
 import type { ReactNode } from 'react';
 
@@ -57,11 +58,6 @@ const routes: RouteConfig[] = [
     element: <ContentDetail type="tool" />
   },
   {
-    name: '文章详情',
-    path: '/articles/:slug',
-    element: <ContentDetail type="article" />
-  },
-  {
     name: '学习详情',
     path: '/learn/:slug',
     element: <ContentDetail type="learn" />
@@ -75,11 +71,6 @@ const routes: RouteConfig[] = [
     name: '精选作品',
     path: '/works',
     element: <Listing type="work" />
-  },
-  {
-    name: '最新文章',
-    path: '/articles',
-    element: <Listing type="article" />
   },
   {
     name: '地理学习',
@@ -129,6 +120,16 @@ const routes: RouteConfig[] = [
     name: '子站导航',
     path: '/subdomains',
     element: <Listing type="subdomain" />
+  },
+  {
+    name: '资料下载',
+    path: '/downloads',
+    element: <Listing type="resource" />
+  },
+  {
+    name: '资料详情',
+    path: '/downloads/:slug',
+    element: <ResourceDetail />
   },
   {
     name: '标签专题',

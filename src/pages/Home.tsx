@@ -2,16 +2,15 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Github, Youtube, MessageCircle, Instagram, Rss, ArrowRight, ExternalLink, Globe, Compass, Box, Share2, Calendar, Lightbulb, Newspaper } from 'lucide-react';
+import { Github, Youtube, MessageCircle, Instagram, Rss, ArrowRight, ExternalLink, Globe, Compass, Box, Share2, Calendar, Lightbulb, Newspaper, Download, Lock } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { getWorks, getTools, getArticles, getLearns, getChangelogTimeline, getLearnSubjects } from '@/lib/content';
+import { getWorks, getTools, getLearns, getResources, getChangelogTimeline, getLearnSubjects, isResourceGated } from '@/lib/content';
 import { getSubjectStats } from '@/lib/knowledge';
 import HomeSidebar, { useScrollSpy } from '@/components/home/HomeSidebar';
 import subdomainsData from '@/data/subdomains.json';
 import PageMeta from '@/components/common/PageMeta';
 import { useJsonLd } from '@/lib/seo';
 import KnowledgeMap from '@/components/knowledge/KnowledgeMap';
-import KnowledgeCard from '@/components/knowledge/KnowledgeCard';
 import SectionLabel from '@/components/knowledge/SectionLabel';
 
 const iconMap: Record<string, any> = {
@@ -200,7 +199,7 @@ const Home = () => {
     { id: '9', key: 'learn', title: '地理学习', is_active: true },
     { id: '2', key: 'works', title: '地理可视化作品', is_active: true },
     { id: '2b', key: 'games', title: '地理小游戏', is_active: true },
-    { id: '7', key: 'blog', title: '地理科普文章', is_active: true },
+    { id: '7', key: 'downloads', title: '资料下载', is_active: true },
     { id: '3', key: 'tools', title: '地理小工具', is_active: true },
     { id: '4', key: 'subdomains', title: '子站导航', is_active: true },
     { id: '5', key: 'social', title: '关注我们', is_active: true },
@@ -220,7 +219,7 @@ const Home = () => {
   const games = works.filter((w) => (w.tags || []).includes('游戏'));
   const worksShown = works.filter((w) => !(w.tags || []).includes('游戏'));
   const tools = getTools();
-  const articles = getArticles();
+  const resources = getResources();
   const learns = getLearns();
   const subdomains = subdomainsData as { title: string; description: string; link: string }[];
   const subjects = getLearnSubjects();
@@ -231,7 +230,7 @@ const Home = () => {
     { id: 'learn', label: '地理学习', meta: String(learns.length) },
     { id: 'works', label: '精选作品', meta: String(worksShown.length) },
     { id: 'games', label: '地理小游戏', meta: String(games.length) },
-    { id: 'blog', label: '最新文章', meta: String(articles.length) },
+    { id: 'downloads', label: '资料下载', meta: String(resources.length) },
     { id: 'tools', label: '地理小工具', meta: String(tools.length) },
     { id: 'subdomains', label: '子站导航', meta: String(subdomains.length) },
     { id: 'social', label: '关注我们' },
@@ -407,23 +406,76 @@ const Home = () => {
             </div>
           </SectionWrapper>
         );
-      case 'blog':
+      case 'downloads':
         return (
           <SectionWrapper
-            id="blog"
-            title="最新文章"
-            lead="来自博客的地理科普与可视化解读，覆盖自然、人文、GIS 多个方向。"
+            id="downloads"
+            kicker="资料合集"
+            title="资料下载"
+            lead="板牙整理的地图素材与数据集——地图类可直接下载，PDF / 压缩包等需关注公众号【那山那海那座城】后凭验证码解锁。"
             action={
-              <a href="https://blog.planetgis.cn" target="_blank" rel="noreferrer" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
-                查看全部文章 <ArrowRight className="w-3.5 h-3.5" />
-              </a>
+              <Link to="/downloads" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
+                进入资料下载 <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             }
             className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {articles.slice(0, 6).map((article, index) => (
-                <CardAnim key={article.slug} delay={index * 0.05}>
-                  <KnowledgeCard item={article} />
+            <div className="space-y-3">
+              {resources.slice(0, 6).map((r, index) => (
+                <CardAnim key={r.slug} delay={index * 0.04}>
+                  <Link
+                    to={`/downloads/${r.slug}`}
+                    className="group flex gap-4 p-3 rounded-xl bg-background border border-border hover:border-primary/40 hover:shadow-md transition-all duration-300"
+                  >
+                    {r.cover ? (
+                      <div className="relative w-20 sm:w-24 aspect-[3/4] overflow-hidden bg-muted rounded-lg shrink-0">
+                        <img
+                          src={r.cover}
+                          alt={`${r.title} - 星球小捕手资料下载`}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                        />
+                      </div>
+                    ) : (
+                      <div className="relative w-20 sm:w-24 aspect-[3/4] overflow-hidden rounded-lg bg-gradient-to-br from-primary/15 via-primary/5 to-secondary/10 flex items-center justify-center shrink-0">
+                        {isResourceGated(r) ? (
+                          <Lock className="w-7 h-7 text-primary/50" />
+                        ) : (
+                          <Download className="w-7 h-7 text-primary/50" />
+                        )}
+                      </div>
+                    )}
+                    <div className="flex flex-col flex-1 min-w-0 py-1">
+                      <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                        {r.category && (
+                          <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-foreground/80 text-background">
+                            {r.category}
+                          </span>
+                        )}
+                        {r.format && (
+                          <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
+                            {r.format}
+                          </span>
+                        )}
+                        {isResourceGated(r) ? (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-500/15 text-amber-600 dark:text-amber-400">
+                            <Lock className="w-3 h-3" /> 需验证码
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
+                            <Download className="w-3 h-3" /> 直接下载
+                          </span>
+                        )}
+                      </div>
+                      <h3 className="font-serif text-base sm:text-lg font-semibold leading-snug line-clamp-1 group-hover:text-primary transition-colors">
+                        {r.title}
+                      </h3>
+                      <p className="mt-1.5 text-sm text-muted-foreground line-clamp-2 leading-relaxed">{r.summary}</p>
+                      <div className="mt-auto pt-2 flex items-center gap-3 text-xs text-muted-foreground">
+                        {r.date && <span className="inline-flex items-center gap-1"><Calendar className="w-3.5 h-3.5" />{r.date}</span>}
+                        {r.size && <span>· {r.size}</span>}
+                      </div>
+                    </div>
+                  </Link>
                 </CardAnim>
               ))}
             </div>
@@ -517,31 +569,31 @@ const Home = () => {
             lead="星球小捕手旗下各主题子站，覆盖科普、工具与社区等不同入口。"
             className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="space-y-3">
               {subdomains.map((sub, index) => (
-                <motion.div
+                <motion.a
                   key={sub.link}
+                  href={sub.link}
+                  target="_blank"
+                  rel="noreferrer"
                   initial={{ opacity: 1, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
+                  transition={{ duration: 0.4, delay: index * 0.06, ease: 'easeOut' }}
                   viewport={{ once: true }}
+                  whileHover={{ scale: 1.01, transition: { duration: 0.2 } }}
+                  className="group flex gap-4 p-3 rounded-xl bg-background border border-border hover:border-primary/40 hover:shadow-md transition-all"
                 >
-                  <Button
-                    variant="outline"
-                    className="h-auto p-4 flex flex-col gap-2 items-start group border-primary/20 hover:border-primary transition-all w-full"
-                    asChild
-                  >
-                    <motion.a
-                      href={sub.link}
-                      target="_blank"
-                      rel="noreferrer"
-                      whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
-                    >
-                      <span className="font-bold text-lg">{sub.title}</span>
-                      <span className="text-xs text-muted-foreground truncate w-full text-left">{sub.description}</span>
-                    </motion.a>
-                  </Button>
-                </motion.div>
+                  <div className="shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                    <Globe className="w-5 h-5 sm:w-6 sm:h-6" />
+                  </div>
+                  <div className="flex flex-col flex-1 min-w-0 py-0.5">
+                    <span className="font-bold text-base group-hover:text-primary transition-colors">{sub.title}</span>
+                    <span className="text-xs text-muted-foreground mt-1 text-left">{sub.description}</span>
+                  </div>
+                  <span className="text-xs text-primary flex items-center gap-1 shrink-0 self-center">
+                    前往 <ExternalLink className="w-3 h-3" />
+                  </span>
+                </motion.a>
               ))}
             </div>
           </SectionWrapper>
@@ -568,7 +620,7 @@ const Home = () => {
                       viewport={{ once: true }}
                       whileHover={{ scale: 1.05, y: -5, transition: { duration: 0.2 } }}
                       className="flex flex-col items-center gap-3 p-5 rounded-2xl bg-primary/5 hover:bg-primary/10 border border-transparent hover:border-primary/20 transition-all group cursor-pointer"
-                      title={`点击查看${link.platform}公众号二维码`}
+                      title={`点击查看${link.platform}二维码`}
                     >
                       <motion.div
                         whileHover={{ scale: 1.2, transition: { duration: 0.3 } }}
@@ -630,7 +682,7 @@ const Home = () => {
             <Dialog open={wechatOpen} onOpenChange={setWechatOpen}>
               <DialogContent className="sm:max-w-sm">
                 <DialogHeader>
-                  <DialogTitle className="text-center">扫码关注微信公众号</DialogTitle>
+                  <DialogTitle className="text-center">扫码关注微信</DialogTitle>
                   <DialogDescription className="text-center">
                     打开微信「扫一扫」，关注「星球小捕手」获取最新地理科普与可视化作品。
                   </DialogDescription>
@@ -638,7 +690,7 @@ const Home = () => {
                 <div className="flex justify-center py-2">
                   <img
                     src="/wechat-qr.png"
-                    alt="微信公众号二维码：星球小捕手"
+                    alt="微信二维码：星球小捕手"
                     className="w-60 h-60 rounded-lg border border-border object-cover"
                   />
                 </div>
@@ -838,7 +890,7 @@ const Home = () => {
             items={navItems}
             active={activeSection}
             subjects={subjects}
-            totalEntries={learns.length + articles.length}
+            totalEntries={learns.length + resources.length}
           />
           <div className="min-w-0 lg:pl-10">
             {sections.map(sec => (

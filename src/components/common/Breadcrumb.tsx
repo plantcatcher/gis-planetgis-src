@@ -19,10 +19,10 @@ const pageNameMap: Record<string, string> = {
   terms: '服务条款',
   works: '精选作品',
   tools: '地理小工具',
-  articles: '最新文章',
   learn: '地理学习',
   my: '我的学习',
   subdomains: '子站导航',
+  downloads: '资料下载',
   changelog: '更新日志',
 };
 

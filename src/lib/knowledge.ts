@@ -142,6 +142,7 @@ export const TYPE_LABEL: Record<ContentType, string> = {
   tool: '地理工具',
   article: '科普文章',
   learn: '地理学习',
+  resource: '资料下载',
 };
 
 /** 路由 base 映射 */
@@ -150,4 +151,5 @@ export const TYPE_BASE: Record<ContentType, string> = {
   tool: 'tools',
   article: 'articles',
   learn: 'learn',
+  resource: 'downloads',
 };

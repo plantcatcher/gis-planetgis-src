@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, ArrowRight, BookOpen, Rss, History } from 'lucide-react';
+import { Search, ArrowRight, BookOpen, Rss, History, Download } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { SubjectIcon } from '@/lib/subjectIcons';
 
@@ -142,6 +142,15 @@ const HomeSidebar: React.FC<{
             >
               <History className="w-4 h-4 text-primary/80" />
               更新日志
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/downloads"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+            >
+              <Download className="w-4 h-4 text-primary/80" />
+              资料下载
             </Link>
           </li>
         </ul>

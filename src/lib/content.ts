@@ -2,7 +2,7 @@
 // 每个内容文件由 frontmatter（卡片元数据）+ 正文（详情页内容）组成。
 // 无需后端、无需额外依赖，纯前端 + 构建期即可驱动全站。
 
-export type ContentType = 'work' | 'tool' | 'article' | 'learn';
+export type ContentType = 'work' | 'tool' | 'article' | 'learn' | 'resource';
 
 export interface ContentItem {
   slug: string;
@@ -17,6 +17,20 @@ export interface ContentItem {
   subject?: string;
   tags?: string[];
   body: string;
+  /** 资料下载专用：关注公众号后获取的专属验证码（大小写不敏感） */
+  code?: string;
+  /** 资料下载专用：实际下载链接（仅在验证码验证通过后才展示） */
+  download?: string;
+  /** 资料下载专用：文件格式，如 PDF / GeoJSON / ZIP / JPG */
+  format?: string;
+  /** 资料下载专用：文件大小，如 12.4 MB */
+  size?: string;
+  /** 资料下载专用：访问方式。open=直接下载（如地图图片）；gated=需公众号验证码（默认：有 code 即门禁） */
+  access?: 'open' | 'gated';
+  /** 资料下载专用：用户向公众号发送的「专属代码」，用于换取下载验证码（缺省则提示回复资料名） */
+  trigger?: string;
+  /** 资料下载专用：公众号后台配置的额外关键词（中文别名等），与 trigger 等价，半匹配命中。逗号分隔 */
+  keywordAliases?: string[];
 }
 
 interface Frontmatter {
@@ -54,7 +68,7 @@ for (const [path, raw] of Object.entries(rawFiles)) {
   const folder = seg[seg.length - 2]; // works | tools | articles
   const filename = seg[seg.length - 1].replace(/\.md$/, '');
   const type: ContentType =
-    folder === 'works' ? 'work' : folder === 'tools' ? 'tool' : folder === 'learn' ? 'learn' : 'article';
+    folder === 'works' ? 'work' : folder === 'tools' ? 'tool' : folder === 'learn' ? 'learn' : folder === 'downloads' ? 'resource' : 'article';
   items.push({
     slug: data.slug || filename,
     type,
@@ -68,6 +82,13 @@ for (const [path, raw] of Object.entries(rawFiles)) {
     subject: data.subject,
     tags: data.tags ? data.tags.split(',').map((s) => s.trim()).filter(Boolean) : [],
     body: content.trim(),
+    code: data.code,
+    download: data.download,
+    format: data.format,
+    size: data.size,
+    access: data.access as ContentItem['access'],
+    trigger: data.trigger,
+    keywordAliases: data.keywordAliases ? data.keywordAliases.split(',').map((s) => s.trim()).filter(Boolean) : [],
   });
 }
 
@@ -90,6 +111,19 @@ export const getLearns = (): ContentItem[] =>
   items
     .filter((i) => i.type === 'learn')
     .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+// 资料下载板块：按更新时间倒序（最新的在前）
+export const getResources = (): ContentItem[] =>
+  items
+    .filter((i) => i.type === 'resource')
+    .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+/** 资料是否需公众号验证码门禁：显式 gated，或（未标记 open 且带 code）视为门禁 */
+export const isResourceGated = (i: ContentItem): boolean =>
+  i.access === 'gated' || (i.access !== 'open' && !!(i.code && i.code.trim()));
+
+/** 资料是否可直接下载（无需验证码）：地图图片等 */
+export const isResourceOpen = (i: ContentItem): boolean => !isResourceGated(i);
 
 // 地理学习板块的学段（难度）分类，按固定顺序返回，便于列表页生成筛选 tabs。
 const LEARN_LEVEL_ORDER = ['初中地理', '高中地理', '大学地理', '通识地理'];
@@ -183,7 +217,7 @@ export const getChangelogTimeline = (limit = 6): TimelineEntry[] => {
 export const getAllDetailPaths = (): string[] => {
   const paths: string[] = [];
   for (const it of items) {
-    const base = it.type === 'work' ? 'works' : it.type === 'tool' ? 'tools' : it.type === 'learn' ? 'learn' : 'articles';
+    const base = it.type === 'work' ? 'works' : it.type === 'tool' ? 'tools' : it.type === 'learn' ? 'learn' : it.type === 'resource' ? 'downloads' : 'articles';
     paths.push(`/${base}/${it.slug}`);
   }
   if (changelogRaw) paths.push('/changelog');

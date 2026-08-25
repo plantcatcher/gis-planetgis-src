@@ -17,7 +17,6 @@ const DIST = join(ROOT, 'dist');
 const STATIC_PRIORITY = {
   '/': 1.0,
   '/learn': 0.9,
-  '/articles': 0.8,
   '/works': 0.8,
   '/tools': 0.8,
   '/games': 0.8,
@@ -54,7 +53,6 @@ try {
     const isDetail =
       u.startsWith('/works/') ||
       u.startsWith('/tools/') ||
-      u.startsWith('/articles/') ||
       u.startsWith('/learn/') ||
       u.startsWith('/tag/');
     const priority = isDetail ? 0.7 : (STATIC_PRIORITY[u] ?? 0.6);
