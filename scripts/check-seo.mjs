@@ -61,6 +61,25 @@ for (const file of files) {
     }
   }
 
+  // 1b) <title> 必须存在且非空（页面若漏挂 PageMeta，prerender 会 strip 模板 title 后无任何 title）
+  const titleMatch = html.match(/<title>([\s\S]*?)<\/title>/i);
+  const titleText = titleMatch ? titleMatch[1].trim() : '';
+  if (!titleText) {
+    errors.push(`${rel}: 缺少 <title>`);
+  } else if (titleText.length < 5) {
+    errors.push(`${rel}: <title> 过短（${titleText.length} 字符），不利搜索结果展示`);
+  }
+
+  // 1c) <meta name="description"> 必须存在（缺失则由搜索引擎自拼摘要，权重弱）
+  //     缺失为致命错误；偏短（<20）仅警告，避免误伤个别合法短描述。
+  const descMatch = html.match(/<meta\s+name="description"\s+content="([^"]*)"/i);
+  const descText = descMatch ? descMatch[1].trim() : '';
+  if (!descText) {
+    errors.push(`${rel}: 缺少 <meta name="description">`);
+  } else if (descText.length < 20) {
+    warnings.push(`${rel}: description 偏短（${descText.length} 字符），建议 50–160 字符`);
+  }
+
   // 2) body 里必须有真实预渲染 DOM（不能是空壳）
   const rootStart = html.indexOf('<div id="root">');
   if (rootStart === -1) {

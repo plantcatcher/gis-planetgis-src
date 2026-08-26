@@ -40,7 +40,7 @@ const meta: Record<ListingType, { title: string; subtitle: string; base: string 
   },
   subdomain: {
     title: '子站导航',
-    subtitle: '星球小捕手旗下站点与专题，按需跳转。',
+    subtitle: '星球小捕手旗下各主题子站与专题入口，覆盖地理科普、在线工具与社区等不同方向，按需前往。',
     base: 'subdomains',
   },
   learn: {

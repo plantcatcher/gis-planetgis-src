@@ -13,6 +13,10 @@ download: https://downloads.planetgis.cn/book/ziran-dili-xue-4.pdf
 format: PDF
 size: 46.9 MB
 cover: https://blogphoto.planetgis.cn/PicGo/2026-08-26-20260826020016156.png
+author: 伍光和、王乃昂 等 主编
+publisher: 高等教育出版社
+pubYear: 2008
+isbn: 9787040228762
 ---
 
 >  《自然地理学（第四版）》由伍光和、王乃昂等主编，高等教育出版社出版，入选"十一五"国家级规划教材与面向21世纪课程教材，是高校地理科学、资源环境与城乡规划、GIS 等专业自然地理学课程的核心读本。

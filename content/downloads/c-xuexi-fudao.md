@@ -13,6 +13,10 @@ download: https://downloads.planetgis.cn/book/c-xuexi-fudao.pdf
 format: PDF
 size: 13.7 MB
 cover: https://blogphoto.planetgis.cn/PicGo/2026-08-26-031939-04.jpeg
+author: 谭浩强 著
+publisher: 清华大学出版社
+pubYear: 2010
+isbn: 9787302226727
 ---
 
 > 《C程序设计（第四版）学习辅导》是谭浩强先生经典教材《C程序设计（第四版）》的官方配套辅导用书，由清华大学出版社出版，与主线教材同步，帮助读者在学完每一章后及时巩固、查漏补缺。

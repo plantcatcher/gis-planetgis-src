@@ -13,6 +13,10 @@ download: https://downloads.planetgis.cn/book/renwen-dili-xue-2.pdf
 format: PDF
 size: 35.7 MB
 cover: https://blogphoto.planetgis.cn/PicGo/2026-08-26-20260826015552315.png
+author: 赵荣、王恩涌 等 编著
+publisher: 高等教育出版社
+pubYear: 2006
+isbn: 7040177978
 ---
 
 > 《人文地理学（第二版）》是赵荣、王恩涌等编著的地理学经典教材，由高等教育出版社出版，入选"十一五"国家级规划教材与面向21世纪课程教材，是高校地理科学、资源环境与城乡规划、GIS 等专业人文地理学课程的核心读本。

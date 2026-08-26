@@ -25,6 +25,15 @@ export interface ContentItem {
   format?: string;
   /** 资料下载专用：文件大小，如 12.4 MB */
   size?: string;
+  /** 资料下载专用：图书出版信息（书籍类资料使用） */
+  /** 作者 / 主编，如「赵英时 主编」 */
+  author?: string;
+  /** 出版社，如「科学出版社」 */
+  publisher?: string;
+  /** ISBN 书号，如 9787030108132 */
+  isbn?: string;
+  /** 出版年份，如 2003 */
+  pubYear?: string;
   /** 资料下载专用：访问方式。open=直接下载（如地图图片）；gated=需公众号验证码（默认：有 code 即门禁） */
   access?: 'open' | 'gated';
   /** 资料下载专用：用户向公众号发送的「专属代码」，用于换取下载验证码（缺省则提示回复资料名） */
@@ -86,6 +95,10 @@ for (const [path, raw] of Object.entries(rawFiles)) {
     download: data.download,
     format: data.format,
     size: data.size,
+    author: data.author,
+    publisher: data.publisher,
+    isbn: data.isbn,
+    pubYear: data.pubYear,
     access: data.access as ContentItem['access'],
     trigger: data.trigger,
     keywordAliases: data.keywordAliases ? data.keywordAliases.split(',').map((s) => s.trim()).filter(Boolean) : [],

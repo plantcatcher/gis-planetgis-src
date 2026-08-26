@@ -13,6 +13,10 @@ download: https://downloads.planetgis.cn/book/yaogan-yingyong-fenxi.pdf
 format: PDF
 size: 19.7 MB
 cover: https://blogphoto.planetgis.cn/PicGo/2026-08-26-20260826052459021.png
+author: 赵英时 主编
+publisher: 科学出版社
+pubYear: 2003
+isbn: 7030111281
 ---
 
 > 《遥感应用分析原理与方法》是遥感领域的权威教材，由赵英时主编、科学出版社出版，长期被高校遥感与 GIS 相关专业用作研究生与高年级本科教材。
