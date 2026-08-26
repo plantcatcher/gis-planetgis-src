@@ -12,7 +12,7 @@ export default function Changelog() {
   return (
     <article className="changelog-page max-w-3xl mx-auto px-4 pt-20 md:pt-24 pb-12 md:pb-16">
       <PageMeta
-        title="更新日志"
+        title="星球小捕手 · 站点动态与更新日志"
         description={changelog.summary || '星球小捕手网站的功能更新、内容上新与产品规划记录。'}
         canonical="https://planetgis.cn/changelog"
       />
