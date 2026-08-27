@@ -182,14 +182,23 @@ export const getItem = (type: ContentType, slug: string): ContentItem | undefine
 
 // 同类型内的相关推荐（用于详情页内部互链，利于 SEO / AdSense）。
 // 优先返回同分类条目，不足时再用其他条目补齐。
-export const getRelated = (type: ContentType, slug: string, limit = 3): ContentItem[] => {
+export const getRelated = (type: ContentType, slug: string, limit = 6): ContentItem[] => {
   const current = getItem(type, slug);
   const others = items.filter((i) => i.type === type && i.slug !== slug);
-  if (!current?.category) return others.slice(0, limit);
-  const sameCat = others.filter((i) => i.category === current.category);
-  if (sameCat.length >= limit) return sameCat.slice(0, limit);
-  const rest = others.filter((i) => i.category !== current.category);
-  return [...sameCat, ...rest].slice(0, limit);
+  if (!current) return others.slice(0, limit);
+  const curTags = new Set(current.tags || []);
+  // 相关性打分：同分类权重高，标签重合越多越相关。
+  const score = (i: ContentItem): number => {
+    let s = 0;
+    if (i.category === current.category) s += 10;
+    for (const t of i.tags || []) if (curTags.has(t)) s += 1;
+    return s;
+  };
+  return others
+    .map((i) => ({ i, s: score(i) }))
+    .sort((a, b) => b.s - a.s || a.i.title.localeCompare(b.i.title, 'zh'))
+    .slice(0, limit)
+    .map((x) => x.i);
 };
 
 // 更新日志：content/changelog.md 单文件

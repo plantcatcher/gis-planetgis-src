@@ -389,7 +389,7 @@ const ResourceGrid = () => {
     () => getTags().filter((t) => all.some((i) => (i.tags || []).includes(t.tag))).slice(0, 14),
     [all],
   );
-  // 资料类型（category）聚合，用于左侧筛选栏；缺省归为「未分类」。
+  // 资料类型（category）聚合，用于右侧筛选栏；缺省归为「未分类」。
   const categories = useMemo(() => {
     const map = new Map<string, number>();
     for (const r of all) {
@@ -409,9 +409,9 @@ const ResourceGrid = () => {
   }
 
   return (
-    <div className="lg:grid lg:grid-cols-[236px_1fr] lg:gap-8">
-      {/* 左侧筛选栏：按资料类型 */}
-      <aside className="lg:sticky lg:top-24 self-start space-y-6 mb-8 lg:mb-0">
+    <div className="lg:grid lg:grid-cols-[1fr_236px] lg:gap-8">
+      {/* 右侧筛选栏：按资料类型 */}
+      <aside className="lg:sticky lg:top-24 self-start space-y-6 mb-8 lg:mb-0 lg:order-2">
         <div>
           <SectionLabel className="mb-3">资料类型</SectionLabel>
           <div className="space-y-1">
@@ -423,7 +423,7 @@ const ResourceGrid = () => {
                   key={name}
                   type="button"
                   onClick={() => setActiveCategory(name)}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-colors ${
                     active ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-muted text-muted-foreground'
                   }`}
                 >
@@ -434,46 +434,50 @@ const ResourceGrid = () => {
             })}
           </div>
         </div>
+        <div>
+          <SectionLabel className="mb-3">标签</SectionLabel>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => { setActiveTag(null); setSearchParams({}, { replace: true }); }}
+              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                activeTag === null
+                  ? 'bg-primary text-white'
+                  : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
+              }`}
+            >
+              全部
+            </button>
+            {tags.map((t) => (
+              <button
+                key={t.tag}
+                type="button"
+                onClick={() => { setActiveTag(t.tag); setSearchParams({ tag: t.tag }); }}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                  activeTag === t.tag
+                    ? 'bg-primary text-white'
+                    : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
+                }`}
+              >
+                #{t.tag} <span className="ml-1 text-xs opacity-70">{t.count}</span>
+              </button>
+            ))}
+          </div>
+        </div>
       </aside>
 
       {/* 主区 */}
-      <div>
+      <div className="lg:order-1">
         <div className="relative mb-4 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="搜索资料名称、说明或标签…"
-            className="pl-9 rounded-full"
+            className="pl-9 rounded-full text-xs"
           />
         </div>
-        <div className="flex flex-wrap gap-2 mb-6">
-          <button
-            type="button"
-            onClick={() => { setActiveTag(null); setSearchParams({}, { replace: true }); }}
-            className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-              activeTag === null
-                ? 'bg-primary text-white'
-                : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
-            }`}
-          >
-            全部
-          </button>
-          {tags.map((t) => (
-            <button
-              key={t.tag}
-              type="button"
-              onClick={() => { setActiveTag(t.tag); setSearchParams({ tag: t.tag }); }}
-              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                activeTag === t.tag
-                  ? 'bg-primary text-white'
-                  : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
-              }`}
-            >
-              #{t.tag} <span className="ml-1 text-xs opacity-70">{t.count}</span>
-            </button>
-          ))}
-        </div>
+        {/* 标签筛选已移至右侧栏（资料类型下方） */}
 
         {/* 访问方式筛选：直接下载 / 需验证码 */}
         <div className="flex flex-wrap gap-2 mb-5">
@@ -482,7 +486,7 @@ const ResourceGrid = () => {
               key={key}
               type="button"
               onClick={() => setActiveAccess(key)}
-              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
                 activeAccess === key
                   ? 'bg-primary text-white'
                   : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
@@ -494,7 +498,7 @@ const ResourceGrid = () => {
         </div>
 
         <div className="flex items-center justify-between gap-3 mb-5">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-xs text-muted-foreground">
             共 <span className="font-semibold text-foreground">{list.length}</span> 份资料
             {activeCategory !== '全部' && ` · ${activeCategory}`}
             {activeAccess === 'open' && ' · 直接下载'}
@@ -524,7 +528,7 @@ const ResourceGrid = () => {
         {list.length === 0 ? (
           <p className="text-muted-foreground">没有匹配的资料，换个筛选条件试试。</p>
         ) : view === 'grid' ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {list.map((r, i) => (
               <CardAnim key={r.slug} delay={i * 0.05}>
                 <Link
@@ -532,16 +536,16 @@ const ResourceGrid = () => {
                   className="group flex flex-col overflow-hidden rounded-xl bg-background border border-border hover:border-primary/40 hover:shadow-lg transition-all duration-300 h-full"
                 >
                   <ResourceCover item={r} className="aspect-[3/4]" />
-                  <div className="flex flex-col flex-1 p-5">
+                  <div className="flex flex-col flex-1 p-4">
                     <div className="flex items-center gap-2 mb-2 flex-wrap">
                       <Badges item={r} />
                     </div>
-                    <h3 className="font-serif text-lg font-semibold leading-snug line-clamp-2 group-hover:text-primary transition-colors">
+                    <h3 className="font-serif text-base font-semibold leading-snug line-clamp-2 group-hover:text-primary transition-colors">
                       {r.title}
                     </h3>
                     <div className="mt-2 h-px w-8 bg-primary/40 group-hover:w-14 transition-all" />
-                    <p className="mt-3 text-sm text-muted-foreground line-clamp-3 leading-relaxed">{r.summary}</p>
-                    <div className="mt-auto pt-4 flex items-center gap-3 text-xs text-muted-foreground">
+                    <p className="mt-2 text-sm text-muted-foreground line-clamp-2 leading-relaxed">{r.summary}</p>
+                    <div className="mt-auto pt-3 flex items-center gap-3 text-xs text-muted-foreground">
                       {r.date && <span className="inline-flex items-center gap-1"><Calendar className="w-3.5 h-3.5" />{r.date}</span>}
                       {r.size && <span>· {r.size}</span>}
                     </div>
@@ -551,19 +555,19 @@ const ResourceGrid = () => {
             ))}
           </div>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-2">
             {list.map((r, i) => (
               <CardAnim key={r.slug} delay={i * 0.04}>
                 <Link
                   to={`/downloads/${r.slug}`}
-                  className="group flex gap-4 p-3 rounded-xl bg-background border border-border hover:border-primary/40 hover:shadow-md transition-all duration-300 h-full"
+                  className="group flex gap-3 p-2.5 rounded-xl bg-background border border-border hover:border-primary/40 hover:shadow-md transition-all duration-300 h-full"
                 >
-                  <ResourceCover item={r} className="w-28 sm:w-36 aspect-[3/4] rounded-lg shrink-0" />
+                  <ResourceCover item={r} className="w-20 sm:w-28 aspect-[3/4] rounded-lg shrink-0" />
                   <div className="flex flex-col flex-1 min-w-0 py-0.5">
                     <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                       <Badges item={r} />
                     </div>
-                    <h3 className="font-serif text-base font-semibold leading-snug line-clamp-1 group-hover:text-primary transition-colors">
+                    <h3 className="font-serif text-sm font-semibold leading-snug line-clamp-1 group-hover:text-primary transition-colors">
                       {r.title}
                     </h3>
                     <p className="mt-1.5 text-sm text-muted-foreground line-clamp-2 leading-relaxed">{r.summary}</p>
@@ -597,11 +601,11 @@ const Listing: React.FC<{ type: ListingType }> = ({ type }) => {
           <header className="mb-10">
             <p className="kicker mb-3">{type === 'learn' ? '自助知识库' : type === 'work' ? '可视化作品' : type === 'tool' ? '在线工具' : type === 'resource' ? '资料合集' : '站点导航'}</p>
             <div className="flex items-end gap-4">
-              <h1 className="text-3xl md:text-4xl font-bold tracking-tight">{m.title}</h1>
+              <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{m.title}</h1>
               <div className="flex-1 h-[2px] bg-gradient-to-r from-primary/50 to-transparent mb-2" />
             </div>
             <div className="mt-3 h-1 w-14 bg-primary rounded-full" />
-            <p className="mt-4 text-base text-muted-foreground leading-relaxed max-w-2xl">{m.subtitle}</p>
+            <p className="mt-4 text-sm text-muted-foreground leading-relaxed max-w-2xl">{m.subtitle}</p>
           </header>
 
           {type === 'work' && <WorkGrid />}

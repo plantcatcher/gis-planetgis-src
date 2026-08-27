@@ -71,7 +71,7 @@ const ResourceDetail: React.FC = () => {
 
   const gated = isResourceGated(item);
   const correct = (item.code || '').trim().toLowerCase();
-  const related = getRelated('resource', item.slug, 3);
+  const related = getRelated('resource', item.slug, 6);
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -298,30 +298,64 @@ const ResourceDetail: React.FC = () => {
 
         {related.length > 0 && (
           <section className="mt-12 pt-8 border-t border-border/50">
-            <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-              <ArrowRight className="w-5 h-5 text-primary" />
-              相关资料
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+            <div className="flex items-end justify-between gap-4 mb-2 flex-wrap">
+              <h2 className="text-xl font-bold flex items-center gap-2">
+                <ArrowRight className="w-5 h-5 text-primary" />
+                相关资料
+              </h2>
+              <Link
+                to="/downloads"
+                className="text-sm text-primary font-medium hover:underline inline-flex items-center gap-1"
+              >
+                查看全部资料
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+            <p className="text-sm text-muted-foreground mb-6">
+              更多地理教材与学习资料，点击卡片即可查看详情并下载。
+            </p>
+            <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 sm:gap-3">
               {related.map((r) => (
                 <Link
                   key={r.slug}
                   to={`/downloads/${r.slug}`}
-                  className="group flex items-center gap-2 px-3 py-2 rounded-lg bg-muted/40 hover:bg-muted border border-transparent hover:border-primary/30 transition-all"
+                  className="group flex flex-col rounded-xl border border-border/60 bg-muted/30 overflow-hidden hover:border-primary/40 hover:shadow-md transition-all"
                 >
-                  <ArrowRight className="w-3.5 h-3.5 shrink-0 text-muted-foreground group-hover:text-primary transition-colors" />
-                  <span className="text-sm font-medium group-hover:text-primary transition-colors line-clamp-2 flex-1 min-w-0">
-                    {r.title}
-                  </span>
-                  <span
-                    className={`shrink-0 text-[11px] px-1.5 py-0.5 rounded-full ${
-                      isResourceGated(r)
-                        ? 'bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400'
-                        : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400'
-                    }`}
-                  >
-                    {isResourceGated(r) ? '需验证码' : '直接下载'}
-                  </span>
+                  <div className="relative aspect-[3/4] overflow-hidden bg-muted/40">
+                    {r.cover ? (
+                      <img
+                        src={r.cover}
+                        alt={r.title}
+                        loading="lazy"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-xs text-muted-foreground p-3 text-center">
+                        {r.title}
+                      </div>
+                    )}
+                    <span
+                      className={`absolute top-2 right-2 text-[11px] px-2 py-0.5 rounded-full font-medium ${
+                        isResourceGated(r)
+                          ? 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300'
+                          : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300'
+                      }`}
+                    >
+                      {isResourceGated(r) ? '需验证码' : '直接下载'}
+                    </span>
+                  </div>
+                  <div className="p-2 flex flex-col gap-0.5">
+                    <span className="text-xs font-semibold leading-snug line-clamp-2 group-hover:text-primary transition-colors">
+                      {r.title}
+                    </span>
+                    {r.author && (
+                      <span className="text-xs text-muted-foreground line-clamp-1">{r.author}</span>
+                    )}
+                    <span className="mt-0.5 text-xs text-primary font-medium inline-flex items-center gap-1">
+                      查看下载
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                    </span>
+                  </div>
                 </Link>
               ))}
             </div>
