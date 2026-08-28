@@ -17,6 +17,10 @@ const WECHAT_OFFICIAL = '那山那海那座城';
 // 线上地址即 https://planetgis.cn/wechat-official-qr.jpg（站点根相对绝对路径，任意路由层级均可加载）。
 const WECHAT_QR = '/wechat-official-qr.jpg';
 
+// ── 版权声明：每个资料详情页底部统一展示（改这一处即可全局生效） ──────────────
+const COPYRIGHT_NOTICE =
+  '声明：本站收集的教材来源于网络，所有版权都归出版社所有。本站尊重并保护知识产权，根据《信息网络传播权保护条例》，如我们转载或引用的作品侵犯了您的权利,请在一个月内通知我们，我们会及时删除!';
+
 const unlockKey = (slug: string) => `planetgis:unlock:${slug}`;
 
 // 资料的结构化数据：DataDownload，携带标题/描述/格式/大小/下载地址，利于搜索引擎理解。
@@ -361,6 +365,11 @@ const ResourceDetail: React.FC = () => {
             </div>
           </section>
         )}
+
+        {/* ── 版权声明：资料页统一展示，新增资料无需逐个 md 手写 ── */}
+        <p className="mt-10 pt-6 border-t border-border/50 text-xs leading-relaxed text-muted-foreground">
+          {COPYRIGHT_NOTICE}
+        </p>
       </div>
     </>
   );
