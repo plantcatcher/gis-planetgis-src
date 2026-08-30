@@ -5,12 +5,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Github, Youtube, MessageCircle, Instagram, Rss, ArrowRight, ExternalLink, Globe, Compass, Box, Share2, Calendar, Lightbulb, Newspaper, Download, Lock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { getWorks, getTools, getLearns, getResources, getChangelogTimeline, getLearnSubjects, isResourceGated } from '@/lib/content';
-import { getSubjectStats } from '@/lib/knowledge';
 import HomeSidebar, { useScrollSpy } from '@/components/home/HomeSidebar';
 import subdomainsData from '@/data/subdomains.json';
 import PageMeta from '@/components/common/PageMeta';
 import { useJsonLd } from '@/lib/seo';
-import KnowledgeMap from '@/components/knowledge/KnowledgeMap';
+import KnowledgeCard from '@/components/knowledge/KnowledgeCard';
 import SectionLabel from '@/components/knowledge/SectionLabel';
 
 const iconMap: Record<string, any> = {
@@ -498,7 +497,13 @@ const Home = () => {
               }
               className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
             >
-            <KnowledgeMap stats={getSubjectStats()} className="mb-0" />
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+              {getLearns().slice(0, 6).map((item, i) => (
+                <CardAnim key={item.slug} delay={i * 0.05}>
+                  <KnowledgeCard item={item} />
+                </CardAnim>
+              ))}
+            </div>
           </SectionWrapper>
         </>
       );
