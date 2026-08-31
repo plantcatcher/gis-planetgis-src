@@ -7,7 +7,7 @@ category: 地理教程
 tags: 城市地理学, 地理, 许学强, 周一星, 宁越敏, 周春山, 高等教育出版社, 教材, 城市化, 城市体系, 城市内部空间, 第三版, 城市增长管理, 城市产业空间, 新型城镇化
 access: gated
 trigger: cheng-shi-di-li-xue-3
-keywordAliases: 城市地理学第三版, 城市地理学
+keywordAliases: 城市地理学第三版, 城市地理学第3版
 code: NSH-CS-003
 download: https://downloads.planetgis.cn/book/cheng-shi-di-li-xue-3.pdf
 format: PDF
