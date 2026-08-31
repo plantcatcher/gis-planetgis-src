@@ -61,14 +61,19 @@ const ResourceDetail: React.FC = () => {
 
   const item = slug ? getItem('resource', slug) : undefined;
 
-  // 进入页面时：若本会话已解锁过，直接放行（避免返回时重复输入）。
+  // 进入页面（含切换资料）时：按当前 slug 的专属 key 同步解锁状态。
+  // 必须显式归位：否则从已解锁的 A 切到未解锁的 B 时，unlocked 会残留为 true。
   useEffect(() => {
     if (!slug) return;
+    let unlockedNow = false;
     try {
-      if (sessionStorage.getItem(unlockKey(slug)) === '1') setUnlocked(true);
+      unlockedNow = sessionStorage.getItem(unlockKey(slug)) === '1';
     } catch {
-      /* sessionStorage 不可用时忽略 */
+      /* sessionStorage 不可用时视为未解锁 */
     }
+    setUnlocked(unlockedNow);
+    setCode('');
+    setError(false);
   }, [slug]);
 
   if (!item) return <NotFound />;
