@@ -7,6 +7,7 @@ import { buildContentKey } from '@/services/learningService';
 import LearningTracker from '@/components/learning/LearningTracker';
 import FavoriteButton from '@/components/learning/FavoriteButton';
 import { useJsonLd } from '@/lib/seo';
+import { useImageLightbox, ImageLightbox } from '@/components/common/ImageLightbox';
 import NotFound from './NotFound';
 import { ArrowRight } from 'lucide-react';
 import FactBox from '@/components/knowledge/FactBox';
@@ -63,6 +64,7 @@ const ArticleJsonLd: React.FC<{ item: ContentItem; type: ContentType }> = ({ ite
 
 export default function ContentDetail({ type }: Props) {
   const { slug } = useParams();
+  const { lightbox, onImageClick, closeLightbox, navLightbox } = useImageLightbox();
   const item = slug ? getItem(type, slug) : undefined;
 
   if (!item) return <NotFound />;
@@ -121,7 +123,8 @@ export default function ContentDetail({ type }: Props) {
         <img
           src={item.cover}
           alt={item.title}
-          className="w-full rounded-2xl mb-8 object-cover max-h-[520px]"
+          onClick={onImageClick}
+          className="w-full rounded-2xl mb-8 object-cover max-h-[520px] cursor-zoom-in"
         />
       )}
 
@@ -131,8 +134,10 @@ export default function ContentDetail({ type }: Props) {
 
       <div
         className="md-body"
+        onClick={onImageClick}
         dangerouslySetInnerHTML={{ __html: renderMarkdown(item.body) }}
       />
+      <ImageLightbox state={lightbox} onClose={closeLightbox} onNav={navLightbox} />
 
       {item.tags && item.tags.length > 0 && (
         <div className="mt-8 flex flex-wrap gap-2">

@@ -216,6 +216,38 @@ h1, h2, h3, .font-serif {
 .md-body img {
   border-radius: 0.75rem;
   max-width: 100%;
+  cursor: zoom-in; /* 详情页正文图片可点击放大（ImageLightbox） */
+}
+/* 灯箱图片切换淡入 */
+@keyframes lightboxFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+/* 内页截图小图网格：竖屏 PDF 页缩小后多行排列 */
+.md-body .shot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+.md-body .shot-grid img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  border: 1px solid hsl(var(--border));
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.md-body .shot-grid img:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px hsl(var(--foreground) / 0.12);
 }
 .md-body hr {
   border: none;

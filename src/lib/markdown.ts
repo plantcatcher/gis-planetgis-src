@@ -107,6 +107,23 @@ export function renderMarkdown(md: string): string {
       continue;
     }
 
+    // 原生 <div> 块：用于截图网格等需要自定义 HTML 结构的场景。
+    // 内容原样输出，不做二次 markdown 解析。
+    if (/^\s*<div\b/.test(line)) {
+      closeList();
+      const buf: string[] = [];
+      let depth = 1;
+      while (i < lines.length && depth > 0) {
+        const cur = lines[i];
+        if (/^\s*<div\b/.test(cur)) depth++;
+        if (/^\s*<\/div>\s*$/.test(cur)) depth--;
+        buf.push(cur);
+        i++;
+      }
+      html.push(buf.join('\n'));
+      continue;
+    }
+
     // 标题
     const h = line.match(/^(#{1,4})\s+(.*)$/);
     if (h) {

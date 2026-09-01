@@ -4,8 +4,10 @@ import { Download, Lock, CheckCircle2, Calendar, ArrowRight, Tag, QrCode } from 
 import Breadcrumb from '@/components/common/Breadcrumb';
 import PageMeta from '@/components/common/PageMeta';
 import { getItem, getRelated, isResourceGated, type ContentItem } from '@/lib/content';
+import { recordDownload } from '@/services/learningService';
 import { renderMarkdown } from '@/lib/markdown';
 import { useJsonLd } from '@/lib/seo';
+import { useImageLightbox, ImageLightbox } from '@/components/common/ImageLightbox';
 import NotFound from './NotFound';
 
 // ── 公众号信息（板牙按需修改） ─────────────────────────────────────────────
@@ -46,6 +48,15 @@ const DownloadPanel: React.FC<{ item: ContentItem }> = ({ item }) => (
     target="_blank"
     rel="noreferrer"
     download
+    onClick={() =>
+      recordDownload({
+        slug: item.slug,
+        title: item.title,
+        format: item.format,
+        size: item.size,
+        category: item.category,
+      })
+    }
     className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-semibold hover:opacity-90 transition-opacity"
   >
     <Download className="w-5 h-5" />
@@ -58,6 +69,7 @@ const ResourceDetail: React.FC = () => {
   const [code, setCode] = useState('');
   const [unlocked, setUnlocked] = useState(false);
   const [error, setError] = useState(false);
+  const { lightbox, onImageClick, closeLightbox, navLightbox } = useImageLightbox();
 
   const item = slug ? getItem('resource', slug) : undefined;
 
@@ -119,12 +131,13 @@ const ResourceDetail: React.FC = () => {
         <div className="md:grid md:grid-cols-[280px_minmax(0,1fr)] md:gap-8 md:items-start">
           {/* ── 左栏：资料基本信息侧栏（桌面端 sticky 跟随滚动） ── */}
           <aside className="md:sticky md:top-24 mb-8 md:mb-0">
-            {/* 封面 */}
+            {/* 封面（点击放大） */}
             {item.cover ? (
               <img
                 src={item.cover}
                 alt={item.title}
-                className="w-full aspect-[3/4] object-cover rounded-2xl border border-border/60 mb-5"
+                onClick={onImageClick}
+                className="w-full aspect-[3/4] object-cover rounded-2xl border border-border/60 mb-5 cursor-zoom-in hover:shadow-md transition-shadow"
               />
             ) : (
               <div className="w-full aspect-[3/4] rounded-2xl bg-muted/50 border border-border/60 mb-5 flex items-center justify-center text-sm text-muted-foreground">
@@ -214,11 +227,13 @@ const ResourceDetail: React.FC = () => {
               <h1 className="text-2xl md:text-3xl font-bold mb-4 leading-tight tracking-tight">{item.title}</h1>
             </header>
 
-            {/* 资料说明正文（预渲染，保证 SEO 正文完整） */}
+            {/* 资料说明正文（预渲染，保证 SEO 正文完整；点击图片放大） */}
             <div
               className="md-body"
+              onClick={onImageClick}
               dangerouslySetInnerHTML={{ __html: renderMarkdown(item.body) }}
             />
+            <ImageLightbox state={lightbox} onClose={closeLightbox} onNav={navLightbox} />
 
             {/* ── 下载区：地图类直接下载，文件类走公众号验证码门禁 ── */}
             <section className="mt-10 p-6 rounded-2xl bg-primary/5 border border-primary/15">
