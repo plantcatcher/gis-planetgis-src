@@ -17,13 +17,15 @@ import {
   Clock,
   CheckCircle2,
   Puzzle,
+  Download,
 } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import SectionLabel from '@/components/knowledge/SectionLabel';
 import { Progress } from '@/components/ui/progress';
 import { useLearningData } from '@/hooks/useLearning';
-import { getDashboard, keyToPath, type DashboardEntry } from '@/services/learningService';
+import { getDashboard, keyToPath, type DashboardEntry, type DownloadRecord } from '@/services/learningService';
+import { getItem } from '@/lib/content';
 
 // 卡片入场动画：initial 保持 opacity:1，确保 SSG 静态 HTML 中文本天生可见。
 const CardAnim: React.FC<{ children: React.ReactNode; delay?: number }> = ({ children, delay = 0 }) => (
@@ -174,6 +176,45 @@ function ContentRow({ entry }: { entry: DashboardEntry }) {
   );
 }
 
+function DownloadRow({ rec }: { rec: DownloadRecord }) {
+  const path = `/downloads/${rec.slug}`;
+  const item = getItem('resource', rec.slug);
+  const inner = (
+    <div className="flex items-center gap-3 p-2.5 rounded-xl bg-muted/40 hover:bg-muted border border-transparent hover:border-primary/30 transition-all">
+      <div className="shrink-0 w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+        <Download className="w-4 h-4" />
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="text-sm font-medium truncate">{rec.title}</div>
+        <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-muted-foreground">
+          {rec.format && <span>{rec.format}</span>}
+          {rec.size && <span>· {rec.size}</span>}
+          {rec.category && <span className="text-primary/70">· {rec.category}</span>}
+          <span className="inline-flex items-center gap-1">
+            <Clock className="w-3 h-3" />
+            {new Date(rec.downloadedAt).toLocaleDateString('zh-CN')}
+          </span>
+        </div>
+      </div>
+      {item?.cover && (
+        <img
+          src={item.cover}
+          alt={rec.title}
+          className="hidden sm:block shrink-0 w-9 h-12 object-cover rounded-md border border-border/50"
+          loading="lazy"
+        />
+      )}
+      <ArrowRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+    </div>
+  );
+
+  return (
+    <Link to={path} className="group block" aria-label={`查看 ${rec.title} 下载页`}>
+      {inner}
+    </Link>
+  );
+}
+
 function EmptyHint({ text, to, cta }: { text: string; to?: string; cta?: string }) {
   return (
     <div className="text-center py-10 px-4 rounded-2xl border border-dashed border-border/60 bg-muted/30">
@@ -223,11 +264,11 @@ const MyLearning: React.FC = () => {
   const data = useLearningData();
   const dash = useMemo(() => getDashboard(), [data]);
 
-  const { summary, recent, favorites, completed, quizzes, games } = dash;
+  const { summary, recent, favorites, completed, quizzes, games, downloads } = dash;
 
   // 首访（全空）时显示统一引导卡，取代零散空态；SSG 与 CSR 首帧都基于默认空态渲染，hydration 一致。
   const isFresh =
-    recent.length + favorites.length + completed.length + quizzes.length + games.length === 0;
+    recent.length + favorites.length + completed.length + quizzes.length + games.length + downloads.length === 0;
 
   const scrollTo = (id: string) => {
     if (typeof document === 'undefined') return;
@@ -361,6 +402,20 @@ const MyLearning: React.FC = () => {
                     {completed.map((entry, i) => (
                       <CardAnim key={entry.key} delay={i * 0.03}>
                         <ContentRow entry={entry} />
+                      </CardAnim>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {/* 学习足迹：下载记录 */}
+              {downloads.length > 0 && (
+                <section id="section-downloads" className="mb-8 scroll-mt-24">
+                  <SectionLabel className="mb-4">下载记录</SectionLabel>
+                  <div className="space-y-2">
+                    {downloads.map((rec, i) => (
+                      <CardAnim key={rec.slug} delay={i * 0.03}>
+                        <DownloadRow rec={rec} />
                       </CardAnim>
                     ))}
                   </div>

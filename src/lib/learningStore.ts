@@ -73,6 +73,21 @@ export interface Achievement {
   unlockedAt: string;
 }
 
+export interface DownloadRecord {
+  /** 资料 slug（资料详情页路径 /downloads/<slug>） */
+  slug: string;
+  /** 资料标题（冗余存储，便于离线/资料被删后仍可读） */
+  title: string;
+  /** 文件格式，如 PDF / GeoJSON / ZIP */
+  format?: string;
+  /** 文件大小，如 12.4 MB */
+  size?: string;
+  /** 资料分类，如 高中地理 / 地理教程 */
+  category?: string;
+  /** 最近一次下载时间戳（ISO 字符串） */
+  downloadedAt: string;
+}
+
 export interface LearningData {
   version: number;
   profile: {
@@ -93,6 +108,7 @@ export interface LearningData {
   };
   quizzes: { records: QuizRecord[] };
   games: { records: GameRecord[] };
+  downloads: { records: DownloadRecord[] };
   achievements: Achievement[];
 }
 
@@ -104,6 +120,9 @@ export const MAX_RECENT = 12;
 
 /** 游戏成绩保留条数 */
 const MAX_GAME_RECORDS = 100;
+
+/** 资料下载记录保留条数 */
+export const MAX_DOWNLOAD_RECORDS = 200;
 
 /** geoshape 累计成绩存储键（打包产物写入，不可改源码） */
 const GEOSHAPE_KEY = 'geoshape:v1';
@@ -125,6 +144,7 @@ function createEmptyData(): LearningData {
     },
     quizzes: { records: [] },
     games: { records: [] },
+    downloads: { records: [] },
     achievements: [],
   };
 }
@@ -173,6 +193,7 @@ function mergeWithDefault(partial: Partial<LearningData>): LearningData {
     },
     quizzes: { records: partial.quizzes?.records || [] },
     games: { records: partial.games?.records || [] },
+    downloads: { records: partial.downloads?.records || [] },
     achievements: partial.achievements || [],
   };
 }

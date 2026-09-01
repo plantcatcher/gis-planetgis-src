@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Search, ArrowRight, BookOpen, Rss, History, Download } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { SubjectIcon } from '@/lib/subjectIcons';
+import HotBadge from '@/components/common/HotBadge';
 
 export interface SidebarNavItem {
   id: string;
@@ -151,6 +152,7 @@ const HomeSidebar: React.FC<{
             >
               <Download className="w-4 h-4 text-primary/80" />
               资料下载
+              <HotBadge className="ml-auto" />
             </Link>
           </li>
         </ul>

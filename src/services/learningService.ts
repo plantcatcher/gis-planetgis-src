@@ -16,7 +16,9 @@ import {
   type QuizRecord,
   type GameRecord,
   type Achievement,
+  type DownloadRecord,
   MAX_RECENT,
+  MAX_DOWNLOAD_RECORDS,
   getSnapshot,
   update,
 } from '@/lib/learningStore';
@@ -216,6 +218,33 @@ export function getRecent(): RecentItem[] {
   return getSnapshot().learning.recentlyViewed;
 }
 
+// -----------------------------------------------------------------------------
+// 资料下载记录：用户点击下载资料时调用，记录「下载了什么」
+// 同 slug 仅保留一条，更新最近下载时间；便于「我的学习」展示下载足迹。
+// -----------------------------------------------------------------------------
+
+export function recordDownload(rec: {
+  slug: string;
+  title: string;
+  format?: string;
+  size?: string;
+  category?: string;
+}): void {
+  const now = new Date().toISOString();
+  update((data) => {
+    const recs = data.downloads.records;
+    const idx = recs.findIndex((r) => r.slug === rec.slug);
+    let nextRecs: DownloadRecord[];
+    if (idx >= 0) {
+      nextRecs = [...recs];
+      nextRecs[idx] = { ...nextRecs[idx], ...rec, downloadedAt: now };
+    } else {
+      nextRecs = [{ ...rec, downloadedAt: now }, ...recs].slice(0, MAX_DOWNLOAD_RECORDS);
+    }
+    return { ...data, downloads: { records: nextRecs } };
+  });
+}
+
 function touchRecent(list: RecentItem[], key: string, now: string): RecentItem[] {
   const filtered = list.filter((r) => r.contentId !== key);
   return [{ contentId: key, viewedAt: now }, ...filtered].slice(0, MAX_RECENT);
@@ -238,12 +267,14 @@ export interface Dashboard {
     streak: number;
     lastQuizScore: number | null;
     totalReadSeconds: number;
+    downloadCount: number;
   };
   recent: DashboardEntry[];
   favorites: DashboardEntry[];
   completed: DashboardEntry[];
   quizzes: QuizRecord[];
   games: GameRecord[];
+  downloads: DownloadRecord[];
 }
 
 function toEntries(keys: string[]): DashboardEntry[] {
@@ -285,6 +316,7 @@ export function getDashboard(): Dashboard {
       streak: computeStreak(data.profile.activeDates),
       lastQuizScore: lastQuiz,
       totalReadSeconds,
+      downloadCount: data.downloads.records.length,
     },
     recent,
     favorites: favEntries,
@@ -294,6 +326,9 @@ export function getDashboard(): Dashboard {
     ),
     games: [...data.games.records].sort(
       (a, b) => new Date(b.takenAt).getTime() - new Date(a.takenAt).getTime(),
+    ),
+    downloads: [...data.downloads.records].sort(
+      (a, b) => new Date(b.downloadedAt).getTime() - new Date(a.downloadedAt).getTime(),
     ),
   };
 }
@@ -310,4 +345,4 @@ export function getBackend(): LearningBackend {
 }
 
 // 断言类型再导出，方便 UI 用类型
-export type { LearningData, Achievement };
+export type { LearningData, Achievement, DownloadRecord };

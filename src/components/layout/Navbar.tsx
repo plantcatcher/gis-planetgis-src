@@ -4,14 +4,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { Menu, X, User } from 'lucide-react';
+import HotBadge from '@/components/common/HotBadge';
 
-const navLinks = [
+const navLinks: { name: string; path: string; hot?: boolean }[] = [
   { name: '站点导览', path: '/' },
   { name: '地理学习', path: '/learn' },
   { name: '精选作品', path: '/works' },
   { name: '地理小游戏', path: '/games' },
   { name: '地理小工具', path: '/tools' },
-  { name: '资料下载', path: '/downloads' },
+  { name: '资料下载', path: '/downloads', hot: true },
   { name: '子站导航', path: '/subdomains' },
   { name: '关于我们', path: '/about' },
   { name: '动态与规划', path: '/changelog' },
@@ -119,13 +120,14 @@ const Navbar = () => {
               key={link.path}
               to={link.path}
               onClick={(e) => handleNav(e, link.path)}
-              className={`text-sm font-medium transition-colors ${
+              className={`inline-flex items-center gap-1 text-sm font-medium transition-colors ${
                 isActive(link.path)
                   ? 'text-primary'
                   : 'hover:text-primary'
               }`}
             >
               {link.name}
+              {link.hot && <HotBadge />}
             </Link>
           ))}
         </motion.div>
@@ -169,13 +171,14 @@ const Navbar = () => {
                   key={link.path}
                   to={link.path}
                   onClick={(e) => handleNav(e, link.path)}
-                  className={`text-sm font-medium transition-colors ${
+                  className={`inline-flex items-center gap-1 text-sm font-medium transition-colors ${
                     isActive(link.path)
                       ? 'text-primary'
                       : 'hover:text-primary'
                   }`}
                 >
                   {link.name}
+                  {link.hot && <HotBadge />}
                 </Link>
               ))}
             </div>
