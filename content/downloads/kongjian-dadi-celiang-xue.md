@@ -4,7 +4,7 @@ title: 空间大地测量学（李征航，魏二虎，王正涛，彭碧波 编
 summary: 普通高等教育"十一五"国家级规划教材、高等学校测绘工程系列教材。武汉大学出版社 2010 年出版，系统介绍空间大地测量的产生背景、时间系统、坐标系统、VLBI、激光测卫/测月、卫星测高、重力卫星测量及卫星导航定位等现代大地测量技术，是测绘工程与地球物理学专业的核心教材。
 date: 2026-09-02
 cover: /shots/kongjian-dadi-celiang-xue/cover.jpg
-category: 地理教程
+category: 测绘与地球科学
 tags: 空间大地测量学, 大地测量, VLBI, 卫星测高, 重力卫星, GPS, 李征航, 武汉大学出版社, 测绘工程, 教材
 access: gated
 trigger: kongjian-dadi-celiang-xue

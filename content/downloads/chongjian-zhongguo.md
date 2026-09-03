@@ -3,7 +3,7 @@ slug: chongjian-zhongguo
 title: 重建中国：城市规划三十年（1949—1979）
 summary: 建筑师华揽洪以亲历者视角回顾新中国成立至1970年代末的城市规划与建设历程，剖析历次政治运动对城市空间、住房、交通、环境等领域造成的深远影响，是理解中国当代城市史的重要一手文献。
 date: 2026-08-30
-category: 地理学理论 / 文化地理
+category: 城市与区域
 tags: 城市规划, 城市建设, 中国城市规划史, 华揽洪, 新中国, 城市发展, 三联书店, 城市史
 access: gated
 trigger: chongjian-zhongguo

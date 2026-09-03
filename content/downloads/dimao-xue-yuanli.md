@@ -3,7 +3,7 @@ slug: dimao-xue-yuanli
 title: 地貌学原理（第四版）
 summary: 杨景春、李有利编著的地貌学经典教材，北京大学出版社“十二五”普通高等教育本科国家级规划教材。以地貌营力系统为纲，系统讲解内外营力地貌的成因、特征与演变，是高校地学及相关专业地貌学教学与考研的重要参考书。
 date: 2026-09-03
-category: 地理教程
+category: 自然地理
 tags: 地貌学, 自然地理, 杨景春, 北京大学出版社, 教材, 地质, 第四版
 access: gated
 trigger: dimao-xue-yuanli

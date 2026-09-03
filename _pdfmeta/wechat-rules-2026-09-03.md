@@ -96,3 +96,121 @@ aws s3 cp zhongguo-lishi-rendili.pdf s3://downloads.planetgis.cn/book/ --endpoin
 - dimao-xue-yuanli → https://downloads.planetgis.cn/book/dimao-xue-yuanli.pdf
 - gaodeng-diqiu-huaxue → https://downloads.planetgis.cn/book/gaodeng-diqiu-huaxue.pdf
 - zhongguo-lishi-rendili → https://downloads.planetgis.cn/book/zhongguo-lishi-rendili.pdf
+
+---
+
+## 四、2026-09-03 第二批新增 7 本（大学教材 / 专著）
+
+> 本批 7 个 gated 资料详情页，需：① 上传 PDF 到 R2；② 在公众号后台建自动回复规则。
+
+### 4.1 公众号后台自动回复规则（半匹配，任一关键词命中即回）
+
+回复格式统一：`你的下载验证码是：<code>\n资料详情页：https://planetgis.cn/downloads/<slug>`（**不要给裸 PDF 直链**）
+
+| 序号 | 命中关键词（半匹配，逗号分隔） | 回复 code | 资料页链接 |
+|---|---|---|---|
+| 6 | `dili-xinxitong-kongjian` / `地理信息系统空间分析原理` / `GIS空间分析原理` | NSH-GIS-009 | https://planetgis.cn/downloads/dili-xinxitong-kongjian |
+| 7 | `haiyang-ziyuan-gailun` / `海洋资源概论` / `朱晓东海洋资源` | NSH-HY-001 | https://planetgis.cn/downloads/haiyang-ziyuan-gailun |
+| 8 | `haiyang-kexue-daolun` / `海洋科学导论` / `冯士筰海洋科学` | NSH-HY-002 | https://planetgis.cn/downloads/haiyang-kexue-daolun |
+| 9 | `shijie-dili` / `世界地理` / `杨青山世界地理` | NSH-RW-004 | https://planetgis.cn/downloads/shijie-dili |
+| 10 | `tianye-kaogu-huitu` / `田野考古绘图` / `马鸿藻考古绘图` | NSH-KG-001 | https://planetgis.cn/downloads/tianye-kaogu-huitu |
+| 11 | `shijie-chengshi-baohu` / `世界伟大城市的保护` / `城市保护安东尼滕` | NSH-CS-010 | https://planetgis.cn/downloads/shijie-chengshi-baohu |
+| 12 | `chengshi-fazhanshi` / `城市发展史` / `芒福德城市发展史` | NSH-CS-011 | https://planetgis.cn/downloads/chengshi-fazhanshi |
+
+### 4.2 每本回复正文（直接复制进后台，已带书名与验证码）
+
+**6. 地理信息系统空间分析原理**
+> 关键词（半匹配）：`dili-xinxitong-kongjian` / `地理信息系统空间分析原理` / `GIS空间分析原理`
+```
+你好，你要的《地理信息系统空间分析原理》（周成虎、裴韬等编著）已经整理好了。
+下载验证码：NSH-GIS-009
+凭码在详情页下载：https://planetgis.cn/downloads/dili-xinxitong-kongjian
+```
+
+**7. 海洋资源概论**
+> 关键词（半匹配）：`haiyang-ziyuan-gailun` / `海洋资源概论` / `朱晓东海洋资源`
+```
+你好，你要的《海洋资源概论》（朱晓东等编著）已经整理好了。
+下载验证码：NSH-HY-001
+凭码在详情页下载：https://planetgis.cn/downloads/haiyang-ziyuan-gailun
+```
+
+**8. 海洋科学导论**
+> 关键词（半匹配）：`haiyang-kexue-daolun` / `海洋科学导论` / `冯士筰海洋科学`
+```
+你好，你要的《海洋科学导论》（冯士筰、李凤岐、李少菁主编）已经整理好了。
+下载验证码：NSH-HY-002
+凭码在详情页下载：https://planetgis.cn/downloads/haiyang-kexue-daolun
+```
+
+**9. 世界地理**
+> 关键词（半匹配）：`shijie-dili` / `世界地理` / `杨青山世界地理`
+```
+你好，你要的《世界地理》（杨青山、韩杰、丁四保主编）已经整理好了。
+下载验证码：NSH-RW-004
+凭码在详情页下载：https://planetgis.cn/downloads/shijie-dili
+```
+
+**10. 田野考古绘图**
+> 关键词（半匹配）：`tianye-kaogu-huitu` / `田野考古绘图` / `马鸿藻考古绘图`
+```
+你好，你要的《田野考古绘图》（马鸿藻著）已经整理好了。
+下载验证码：NSH-KG-001
+凭码在详情页下载：https://planetgis.cn/downloads/tianye-kaogu-huitu
+```
+
+**11. 世界伟大城市的保护**
+> 关键词（半匹配）：`shijie-chengshi-baohu` / `世界伟大城市的保护` / `城市保护安东尼滕`
+```
+你好，你要的《世界伟大城市的保护：历史大都会的毁灭与重建》（[美]安东尼·滕著，郝笑丛译）已经整理好了。
+下载验证码：NSH-CS-010
+凭码在详情页下载：https://planetgis.cn/downloads/shijie-chengshi-baohu
+```
+
+**12. 城市发展史**
+> 关键词（半匹配）：`chengshi-fazhanshi` / `城市发展史` / `芒福德城市发展史`
+```
+你好，你要的《城市发展史：起源、演变和前景》（[美]刘易斯·芒福德著，宋俊岭、倪文彦译）已经整理好了。
+下载验证码：NSH-CS-011
+凭码在详情页下载：https://planetgis.cn/downloads/chengshi-fazhanshi
+```
+
+### 4.3 R2 上传（替换各 md 的 download 占位链接）
+
+PDF 源文件已重命名为 slug（`C:/Users/ZhuanZ/Downloads/<slug>.pdf`），目标对象名 = `book/<slug>.pdf`，桶 = `downloads.planetgis.cn`。因源文件名已是 slug，直接 copy 即可。
+
+**方式 A：rclone**
+```powershell
+cd C:/Users/ZhuanZ/Downloads
+rclone copy dili-xinxitong-kongjian.pdf  r2:downloads.planetgis.cn/book/
+rclone copy haiyang-ziyuan-gailun.pdf    r2:downloads.planetgis.cn/book/
+rclone copy haiyang-kexue-daolun.pdf     r2:downloads.planetgis.cn/book/
+rclone copy shijie-dili.pdf              r2:downloads.planetgis.cn/book/
+rclone copy tianye-kaogu-huitu.pdf       r2:downloads.planetgis.cn/book/
+rclone copy shijie-chengshi-baohu.pdf    r2:downloads.planetgis.cn/book/
+rclone copy chengshi-fazhanshi.pdf       r2:downloads.planetgis.cn/book/
+```
+
+**方式 B：AWS CLI（Cloudflare R2）**
+```powershell
+cd C:/Users/ZhuanZ/Downloads
+$ep = "https://<accountid>.r2.cloudflarestorage.com"
+aws s3 cp dili-xinxitong-kongjian.pdf r2:downloads.planetgis.cn/book/ --endpoint-url $ep
+aws s3 cp haiyang-ziyuan-gailun.pdf   r2:downloads.planetgis.cn/book/ --endpoint-url $ep
+aws s3 cp haiyang-kexue-daolun.pdf    r2:downloads.planetgis.cn/book/ --endpoint-url $ep
+aws s3 cp shijie-dili.pdf             r2:downloads.planetgis.cn/book/ --endpoint-url $ep
+aws s3 cp tianye-kaogu-huitu.pdf      r2:downloads.planetgis.cn/book/ --endpoint-url $ep
+aws s3 cp shijie-chengshi-baohu.pdf   r2:downloads.planetgis.cn/book/ --endpoint-url $ep
+aws s3 cp chengshi-fazhanshi.pdf      r2:downloads.planetgis.cn/book/ --endpoint-url $ep
+```
+
+> 占位链接 `https://downloads.planetgis.cn/book/<slug>.pdf` 与 R2 对象名一致，上传后即生效，无需改 md。
+
+### 4.4 各本 download 字段现状
+- dili-xinxitong-kongjian → https://downloads.planetgis.cn/book/dili-xinxitong-kongjian.pdf
+- haiyang-ziyuan-gailun → https://downloads.planetgis.cn/book/haiyang-ziyuan-gailun.pdf
+- haiyang-kexue-daolun → https://downloads.planetgis.cn/book/haiyang-kexue-daolun.pdf
+- shijie-dili → https://downloads.planetgis.cn/book/shijie-dili.pdf
+- tianye-kaogu-huitu → https://downloads.planetgis.cn/book/tianye-kaogu-huitu.pdf
+- shijie-chengshi-baohu → https://downloads.planetgis.cn/book/shijie-chengshi-baohu.pdf
+- chengshi-fazhanshi → https://downloads.planetgis.cn/book/chengshi-fazhanshi.pdf

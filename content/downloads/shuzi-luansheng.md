@@ -3,7 +3,7 @@ slug: shuzi-luansheng
 title: 数字孪生城市：虚实融合开启智慧之门
 summary: 高艳丽、陈才等系统阐释数字孪生城市的概念内涵、技术体系与典型应用场景，覆盖规划、建设、治理、交通、制造、应急、文旅、医疗、教育等领域，是理解智慧城市前沿方向的技术读本。
 date: 2026-08-30
-category: 地理学理论 / 文化地理
+category: 城市与区域
 tags: 数字孪生, 智慧城市, 城市规划, 城市治理, GIS, 物联网, 5G, 人工智能, 高艳丽, 陈才
 access: gated
 trigger: shuzi-luansheng

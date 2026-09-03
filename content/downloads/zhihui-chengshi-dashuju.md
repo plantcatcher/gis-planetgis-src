@@ -3,7 +3,7 @@ slug: zhihui-chengshi-dashuju
 title: 智慧城市中的大数据分析技术
 summary: 秦志光主编、刘峤、刘瑶、钟婷编著的"信息与通信创新学术专著·智慧城市系列"代表作，人民邮电出版社2015年出版。全书以"智慧城市—大数据"的内在联系为主线，系统讲解智慧城市的数据特点、大数据体系架构、分布式存储与处理（Hadoop/Mahout），以及城市管理各领域的分析应用与商业智能，是理解智慧城市数据底座的入门专著。
 date: 2026-08-31
-category: 计算机教程
+category: 城市与区域
 tags: 智慧城市, 大数据, 大数据分析, Hadoop, Mahout, 数据体系架构, 商业智能, 智慧政务, 智慧交通, 人民邮电出版社, 秦志光
 access: gated
 trigger: zhihui-chengshi-dashuju

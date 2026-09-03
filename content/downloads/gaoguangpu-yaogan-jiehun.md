@@ -4,7 +4,7 @@ title: 高光谱遥感图像解混理论与方法——从线性到非线性（�
 summary: 科学出版社 2019 年出版、国家科学技术学术著作出版基金资助，空间微波遥感研究与应用丛书之一。系统整理高光谱遥感图像解混的理论与方法，从线性模型到非线性模型，覆盖端元提取、丰度估计、有监督与无监督解混等核心主题，是高光谱遥感数据处理与定量反演研究的重要参考书。
 date: 2026-09-02
 cover: /shots/gaoguangpu-yaogan-jiehun/cover.jpg
-category: 地理教程
+category: GIS与遥感
 tags: 高光谱遥感, 图像解混, 端元提取, 丰度估计, 线性解混, 非线性解混, 王斌, 杨斌, 科学出版社, 遥感
 access: gated
 trigger: gaoguangpu-yaogan-jiehun

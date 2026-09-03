@@ -3,7 +3,7 @@ slug: zhihui-chengshi-wulianwang
 title: 智慧城市中的物联网技术
 summary: 秦志光主编、丁熠、王瑞锦、曹晟编著的"信息与通信创新学术专著·智慧城市系列"代表作，人民邮电出版社2015年出版。全书以案例切入，先讲物联网在智能电网、智能家居、智慧制造、智慧农业、智慧物流、智慧环保、智慧城管、智慧交通等场景的应用，再系统讲解物联网体系、传感器、RFID、无线传感器网络与物联网安全的基本理论。
 date: 2026-08-31
-category: 计算机教程
+category: 城市与区域
 tags: 智慧城市, 物联网, 传感器, RFID, 无线传感器网络, 物联网安全, 智慧交通, 智慧农业, 人民邮电出版社, 秦志光
 access: gated
 trigger: zhihui-chengshi-wulianwang

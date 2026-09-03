@@ -3,7 +3,7 @@ slug: yaogan-yingyong-fenxi
 title: 遥感应用分析原理与方法（赵英时 著）
 summary: 遥感领域权威教材，系统讲透遥感物理基础、传感器与成像原理、图像校正与增强、分类与定量反演，以及植被、水体、地质、城市等多领域应用，适合 GIS 与遥感专业师生及从业者案头常备。
 date: 2026-08-26
-category: 地理教程
+category: GIS与遥感
 tags: 遥感, 遥感应用, 定量遥感, 地理教程, 教材, 科学出版社, 图像处理
 access: gated
 trigger: yaogan-yingyong-fenxi

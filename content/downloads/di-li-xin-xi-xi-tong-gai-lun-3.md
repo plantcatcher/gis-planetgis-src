@@ -4,7 +4,7 @@ title: 地理信息系统概论（第三版）
 summary: 南京大学黄杏元、马劲松编著，普通高等教育"十一五"国家级规划教材。8 章系统讲述 GIS 基本理论、技术体系与应用方法，第三版在面向 21 世纪课程教材基础上做了章节结构大调整，并新增空间时态数据库、应用模型、可视化与虚拟现实等内容。
 date: 2026-08-28
 tags: [GIS, 教材, 高教版, 黄杏元, 马劲松, 南京大学, 十一五规划, 学科基础课]
-category: 地理教程
+category: GIS与遥感
 access: gated
 code: NSH-GIS-002
 trigger: di-li-xin-xi-xi-tong-gai-lun-3

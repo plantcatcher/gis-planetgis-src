@@ -4,7 +4,7 @@ title: 地球物理大地测量学原理与方法（许才军，申文斌，晁�
 summary: 高等学校测绘工程系列教材，武汉大学出版社 2006 年出版。将大地测量学与地球物理学深度融合，系统讲授地球物理大地测量学的基本原理与方法，涵盖地球参考系统、潮汐大地测量、板块构造、地壳运动监测、地壳应力应变、地震活动研究、海洋学大地测量及大地测量反演等内容。
 date: 2026-09-02
 cover: /shots/diqiu-wuli-dadi-celiang-xue/cover.jpg
-category: 地理教程
+category: 测绘与地球科学
 tags: 地球物理大地测量学, 大地测量, 地球物理, 地壳运动, 板块构造, 潮汐, 地震, 许才军, 武汉大学出版社, 教材
 access: gated
 trigger: diqiu-wuli-dadi-celiang-xue

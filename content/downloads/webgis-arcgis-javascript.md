@@ -3,7 +3,7 @@ slug: webgis-arcgis-javascript
 title: Web GIS从基础到开发实践：基于ArcGIS API for JavaScript
 summary: 刘光、曾敬文、曾庆丰编著的 Web GIS 开发实战教材，清华大学出版社2015年出版。以 ArcGIS API for JavaScript 为核心，从 GIS 与 OGC 规范、Dojo 基础、页面布局，到地图图层、空间参考、符号图形、要素专题图、查询分析、打印编辑，再到 HTML5（Geolocation/WebSocket/WebGL）集成，系统覆盖 Web GIS 前端开发全流程。
 date: 2026-08-31
-category: GIS
+category: GIS与遥感
 tags: WebGIS, ArcGIS API for JavaScript, Dojo, 地图服务, 空间查询, 空间分析, 专题图, HTML5, 清华大学出版社, 刘光
 access: gated
 trigger: webgis-arcgis-javascript

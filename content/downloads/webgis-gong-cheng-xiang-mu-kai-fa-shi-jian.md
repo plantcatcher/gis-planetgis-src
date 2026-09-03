@@ -3,7 +3,7 @@ slug: webgis-gong-cheng-xiang-mu-kai-fa-shi-jian
 title: WebGIS工程项目开发实践
 summary: 张贵军、陈铭编著《WebGIS工程项目开发实践》全面系统论述基于ArcGIS与OpenGIS的WebGIS开发原理与项目实践，属"清华开发者书库"。全书共8章分三篇：Web基础知识篇（Web应用、前端、JavaWeb服务器）、WebGIS开发技术篇（WebGIS原理与实现技术、ArcGIS for Server网络地图应用、OpenGIS与GeoServer/OpenLayers）、WebGIS项目实战篇（城市地下电力管线GIS系统、交通WebGIS信息系统），并附电力与交通两大真实项目全部源代码，是WebGIS开发者的进阶实战教材。
 date: 2026-08-31
-category: GIS
+category: GIS与遥感
 tags: WebGIS, ArcGIS Server, OpenGIS, GeoServer, OpenLayers, JavaWeb, 电力GIS, 交通GIS, 项目开发, 清华大学出版社, 张贵军, 陈铭
 access: gated
 trigger: webgis-gong-cheng-xiang-mu-kai-fa-shi-jian

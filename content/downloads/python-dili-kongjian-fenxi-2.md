@@ -3,7 +3,7 @@ slug: python-dili-kongjian-fenxi-2
 title: Python地理空间分析指南（第2版）
 summary: [美]Joel Lawhead 著、邓世超译，人民邮电出版社2017年出版的地理空间分析实战指南。全书以 Python 3 为基础，覆盖地理空间数据格式、GIS 系统构建、遥感影像处理、高程数据（DEM）分析与高级空间建模、实时数据等，是少有的纯 Python 3 地理空间类图书，适合用 Python 做 GIS、遥感和空间建模的开发者与研究者。
 date: 2026-08-31
-category: GIS
+category: GIS与遥感
 tags: Python, 地理空间分析, GIS, 遥感, 高程数据, DEM, GDAL, OGR, Shapely, GeoPandas, 人民邮电出版社, Joel Lawhead
 access: gated
 trigger: python-dili-kongjian-fenxi-2

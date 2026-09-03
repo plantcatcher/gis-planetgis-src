@@ -4,7 +4,7 @@ title: 高分辨率卫星遥感精确对地目标定位理论与方法（袁修�
 summary: 科学出版社 2012 年出版、对地观测数据处理与分析丛书之一。系统介绍高空间分辨率卫星遥感影像的辐射校正、几何检校、自动匹配、严格几何处理模型与通用几何处理模型，以及卫星遥感影像对地目标定位的理论与方法，是高分辨率遥感影像精确处理领域的重要专著。
 date: 2026-09-02
 cover: /shots/gaofenbian-yaogan-dingwei/cover.jpg
-category: 地理教程
+category: GIS与遥感
 tags: 高分辨率遥感, 卫星遥感, 对地目标定位, 几何检校, 辐射校正, 袁修孝, 曹金山, 科学出版社, 遥感定位, 测绘
 access: gated
 trigger: gaofenbian-yaogan-dingwei

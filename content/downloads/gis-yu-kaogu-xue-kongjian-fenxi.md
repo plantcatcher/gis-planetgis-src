@@ -3,7 +3,7 @@ slug: gis-yu-kaogu-xue-kongjian-fenxi
 title: GIS与考古学空间分析
 summary: 张海著《GIS与考古学空间分析》系统讲述 GIS 技术在考古学研究与教学中的应用，基础篇覆盖 GIS 与地图基础、空间数据采集与处理、地理数据库、数字表面模型、空间统计与高级空间分析；应用篇覆盖 GIS 景观分析、水文分析与土壤侵蚀模型、成本面分析与空间移动研究、视域分析与景观可视性、网络分析、GIS 技术扩展，是一部面向考古文博与 GIS 交叉领域的经典教材。
 date: 2026-08-31
-category: GIS
+category: GIS与遥感
 tags: GIS, 考古学, 空间分析, 景观考古, 视域分析, 成本面分析, 北京大学出版社, 博雅大学堂, 张海
 access: gated
 trigger: gis-yu-kaogu-xue-kongjian-fenxi

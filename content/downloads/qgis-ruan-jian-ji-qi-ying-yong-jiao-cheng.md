@@ -3,7 +3,7 @@ slug: qgis-ruan-jian-ji-qi-ying-yong-jiao-cheng
 title: QGIS软件及其应用教程
 summary: 董昱、胡云锋、王娜编著《QGIS软件及其应用教程》系统介绍开源GIS软件QGIS的基本使用方法与典型应用场景，全书12章从QGIS安装、界面、图层管理、数据读取与预处理、选择查询统计、矢量编辑，到地图符号化与制图、矢量与栅格空间分析、QGIS插件与模型构建、PyQGIS脚本、QGIS Server网络数据源发布与读取，并附表达式函数参考，是GIS从业者与开源软件爱好者学习QGIS的入门指南与案边工具书。
 date: 2026-08-31
-category: GIS
+category: GIS与遥感
 tags: QGIS, 开源GIS, 桌面GIS, 地理信息系统, 空间分析, 地图制图, PyQGIS, QGIS Server, 电子工业出版社, 董昱, 胡云锋, 王娜
 access: gated
 trigger: qgis-ruan-jian-ji-qi-ying-yong-jiao-cheng

@@ -3,7 +3,7 @@ slug: wenhua-dili-xue
 title: 文化地理学
 summary: 周尚意、孔翔、朱竑编著的人文地理学经典教材，高等教育出版社高等学校教材。以中国文化个案为分析主体，系统讲授文化生态、源地、传播、扩散、区划、整合与地方性，适合高校地理、城乡规划、文化研究及地方文化建设参考。
 date: 2026-09-03
-category: 地理教程
+category: 人文地理
 tags: 文化地理学, 人文地理, 周尚意, 高等教育出版社, 教材, 文化区, 文化扩散
 access: gated
 trigger: wenhua-dili-xue

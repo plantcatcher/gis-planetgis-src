@@ -3,7 +3,7 @@ slug: zhongguo-lishi-rendili
 title: 中国历史人文地理
 summary: 邹逸麟主编、王振忠等副主编的历史人文地理经典专著，科学出版社《中国人文地理丛书》之一。以中国历史发展为主线，系统梳理民族与疆域、行政区划、政治中心、人口迁移、农业开发、工矿业、城市与交通、商业布局、历史文化景观等人文地理演变。
 date: 2026-09-03
-category: 地理教程
+category: 人文地理
 tags: 中国历史人文地理, 历史地理, 人文地理, 邹逸麟, 科学出版社, 中国历史, 行政区划
 access: gated
 trigger: zhongguo-lishi-rendili

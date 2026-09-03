@@ -3,7 +3,7 @@ slug: chengshi-he-quyu-guihua
 title: 城市和区域规划（原著第四版）（P.霍尔 著，邹德慈、金经元 译）
 summary: 城市规划经典读本，彼得·霍尔（Sir Peter Hall）代表作。以英国为视角，按历史顺序系统梳理 1800 年以来城市发展与区域规划的演变，对比西欧、美国等发达工业国家的规划经验，并总结规划方案编制的程序与关键技术。本 PDF 为 1985 年中国建筑工业出版社译本（译者邹德慈、金经元），对应原著第四版（Penguin, 1975）。
 date: 2026-09-01
-category: 地理教程
+category: 城市与区域
 tags: 城市和区域规划, 彼得霍尔, Peter Hall, 区域规划, 城市规划, 中国建筑工业出版社, 国外城市规划与设计理论译丛, 人文地理, 地理教程, 教材
 access: gated
 trigger: chengshi-he-quyu-guihua

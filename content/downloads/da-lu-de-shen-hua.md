@@ -14,7 +14,7 @@ code: NSH-DLS-001
 download: https://downloads.planetgis.cn/book/da-lu-de-shen-hua.pdf
 format: PDF
 size: 19.3 MB
-category: 地理学理论 / 文化地理
+category: 人文地理
 access: gated
 trigger: da-lu-de-shen-hua
 keywordAliases: 大陆的神话, 元地理学批判

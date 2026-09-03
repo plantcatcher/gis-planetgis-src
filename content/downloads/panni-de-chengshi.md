@@ -3,7 +3,7 @@ slug: panni-de-chengshi
 title: 叛逆的城市：从城市权利到城市革命
 summary: 戴维·哈维从马克思主义城市政治经济学视角出发，系统阐释“城市权利”概念，揭示城市化进程与资本主义危机的内在关联，并呼吁通过反资本主义的城市革命重塑城市空间正义。
 date: 2026-08-30
-category: 地理学理论 / 文化地理
+category: 城市与区域
 tags: 城市权利, 城市革命, 城市化, 政治经济学, 戴维·哈维, 马克思主义, 城市研究, 城市规划, 商务印书馆
 access: gated
 trigger: panni-de-chengshi

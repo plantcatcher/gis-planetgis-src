@@ -3,7 +3,7 @@ slug: di-li-xin-xi-xi-tong-dao-lun-9
 title: 地理信息系统导论（原著第九版）
 summary: 美国爱达荷大学张康聪（Kang-tsung Chang）教授编著的 GIS 经典入门教材，科学出版社 2019 年原著第九版中译本（陈健飞、胡嘉骢、陈颖彪译）。以"概念与实践并重"为理念，18 章系统覆盖 GIS 概念、矢量/栅格数据模型、数据获取编辑管理、显示探查、核心分析、曲面制图与分析、线状要素与移动及 GIS 建模，配 87 个面向 ArcGIS 10.5 的习作任务，是高校 GIS 课程首选教材与考研参考书。
 date: 2026-08-26
-category: 地理教程
+category: GIS与遥感
 tags: 地理信息系统, GIS, 张康聪, 陈健飞, 胡嘉骢, 陈颖彪, 科学出版社, 教材, ArcGIS, 空间分析
 access: gated
 trigger: di-li-xin-xi-xi-tong-dao-lun-9
