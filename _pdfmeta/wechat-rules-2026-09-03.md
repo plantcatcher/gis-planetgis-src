@@ -214,3 +214,110 @@ aws s3 cp chengshi-fazhanshi.pdf      r2:downloads.planetgis.cn/book/ --endpoint
 - tianye-kaogu-huitu → https://downloads.planetgis.cn/book/tianye-kaogu-huitu.pdf
 - shijie-chengshi-baohu → https://downloads.planetgis.cn/book/shijie-chengshi-baohu.pdf
 - chengshi-fazhanshi → https://downloads.planetgis.cn/book/chengshi-fazhanshi.pdf
+
+---
+
+## 五、2026-09-05 第三批新增 6 本（历史地图 / 综合图册 / 地质学）
+
+> 本批 6 个 gated 资料详情页，需：① 上传 PDF 到 R2（源文件名非 slug，需重命名）；② 在公众号后台建自动回复规则。
+> 注：三本历史地图集（俄国/美国/世界）的别名均含「历史地图」，若用户只发「历史地图」会同时命中多本，建议引导用户发 slug 或带国别/书名的关键词。
+
+### 5.1 公众号后台自动回复规则（半匹配，任一关键词命中即回）
+
+回复格式统一为：
+`你的下载验证码是：<code>\n资料详情页：https://planetgis.cn/downloads/<slug>`
+（**不要给裸 PDF 直链**）
+
+| 序号 | 命中关键词（半匹配，逗号分隔） | 回复 code | 资料页链接 |
+|---|---|---|---|
+| 13 | `dizhi-xue-jichu` / `地质学基础` / `宋春青地质学基础` / `地质学基础第四版` | NSH-ZR-005 | https://planetgis.cn/downloads/dizhi-xue-jichu |
+| 14 | `shuijingzhu-shuixi-tuji` / `水经注水系图集` / `水经注地图集上册` / `张步天水经注` | NSH-RW-007 | https://planetgis.cn/downloads/shuijingzhu-shuixi-tuji |
+| 15 | `shuijingzhu-zonghe-tuce` / `水经注综合图册` / `水经注地图集下册` / `张步天水经注地图集` | NSH-RW-008 | https://planetgis.cn/downloads/shuijingzhu-zonghe-tuce |
+| 16 | `eguo-lishi-ditu` / `俄国历史地图` / `俄罗斯历史地图` / `吉尔伯特俄国历史地图` | NSH-RW-009 | https://planetgis.cn/downloads/eguo-lishi-ditu |
+| 17 | `meiguo-lishi-ditu` / `美国历史地图` / `美国历史地图集` / `吉尔伯特美国历史` | NSH-RW-010 | https://planetgis.cn/downloads/meiguo-lishi-ditu |
+| 18 | `shijie-lishi-ditu-ji` / `世界历史地图集` / `张芝联世界历史地图` / `世界历史地图` | NSH-RW-011 | https://planetgis.cn/downloads/shijie-lishi-ditu-ji |
+
+### 5.2 每本回复正文（直接复制进后台，已带书名与验证码）
+
+**13. 地质学基础（第四版）**
+> 关键词（半匹配）：`dizhi-xue-jichu` / `地质学基础` / `宋春青地质学基础` / `地质学基础第四版`
+```
+你好，你要的《地质学基础（第四版）》（宋春青、邱维理、张振春编著）已经整理好了。
+下载验证码：NSH-ZR-005
+凭码在详情页下载：https://planetgis.cn/downloads/dizhi-xue-jichu
+```
+
+**14. 水经注地图集（上）：水系图集**
+> 关键词（半匹配）：`shuijingzhu-shuixi-tuji` / `水经注水系图集` / `水经注地图集上册` / `张步天水经注`
+```
+你好，你要的《水经注地图集（上）：水系图集》（张步天编绘）已经整理好了。
+下载验证码：NSH-RW-007
+凭码在详情页下载：https://planetgis.cn/downloads/shuijingzhu-shuixi-tuji
+```
+
+**15. 水经注地图集（下）：综合图册**
+> 关键词（半匹配）：`shuijingzhu-zonghe-tuce` / `水经注综合图册` / `水经注地图集下册` / `张步天水经注地图集`
+```
+你好，你要的《水经注地图集（下）：综合图册》（张步天编绘）已经整理好了。
+下载验证码：NSH-RW-008
+凭码在详情页下载：https://planetgis.cn/downloads/shuijingzhu-zonghe-tuce
+```
+
+**16. 俄国历史地图（第三版）**
+> 关键词（半匹配）：`eguo-lishi-ditu` / `俄国历史地图` / `俄罗斯历史地图` / `吉尔伯特俄国历史地图`
+```
+你好，你要的《俄国历史地图（第三版）》（[英]马丁·吉尔伯特著，王玉菡译）已经整理好了。
+下载验证码：NSH-RW-009
+凭码在详情页下载：https://planetgis.cn/downloads/eguo-lishi-ditu
+```
+
+**17. 美国历史地图（第四版）**
+> 关键词（半匹配）：`meiguo-lishi-ditu` / `美国历史地图` / `美国历史地图集` / `吉尔伯特美国历史`
+```
+你好，你要的《美国历史地图（第四版）》（[英]马丁·吉尔伯特著，王玉菡译）已经整理好了。
+下载验证码：NSH-RW-010
+凭码在详情页下载：https://planetgis.cn/downloads/meiguo-lishi-ditu
+```
+
+**18. 世界历史地图集**
+> 关键词（半匹配）：`shijie-lishi-ditu-ji` / `世界历史地图集` / `张芝联世界历史地图` / `世界历史地图`
+```
+你好，你要的《世界历史地图集》（张芝联、刘学荣主编）已经整理好了。
+下载验证码：NSH-RW-011
+凭码在详情页下载：https://planetgis.cn/downloads/shijie-lishi-ditu-ji
+```
+
+### 5.3 R2 上传（源文件已重命名为 slug，直接 copy 即落到 book/<slug>.pdf）
+
+目标桶 = `downloads.planetgis.cn`，对象名固定 = `book/<slug>.pdf`（与 md 的 `download` 字段一致，上传即生效，无需改 md）。
+
+**方式 A：rclone**
+```powershell
+cd C:/Users/ZhuanZ/Downloads
+rclone copy dizhi-xue-jichu.pdf         r2:downloads.planetgis.cn/book/
+rclone copy shuijingzhu-shuixi-tuji.pdf r2:downloads.planetgis.cn/book/
+rclone copy shuijingzhu-zonghe-tuce.pdf r2:downloads.planetgis.cn/book/
+rclone copy eguo-lishi-ditu.pdf         r2:downloads.planetgis.cn/book/
+rclone copy meiguo-lishi-ditu.pdf       r2:downloads.planetgis.cn/book/
+rclone copy shijie-lishi-ditu-ji.pdf    r2:downloads.planetgis.cn/book/
+```
+
+**方式 B：AWS CLI（Cloudflare R2）**
+```powershell
+cd C:/Users/ZhuanZ/Downloads
+$ep = "https://<accountid>.r2.cloudflarestorage.com"
+aws s3 cp dizhi-xue-jichu.pdf         s3://downloads.planetgis.cn/book/ --endpoint-url $ep
+aws s3 cp shuijingzhu-shuixi-tuji.pdf s3://downloads.planetgis.cn/book/ --endpoint-url $ep
+aws s3 cp shuijingzhu-zonghe-tuce.pdf s3://downloads.planetgis.cn/book/ --endpoint-url $ep
+aws s3 cp eguo-lishi-ditu.pdf         s3://downloads.planetgis.cn/book/ --endpoint-url $ep
+aws s3 cp meiguo-lishi-ditu.pdf       s3://downloads.planetgis.cn/book/ --endpoint-url $ep
+aws s3 cp shijie-lishi-ditu-ji.pdf    s3://downloads.planetgis.cn/book/ --endpoint-url $ep
+```
+
+### 5.4 各本 download 字段现状（占位链接已与 R2 对象名对齐，上传即生效）
+- dizhi-xue-jichu → https://downloads.planetgis.cn/book/dizhi-xue-jichu.pdf
+- shuijingzhu-shuixi-tuji → https://downloads.planetgis.cn/book/shuijingzhu-shuixi-tuji.pdf
+- shuijingzhu-zonghe-tuce → https://downloads.planetgis.cn/book/shuijingzhu-zonghe-tuce.pdf
+- eguo-lishi-ditu → https://downloads.planetgis.cn/book/eguo-lishi-ditu.pdf
+- meiguo-lishi-ditu → https://downloads.planetgis.cn/book/meiguo-lishi-ditu.pdf
+- shijie-lishi-ditu-ji → https://downloads.planetgis.cn/book/shijie-lishi-ditu-ji.pdf
