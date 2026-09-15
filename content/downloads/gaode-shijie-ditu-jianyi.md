@@ -56,6 +56,6 @@ size: 1.83 MB
 
 如果你需要本数据包之外的其它矢量数据（如其它年份、其它行政级别或特定区域），推荐阿里云 DataV.GeoAtlas 在线工具：
 
-https://datav.aliyun.com/portal/school/atlas/area_selector
+[阿里云 DataV.GeoAtlas 在线工具](https://datav.aliyun.com/portal/school/atlas/area_selector)
 
 该平台提供全国省 / 市 / 区县三级行政边界的免费下载，支持 GeoJSON、SVG 等格式，亦可在线转换为 Shapefile，可作为本数据包的补充数据源。公开使用仍须遵守《地图管理条例》与审图号相关要求。

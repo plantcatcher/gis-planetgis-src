@@ -40,6 +40,10 @@ export interface ContentItem {
   trigger?: string;
   /** 资料下载专用：公众号后台配置的额外关键词（中文别名等），与 trigger 等价，半匹配命中。逗号分隔 */
   keywordAliases?: string[];
+  /** 资料下载专用：下载方式。direct=直链下载（默认）；baidu=百度网盘（展示网盘链接+提取码） */
+  downloadType?: 'direct' | 'baidu';
+  /** 资料下载专用：百度网盘提取码（downloadType=baidu 时展示） */
+  panCode?: string;
 }
 
 interface Frontmatter {
@@ -102,6 +106,8 @@ for (const [path, raw] of Object.entries(rawFiles)) {
     access: data.access as ContentItem['access'],
     trigger: data.trigger,
     keywordAliases: data.keywordAliases ? data.keywordAliases.split(',').map((s) => s.trim()).filter(Boolean) : [],
+    downloadType: data.downloadType as ContentItem['downloadType'],
+    panCode: data.panCode,
   });
 }
 

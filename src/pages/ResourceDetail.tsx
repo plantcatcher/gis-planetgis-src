@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Download, Lock, CheckCircle2, Calendar, ArrowRight, Tag, QrCode } from 'lucide-react';
 import Breadcrumb from '@/components/common/Breadcrumb';
@@ -42,27 +42,72 @@ const ResourceJsonLd: React.FC<{ item: ContentItem }> = ({ item }) => {
   return null;
 };
 
-const DownloadPanel: React.FC<{ item: ContentItem }> = ({ item }) => (
-  <a
-    href={item.download}
-    target="_blank"
-    rel="noreferrer"
-    download
-    onClick={() =>
-      recordDownload({
-        slug: item.slug,
-        title: item.title,
-        format: item.format,
-        size: item.size,
-        category: item.category,
-      })
-    }
-    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-semibold hover:opacity-90 transition-opacity"
-  >
-    <Download className="w-5 h-5" />
-    下载资料{item.format ? `（${item.format}）` : ''}
-  </a>
-);
+const DownloadPanel: React.FC<{ item: ContentItem }> = ({ item }) => {
+  const isBaidu =
+    item.downloadType === 'baidu' ||
+    /(pan\.baidu\.com|yun\.baidu\.com)/.test(item.download || '');
+
+  // 百度网盘分享：解锁后按钮在左、提取码在右（放大突出），跳转网盘页面下载（不触发浏览器直下）
+  if (isBaidu) {
+    return (
+      <div className="space-y-3">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+          <a
+            href={item.download}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() =>
+              recordDownload({
+                slug: item.slug,
+                title: item.title,
+                format: item.format,
+                size: item.size,
+                category: item.category,
+              })
+            }
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-semibold hover:opacity-90 transition-opacity"
+            style={{ backgroundColor: '#4e6ef2' }}
+          >
+            <Download className="w-5 h-5" />
+            百度网盘下载
+          </a>
+          {item.panCode && (
+            <div className="flex items-baseline gap-2 rounded-lg bg-primary/10 px-3 py-1.5">
+              <span className="text-sm text-muted-foreground">提取码</span>
+              <span className="text-2xl font-bold font-mono tracking-widest text-primary select-all">{item.panCode}</span>
+            </div>
+          )}
+        </div>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          本资料通过百度网盘分享，点击「百度网盘下载」按钮将跳转至网盘页面，粘贴上方提取码即可保存。
+        </p>
+      </div>
+    );
+  }
+
+  // 直链下载：浏览器直接下载文件
+  return (
+    <a
+      href={item.download}
+      target="_blank"
+      rel="noreferrer"
+      download
+      onClick={() =>
+        recordDownload({
+          slug: item.slug,
+          title: item.title,
+          format: item.format,
+          size: item.size,
+          category: item.category,
+        })
+      }
+      className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-semibold hover:opacity-90 transition-opacity"
+    >
+      <Download className="w-5 h-5" />
+      下载资料{item.format ? `（${item.format}）` : ''}
+    </a>
+  );
+};
 
 const ResourceDetail: React.FC = () => {
   const { slug } = useParams();
@@ -289,16 +334,16 @@ const ResourceDetail: React.FC = () => {
                     )}
                   </div>
                 ) : (
-                  <div>
-                    <div className="flex items-center gap-2 mb-4 text-green-600 dark:text-green-400">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 text-green-600 dark:text-green-400">
                       <CheckCircle2 className="w-5 h-5" />
-                      <span className="font-semibold">已解锁，点击下方按钮下载</span>
+                      <span className="font-semibold">已解锁，资料下载方式如下</span>
                     </div>
                     <DownloadPanel item={item} />
                     <button
                       type="button"
                       onClick={() => { setUnlocked(false); try { sessionStorage.removeItem(unlockKey(item.slug)); } catch {} }}
-                      className="ml-4 text-xs text-muted-foreground underline hover:text-foreground align-middle"
+                      className="text-xs text-muted-foreground underline hover:text-foreground"
                     >
                       重新上锁
                     </button>
