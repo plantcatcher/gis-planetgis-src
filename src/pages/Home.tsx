@@ -229,7 +229,7 @@ const Home = () => {
     { id: 'learn', label: '地理学习', meta: String(learns.length) },
     { id: 'works', label: '精选作品', meta: String(worksShown.length) },
     { id: 'games', label: '地理小游戏', meta: String(games.length) },
-    { id: 'downloads', label: '资料下载', meta: String(resources.length) },
+    { id: 'downloads', label: '资料下载', meta: String(resources.length), hot: true },
     { id: 'tools', label: '地理小工具', meta: String(tools.length) },
     { id: 'subdomains', label: '子站导航', meta: String(subdomains.length) },
     { id: 'social', label: '关注我们' },

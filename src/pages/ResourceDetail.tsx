@@ -292,12 +292,13 @@ const ResourceDetail: React.FC = () => {
                     <div className="mb-5 flex flex-col sm:flex-row sm:items-start gap-5 sm:gap-6">
                       <ol className="text-sm text-muted-foreground leading-relaxed space-y-1 list-decimal list-inside flex-1 min-w-0">
                         <li>微信搜索并关注公众号 <span className="font-semibold text-foreground">【{WECHAT_OFFICIAL}】</span></li>
-                        <li>向公众号后台发送以下任一关键词即可领取验证码（发送 <span className="font-semibold text-foreground">{item.trigger || item.title}</span>
-                          {(item.keywordAliases || []).length > 0 && (
-                            <>
-                              {' '}或<span className="font-semibold text-foreground">{(item.keywordAliases || []).join('、')}</span>
-                            </>
-                          )}
+                        <li>向公众号后台发送以下任一关键词即可领取验证码（发送{' '}
+                          {[item.trigger || item.title, ...(item.keywordAliases || [])].map((kw, i) => (
+                            <span key={`${i}-${kw}`}>
+                              {i > 0 && ' 或 '}
+                              <span className="font-semibold text-foreground">{kw}</span>
+                            </span>
+                          ))}
                           {!item.trigger && <span className="text-muted-foreground">（即资料名）</span>}）</li>
                         <li>你将收到本资料的下载验证码,填到下方即可解锁</li>
                       </ol>
@@ -339,14 +340,20 @@ const ResourceDetail: React.FC = () => {
                       <CheckCircle2 className="w-5 h-5" />
                       <span className="font-semibold">已解锁，资料下载方式如下</span>
                     </div>
-                    <DownloadPanel item={item} />
-                    <button
-                      type="button"
-                      onClick={() => { setUnlocked(false); try { sessionStorage.removeItem(unlockKey(item.slug)); } catch {} }}
-                      className="text-xs text-muted-foreground underline hover:text-foreground"
-                    >
-                      重新上锁
-                    </button>
+                    {/* 各包一层块级容器：直链态 DownloadPanel 返回 inline-flex 的 <a>，
+                        不包则下方「重新上锁」会被排到同一行、贴着下载按钮 */}
+                    <div>
+                      <DownloadPanel item={item} />
+                    </div>
+                    <div>
+                      <button
+                        type="button"
+                        onClick={() => { setUnlocked(false); try { sessionStorage.removeItem(unlockKey(item.slug)); } catch {} }}
+                        className="text-xs text-muted-foreground underline hover:text-foreground"
+                      >
+                        重新上锁
+                      </button>
+                    </div>
                   </div>
                 )
               ) : (

@@ -9,6 +9,8 @@ export interface SidebarNavItem {
   id: string;
   label: string;
   meta?: string;
+  /** 是否显示 HOT 徽章（如「资料下载」） */
+  hot?: boolean;
 }
 
 export interface SidebarSubject {
@@ -77,7 +79,10 @@ const HomeSidebar: React.FC<{
                       : 'border-transparent text-muted-foreground hover:bg-muted hover:text-foreground'
                   }`}
                 >
-                  <span className="truncate">{it.label}</span>
+                  <span className="flex items-center gap-1.5 min-w-0">
+                    <span className="truncate">{it.label}</span>
+                    {it.hot && <HotBadge className="shrink-0" />}
+                  </span>
                   {it.meta && <span className="text-[11px] opacity-70 shrink-0">{it.meta}</span>}
                 </button>
               </li>
