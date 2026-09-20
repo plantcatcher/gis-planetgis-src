@@ -111,7 +111,8 @@ export function renderMarkdown(md: string): string {
     // 内容原样输出，不做二次 markdown 解析。
     if (/^\s*<div\b/.test(line)) {
       closeList();
-      const buf: string[] = [];
+      const buf: string[] = [line];
+      i++; // 起始 <div> 行已计入 buf，先前进指针，否则会在循环里被重复计 depth
       let depth = 1;
       while (i < lines.length && depth > 0) {
         const cur = lines[i];

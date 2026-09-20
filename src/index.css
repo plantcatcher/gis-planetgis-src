@@ -273,6 +273,58 @@ h1, h2, h3, .font-serif {
 }
 
 /* ============================================================
+   Markdown 表格（参考表 / 数据表）
+   仅作用于 .md-body 内表格，避免污染组件级表格。
+   ============================================================ */
+.md-body .admin-table-wrapper {
+  overflow-x: auto;
+  margin: 0.75rem 0 1.5rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.5rem;
+}
+.md-body .admin-table-wrapper table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+.md-body .admin-table-wrapper th,
+.md-body .admin-table-wrapper td {
+  border-bottom: 1px solid hsl(var(--border));
+  padding: 0.45rem 0.65rem;
+  text-align: left;
+  vertical-align: top;
+}
+.md-body .admin-table-wrapper th {
+  background: hsl(var(--muted));
+  font-weight: 600;
+  white-space: nowrap;
+}
+.md-body .admin-table-wrapper tbody tr:last-child td {
+  border-bottom: none;
+}
+.md-body .admin-table-wrapper tbody tr:nth-child(even) {
+  background: hsl(var(--muted) / 0.35);
+}
+.md-body .admin-table-wrapper tbody tr:hover {
+  background: hsl(var(--muted) / 0.75);
+}
+.md-body .admin-table-wrapper td code {
+  font-size: 0.85em;
+  color: hsl(var(--primary));
+  background: transparent;
+  padding: 0;
+}
+.md-body .admin-table-wrapper .level-prov {
+  font-weight: 600;
+  background: hsl(var(--muted) / 0.6);
+}
+.md-body .admin-table-wrapper .level-city {
+  font-weight: 500;
+}
+
+/* ============================================================
    杂志长读式 知识排版（编辑式）
    仅作用于详情页 .md-body（列表/卡片不复用，drop cap 安全）
    ============================================================ */
