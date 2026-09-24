@@ -10,7 +10,7 @@ trigger: 一级河流
 keywordAliases: 全国河流矢量, 中国一级河流shp, 主要河流数据
 code: NSH-SHP-006
 download: https://downloads.planetgis.cn/GIS/cn-rivers-1.zip
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-09-17-river_2.jpg
 format: SHP（ZIP 压缩包）
 size: 0.76 MB
 ---

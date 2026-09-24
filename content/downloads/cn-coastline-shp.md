@@ -10,7 +10,7 @@ trigger: 中国海岸线
 keywordAliases: 海岸线矢量, 中国海岸线shp, 海岸线数据
 code: NSH-CL-001
 download: https://downloads.planetgis.cn/GIS/cn-coastline-shp.zip
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-09-19-sealine_2.jpg
 format: SHP（ZIP 压缩包）
 size: 0.22 MB
 ---
