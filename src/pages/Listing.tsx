@@ -21,6 +21,7 @@ import {
   type ContentItem,
 } from '@/lib/content';
 import { searchAll } from '@/lib/knowledge';
+import { useSearchTracking } from '@/hooks/use-search-tracking';
 import { SubjectIcon } from '@/lib/subjectIcons';
 import KnowledgeCard from '@/components/knowledge/KnowledgeCard';
 import SectionLabel from '@/components/knowledge/SectionLabel';
@@ -200,6 +201,9 @@ const LearnGrid = () => {
   const [activeLevel, setActiveLevel] = useState('全部');
   const [activeTags, setActiveTags] = useState<string[]>([]);
   const [query, setQuery] = useState(searchParams.get('q') || '');
+
+  // GA4：知识库搜索关键词（防抖 + 会话内去重，避免记录输入中间态）
+  useSearchTracking(query, 'learn');
 
   const pickSubject = (name: string) => {
     setActiveSubject(name);
@@ -417,6 +421,10 @@ const ResourceGrid = () => {
   const all = getResources();
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState('');
+
+  // GA4：资料下载搜索关键词
+  useSearchTracking(query, 'resources');
+
   const [activeTag, setActiveTag] = useState<string | null>(searchParams.get('tag'));
   // 从 URL ?tag= 同步（支持从资料详情页点标签跳转过来自动过滤）
   useEffect(() => {

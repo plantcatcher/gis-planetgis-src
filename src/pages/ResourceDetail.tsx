@@ -5,6 +5,7 @@ import Breadcrumb from '@/components/common/Breadcrumb';
 import PageMeta from '@/components/common/PageMeta';
 import { getItem, getRelated, isResourceGated, type ContentItem } from '@/lib/content';
 import { recordDownload } from '@/services/learningService';
+import { trackResourceDownload } from '@/lib/analytics';
 import { renderMarkdown } from '@/lib/markdown';
 import { useJsonLd } from '@/lib/seo';
 import { useImageLightbox, ImageLightbox } from '@/components/common/ImageLightbox';
@@ -47,6 +48,30 @@ const DownloadPanel: React.FC<{ item: ContentItem }> = ({ item }) => {
     item.downloadType === 'baidu' ||
     /(pan\.baidu\.com|yun\.baidu\.com)/.test(item.download || '');
 
+  // 点下载按钮时统一做两件事：
+  // ① 记本地下载足迹（「我的学习」页展示）
+  // ② 上报 GA4 file_download（下载直链在 downloads.planetgis.cn、网盘链接在 pan.baidu.com，
+  //    都是跨域，增强衡量自动记不到，只能手动发）
+  const logDownload = () => {
+    recordDownload({
+      slug: item.slug,
+      title: item.title,
+      format: item.format,
+      size: item.size,
+      category: item.category,
+    });
+    trackResourceDownload({
+      slug: item.slug,
+      title: item.title,
+      url: item.download,
+      format: item.format,
+      size: item.size,
+      category: item.category,
+      downloadType: item.downloadType,
+      access: isResourceGated(item) ? 'gated' : 'open',
+    });
+  };
+
   // 百度网盘分享：解锁后按钮在左、提取码在右（放大突出），跳转网盘页面下载（不触发浏览器直下）
   if (isBaidu) {
     return (
@@ -56,15 +81,7 @@ const DownloadPanel: React.FC<{ item: ContentItem }> = ({ item }) => {
             href={item.download}
             target="_blank"
             rel="noreferrer"
-            onClick={() =>
-              recordDownload({
-                slug: item.slug,
-                title: item.title,
-                format: item.format,
-                size: item.size,
-                category: item.category,
-              })
-            }
+            onClick={logDownload}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-semibold hover:opacity-90 transition-opacity"
             style={{ backgroundColor: '#4e6ef2' }}
           >
@@ -92,15 +109,7 @@ const DownloadPanel: React.FC<{ item: ContentItem }> = ({ item }) => {
       target="_blank"
       rel="noreferrer"
       download
-      onClick={() =>
-        recordDownload({
-          slug: item.slug,
-          title: item.title,
-          format: item.format,
-          size: item.size,
-          category: item.category,
-        })
-      }
+      onClick={logDownload}
       className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-semibold hover:opacity-90 transition-opacity"
     >
       <Download className="w-5 h-5" />

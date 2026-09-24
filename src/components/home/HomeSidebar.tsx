@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Search, ArrowRight, BookOpen, Rss, History, Download } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { SubjectIcon } from '@/lib/subjectIcons';
+import { trackSearch } from '@/lib/analytics';
 import HotBadge from '@/components/common/HotBadge';
 
 export interface SidebarNavItem {
@@ -46,7 +47,12 @@ const HomeSidebar: React.FC<{
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          if (q.trim()) navigate(`/learn?q=${encodeURIComponent(q.trim())}`);
+          const kw = q.trim();
+          if (!kw) return;
+          // 埋点关键词上报。与知识库页共用 'learn' 上下文：跳转后那边再上报时
+          // 会被 trackSearch 的会话内去重拦掉，同一次搜索只记一条。
+          trackSearch(kw, 'learn');
+          navigate(`/learn?q=${encodeURIComponent(kw)}`);
         }}
         className="relative mb-7"
       >
