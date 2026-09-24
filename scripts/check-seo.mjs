@@ -48,6 +48,10 @@ for (const file of files) {
   // 不应参与主站 SEO 校验，否则会误报并使构建失败。
   if (/^(geoquiz|geoshape|geotype|chinapuzzle)/.test(rel)) continue;
 
+  // 互动地图同理：public/maps/<slug>/index.html 是地图本体，
+  // dist/maps/<slug>.html 是只装 iframe 的全屏壳页（正文就是地图，无文字可校验）。
+  if (/^maps\//.test(rel)) continue;
+
   // 1) canonical 必须存在、必须是 ASCII 绝对地址、必须与自身路径一致（自引用）
   const canonical = (html.match(/rel="canonical"[^>]*href="([^"]*)"/) || [])[1];
   if (!canonical) {
@@ -150,6 +154,14 @@ if (existsSync(sitemapPath)) {
       continue;
     }
     const p = decodeURIComponent(loc.slice(SITE.length)) || '/';
+    // Windows 文件名不允许 : * ? " < > | 等字符，这类标签页（如 /tag/1:400万）
+    // 在 Windows 本地无法落盘，会被写成 0 字节的 ADS 文件从而"找不到"；
+    // Cloudflare Pages 构建跑在 Linux 上，线上产物正常。本地校验跳过并告警，
+    // 不改产物行为，避免每次本地构建都误报失败。
+    if (/[:*?"<>|]/.test(p)) {
+      warnings.push(`sitemap: ${loc} 含 Windows 非法文件名字符，本地无法落盘（线上 Linux 构建正常），已跳过校验`);
+      continue;
+    }
     const hit = [...known].some((k) => decodeURIComponent(k) === p);
     if (!hit) errors.push(`sitemap: ${loc} 在 dist 中没有对应静态文件`);
   }

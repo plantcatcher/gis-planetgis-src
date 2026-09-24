@@ -8,8 +8,9 @@ import HotBadge from '@/components/common/HotBadge';
 
 const navLinks: { name: string; path: string; hot?: boolean }[] = [
   { name: '站点导览', path: '/' },
-  { name: '地理学习', path: '/learn' },
+  { name: '地理知识库', path: '/learn' },
   { name: '精选作品', path: '/works' },
+  { name: '互动地图', path: '/maps' },
   { name: '地理小游戏', path: '/games' },
   { name: '地理小工具', path: '/tools' },
   { name: '资料下载', path: '/downloads', hot: true },

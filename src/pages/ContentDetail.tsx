@@ -1,5 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import PageMeta from '@/components/common/PageMeta';
+import Breadcrumb from '@/components/common/Breadcrumb';
 import CoverImage from '@/components/common/CoverImage';
 import { getItem, getRelated, type ContentType, type ContentItem } from '@/lib/content';
 import { renderMarkdown, extractHeadings } from '@/lib/markdown';
@@ -22,7 +23,7 @@ const typeLabel: Record<ContentType, string> = {
   work: '精选作品',
   tool: '地理小工具',
   article: '文章',
-  learn: '地理学习',
+  learn: '地理知识库',
   resource: '资料下载',
 };
 
@@ -79,7 +80,19 @@ export default function ContentDetail({ type }: Props) {
   const wordCount = type === 'article' || type === 'learn' ? getWordCount(item) : 0;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 pt-20 md:pt-24 pb-12 md:pb-16">
+    <>
+      {/* 面包屑统一用通用 Breadcrumb 组件，与列表页 / 资料下载详情页放在同一位置
+          （页面左侧、pt-20）。原先它写在 article 内，会被 reading-column 的
+          42rem 窄栏居中，从列表页点进详情时路径条会明显右移，看着像"跳位"。 */}
+      <Breadcrumb
+        items={[
+          { label: '首页', path: '/' },
+          { label, path: `/${basePath[type]}` },
+          { label: item.title },
+        ]}
+      />
+      {/* 容器宽度与「资料下载」详情页保持一致：max-w-7xl + px-4 md:px-8 */}
+      <div className="max-w-7xl mx-auto px-4 md:px-8 pt-4 pb-12 md:pb-16">
       <LearningTracker contentKey={contentKey} />
       <div className="lg:grid lg:grid-cols-[1fr_240px] lg:gap-12 lg:items-start">
         <article className="min-w-0 mx-auto reading-column w-full">
@@ -93,14 +106,6 @@ export default function ContentDetail({ type }: Props) {
       {type === 'article' || type === 'learn' ? (
         <ArticleJsonLd item={item} type={type} />
       ) : null}
-
-      <nav className="text-sm text-muted-foreground mb-6">
-        <a href="/" className="hover:text-primary">首页</a>
-        <span className="mx-2">/</span>
-        <span>{label}</span>
-        <span className="mx-2">/</span>
-        <span className="text-foreground">{item.title}</span>
-      </nav>
 
       <header className="mb-8">
         <p className="kicker mb-3">
@@ -220,6 +225,7 @@ export default function ContentDetail({ type }: Props) {
           </div>
         </aside>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

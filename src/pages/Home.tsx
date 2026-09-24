@@ -4,7 +4,16 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Github, Youtube, MessageCircle, Instagram, Rss, ArrowRight, ExternalLink, Globe, Compass, Box, Share2, Calendar, Lightbulb, Newspaper, Download, Lock } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { getWorks, getTools, getLearns, getResources, getChangelogTimeline, getLearnSubjects, isResourceGated } from '@/lib/content';
+import {
+  getWorks,
+  getWorksBySeries,
+  getTools,
+  getLearns,
+  getResources,
+  getChangelogTimeline,
+  getLearnSubjects,
+  isResourceGated,
+} from '@/lib/content';
 import HomeSidebar, { useScrollSpy } from '@/components/home/HomeSidebar';
 import subdomainsData from '@/data/subdomains.json';
 import PageMeta from '@/components/common/PageMeta';
@@ -33,6 +42,8 @@ const SectionWrapper = ({ children, title, id, className = '', kicker, lead, act
       case 'profile':
         return { hidden: { opacity: 1, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } } };
       case 'works':
+      case 'maps':
+      case 'games':
         return { hidden: { opacity: 1, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } } };
       case 'tools':
         return { hidden: { opacity: 1, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } } };
@@ -195,9 +206,10 @@ const Home = () => {
 
   const sections = [
     { id: '1', key: 'profile', title: '关于我们', is_active: true },
-    { id: '9', key: 'learn', title: '地理学习', is_active: true },
+    { id: '9', key: 'learn', title: '地理知识库', is_active: true },
     { id: '2', key: 'works', title: '地理可视化作品', is_active: true },
-    { id: '2b', key: 'games', title: '地理小游戏', is_active: true },
+    { id: '2b', key: 'maps', title: '互动地图', is_active: true },
+    { id: '2c', key: 'games', title: '地理小游戏', is_active: true },
     { id: '7', key: 'downloads', title: '资料下载', is_active: true },
     { id: '3', key: 'tools', title: '地理小工具', is_active: true },
     { id: '4', key: 'subdomains', title: '子站导航', is_active: true },
@@ -214,9 +226,13 @@ const Home = () => {
   ];
 
   const works = getWorks();
-  // 小游戏（带「游戏」标签）从「精选作品」中拆出，单独成「地理小游戏」板块
-  const games = works.filter((w) => (w.tags || []).includes('游戏'));
-  const worksShown = works.filter((w) => !(w.tags || []).includes('游戏'));
+  // 系列归属看 frontmatter 的 series 字段（map / game / lab），不靠 tags 猜。
+  // 地图与小游戏各自有独立板块，「精选作品」放其余作品（模拟实验等），三者不重复。
+  const games = getWorksBySeries('game');
+  const maps = getWorksBySeries('map');
+  const worksShown = works.filter((w) => w.series !== 'game' && w.series !== 'map');
+  // 每个卡片板块首页只露一行三个，其余进各自的汇总页
+  const HOME_CARD_LIMIT = 3;
   const tools = getTools();
   const resources = getResources();
   const learns = getLearns();
@@ -226,8 +242,9 @@ const Home = () => {
   // 左栏目录（与右侧 section 一一对应，滚动高亮）
   const navItems = [
     { id: 'profile', label: '站点导览' },
-    { id: 'learn', label: '地理学习', meta: String(learns.length) },
+    { id: 'learn', label: '地理知识库', meta: String(learns.length) },
     { id: 'works', label: '精选作品', meta: String(worksShown.length) },
+    { id: 'maps', label: '互动地图', meta: String(maps.length) },
     { id: 'games', label: '地理小游戏', meta: String(games.length) },
     { id: 'downloads', label: '资料下载', meta: String(resources.length), hot: true },
     { id: 'tools', label: '地理小工具', meta: String(tools.length) },
@@ -315,7 +332,7 @@ const Home = () => {
           <SectionWrapper
             id="works"
             title="精选作品"
-            lead="精选的地理可视化作品，用数据讲述地球的尺度与变迁——从海平面模拟到城市路网。"
+            lead="精选的地理可视化作品，用数据讲述地球的尺度与变迁——从海平面模拟到更多交互实验。"
             action={
               <Link to="/works" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
                 浏览全部作品 <ArrowRight className="w-3.5 h-3.5" />
@@ -324,7 +341,7 @@ const Home = () => {
             className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {worksShown.map((work, index) => (
+              {worksShown.slice(0, HOME_CARD_LIMIT).map((work, index) => (
                 <div key={work.slug} className="flex flex-col">
                   <motion.a
                     href={work.link}
@@ -365,6 +382,57 @@ const Home = () => {
             </div>
           </SectionWrapper>
         );
+      case 'maps':
+        return (
+          <SectionWrapper
+            id="maps"
+            kicker="可点 · 可搜 · 可查"
+            title="互动地图"
+            lead="把真实地理数据做成可以提问的地图——点一下就知道这条河叫什么、几级、多长。数据源与坐标系全部公开。"
+            action={
+              <Link to="/maps" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
+                进入地图系列 <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            }
+            className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {maps.slice(0, HOME_CARD_LIMIT).map((m, index) => (
+                <div key={m.slug} className="flex flex-col">
+                  <CardAnim delay={index * 0.05}>
+                    <Link
+                      to={`/maps/${m.slug}`}
+                      className="group block overflow-hidden rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 hover:shadow-lg transition-all duration-300"
+                    >
+                      <div className="aspect-video overflow-hidden relative">
+                        <img
+                          src={m.cover}
+                          alt={`${m.title} - 星球小捕手互动地图`}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                          <span className="w-full text-center text-sm font-medium text-white/90">打开地图 →</span>
+                        </div>
+                      </div>
+                      <div className="p-6">
+                        <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{m.title}</h3>
+                        <p className="text-muted-foreground line-clamp-2">{m.summary}</p>
+                      </div>
+                    </Link>
+                  </CardAnim>
+                  <div className="mt-3 text-center">
+                    <Link
+                      to={`/works/${m.slug}`}
+                      className="text-sm font-medium text-primary hover:underline inline-flex items-center gap-1"
+                    >
+                      查看详情与解读 <ArrowRight className="w-3 h-3" />
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </SectionWrapper>
+        );
       case 'games':
         return (
           <SectionWrapper
@@ -379,7 +447,7 @@ const Home = () => {
             className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {games.map((game, index) => (
+              {games.slice(0, HOME_CARD_LIMIT).map((game, index) => (
                 <CardAnim key={game.slug} delay={index * 0.05}>
                   <Link
                     to={game.link || `/${game.slug}`}
@@ -498,7 +566,7 @@ const Home = () => {
               className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
             >
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-              {getLearns().slice(0, 6).map((item, i) => (
+              {getLearns().slice(0, HOME_CARD_LIMIT).map((item, i) => (
                 <CardAnim key={item.slug} delay={i * 0.05}>
                   <KnowledgeCard item={item} />
                 </CardAnim>
@@ -805,7 +873,7 @@ const Home = () => {
                   {[
                     { value: '200+', label: '科普文章' },
                     { value: String(tools.length), label: '在线工具' },
-                    { value: String(worksShown.length), label: '可视化作品' },
+                    { value: String(works.length), label: '可视化作品' },
                     { value: '6+', label: '内容平台' }
                   ].map((stat, index) => (
                     <motion.div

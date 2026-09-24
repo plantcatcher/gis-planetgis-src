@@ -246,7 +246,7 @@ function OnboardingCard() {
           to="/learn"
           className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 transition-colors"
         >
-          <BookOpen className="w-4 h-4" /> 浏览地理学习
+          <BookOpen className="w-4 h-4" /> 浏览知识库
         </Link>
         <Link
           to="/games"
@@ -286,7 +286,7 @@ const MyLearning: React.FC = () => {
       <Breadcrumb items={[{ label: '首页', path: '/' }, { label: '我的学习' }]} />
 
       <div className="min-h-screen bg-background text-foreground">
-        <div className="max-w-6xl mx-auto px-4 md:px-8 py-10 md:py-12">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 md:py-12">
           {/* Hero */}
           <header className="mb-8 md:mb-10">
             <div className="flex flex-wrap items-start justify-between gap-4">
@@ -374,7 +374,7 @@ const MyLearning: React.FC = () => {
                     ))}
                   </div>
                 ) : (
-                  <EmptyHint text="还没有学习记录，去读一篇试试？" to="/learn" cta="浏览地理学习" />
+                  <EmptyHint text="还没有学习记录，去读一篇试试？" to="/learn" cta="浏览知识库" />
                 )}
               </section>
 

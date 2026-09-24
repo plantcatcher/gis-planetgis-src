@@ -8,6 +8,10 @@ import AppRoutes from './AppRoutes';
 // Navbar/Footer，由 iframe 全屏承载游戏本身，避免游戏自带全局样式污染主站。
 const GAME_PATHS = ['/geoquiz', '/geoshape', '/geotype', '/chinapuzzle'];
 
+// 可视化互动地图全屏壳页（/maps/<slug>）同理：iframe 承载地图本体，
+// 只保留 /maps 汇总页作为带导航的常规页面。
+const isMapEmbed = (pathname: string) => /^\/maps\/[^/]+$/.test(pathname);
+
 /**
  * 页面骨架：CSR（App.tsx）与 SSG 预渲染（entry-server.tsx）共用同一棵渲染树。
  *
@@ -19,13 +23,14 @@ const GAME_PATHS = ['/geoquiz', '/geoshape', '/geotype', '/chinapuzzle'];
 const AppShell: React.FC = () => {
   const { pathname } = useLocation();
   const isGame = GAME_PATHS.includes(pathname);
+  const isFullscreen = isGame || isMapEmbed(pathname);
   return (
     <div className="flex flex-col min-h-screen">
-      {!isGame && <Navbar />}
+      {!isFullscreen && <Navbar />}
       <main className="flex-grow">
         <AppRoutes />
       </main>
-      {!isGame && <Footer />}
+      {!isFullscreen && <Footer />}
     </div>
   );
 };

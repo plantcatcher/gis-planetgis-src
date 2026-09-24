@@ -141,7 +141,7 @@ export const TYPE_LABEL: Record<ContentType, string> = {
   work: '可视化作品',
   tool: '地理工具',
   article: '科普文章',
-  learn: '地理学习',
+  learn: '地理知识库',
   resource: '资料下载',
 };
 

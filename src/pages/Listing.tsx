@@ -8,6 +8,7 @@ import CoverImage from '@/components/common/CoverImage';
 import { Input } from '@/components/ui/input';
 import {
   getWorks,
+  getWorkCategories,
   getTools,
   getLearns,
   getResources,
@@ -30,22 +31,25 @@ type ListingType = 'work' | 'tool' | 'subdomain' | 'learn' | 'resource';
 const meta: Record<ListingType, { title: string; subtitle: string; base: string }> = {
   work: {
     title: '地理可视化作品',
-    subtitle: '从海平面模拟到城市路网，用交互可视化把复杂的地理数据变成可感知的体验——地理与数据的直观对话。',
+    subtitle: '从海平面模拟到河流分布，用交互可视化把复杂的地理数据变成可感知的体验——地理与数据的直观对话。',
     base: 'works',
   },
   tool: {
     title: '地理小工具',
-    subtitle: '自研在线地理小工具，让经纬度查询、格式转换、地形分析不再有门槛。',
+    subtitle:
+      '带完整说明的在线工具：每条都有独立介绍页（功能特点、使用教程、常见问题），先看清能干什么，再点开前往。',
     base: 'tools',
   },
   subdomain: {
     title: '子站导航',
-    subtitle: '星球小捕手旗下各主题子站与专题入口，覆盖地理科普、在线工具与社区等不同方向，按需前往。',
+    subtitle:
+      '星球小捕手旗下各主题子站入口，只做跳转、不设介绍页（需要详细说明的工具请见「地理小工具」）——按需前往。',
     base: 'subdomains',
   },
   learn: {
-    title: '地理学习',
-    subtitle: '按自然地理、人文地理、区域地理、地理信息技术分科组织的自助知识库——支持正文检索，随时来翻、随手可读。',
+    title: '地理知识库',
+    subtitle:
+      '按自然地理、人文地理、区域地理、地理信息技术分科组织的自助知识库——支持正文检索，随时来翻、随手可读。',
     base: 'learn',
   },
   resource: {
@@ -67,33 +71,69 @@ const CardAnim: React.FC<{ children: React.ReactNode; delay?: number }> = ({ chi
   </motion.div>
 );
 
-const WorkGrid = () => (
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-    {getWorks().map((w, i) => (
-      <CardAnim key={w.slug} delay={i * 0.08}>
-        <Link
-          to={`/works/${w.slug}`}
-          className="group block overflow-hidden rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 hover:shadow-lg transition-all duration-300"
-        >
-          <div className="aspect-video overflow-hidden relative">
-            <img
-              src={w.cover}
-              alt={`${w.title} - 星球小捕手地理可视化作品`}
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-              <span className="w-full text-center text-sm font-medium text-white/90">查看详情与解读 →</span>
-            </div>
-          </div>
-          <div className="p-6">
-            <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors">{w.title}</h3>
-              <p className="text-sm text-muted-foreground line-clamp-2">{w.summary}</p>
-          </div>
-        </Link>
-      </CardAnim>
-    ))}
-  </div>
-);
+// 精选作品总页：按 category（真实子分类：互动地图 / 地理游戏 / 模拟实验 / 趣味测试）筛选。
+// 作品归属哪个系列页由 frontmatter 的 series 声明，这里只做展示层筛选。
+const WorkGrid = () => {
+  const all = getWorks();
+  const categories = useMemo(() => getWorkCategories(), []);
+  const [active, setActive] = useState('全部');
+  const list = active === '全部' ? all : all.filter((w) => (w.category || '未分类') === active);
+
+  return (
+    <>
+      <div className="flex flex-wrap gap-2 mb-6">
+        {['全部', ...categories.map((c) => c.name)].map((name) => {
+          const count = name === '全部' ? all.length : categories.find((c) => c.name === name)?.count ?? 0;
+          return (
+            <button
+              key={name}
+              type="button"
+              onClick={() => setActive(name)}
+              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                active === name
+                  ? 'bg-primary text-white'
+                  : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
+              }`}
+            >
+              {name} <span className="ml-1 text-xs opacity-70">{count}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {list.map((w, i) => (
+          <CardAnim key={w.slug} delay={i * 0.08}>
+            <Link
+              to={`/works/${w.slug}`}
+              className="group block overflow-hidden rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 hover:shadow-lg transition-all duration-300"
+            >
+              <div className="aspect-video overflow-hidden relative">
+                <img
+                  src={w.cover}
+                  alt={`${w.title} - 星球小捕手地理可视化作品`}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                {w.category && (
+                  <span className="absolute top-3 left-3 px-2 py-0.5 rounded-full text-xs font-medium bg-black/55 text-white backdrop-blur-sm">
+                    {w.category}
+                  </span>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                  <span className="w-full text-center text-sm font-medium text-white/90">查看详情与解读 →</span>
+                </div>
+              </div>
+              <div className="p-6">
+                <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors">{w.title}</h3>
+                <p className="text-sm text-muted-foreground line-clamp-2">{w.summary}</p>
+              </div>
+            </Link>
+          </CardAnim>
+        ))}
+      </div>
+    </>
+  );
+};
 
 const ToolGrid = () => (
   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

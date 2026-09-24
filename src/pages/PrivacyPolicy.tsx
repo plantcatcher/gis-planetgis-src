@@ -12,7 +12,7 @@ const PrivacyPolicy = () => {
       />
       <Breadcrumb />
     <div className="min-h-screen bg-background text-foreground">
-      <div className="max-w-3xl mx-auto px-4 md:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-8">
         <motion.div
           initial={false}
           animate={{ opacity: 1, y: 0 }}
@@ -21,7 +21,8 @@ const PrivacyPolicy = () => {
           <h1 className="text-4xl font-bold mb-2">隐私政策</h1>
           <p className="text-sm text-muted-foreground mb-12">最后更新日期：2026年7月7日</p>
 
-          <div className="prose prose-lg dark:prose-invert max-w-none space-y-6">
+          {/* 页面容器统一 7xl（与其它页面对齐），正文保留 3xl 阅读栏避免一行过长 */}
+          <div className="prose prose-lg dark:prose-invert max-w-3xl space-y-6">
             <section>
               <h2 className="text-2xl font-bold mb-3">1. 引言</h2>
               <p className="text-muted-foreground leading-relaxed">

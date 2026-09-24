@@ -15,6 +15,12 @@ export interface ContentItem {
   date?: string;
   category?: string;
   subject?: string;
+  /**
+   * 作品系列（仅 content/works 使用）：map=互动地图 / game=地理小游戏 / lab=模拟实验室。
+   * 决定该作品出现在哪个系列汇总页（/maps、/games、/labs），是显式的归属声明，
+   * 不要再靠 tags 里有没有「游戏」来猜。
+   */
+  series?: 'map' | 'game' | 'lab';
   tags?: string[];
   body: string;
   /** 资料下载专用：关注公众号后获取的专属验证码（大小写不敏感） */
@@ -93,6 +99,7 @@ for (const [path, raw] of Object.entries(rawFiles)) {
     date: data.date,
     category: data.category,
     subject: data.subject,
+    series: data.series as ContentItem['series'],
     tags: data.tags ? data.tags.split(',').map((s) => s.trim()).filter(Boolean) : [],
     body: content.trim(),
     code: data.code,
@@ -115,6 +122,13 @@ export const getWorks = (): ContentItem[] =>
   items
     .filter((i) => i.type === 'work')
     .sort((a, b) => a.order - b.order);
+
+/**
+ * 按系列取作品（map / game / lab）——/maps、/games 等系列页的唯一数据源。
+ * 归属由 frontmatter 的 series 字段显式声明，不再靠 tags 猜。
+ */
+export const getWorksBySeries = (series: ContentItem['series']): ContentItem[] =>
+  getWorks().filter((i) => i.series === series);
 
 export const getTools = (): ContentItem[] =>
   items
@@ -182,6 +196,22 @@ export const getLearnSubjects = () =>
     icon: SUBJECT_META[name]?.icon || 'Globe',
     count: items.filter((i) => i.type === 'learn' && i.subject === name).length,
   }));
+
+/**
+ * 作品的真实子分类（category）聚合，用于 /works 页筛选。
+ * 作品 category 是「互动地图 / 地理游戏 / 模拟实验 / 趣味测试」这类真实子类，
+ * 不是恒定的板块名——写什么就筛什么，改 md 即生效。
+ */
+export const getWorkCategories = (): { name: string; count: number }[] => {
+  const map = new Map<string, number>();
+  for (const w of getWorks()) {
+    const c = w.category || '未分类';
+    map.set(c, (map.get(c) || 0) + 1);
+  }
+  return Array.from(map.entries())
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count);
+};
 
 export const getItem = (type: ContentType, slug: string): ContentItem | undefined =>
   items.find((i) => i.type === type && i.slug === slug);

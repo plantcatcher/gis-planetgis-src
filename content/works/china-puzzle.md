@@ -1,11 +1,13 @@
 ---
+
 slug: china-puzzle
 title: 中国地图拼图挑战
 cover: https://blogphoto.planetgis.cn/PicGo/2026-08-11-20260811044612371.png
 summary: 把 34 个省级行政区拖进正确位置，在动手拼合中记住中国的形状——练习模式看名称学地理，挑战模式计时比速度。
 link: /chinapuzzle
 order: 7
-category: 可视化作品
+category: 地理游戏
+series: game
 tags: 地理, 地理可视化, 地理游戏, 游戏
 ---
 

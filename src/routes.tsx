@@ -12,6 +12,8 @@ import MyLearning from './pages/MyLearning';
 import GameEmbed from './pages/GameEmbed';
 import ResourceDetail from './pages/ResourceDetail';
 import Games from './pages/Games';
+import Maps from './pages/Maps';
+import MapEmbed from './pages/MapEmbed';
 import type { ReactNode } from 'react';
 
 interface RouteConfig {
@@ -73,7 +75,7 @@ const routes: RouteConfig[] = [
     element: <Listing type="work" />
   },
   {
-    name: '地理学习',
+    name: '地理知识库',
     path: '/learn',
     element: <Listing type="learn" />
   },
@@ -110,6 +112,17 @@ const routes: RouteConfig[] = [
     name: '地理小游戏',
     path: '/games',
     element: <Games />,
+  },
+  {
+    name: '可视化互动地图',
+    path: '/maps',
+    element: <Maps />,
+  },
+  {
+    name: '互动地图全屏',
+    path: '/maps/:slug',
+    element: <MapEmbed />,
+    visible: false,
   },
   {
     name: '地理小工具',

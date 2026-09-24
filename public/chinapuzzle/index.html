@@ -6,14 +6,10 @@
   <meta name="theme-color" content="#0f172a" />
   <title>中国地图拼图挑战</title>
   <link rel="stylesheet" href="styles.css" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5PJV4SBFG7"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-5PJV4SBFG7');
-  </script>
+  <!-- Google Analytics：统一到主站属性 G-SDBDPNLN25（原 G-5PJV4SBFG7 已废弃）。
+       本页跑在主站的 iframe 里，用 ga-bridge 把事件转给父页代发，避免 iframe 内
+       再发一次 page_view 与主站壳页双计；被直接访问时则自行加载主站 gtag。 -->
+  <script src="/shared/ga-bridge.js"></script>
 </head>
 <body>
   <div id="app">

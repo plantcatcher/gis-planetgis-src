@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import IntersectObserver from '@/components/common/IntersectObserver';
 import ScrollToTop from '@/components/common/ScrollToTop';
+import AnalyticsTracker from '@/components/common/AnalyticsTracker';
 import AppShell from './AppShell';
 
 // ScrollToTop / IntersectObserver 均返回 null（纯副作用），不产出 DOM，
@@ -10,6 +11,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <ScrollToTop />
+      <AnalyticsTracker />
       <IntersectObserver />
       <AppShell />
     </Router>

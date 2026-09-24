@@ -89,13 +89,16 @@
     </script>
 
     <!-- Google tag (gtag.js) -->
+    <!-- send_page_view: false —— 本站是 SPA + SSG，页面切换不走真实导航。
+         首次与后续路由跳转的 page_view 统一由 src/lib/analytics.ts 的
+         AnalyticsTracker 发送，避免与 GA4「增强型衡量」重复计数。 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SDBDPNLN25"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
-      gtag('config', 'G-SDBDPNLN25');
+      gtag('config', 'G-SDBDPNLN25', { send_page_view: false });
     </script>
 
     <!-- Google AdSense -->

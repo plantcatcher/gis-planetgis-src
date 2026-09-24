@@ -17,6 +17,7 @@ export const staticRoutes = [
   '/learn',
   '/tools',
   '/games',
+  '/maps',
   '/my',
   '/subdomains',
   '/downloads',
@@ -24,6 +25,7 @@ export const staticRoutes = [
   '/geoquiz',
   '/geoshape',
   '/geotype',
+  '/chinapuzzle',
 ];
 
 /**
@@ -32,7 +34,9 @@ export const staticRoutes = [
  */
 export async function collectRoutes(vite) {
   const { getAllDetailPaths, getAllTagPaths } = await vite.ssrLoadModule('/src/lib/content.ts');
-  const all = [...staticRoutes, ...getAllDetailPaths(), ...getAllTagPaths()];
+  // 互动地图全屏壳页也需预渲染，否则直接访问 /maps/<slug> 会落到 404.html
+  const { getVizMapPaths } = await vite.ssrLoadModule('/src/lib/vizmaps.ts');
+  const all = [...staticRoutes, ...getAllDetailPaths(), ...getAllTagPaths(), ...getVizMapPaths()];
   return [...new Set(all)];
 }
 

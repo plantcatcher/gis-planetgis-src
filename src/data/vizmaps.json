@@ -1,0 +1,31 @@
+{
+  "_comment": "可视化互动地图 · 数据资产登记册。职责单一：只记录每张地图的『数据与技术信息』（入口、坐标系、数据源、数据文件清单、要素数）。标题 / 封面 / 摘要 / 介绍页一律来自 content/works/<slug>.md，此处不再重复维护，避免两处不同步。新增地图 = public/maps/<slug>/ 放源码 + 这里加一条 + content/works/<slug>.md（series: map）写介绍页。data[].file 为 public/ 下的相对路径，便于审计体积与共享情况。",
+  "maps": [
+    {
+      "slug": "cn-rivers",
+      "entry": "/maps/cn-rivers/index.html",
+      "bbox": [73.0, 17.5, 135.5, 54.5],
+      "crs": "GCJ-02（火星坐标，与高德瓦片对齐）",
+      "basemap": "高德瓦片：卫星影像 style=6（纯影像无标注）/ 矢量路网 style=7 / 无底图",
+      "source": "国家基础地理信息 1:100 万水系数据（LEVEL_RIVE / LEVEL 字段分级）",
+      "updated": "2026-09-25",
+      "data": [
+        {
+          "file": "maps/cn-rivers/data/rivers.json",
+          "features": 1633,
+          "desc": "河流线：一级 25 / 二级 25 / 四级 158 / 五级 1425"
+        },
+        {
+          "file": "maps/cn-rivers/data/water-areas.json",
+          "features": 812,
+          "desc": "水域面：湖泊 / 水库 / 双线河"
+        },
+        {
+          "file": "maps/_shared/china-provinces.json",
+          "features": 35,
+          "desc": "省级行政区边界（_shared 跨地图复用）"
+        }
+      ]
+    }
+  ]
+}

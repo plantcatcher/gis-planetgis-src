@@ -26,7 +26,7 @@ const Contact = () => {
       />
       <Breadcrumb />
     <div className="min-h-screen bg-background text-foreground">
-      <div className="max-w-4xl mx-auto px-4 md:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-8">
         <motion.div
           initial={false}
           animate={{ opacity: 1, y: 0 }}

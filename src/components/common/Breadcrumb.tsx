@@ -18,8 +18,10 @@ const pageNameMap: Record<string, string> = {
   'privacy-policy': '隐私政策',
   terms: '服务条款',
   works: '精选作品',
+  games: '地理小游戏',
+  maps: '互动地图',
   tools: '地理小工具',
-  learn: '地理学习',
+  learn: '地理知识库',
   my: '我的学习',
   subdomains: '子站导航',
   downloads: '资料下载',
@@ -54,6 +56,8 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items: propItems }) => {
 
   return (
     <>
+      {/* 容器宽度与全站列表页 / 详情页统一：max-w-7xl + px-4 md:px-8。
+          改这里会同时影响所有页面，如需局部不同宽度请另建变体，不要直接改。 */}
       <nav aria-label="面包屑导航" className="max-w-7xl mx-auto px-4 md:px-8 pt-20 pb-2">
         <ol className="flex items-center gap-1.5 text-sm text-muted-foreground">
           {items.map((item, index) => (

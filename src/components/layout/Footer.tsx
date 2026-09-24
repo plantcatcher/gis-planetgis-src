@@ -49,6 +49,7 @@ const Footer = () => {
           <h4 className="font-semibold text-sm mb-3">内容板块</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li><Link to="/works" className="hover:text-primary transition-colors">可视化作品</Link></li>
+            <li><Link to="/maps" className="hover:text-primary transition-colors">互动地图</Link></li>
             <li><Link to="/articles" className="hover:text-primary transition-colors">科普文章</Link></li>
             <li><Link to="/tools" className="hover:text-primary transition-colors">地理工具</Link></li>
             <li><Link to="/subdomains" className="hover:text-primary transition-colors">子站导航</Link></li>

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Gamepad2, ArrowRight } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
-import { getWorks } from '@/lib/content';
+import { getWorksBySeries } from '@/lib/content';
 
 // 卡片入场动画：initial 保持 opacity:1，确保 SSG 静态 HTML 中文本天生可见（利于 SEO / AdSense）。
 const CardAnim: React.FC<{ children: React.ReactNode; delay?: number }> = ({ children, delay = 0 }) => (
@@ -18,10 +18,11 @@ const CardAnim: React.FC<{ children: React.ReactNode; delay?: number }> = ({ chi
   </motion.div>
 );
 
-// 地理小游戏汇总页：与「精选作品 /works」「地理小工具 /tools」的列表页结构对称。
-// 数据源复用 content/works 中带「游戏」标签的条目，每个 link 指向对应的游戏 iframe 页。
+// 地理小游戏汇总页：与「互动地图 /maps」「精选作品 /works」「地理小工具 /tools」结构对称。
+// 数据源是 content/works 中 series: game 的条目（显式声明归属，不靠 tags 猜），
+// 每个 link 指向对应的游戏 iframe 页，SEO 正文在其 /works/<slug> 介绍页。
 const Games: React.FC = () => {
-  const games = getWorks().filter((w) => (w.tags || []).includes('游戏'));
+  const games = getWorksBySeries('game');
 
   return (
     <>
@@ -68,7 +69,7 @@ const Games: React.FC = () => {
                     <div className="p-6">
                       <div className="flex items-center gap-2 mb-2 text-primary">
                         <Gamepad2 className="w-4 h-4" />
-                        <span className="text-xs font-medium tracking-wide uppercase">小游戏</span>
+                        <span className="text-xs font-medium tracking-wide uppercase">{game.category || '小游戏'}</span>
                       </div>
                       <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors">{game.title}</h3>
                       <p className="text-sm text-muted-foreground line-clamp-2">{game.summary}</p>

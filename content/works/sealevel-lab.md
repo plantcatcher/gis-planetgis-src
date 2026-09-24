@@ -1,11 +1,13 @@
 ---
+
 slug: sealevel-lab
 title: 海平面模拟实验室
 cover: https://blogphoto.planetgis.cn/PicGo/2026-07-28-20260728105530084.png
 summary: 可视化全球海平面上升，预测未来海岸线变迁，直观展示不同升幅对沿海城市的影响。
 link: https://sealevel.planetgis.cn
 order: 1
-category: 可视化作品
+category: 模拟实验
+series: lab
 tags: 地理, 地理可视化, 可视化作品
 ---
 

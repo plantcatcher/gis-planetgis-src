@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我国一级 / 二级河流分布图 · 互动地图</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+
+  <!-- 顶部栏：标题 + 搜索 -->
+  <div class="topbar">
+    <div class="brand">
+      <h1>我国主要河流分布图</h1>
+      <p class="sub">国家基础地理 1:100万 水系 · 一级 / 二级 / 四级 / 五级 · 点击河流查看详情</p>
+    </div>
+    <div class="search-panel">
+      <input type="text" id="search" placeholder="中文 / 拼音，如 长江 / changjiang / hanjiang" />
+      <ul id="searchResult"></ul>
+    </div>
+  </div>
+
+  <!-- 图层与显示 控制面板 -->
+  <div class="panel ctrl-panel" id="ctrlPanel">
+    <div class="ctrl-head">
+      <span>图层与显示</span>
+      <button id="ctrlToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="ctrl-body">
+      <label class="row"><input type="checkbox" id="chkL1" checked />
+        <span class="swatch l1"></span> 一级河流（主干河段）</label>
+      <label class="row"><input type="checkbox" id="chkL2" checked />
+        <span class="swatch l2"></span> 二级河流（主要支流）</label>
+      <label class="row"><input type="checkbox" id="chkL4" checked />
+        <span class="swatch l4"></span> 四级河流（细支流）</label>
+      <label class="row"><input type="checkbox" id="chkL5" checked />
+        <span class="swatch l5"></span> 五级河流（更小支流）</label>
+      <label class="row"><input type="checkbox" id="chkWater" checked />
+        <span class="swatch water"></span> 水域面（湖泊 / 水库 / 双线河）</label>
+      <label class="row"><input type="checkbox" id="chkLabel" checked />
+        <span class="swatch dot"></span> 河流名称标注</label>
+      <label class="row"><input type="checkbox" id="chkBorder" checked />
+        <span class="swatch dot2"></span> 省级行政区边界（叠加）</label>
+
+      <div class="divider"></div>
+
+      <div class="bm-title">底图（三选一）</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" checked /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>矢量路网</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" /><span>无底图</span></label>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="legend-inline">
+        <span><i class="swatch l1"></i>一级</span>
+        <span><i class="swatch l2"></i>二级</span>
+        <span><i class="swatch l4"></i>四级</span>
+        <span><i class="swatch l5"></i>五级</span>
+        <span><i class="swatch water"></i>水域面</span>
+      </div>
+      <div class="cnt-box" id="cnt"></div>
+
+      <div class="legend-note">
+        <b>底图</b>：三选一 —— 卫星影像（默认，高德纯影像、免 key、无标注）/ 矢量路网 / 无底图（深色背景，仅显示河流与水域）。河流 / 水域 / 省界已做坐标对齐。<br/><br/>
+        <b>分级说明</b>（数据源 <code>LEVEL_RIVE</code> / <code>LEVEL</code> 字段）<br/>
+        一级（红）：流域主干河段，如长江、黄河、珠江、黑龙江、雅鲁藏布江、澜沧江、额尔齐斯河等。<br/>
+        二级（蓝）：主要支流，如松花江、辽河、海河、淮河、嘉陵江、汉江、岷江、怒江、塔里木河等。<br/>
+        四级（绿）/ 五级（灰）：更细的次级支流，河段短，放大后才会显示名称。<br/>
+        水域面（蓝）：湖泊、水库与双线河水面，共 812 个，点击可查看名称与面积。<br/>
+        <i>说明：该分级来自数据源的国标层级，松花江/辽河/海河/淮河/怒江/塔里木河等在该体系中归入二级。</i>
+      </div>
+
+      <div class="divider"></div>
+      <!-- 站内导航：地图跑在主站的 iframe 里，用 target="_top" 跳出 iframe 整页跳转
+           （主站是 SSG 预渲染，直接访问 /works/<slug>、/maps 均为 200） -->
+      <div class="ctrl-nav">
+        <a href="/works/cn-rivers" target="_top">作品介绍</a>
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+      <a class="dl-link" href="https://planetgis.cn/downloads/cn-zhuyao-shuixi-shp" target="_blank" rel="noopener">⬇ 下载原始水系 SHP 数据</a>
+    </div>
+  </div>
+
+  <!-- 名称标注层：由 JS 注入到地图容器内，确保弹窗层级高于标注 -->
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

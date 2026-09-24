@@ -20,6 +20,7 @@ const STATIC_PRIORITY = {
   '/works': 0.8,
   '/tools': 0.8,
   '/games': 0.8,
+  '/maps': 0.8,
   '/about': 0.7,
   '/subdomains': 0.6,
   '/changelog': 0.5,
@@ -49,6 +50,10 @@ try {
     // /my 是用户私有学习中心（数据存于本地 LocalStorage），全员返回的是空壳，
     // 不应被搜索引擎收录，故排除出 sitemap（但仍参与预渲染，保证直链可访问）。
     if (u === '/my') continue;
+
+    // /maps/<slug> 是全屏 iframe 壳页，正文只有一张地图，收录价值低；
+    // 真正给搜索引擎看的是 /works/<slug> 介绍页，故此处排除。
+    if (u.startsWith('/maps/')) continue;
 
     const isDetail =
       u.startsWith('/works/') ||
