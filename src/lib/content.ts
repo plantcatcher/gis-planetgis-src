@@ -42,6 +42,10 @@ export interface ContentItem {
   pubYear?: string;
   /** 资料下载专用：访问方式。open=直接下载（如地图图片）；gated=需公众号验证码（默认：有 code 即门禁） */
   access?: 'open' | 'gated';
+  /** 资料下载专用：资料来源/发布机构（如「中华人民共和国水利部」），展示在详情页信息卡「来源」处 */
+  source?: string;
+  /** 资料下载专用：所属「标准演进时间线」key（如 river-code）。同一 key 的几份标准会在详情页以时间线互链展示 */
+  timeline?: string;
   /** 资料下载专用：用户向公众号发送的「专属代码」，用于换取下载验证码（缺省则提示回复资料名） */
   trigger?: string;
   /** 资料下载专用：公众号后台配置的额外关键词（中文别名等），与 trigger 等价，半匹配命中。逗号分隔 */
@@ -111,6 +115,8 @@ for (const [path, raw] of Object.entries(rawFiles)) {
     isbn: data.isbn,
     pubYear: data.pubYear,
     access: data.access as ContentItem['access'],
+    source: data.source,
+    timeline: data.timeline,
     trigger: data.trigger,
     keywordAliases: data.keywordAliases ? data.keywordAliases.split(',').map((s) => s.trim()).filter(Boolean) : [],
     downloadType: data.downloadType as ContentItem['downloadType'],

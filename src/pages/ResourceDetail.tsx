@@ -1,6 +1,6 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Download, Lock, CheckCircle2, Calendar, ArrowRight, Tag, QrCode } from 'lucide-react';
+import { Download, Lock, CheckCircle2, Calendar, ArrowRight, Tag, QrCode, FileText } from 'lucide-react';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import PageMeta from '@/components/common/PageMeta';
 import { getItem, getRelated, isResourceGated, type ContentItem } from '@/lib/content';
@@ -9,6 +9,7 @@ import { trackResourceDownload } from '@/lib/analytics';
 import { renderMarkdown } from '@/lib/markdown';
 import { useJsonLd } from '@/lib/seo';
 import { useImageLightbox, ImageLightbox } from '@/components/common/ImageLightbox';
+import StandardTimeline from '@/components/common/StandardTimeline';
 import NotFound from './NotFound';
 
 // ── 公众号信息（板牙按需修改） ─────────────────────────────────────────────
@@ -209,7 +210,7 @@ const ResourceDetail: React.FC = () => {
                 </div>
                 <div className="flex justify-between gap-3">
                   <dt className="text-muted-foreground shrink-0">来源</dt>
-                  <dd className="text-right">星球小捕手</dd>
+                  <dd className="text-right">{item.source || '星球小捕手'}</dd>
                 </div>
                 {item.author && (
                   <div className="flex justify-between gap-3">
@@ -289,6 +290,9 @@ const ResourceDetail: React.FC = () => {
             />
             <ImageLightbox state={lightbox} onClose={closeLightbox} onNav={navLightbox} />
 
+            {/* ── 同主题标准演进时间线：当前页高亮，其余可点击跳转（frontmatter 有 timeline 才出现） ── */}
+            {item.timeline && <StandardTimeline timeline={item.timeline} current={item.slug} />}
+
             {/* ── 下载区：地图类直接下载，文件类走公众号验证码门禁 ── */}
             <section className="mt-10 p-6 rounded-2xl bg-primary/5 border border-primary/15">
               {gated ? (
@@ -367,14 +371,60 @@ const ResourceDetail: React.FC = () => {
                 )
               ) : (
                 <div>
-                  <div className="flex items-center gap-2 mb-4">
+                  {/* 标题行：与验证码态同一节奏，右侧徽标一眼看出无需验证码 */}
+                  <div className="flex items-center gap-2 mb-5 pb-3 border-b border-border/60">
                     <Download className="w-5 h-5 text-primary" />
                     <h2 className="text-lg font-bold">下载资料</h2>
+                    <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-green-500/10 px-2.5 py-1 text-xs font-medium text-green-600 dark:text-green-400">
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      无需验证码
+                    </span>
                   </div>
-                  <p className="text-sm text-muted-foreground mb-5">
-                    本资料可直接下载，无需验证码。
-                  </p>
-                  <DownloadPanel item={item} />
+
+                  {/* 左：文件信息 + 下载按钮；右：公众号引导（右侧分栏后按钮不必占满整行） */}
+                  <div className="flex flex-col gap-5 sm:flex-row sm:gap-6">
+                    <div className="min-w-0 flex-1">
+                      {/* 文件信息：先让用户知道下载的是什么 */}
+                      <div className="flex min-w-0 items-start gap-3">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                          <FileText className="h-5 w-5 text-primary" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold leading-snug text-foreground">{item.title}</p>
+                          <p className="mt-1 flex flex-wrap items-center gap-x-1.5 text-xs text-muted-foreground">
+                            {item.format && <span>{item.format}</span>}
+                            {item.format && item.size && <span className="opacity-50">·</span>}
+                            {item.size && <span>{item.size}</span>}
+                            {item.source && (
+                              <>
+                                <span className="opacity-50">·</span>
+                                <span>来源 {item.source}</span>
+                              </>
+                            )}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* 下载按钮：与文件信息拉开间距，保持内容宽度 */}
+                      <div className="mt-6">
+                        <DownloadPanel item={item} />
+                      </div>
+                    </div>
+
+                    {/* 公众号引导：桌面端右侧竖栏，移动端降为底部一行 */}
+                    <div className="flex shrink-0 items-start gap-3 border-t border-border/60 pt-4 sm:w-56 sm:flex-col sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0">
+                      {WECHAT_QR && (
+                        <img
+                          src={WECHAT_QR}
+                          alt={`${WECHAT_OFFICIAL} 公众号二维码`}
+                          className="h-14 w-14 shrink-0 rounded-lg border border-border bg-white object-contain sm:h-20 sm:w-20"
+                        />
+                      )}
+                      <p className="text-xs leading-relaxed text-muted-foreground">
+                        这份资料对你有帮助？长按或扫码关注【{WECHAT_OFFICIAL}】，获取更多地理标准与数据更新。
+                      </p>
+                    </div>
+                  </div>
                 </div>
               )}
             </section>
