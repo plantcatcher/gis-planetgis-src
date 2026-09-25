@@ -2,7 +2,7 @@
 
 slug: cn-rivers
 title: 我国主要河流分布图
-cover: /cn-rivers-cover.svg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-09-25-river_cover.jpg
 summary: 一张能点的中国水系图——1633 条河流按国标一/二/四/五级分层着色，812 个湖泊水库水域面，悬停即出河名、等级、国标码与估算河长，支持中文与拼音搜索，任意切换卫星影像 / 矢量路网 / 无底图。
 link: /maps/cn-rivers
 order: 2
@@ -29,6 +29,14 @@ tags: 地理, 地理可视化, 互动地图, 河流, 水系, 水文
 - **三种底图**：卫星影像（默认，高德纯影像、无标注）、矢量路网、无底图（深色背景，只看河流与水域，做专题图很好用）。
 - **省级行政区边界叠加**：可开关，方便把河流与省份位置对上号。
 - **移动端适配**：控制面板变底部抽屉，上拉展开、下拉收起。
+
+![river_hd_1](https://blogphoto.planetgis.cn/PicGo/2026-09-25-river_hd_1.jpg)
+
+![river_hd_2](https://blogphoto.planetgis.cn/PicGo/2026-09-25-river_hd_2.jpg)
+
+![river_hd_3](https://blogphoto.planetgis.cn/PicGo/2026-09-25-river_hd_3.jpg)
+
+
 
 ## 使用教程
 
