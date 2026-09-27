@@ -13,6 +13,8 @@ download: https://downloads.planetgis.cn/GIS/world-shaded-map.zip
 cover: https://blogphoto.planetgis.cn/PicGo/2026-09-24-yazhou.jpg
 format: JPG 图片（ZIP 压缩包）
 size: 43.8 MB
+home: true
+homeOrder: 6
 ---
 
 > 本资料为一张**世界晕渲地形图（World Shaded Relief）**，以计算机晕渲（hillshade）算法模拟光照，表现全球地表起伏、山脉走向与高原盆地形态。图像为**纯地形渲染，通常不含政治边界线与国界**，文件名 `world_shaded_43k` 中「43k」即对应其横向 43200 像素的超大幅面。ZIP 压缩包约 **43.8 MB**，解压后为单张 JPG 图片（约 52.8 MB）。**未标注官方审图号**，作为公开地形影像参考使用。

@@ -13,6 +13,8 @@ download: https://downloads.planetgis.cn/GIS/cn-zhuyao-shuixi-shp.zip
 cover: https://blogphoto.planetgis.cn/PicGo/2026-09-24-R_cover.jpg
 format: SHP（ZIP 压缩包）
 size: 7.97 MB
+home: true
+homeOrder: 1
 ---
 
 > 本数据包提取自 **国家基础地理信息系统数据**（全国基础地理矢量数据库），为其中的 **主要水系** 图层集合，以 Shapefile（.shp）形式提供，坐标系为 **WGS_1984_Albers（Albers 等面积圆锥投影，WGS84 基准，中央经线 105°E，双标准纬线 25°N / 47°N，单位为米）**，共 **4 个图层**、约 **6,928 条 / 面要素**，配套 .shp / .shx / .dbf / .prj / .sbn / .sbx 文件齐全（压缩包内另含 1 个 ArcGIS 遗留的 0 字节锁文件，可忽略），可直接加载到 QGIS / ArcGIS 中使用。数据不含行政界线与国界，仅表达自然与人工水系，适合全国尺度水系制图、水文分析与 GIS 教学底图。

@@ -1,0 +1,21 @@
+﻿?? _git_status.txt
+?? _inspect_out.txt
+?? _inspect_zip.py
+?? _list_out.txt
+?? _list_zip.py
+?? _pdfmeta/extract/
+?? _pdfmeta/extract2/
+?? _pdfmeta/extract_pdf.py
+?? _pdfmeta/extract_pdf2.py
+?? _pdfmeta/generate_shots.py
+?? _pdfmeta/generate_shots2.py
+?? _pdfmeta/render_extra.py
+?? _validate_out.txt
+?? _validate_res.mjs
+?? content/downloads/global-dem-2024.md
+?? content/downloads/mars-mola-dem-463m.md
+b2954c5 璧勬枡涓嬭浇锛氭柊澧炲叏鍥紻EM鍒嗙渷12.5绫充笌涓浗闄嗗湴DEM璇︽儏椤碉紝鏀寔鐧惧害缃戠洏涓嬭浇锛涗紭鍖栦袱澶凞ataV閾炬帴
+8f34519 璧勬枡涓嬭浇锛氭柊澧炲叏鍥借鏀垮尯鍒掔煝閲忕偣鏁版嵁锛堢渷/甯?鍘?涔″洓绾т腑蹇冪偣锛夎鎯呴〉
+278201f 璧勬枡涓嬭浇锛氫袱鍦扮悊鏁版嵁璇︽儏椤垫柊澧?DataV.GeoAtlas 鐭㈤噺鏁版嵁鑾峰彇鍏ュ彛
+False
+False

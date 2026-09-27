@@ -15,6 +15,8 @@ panCode: r79b
 cover: /covers/geo-data-cover.jpg
 format: 栅格 DEM（ZIP 压缩包）
 size: 85.75 MB
+home: true
+homeOrder: 3
 ---
 
 > **数据概况**：中国陆地区域数字高程模型（DEM, Digital Elevation Model）栅格数据集；坐标系 **WGS84（EPSG:4326，经纬度）**；格式 **GeoTIFF（.tif，ZIP 压缩包）**；单文件大小约 **85.75 MB**。本数据为高程栅格，非行政区划地图，不涉及审图号，公开使用请遵守原始数据版权。

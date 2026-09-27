@@ -1,0 +1,50 @@
+ZIP 路径 : D:\01 资料下载\地理数据\GS(2024)0650-SHP.zip
+ZIP 大小 : 7.49 MB ( 7852862 bytes )
+条目总数 : 26
+扩展名分布: {'.cpg': 4, '.dbf': 4, '.prj': 4, '.qmd': 4, '.shp': 4, '.shx': 4, '.sbn': 1, '.sbx': 1}
+
+--- 文件清单（前 200）---
+   quxian.cpg
+   quxian.dbf
+   quxian.prj
+   quxian.qmd
+   quxian.shp
+   quxian.shx
+   sheng.cpg
+   sheng.dbf
+   sheng.prj
+   sheng.qmd
+   sheng.sbn
+   sheng.sbx
+   sheng.shp
+   sheng.shx
+   shi.cpg
+   shi.dbf
+   shi.prj
+   shi.qmd
+   shi.shp
+   shi.shx
+   shiduanxian.cpg
+   shiduanxian.dbf
+   shiduanxian.prj
+   shiduanxian.qmd
+   shiduanxian.shp
+   shiduanxian.shx
+
+--- 图层解析 ---
+
+图层: quxian
+  PRJ: GEOGCS["GCS_China_Geodetic_Coordinate_System_2000",DATUM["D_China_2000",SPHEROID["CGCS2000",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]
+  记录数: 2891  记录长: 509  字段: [('name', 'C', 254), ('gb', 'C', 254)]
+
+图层: sheng
+  PRJ: GEOGCS["GCS_China_Geodetic_Coordinate_System_2000",DATUM["D_China_2000",SPHEROID["CGCS2000",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]
+  记录数: 34  记录长: 509  字段: [('name', 'C', 254), ('gb', 'C', 254)]
+
+图层: shi
+  PRJ: GEOGCS["GCS_China_Geodetic_Coordinate_System_2000",DATUM["D_China_2000",SPHEROID["CGCS2000",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]
+  记录数: 375  记录长: 509  字段: [('name', 'C', 254), ('gb', 'C', 254)]
+
+图层: shiduanxian
+  PRJ: GEOGCS["GCS_China_Geodetic_Coordinate_System_2000",DATUM["D_China_2000",SPHEROID["CGCS2000",6378137.0,298.257222101]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]]
+  记录数: 7  记录长: 509  字段: [('name', 'C', 254), ('gb', 'C', 254)]

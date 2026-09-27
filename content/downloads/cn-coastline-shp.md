@@ -13,6 +13,8 @@ download: https://downloads.planetgis.cn/GIS/cn-coastline-shp.zip
 cover: https://blogphoto.planetgis.cn/PicGo/2026-09-19-sealine_2.jpg
 format: SHP（ZIP 压缩包）
 size: 0.22 MB
+home: true
+homeOrder: 5
 ---
 
 > 本数据集为 **中国海岸线矢量数据**，以 Shapefile（.shp）形式提供，压缩包约 **0.22 MB**。坐标系为 **GCS_WGS_1984（EPSG:4326，WGS84 地理坐标，经纬度）**，于 2026-01-19 通过 DefineProjection 显式定义投影。**单图层「中国海岸线」**，共 **2 条**海岸线要素，属性表仅含 `OBJECTID` 字段，**未标注官方审图号**，使用时请注意合规要求（详见使用须知）。

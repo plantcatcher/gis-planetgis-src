@@ -1,0 +1,9 @@
+﻿git : To github.com:plantcatcher/gis-planetgis-src.git
+所在位置 行:445 字符: 39
++ $root = "D:\WorkSpace\00PlanetGIS源码"; git -C $root push 2>&1 | Out-Fi ...
++                                       ~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (To github.com:p...anetgis-src.git:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   b2954c5..15c5e26  main -> main
+EXITCODE=0

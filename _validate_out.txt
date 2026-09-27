@@ -1,0 +1,12 @@
+slug        : gs-2024-0650-shp (len=16)
+category    : GIS与遥感
+access      : gated
+code        : NSH-MAP-001
+trigger     : GS(2024)0650
+aliases     : 标准地图SHP, 行政区划矢量, 十段线SHP
+format/size : SHP（ZIP 压缩包） / 约 80 MB
+正文纯文本   : 1029 字
+cover       : (无，使用占位)
+canonical   : https://planetgis.cn/downloads/gs-2024-0650-shp
+
+✓ 校验通过：必填字段齐全、slug 合规、正文达标，可正常预渲染并通过 check-seo 门禁。

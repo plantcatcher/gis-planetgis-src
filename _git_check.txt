@@ -1,0 +1,20 @@
+﻿?? _git_check.txt
+?? _git_push.txt
+?? _git_status.txt
+?? _inspect_out.txt
+?? _inspect_zip.py
+?? _list_out.txt
+?? _list_zip.py
+?? _pdfmeta/extract/
+?? _pdfmeta/extract2/
+?? _pdfmeta/extract_pdf.py
+?? _pdfmeta/extract_pdf2.py
+?? _pdfmeta/generate_shots.py
+?? _pdfmeta/generate_shots2.py
+?? _pdfmeta/render_extra.py
+?? _validate_out.txt
+?? _validate_res.mjs
+---LOG---
+15c5e26 璧勬枡涓嬭浇锛氭柊澧炵伀鏄?MOLA DEM 涓庡叏鐞?DEM 2024 璇︽儏椤碉紙鐧惧害缃戠洏涓嬭浇锛?b2954c5 璧勬枡涓嬭浇锛氭柊澧炲叏鍥紻EM鍒嗙渷12.5绫充笌涓浗闄嗗湴DEM璇︽儏椤碉紝鏀寔鐧惧害缃戠洏涓嬭浇锛涗紭鍖栦袱澶凞ataV閾炬帴
+---HEAD---
+15c5e263f43457bb6387e2252961e89fc7d8e2a9

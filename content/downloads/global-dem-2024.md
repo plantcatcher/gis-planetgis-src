@@ -15,6 +15,8 @@ panCode: xart
 cover: /covers/geo-data-cover.jpg
 format: GeoTIFF（.tif 单文件，RAR 压缩包）
 size: 4.02 GB
+home: true
+homeOrder: 4
 ---
 
 > 本数据集为**全球数字高程模型（Global DEM，2024 版）**，以**单文件 GeoTIFF（.tif）**形式提供，封装于 **RAR 压缩包**内（压缩包仅含一个 .tif 文件），覆盖全球经纬度范围，每个像素记录该点的地形高程（米）。地理参考信息内嵌于 TIFF 标签中，无需额外投影文件即可加载。坐标基准为 **WGS84 经纬度（EPSG:4326）**。**栅格分辨率以下载后的实际文件为准**——常见全球 DEM 的分辨率为 30 m / 90 m / 250 m / 1 km 等。
