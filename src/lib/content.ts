@@ -54,6 +54,10 @@ export interface ContentItem {
   downloadType?: 'direct' | 'baidu';
   /** 资料下载专用：百度网盘提取码（downloadType=baidu 时展示） */
   panCode?: string;
+  /** 首页资料下载区专用：设为 true 则该资料优先显示在首页资料区（精选） */
+  home?: boolean;
+  /** 首页精选排序：数字越小越靠前；缺省按 date 倒序。仅 home:true 时生效 */
+  homeOrder?: number;
 }
 
 interface Frontmatter {
@@ -121,6 +125,8 @@ for (const [path, raw] of Object.entries(rawFiles)) {
     keywordAliases: data.keywordAliases ? data.keywordAliases.split(',').map((s) => s.trim()).filter(Boolean) : [],
     downloadType: data.downloadType as ContentItem['downloadType'],
     panCode: data.panCode,
+    home: data.home === 'true' || data.home === '1',
+    homeOrder: data.homeOrder ? Number(data.homeOrder) : undefined,
   });
 }
 
@@ -156,6 +162,27 @@ export const getResources = (): ContentItem[] =>
   items
     .filter((i) => i.type === 'resource')
     .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+/**
+ * 首页资料下载区数据源：支持「精选」优先。
+ * - frontmatter 加 `home: true` 的资料排在首页最前面；
+ * - 可选 `homeOrder`（数字，越小越靠前）控制精选内部顺序，缺省按 date 倒序；
+ * - 精选不足 limit 时，自动用最新资料补齐，保证首页始终有 limit 条；
+ * - 不设置任何 home 字段时，等价于按 date 倒序取前 limit 条（向后兼容）。
+ */
+export const getHomeResources = (limit = 6): ContentItem[] => {
+  const all = getResources();
+  const featured = all.filter((i) => i.home);
+  featured.sort((a, b) => {
+    const oa = a.homeOrder ?? 999;
+    const ob = b.homeOrder ?? 999;
+    if (oa !== ob) return oa - ob;
+    return (b.date || '').localeCompare(a.date || '');
+  });
+  if (featured.length >= limit) return featured.slice(0, limit);
+  const rest = all.filter((i) => !i.home);
+  return [...featured, ...rest].slice(0, limit);
+};
 
 /** 资料是否需公众号验证码门禁：显式 gated，或（未标记 open 且带 code）视为门禁 */
 export const isResourceGated = (i: ContentItem): boolean =>

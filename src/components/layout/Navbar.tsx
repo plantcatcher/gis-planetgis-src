@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { Button } from '@/components/ui/button';
-import { Menu, X, User } from 'lucide-react';
+import { Menu, X, User, ChevronDown } from 'lucide-react';
 import HotBadge from '@/components/common/HotBadge';
 
 const navLinks: { name: string; path: string; hot?: boolean }[] = [
@@ -14,6 +14,10 @@ const navLinks: { name: string; path: string; hot?: boolean }[] = [
   { name: '地理小游戏', path: '/games' },
   { name: '地理小工具', path: '/tools' },
   { name: '资料下载', path: '/downloads', hot: true },
+];
+
+// 收敛进「更多」下拉：子站导航 / 关于我们 / 动态与规划
+const moreLinks: { name: string; path: string }[] = [
   { name: '子站导航', path: '/subdomains' },
   { name: '关于我们', path: '/about' },
   { name: '动态与规划', path: '/changelog' },
@@ -22,6 +26,9 @@ const navLinks: { name: string; path: string; hot?: boolean }[] = [
 const Navbar = () => {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
+  const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
+  const moreRef = React.useRef<HTMLDivElement>(null);
   const [hidden, setHidden] = useState(false);
   const lastY = React.useRef(0);
 
@@ -33,6 +40,8 @@ const Navbar = () => {
     if (path === '/') return location.pathname === '/' && !location.hash;
     return location.pathname === path || location.pathname.startsWith(path + '/');
   };
+
+  const moreActive = moreLinks.some((l) => isActive(l.path));
 
   // 首页内 section 锚点：同页平滑滚动，避免整页跳动。
   const handleNav = (e: React.MouseEvent, path: string) => {
@@ -76,7 +85,26 @@ const Navbar = () => {
 
   useEffect(() => {
     setMobileMenuOpen(false);
+    setMoreOpen(false);
+    setMobileMoreOpen(false);
   }, [location.pathname]);
+
+  // 点击外部 / Esc 关闭「更多」下拉
+  useEffect(() => {
+    if (!moreOpen) return;
+    const onDown = (e: MouseEvent) => {
+      if (moreRef.current && !moreRef.current.contains(e.target as Node)) setMoreOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMoreOpen(false);
+    };
+    document.addEventListener('mousedown', onDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [moreOpen]);
 
   return (
     // initial={false}：直接以 animate 的目标值渲染，不产出 opacity:0 的初始态。
@@ -131,6 +159,50 @@ const Navbar = () => {
               {link.hot && <HotBadge />}
             </Link>
           ))}
+
+          {/* 更多：子站导航 / 关于我们 / 动态与规划 */}
+          <div className="relative" ref={moreRef}>
+            <button
+              type="button"
+              onClick={() => setMoreOpen(!moreOpen)}
+              aria-haspopup="true"
+              aria-expanded={moreOpen}
+              className={`inline-flex items-center gap-1 text-sm font-medium transition-colors ${
+                moreActive || moreOpen ? 'text-primary' : 'hover:text-primary'
+              }`}
+            >
+              更多
+              <ChevronDown
+                className={`w-4 h-4 transition-transform duration-200 ${moreOpen ? 'rotate-180' : ''}`}
+              />
+            </button>
+            <AnimatePresence>
+              {moreOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.18, ease: 'easeOut' }}
+                  className="absolute right-0 top-full mt-3 w-40 rounded-lg border bg-background shadow-lg p-1.5"
+                >
+                  {moreLinks.map((link) => (
+                    <Link
+                      key={link.path}
+                      to={link.path}
+                      onClick={() => setMoreOpen(false)}
+                      className={`block rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                        isActive(link.path)
+                          ? 'text-primary bg-primary/10'
+                          : 'hover:bg-muted hover:text-primary'
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </motion.div>
 
         <div className="flex items-center gap-4">
@@ -182,6 +254,47 @@ const Navbar = () => {
                   {link.hot && <HotBadge />}
                 </Link>
               ))}
+
+              {/* 移动端：更多（可折叠） */}
+              <button
+                type="button"
+                onClick={() => setMobileMoreOpen(!mobileMoreOpen)}
+                aria-expanded={mobileMoreOpen}
+                className={`inline-flex items-center justify-between text-sm font-medium transition-colors ${
+                  moreActive || mobileMoreOpen ? 'text-primary' : 'hover:text-primary'
+                }`}
+              >
+                更多
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform duration-200 ${mobileMoreOpen ? 'rotate-180' : ''}`}
+                />
+              </button>
+              <AnimatePresence>
+                {mobileMoreOpen && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2, ease: 'easeOut' }}
+                    className="overflow-hidden"
+                  >
+                    <div className="pl-4 flex flex-col gap-3 border-l">
+                      {moreLinks.map((link) => (
+                        <Link
+                          key={link.path}
+                          to={link.path}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className={`text-sm font-medium transition-colors ${
+                            isActive(link.path) ? 'text-primary' : 'hover:text-primary'
+                          }`}
+                        >
+                          {link.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </motion.div>
         )}

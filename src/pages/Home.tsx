@@ -10,6 +10,7 @@ import {
   getTools,
   getLearns,
   getResources,
+  getHomeResources,
   getChangelogTimeline,
   getLearnSubjects,
   isResourceGated,
@@ -235,6 +236,7 @@ const Home = () => {
   const HOME_CARD_LIMIT = 3;
   const tools = getTools();
   const resources = getResources();
+  const homeResources = getHomeResources(6);
   const learns = getLearns();
   const subdomains = subdomainsData as { title: string; description: string; link: string }[];
   const subjects = getLearnSubjects();
@@ -488,7 +490,7 @@ const Home = () => {
             className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
           >
             <div className="space-y-3">
-              {resources.slice(0, 6).map((r, index) => (
+              {homeResources.slice(0, 6).map((r, index) => (
                 <CardAnim key={r.slug} delay={index * 0.04}>
                   <Link
                     to={`/downloads/${r.slug}`}

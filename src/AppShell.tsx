@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import AppRoutes from './AppRoutes';
+import SubscribeWidget from '@/components/common/SubscribeWidget';
 
 // 游戏内嵌页（/geoquiz /geoshape /geotype /chinapuzzle）占满视口、隐藏站点
 // Navbar/Footer，由 iframe 全屏承载游戏本身，避免游戏自带全局样式污染主站。
@@ -31,6 +32,7 @@ const AppShell: React.FC = () => {
         <AppRoutes />
       </main>
       {!isFullscreen && <Footer />}
+      {!isFullscreen && <SubscribeWidget />}
     </div>
   );
 };
