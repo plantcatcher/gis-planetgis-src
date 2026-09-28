@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -18,14 +18,41 @@ import {
   CheckCircle2,
   Puzzle,
   Download,
+  PieChart,
+  BarChart3,
+  TrendingUp,
+  Target,
+  Award,
 } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
+import ShareButton from '@/components/common/ShareButton';
+import { trackEvent } from '@/lib/analytics';
 import SectionLabel from '@/components/knowledge/SectionLabel';
 import { Progress } from '@/components/ui/progress';
 import { useLearningData } from '@/hooks/useLearning';
-import { getDashboard, keyToPath, type DashboardEntry, type DownloadRecord } from '@/services/learningService';
-import { getItem } from '@/lib/content';
+import {
+  getDashboard,
+  getActivityFeed,
+  getContinueEntry,
+  getRecommendations,
+  getWeeklyActivity,
+  buildInsights,
+  getWeeklyGoal,
+  setWeeklyGoal,
+  getWeekProgress,
+  getStreakMilestones,
+  WEEKLY_GOAL_DEFAULT,
+  WEEKLY_GOAL_OPTIONS,
+  keyToPath,
+  type DashboardEntry,
+  type DownloadRecord,
+  type ActivityFeedEntry,
+  type InsightItem,
+  type StreakMilestone,
+} from '@/services/learningService';
+import { getItem, type ContentItem } from '@/lib/content';
+import { DonutChart, BarChart, LineChart, ChartLegend, type DonutDatum } from '@/components/learning/LearningCharts';
 
 // 卡片入场动画：initial 保持 opacity:1，确保 SSG 静态 HTML 中文本天生可见。
 const CardAnim: React.FC<{ children: React.ReactNode; delay?: number }> = ({ children, delay = 0 }) => (
@@ -259,12 +286,120 @@ function OnboardingCard() {
   );
 }
 
+const KIND_LABEL: Record<ActivityFeedEntry['kind'], string> = {
+  read: '阅读',
+  game: '游戏',
+  quiz: '测验',
+  download: '下载',
+};
+
+function ActivityRow({ entry }: { entry: ActivityFeedEntry }) {
+  const Icon =
+    entry.kind === 'read'
+      ? BookOpen
+      : entry.kind === 'game'
+        ? Gamepad2
+        : entry.kind === 'quiz'
+          ? ClipboardCheck
+          : Download;
+  const inner = (
+    <div className="flex items-center gap-3 p-2.5 rounded-xl bg-muted/40 hover:bg-muted border border-transparent hover:border-primary/30 transition-all">
+      <div className="shrink-0 w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+        <Icon className="w-4 h-4" />
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="text-sm font-medium truncate">{entry.title}</div>
+        <div className="mt-0.5 flex items-center gap-2 text-xs text-muted-foreground">
+          <span className="text-primary/70">{KIND_LABEL[entry.kind]}</span>
+          <span className="opacity-40">·</span>
+          <span className="truncate">{entry.subtitle}</span>
+        </div>
+      </div>
+      {entry.path && (
+        <ArrowRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+      )}
+    </div>
+  );
+  return entry.path ? (
+    <Link to={entry.path} className="group block">
+      {inner}
+    </Link>
+  ) : (
+    <div className="group block">{inner}</div>
+  );
+}
+
+function ContinueCard({ entry }: { entry: DashboardEntry }) {
+  const path = keyToPath(entry.key);
+  const pct = Math.round((entry.progress?.progress ?? 0) * 100);
+  const inner = (
+    <div className="flex items-center justify-between gap-4">
+      <div className="min-w-0">
+        <div className="text-xs font-semibold tracking-widest text-primary/80 uppercase mb-1">继续学习</div>
+        <div className="text-lg font-bold leading-snug truncate">{entry.item.title}</div>
+        <div className="mt-2 flex items-center gap-3">
+          <Progress value={pct} className="flex-1 max-w-[220px] h-1.5" />
+          <span className="text-sm text-muted-foreground tabular-nums">{pct}%</span>
+        </div>
+      </div>
+      <span className="shrink-0 inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-transform group-hover:scale-[1.03]">
+        继续 <ArrowRight className="w-4 h-4" />
+      </span>
+    </div>
+  );
+  return path ? (
+    <Link
+      to={path}
+      className="group block rounded-3xl border border-primary/30 bg-gradient-to-r from-primary/10 to-secondary/10 p-5 md:p-6 transition-colors"
+    >
+      {inner}
+    </Link>
+  ) : (
+    <div className="rounded-3xl border border-primary/30 bg-gradient-to-r from-primary/10 to-secondary/10 p-5 md:p-6">
+      {inner}
+    </div>
+  );
+}
+
+function RecommendationCard({ item }: { item: ContentItem }) {
+  return (
+    <Link
+      to={`/learn/${item.slug}`}
+      className="group block rounded-2xl border border-border/50 bg-muted/30 hover:bg-muted/60 hover:border-primary/30 p-4 transition-all"
+    >
+      <div className="text-sm font-medium leading-snug line-clamp-2">{item.title}</div>
+      {item.category && <div className="text-xs text-primary/70 mt-1.5">{item.category}</div>}
+    </Link>
+  );
+}
+
 const MyLearning: React.FC = () => {
   // 订阅本地学习数据；首屏 SSG 渲染为默认空态，客户端挂载后填充真实数据。
   const data = useLearningData();
   const dash = useMemo(() => getDashboard(), [data]);
 
   const { summary, recent, favorites, completed, quizzes, games, downloads } = dash;
+
+  // 留存信号（增长黑客：Retention 环节）：进入学习中心且有数据时，
+  // 本会话首次记一次 learning_return（带连续天数/学习量），配合 GA4 匿名用户级
+  // 留存，可看「带学习档案的用户」回访与参与度。
+  useEffect(() => {
+    if (summary.learnedCount + summary.favoriteCount + summary.downloadCount > 0) {
+      try {
+        if (!window.sessionStorage.getItem('planetgis:learning_return')) {
+          window.sessionStorage.setItem('planetgis:learning_return', '1');
+          trackEvent('learning_return', {
+            streak_days: summary.streak,
+            learned_count: summary.learnedCount,
+            favorite_count: summary.favoriteCount,
+            download_count: summary.downloadCount,
+          });
+        }
+      } catch {
+        /* sessionStorage 不可用则跳过 */
+      }
+    }
+  }, [dash]);
 
   // 首访（全空）时显示统一引导卡，取代零散空态；SSG 与 CSR 首帧都基于默认空态渲染，hydration 一致。
   const isFresh =
@@ -275,6 +410,87 @@ const MyLearning: React.FC = () => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
+
+  // 周目标（本地持久化，用户可调整档位）。首帧用默认值，挂载后再读真实值，
+  // 与现有「首帧空态、客户端填充」策略一致，避免 hydration mismatch。
+  const [weeklyGoal, setWeeklyGoalState] = useState<number>(WEEKLY_GOAL_DEFAULT);
+  useEffect(() => {
+    setWeeklyGoalState(getWeeklyGoal());
+  }, []);
+  const changeGoal = (n: number) => {
+    setWeeklyGoal(n);
+    setWeeklyGoalState(n);
+  };
+
+  // —— 增长/可视化派生数据 ——
+  const activity = useMemo(() => getActivityFeed(12), [dash]);
+  const continueEntry = useMemo(() => getContinueEntry(), [dash]);
+  const recommendations = useMemo(() => getRecommendations(3), [dash]);
+  const insights = useMemo(() => buildInsights(dash), [dash]);
+  const weekProgress = useMemo(() => getWeekProgress(weeklyGoal), [dash, weeklyGoal]);
+  const milestones = useMemo<StreakMilestone[]>(() => getStreakMilestones(summary.streak), [dash]);
+
+  // 学习类型分布（环形图）
+  const typeDist = useMemo<DonutDatum[]>(() => {
+    const counts: Record<string, number> = {};
+    for (const e of [...recent, ...favorites, ...completed]) {
+      const t = e.key.split(':')[0];
+      counts[t] = (counts[t] || 0) + 1;
+    }
+    const map: Record<string, { label: string; color: string }> = {
+      learn: { label: '知识库', color: '#0891b2' },
+      article: { label: '文章', color: '#6366f1' },
+      work: { label: '作品', color: '#f59e0b' },
+      tool: { label: '工具', color: '#10b981' },
+    };
+    return Object.entries(counts)
+      .map(([k, v]) => ({ label: map[k]?.label || k, value: v, color: map[k]?.color || '#94a3b8' }))
+      .sort((a, b) => b.value - a.value);
+  }, [recent, favorites, completed]);
+
+  // 下载分类分布（环形图）
+  const downloadDist = useMemo<DonutDatum[]>(() => {
+    const counts: Record<string, number> = {};
+    for (const d of downloads) {
+      const c = d.category || '未分类';
+      counts[c] = (counts[c] || 0) + 1;
+    }
+    const palette = ['#0891b2', '#f59e0b', '#10b981', '#6366f1', '#ef4444', '#ec4899', '#14b8a6', '#a855f7'];
+    return Object.entries(counts).map(([k, v], i) => ({ label: k, value: v, color: palette[i % palette.length] }));
+  }, [downloads]);
+
+  // 每周活跃天数（柱状图）
+  const weekly = useMemo(() => getWeeklyActivity(8), [dash]);
+
+  // 成绩趋势（折线图）+ 明细表
+  const scoreRows = useMemo(() => {
+    type Row = { id: string; kind: 'quiz' | 'game'; title: string; score: number; total: number; pct: number; at: string };
+    const rows: Row[] = [];
+    for (const q of quizzes)
+      rows.push({ id: 'q:' + q.id, kind: 'quiz', title: q.title, score: q.score, total: q.total, pct: q.total > 0 ? Math.round((q.score / q.total) * 100) : 0, at: q.takenAt });
+    for (const g of games)
+      if (g.score != null && g.total)
+        rows.push({ id: 'g:' + g.id, kind: 'game', title: g.title, score: g.score, total: g.total, pct: Math.round((g.score / g.total) * 100), at: g.takenAt });
+    rows.sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime());
+    return rows;
+  }, [quizzes, games]);
+
+  const scorePoints = scoreRows.map((r) => ({
+    label: new Date(r.at).toLocaleDateString('zh-CN', { month: 'numeric', day: 'numeric' }),
+    value: r.pct,
+  }));
+
+  // 成就分享文案（接通 Referral 闭环）
+  const shareText = useMemo(() => {
+    const bits: string[] = [];
+    if (summary.streak > 0) bits.push(`连续学习 ${summary.streak} 天`);
+    if (quizzes.length > 0) {
+      const acc = Math.round(quizzes.reduce((s, q) => s + (q.total > 0 ? (q.score / q.total) * 100 : 0), 0) / quizzes.length);
+      bits.push(`测验平均正确率 ${acc}%`);
+    }
+    const head = bits.length > 0 ? `我在星球小捕手${bits.join('、')}！` : '我在星球小捕手学地理';
+    return `${head} 一起来测测你的地理知识吧`;
+  }, [summary.streak, quizzes]);
 
   return (
     <>
@@ -319,7 +535,7 @@ const MyLearning: React.FC = () => {
                 value={summary.learnedCount}
                 label="已学习"
                 accent="bg-primary/10 text-primary"
-                onClick={() => scrollTo('section-recent')}
+                onClick={() => scrollTo('section-activity')}
               />
             </CardAnim>
             <CardAnim delay={0.05}>
@@ -361,56 +577,61 @@ const MyLearning: React.FC = () => {
           {isFresh ? (
             <OnboardingCard />
           ) : (
-            <>
-              {/* 学习足迹：最近学习 */}
-              <section id="section-recent" className="mb-8 scroll-mt-24">
-                <SectionLabel className="mb-4">最近学习</SectionLabel>
-                {recent.length > 0 ? (
-                  <div className="space-y-2">
-                    {recent.map((entry, i) => (
-                      <CardAnim key={entry.key} delay={i * 0.03}>
-                        <ContentRow entry={entry} />
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+              {/* 左栏：主内容 */}
+              <div className="lg:col-span-8 space-y-8">
+              {/* 继续学习：续读主卡（取未完成且进度最高项） */}
+              {continueEntry && <ContinueCard entry={continueEntry} />}
+
+              {/* 学习足迹：统一活动流（读/玩/测/下合并） */}
+              <section id="section-activity" className="scroll-mt-24">
+                <SectionLabel className="mb-4">最近动态</SectionLabel>
+                {activity.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {activity.map((entry, i) => (
+                      <CardAnim key={entry.id} delay={i * 0.03}>
+                        <ActivityRow entry={entry} />
                       </CardAnim>
                     ))}
                   </div>
                 ) : (
-                  <EmptyHint text="还没有学习记录，去读一篇试试？" to="/learn" cta="浏览知识库" />
+                  <EmptyHint text="还没有学习记录，去读一篇或玩一局试试？" to="/learn" cta="浏览知识库" />
                 )}
               </section>
 
-              {/* 学习足迹：我的收藏 */}
-              <section id="section-favorites" className="mb-8 scroll-mt-24">
-                <SectionLabel className="mb-4">我的收藏</SectionLabel>
-                {favorites.length > 0 ? (
-                  <div className="space-y-2">
-                    {favorites.map((entry, i) => (
-                      <CardAnim key={entry.key} delay={i * 0.03}>
-                        <ContentRow entry={entry} />
-                      </CardAnim>
-                    ))}
+              {/* 学习足迹：我的收藏 + 已学完（并排，吃满横向空间） */}
+              <section className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-8 scroll-mt-24">
+                <div id="section-favorites">
+                  <SectionLabel className="mb-4">我的收藏</SectionLabel>
+                  {favorites.length > 0 ? (
+                    <div className="space-y-2">
+                      {favorites.map((entry, i) => (
+                        <CardAnim key={entry.key} delay={i * 0.03}>
+                          <ContentRow entry={entry} />
+                        </CardAnim>
+                      ))}
+                    </div>
+                  ) : (
+                    <EmptyHint text="还没有收藏任何教程，在内容页点右上角的星标即可收藏。" />
+                  )}
+                </div>
+                {completed.length > 0 && (
+                  <div id="section-completed">
+                    <SectionLabel className="mb-4">已学完的课程</SectionLabel>
+                    <div className="space-y-2">
+                      {completed.map((entry, i) => (
+                        <CardAnim key={entry.key} delay={i * 0.03}>
+                          <ContentRow entry={entry} />
+                        </CardAnim>
+                      ))}
+                    </div>
                   </div>
-                ) : (
-                  <EmptyHint text="还没有收藏任何教程，在内容页点右上角的星标即可收藏。" />
                 )}
               </section>
-
-              {/* 学习足迹：已完成的教程 */}
-              {completed.length > 0 && (
-                <section id="section-completed" className="mb-8 scroll-mt-24">
-                  <SectionLabel className="mb-4">已学完的课程</SectionLabel>
-                  <div className="space-y-2">
-                    {completed.map((entry, i) => (
-                      <CardAnim key={entry.key} delay={i * 0.03}>
-                        <ContentRow entry={entry} />
-                      </CardAnim>
-                    ))}
-                  </div>
-                </section>
-              )}
 
               {/* 学习足迹：下载记录 */}
               {downloads.length > 0 && (
-                <section id="section-downloads" className="mb-8 scroll-mt-24">
+                <section id="section-downloads" className="scroll-mt-24">
                   <SectionLabel className="mb-4">下载记录</SectionLabel>
                   <div className="space-y-2">
                     {downloads.map((rec, i) => (
@@ -426,9 +647,17 @@ const MyLearning: React.FC = () => {
               {(quizzes.length > 0 || games.length > 0) && (
                 <section
                   id="section-scores"
-                  className="mb-8 rounded-3xl bg-muted/30 border border-border/50 p-5 md:p-7 scroll-mt-24"
+                  className="rounded-3xl bg-muted/30 border border-border/50 p-5 md:p-7 scroll-mt-24"
                 >
-                  <SectionLabel className="mb-5">我的成绩</SectionLabel>
+                  <div className="flex items-center justify-between gap-3 mb-5">
+                    <SectionLabel>我的成绩</SectionLabel>
+                    <ShareButton
+                      title="星球小捕手 · 我的学习"
+                      path="/my"
+                      contentType="achievement"
+                      text={shareText}
+                    />
+                  </div>
 
                   {quizzes.length > 0 && (
                     <div className="mb-6">
@@ -515,12 +744,42 @@ const MyLearning: React.FC = () => {
                       </div>
                     </div>
                   )}
+
+                  {/* 成绩趋势（正确率 %）：与测验/游戏卡配对 */}
+                  {scoreRows.length > 0 && (
+                    <div className="mt-6 pt-6 border-t border-border/50">
+                      <h3 className="text-sm font-medium mb-4 flex items-center gap-2">
+                        <TrendingUp className="w-4 h-4 text-primary" /> 成绩趋势（正确率 %）
+                      </h3>
+                      <LineChart points={scorePoints} />
+                      <div className="mt-4 space-y-2.5">
+                        {scoreRows
+                          .slice()
+                          .reverse()
+                          .map((r) => (
+                            <div key={r.id} className="flex items-center gap-3 text-sm">
+                              <span className="w-9 shrink-0 text-muted-foreground">
+                                {r.kind === 'quiz' ? '测验' : '游戏'}
+                              </span>
+                              <span className="flex-1 min-w-0 truncate">{r.title}</span>
+                              <span className="text-xs text-muted-foreground tabular-nums w-16 text-right shrink-0">
+                                {new Date(r.at).toLocaleDateString('zh-CN')}
+                              </span>
+                              <div className="w-24 shrink-0">
+                                <Progress value={r.pct} className="h-1.5" />
+                              </div>
+                              <span className="tabular-nums w-12 text-right font-medium shrink-0">{r.pct}%</span>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  )}
                 </section>
               )}
 
               {/* 暂无成绩的引导（诚实占位，不编造分数） */}
               {quizzes.length === 0 && games.length === 0 && (
-                <section className="mb-8">
+                <section>
                   <SectionLabel className="mb-4">我的成绩</SectionLabel>
                   <EmptyHint
                     text="还没有成绩记录。完成地理小测验，或玩一局三个地理小游戏，成绩都会显示在这里。"
@@ -529,7 +788,169 @@ const MyLearning: React.FC = () => {
                   />
                 </section>
               )}
-            </>
+
+              {/* 为你推荐 */}
+              {recommendations.length > 0 && (
+                <section className="scroll-mt-24">
+                  <SectionLabel className="mb-4">为你推荐</SectionLabel>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {recommendations.map((item, i) => (
+                      <CardAnim key={item.slug} delay={i * 0.04}>
+                        <RecommendationCard item={item} />
+                      </CardAnim>
+                    ))}
+                  </div>
+                </section>
+              )}
+              </div>{/* 左栏结束 */}
+
+              {/* 右栏：数据洞察（sticky 常驻可视区） */}
+              <aside className="lg:col-span-4">
+                <div className="lg:sticky lg:top-24 space-y-4">
+
+                  {/* 周目标徽章 + 连学里程碑（增长激励） */}
+                  <div className="rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 to-secondary/10 p-5">
+                    <div className="flex items-center gap-4">
+                      <div className="shrink-0">
+                        <DonutChart
+                          data={[{ label: '本周已学', value: weekProgress.done, color: '#0891b2' }]}
+                          size={82}
+                          thickness={10}
+                          centerLabel="本周"
+                        />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2 text-sm font-semibold">
+                          <Target className="w-4 h-4 text-primary" /> 本周目标
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
+                          已完成 {weekProgress.done}/{weekProgress.goal} 天
+                          {weekProgress.onTrack
+                            ? '，节奏不错，继续保持'
+                            : `，还差 ${Math.max(0, weekProgress.goal - weekProgress.done)} 天，本周剩 ${weekProgress.daysLeft} 天`}
+                        </p>
+                        <div className="mt-2 flex items-center gap-1">
+                          {WEEKLY_GOAL_OPTIONS.map((opt) => (
+                            <button
+                              key={opt}
+                              type="button"
+                              onClick={() => changeGoal(opt)}
+                              className={`text-xs rounded-full px-2 py-0.5 border transition-colors ${
+                                opt === weeklyGoal
+                                  ? 'bg-primary text-white border-primary'
+                                  : 'border-border/60 text-muted-foreground hover:border-primary/40'
+                              }`}
+                            >
+                              {opt}天
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-4 pt-4 border-t border-border/50">
+                      <div className="flex items-center gap-2 text-sm font-semibold mb-2.5">
+                        <Award className="w-4 h-4 text-amber-500" /> 连学里程碑
+                      </div>
+                      <div className="flex items-center justify-between gap-1">
+                        {milestones.map((m) => (
+                          <div key={m.days} className="flex-1 text-center">
+                            <div
+                              className={`mx-auto flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold ${
+                                m.reached
+                                  ? 'bg-primary text-white'
+                                  : m.isNext
+                                    ? 'bg-amber-500/15 text-amber-600 ring-2 ring-amber-500/40'
+                                    : 'bg-muted text-muted-foreground'
+                              }`}
+                            >
+                              {m.reached ? <CheckCircle2 className="w-4 h-4" /> : m.days}
+                            </div>
+                            <div className="mt-1 text-[10px] text-muted-foreground leading-tight">{m.label}</div>
+                          </div>
+                        ))}
+                      </div>
+                      {summary.streak > 0 && (
+                        <p className="mt-2.5 text-xs text-muted-foreground leading-relaxed">
+                          {(() => {
+                            const next = milestones.find((m) => m.isNext);
+                            return next
+                              ? `已连续 ${summary.streak} 天，再学 ${next.days - summary.streak} 天点亮「${next.label}」`
+                              : `已连续 ${summary.streak} 天，已点亮全部里程碑，太强了！`;
+                          })()}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* 学习类型分布 */}
+                  <div className="rounded-2xl border border-border/50 bg-muted/30 p-5">
+                    <h3 className="text-sm font-medium mb-4 flex items-center gap-2">
+                      <PieChart className="w-4 h-4 text-primary" /> 学习类型分布
+                    </h3>
+                    {typeDist.length > 0 ? (
+                      <div className="flex items-center gap-4">
+                        <DonutChart data={typeDist} size={120} />
+                        <div className="min-w-0 flex-1">
+                          <ChartLegend data={typeDist} />
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="text-sm text-muted-foreground">还没有学习记录</p>
+                    )}
+                  </div>
+
+                  {/* 近 8 周活跃 */}
+                  <div className="rounded-2xl border border-border/50 bg-muted/30 p-5">
+                    <h3 className="text-sm font-medium mb-4 flex items-center gap-2">
+                      <BarChart3 className="w-4 h-4 text-primary" /> 近 8 周活跃天数
+                    </h3>
+                    <BarChart data={weekly} />
+                  </div>
+
+                  {/* 下载分类 */}
+                  {downloadDist.length > 0 && (
+                    <div className="rounded-2xl border border-border/50 bg-muted/30 p-5">
+                      <h3 className="text-sm font-medium mb-4 flex items-center gap-2">
+                        <PieChart className="w-4 h-4 text-primary" /> 下载资料分类
+                      </h3>
+                      <div className="flex items-center gap-4">
+                        <DonutChart data={downloadDist} size={120} />
+                        <div className="min-w-0 flex-1">
+                          <ChartLegend data={downloadDist} />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 数据分析与建议 */}
+                  {insights.length > 0 && (
+                    <div className="rounded-2xl border border-primary/15 bg-primary/5 p-5">
+                      <h3 className="text-sm font-semibold mb-3 flex items-center gap-2 text-primary">
+                        <Trophy className="w-4 h-4" /> 数据分析与建议
+                      </h3>
+                      <ul className="space-y-2.5 text-sm text-muted-foreground leading-relaxed">
+                        {insights.map((ins, i) => (
+                          <li key={i} className="flex items-start gap-2">
+                            <span
+                              className={
+                                ins.tone === 'positive'
+                                  ? 'text-emerald-500'
+                                  : ins.tone === 'warn'
+                                    ? 'text-amber-500'
+                                    : 'text-primary'
+                              }
+                            >
+                              ●
+                            </span>
+                            <span>{ins.text}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </aside>
+            </div>
           )}
 
           {/* 页脚提示：本地存储说明 + 未来迁移承诺 */}

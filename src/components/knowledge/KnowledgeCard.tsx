@@ -19,7 +19,7 @@ function leadOf(item: ContentItem): string {
 }
 
 /**
- * 密集知识卡：在封面+标题之外，补充学科/学段徽章、导语、阅读时长、字数、标签，
+ * 密集知识卡：在封面+标题之外，补充学科/专题徽章、导语、阅读时长、字数、标签，
  * 让列表与首页一眼可判断"这篇值不值得读"，提升知识密度。
  */
 const KnowledgeCard = ({ item, showSubject = true }: { item: ContentItem; showSubject?: boolean }) => {
@@ -43,9 +43,9 @@ const KnowledgeCard = ({ item, showSubject = true }: { item: ContentItem; showSu
             {item.subject}
           </span>
         )}
-        {item.category && (
+        {(item.level || item.category) && (
           <span className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full text-xs font-medium bg-foreground/80 text-background backdrop-blur-sm">
-            {item.category}
+            {item.level || item.category}
           </span>
         )}
       </div>

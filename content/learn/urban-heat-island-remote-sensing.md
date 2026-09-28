@@ -3,7 +3,8 @@ slug: urban-heat-island-remote-sensing
 title: 用遥感反演城市热岛：从卫星影像到空间格局
 summary: 大学地理信息科学入门：如何利用 Landsat 地表温度反演，量化城市热岛强度，并用空间分析解读它的分布规律。
 date: 2026-08-06
-category: 大学地理
+category: 地理基础
+level: 大学
 subject: 地理信息技术
 tags: 地理, 大学地理
 ---

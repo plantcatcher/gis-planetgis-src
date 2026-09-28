@@ -3,7 +3,8 @@ slug: earth-latitude
 title: 纬度是地球上唯一诚实的坐标
 summary: 在这颗星球上，诚实的坐标不多，纬度是其中一个。
 date: 2026-08-12
-category: 初中地理
+category: 地理基础
+level: 初中
 subject: 自然地理
 tags: 地理, 初中地理
 cover: https://blogphoto.planetgis.cn/PicGo/2026-08-12-057bdcff6edcab417b1357d6c30ba560-sz_1007720.png

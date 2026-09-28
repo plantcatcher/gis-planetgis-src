@@ -3,7 +3,7 @@ title: 温室效应加剧，塔里木盆地会越来越干吗？一文看懂未�
 slug: 9ab3aaec
 date: 2026-03-03
 category: 区域地理
-subject: 城市与区域
+subject: 区域地理
 tags: 区域地理, 地图可视化, 地理科普, 新疆
 cover: https://blogphoto.planetgis.cn/PicGo/2026-03-03-a0c24ed7ad8967fe8cb976263dbc2ddd-sz_2921644.png
 summary: 在全球气候变暖的大背景下，温室效应早已不是遥远的环境议题，而是深刻改变着地球每一片土地的生态格局。塔里木盆地，这片中国最大的内陆盆地，以极端干旱的荒漠地貌闻名于世，却也正因气候变化，正经历着一场无声却剧烈的生态演变。

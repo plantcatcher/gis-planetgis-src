@@ -3,7 +3,8 @@ slug: earth-Time-zone
 title: 为什么中国横跨五个时区，却只用一个北京时间
 summary: 
 date: 2026-08-12
-category: 初中地理
+category: 地理基础
+level: 初中
 subject: 自然地理
 tags: 地理, 初中地理
 cover: https://blogphoto.planetgis.cn/PicGo/2026-08-12-e1b3ea123122d2a224a079c0103514dc-sz_523453.jpeg

@@ -5,7 +5,7 @@ import { getLearnSubjects, getLearnCategories } from '@/lib/content';
 
 const Footer = () => {
   const subjects = getLearnSubjects();
-  const levels = getLearnCategories();
+  const categories = getLearnCategories();
   return (
     <footer className="bg-muted py-12 px-4 border-t mt-16">
       <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-8">
@@ -33,12 +33,12 @@ const Footer = () => {
         </div>
 
         <div>
-          <h4 className="font-semibold text-sm mb-3">学段</h4>
+          <h4 className="font-semibold text-sm mb-3">专题</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            {levels.map((l) => (
-              <li key={l}>
-                <Link to="/learn" className="hover:text-primary transition-colors">
-                  {l}
+            {categories.map((c) => (
+              <li key={c}>
+                <Link to={`/learn?category=${encodeURIComponent(c)}`} className="hover:text-primary transition-colors">
+                  {c}
                 </Link>
               </li>
             ))}

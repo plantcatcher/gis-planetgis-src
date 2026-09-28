@@ -3,7 +3,8 @@ slug: china-river-codes
 title: 我国 1-5 级河流的国标码：每条河都有自己的"身份证号"
 summary: 全国主要河流按国标分为五级（一级最高），并用 6 位数字字母混合码统一编码。本文讲清分级口径、代码结构与实际用途，并推荐一张能随手查每条河国标码的互动地图。
 date: 2026-09-25
-category: 高中地理
+category: 地理基础
+level: 高中
 subject: 自然地理
 tags: 河流, 河流代码, 水系, 地理编码, GIS数据, 水文
 cover: https://blogphoto.planetgis.cn/PicGo/2026-09-25-river_cover.jpg

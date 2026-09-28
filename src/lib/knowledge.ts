@@ -88,7 +88,15 @@ export const buildInfobox = (item: ContentItem): InfoboxRow[] => {
     rows.push({ label: '学科方向', value: item.subject, href: `/learn?subject=${encodeURIComponent(item.subject)}` });
   }
   if (item.category) {
-    rows.push({ label: '学段', value: item.category });
+    rows.push({
+      label: '专题',
+      value: item.category,
+      // 只有知识库条目才有对应的专题筛选页
+      ...(item.type === 'learn' ? { href: `/learn?category=${encodeURIComponent(item.category)}` } : {}),
+    });
+  }
+  if (item.level) {
+    rows.push({ label: '学段', value: item.level, href: `/learn?level=${encodeURIComponent(item.level)}` });
   }
   if (item.date) {
     rows.push({ label: '发布时间', value: item.date });

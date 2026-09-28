@@ -3,7 +3,7 @@ title: 新疆这么缺水，为什么偏偏要种棉花？
 slug: fc8efd8e
 date: 2026-08-20
 category: 区域地理
-subject: 城市与区域
+subject: 区域地理
 tags: 区域地理, 中国, 地理科普, 新疆
 cover: https://blogphoto.planetgis.cn/PicGo/2026-08-20-6ad59a42966e16200999592537cc8eae-sz_287774.jpeg
 summary: 你大概听过一句话：新疆，是中国最缺水的地方之一。塔里木盆地的年降水量，有些年份连 50 毫米都不到——北京一年下三四百毫米，上海一千多毫米，而南疆大片戈壁，一年落下的雨水还不够浇透一层土。蒸发量却是降水的几十倍。

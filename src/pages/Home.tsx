@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Github, Youtube, MessageCircle, Instagram, Rss, ArrowRight, ExternalLink, Globe, Compass, Box, Share2, Calendar, Lightbulb, Newspaper, Download, Lock } from 'lucide-react';
+import { Github, Youtube, MessageCircle, Instagram, Rss, ArrowRight, ExternalLink, Globe, Compass, Box, Share2, Calendar, Lightbulb, Newspaper, Download, Lock, BookOpen, Target } from 'lucide-react';
 import { motion } from 'framer-motion';
 import {
   getWorks,
@@ -19,6 +19,8 @@ import HomeSidebar, { useScrollSpy } from '@/components/home/HomeSidebar';
 import subdomainsData from '@/data/subdomains.json';
 import PageMeta from '@/components/common/PageMeta';
 import { useJsonLd } from '@/lib/seo';
+import { useLearningData } from '@/hooks/useLearning';
+import { getContinueEntry, keyToPath, getWeekProgress, WEEKLY_GOAL_DEFAULT } from '@/services/learningService';
 import KnowledgeCard from '@/components/knowledge/KnowledgeCard';
 import SectionLabel from '@/components/knowledge/SectionLabel';
 
@@ -197,6 +199,72 @@ const GeoFactCard = () => {
   );
 };
 
+/** 首页续读 + 本周目标激励条：仅在有学习痕迹时客户端渲染；SSG 默认空态，hydration 一致 */
+const ContinueLearningStrip: React.FC = () => {
+  const data = useLearningData();
+  const entry = useMemo(() => getContinueEntry(), [data]);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  // 首帧用默认值（SSR 一致），挂载后读真实周进度；避免直接读 localStorage 导致水合不一致
+  const week = useMemo(
+    () =>
+      mounted
+        ? getWeekProgress()
+        : { done: 0, goal: WEEKLY_GOAL_DEFAULT, pct: 0, daysLeft: 7, onTrack: true },
+    [mounted, data],
+  );
+
+  // 有学习痕迹（已挂载且本地数据非空）才显示周目标激励；纯新访客不显示，避免噪声
+  const hasLearning =
+    mounted && (data.profile.activeDates.length > 0 || data.learning.recentlyViewed.length > 0);
+  if (!entry && !hasLearning) return null;
+
+  return (
+    <div className="mt-4 space-y-2">
+      {entry &&
+        (() => {
+          const path = keyToPath(entry.key);
+          if (!path) return null;
+          const pct = Math.round((entry.progress?.progress ?? 0) * 100);
+          return (
+            <Link
+              to={path}
+              className="flex items-center gap-3 rounded-xl border border-border/50 bg-muted/30 px-4 py-3 hover:border-primary/30 transition-colors"
+            >
+              <BookOpen className="w-5 h-5 text-primary shrink-0" />
+              <div className="min-w-0 flex-1">
+                <div className="text-xs text-muted-foreground">继续学习</div>
+                <div className="text-sm font-medium truncate">{entry.item.title}</div>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <Progress value={pct} className="w-20 h-1.5 hidden sm:block" />
+                <span className="text-xs text-muted-foreground tabular-nums">{pct}%</span>
+                <ArrowRight className="w-4 h-4 text-primary" />
+              </div>
+            </Link>
+          );
+        })()}
+
+      {hasLearning && (
+        <Link
+          to="/my"
+          className="flex items-center gap-3 rounded-xl border border-border/50 bg-muted/30 px-4 py-2.5 hover:border-primary/30 transition-colors"
+        >
+          <Target className="w-4 h-4 text-primary shrink-0" />
+          <span className="text-xs text-muted-foreground shrink-0">本周目标</span>
+          <Progress value={week.pct} className="w-20 sm:w-28 h-1.5" />
+          <span className="text-xs font-medium tabular-nums shrink-0">
+            {week.done}/{week.goal} 天
+          </span>
+          <span className="text-xs text-muted-foreground truncate">
+            {week.done >= week.goal ? '已达标 🎉' : `还差 ${week.goal - week.done} 天`}
+          </span>
+        </Link>
+      )}
+    </div>
+  );
+};
+
 const Home = () => {
   const profile = {
     id: '1',
@@ -306,27 +374,41 @@ const Home = () => {
                 一个自助探索的地理知识库
               </h1>
               <p className="mt-5 text-base md:text-lg text-muted-foreground leading-relaxed">
-                自然、人文、区域、GIS 四大方向，按主题与学段组织成可检索的知识词条——
-                课本里讲不透的知识点，这里讲透、讲活，随时来翻、随手可读。
+                自然、人文、区域、GIS 四大方向，把讲不透的地理知识讲透、讲活——
+                词条随手可查，地图随时可玩，资料即下即用。
               </p>
               <div className="byline mt-4 flex items-center gap-3">
                 <span>每日更新 · 自助阅读</span>
                 <span className="opacity-40">·</span>
                 <span>{new Date().getFullYear()} 年刊</span>
               </div>
-              <div className="flex gap-3 flex-wrap mt-6">
-                <Button className="rounded-full px-6 shadow-lg shadow-primary/25" onClick={() => {
-                  document.getElementById('learn')?.scrollIntoView({ behavior: 'smooth' });
-                }}>
-                  开始探索地理 <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
-                <Button variant="outline" className="rounded-full px-6" onClick={() => {
-                  document.getElementById('works')?.scrollIntoView({ behavior: 'smooth' });
-                }}>
-                  浏览作品
-                </Button>
+            </div>
+
+            {/* 啊哈时刻单一引导：与「地理冷知识」卡同宽（占满内容列，不局限 max-w-3xl） */}
+            <div className="mt-8 flex flex-col gap-4 rounded-2xl border border-primary/30 bg-gradient-to-r from-primary/10 to-secondary/10 p-5 sm:flex-row sm:items-center">
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-semibold tracking-widest text-primary/80 uppercase">30 秒体验一下</p>
+                <p className="mt-1 text-lg font-bold leading-snug">看一张卫星图，猜这是哪座城市</p>
+                <p className="mt-1 text-sm text-muted-foreground">无需注册，打开就能玩——比读一段介绍更先让你「哇」一下。</p>
+              </div>
+              <div className="flex shrink-0 gap-3">
+                <Link
+                  to="/geoquiz"
+                  className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-transform hover:scale-[1.03]"
+                >
+                  开始挑战 <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link
+                  to="/maps/cn-rivers"
+                  className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium transition-colors hover:border-primary/40"
+                >
+                  或查一条河
+                </Link>
               </div>
             </div>
+
+            {/* 续读条：把本地学习进度召回首页，形成回访钩子 */}
+            <ContinueLearningStrip />
           </SectionWrapper>
         );
       case 'works':
@@ -559,7 +641,7 @@ const Home = () => {
               id="learn"
               kicker="地理知识库"
               title="按学科探索地理"
-              lead="从自然地理到 GIS 技术，按学科与学段组织成可检索的自助知识库——随时来翻、随手可读。"
+              lead="从自然地理到 GIS 技术，按学科与专题组织成可检索的自助知识库——随时来翻、随手可读。"
               action={
                 <Link to="/learn" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
                   进入完整知识库 <ArrowRight className="w-3.5 h-3.5" />

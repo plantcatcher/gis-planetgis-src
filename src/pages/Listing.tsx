@@ -14,6 +14,7 @@ import {
   getResources,
   getLearnCategories,
   getLearnSubjects,
+  getLearnLevels,
   getTags,
   isResourceGated,
   SUBJECT_META,
@@ -188,35 +189,75 @@ const LearnGrid = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const all = getLearns();
   const subjects = getLearnSubjects();
-  const levels = getLearnCategories();
+  const categories = getLearnCategories();
+  const levels = getLearnLevels();
   const allTags = useMemo(
     () => getTags().filter((t) => all.some((i) => (i.tags || []).includes(t.tag))).slice(0, 14),
     [all],
   );
 
   const initialSubject = searchParams.get('subject');
+  const initialCategory = searchParams.get('category');
+  const initialLevel = searchParams.get('level');
   const [activeSubject, setActiveSubject] = useState(
     initialSubject && subjects.some((s) => s.name === initialSubject) ? initialSubject : '全部',
   );
-  const [activeLevel, setActiveLevel] = useState('全部');
+  const [activeCategory, setActiveCategory] = useState(
+    initialCategory && categories.includes(initialCategory) ? initialCategory : '全部',
+  );
+  const [activeLevel, setActiveLevel] = useState(
+    initialLevel && levels.includes(initialLevel) ? initialLevel : '全部',
+  );
   const [activeTags, setActiveTags] = useState<string[]>([]);
   const [query, setQuery] = useState(searchParams.get('q') || '');
 
   // GA4：知识库搜索关键词（防抖 + 会话内去重，避免记录输入中间态）
   useSearchTracking(query, 'learn');
 
+  // URL → 筛选状态：支持从页脚 / 详情页 infobox 深链进入，以及浏览器前进后退
+  useEffect(() => {
+    const s = searchParams.get('subject');
+    setActiveSubject(s && subjects.some((x) => x.name === s) ? s : '全部');
+    const c = searchParams.get('category');
+    setActiveCategory(c && categories.includes(c) ? c : '全部');
+    const l = searchParams.get('level');
+    setActiveLevel(l && levels.includes(l) ? l : '全部');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
+  // 筛选状态 → URL：点击筛选时把 学科/专题/学段 写回 query string
+  const syncUrl = (next: { subject?: string; category?: string; level?: string }) => {
+    const s = next.subject ?? activeSubject;
+    const c = next.category ?? activeCategory;
+    const l = next.level ?? activeLevel;
+    const p: Record<string, string> = {};
+    if (s !== '全部') p.subject = s;
+    if (c !== '全部') p.category = c;
+    if (l !== '全部') p.level = l;
+    if (query.trim()) p.q = query.trim();
+    setSearchParams(p, { replace: true });
+  };
+
   const pickSubject = (name: string) => {
     setActiveSubject(name);
-    if (name === '全部') setSearchParams({}, { replace: true });
-    else setSearchParams({ subject: name }, { replace: true });
+    syncUrl({ subject: name });
+  };
+  const pickCategory = (name: string) => {
+    setActiveCategory(name);
+    syncUrl({ category: name });
+  };
+  const pickLevel = (name: string) => {
+    setActiveLevel(name);
+    syncUrl({ level: name });
   };
   const toggleTag = (t: string) =>
     setActiveTags((prev) => (prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]));
 
-  // 三级过滤：学科 → 学段 → 标签，最后正文检索
+  // 四级过滤：学科 → 专题 → 学段 → 标签，最后正文检索
   let base = all;
   if (activeSubject !== '全部') base = base.filter((i) => i.subject === activeSubject);
-  if (activeLevel !== '全部') base = base.filter((i) => i.category === activeLevel);
+  if (activeCategory !== '全部') base = base.filter((i) => i.category === activeCategory);
+  if (activeLevel !== '全部') base = base.filter((i) => i.level === activeLevel);
   if (activeTags.length) base = base.filter((i) => (i.tags || []).some((t) => activeTags.includes(t)));
   const q = query.trim();
   const searched: ContentItem[] = q ? searchAll(q, base).map((h) => h.item) : base;
@@ -262,22 +303,51 @@ const LearnGrid = () => {
           </div>
         </div>
         <div>
-          <SectionLabel className="mb-3">学段</SectionLabel>
+          <SectionLabel className="mb-3">专题</SectionLabel>
           <div className="space-y-1">
-            {['全部', ...levels].map((name) => (
-              <button
-                key={name}
-                type="button"
-                onClick={() => setActiveLevel(name)}
-                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${
-                  activeLevel === name ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-muted text-muted-foreground'
-                }`}
-              >
-                <span>{name}</span>
-              </button>
-            ))}
+            {['全部', ...categories].map((name) => {
+              const count = name === '全部' ? all.length : all.filter((i) => i.category === name).length;
+              const active = activeCategory === name;
+              return (
+                <button
+                  key={name}
+                  type="button"
+                  onClick={() => pickCategory(name)}
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${
+                    active ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-muted text-muted-foreground'
+                  }`}
+                >
+                  <span>{name}</span>
+                  <span className="text-xs opacity-70">{count}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
+        {levels.length > 0 && (
+          <div>
+            <SectionLabel className="mb-3">学段</SectionLabel>
+            <div className="space-y-1">
+              {['全部', ...levels].map((name) => {
+                const count = name === '全部' ? all.filter((i) => i.level).length : all.filter((i) => i.level === name).length;
+                const active = activeLevel === name;
+                return (
+                  <button
+                    key={name}
+                    type="button"
+                    onClick={() => pickLevel(name)}
+                    className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${
+                      active ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-muted text-muted-foreground'
+                    }`}
+                  >
+                    <span>{name}</span>
+                    <span className="text-xs opacity-70">{count}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </aside>
 
       {/* 主区 */}
@@ -318,6 +388,7 @@ const LearnGrid = () => {
         <p className="text-sm text-muted-foreground mb-5">
           共 <span className="font-semibold text-foreground">{searched.length}</span> 篇
           {activeSubject !== '全部' && ` · ${activeSubject}`}
+          {activeCategory !== '全部' && ` · ${activeCategory}`}
           {activeLevel !== '全部' && ` · ${activeLevel}`}
           {q && ` · 含“${q}”`}
         </p>

@@ -5,6 +5,8 @@ import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { Menu, X, User, ChevronDown } from 'lucide-react';
 import HotBadge from '@/components/common/HotBadge';
+import { useLearningData } from '@/hooks/useLearning';
+import { computeStreak } from '@/services/learningService';
 
 const navLinks: { name: string; path: string; hot?: boolean }[] = [
   { name: '站点导览', path: '/' },
@@ -42,6 +44,11 @@ const Navbar = () => {
   };
 
   const moreActive = moreLinks.some((l) => isActive(l.path));
+
+  // 学习连续天数徽标：有连学记录时在「我的学习」图标上显示天数，形成回访钩子。
+  // SSG 阶段 useLearningData 返回服务快照（空），streak=0，与客户端首帧一致，无 hydration 错位。
+  const learning = useLearningData();
+  const streak = computeStreak(learning.profile.activeDates);
 
   // 首页内 section 锚点：同页平滑滚动，避免整页跳动。
   const handleNav = (e: React.MouseEvent, path: string) => {
@@ -211,11 +218,16 @@ const Navbar = () => {
             asChild
             variant="ghost"
             size="icon"
-            className={`rounded-full ${isActive('/my') ? 'text-primary bg-primary/10' : ''}`}
+            className={`relative rounded-full ${isActive('/my') ? 'text-primary bg-primary/10' : ''}`}
             aria-label="我的学习"
           >
             <Link to="/my">
               <User className="w-5 h-5" />
+              {streak > 0 && (
+                <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 inline-flex items-center justify-center rounded-full bg-orange-500 text-white text-[10px] font-bold leading-none tabular-nums">
+                  {streak}
+                </span>
+              )}
             </Link>
           </Button>
           <button

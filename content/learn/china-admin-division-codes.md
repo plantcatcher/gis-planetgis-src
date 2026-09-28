@@ -3,7 +3,8 @@ slug: china-admin-division-codes
 title: 中华人民共和国行政区划代码（六位码）全表
 summary: 基于 GB/T 2260 的全国行政区划六位代码全表，覆盖 34 个省级行政区及下属地市、区县，供 GIS 制图与地址标准化检索。
 date: 2026-09-20
-category: 高中地理
+category: 地理基础
+level: 高中
 subject: 人文地理
 tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
 ---

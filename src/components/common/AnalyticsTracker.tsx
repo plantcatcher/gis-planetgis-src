@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { trackPageView, useIframeAnalyticsBridge } from '@/lib/analytics';
+import { trackPageView, useIframeAnalyticsBridge, captureRef } from '@/lib/analytics';
 
 /**
  * GA4 统计副作用组件（返回 null，不产出 DOM，不影响预渲染 hydration 结构）。
@@ -19,6 +19,11 @@ const AnalyticsTracker = () => {
     // 因此这里读到的已经是本次路由的标题。
     trackPageView(pathname);
   }, [pathname]);
+
+  // 应用启动即固化 ?ref= 来源（分享闭环归因），只跑一次
+  useEffect(() => {
+    captureRef();
+  }, []);
 
   useEffect(() => useIframeAnalyticsBridge(), []);
 

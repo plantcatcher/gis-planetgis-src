@@ -3,7 +3,8 @@ slug: earth-PrimeMeridian
 title: 本初子午线凭什么是伦敦？一场持续百年的国家博弈
 summary: 地图上看似客观的线条，很多是历史的遗迹、政治的妥协
 date: 2026-08-12
-category: 初中地理
+category: 地理基础
+level: 初中
 subject: 自然地理
 tags: 地理, 初中地理
 cover: https://blogphoto.planetgis.cn/PicGo/2026-08-12-a3d687a0a770aa5cc8563e19756b076b-sz_61597.jpeg

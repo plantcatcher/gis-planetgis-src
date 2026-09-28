@@ -3,7 +3,8 @@ slug: earth-xyz-web
 title: 人类给地球套上的那张网，是史上最伟大的发明之一
 summary: 你手机里的地图、飞机航线的规划、外卖小哥的实时位置，全都建立在一张看不见的网上。
 date: 2026-08-10
-category: 初中地理
+category: 地理基础
+level: 初中
 subject: 自然地理
 tags: 地理, 初中地理
 cover: https://blogphoto.planetgis.cn/PicGo/2026-08-10-ab08bb4d6e6b7eaaa32385819b8bcbad-sz_263611.png

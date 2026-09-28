@@ -3,7 +3,8 @@ slug: earth-is-round
 title: 人类花了两千年，才确认脚下是个球
 summary: 亚里士多德靠推理猜出地圆，埃拉托色尼量出周长，麦哲伦用脚证实，阿波罗8号亲眼看见。人类花了两千年，才从"猜对"走到"确认"。
 date: 2026-08-08
-category: 初中地理
+category: 地理基础
+level: 初中
 subject: 自然地理
 tags: 地理, 初中地理
 cover: https://blogphoto.planetgis.cn/PicGo/2026-08-08-73b58795ae9aac452a20a75c1bc6a98b-sz_323468.jpeg

@@ -3,7 +3,7 @@ title: 南昌核爆模拟：被美国锁定60年的城市档案
 slug: fd90c9bf
 date: 2026-05-07
 category: 区域地理
-subject: 城市与区域
+subject: 区域地理
 tags: 区域地理, 中国, 地理科普, 核爆, 美国
 cover: https://blogphoto.planetgis.cn/PicGo/2026-05-07-0c3f83ce14b5029063faf3e6f7e1c82c-sz_2411724.png
 summary: 解密尘封六十年的美国冷战核打击档案，南昌曾被列入核目标清单。本文结合核爆场景 3D 模拟，还原当年战略部署背景、潜在打击规模与城市受袭推演，揭开这座城市鲜为人知的冷战隐秘往事。

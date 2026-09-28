@@ -41,6 +41,34 @@
     } catch (e) {}
   }
 
+  /**
+   * 游戏成绩 GA4 事件（game_complete）。
+   * 游戏跑在 iframe 内、拿不到父页 gtag；按站点约定用 postMessage __ga 协议
+   * 转发给父页 AnalyticsTracker 统一上报（与 shared/ga-bridge.js 同一信封）。
+   * 同源校验由父页 onMessage 完成，这里 targetOrigin 用自身 origin。
+   * 直接打开（顶层、无 parent）时降级为本地 gtag（若页面引了 ga-bridge）。
+   */
+  function fireGameComplete(opts) {
+    var params = {
+      game_id: opts.gameId,
+      score: opts.score == null ? null : opts.score,
+      total: opts.total == null ? null : opts.total,
+    };
+    if (opts.score != null && opts.total) {
+      params.accuracy = Math.round((opts.score / opts.total) * 100);
+    }
+    try {
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage(
+          { __ga: 'planetgis', kind: 'event', name: 'game_complete', params: params },
+          window.location.origin
+        );
+      } else if (typeof window.gtag === 'function') {
+        window.gtag('event', 'game_complete', params);
+      }
+    } catch (e) {}
+  }
+
   function writeLearning(data) {
     try {
       localStorage.setItem(LEARNING_KEY, JSON.stringify(data));
@@ -87,6 +115,9 @@
       total: opts.total == null ? null : opts.total,
       takenAt: nowIso,
     });
+
+    // 转化级事件：每次完成都发（不止首次），供 GA4 看完成数 / 正确率 / 各游戏热度
+    fireGameComplete(opts);
 
     if (recs.length > MAX_RECORDS) {
       data.games.records = recs.slice(recs.length - MAX_RECORDS);

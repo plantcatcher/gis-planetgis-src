@@ -3,7 +3,8 @@ slug: llm-gis-coffee
 title: 跟大模型说帮我找块地开咖啡馆，它真去查了
 summary: 地理大模型如何把 GIS 从专家工具变成一场对话？从知识注入到工具调用（Agent），拆解大模型"看懂空间、做地理分析"的底层逻辑，以及它的能力边界。
 date: 2026-08-08
-category: 大学地理
+category: 地理基础
+level: 大学
 subject: 地理信息技术
 tags: 地理, 大学地理
 cover: https://blogphoto.planetgis.cn/PicGo/2026-08-08-4a269f732bb8afda83a1b65e64a91817-sz_900144.png

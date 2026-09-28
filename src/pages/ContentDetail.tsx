@@ -7,6 +7,7 @@ import { renderMarkdown, extractHeadings } from '@/lib/markdown';
 import { buildContentKey } from '@/services/learningService';
 import LearningTracker from '@/components/learning/LearningTracker';
 import FavoriteButton from '@/components/learning/FavoriteButton';
+import ShareButton from '@/components/common/ShareButton';
 import { useJsonLd } from '@/lib/seo';
 import { useImageLightbox, ImageLightbox } from '@/components/common/ImageLightbox';
 import NotFound from './NotFound';
@@ -122,8 +123,14 @@ export default function ContentDetail({ type }: Props) {
           <span className="opacity-40">·</span>
           <PageViewCount className="inline-flex items-center gap-1" />
         </div>
-        <div className="mt-4">
+        <div className="mt-4 flex flex-wrap items-center gap-3">
           <FavoriteButton contentKey={contentKey} variant="detail" />
+          <ShareButton
+            title={item.title}
+            path={`/${basePath[type]}/${item.slug}`}
+            contentType={type}
+            contentSlug={item.slug}
+          />
         </div>
       </header>
 

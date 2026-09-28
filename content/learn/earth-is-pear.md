@@ -3,7 +3,8 @@ slug: earth-is-pear
 title: 地球不是正球体，它是个被压扁的"梨"
 summary: 我们天生喜欢把世界想得对称、完美、简单。圆比椭球好记，正球比梨形好算。但地球自己不这么选。它转着转着，就把自己甩成了梨。
 date: 2026-08-10
-category: 初中地理
+category: 地理基础
+level: 初中
 subject: 自然地理
 tags: 地理, 初中地理
 cover: https://blogphoto.planetgis.cn/PicGo/2026-08-10-ec43856db3f9792529e6fbb0aabb6163-sz_324369.png

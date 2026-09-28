@@ -3,7 +3,8 @@ slug: foehn-effect
 title: 焚风效应：山脉如何"改写"一座城市的天气
 summary: 同在一座山两侧，一边下雨一边放晴，一边温暖一边湿冷。高中地理的焚风效应，解释山脉对局地气候的"翻云覆雨"。
 date: 2026-08-05
-category: 高中地理
+category: 地理基础
+level: 高中
 subject: 自然地理
 tags: 地理, 高中地理
 ---

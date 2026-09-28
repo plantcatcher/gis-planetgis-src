@@ -3,7 +3,7 @@ title: 四川盆地是怎样形成的？难不成是陨石坑？
 slug: d3aace02
 date: 2026-07-19
 category: 区域地理
-subject: 城市与区域
+subject: 区域地理
 tags: 区域地理, 四川, 地理科普
 cover: https://blogphoto.planetgis.cn/PicGo/2026-07-19-edd871a768acb833f7ffce2fb5577b3c-sz_1842461.png
 summary: 从卫星图上看四川盆地，你会看到一个近乎完美的椭圆——四周一圈高山严严合缝，中间低地平坦舒展，像有人拿巨型模具往地球表面扣了一印。26万平方公里的圆形凹地，陨石砸出来的？火山喷完以后留下的超级大坑？

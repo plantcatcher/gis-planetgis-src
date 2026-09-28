@@ -22,7 +22,8 @@ import {
   getSnapshot,
   update,
 } from '@/lib/learningStore';
-import { getItem, type ContentType, type ContentItem } from '@/lib/content';
+import { getItem, getLearns, type ContentType, type ContentItem } from '@/lib/content';
+import { trackEvent } from '@/lib/analytics';
 
 /** 阅读进度达到该比例即标记为「已完成」 */
 export const COMPLETE_THRESHOLD = 0.9;
@@ -69,7 +70,12 @@ export function keyToPath(key: string): string | null {
 // -----------------------------------------------------------------------------
 
 function todayStr(d = new Date()): string {
-  return d.toISOString().slice(0, 10);
+  // 用本地日期（非 UTC），否则中国用户（UTC+8）在本地午夜附近会因 UTC 日界
+  // 偏移导致「连续学习天数」少算/多算一天。
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
 }
 
 function addActiveDate(activeDates: string[], date = todayStr()): string[] {
@@ -99,8 +105,29 @@ export function computeStreak(activeDates: string[]): number {
 // 写操作：开始学习 / 更新进度 / 收藏
 // -----------------------------------------------------------------------------
 
+// ── 激活事件（增长黑客：Activation 环节） ───────────────────────────────────
+// 用户第一次完成核心动作（读 / 收藏 / 下载 / 玩游戏）时记一次 activate，
+// 配合 GA4 匿名用户级留存，可算「激活用户留存」与激活率。
+function isFirstAction(): boolean {
+  const d = getSnapshot();
+  return (
+    Object.keys(d.learning.readingProgress).length === 0 &&
+    d.learning.favorites.length === 0 &&
+    d.quizzes.records.length === 0 &&
+    d.games.records.length === 0 &&
+    d.downloads.records.length === 0
+  );
+}
+
+function fireActivateIfFirst(actionType: string): void {
+  if (isFirstAction()) {
+    trackEvent('activate', { action_type: actionType });
+  }
+}
+
 /** 打开内容时调用：记录首次开始时间、活跃日期、最近学习 */
 export function recordStart(key: string): void {
+  fireActivateIfFirst('read');
   const now = new Date().toISOString();
   update((data) => ({
     ...data,
@@ -176,6 +203,7 @@ export function setProgress(
 
 /** 切换收藏状态，返回切换后的「是否已收藏」 */
 export function toggleFavorite(key: string): boolean {
+  fireActivateIfFirst('favorite');
   const now = new Date().toISOString();
   let isFav = false;
   update((data) => {
@@ -230,6 +258,7 @@ export function recordDownload(rec: {
   size?: string;
   category?: string;
 }): void {
+  fireActivateIfFirst('download');
   const now = new Date().toISOString();
   update((data) => {
     const recs = data.downloads.records;
@@ -275,6 +304,16 @@ export interface Dashboard {
   quizzes: QuizRecord[];
   games: GameRecord[];
   downloads: DownloadRecord[];
+}
+
+/** 统一活动流条目（读 / 玩 / 测 / 下），用于「最近动态」合并足迹 */
+export interface ActivityFeedEntry {
+  id: string;
+  kind: 'read' | 'game' | 'quiz' | 'download';
+  title: string;
+  subtitle: string;
+  path: string | null;
+  at: string;
 }
 
 function toEntries(keys: string[]): DashboardEntry[] {
@@ -331,6 +370,325 @@ export function getDashboard(): Dashboard {
       (a, b) => new Date(b.downloadedAt).getTime() - new Date(a.downloadedAt).getTime(),
     ),
   };
+}
+
+// -----------------------------------------------------------------------------
+// 统一活动流（/my「最近动态」用）：把分散的阅读/游戏/测验/下载记录，
+// 按时间倒序合并成一条足迹，解决「玩游戏/做测验不进最近学习」的残缺问题。
+// -----------------------------------------------------------------------------
+
+function quizAccuracy(q: QuizRecord): number {
+  return q.total > 0 ? Math.round((q.score / q.total) * 100) : 0;
+}
+
+/** 聚合最近活动（默认取最近 12 条），供学习中心「最近动态」渲染 */
+export function getActivityFeed(limit = 12): ActivityFeedEntry[] {
+  const data = getSnapshot();
+  const items: ActivityFeedEntry[] = [];
+
+  for (const r of data.learning.recentlyViewed) {
+    const item = resolveItem(r.contentId);
+    if (!item) continue;
+    const p = getProgress(r.contentId);
+    const pct = p ? Math.round((p.progress ?? 0) * 100) : 0;
+    const completed = p?.completed ?? false;
+    items.push({
+      id: `read:${r.contentId}`,
+      kind: 'read',
+      title: item.title,
+      subtitle: completed ? '已读完' : pct > 0 ? `读到 ${pct}%` : '开始阅读',
+      path: keyToPath(r.contentId),
+      at: r.viewedAt,
+    });
+  }
+
+  for (const g of data.games.records) {
+    items.push({
+      id: `game:${g.id}`,
+      kind: 'game',
+      title: g.title || GAME_NAMES_FALLBACK[g.gameId] || '地理小游戏',
+      subtitle:
+        g.score != null && g.total
+          ? `得分 ${g.score}/${g.total}`
+          : g.subtitle || '已完成一局',
+      path: GAME_PATHS_FALLBACK[g.gameId] || '/games',
+      at: g.takenAt,
+    });
+  }
+
+  for (const q of data.quizzes.records) {
+    items.push({
+      id: `quiz:${q.id}`,
+      kind: 'quiz',
+      title: q.title,
+      subtitle: `测验 ${q.score}/${q.total}（正确率 ${quizAccuracy(q)}%）`,
+      path: null,
+      at: q.takenAt,
+    });
+  }
+
+  for (const d of data.downloads.records) {
+    items.push({
+      id: `dl:${d.slug}`,
+      kind: 'download',
+      title: d.title,
+      subtitle: ['下载', d.format, d.category].filter(Boolean).join(' · '),
+      path: `/downloads/${d.slug}`,
+      at: d.downloadedAt,
+    });
+  }
+
+  return items
+    .sort((a, b) => new Date(b.at).getTime() - new Date(a.at).getTime())
+    .slice(0, limit);
+}
+
+// 游戏路径/名称兜底（learningService 不依赖 UI 层的 GAME_* 常量，避免循环依赖）
+const GAME_PATHS_FALLBACK: Record<string, string> = {
+  geoquiz: '/geoquiz',
+  geoshape: '/geoshape',
+  geotype: '/geotype',
+  chinapuzzle: '/chinapuzzle',
+};
+const GAME_NAMES_FALLBACK: Record<string, string> = {
+  geoquiz: '卫星之眼 · 猜城市',
+  geoshape: 'GeoShape · 猜国家',
+  geotype: '地理人格测试',
+  chinapuzzle: '中国地图拼图挑战',
+};
+
+// -----------------------------------------------------------------------------
+// 续读 / 推荐（/my 增长留存用）
+// -----------------------------------------------------------------------------
+
+/** 取「未完成且进度最高」的内容，作为「继续学习」主卡 */
+export function getContinueEntry(): DashboardEntry | null {
+  const data = getSnapshot();
+  const entries = toEntries(Object.keys(data.learning.readingProgress));
+  const unfinished = entries.filter((e) => !(e.progress?.completed ?? false));
+  if (unfinished.length === 0) return null;
+  unfinished.sort((a, b) => (b.progress?.progress ?? 0) - (a.progress?.progress ?? 0));
+  return unfinished[0];
+}
+
+/** 个性化推荐：未读且未收藏的教程，优先同分类（与续读项一致） */
+export function getRecommendations(limit = 3): ContentItem[] {
+  const data = getSnapshot();
+  const started = new Set(Object.keys(data.learning.readingProgress));
+  const favs = new Set(data.learning.favorites.map((f) => f.contentId));
+  const unread = getLearns().filter(
+    (it) => !started.has(`learn:${it.slug}`) && !favs.has(`learn:${it.slug}`),
+  );
+  const cont = getContinueEntry();
+  if (cont?.item.category) {
+    const same = unread.filter((it) => it.category === cont.item.category);
+    if (same.length > 0) return same.slice(0, limit);
+  }
+  return unread.slice(0, limit);
+}
+
+// -----------------------------------------------------------------------------
+// 数据洞察（/my「数据洞察」用）：基于本地数据生成个性化分析与建议
+// -----------------------------------------------------------------------------
+
+export interface InsightItem {
+  tone: 'positive' | 'info' | 'warn';
+  text: string;
+}
+
+function fmtDuration(sec: number): string {
+  if (sec <= 0) return '0 分钟';
+  if (sec < 3600) return `${Math.max(1, Math.round(sec / 60))} 分钟`;
+  return `${(sec / 3600).toFixed(1)} 小时`;
+}
+
+export function buildInsights(dash: Dashboard): InsightItem[] {
+  const out: InsightItem[] = [];
+  const { summary } = dash;
+
+  if (summary.streak > 0) {
+    const next = summary.streak + 1;
+    out.push({
+      tone: summary.streak >= 7 ? 'positive' : 'info',
+      text:
+        summary.streak >= 7
+          ? `已连续学习 ${summary.streak} 天，习惯稳了！再保持就能冲更长的连击。`
+          : `已连续学习 ${summary.streak} 天，明天再学一次就能到 ${next} 天，别断。`,
+    });
+  }
+
+  // 测验正确率
+  if (dash.quizzes.length > 0) {
+    const acc =
+      dash.quizzes.reduce((s, q) => s + quizAccuracy(q), 0) / dash.quizzes.length;
+    out.push({
+      tone: acc >= 75 ? 'positive' : acc >= 50 ? 'info' : 'warn',
+      text: `地理测验平均正确率 ${Math.round(acc)}%（${dash.quizzes.length} 次），${
+        acc >= 75 ? '基础扎实，可挑战更难的专题。' : '建议回头重读错题对应的知识点。'
+      }`,
+    });
+  }
+
+  // 游戏战绩
+  const scoredGames = dash.games.filter((g) => g.score != null && g.total);
+  if (scoredGames.length > 0) {
+    const gacc =
+      scoredGames.reduce((s, g) => s + ((g.score as number) / (g.total as number)) * 100, 0) /
+      scoredGames.length;
+    out.push({
+      tone: 'info',
+      text: `地理小游戏平均得分率 ${Math.round(gacc)}%，玩得越多，世界地图越熟。`,
+    });
+  }
+
+  // 学习量 / 完成度
+  if (summary.learnedCount > 0) {
+    const done = dash.completed.length;
+    out.push({
+      tone: done > 0 ? 'positive' : 'info',
+      text: `累计学习 ${summary.learnedCount} 篇、完成 ${done} 篇，收藏 ${summary.favoriteCount} 篇；总计阅读约 ${fmtDuration(
+        summary.totalReadSeconds,
+      )}。`,
+    });
+  }
+
+  // 下载活跃度
+  if (summary.downloadCount > 0) {
+    out.push({
+      tone: 'info',
+      text: `已下载 ${summary.downloadCount} 份资料，记得用到作业或项目里，资料才真正属于你。`,
+    });
+  }
+
+  // 节奏建议
+  if (summary.learnedCount > 0 && summary.streak < 3) {
+    out.push({
+      tone: 'warn',
+      text: '学习节奏还不稳定：建议每周固定 3 天、每次读 1 篇，连学 3 天即可解锁稳定习惯。',
+    });
+  }
+
+  return out;
+}
+
+// -----------------------------------------------------------------------------
+// 图表数据（/my「数据洞察」用）：纯数据，颜色等样式由 UI 层决定
+// -----------------------------------------------------------------------------
+
+/** 近 weeks 周「每周活跃天数」序列（周一为周起始，本地日期） */
+export function getWeeklyActivity(weeks = 8): { label: string; value: number }[] {
+  const dates = new Set(getSnapshot().profile.activeDates);
+  const now = new Date();
+  const dow = (now.getDay() + 6) % 7; // 0=周一
+  const monday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - dow);
+  const out: { label: string; value: number }[] = [];
+  for (let i = weeks - 1; i >= 0; i--) {
+    const wkStart = new Date(monday);
+    wkStart.setDate(monday.getDate() - i * 7);
+    const wkEnd = new Date(wkStart);
+    wkEnd.setDate(wkStart.getDate() + 6);
+    let cnt = 0;
+    const cur = new Date(wkStart);
+    while (cur <= wkEnd) {
+      const y = cur.getFullYear();
+      const m = String(cur.getMonth() + 1).padStart(2, '0');
+      const d = String(cur.getDate()).padStart(2, '0');
+      if (dates.has(`${y}-${m}-${d}`)) cnt++;
+      cur.setDate(cur.getDate() + 1);
+    }
+    const lblM = String(wkStart.getMonth() + 1).padStart(2, '0');
+    const lblD = String(wkStart.getDate()).padStart(2, '0');
+    out.push({ label: `${lblM}/${lblD}`, value: cnt });
+  }
+  return out;
+}
+
+// -----------------------------------------------------------------------------
+// 周目标 / 连学里程碑（增长激励小部件的数据源）
+// -----------------------------------------------------------------------------
+
+const WEEKLY_GOAL_KEY = 'planetgis:weekly_goal';
+export const WEEKLY_GOAL_DEFAULT = 4;
+/** 周目标可选档位（本地持久化，用户可在页面上调整） */
+export const WEEKLY_GOAL_OPTIONS = [3, 4, 5, 7];
+
+/** 读取周目标（默认 4 天/周；localStorage 不可用时回退默认值，SSG 安全） */
+export function getWeeklyGoal(): number {
+  try {
+    const v = window.localStorage.getItem(WEEKLY_GOAL_KEY);
+    const n = v ? parseInt(v, 10) : WEEKLY_GOAL_DEFAULT;
+    return WEEKLY_GOAL_OPTIONS.includes(n) ? n : WEEKLY_GOAL_DEFAULT;
+  } catch {
+    return WEEKLY_GOAL_DEFAULT;
+  }
+}
+
+/** 写入周目标 */
+export function setWeeklyGoal(n: number): void {
+  try {
+    window.localStorage.setItem(WEEKLY_GOAL_KEY, String(n));
+  } catch {
+    /* localStorage 不可用则跳过 */
+  }
+}
+
+/** 本周学习进度：done=本周已学天数，goal=目标，daysLeft=到周日剩余天数（含今天） */
+export function getWeekProgress(goal = getWeeklyGoal()): {
+  done: number;
+  goal: number;
+  pct: number;
+  daysLeft: number;
+  onTrack: boolean;
+} {
+  const dates = new Set(getSnapshot().profile.activeDates);
+  const now = new Date();
+  const dow = (now.getDay() + 6) % 7; // 0=周一
+  const monday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - dow);
+  let done = 0;
+  const cur = new Date(monday);
+  for (let i = 0; i < 7; i++) {
+    const y = cur.getFullYear();
+    const m = String(cur.getMonth() + 1).padStart(2, '0');
+    const d = String(cur.getDate()).padStart(2, '0');
+    if (dates.has(`${y}-${m}-${d}`)) done++;
+    cur.setDate(cur.getDate() + 1);
+  }
+  const daysLeft = 7 - dow; // 今天到本周日剩余天数（含今天）
+  const need = Math.max(0, goal - done);
+  return {
+    done,
+    goal,
+    pct: Math.min(100, Math.round((done / goal) * 100)),
+    daysLeft,
+    onTrack: need <= daysLeft,
+  };
+}
+
+export interface StreakMilestone {
+  days: number;
+  label: string;
+  reached: boolean;
+  isNext: boolean;
+}
+
+/** 连学里程碑：7/30/100/365，标记已达成与「下一个」目标 */
+export function getStreakMilestones(streak: number): StreakMilestone[] {
+  const defs = [
+    { days: 7, label: '一周' },
+    { days: 30, label: '一个月' },
+    { days: 100, label: '百天' },
+    { days: 365, label: '一整年' },
+  ];
+  let nextMarked = false;
+  return defs.map((d) => {
+    const reached = streak >= d.days;
+    let isNext = false;
+    if (!reached && !nextMarked) {
+      isNext = true;
+      nextMarked = true;
+    }
+    return { ...d, reached, isNext };
+  });
 }
 
 // -----------------------------------------------------------------------------

@@ -11,6 +11,7 @@ import { useJsonLd } from '@/lib/seo';
 import { useImageLightbox, ImageLightbox } from '@/components/common/ImageLightbox';
 import { PageViewCount } from '@/lib/busuanzi';
 import StandardTimeline from '@/components/common/StandardTimeline';
+import ShareButton from '@/components/common/ShareButton';
 import NotFound from './NotFound';
 
 // ── 公众号信息（板牙按需修改） ─────────────────────────────────────────────
@@ -292,6 +293,14 @@ const ResourceDetail: React.FC = () => {
                   </>
                 )}
                 <PageViewCount className="inline-flex items-center gap-1" />
+              </div>
+              <div className="mt-4">
+                <ShareButton
+                  title={item.title}
+                  path={`/downloads/${item.slug}`}
+                  contentType="resource"
+                  contentSlug={item.slug}
+                />
               </div>
             </header>
 

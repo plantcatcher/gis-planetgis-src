@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { LayoutGrid } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
+import ShareButton from '@/components/common/ShareButton';
 
 type GameKey = 'geoquiz' | 'geoshape' | 'geotype' | 'chinapuzzle';
 
@@ -54,11 +55,18 @@ const GameEmbed: React.FC<{ game: GameKey }> = ({ game }) => {
       <Link
         to="/games"
         aria-label="全部游戏"
-        className="fixed bottom-4 right-4 z-50 inline-flex items-center gap-1.5 rounded-full bg-black/55 px-3 py-1.5 text-sm font-medium text-white shadow-lg backdrop-blur-sm transition-colors hover:bg-black/75"
+        className="hidden sm:inline-flex fixed bottom-4 right-4 z-50 items-center gap-1.5 rounded-full bg-black/55 px-3 py-1.5 text-sm font-medium text-white shadow-lg backdrop-blur-sm transition-colors hover:bg-black/75"
       >
         <LayoutGrid className="h-4 w-4" />
         <span>全部游戏</span>
       </Link>
+      <ShareButton
+        title={meta.title}
+        path={`/${game}`}
+        contentType="game"
+        contentSlug={game}
+        className="hidden sm:flex fixed bottom-4 left-4 z-50 rounded-full bg-black/55 px-3 py-1.5 text-sm font-medium text-white shadow-lg backdrop-blur-sm hover:bg-black/75"
+      />
     </div>
   );
 };

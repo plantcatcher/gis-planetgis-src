@@ -144,3 +144,77 @@ export function useIframeAnalyticsBridge() {
   window.addEventListener('message', onMessage);
   return () => window.removeEventListener('message', onMessage);
 }
+
+// -----------------------------------------------------------------------------
+// 分享闭环 + 来源归因（增长黑客：Referral 环节）
+//
+// 思路：用户从带 ?ref=<source> 的链接进入时，把来源固化到 localStorage；
+// 之后本站任何「分享」动作都给链接带上同一个 ref，形成 分享→拉新→再分享 的闭环。
+// 落地时记一次 ref_acquisition，分享时记一次 share，便于在 GA4 算病毒系数 K。
+// -----------------------------------------------------------------------------
+
+const REF_KEY = 'planetgis:ref';
+const REF_COUNTED_KEY = 'planetgis:ref_counted';
+
+/** App 初始化时调用一次：读取并固化 ?ref= 来源，首次落地记一次获取事件。 */
+export function captureRef(): string | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get('ref');
+    if (ref) {
+      const clean = ref.slice(0, 64);
+      window.localStorage.setItem(REF_KEY, clean);
+      // 同一会话只记一次获取，避免刷新刷数
+      if (!window.sessionStorage.getItem(REF_COUNTED_KEY)) {
+        window.sessionStorage.setItem(REF_COUNTED_KEY, '1');
+        trackEvent('ref_acquisition', {
+          ref_source: clean,
+          landing_path: window.location.pathname,
+        });
+      }
+      return clean;
+    }
+    return window.localStorage.getItem(REF_KEY);
+  } catch {
+    return null;
+  }
+}
+
+/** 当前会话固化下来的分享来源（给分享链接带参用） */
+export function getRef(): string | null {
+  try {
+    return window.localStorage.getItem(REF_KEY);
+  } catch {
+    return null;
+  }
+}
+
+/** 给一个站内路径拼上来源参数，形成可归因的分享链接 */
+export function withRef(path: string): string {
+  const ref = getRef();
+  if (!ref) return path;
+  try {
+    const u = new URL(path, window.location.origin);
+    u.searchParams.set('ref', ref);
+    return u.toString();
+  } catch {
+    return path;
+  }
+}
+
+/** 分享事件上报（Web Share API 或复制链接后调用） */
+export function trackShare(opts: {
+  contentType: string;
+  contentSlug?: string;
+  platform: string;
+  url: string;
+}): void {
+  trackEvent('share', {
+    content_type: opts.contentType,
+    content_slug: opts.contentSlug || '',
+    share_platform: opts.platform,
+    share_url: opts.url,
+    ref_source: getRef() || '',
+  });
+}

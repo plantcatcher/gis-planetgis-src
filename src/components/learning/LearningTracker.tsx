@@ -35,7 +35,8 @@ const LearningTracker: React.FC<Props> = ({ contentKey }) => {
       const doc = document.documentElement;
       const scrollTop = window.scrollY || doc.scrollTop;
       const max = doc.scrollHeight - window.innerHeight;
-      if (max <= 0) return 0;
+      // 单屏短文：内容已全部在视口内，视为已读（避免永远 0%、阅读时长不累计）
+      if (max <= 0) return 1;
       return Math.min(1, Math.max(0, scrollTop / max));
     };
 
@@ -63,12 +64,21 @@ const LearningTracker: React.FC<Props> = ({ contentKey }) => {
     // 离开页面（切走 / 关闭）时补写一次最终进度
     const onHide = () => flush();
     const onVisibility = () => {
-      if (document.visibilityState === 'hidden') flush();
+      if (document.visibilityState === 'hidden') {
+        // 切走时补写一次（含切走前时长）
+        flush();
+      } else {
+        // 切回时重置计时起点，不把「离开页面」的时长算进阅读
+        lastTick.current = Date.now();
+      }
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('beforeunload', onHide);
     document.addEventListener('visibilitychange', onVisibility);
+
+    // 挂载即补写一次：记录「打开时长」基线，短文也能累计阅读时长
+    flush();
 
     return () => {
       // 卸载时再补一次，确保最终进度落盘

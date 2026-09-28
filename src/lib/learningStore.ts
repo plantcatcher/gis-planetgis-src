@@ -2,6 +2,7 @@
 // Learning Store —— 本地学习数据层的「存储」实现（最底层）
 // -----------------------------------------------------------------------------
 // 设计原则（见需求文档「九、非常重要」）：
+import { trackEvent } from './analytics';
 //   UI ──> Learning Service ──> Learning Store ──> LocalStorage
 //   未来：UI ──> Learning Service ──> Learning Store ──> Supabase
 //
@@ -258,7 +259,20 @@ export function clearAll(): void {
  * 供 geoshape 的跨文档 storage 监听调用；geoquiz / geotype 由其页面
  * 通过 games-sync.js 的 window.PlanetLearning.recordGame 写入同一份数据。
  */
+function isFirstActionNow(): boolean {
+  const d = getSnapshot();
+  return (
+    Object.keys(d.learning.readingProgress).length === 0 &&
+    d.learning.favorites.length === 0 &&
+    d.quizzes.records.length === 0 &&
+    d.games.records.length === 0 &&
+    d.downloads.records.length === 0
+  );
+}
+
 function appendGameRecord(rec: GameRecord): void {
+  // 游戏是最强啊哈时刻之一：首次完成即记激活，配合 GA4 算激活用户留存
+  if (isFirstActionNow()) trackEvent('activate', { action_type: 'game' });
   const data = getSnapshot();
   const recs = data.games.records;
   const last = recs[recs.length - 1];

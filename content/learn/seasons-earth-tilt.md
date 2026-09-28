@@ -3,7 +3,8 @@ slug: seasons-earth-tilt
 title: 地球为什么会四季更替？——公转、地轴与太阳直射点
 summary: 为什么夏天热、冬天冷？初中地理第一课，用"歪着身子绕圈跑"的地球模型，讲清四季和昼夜长短的由来。
 date: 2026-08-04
-category: 初中地理
+category: 地理基础
+level: 初中
 subject: 自然地理
 tags: 地理, 初中地理
 ---
