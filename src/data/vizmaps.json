@@ -49,6 +49,41 @@
           "desc": "精选观察点：城市生长 6 / 工程与生态 9 / 全球剧变 8，坐标与推荐层级内联在页面里"
         }
       ]
+    },
+    {
+      "slug": "cn-provinces",
+      "entry": "/maps/cn-provinces/index.html",
+      "bbox": [73.0, 17.6, 135.5, 54.4],
+      "crs": "GCJ-02（火星坐标，与高德瓦片对齐）",
+      "basemap": "高德瓦片：卫星影像 style=6（纯影像无标注）/ 矢量路网 style=7 / 无底图（深色背景，省级色块不透明）",
+      "source": "省级边界 DataV.GeoAtlas（34 个省级行政区 + 十段线）；GDP / 常住人口 / 人均 GDP / 陆地面积取自各省统计局与统计公报公开数（2025 年数据，含 2020·2023·2024 历年序列；2020 年人口为第七次全国人口普查标准时点数据）",
+      "updated": "2026-09-29",
+      "data": [
+        {
+          "file": "maps/_shared/china-provinces.json",
+          "features": 35,
+          "unit": "份省级数据",
+          "desc": "省级行政区边界 34 个 + 十段线要素 1 个（_shared 跨地图复用）"
+        },
+        {
+          "file": "maps/cn-provinces/js/data.js",
+          "features": 34,
+          "unit": "份省情档案",
+          "desc": "省情档案：简称 / 省会 / 所属大区 / 面积 / 人口 / GDP / 增速 / 最高点 / 水系 / 地形 / 全国之最"
+        },
+        {
+          "file": "maps/cn-provinces/js/series.js",
+          "features": 34,
+          "unit": "个省 × 4 年历年序列",
+          "desc": "历年序列：2020 / 2023 / 2024 / 2025 年的 GDP 与常住人口（人均 GDP 由两者现算）"
+        },
+        {
+          "file": "maps/cn-provinces/provinces/",
+          "features": 34,
+          "unit": "篇一省一篇省情页",
+          "desc": "静态预渲染的省级省情页（含人口 / GDP / 水系 / 地形 / 之最 + 该省高亮定位图），另有一页 34 省目录"
+        }
+      ]
     }
   ]
 }

@@ -472,7 +472,7 @@ const Home = () => {
             id="maps"
             kicker="可点 · 可搜 · 可查"
             title="互动地图"
-            lead="把真实地理数据做成可以提问的地图——点一下就知道这条河叫什么、几级、多长；也能把 196 期卫星影像拉成时间轴，看一块地怎么长成一座城。数据源与坐标系全部公开。"
+            lead="把真实地理数据做成可以提问的地图——点一下就知道这条河叫什么、几级、多长；也能把 196 期卫星影像拉成时间轴，看一块地怎么长成一座城；还能点开 34 个省级行政区中的任意一个，看它的人口、GDP 与「全国之最」。数据源与坐标系全部公开。"
             action={
               <Link to="/maps" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
                 进入地图系列 <ArrowRight className="w-3.5 h-3.5" />

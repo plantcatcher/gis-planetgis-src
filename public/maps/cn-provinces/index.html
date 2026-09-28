@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>中国省情一图览 · 34 个省级行政区的人口/GDP/水系/地形/之最</title>
+  <meta name="description" content="点一下中国地图，看这个省的人口、GDP、水系、地形和「全国之最」。34 个省级行政区一省一篇，2025 年 GDP 与 2025 年末常住人口数据。" />
+  <meta name="keywords" content="中国省情,各省GDP排名,各省人口,中国地形,中国水系,省份之最,一图览" />
+  <meta name="author" content="PlanetGIS" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div id="map"></div>
+
+  <!-- 顶部栏 -->
+  <header class="topbar">
+    <div class="brand">
+      <h1>中国省情一图览</h1>
+      <p class="sub">点一下地图，看这个省的 <b>人口</b> / <b>GDP</b> / <b>水系</b> / <b>地形</b> / <b>之最</b></p>
+    </div>
+    <div class="top-actions">
+      <div class="seg" id="metricSeg" role="tablist" aria-label="着色指标"></div>
+      <div class="year-row">
+        <span class="lbl">年份</span>
+        <div class="seg small" id="yearSeg" role="tablist" aria-label="数据年份"></div>
+      </div>
+      <div class="seg small" id="basemapSeg">
+        <button class="seg-btn" data-bm="img">卫星影像</button>
+        <button class="seg-btn" data-bm="vec">矢量路网</button>
+        <button class="seg-btn" data-bm="none">无底图</button>
+      </div>
+      <button class="ghost-btn" id="catalogToggle" aria-expanded="false">34 省目录 ▾</button>
+    </div>
+  </header>
+
+  <!-- 图例 -->
+  <div class="legend" id="legend">
+    <div class="legend-title" id="legendTitle">GDP 总量</div>
+    <div class="legend-bar"><i></i></div>
+    <div class="legend-scale" id="legendScale"></div>
+    <div class="legend-note" id="legendNote">港澳台数据口径与内地不同，仅作参照</div>
+    <div class="legend-hint">点省：填充转为透明、透出底图，边界以发光光圈标识</div>
+  </div>
+
+  <!-- 省份卡片（点省弹出） -->
+  <aside class="card-panel" id="cardPanel" aria-live="polite">
+    <button class="card-close" id="cardClose" aria-label="关闭">×</button>
+    <div class="card-inner" id="cardInner"></div>
+  </aside>
+
+  <!-- 34 省目录（一省一篇的入口） -->
+  <section class="catalog" id="catalog" aria-label="省级行政区目录">
+    <div class="catalog-head">
+      <div>
+        <h2>34 个省级行政区 · 一省一篇</h2>
+        <p>点击任意省份进入该省完整省情页（含人口、GDP、水系、地形、之最）· <a href="catalog.html" style="color:var(--accent)">打开完整目录页 →</a></p>
+      </div>
+      <button class="ghost-btn" id="catalogClose">收起 ✕</button>
+    </div>
+    <div class="catalog-body" id="catalogBody"></div>
+  </section>
+
+  <footer class="src-note">
+    数据：地区生产总值（各省统计局）、年末常住人口（万人）、陆地面积（万 km²）·
+    GDP / 人口 / 人均 GDP 可切换 2020 · 2023 · 2024 · 2025 年 ·
+    2020 年人口为第七次全国人口普查标准时点（2020-11-01）数据 ·
+    省级边界来自 DataV.GeoAtlas · 底图高德
+  </footer>
+
+  <!-- 站内导航：本图跑在主站的 iframe 里，用 target="_top" 跳出 iframe 整页跳转 -->
+  <nav class="map-nav">
+    <a href="/works/cn-provinces" target="_top">作品介绍</a>
+    <a href="/maps" target="_top">全部地图</a>
+  </nav>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="/maps/_shared/province-geo.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/series.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

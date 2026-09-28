@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>湖南省省情一图览｜人口 6492万 · GDP 5.53 万亿元 · 水系 地形 之最</title>
+  <meta name="description" content="湖南省（湘）省情速览：2025 年末常住人口 6492 万人，2025 年 GDP 5.53 万亿元，同比增长 4.8%。含主要河流湖泊、地形地貌、最高峰酃峰（神农峰）（2122 米）与 3 条「全国之最」。" />
+  <meta name="keywords" content="湖南省省情,湖南省人口,湖南省GDP,湖南省地形,湖南省河流,湖南省之最,湘" />
+  <meta name="author" content="PlanetGIS" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+<nav class="p-topbar">
+  <a class="back" href="../index.html">← 返回中国省情一图览</a>
+  <span class="crumb">首页 / 省情 / 湖南省</span>
+</nav>
+
+<div class="p-wrap">
+
+  <header class="p-hero">
+    <h1>湖南省</h1>
+    <p class="p-sub">简称「湘」· 省会/首府 长沙 · 华中 · 陆地面积 21.18 万 km²</p>
+    <div class="p-tag">三湘四水 · 洞庭之畔</div>
+  </header>
+
+  <section class="p-kpis">
+    <div class="p-kpi"><div class="k">陆地面积（全国第 10）</div><div class="v">21.18<small>万 km²</small></div></div>
+    <div class="p-kpi"><div class="k">常住人口 · 2025 年末（第 8）</div><div class="v">6492<small>万人</small></div><div class="d">较上年 -47 万人</div></div>
+    <div class="p-kpi"><div class="k">地区生产总值 · 2025（第 11）</div><div class="v">5.53<small>万亿元</small></div><div class="d">同比增长 4.8%</div></div>
+    <div class="p-kpi"><div class="k">人均 GDP（第 17）</div><div class="v">85,195<small>元</small></div></div>
+    <div class="p-kpi"><div class="k">最高点</div><div class="v">2122<small>m</small></div><div class="d">酃峰（神农峰）</div></div>
+  </section>
+
+  <div class="p-map" id="pmap"></div>
+
+  <section class="p-sec">
+    <h2>人口</h2>
+    <p>2025 年末，湖南省常住人口 <b>6492 万人</b>，较上年 <b>减少 47 万人</b>，在全国 34 个省级行政区中位列第 <b>8</b>。</p>
+    <p class="dim">人口变化由自然增长与机械增长（净流入/流出）共同决定。人口减少通常来自自然负增长（出生少于死亡）与人口净流出两方面。</p>
+  </section>
+
+  <section class="p-sec">
+    <h2>GDP</h2>
+    <p>2025 年，湖南省地区生产总值 <b>5.53 万亿元</b>，同比 <b>增长 4.8%</b>，总量居全国第 <b>11</b>，按常住人口计算人均 GDP 约 <b>85,195 元</b>，居全国第 <b>17</b>。</p>
+    <table class="p-table">
+      <thead><tr><th>指标</th><th>湖南省</th><th>全国位次</th></tr></thead>
+      <tbody>
+        <tr><td>地区生产总值</td><td><b>5.53 万亿元</b></td><td>第 11 位</td></tr>
+        <tr><td>常住人口</td><td><b>6492 万人</b></td><td>第 8 位</td></tr>
+        <tr><td>人均 GDP</td><td><b>85,195 元</b></td><td>第 17 位</td></tr>
+        <tr><td>陆地面积</td><td><b>21.18 万 km²</b></td><td>第 10 位</td></tr>
+      </tbody>
+    </table>
+    <div class="bar">GDP 为 2025 年地区生产总值（各省统计局发布）；人口为 2025 年末常住人口。</div>
+  </section>
+
+  <section class="p-sec">
+    <h2>历年数据（2020 → 2025）</h2>
+    <div class="chart-box">
+  <div class="chart-head"><span class="ct">指数化趋势（2020 年 = 100）</span><span class="lg-row"><span class="lg"><i style="background:#38bdf8"></i>常住人口 <b>98</b></span><span class="lg"><i style="background:#fbbf24"></i>地区生产总值 <b>132</b></span><span class="lg"><i style="background:#a3e635"></i>人均 GDP <b>135</b></span></span></div>
+  <svg class="chart" viewBox="0 0 720 286" role="img" aria-label="历年趋势折线图"><line x1="52.0" y1="24.0" x2="700.0" y2="24.0" stroke="rgba(148,163,184,.14)" stroke-width="1"/><text x="43.0" y="27.6" text-anchor="end" font-size="11" fill="#6f819e">142</text><line x1="52.0" y1="79.5" x2="700.0" y2="79.5" stroke="rgba(148,163,184,.14)" stroke-width="1"/><text x="43.0" y="83.1" text-anchor="end" font-size="11" fill="#6f819e">129</text><line x1="52.0" y1="135.0" x2="700.0" y2="135.0" stroke="rgba(148,163,184,.14)" stroke-width="1"/><text x="43.0" y="138.6" text-anchor="end" font-size="11" fill="#6f819e">117</text><line x1="52.0" y1="190.5" x2="700.0" y2="190.5" stroke="rgba(148,163,184,.14)" stroke-width="1"/><text x="43.0" y="194.1" text-anchor="end" font-size="11" fill="#6f819e">104</text><line x1="52.0" y1="246.0" x2="700.0" y2="246.0" stroke="rgba(148,163,184,.14)" stroke-width="1"/><text x="43.0" y="249.6" text-anchor="end" font-size="11" fill="#6f819e">92</text><line x1="52.0" y1="208.9" x2="700.0" y2="208.9" stroke="rgba(148,163,184,.4)" stroke-width="1" stroke-dasharray="4 4"/><text x="698.0" y="223.9" text-anchor="end" font-size="10.5" fill="#7f90ad">2020 = 100</text><polyline points="52.0,208.9 440.8,214.0 570.4,215.9 700.0,219.1" fill="none" stroke="#38bdf8" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><circle cx="52.0" cy="208.9" r="3.4" fill="#38bdf8" stroke="#0b1220" stroke-width="1.6"/><circle cx="440.8" cy="214.0" r="3.4" fill="#38bdf8" stroke="#0b1220" stroke-width="1.6"/><circle cx="570.4" cy="215.9" r="3.4" fill="#38bdf8" stroke="#0b1220" stroke-width="1.6"/><circle cx="700.0" cy="219.1" r="3.4" fill="#38bdf8" stroke="#0b1220" stroke-width="1.6"/><text x="692.0" y="213.1" text-anchor="end" font-size="11.5" font-weight="700" fill="#38bdf8">98</text><polyline points="52.0,208.9 440.8,121.2 570.4,86.9 700.0,64.8" fill="none" stroke="#fbbf24" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><circle cx="52.0" cy="208.9" r="3.4" fill="#fbbf24" stroke="#0b1220" stroke-width="1.6"/><circle cx="440.8" cy="121.2" r="3.4" fill="#fbbf24" stroke="#0b1220" stroke-width="1.6"/><circle cx="570.4" cy="86.9" r="3.4" fill="#fbbf24" stroke="#0b1220" stroke-width="1.6"/><circle cx="700.0" cy="64.8" r="3.4" fill="#fbbf24" stroke="#0b1220" stroke-width="1.6"/><text x="692.0" y="58.8" text-anchor="end" font-size="11.5" font-weight="700" fill="#fbbf24">132</text><polyline points="52.0,208.9 440.8,115.0 570.4,77.7 700.0,50.9" fill="none" stroke="#a3e635" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><circle cx="52.0" cy="208.9" r="3.4" fill="#a3e635" stroke="#0b1220" stroke-width="1.6"/><circle cx="440.8" cy="115.0" r="3.4" fill="#a3e635" stroke="#0b1220" stroke-width="1.6"/><circle cx="570.4" cy="77.7" r="3.4" fill="#a3e635" stroke="#0b1220" stroke-width="1.6"/><circle cx="700.0" cy="50.9" r="3.4" fill="#a3e635" stroke="#0b1220" stroke-width="1.6"/><text x="692.0" y="44.9" text-anchor="end" font-size="11.5" font-weight="700" fill="#a3e635">135</text><text x="52.0" y="272.0" text-anchor="middle" font-size="11.5" fill="#8fa3c0">2020</text><text x="440.8" y="272.0" text-anchor="middle" font-size="11.5" fill="#8fa3c0">2023</text><text x="570.4" y="272.0" text-anchor="middle" font-size="11.5" fill="#8fa3c0">2024</text><text x="700.0" y="272.0" text-anchor="middle" font-size="11.5" fill="#8fa3c0">2025</text></svg>
+  <div class="bar">三项指标量纲不同，统一折算成指数（2020 年 = 100）后同轴比较；末点标注 2025 年的指数值。</div>
+</div>
+    <table class="p-table p-trend">
+      <thead><tr><th>指标</th><th>2020</th><th>2023</th><th>2024</th><th>2025</th><th>2025 较 2020</th></tr></thead>
+      <tbody><tr><td>常住人口<small>万人</small></td><td>6644.49</td><td>6568</td><td>6539</td><td>6492</td><td><span class="down">-2.3%</span></td></tr><tr><td>地区生产总值<small>亿元</small></td><td>41,781</td><td>50,013</td><td>53,231</td><td>55,309</td><td><span class="up">+32.4%</span></td></tr><tr><td>人均 GDP<small>元</small></td><td>62,881</td><td>76,146</td><td>81,405</td><td>85,195</td><td><span class="up">+35.5%</span></td></tr></tbody>
+    </table>
+    <div class="bar">2020 年人口为第七次全国人口普查标准时点（2020-11-01）数据，GDP 为各省统计局当年公布数（未按后续普查修订回改）；2023 / 2024 / 2025 年人口为年末常住人口。港澳台统计口径与年度序列与内地不同，不参与年份对比。</div>
+  </section>
+
+  <section class="p-sec">
+    <h2>占全国比重</h2>
+    <div class="donut-row"><div class="dcell"><svg viewBox="0 0 120 120" class="donut" role="img" aria-label="2.2%"><circle cx="60" cy="60" r="46" fill="none" stroke="#1c2942" stroke-width="13"/><circle cx="60" cy="60" r="46" fill="none" stroke="#38bdf8" stroke-width="13" stroke-linecap="round" stroke-dasharray="289.03" stroke-dashoffset="282.66" transform="rotate(-90 60 60)"/><text x="60" y="57" text-anchor="middle" font-size="20" font-weight="800" fill="#e8eefc">2.2%</text><text x="60" y="75" text-anchor="middle" font-size="10.5" fill="#6f819e">占比</text></svg><div class="dname">陆地面积</div><div class="dval">21.18 万 km²</div><div class="drank">全国第 10</div></div><div class="dcell"><svg viewBox="0 0 120 120" class="donut" role="img" aria-label="4.6%"><circle cx="60" cy="60" r="46" fill="none" stroke="#1c2942" stroke-width="13"/><circle cx="60" cy="60" r="46" fill="none" stroke="#a3e635" stroke-width="13" stroke-linecap="round" stroke-dasharray="289.03" stroke-dashoffset="275.65" transform="rotate(-90 60 60)"/><text x="60" y="57" text-anchor="middle" font-size="20" font-weight="800" fill="#e8eefc">4.6%</text><text x="60" y="75" text-anchor="middle" font-size="10.5" fill="#6f819e">占比</text></svg><div class="dname">常住人口</div><div class="dval">6492 万人</div><div class="drank">全国第 8</div></div><div class="dcell"><svg viewBox="0 0 120 120" class="donut" role="img" aria-label="4.0%"><circle cx="60" cy="60" r="46" fill="none" stroke="#1c2942" stroke-width="13"/><circle cx="60" cy="60" r="46" fill="none" stroke="#fbbf24" stroke-width="13" stroke-linecap="round" stroke-dasharray="289.03" stroke-dashoffset="277.56" transform="rotate(-90 60 60)"/><text x="60" y="57" text-anchor="middle" font-size="20" font-weight="800" fill="#e8eefc">4.0%</text><text x="60" y="75" text-anchor="middle" font-size="10.5" fill="#6f819e">占比</text></svg><div class="dname">地区生产总值</div><div class="dval">5.53 万亿元</div><div class="drank">全国第 11</div></div></div>
+    <p>湖南省的陆地面积占内地 31 个省级行政区合计的 <b>2.2%</b>，承载了 <b>4.6%</b> 的常住人口，产出了 <b>4.0%</b> 的地区生产总值；人口密度约为平均水平的 <b>2.10 倍</b>，单位面积经济产出约为平均的 <b>1.80 倍</b>。</p>
+    <div class="bar">分母为内地 31 个省级行政区的合计值（不含港澳台）。</div>
+  </section>
+
+  <section class="p-sec">
+    <h2>同区域对比 · GDP</h2>
+    <div class="bars"><div class="brow"><span class="bn">豫</span><span class="btrack"><i style="width:100.0%"></i></span><span class="bv">66,633</span></div><div class="brow"><span class="bn">鄂</span><span class="btrack"><i style="width:94.0%"></i></span><span class="bv">62,661</span></div><div class="brow on"><span class="bn">湘</span><span class="btrack"><i style="width:83.0%"></i></span><span class="bv">55,309</span></div></div>
+    <div class="bar">华中地区生产总值对比，单位亿元；湖南省在华中（3 个省级行政区）中位列第 3。</div>
+  </section>
+
+  <section class="p-sec">
+    <h2>水系</h2>
+    <p>湘、资、沅、澧「四水」自南向北汇入洞庭湖，再于城陵矶注入长江，构成长江中游最大的调蓄湖泊系统。</p>
+    <div class="chips"><span class="chip water">湘江</span><span class="chip water">资江</span><span class="chip water">沅江</span><span class="chip water">澧水</span><span class="chip water">汨罗江</span><span class="chip water">洣水</span><span class="chip lake">洞庭湖</span><span class="chip lake">大通湖</span><span class="chip lake">东江湖（水库）</span><span class="chip lake">水府庙水库</span></div>
+    <div class="bar">主要河流：湘江、资江、沅江、澧水、汨罗江、洣水　|　主要湖泊/水库：洞庭湖、大通湖、东江湖（水库）、水府庙水库</div>
+  </section>
+
+  <section class="p-sec">
+    <h2>地形</h2>
+    <p>三面环山、北面开口：东为罗霄山脉，南为南岭，西为雪峰山与武陵山，中部为丘陵与河谷盆地，北部为洞庭湖平原——一个向北倾斜的马蹄形盆地。</p>
+    <div class="chips"><span class="chip">最高峰：酃峰（神农峰）　2122 米</span><span class="chip">面积：21.18 万 km²</span></div>
+  </section>
+
+  <section class="p-sec">
+    <h2>之最</h2>
+    <ul class="p-best"><li><span class="idx">1</span><div><div class="bt">中国第二大淡水湖</div><div class="bd">洞庭湖承接四水、吞吐长江，是长江中游最重要的调蓄湖泊</div></div></li><li><span class="idx">2</span><div><div class="bt">有色金属之乡</div><div class="bd">锑、钨、铋等储量居世界前列，冷水江被称为「世界锑都」</div></div></li><li><span class="idx">3</span><div><div class="bt">工程机械之都</div><div class="bd">长沙是中国最大的工程机械产业基地之一</div></div></li></ul>
+  </section>
+
+  
+
+  <section class="p-related">
+    <h2 style="font-size:16px;margin:0 0 10px;">同区域的其他省级行政区（华中）</h2>
+    <div class="chips"><a class="chip" href="henan.html">河南</a><a class="chip" href="hubei.html">湖北</a></div>
+  </section>
+
+  <nav class="p-nav"><a href="hubei.html"><span class="n">上一个（按 GDP 排序）</span>湖北</a><a href="guangdong.html" style="text-align:right"><span class="n">下一个（按 GDP 排序）</span>广东</a></nav>
+
+  <footer class="p-footer">
+    数据来源：2025 年地区生产总值（各省/自治区/直辖市统计局，2026 年 1—2 月发布）、2025 年末常住人口、陆地面积（公开通行的约数）；
+    省级行政边界来自 DataV.GeoAtlas；底图高德。<br/>
+    内地 31 个省级行政区口径统一；港澳台因统计口径不同单列说明。
+  </footer>
+
+</div>
+
+<script src="/maps/_shared/maplibre-gl.js"></script>
+<script src="/maps/_shared/province-geo.js"></script>
+<script>
+window.onProvinceGeo(function (GEO) {
+  var CODE = "430000";                 // 省级 adcode（字符串），与 GeoJSON 的 adcode 数字比较时统一转字符串
+  var feats = GEO.features || [];
+  var f = null;
+  for (var i = 0; i < feats.length; i++) {
+    if (String(feats[i].properties.adcode) === CODE) { f = feats[i]; break; }
+  }
+  var NOT_JD = ["!=", ["get", "name"], ""];              // 排除十段线要素（name 为空）
+
+  var map = new maplibregl.Map({
+    container: "pmap",
+    style: {
+      version: 8,
+      sources: {
+        amap_img: { type: "raster", tiles: ["01","02","03","04"].map(function (s) { return "https://wprd" + s + ".is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scl=1&style=6"; }), tileSize: 256, attribution: "高德地图" },
+        provinces: { type: "geojson", data: GEO }
+      },
+      layers: [
+        { id: "bg", type: "background", paint: { "background-color": "#0b1220" } },
+        { id: "amap-img", type: "raster", source: "amap_img", paint: { "raster-opacity": 0.9 } },
+        { id: "others-fill", type: "fill", source: "provinces",
+           filter: ["all", NOT_JD, ["!=", ["to-string", ["get", "adcode"]], CODE]],
+           paint: { "fill-color": "#0d1626", "fill-opacity": 0.62 } },
+        { id: "others-line", type: "line", source: "provinces",
+           filter: ["all", NOT_JD, ["!=", ["to-string", ["get", "adcode"]], CODE]],
+           paint: { "line-color": "#64748b", "line-width": 0.6, "line-opacity": 0.7 } },
+        { id: "jd-line", type: "line", source: "provinces", filter: ["==", ["get", "name"], ""],
+           paint: { "line-color": "#38bdf8", "line-width": 1.1, "line-opacity": 0.85 } },
+        { id: "hl", type: "fill", source: "provinces",
+           filter: ["==", ["to-string", ["get", "adcode"]], CODE],
+           paint: { "fill-color": "#38bdf8", "fill-opacity": 0.18 } },
+        { id: "hl-halo", type: "line", source: "provinces",
+           filter: ["==", ["to-string", ["get", "adcode"]], CODE],
+           layout: { "line-cap": "round", "line-join": "round" },
+           paint: { "line-color": "#67e8f9", "line-width": 10, "line-blur": 14, "line-opacity": 0.5 } },
+        { id: "hl-line", type: "line", source: "provinces",
+           filter: ["==", ["to-string", ["get", "adcode"]], CODE],
+           layout: { "line-cap": "round", "line-join": "round" },
+           paint: { "line-color": "#ffffff", "line-width": 2.2, "line-opacity": 0.95 } }
+      ]
+    },
+    center: [104.5, 33.5], zoom: 3,
+    interactive: true,
+    attributionControl: { compact: true }
+  });
+  map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+
+  // 取「面积最大的那一块多边形」的外接框 —— 海南的南海诸岛会把视野一直拉到赤道附近
+  function bboxOf(geom) {
+    var polys = geom.type === "MultiPolygon" ? geom.coordinates : [geom.coordinates];
+    var best = null, bestArea = -1;
+    for (var i = 0; i < polys.length; i++) {
+      var ring = polys[i][0] || [], area = 0;
+      var minx = Infinity, miny = Infinity, maxx = -Infinity, maxy = -Infinity;
+      for (var j = 0; j < ring.length; j++) {
+        var c = ring[j], d = ring[(j + 1) % ring.length];
+        area += c[0] * d[1] - d[0] * c[1];
+        if (c[0] < minx) minx = c[0];
+        if (c[1] < miny) miny = c[1];
+        if (c[0] > maxx) maxx = c[0];
+        if (c[1] > maxy) maxy = c[1];
+      }
+      area = Math.abs(area / 2);
+      if (area > bestArea) { bestArea = area; best = [minx, miny, maxx, maxy]; }
+    }
+    return best;
+  }
+
+  function frameMap() {
+    if (!f) return;
+    var bb = bboxOf(f.geometry);
+    if (!bb || bb[2] - bb[0] < 1e-6 || bb[3] - bb[1] < 1e-6) {
+      var c = f.properties.center || f.properties.centroid;
+      if (c) map.jumpTo({ center: c, zoom: 7 });
+      return;
+    }
+    map.fitBounds([[bb[0], bb[1]], [bb[2], bb[3]]], { padding: 32, duration: 0, maxZoom: 11 });
+  }
+
+  map.on("load", frameMap);          // 必须等 style 就绪，否则 fitBounds 无效
+
+  // 光圈呼吸动画（页面不可见时不跑）
+  var t0 = performance.now();
+  (function frame(now) {
+    if (!document.hidden) {
+      var s = 0.5 + 0.5 * Math.sin(((now - t0) % 1800) / 1800 * Math.PI * 2);
+      try {
+        map.setPaintProperty("hl-halo", "line-width", 6 + 10 * s);
+        map.setPaintProperty("hl-halo", "line-opacity", 0.28 + 0.34 * (1 - s));
+        map.setPaintProperty("hl-line", "line-opacity", 0.62 + 0.36 * s);
+      } catch (e) {}
+    }
+    requestAnimationFrame(frame);
+  })(t0);
+});
+</script>
+</body>
+</html>

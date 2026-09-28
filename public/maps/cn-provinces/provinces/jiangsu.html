@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>江苏省省情一图览｜人口 8518万 · GDP 14.24 万亿元 · 水系 地形 之最</title>
+  <meta name="description" content="江苏省（苏）省情速览：2025 年末常住人口 8518 万人，2025 年 GDP 14.24 万亿元，同比增长 5.3%。含主要河流湖泊、地形地貌、最高峰云台山玉女峰（625 米）与 3 条「全国之最」。" />
+  <meta name="keywords" content="江苏省省情,江苏省人口,江苏省GDP,江苏省地形,江苏省河流,江苏省之最,苏" />
+  <meta name="author" content="PlanetGIS" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+<nav class="p-topbar">
+  <a class="back" href="../index.html">← 返回中国省情一图览</a>
+  <span class="crumb">首页 / 省情 / 江苏省</span>
+</nav>
+
+<div class="p-wrap">
+
+  <header class="p-hero">
+    <h1>江苏省</h1>
+    <p class="p-sub">简称「苏」· 省会/首府 南京 · 华东 · 陆地面积 10.72 万 km²</p>
+    <div class="p-tag">平原占比 87% · 人均 GDP 省级第一</div>
+  </header>
+
+  <section class="p-kpis">
+    <div class="p-kpi"><div class="k">陆地面积（全国第 24）</div><div class="v">10.72<small>万 km²</small></div></div>
+    <div class="p-kpi"><div class="k">常住人口 · 2025 年末（第 4）</div><div class="v">8518<small>万人</small></div><div class="d">较上年 -8 万人</div></div>
+    <div class="p-kpi"><div class="k">地区生产总值 · 2025（第 2）</div><div class="v">14.24<small>万亿元</small></div><div class="d">同比增长 5.3%</div></div>
+    <div class="p-kpi"><div class="k">人均 GDP（第 6）</div><div class="v">167,118<small>元</small></div></div>
+    <div class="p-kpi"><div class="k">最高点</div><div class="v">625<small>m</small></div><div class="d">云台山玉女峰</div></div>
+  </section>
+
+  <div class="p-map" id="pmap"></div>
+
+  <section class="p-sec">
+    <h2>人口</h2>
+    <p>2025 年末，江苏省常住人口 <b>8518 万人</b>，较上年 <b>减少 8 万人</b>，在全国 34 个省级行政区中位列第 <b>4</b>。</p>
+    <p class="dim">人口变化由自然增长与机械增长（净流入/流出）共同决定。人口减少通常来自自然负增长（出生少于死亡）与人口净流出两方面。</p>
+  </section>
+
+  <section class="p-sec">
+    <h2>GDP</h2>
+    <p>2025 年，江苏省地区生产总值 <b>14.24 万亿元</b>，同比 <b>增长 5.3%</b>，总量居全国第 <b>2</b>，按常住人口计算人均 GDP 约 <b>167,118 元</b>，居全国第 <b>6</b>。</p>
+    <table class="p-table">
+      <thead><tr><th>指标</th><th>江苏省</th><th>全国位次</th></tr></thead>
+      <tbody>
+        <tr><td>地区生产总值</td><td><b>14.24 万亿元</b></td><td>第 2 位</td></tr>
+        <tr><td>常住人口</td><td><b>8518 万人</b></td><td>第 4 位</td></tr>
+        <tr><td>人均 GDP</td><td><b>167,118 元</b></td><td>第 6 位</td></tr>
+        <tr><td>陆地面积</td><td><b>10.72 万 km²</b></td><td>第 24 位</td></tr>
+      </tbody>
+    </table>
+    <div class="bar">GDP 为 2025 年地区生产总值（各省统计局发布）；人口为 2025 年末常住人口。</div>
+  </section>
+
+  <section class="p-sec">
+    <h2>历年数据（2020 → 2025）</h2>
+    <div class="chart-box">
+  <div class="chart-head"><span class="ct">指数化趋势（2020 年 = 100）</span><span class="lg-row"><span class="lg"><i style="background:#38bdf8"></i>常住人口 <b>101</b></span><span class="lg"><i style="background:#fbbf24"></i>地区生产总值 <b>139</b></span><span class="lg"><i style="background:#a3e635"></i>人均 GDP <b>138</b></span></span></div>
+  <svg class="chart" viewBox="0 0 720 286" role="img" aria-label="历年趋势折线图"><line x1="52.0" y1="24.0" x2="700.0" y2="24.0" stroke="rgba(148,163,184,.14)" stroke-width="1"/><text x="43.0" y="27.6" text-anchor="end" font-size="11" fill="#6f819e">145</text><line x1="52.0" y1="79.5" x2="700.0" y2="79.5" stroke="rgba(148,163,184,.14)" stroke-width="1"/><text x="43.0" y="83.1" text-anchor="end" font-size="11" fill="#6f819e">132</text><line x1="52.0" y1="135.0" x2="700.0" y2="135.0" stroke="rgba(148,163,184,.14)" stroke-width="1"/><text x="43.0" y="138.6" text-anchor="end" font-size="11" fill="#6f819e">119</text><line x1="52.0" y1="190.5" x2="700.0" y2="190.5" stroke="rgba(148,163,184,.14)" stroke-width="1"/><text x="43.0" y="194.1" text-anchor="end" font-size="11" fill="#6f819e">107</text><line x1="52.0" y1="246.0" x2="700.0" y2="246.0" stroke="rgba(148,163,184,.14)" stroke-width="1"/><text x="43.0" y="249.6" text-anchor="end" font-size="11" fill="#6f819e">94</text><line x1="52.0" y1="219.1" x2="700.0" y2="219.1" stroke="rgba(148,163,184,.4)" stroke-width="1" stroke-dasharray="4 4"/><text x="698.0" y="234.1" text-anchor="end" font-size="10.5" fill="#7f90ad">2020 = 100</text><polyline points="52.0,219.1 440.8,216.5 570.4,216.5 700.0,216.9" fill="none" stroke="#38bdf8" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><circle cx="52.0" cy="219.1" r="3.4" fill="#38bdf8" stroke="#0b1220" stroke-width="1.6"/><circle cx="440.8" cy="216.5" r="3.4" fill="#38bdf8" stroke="#0b1220" stroke-width="1.6"/><circle cx="570.4" cy="216.5" r="3.4" fill="#38bdf8" stroke="#0b1220" stroke-width="1.6"/><circle cx="700.0" cy="216.9" r="3.4" fill="#38bdf8" stroke="#0b1220" stroke-width="1.6"/><text x="692.0" y="210.9" text-anchor="end" font-size="11.5" font-weight="700" fill="#38bdf8">101</text><polyline points="52.0,219.1 440.8,110.9 570.4,73.6 700.0,50.9" fill="none" stroke="#fbbf24" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><circle cx="52.0" cy="219.1" r="3.4" fill="#fbbf24" stroke="#0b1220" stroke-width="1.6"/><circle cx="440.8" cy="110.9" r="3.4" fill="#fbbf24" stroke="#0b1220" stroke-width="1.6"/><circle cx="570.4" cy="73.6" r="3.4" fill="#fbbf24" stroke="#0b1220" stroke-width="1.6"/><circle cx="700.0" cy="50.9" r="3.4" fill="#fbbf24" stroke="#0b1220" stroke-width="1.6"/><text x="692.0" y="44.9" text-anchor="end" font-size="11.5" font-weight="700" fill="#fbbf24">139</text><polyline points="52.0,219.1 440.8,114.1 570.4,77.1 700.0,54.0" fill="none" stroke="#a3e635" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><circle cx="52.0" cy="219.1" r="3.4" fill="#a3e635" stroke="#0b1220" stroke-width="1.6"/><circle cx="440.8" cy="114.1" r="3.4" fill="#a3e635" stroke="#0b1220" stroke-width="1.6"/><circle cx="570.4" cy="77.1" r="3.4" fill="#a3e635" stroke="#0b1220" stroke-width="1.6"/><circle cx="700.0" cy="54.0" r="3.4" fill="#a3e635" stroke="#0b1220" stroke-width="1.6"/><text x="692.0" y="57.9" text-anchor="end" font-size="11.5" font-weight="700" fill="#a3e635">138</text><text x="52.0" y="272.0" text-anchor="middle" font-size="11.5" fill="#8fa3c0">2020</text><text x="440.8" y="272.0" text-anchor="middle" font-size="11.5" fill="#8fa3c0">2023</text><text x="570.4" y="272.0" text-anchor="middle" font-size="11.5" fill="#8fa3c0">2024</text><text x="700.0" y="272.0" text-anchor="middle" font-size="11.5" fill="#8fa3c0">2025</text></svg>
+  <div class="bar">三项指标量纲不同，统一折算成指数（2020 年 = 100）后同轴比较；末点标注 2025 年的指数值。</div>
+</div>
+    <table class="p-table p-trend">
+      <thead><tr><th>指标</th><th>2020</th><th>2023</th><th>2024</th><th>2025</th><th>2025 较 2020</th></tr></thead>
+      <tbody><tr><td>常住人口<small>万人</small></td><td>8474.8</td><td>8526</td><td>8526</td><td>8518</td><td><span class="up">+0.5%</span></td></tr><tr><td>地区生产总值<small>亿元</small></td><td>102,719</td><td>128,222</td><td>137,008</td><td>142,352</td><td><span class="up">+38.6%</span></td></tr><tr><td>人均 GDP<small>元</small></td><td>121,205</td><td>150,390</td><td>160,694</td><td>167,118</td><td><span class="up">+37.9%</span></td></tr></tbody>
+    </table>
+    <div class="bar">2020 年人口为第七次全国人口普查标准时点（2020-11-01）数据，GDP 为各省统计局当年公布数（未按后续普查修订回改）；2023 / 2024 / 2025 年人口为年末常住人口。港澳台统计口径与年度序列与内地不同，不参与年份对比。</div>
+  </section>
+
+  <section class="p-sec">
+    <h2>占全国比重</h2>
+    <div class="donut-row"><div class="dcell"><svg viewBox="0 0 120 120" class="donut" role="img" aria-label="1.1%"><circle cx="60" cy="60" r="46" fill="none" stroke="#1c2942" stroke-width="13"/><circle cx="60" cy="60" r="46" fill="none" stroke="#38bdf8" stroke-width="13" stroke-linecap="round" stroke-dasharray="289.03" stroke-dashoffset="285.80" transform="rotate(-90 60 60)"/><text x="60" y="57" text-anchor="middle" font-size="20" font-weight="800" fill="#e8eefc">1.1%</text><text x="60" y="75" text-anchor="middle" font-size="10.5" fill="#6f819e">占比</text></svg><div class="dname">陆地面积</div><div class="dval">10.72 万 km²</div><div class="drank">全国第 24</div></div><div class="dcell"><svg viewBox="0 0 120 120" class="donut" role="img" aria-label="6.1%"><circle cx="60" cy="60" r="46" fill="none" stroke="#1c2942" stroke-width="13"/><circle cx="60" cy="60" r="46" fill="none" stroke="#a3e635" stroke-width="13" stroke-linecap="round" stroke-dasharray="289.03" stroke-dashoffset="271.48" transform="rotate(-90 60 60)"/><text x="60" y="57" text-anchor="middle" font-size="20" font-weight="800" fill="#e8eefc">6.1%</text><text x="60" y="75" text-anchor="middle" font-size="10.5" fill="#6f819e">占比</text></svg><div class="dname">常住人口</div><div class="dval">8518 万人</div><div class="drank">全国第 4</div></div><div class="dcell"><svg viewBox="0 0 120 120" class="donut" role="img" aria-label="10.2%"><circle cx="60" cy="60" r="46" fill="none" stroke="#1c2942" stroke-width="13"/><circle cx="60" cy="60" r="46" fill="none" stroke="#fbbf24" stroke-width="13" stroke-linecap="round" stroke-dasharray="289.03" stroke-dashoffset="259.51" transform="rotate(-90 60 60)"/><text x="60" y="57" text-anchor="middle" font-size="20" font-weight="800" fill="#e8eefc">10.2%</text><text x="60" y="75" text-anchor="middle" font-size="10.5" fill="#6f819e">占比</text></svg><div class="dname">地区生产总值</div><div class="dval">14.24 万亿元</div><div class="drank">全国第 2</div></div></div>
+    <p>江苏省的陆地面积占内地 31 个省级行政区合计的 <b>1.1%</b>，承载了 <b>6.1%</b> 的常住人口，产出了 <b>10.2%</b> 的地区生产总值；人口密度约为平均水平的 <b>5.45 倍</b>，单位面积经济产出约为平均的 <b>9.16 倍</b>。</p>
+    <div class="bar">分母为内地 31 个省级行政区的合计值（不含港澳台）。</div>
+  </section>
+
+  <section class="p-sec">
+    <h2>同区域对比 · GDP</h2>
+    <div class="bars"><div class="brow on"><span class="bn">苏</span><span class="btrack"><i style="width:100.0%"></i></span><span class="bv">142,352</span></div><div class="brow"><span class="bn">鲁</span><span class="btrack"><i style="width:72.5%"></i></span><span class="bv">103,197</span></div><div class="brow"><span class="bn">浙</span><span class="btrack"><i style="width:66.4%"></i></span><span class="bv">94,545</span></div><div class="brow"><span class="bn">闽</span><span class="btrack"><i style="width:42.3%"></i></span><span class="bv">60,199</span></div><div class="brow"><span class="bn">沪</span><span class="btrack"><i style="width:39.8%"></i></span><span class="bv">56,709</span></div><div class="brow"><span class="bn">台</span><span class="btrack"><i style="width:39.3%"></i></span><span class="bv">56,000</span></div><div class="brow"><span class="bn">皖</span><span class="btrack"><i style="width:37.2%"></i></span><span class="bv">52,989</span></div><div class="brow"><span class="bn">赣</span><span class="btrack"><i style="width:25.3%"></i></span><span class="bv">36,020</span></div></div>
+    <div class="bar">华东地区生产总值对比，单位亿元；江苏省在华东（8 个省级行政区）中位列第 1。</div>
+  </section>
+
+  <section class="p-sec">
+    <h2>水系</h2>
+    <p>全国水网最密的省份：长江横贯南部，淮河穿境北部，京杭大运河纵贯南北，沂沭泗水系在北部入海。</p>
+    <div class="chips"><span class="chip water">长江</span><span class="chip water">淮河</span><span class="chip water">京杭大运河</span><span class="chip water">沂河</span><span class="chip water">沭河</span><span class="chip water">秦淮河</span><span class="chip water">通扬运河</span><span class="chip lake">太湖</span><span class="chip lake">洪泽湖</span><span class="chip lake">骆马湖</span><span class="chip lake">高邮湖</span><span class="chip lake">邵伯湖</span></div>
+    <div class="bar">主要河流：长江、淮河、京杭大运河、沂河、沭河、秦淮河、通扬运河　|　主要湖泊/水库：太湖、洪泽湖、骆马湖、高邮湖、邵伯湖</div>
+  </section>
+
+  <section class="p-sec">
+    <h2>地形</h2>
+    <p>平原占比约 87%，为全国平原比重最高的省份；西南为宁镇山脉与宜溧山地丘陵，北部为黄淮平原，中部为长江三角洲与里下河洼地。</p>
+    <div class="chips"><span class="chip">最高峰：云台山玉女峰　625 米</span><span class="chip">面积：10.72 万 km²</span></div>
+  </section>
+
+  <section class="p-sec">
+    <h2>之最</h2>
+    <ul class="p-best"><li><span class="idx">1</span><div><div class="bt">人均 GDP 省级第一</div><div class="bd">2025 年人均 GDP 约 16.7 万元，居全国各省（不含直辖市）首位</div></div></li><li><span class="idx">2</span><div><div class="bt">平原占比全国第一</div><div class="bd">平原面积约占省域 87%，是地势最平坦的省份</div></div></li><li><span class="idx">3</span><div><div class="bt">水网密度全国第一</div><div class="bd">内河航道里程、河湖密度均居全国首位，「水乡」地貌典型</div></div></li></ul>
+  </section>
+
+  
+
+  <section class="p-related">
+    <h2 style="font-size:16px;margin:0 0 10px;">同区域的其他省级行政区（华东）</h2>
+    <div class="chips"><a class="chip" href="shanghai.html">上海</a><a class="chip" href="zhejiang.html">浙江</a><a class="chip" href="anhui.html">安徽</a><a class="chip" href="fujian.html">福建</a><a class="chip" href="jiangxi.html">江西</a><a class="chip" href="shandong.html">山东</a><a class="chip" href="taiwan.html">台湾</a></div>
+  </section>
+
+  <nav class="p-nav"><a href="shanghai.html"><span class="n">上一个（按 GDP 排序）</span>上海</a><a href="zhejiang.html" style="text-align:right"><span class="n">下一个（按 GDP 排序）</span>浙江</a></nav>
+
+  <footer class="p-footer">
+    数据来源：2025 年地区生产总值（各省/自治区/直辖市统计局，2026 年 1—2 月发布）、2025 年末常住人口、陆地面积（公开通行的约数）；
+    省级行政边界来自 DataV.GeoAtlas；底图高德。<br/>
+    内地 31 个省级行政区口径统一；港澳台因统计口径不同单列说明。
+  </footer>
+
+</div>
+
+<script src="/maps/_shared/maplibre-gl.js"></script>
+<script src="/maps/_shared/province-geo.js"></script>
+<script>
+window.onProvinceGeo(function (GEO) {
+  var CODE = "320000";                 // 省级 adcode（字符串），与 GeoJSON 的 adcode 数字比较时统一转字符串
+  var feats = GEO.features || [];
+  var f = null;
+  for (var i = 0; i < feats.length; i++) {
+    if (String(feats[i].properties.adcode) === CODE) { f = feats[i]; break; }
+  }
+  var NOT_JD = ["!=", ["get", "name"], ""];              // 排除十段线要素（name 为空）
+
+  var map = new maplibregl.Map({
+    container: "pmap",
+    style: {
+      version: 8,
+      sources: {
+        amap_img: { type: "raster", tiles: ["01","02","03","04"].map(function (s) { return "https://wprd" + s + ".is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scl=1&style=6"; }), tileSize: 256, attribution: "高德地图" },
+        provinces: { type: "geojson", data: GEO }
+      },
+      layers: [
+        { id: "bg", type: "background", paint: { "background-color": "#0b1220" } },
+        { id: "amap-img", type: "raster", source: "amap_img", paint: { "raster-opacity": 0.9 } },
+        { id: "others-fill", type: "fill", source: "provinces",
+           filter: ["all", NOT_JD, ["!=", ["to-string", ["get", "adcode"]], CODE]],
+           paint: { "fill-color": "#0d1626", "fill-opacity": 0.62 } },
+        { id: "others-line", type: "line", source: "provinces",
+           filter: ["all", NOT_JD, ["!=", ["to-string", ["get", "adcode"]], CODE]],
+           paint: { "line-color": "#64748b", "line-width": 0.6, "line-opacity": 0.7 } },
+        { id: "jd-line", type: "line", source: "provinces", filter: ["==", ["get", "name"], ""],
+           paint: { "line-color": "#38bdf8", "line-width": 1.1, "line-opacity": 0.85 } },
+        { id: "hl", type: "fill", source: "provinces",
+           filter: ["==", ["to-string", ["get", "adcode"]], CODE],
+           paint: { "fill-color": "#38bdf8", "fill-opacity": 0.18 } },
+        { id: "hl-halo", type: "line", source: "provinces",
+           filter: ["==", ["to-string", ["get", "adcode"]], CODE],
+           layout: { "line-cap": "round", "line-join": "round" },
+           paint: { "line-color": "#67e8f9", "line-width": 10, "line-blur": 14, "line-opacity": 0.5 } },
+        { id: "hl-line", type: "line", source: "provinces",
+           filter: ["==", ["to-string", ["get", "adcode"]], CODE],
+           layout: { "line-cap": "round", "line-join": "round" },
+           paint: { "line-color": "#ffffff", "line-width": 2.2, "line-opacity": 0.95 } }
+      ]
+    },
+    center: [104.5, 33.5], zoom: 3,
+    interactive: true,
+    attributionControl: { compact: true }
+  });
+  map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+
+  // 取「面积最大的那一块多边形」的外接框 —— 海南的南海诸岛会把视野一直拉到赤道附近
+  function bboxOf(geom) {
+    var polys = geom.type === "MultiPolygon" ? geom.coordinates : [geom.coordinates];
+    var best = null, bestArea = -1;
+    for (var i = 0; i < polys.length; i++) {
+      var ring = polys[i][0] || [], area = 0;
+      var minx = Infinity, miny = Infinity, maxx = -Infinity, maxy = -Infinity;
+      for (var j = 0; j < ring.length; j++) {
+        var c = ring[j], d = ring[(j + 1) % ring.length];
+        area += c[0] * d[1] - d[0] * c[1];
+        if (c[0] < minx) minx = c[0];
+        if (c[1] < miny) miny = c[1];
+        if (c[0] > maxx) maxx = c[0];
+        if (c[1] > maxy) maxy = c[1];
+      }
+      area = Math.abs(area / 2);
+      if (area > bestArea) { bestArea = area; best = [minx, miny, maxx, maxy]; }
+    }
+    return best;
+  }
+
+  function frameMap() {
+    if (!f) return;
+    var bb = bboxOf(f.geometry);
+    if (!bb || bb[2] - bb[0] < 1e-6 || bb[3] - bb[1] < 1e-6) {
+      var c = f.properties.center || f.properties.centroid;
+      if (c) map.jumpTo({ center: c, zoom: 7 });
+      return;
+    }
+    map.fitBounds([[bb[0], bb[1]], [bb[2], bb[3]]], { padding: 32, duration: 0, maxZoom: 11 });
+  }
+
+  map.on("load", frameMap);          // 必须等 style 就绪，否则 fitBounds 无效
+
+  // 光圈呼吸动画（页面不可见时不跑）
+  var t0 = performance.now();
+  (function frame(now) {
+    if (!document.hidden) {
+      var s = 0.5 + 0.5 * Math.sin(((now - t0) % 1800) / 1800 * Math.PI * 2);
+      try {
+        map.setPaintProperty("hl-halo", "line-width", 6 + 10 * s);
+        map.setPaintProperty("hl-halo", "line-opacity", 0.28 + 0.34 * (1 - s));
+        map.setPaintProperty("hl-line", "line-opacity", 0.62 + 0.36 * s);
+      } catch (e) {}
+    }
+    requestAnimationFrame(frame);
+  })(t0);
+});
+</script>
+</body>
+</html>
