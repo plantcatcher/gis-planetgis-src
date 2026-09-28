@@ -36,7 +36,7 @@ const Maps: React.FC = () => {
     <>
       <PageMeta
         title="可视化互动地图 - 星球小捕手"
-        description="可以点、可以搜、可以查的地理互动地图系列：我国主要河流分布图等，按国标分级着色，悬停即出河流名称、等级、国标码与估算河长，支持中文与拼音搜索。"
+        description="可以点、可以搜、可以查的地理互动地图系列：我国主要河流分布图（1633 条河流按国标分级着色）、卫星历史影像查看器（196 期存档影像时间轴 + 卷帘对比），每张图都公开数据源与坐标系。"
         canonical="https://planetgis.cn/maps"
       />
       <Breadcrumb />
@@ -50,7 +50,7 @@ const Maps: React.FC = () => {
             </div>
             <div className="mt-3 h-1 w-14 bg-primary rounded-full" />
             <p className="mt-4 text-base text-muted-foreground leading-relaxed max-w-2xl">
-              把真实的地理数据做成可以提问的地图——不只是看图，而是点一下就知道这条河叫什么、它是几级、有多长。每张地图都标注了数据源与坐标系，原始数据也可下载后自己动手分析。
+              把真实的地理数据做成可以提问的地图——不只是看图，而是点一下就知道这条河叫什么、它是几级、多长；或者把 196 期卫星影像摊成一条时间轴，看同一块地这些年怎么变。每张地图都标注了数据源与坐标系。
             </p>
           </header>
 
@@ -60,6 +60,8 @@ const Maps: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {maps.map(({ work: w, asset: m }, i) => {
                 const totalFeatures = m?.data.reduce((s, d) => s + d.features, 0) ?? 0;
+                // 计数单位默认「个要素」（矢量数据集）；影像类地图在登记册里覆写。
+                const unit = m?.data[0]?.unit ?? '个要素';
                 return (
                   <CardAnim key={w.slug} delay={i * 0.08}>
                     <div className="group flex flex-col h-full overflow-hidden rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 hover:shadow-lg transition-all duration-300">
@@ -92,7 +94,10 @@ const Maps: React.FC = () => {
                             <div className="flex items-start gap-1.5">
                               <Layers className="w-3.5 h-3.5 mt-0.5 shrink-0" />
                               <dd>
-                                共 {totalFeatures.toLocaleString()} 个要素（{m.data.map((d) => d.features.toLocaleString()).join(' + ')}）
+                                共 {totalFeatures.toLocaleString()} {unit}
+                                {/* 单项资产不必再括注一次自身数字 */}
+                                {m.data.length > 1 &&
+                                  `（${m.data.map((d) => d.features.toLocaleString()).join(' + ')}）`}
                               </dd>
                             </div>
                             <div className="flex items-start gap-1.5">

@@ -19,6 +19,8 @@ export interface HeadData {
 /** 站点 baseURL：全站 canonical / OG / 结构化数据的唯一来源 */
 export const SITE = 'https://planetgis.cn';
 const DEFAULT_OG = 'https://blogphoto.planetgis.cn/PicGo/2026-02-27-favicon-dec42c.png';
+/** 判断一个图片地址是否已是绝对 URL（http/https），用于决定是否补站点前缀 */
+const ABSOLUTE_URL = /^https?:\/\//i;
 
 /**
  * 由路由 pathname 生成规范地址（canonical）。
@@ -66,7 +68,14 @@ export function PageMeta({ title, description, canonical, image }: PageMetaProps
   // 指向其它 URL —— 百度抓取诊断的「有跳转」标记即源于此，务必不要改回去。
   const { pathname } = useLocation();
   const canonicalUrl = canonical || buildCanonical(pathname);
-  const ogImage = image || DEFAULT_OG;
+  // og:image / twitter:image 必须是绝对 URL——社交平台与结构化数据都不接受相对路径。
+  // content/works 允许直接引用站内自托管封面（如 /maps/<slug>/cover.jpg），这里统一补全；
+  // 已是绝对地址（blogphoto 图床等）原样透传。
+  const ogImage = image
+    ? ABSOLUTE_URL.test(image)
+      ? image
+      : `${SITE}${image.startsWith('/') ? '' : '/'}${image}`
+    : DEFAULT_OG;
 
   // 客户端：直接操作 document.head
   useEffect(() => {

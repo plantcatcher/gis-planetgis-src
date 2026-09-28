@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>历史影像查看器 · 卫星影像时间轴</title>
+  <meta name="description" content="基于 Esri World Imagery Wayback 的卫星历史影像查看器：196 期影像时间轴，支持卷帘对比，覆盖 2014–2026 年。">
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#04191d" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/>
+        </svg>
+      </div>
+      <div>
+        <h1>历史影像查看器</h1>
+        <p>Satellite Imagery Wayback · 196 期 · 2014–2026</p>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="search" id="searchBox">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+        <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
+      </svg>
+      <input id="searchInput" type="text" autocomplete="off" spellcheck="false"
+             placeholder="搜索地点，或输入坐标 22.54,114.06">
+      <button class="clr" id="searchClr" title="清空">&times;</button>
+      <div class="suggest" id="suggest"></div>
+    </div>
+
+    <div class="modes" id="modes">
+      <button data-mode="single" class="on">单期浏览</button>
+      <button data-mode="swipe">卷帘对比</button>
+    </div>
+
+    <div class="pop-wrap">
+      <button class="tbtn" id="btnPresets">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/>
+        </svg>
+        观察点
+      </button>
+      <div class="preset-pop" id="presetPop"></div>
+    </div>
+
+    <button class="tbtn" id="btnLabel" title="叠加天地图中文注记与国界线">
+      <span class="dot"></span>注记
+    </button>
+  </header>
+
+  <main class="stage" id="stage">
+    <div class="map" id="mapBase"></div>
+    <div class="map" id="mapTop"></div>
+
+    <div class="swipe" id="swipe">
+      <div class="knob">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 6 4 12l5 6M15 6l5 6-5 6"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="era" id="eraRef"><span class="k">基准期</span><span class="v" id="eraRefV">—</span></div>
+    <div class="era" id="eraCur"><span class="k">当前期</span><span class="v" id="eraCurV">—</span></div>
+
+    <div class="hud" id="hudPos">移动鼠标查看坐标</div>
+    <div class="hud" id="hudAttr">影像 &copy; Esri · Maxar · Earthstar Geographics｜存档 World Imagery Wayback</div>
+
+    <!-- 站内导航：地图跑在主站的 iframe 里，用 target="_top" 跳出 iframe 整页跳转
+         （主站是 SSG 预渲染，直接访问 /works/<slug>、/maps 均为 200） -->
+    <nav class="site-nav">
+      <a href="/works/hist-imagery" target="_top">作品介绍</a>
+      <a href="/maps" target="_top">全部地图</a>
+    </nav>
+
+    <div class="loadbar" id="loadbar"><i></i></div>
+    <div class="toast" id="toast"></div>
+  </main>
+
+  <footer class="timeline">
+    <div class="tl-row hide" id="rowRef">
+      <div class="tl-tag tag-ref"><i></i>基准期</div>
+      <div class="tl-date ref" id="dateRef">—</div>
+      <div class="slider ref">
+        <input type="range" id="rngRef" min="0" max="195" step="1" value="0" aria-label="基准期">
+        <div class="ticks" id="ticksRef"></div>
+      </div>
+      <div class="tl-nav">
+        <button id="refPrev" title="基准期上一期">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></svg>
+        </button>
+        <button id="refNext" title="基准期下一期">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg>
+        </button>
+      </div>
+      <div class="tl-meta" id="metaRef"></div>
+    </div>
+
+    <div class="tl-row">
+      <div class="tl-tag tag-cur"><i></i>当前期</div>
+      <div class="tl-date cur" id="dateCur">—</div>
+      <div class="slider">
+        <input type="range" id="rngCur" min="0" max="195" step="1" value="195" aria-label="当前期">
+        <div class="ticks" id="ticksCur"></div>
+      </div>
+      <div class="tl-nav">
+        <button id="curPrev" title="上一期">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5-7 7 7 7"/></svg>
+        </button>
+        <button id="curNext" title="下一期">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 5 7 7-7 7"/></svg>
+        </button>
+      </div>
+      <div class="tl-meta" id="metaCur"></div>
+    </div>
+  </footer>
+</div>
+
+<div class="mask" id="mask">
+  <div class="dlg">
+    <h2>开启天地图注记层</h2>
+    <div class="bd">
+      注记层会在影像之上叠加<b>中文地名与国界线</b>，使领土表达符合国家标准。<br>
+      需要一枚天地图开发者 Key（免费）。前往 <code>console.tianditu.gov.cn</code>
+      注册后创建「浏览器端」类型应用即可获取。
+      <input type="text" id="tkInput" placeholder="粘贴天地图 Key（32 位字符）" spellcheck="false">
+    </div>
+    <div class="ft">
+      <button id="tkCancel">取消</button>
+      <button id="tkOk" class="pri">保存并开启</button>
+    </div>
+  </div>
+</div>
+
+<div class="boot" id="boot">
+  <div class="in">
+    <div class="mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#04191d" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/>
+      </svg>
+    </div>
+    <p>正在接入历史影像存档…</p>
+  </div>
+</div>
+
+<script src="/maps/_shared/maplibre-gl.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

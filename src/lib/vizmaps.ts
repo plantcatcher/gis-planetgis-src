@@ -22,6 +22,12 @@ export interface VizMapDataFile {
   /** 要素条数，用于体积审计 */
   features: number;
   desc: string;
+  /**
+   * features 的计数单位，缺省「个要素」——矢量数据集用默认值即可；
+   * 非矢量类资产（如历史影像的存档期索引）覆写它，卡片上才不会把「196 期影像」
+   * 说成「196 个要素」。
+   */
+  unit?: string;
 }
 
 export interface VizMap {

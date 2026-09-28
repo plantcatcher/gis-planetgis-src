@@ -26,6 +26,29 @@
           "desc": "省级行政区边界（_shared 跨地图复用）"
         }
       ]
+    },
+    {
+      "slug": "hist-imagery",
+      "entry": "/maps/hist-imagery/index.html",
+      "bbox": [73.0, 3.5, 135.5, 53.6],
+      "crs": "WGS84 / Web Mercator EPSG:3857（影像瓦片本身即球面墨卡托）；叠加的天地图注记为 CGCS2000",
+      "basemap": "Esri World Imagery Wayback 存档影像（196 期，2014-02-20 → 2026-08-05）；可选叠加天地图 cva 中文注记与国界线（需使用者自配 Key，存 localStorage）",
+      "source": "Esri World Imagery Wayback 公开存档（索引 s3-us-west-2.amazonaws.com/config.maptiles.arcgis.com/waybackconfig.json；瓦片 wayback-a / -b.maptiles.arcgis.com 双节点互备）",
+      "updated": "2026-09-28",
+      "data": [
+        {
+          "file": "maps/hist-imagery/js/app.js",
+          "features": 196,
+          "unit": "期存档影像",
+          "desc": "存档期索引：196 期，2014-02-20 → 2026-08-05（构建期自 waybackconfig.json 生成后内联，不做运行时拉取，避免多一次请求阻塞启动）"
+        },
+        {
+          "file": "maps/hist-imagery/index.html",
+          "features": 23,
+          "unit": "个精选观察点",
+          "desc": "精选观察点：城市生长 6 / 工程与生态 9 / 全球剧变 8，坐标与推荐层级内联在页面里"
+        }
+      ]
     }
   ]
 }
