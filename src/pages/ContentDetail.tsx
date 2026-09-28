@@ -11,6 +11,7 @@ import { useJsonLd } from '@/lib/seo';
 import { useImageLightbox, ImageLightbox } from '@/components/common/ImageLightbox';
 import NotFound from './NotFound';
 import { ArrowRight } from 'lucide-react';
+import { PageViewCount } from '@/lib/busuanzi';
 import FactBox from '@/components/knowledge/FactBox';
 import SeeAlso from '@/components/knowledge/SeeAlso';
 import { buildInfobox, getSeeAlso, getReadingTime, getWordCount } from '@/lib/knowledge';
@@ -118,6 +119,8 @@ export default function ContentDetail({ type }: Props) {
           {(type === 'article' || type === 'learn') && (
             <><span className="opacity-40">·</span><span>{readingTime} 分钟阅读</span><span className="opacity-40">·</span><span>{wordCount} 字</span></>
           )}
+          <span className="opacity-40">·</span>
+          <PageViewCount className="inline-flex items-center gap-1" />
         </div>
         <div className="mt-4">
           <FavoriteButton contentKey={contentKey} variant="detail" />

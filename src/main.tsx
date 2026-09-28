@@ -7,6 +7,10 @@ import "./index.css";
 import App from "./App.tsx";
 import { AppWrapper } from "./components/common/PageMeta.tsx";
 
+// 记录初始进入路径，供不蒜子 SPA 浏览量统计判断是否需要补计
+// （直接以某详情页 URL 进入时，全局脚本已自动统计过，hook 应跳过首屏那一次，避免重复 +1）。
+(window as any).__BSZ_INITIAL_PATH__ = window.location.pathname;
+
 const container = document.getElementById("root")!;
 
 const tree = (

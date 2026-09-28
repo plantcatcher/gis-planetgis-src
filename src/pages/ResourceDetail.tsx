@@ -9,6 +9,7 @@ import { trackResourceDownload } from '@/lib/analytics';
 import { renderMarkdown } from '@/lib/markdown';
 import { useJsonLd } from '@/lib/seo';
 import { useImageLightbox, ImageLightbox } from '@/components/common/ImageLightbox';
+import { PageViewCount } from '@/lib/busuanzi';
 import StandardTimeline from '@/components/common/StandardTimeline';
 import NotFound from './NotFound';
 
@@ -280,6 +281,18 @@ const ResourceDetail: React.FC = () => {
             <header className="mb-6">
               <p className="kicker mb-3">{item.category || '资料下载'}</p>
               <h1 className="text-2xl md:text-3xl font-bold mb-4 leading-tight tracking-tight">{item.title}</h1>
+              <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
+                {item.date && (
+                  <>
+                    <span className="inline-flex items-center gap-1">
+                      <Calendar className="w-3.5 h-3.5" />
+                      {item.date}
+                    </span>
+                    <span className="opacity-40">·</span>
+                  </>
+                )}
+                <PageViewCount className="inline-flex items-center gap-1" />
+              </div>
             </header>
 
             {/* 资料说明正文（预渲染，保证 SEO 正文完整；点击图片放大） */}
