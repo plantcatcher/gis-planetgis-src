@@ -1,7 +1,7 @@
 // 渲染层：把关卡数据画成 SVG（目标轮廓 / 碎片 / 九段线插图）
 // 以及底部碎片区（同一 Coordinate 体系内的独立 SVG 托盘，支持左右滑动）。
 // 所有坐标均使用关卡 viewBox 坐标系。
-import { provinceColor, shuffle } from './geo.js';
+import { provinceColor, shuffle, effectivePath } from './geo.js';
 
 const SVGNS = 'http://www.w3.org/2000/svg';
 
@@ -35,6 +35,7 @@ export class Renderer {
     this.level = level;
     this.total = level.regions.length;
     this.colorById = new Map();
+    this.pathById = new Map(); // 有效渲染路径（过小行政区会被等比放大）
     this.thresholdById = new Map();
     this.bboxById = new Map();
     this.ghostById = new Map();
@@ -93,7 +94,7 @@ export class Renderer {
     this.ghostById.clear();
     this.labelById.clear();
     for (const r of this.level.regions) {
-      const p = svgEl('path', { d: r.path });
+      const p = svgEl('path', { d: this.pathOf(r) });
       p.dataset.id = r.id;
       this.ghostLayer.appendChild(p);
       this.ghostById.set(r.id, p);
@@ -166,6 +167,8 @@ export class Renderer {
     const bbox = this.bboxById.get(r.id) || { x: 0, y: 0, width: 10, height: 10 };
     const vb = `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`;
     const g = svgEl('g', { class: 'tray-piece', 'data-id': r.id, transform: `translate(${x} ${y})` });
+    // 透明命中区（置于外层组坐标系，覆盖整个 66×66 缩略图，保证小省也能整块点中）
+    g.appendChild(svgEl('rect', { x: 0, y: 0, width: THUMB, height: THUMB, fill: 'transparent' }));
     const thumb = svgEl('svg', {
       class: 'tray-thumb',
       x: 0,
@@ -175,7 +178,7 @@ export class Renderer {
       viewBox: vb,
       preserveAspectRatio: 'xMidYMid meet',
     });
-    const path = svgEl('path', { d: r.path, fill: this.colorOf(r.id) });
+    const path = svgEl('path', { d: this.pathOf(r), fill: this.colorOf(r.id) });
     thumb.appendChild(path);
     const label = svgEl('text', { class: 'tray-label', x: THUMB / 2, y: THUMB + 16 });
     label.textContent = r.short;
@@ -216,6 +219,15 @@ export class Renderer {
 
   regionById(id) {
     return this.level.regions.find((r) => r.id === id);
+  }
+
+  // 取某区域的「有效渲染路径」：单维过小的行政区（澳门/香港）围绕 home 等比放大，
+  // 既保留真实轮廓、又清晰可见、可拖动。
+  pathOf(r) {
+    if (!this.pathById.has(r.id)) {
+      this.pathById.set(r.id, effectivePath(r));
+    }
+    return this.pathById.get(r.id);
   }
 
   // 找到离 (x,y) 最近的省级行政区 home（用于吸附判定，避免相邻小省串位）
@@ -263,7 +275,7 @@ export class Renderer {
 
   // 开始拖动：准备拖动碎片（渲染在地图 SVG 中），并隐藏托盘中被拖出的碎片
   beginDrag(region) {
-    this.dragPath.setAttribute('d', region.path);
+    this.dragPath.setAttribute('d', this.pathOf(region));
     this.dragPath.setAttribute('fill', this.colorOf(region.id));
     this.dragPath.setAttribute('visibility', 'visible');
     this.hideTrayPiece(region.id, true);
@@ -290,7 +302,7 @@ export class Renderer {
   placePiece(region) {
     const p = svgEl('path', {
       class: 'piece placed piece-pop',
-      d: region.path,
+      d: this.pathOf(region),
       fill: this.colorOf(region.id),
     });
     this.pieceLayer.appendChild(p);

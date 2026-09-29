@@ -1,5 +1,7 @@
 // 用 canvas 生成成绩卡（无外部依赖，离线可用），便于分享到朋友圈 / 小红书。
 // 内容：标题 + 版图缩略（所有区块的 SVG path）+ 评级 + 成绩数字 + 口号。
+import { effectivePath } from './geo.js';
+
 export function drawShareCard(canvas, { level, mode, time, errors, score }) {
   const ctx = canvas.getContext('2d');
   const W = 600;
@@ -96,7 +98,7 @@ function drawMap(ctx, level, cx, cy, boxW, boxH) {
   ctx.translate(-vx, -vy);
   for (const r of level.regions) {
     try {
-      const p = new Path2D(r.path);
+      const p = new Path2D(effectivePath(r));
       ctx.fillStyle = 'rgba(56,189,248,0.22)';
       ctx.fill(p);
       ctx.strokeStyle = 'rgba(125,211,252,0.7)';

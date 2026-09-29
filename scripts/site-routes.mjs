@@ -20,6 +20,7 @@ export const staticRoutes = [
   '/maps',
   '/my',
   '/subdomains',
+  '/wiki',
   '/downloads',
   '/changelog',
   '/geoquiz',

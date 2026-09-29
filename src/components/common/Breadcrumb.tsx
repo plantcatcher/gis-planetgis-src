@@ -24,6 +24,7 @@ const pageNameMap: Record<string, string> = {
   learn: '地理知识库',
   my: '我的学习',
   subdomains: '子站导航',
+  wiki: 'GIS 资源导航',
   downloads: '资料下载',
   changelog: '更新日志',
 };

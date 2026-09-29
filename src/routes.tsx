@@ -8,6 +8,7 @@ import ContentDetail from './pages/ContentDetail';
 import Changelog from './pages/Changelog';
 import TagPage from './pages/TagPage';
 import Listing from './pages/Listing';
+import Wiki from './pages/Wiki';
 import MyLearning from './pages/MyLearning';
 import GameEmbed from './pages/GameEmbed';
 import ResourceDetail from './pages/ResourceDetail';
@@ -133,6 +134,11 @@ const routes: RouteConfig[] = [
     name: '子站导航',
     path: '/subdomains',
     element: <Listing type="subdomain" />
+  },
+  {
+    name: 'GIS 资源导航',
+    path: '/wiki',
+    element: <Wiki />
   },
   {
     name: '资料下载',
