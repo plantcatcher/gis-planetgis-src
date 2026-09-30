@@ -50,36 +50,46 @@ const Games: React.FC = () => {
             <p className="text-muted-foreground">游戏正在路上，敬请期待。</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {games.map((game, i) => (
-                <CardAnim key={game.slug} delay={i * 0.08}>
-                  <Link
-                    to={game.link || `/${game.slug}`}
-                    className="group block overflow-hidden rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 hover:shadow-lg transition-all duration-300"
-                  >
-                    <div className="aspect-video overflow-hidden relative">
-                      <img
-                        src={game.cover}
-                        alt={`${game.title} - 星球小捕手地理小游戏`}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                        <span className="w-full text-center text-sm font-medium text-white/90">开始游戏 →</span>
+              {games.map((game, i) => {
+                const playUrl = game.link || `/${game.slug}`;
+                return (
+                  <CardAnim key={game.slug} delay={i * 0.08}>
+                    {/* 卡片外壳不再整块是链接：封面与标题 → 游戏本体，底部按钮 → /works/<slug> 的玩法介绍 */}
+                    <div className="group overflow-hidden rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+                      <Link to={playUrl} className="block">
+                        <div className="aspect-video overflow-hidden relative">
+                          <img
+                            src={game.cover}
+                            alt={`${game.title} - 星球小捕手地理小游戏`}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                            <span className="w-full text-center text-sm font-medium text-white/90">开始游戏 →</span>
+                          </div>
+                        </div>
+                      </Link>
+                      <div className="p-6">
+                        <div className="flex items-center gap-2 mb-2 text-primary">
+                          <Gamepad2 className="w-4 h-4" />
+                          <span className="text-xs font-medium tracking-wide uppercase">{game.category || '小游戏'}</span>
+                        </div>
+                        <h3 className="text-lg font-bold mb-2">
+                          <Link to={playUrl} className="group-hover:text-primary transition-colors">
+                            {game.title}
+                          </Link>
+                        </h3>
+                        <p className="text-sm text-muted-foreground line-clamp-2">{game.summary}</p>
+                        <Link
+                          to={`/works/${game.slug}`}
+                          className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary"
+                        >
+                          查看介绍 <ArrowRight className="w-3.5 h-3.5 group-hover:gap-2 transition-all" />
+                        </Link>
                       </div>
                     </div>
-                    <div className="p-6">
-                      <div className="flex items-center gap-2 mb-2 text-primary">
-                        <Gamepad2 className="w-4 h-4" />
-                        <span className="text-xs font-medium tracking-wide uppercase">{game.category || '小游戏'}</span>
-                      </div>
-                      <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors">{game.title}</h3>
-                      <p className="text-sm text-muted-foreground line-clamp-2">{game.summary}</p>
-                      <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
-                        开始游戏 <ArrowRight className="w-3.5 h-3.5 group-hover:gap-2 transition-all" />
-                      </span>
-                    </div>
-                  </Link>
-                </CardAnim>
-              ))}
+                  </CardAnim>
+                );
+              })}
             </div>
           )}
         </div>

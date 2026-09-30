@@ -1,0 +1,34 @@
+/* 茶马古道 · 三条主线 —— 专题配色与微调
+   主色取「茶铜色」，与三条主线的青绿 / 橙金 / 紫拉开距离；
+   三条线的正式配色写在各自主线的 properties.color 里。 */
+:root {
+  --accent: #d9b47a;
+  --accent-light: #f2ddb8;
+  --accent-dark: #b08a4e;
+  --accent-soft: rgba(217, 180, 122, 0.15);
+  /* 详情卡半透明（引擎里 --panel-solid 只被 .detail 用到）：
+     点选任意主线或驿镇时，卡片下方仍能透出古道走向与地形，方便对照它到底挂在哪条线上。 */
+  --panel-solid: rgba(9, 15, 26, 0.55);
+}
+
+/* 详情卡：把毛玻璃再加强一点，隔着卡片读地图也不费劲 */
+.detail {
+  backdrop-filter: blur(18px) saturate(1.25);
+}
+
+/* 只有三条主线，导航条排成一行即可 */
+.strip { grid-template-rows: auto; }
+
+/* 章节序号用各自主线的颜色，和地图上的线一一对应 */
+.chapters button[data-id="diancang"] .no { color: #3fae86; border-color: rgba(63, 174, 134, .5); }
+.chapters button[data-id="chuancang"] .no { color: #e0924a; border-color: rgba(224, 146, 74, .5); }
+.chapters button[data-id="qingzang"] .no { color: #b07ad6; border-color: rgba(176, 122, 214, .5); }
+.chapters button[data-id="diancang"].active .no { background: #3fae86; border-color: #3fae86; color: #04180f; }
+.chapters button[data-id="chuancang"].active .no { background: #e0924a; border-color: #e0924a; color: #241303; }
+.chapters button[data-id="qingzang"].active .no { background: #b07ad6; border-color: #b07ad6; color: #1a0f26; }
+
+/* 图例里的色块：线色 + 点位形状两种 */
+.legend > span > i { box-shadow: 0 0 6px rgba(0, 0, 0, .4); }
+
+/* 引用了面板说明里的长文本，窄栏时允许换行 */
+.panel-note { word-break: break-word; }

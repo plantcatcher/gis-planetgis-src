@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>茶马古道 · 三条主线互动地图</title>
+  <meta name="description" content="川藏、滇藏、青藏三条主线串起 36 处驿镇：点任意一条看它的起终点、里程与货品，点驿镇看它在古道上的位置与来历。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <!-- ── 左：介绍栏 ─────────────────────────────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 全网总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-eq"></i>
+      <b>茶马古道</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> TEA · HORSE · ROAD</small>
+      <h1><span>茶马古道</span><b>不止一条路</b></h1>
+      <p class="lead">川藏、滇藏、青藏三条主线，在高原节点汇合、分流，共同构成跨越西南与西北的商贸网络。</p>
+
+      <div class="facts">
+        <span><small>主线</small><b><span class="v"><em>3</em></span><i>条</i></b></span>
+        <span><small>驿镇节点</small><b><span class="v"><em id="fNode">36</em></span><i>处</i></b></span>
+        <span><small>全线最高山口</small><b><span class="v">约 <em>5231</em></span><i>米</i></b></span>
+      </div>
+
+      <section class="block">
+        <header><small>三条主线</small></header>
+        <div class="chapters" id="routeList"></div>
+        <p class="note">点任意一条，地图会飞向它，并让一条亮线沿古道从起点走到终点。</p>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：驿镇节点坐标为人工整理的公开史料与地名资料（WGS84，量级 0.01°）。
+        <b>线路不是历史道路的实测线画</b>——茶马古道是跨时期、多支线的交通网络，不存在单一年代的权威线画；
+        本图取「驿镇依次连线」的关系示意表达，里程为连线累加值，仅用于三条主线之间横向比较，
+        不作为道路、遗址边界或勘界依据。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/works/tea-horse-road" target="_top">作品介绍</a>
+        <a href="/downloads" target="_top">资料下载</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── 右上：详情卡（线路 / 驿镇共用） ────────────────────── -->
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">ROUTE</small>
+      <div class="dt-actions">
+        <button type="button" id="dtReplay" title="重播动画">↻</button>
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtTagline">—</p>
+    <div class="dt-metrics">
+      <span><small id="dtM1Label">起点</small><b><em id="dtM1">—</em></b></span>
+      <span><small id="dtM2Label">终点</small><b><em id="dtM2">—</em></b></span>
+      <span><small id="dtM3Label">驿镇</small><b><em id="dtM3">—</em></b></span>
+    </div>
+    <section class="dt-desc">
+      <small id="dtDescLabel">线路概述</small>
+      <p id="dtDesc">—</p>
+    </section>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <!-- ── 右下：图例 + 主线导航条 ───────────────────────────── -->
+  <div class="dock">
+    <div class="legend" id="legend"></div>
+    <nav class="strip" id="strip" aria-label="三条主线导航"></nav>
+  </div>
+
+  <!-- ── 左下：图层与底图 ───────────────────────────────────── -->
+  <div class="panel" id="panel">
+    <div class="panel-head" id="panelHead">
+      <span>图层与底图</span>
+      <button type="button" id="panelToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckLabel" checked /><span>驿镇与主线名称</span></label>
+      <label class="row"><input type="checkbox" id="ckNodes" checked data-toggle-layer="node-dot,node-halo" /><span>驿镇点位</span></label>
+      <label class="row"><input type="checkbox" id="ckBorder" checked /><span>省级行政区边界</span></label>
+      <label class="row"><input type="checkbox" id="ckGraticule" /><span>经纬网格</span></label>
+      <div class="divider"></div>
+      <div class="bm-title">底图</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" /><span>深色</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" checked /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>矢量路网</span></label>
+      </div>
+      <div class="divider"></div>
+      <p class="panel-note">
+        切到<b>卫星影像</b>能看清三条线各自的走法：滇藏道贴着澜沧江与怒江的深切河谷北行，
+        川藏道在横断山区反复爬升下切，青藏道则几乎全程走在青藏高原的高原面上。
+        打开<b>省级行政区边界</b>可以对照它们跨越了哪些省区。
+      </p>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="/maps/_shared/thematic/thematic.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

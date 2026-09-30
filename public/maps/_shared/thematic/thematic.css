@@ -104,10 +104,12 @@ body::-webkit-scrollbar-thumb, .intro-body::-webkit-scrollbar-thumb { background
 .intro-bar b { font-weight: 700; }
 .intro-bar span { margin-left: auto; display: inline-flex; align-items: center; gap: 5px; color: var(--muted); font-size: 12px; }
 .intro-bar .caret {
-  width: 6px; height: 6px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
-  transform: rotate(225deg); transition: transform .2s; margin-bottom: 2px;
+  width: 9px; height: 9px; flex: 0 0 auto;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(45deg); transition: transform .2s;
 }
-.intro.is-collapsed .intro-bar .caret { transform: rotate(45deg); margin-bottom: -2px; }
+/* 箭头方向跟着卡片状态走：展开时朝下（按下即收起），收起时朝上（提示「把卡片拉上来」） */
+.intro.is-collapsed .intro-bar .caret { transform: rotate(225deg); }
 
 .ic-eq {
   width: 12px; height: 12px; flex: 0 0 auto;
@@ -406,9 +408,22 @@ body::-webkit-scrollbar-thumb, .intro-body::-webkit-scrollbar-thumb { background
     padding-bottom: env(safe-area-inset-bottom, 0px);
     transition: max-height .28s cubic-bezier(.2,.8,.3,1);
   }
-  .intro.is-collapsed { max-height: calc(96px + env(safe-area-inset-bottom, 0px)); }
+  .intro.is-collapsed { max-height: calc(80px + env(safe-area-inset-bottom, 0px)); }
+  /* 收起 / 展开：不单独占一条，与卡片融为一体 —— 只在卡片顶部留一个居中的胶囊把手 */
+  .intro-bar {
+    display: flex; order: -1; justify-content: center;
+    margin: 0; padding: 7px 14px 0;
+    border: 0; border-radius: 0; background: transparent;
+  }
+  /* 手机端标题在卡片正文里已有，拉手上不再重复，只留「展开 / 收起」 */
+  .intro-bar > b, .intro-bar > .ic-eq { display: none; }
+  .intro-bar span {
+    margin-left: 0;
+    font-size: 12.5px; gap: 7px; color: #cfdcec;
+    padding: 4px 12px 4px 13px; border-radius: 999px;
+    background: rgba(255, 255, 255, .07); border: 1px solid var(--line);
+  }
   .intro-head { padding: 10px 12px 0; }
-  .intro-bar { display: flex; }
   .intro.is-collapsed .intro-body { display: none; }
   .intro-body { padding: 12px 14px 20px; -webkit-overflow-scrolling: touch; }
   .intro h1 { font-size: 26px; }

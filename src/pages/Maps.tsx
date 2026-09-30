@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Map as MapIcon, ArrowRight, FileText, Layers, Database, Square, LayoutGrid, List } from 'lucide-react';
+import { Map as MapIcon, ArrowRight, Layers, Database, Square, LayoutGrid, List } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import { getWorksBySeries, type ContentItem } from '@/lib/content';
@@ -38,7 +38,7 @@ const Maps: React.FC = () => {
     work: w,
     asset: getVizMap(w.slug) as VizMap | undefined,
   }));
-  const [mode, setMode] = useState<ViewMode>('detail');
+  const [mode, setMode] = useState<ViewMode>('simple');
   const compact = mode === 'simple';
 
   return (
@@ -125,18 +125,12 @@ const Maps: React.FC = () => {
                         </h3>
                         <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{w.summary}</p>
                         <div className="mt-auto pt-3 flex items-center gap-4">
-                          <Link
-                            to={`/maps/${w.slug}`}
-                            className="inline-flex items-center gap-1 text-sm font-medium text-primary"
-                          >
-                            打开地图 <ArrowRight className="w-3.5 h-3.5" />
-                          </Link>
+                          {/* 封面 / 标题负责「进地图」，这颗按钮负责「看介绍」——两者分工，别都指向地图 */}
                           <Link
                             to={`/works/${w.slug}`}
-                            className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors"
+                            className="inline-flex items-center gap-1 text-sm font-medium text-primary"
                           >
-                            <FileText className="w-3.5 h-3.5" />
-                            <span>介绍与解读</span>
+                            查看介绍 <ArrowRight className="w-3.5 h-3.5" />
                           </Link>
                           {m && (
                             <span className="ml-auto text-xs text-muted-foreground hidden sm:inline">
@@ -204,21 +198,13 @@ const Maps: React.FC = () => {
                         )}
 
                         <div className="mt-4 pt-4 border-t border-border/60 flex items-center gap-4">
+                          {/* 同上：封面 / 标题进地图，这颗按钮进 /works/<slug> 介绍页 */}
                           <Link
-                            to={`/maps/${w.slug}`}
+                            to={`/works/${w.slug}`}
                             className="inline-flex items-center gap-1 text-sm font-medium text-primary"
                           >
-                            打开地图 <ArrowRight className="w-3.5 h-3.5 group-hover:gap-2 transition-all" />
+                            查看介绍 <ArrowRight className="w-3.5 h-3.5 group-hover:gap-2 transition-all" />
                           </Link>
-                          {!compact && (
-                            <Link
-                              to={`/works/${w.slug}`}
-                              className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors"
-                            >
-                              <FileText className="w-3.5 h-3.5" />
-                              <span>介绍与解读</span>
-                            </Link>
-                          )}
                         </div>
                       </div>
                     </div>
