@@ -7,12 +7,12 @@ import {
   FileText,
   Star,
   Flame,
-  ClipboardCheck,
   Trophy,
   Gamepad2,
   Satellite,
   Globe2,
   Compass,
+  Map,
   ArrowRight,
   Clock,
   CheckCircle2,
@@ -23,6 +23,8 @@ import {
   TrendingUp,
   Target,
   Award,
+  Search,
+  RotateCcw,
 } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
@@ -42,6 +44,9 @@ import {
   setWeeklyGoal,
   getWeekProgress,
   getStreakMilestones,
+  getGameStats,
+  formatDuration,
+  searchPath,
   WEEKLY_GOAL_DEFAULT,
   WEEKLY_GOAL_OPTIONS,
   keyToPath,
@@ -50,6 +55,9 @@ import {
   type ActivityFeedEntry,
   type InsightItem,
   type StreakMilestone,
+  type MapViewRecord,
+  type SearchRecord,
+  type PlayStat,
 } from '@/services/learningService';
 import { getItem, type ContentItem } from '@/lib/content';
 import { DonutChart, BarChart, LineChart, ChartLegend, type DonutDatum } from '@/components/learning/LearningCharts';
@@ -242,6 +250,102 @@ function DownloadRow({ rec }: { rec: DownloadRecord }) {
   );
 }
 
+function MapRow({ rec }: { rec: MapViewRecord }) {
+  const path = `/maps/${rec.slug}`;
+  const item = getItem('work', rec.slug);
+  const inner = (
+    <div className="flex items-center gap-3 p-2.5 rounded-xl bg-muted/40 hover:bg-muted border border-transparent hover:border-primary/30 transition-all">
+      <div className="shrink-0 w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+        <Map className="w-4 h-4" />
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="text-sm font-medium truncate">{rec.title}</div>
+        <div className="mt-0.5 flex items-center gap-2 text-xs text-muted-foreground">
+          <span className="text-primary/70">互动地图</span>
+          <span className="inline-flex items-center gap-1">
+            <Clock className="w-3 h-3" />
+            {new Date(rec.viewedAt).toLocaleDateString('zh-CN')}
+          </span>
+        </div>
+      </div>
+      {item?.cover && (
+        <img
+          src={item.cover}
+          alt={rec.title}
+          className="hidden sm:block shrink-0 w-9 h-12 object-cover rounded-md border border-border/50"
+          loading="lazy"
+        />
+      )}
+      <ArrowRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+    </div>
+  );
+
+  return (
+    <Link to={path} className="group block" aria-label={`打开 ${rec.title}`}>
+      {inner}
+    </Link>
+  );
+}
+
+function SearchRow({ rec }: { rec: SearchRecord }) {
+  const path = searchPath(rec.term, rec.context);
+  const inner = (
+    <div className="flex items-center gap-3 p-2.5 rounded-xl bg-muted/40 hover:bg-muted border border-transparent hover:border-primary/30 transition-all">
+      <div className="shrink-0 w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+        <Search className="w-4 h-4" />
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="text-sm font-medium truncate">{rec.term}</div>
+        <div className="mt-0.5 flex items-center gap-2 text-xs text-muted-foreground">
+          <span className="text-primary/70">
+            {rec.context === 'resources' ? '资料搜索' : '知识库搜索'}
+          </span>
+          <span className="inline-flex items-center gap-1">
+            <Clock className="w-3 h-3" />
+            {new Date(rec.searchedAt).toLocaleDateString('zh-CN')}
+          </span>
+        </div>
+      </div>
+      {rec.count > 1 && (
+        <span className="shrink-0 inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary tabular-nums">
+          <RotateCcw className="w-3 h-3" />
+          {rec.count} 次
+        </span>
+      )}
+      <ArrowRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+    </div>
+  );
+
+  return (
+    <Link to={path} className="group block" aria-label={`重新搜索 ${rec.term}`}>
+      {inner}
+    </Link>
+  );
+}
+
+/** 重玩概览胶囊：按游戏归并出「已玩 N 次 · 累计用时」 */
+function PlayStatChips({ stats, tone }: { stats: PlayStat[]; tone: 'secondary' | 'primary' }) {
+  if (stats.length === 0) return null;
+  const toneCls = tone === 'secondary' ? 'text-secondary' : 'text-primary';
+  return (
+    <div className="mb-4 flex flex-wrap gap-2">
+      {stats.map((s) => (
+        <span
+          key={s.key}
+          className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/60 px-2.5 py-1 text-xs"
+        >
+          <RotateCcw className={`w-3 h-3 ${toneCls}`} />
+          <span className="font-medium truncate max-w-[160px]">{s.title}</span>
+          <span className={`font-semibold tabular-nums ${toneCls}`}>×{s.plays}</span>
+          {s.totalDurationSec > 0 && (
+            <span className="text-muted-foreground">· {formatDuration(s.totalDurationSec)}</span>
+          )}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 function EmptyHint({ text, to, cta }: { text: string; to?: string; cta?: string }) {
   return (
     <div className="text-center py-10 px-4 rounded-2xl border border-dashed border-border/60 bg-muted/30">
@@ -266,7 +370,7 @@ function OnboardingCard() {
       </div>
       <h2 className="text-lg font-semibold tracking-tight">开始你的地理学习之旅</h2>
       <p className="mt-2 text-sm text-muted-foreground max-w-md mx-auto leading-relaxed">
-        读一篇教程、做一次测验、玩一局地理小游戏，你的足迹会自动出现在这里。无需登录，进度保存在本地。
+        读一篇教程、玩一局地理小游戏，你的足迹会自动出现在这里。无需登录，进度保存在本地。
       </p>
       <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
         <Link
@@ -289,8 +393,9 @@ function OnboardingCard() {
 const KIND_LABEL: Record<ActivityFeedEntry['kind'], string> = {
   read: '阅读',
   game: '游戏',
-  quiz: '测验',
   download: '下载',
+  map: '地图',
+  search: '搜索',
 };
 
 function ActivityRow({ entry }: { entry: ActivityFeedEntry }) {
@@ -299,9 +404,11 @@ function ActivityRow({ entry }: { entry: ActivityFeedEntry }) {
       ? BookOpen
       : entry.kind === 'game'
         ? Gamepad2
-        : entry.kind === 'quiz'
-          ? ClipboardCheck
-          : Download;
+        : entry.kind === 'map'
+          ? Map
+          : entry.kind === 'search'
+            ? Search
+            : Download;
   const inner = (
     <div className="flex items-center gap-3 p-2.5 rounded-xl bg-muted/40 hover:bg-muted border border-transparent hover:border-primary/30 transition-all">
       <div className="shrink-0 w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
@@ -378,7 +485,7 @@ const MyLearning: React.FC = () => {
   const data = useLearningData();
   const dash = useMemo(() => getDashboard(), [data]);
 
-  const { summary, recent, favorites, completed, quizzes, games, downloads } = dash;
+  const { summary, recent, favorites, completed, games, downloads, maps, searches } = dash;
 
   // 留存信号（增长黑客：Retention 环节）：进入学习中心且有数据时，
   // 本会话首次记一次 learning_return（带连续天数/学习量），配合 GA4 匿名用户级
@@ -403,7 +510,14 @@ const MyLearning: React.FC = () => {
 
   // 首访（全空）时显示统一引导卡，取代零散空态；SSG 与 CSR 首帧都基于默认空态渲染，hydration 一致。
   const isFresh =
-    recent.length + favorites.length + completed.length + quizzes.length + games.length + downloads.length === 0;
+    recent.length +
+      favorites.length +
+      completed.length +
+      games.length +
+      downloads.length +
+      maps.length +
+      searches.length ===
+    0;
 
   const scrollTo = (id: string) => {
     if (typeof document === 'undefined') return;
@@ -423,7 +537,9 @@ const MyLearning: React.FC = () => {
   };
 
   // —— 增长/可视化派生数据 ——
-  const activity = useMemo(() => getActivityFeed(12), [dash]);
+  const activity = useMemo(() => getActivityFeed(6), [dash]);
+  // 同一游戏玩多次会留下多条成绩，这里归并出「已玩 N 次 · 累计用时」
+  const gameStats = useMemo(() => getGameStats(), [dash]);
   const continueEntry = useMemo(() => getContinueEntry(), [dash]);
   const recommendations = useMemo(() => getRecommendations(3), [dash]);
   const insights = useMemo(() => buildInsights(dash), [dash]);
@@ -464,16 +580,14 @@ const MyLearning: React.FC = () => {
 
   // 成绩趋势（折线图）+ 明细表
   const scoreRows = useMemo(() => {
-    type Row = { id: string; kind: 'quiz' | 'game'; title: string; score: number; total: number; pct: number; at: string };
+    type Row = { id: string; title: string; score: number; total: number; pct: number; at: string };
     const rows: Row[] = [];
-    for (const q of quizzes)
-      rows.push({ id: 'q:' + q.id, kind: 'quiz', title: q.title, score: q.score, total: q.total, pct: q.total > 0 ? Math.round((q.score / q.total) * 100) : 0, at: q.takenAt });
     for (const g of games)
       if (g.score != null && g.total)
-        rows.push({ id: 'g:' + g.id, kind: 'game', title: g.title, score: g.score, total: g.total, pct: Math.round((g.score / g.total) * 100), at: g.takenAt });
+        rows.push({ id: 'g:' + g.id, title: g.title, score: g.score, total: g.total, pct: Math.round((g.score / g.total) * 100), at: g.takenAt });
     rows.sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime());
     return rows;
-  }, [quizzes, games]);
+  }, [games]);
 
   const scorePoints = scoreRows.map((r) => ({
     label: new Date(r.at).toLocaleDateString('zh-CN', { month: 'numeric', day: 'numeric' }),
@@ -484,19 +598,16 @@ const MyLearning: React.FC = () => {
   const shareText = useMemo(() => {
     const bits: string[] = [];
     if (summary.streak > 0) bits.push(`连续学习 ${summary.streak} 天`);
-    if (quizzes.length > 0) {
-      const acc = Math.round(quizzes.reduce((s, q) => s + (q.total > 0 ? (q.score / q.total) * 100 : 0), 0) / quizzes.length);
-      bits.push(`测验平均正确率 ${acc}%`);
-    }
+    if (games.length > 0) bits.push(`玩了 ${games.length} 局地理小游戏`);
     const head = bits.length > 0 ? `我在星球小捕手${bits.join('、')}！` : '我在星球小捕手学地理';
-    return `${head} 一起来测测你的地理知识吧`;
-  }, [summary.streak, quizzes]);
+    return `${head} 一起来玩玩吧`;
+  }, [summary.streak, games]);
 
   return (
     <>
       <PageMeta
         title="我的学习 - 星球小捕手"
-        description="查看你在星球小捕手的学习记录：最近学习、收藏的教程、完成的课程与测试成绩。无需登录，学习进度自动保存在本地。"
+        description="查看你在星球小捕手的学习记录：最近学习、收藏的教程、完成的课程与小游戏战绩。无需登录，学习进度自动保存在本地。"
         canonical="https://planetgis.cn/my"
       />
       <Breadcrumb items={[{ label: '首页', path: '/' }, { label: '我的学习' }]} />
@@ -514,7 +625,7 @@ const MyLearning: React.FC = () => {
                 </div>
                 <div className="mt-3 h-1 w-14 bg-primary rounded-full" />
                 <p className="mt-3 text-sm text-muted-foreground leading-relaxed max-w-xl">
-                  你的地理学习仪表盘——读过的、收藏的、完成的，以及每一次测验与游戏的战绩，都自动记在这里。
+                  你的地理学习仪表盘——读过的、收藏的、完成的，以及每一局地理小游戏的战绩，都自动记在这里。
                 </p>
               </div>
               <span className="inline-flex items-center gap-2 shrink-0 rounded-full border border-border/60 bg-muted/40 px-3 py-1.5 text-xs text-muted-foreground">
@@ -565,11 +676,11 @@ const MyLearning: React.FC = () => {
             </CardAnim>
             <CardAnim delay={0.15}>
               <StatCard
-                icon={<ClipboardCheck className="w-6 h-6 text-emerald-500" />}
-                value={summary.lastQuizScore ?? '—'}
-                label="最近一次测试"
+                icon={<Gamepad2 className="w-6 h-6 text-emerald-500" />}
+                value={summary.lastGameScore ?? '—'}
+                label="最近一局得分"
                 accent="bg-emerald-500/10 text-emerald-500"
-                onClick={summary.lastQuizScore != null ? () => scrollTo('section-scores') : undefined}
+                onClick={summary.lastGameScore != null ? () => scrollTo('section-scores') : undefined}
               />
             </CardAnim>
           </section>
@@ -583,7 +694,7 @@ const MyLearning: React.FC = () => {
               {/* 继续学习：续读主卡（取未完成且进度最高项） */}
               {continueEntry && <ContinueCard entry={continueEntry} />}
 
-              {/* 学习足迹：统一活动流（读/玩/测/下合并） */}
+              {/* 学习足迹：统一活动流（读/玩/下/地图/搜索合并） */}
               <section id="section-activity" className="scroll-mt-24">
                 <SectionLabel className="mb-4">最近动态</SectionLabel>
                 {activity.length > 0 ? (
@@ -643,8 +754,42 @@ const MyLearning: React.FC = () => {
                 </section>
               )}
 
-              {/* 成就面板：我的成绩（仅在确有测试/游戏记录时展示，不虚构数据） */}
-              {(quizzes.length > 0 || games.length > 0) && (
+              {/* 学习足迹：互动地图探索 */}
+              {maps.length > 0 && (
+                <section id="section-maps" className="scroll-mt-24">
+                  <SectionLabel className="mb-4">互动地图探索</SectionLabel>
+                  <div className="space-y-2">
+                    {maps.map((rec, i) => (
+                      <CardAnim key={rec.slug} delay={i * 0.03}>
+                        <MapRow rec={rec} />
+                      </CardAnim>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {/* 学习足迹：搜索历史（只列最近 8 个词，点回去可重跑该次检索） */}
+              {searches.length > 0 && (
+                <section id="section-searches" className="scroll-mt-24">
+                  <SectionLabel className="mb-4">搜索历史</SectionLabel>
+                  <div className="space-y-2">
+                    {searches.slice(0, 8).map((rec, i) => (
+                      <CardAnim key={`${rec.context}:${rec.term}`} delay={i * 0.03}>
+                        <SearchRow rec={rec} />
+                      </CardAnim>
+                    ))}
+                  </div>
+                  {searches.length > 8 && (
+                    <p className="mt-3 text-xs text-muted-foreground">
+                      仅显示最近 8 个关键词，共搜过 {searches.length} 个词 · 累计{' '}
+                      {summary.searchCount} 次
+                    </p>
+                  )}
+                </section>
+              )}
+
+              {/* 成就面板：我的成绩（仅在确有游戏记录时展示，不虚构数据） */}
+              {games.length > 0 && (
                 <section
                   id="section-scores"
                   className="rounded-3xl bg-muted/30 border border-border/50 p-5 md:p-7 scroll-mt-24"
@@ -659,43 +804,13 @@ const MyLearning: React.FC = () => {
                     />
                   </div>
 
-                  {quizzes.length > 0 && (
-                    <div className="mb-6">
-                      <h3 className="flex items-center gap-2 mb-3 text-sm font-medium text-primary">
-                        <ClipboardCheck className="w-4 h-4" />
-                        地理测验
-                      </h3>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {quizzes.map((q, i) => (
-                          <CardAnim key={q.id} delay={i * 0.04}>
-                            <div className="flex items-center gap-4 p-4 rounded-xl bg-background/60 border border-border/50">
-                              <div className="shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                                <ClipboardCheck className="w-5 h-5" />
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <div className="font-medium truncate">{q.title}</div>
-                                <div className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
-                                  <Clock className="w-3 h-3" />
-                                  {new Date(q.takenAt).toLocaleDateString('zh-CN')}
-                                </div>
-                              </div>
-                              <div className="text-xl font-bold text-primary tabular-nums">
-                                {q.score}
-                                <span className="text-sm text-muted-foreground font-normal">/{q.total}</span>
-                              </div>
-                            </div>
-                          </CardAnim>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
                   {games.length > 0 && (
                     <div>
                       <h3 className="flex items-center gap-2 mb-3 text-sm font-medium text-secondary">
                         <Gamepad2 className="w-4 h-4" />
                         地理小游戏
                       </h3>
+                      <PlayStatChips stats={gameStats} tone="secondary" />
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {games.map((g, i) => (
                           <CardAnim key={g.id} delay={i * 0.04 + 0.1}>
@@ -720,6 +835,9 @@ const MyLearning: React.FC = () => {
                                   <div className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
                                     <Clock className="w-3 h-3" />
                                     {new Date(g.takenAt).toLocaleDateString('zh-CN')}
+                                    {g.durationSec ? (
+                                      <span>· 用时 {formatDuration(g.durationSec)}</span>
+                                    ) : null}
                                   </div>
                                 </div>
                                 <div className="text-right shrink-0">
@@ -745,7 +863,7 @@ const MyLearning: React.FC = () => {
                     </div>
                   )}
 
-                  {/* 成绩趋势（正确率 %）：与测验/游戏卡配对 */}
+                  {/* 成绩趋势（正确率 %）：与游戏卡配对 */}
                   {scoreRows.length > 0 && (
                     <div className="mt-6 pt-6 border-t border-border/50">
                       <h3 className="text-sm font-medium mb-4 flex items-center gap-2">
@@ -758,9 +876,6 @@ const MyLearning: React.FC = () => {
                           .reverse()
                           .map((r) => (
                             <div key={r.id} className="flex items-center gap-3 text-sm">
-                              <span className="w-9 shrink-0 text-muted-foreground">
-                                {r.kind === 'quiz' ? '测验' : '游戏'}
-                              </span>
                               <span className="flex-1 min-w-0 truncate">{r.title}</span>
                               <span className="text-xs text-muted-foreground tabular-nums w-16 text-right shrink-0">
                                 {new Date(r.at).toLocaleDateString('zh-CN')}
@@ -778,11 +893,11 @@ const MyLearning: React.FC = () => {
               )}
 
               {/* 暂无成绩的引导（诚实占位，不编造分数） */}
-              {quizzes.length === 0 && games.length === 0 && (
+              {games.length === 0 && (
                 <section>
                   <SectionLabel className="mb-4">我的成绩</SectionLabel>
                   <EmptyHint
-                    text="还没有成绩记录。完成地理小测验，或玩一局三个地理小游戏，成绩都会显示在这里。"
+                    text="还没有成绩记录。玩一局三个地理小游戏，成绩都会显示在这里。"
                     to="/games"
                     cta="去玩小游戏"
                   />

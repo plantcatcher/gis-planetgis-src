@@ -491,9 +491,10 @@ const Badges: React.FC<{ item: ContentItem }> = ({ item }) => (
 const ResourceGrid = () => {
   const all = getResources();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [query, setQuery] = useState('');
+  // 与知识库页一致：支持从 URL ?q= 进入（「我的学习」的搜索历史点回来能直接带出关键词）
+  const [query, setQuery] = useState(searchParams.get('q') || '');
 
-  // GA4：资料下载搜索关键词
+  // GA4 + 本地搜索历史：资料下载搜索关键词
   useSearchTracking(query, 'resources');
 
   const [activeTag, setActiveTag] = useState<string | null>(searchParams.get('tag'));

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import PageMeta from '@/components/common/PageMeta';
 import { getItem } from '@/lib/content';
 import { getVizMap } from '@/lib/vizmaps';
+import { recordMapView } from '@/services/learningService';
 import NotFound from './NotFound';
 
 /**
@@ -24,6 +25,13 @@ const MapEmbed: React.FC = () => {
   const asset = getVizMap(slug);
   // 兜底：登记册漏配时仍可用 works 的 link 推出入口，不至于整页 404
   const entry = asset?.entry || (work?.link ? `${work.link}/index.html` : '');
+
+  // 打开互动地图即记入「我的学习」：地图探索足迹（与主站同源，可直读本地学习数据）。
+  // 纯客户端副作用，SSR/预渲染不执行；同 slug 在 Service 层去重只留最新一条。
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (slug && work) recordMapView({ slug, title: work.title });
+  }, [slug, work?.slug]);
 
   if (!work || !entry) return <NotFound />;
 

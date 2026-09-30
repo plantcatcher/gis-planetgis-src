@@ -7,6 +7,9 @@
       REC = window.RECOMMEND, CLIM = window.CLIMATE_CN, CITIES = window.CITIES || [];
   var app = document.getElementById("app");
   var state = { answers: {}, step: 0, place: null, lnglat: null, result: null };
+  // 测验起点：用于结算时算出「本局用时」，随主站「我的学习」成绩一起上报。
+  // 中途刷新会从头计时，属可接受误差（人格测试单次耗时短）。
+  var _testStartedAt = Date.now();
 
   // 天地图 key（与 index.html 的 tk 保持一致）
   var TDT_TK = "e92d8558a9a7eb0709e7f895801bdcc9";
@@ -483,6 +486,8 @@
           title: '地理人格测试',
           subtitle: _pt ? _pt.name : r.mainType,
           score: null,
+          // 本局用时（秒）：从进入/重测起算到出结果
+          durationSec: Math.max(1, Math.round((Date.now() - _testStartedAt) / 1000)),
         });
       }
     } catch (e) {}
@@ -735,6 +740,7 @@
     }
     else if (a === "restart") {
       state = { answers: {}, step: 0, place: null, lnglat: null, result: null };
+      _testStartedAt = Date.now(); // 重测重新计时
       renderHome();
     }
     else if (a === "genCard") { genCard(); }

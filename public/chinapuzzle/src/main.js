@@ -381,6 +381,8 @@ function finishGame() {
         subtitle: `${level.subtitle} · ${mode === 'challenge' ? '挑战' : '练习'} · 用时 ${formatTime(t)} · ${errors} 失误`,
         score: null,
         total: null,
+        // 本局用时（秒）：finishGame 里已由计时器算出 elapsed
+        durationSec: t,
       });
     }
   } catch (e) {}

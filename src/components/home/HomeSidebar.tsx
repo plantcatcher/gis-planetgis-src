@@ -4,6 +4,7 @@ import { Search, ArrowRight, BookOpen, Rss, History, Download } from 'lucide-rea
 import { Input } from '@/components/ui/input';
 import { SubjectIcon } from '@/lib/subjectIcons';
 import { trackSearch } from '@/lib/analytics';
+import { recordSearch } from '@/services/learningService';
 import HotBadge from '@/components/common/HotBadge';
 
 export interface SidebarNavItem {
@@ -52,6 +53,8 @@ const HomeSidebar: React.FC<{
           // 埋点关键词上报。与知识库页共用 'learn' 上下文：跳转后那边再上报时
           // 会被 trackSearch 的会话内去重拦掉，同一次搜索只记一条。
           trackSearch(kw, 'learn');
+          // 同步写入本地学习档案的搜索历史（「我的学习」页可回看与回跳）
+          recordSearch(kw, 'learn');
           navigate(`/learn?q=${encodeURIComponent(kw)}`);
         }}
         className="relative mb-7"

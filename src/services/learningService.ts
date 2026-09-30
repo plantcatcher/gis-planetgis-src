@@ -13,12 +13,15 @@ import {
   type ReadingProgress,
   type RecentItem,
   type FavoriteItem,
-  type QuizRecord,
   type GameRecord,
   type Achievement,
   type DownloadRecord,
+  type MapViewRecord,
+  type SearchRecord,
   MAX_RECENT,
   MAX_DOWNLOAD_RECORDS,
+  MAX_MAP_RECORDS,
+  MAX_SEARCH_RECORDS,
   getSnapshot,
   update,
 } from '@/lib/learningStore';
@@ -113,7 +116,6 @@ function isFirstAction(): boolean {
   return (
     Object.keys(d.learning.readingProgress).length === 0 &&
     d.learning.favorites.length === 0 &&
-    d.quizzes.records.length === 0 &&
     d.games.records.length === 0 &&
     d.downloads.records.length === 0
   );
@@ -125,7 +127,99 @@ function fireActivateIfFirst(actionType: string): void {
   }
 }
 
-/** 打开内容时调用：记录首次开始时间、活跃日期、最近学习 */
+// -----------------------------------------------------------------------------
+// 互动地图浏览记录：用户打开某张互动地图时调用，记录「探索了哪些地图」。
+// 同 slug 仅保留一条，更新最近打开时间；便于「我的学习」展示地图探索足迹。
+// 地图以 iframe 嵌入，但壳页 MapEmbed 与主站同源，可直读本地学习数据。
+// -----------------------------------------------------------------------------
+
+export function recordMapView(rec: { slug: string; title: string }): void {
+  fireActivateIfFirst('map');
+  const now = new Date().toISOString();
+  update((data) => {
+    const recs = data.maps.records;
+    const idx = recs.findIndex((r) => r.slug === rec.slug);
+    let nextRecs: MapViewRecord[];
+    if (idx >= 0) {
+      nextRecs = [...recs];
+      nextRecs[idx] = { ...nextRecs[idx], ...rec, viewedAt: now };
+    } else {
+      nextRecs = [{ ...rec, viewedAt: now }, ...recs].slice(0, MAX_MAP_RECORDS);
+    }
+    return {
+      ...data,
+      profile: {
+        ...data.profile,
+        lastActiveAt: now,
+        activeDates: addActiveDate(data.profile.activeDates),
+      },
+      maps: { records: nextRecs },
+    };
+  });
+}
+
+// -----------------------------------------------------------------------------
+// 搜索历史：用户搜索关键词（防抖后）落库，记录「搜过什么、搜了几次」。
+// 同一 context + 同一词（忽略大小写）只保留一条，更新最近时间与累计次数，
+// 避免边输边过滤产生「长→长江」这类中间态把历史冲垮。
+// -----------------------------------------------------------------------------
+
+/** 搜索框上下文 → 中文标签 / 跳转路径（供活动流与搜索足迹复用） */
+const SEARCH_CONTEXT: Record<string, { label: string; base: string }> = {
+  learn: { label: '知识库', base: '/learn' },
+  resources: { label: '资料', base: '/downloads' },
+  home: { label: '首页', base: '/learn' },
+};
+
+/** 搜索历史条目可点回对应的筛选结果页，如 /learn?q=长江 */
+export function searchPath(term: string, context: string): string {
+  const base = SEARCH_CONTEXT[context]?.base || '/learn';
+  return `${base}?q=${encodeURIComponent(term)}`;
+}
+
+export function recordSearch(term: string, context: string): void {
+  const t = (term || '').trim();
+  if (!t) return;
+  const now = new Date().toISOString();
+  update((data) => {
+    const recs = data.searches.records;
+    const key = t.toLowerCase();
+    const idx = recs.findIndex(
+      (r) => r.term.toLowerCase() === key && r.context === context,
+    );
+    let nextRecs: SearchRecord[];
+    if (idx >= 0) {
+      nextRecs = [...recs];
+      nextRecs[idx] = {
+        ...nextRecs[idx],
+        term: t,
+        searchedAt: now,
+        count: (nextRecs[idx].count || 1) + 1,
+      };
+    } else {
+      nextRecs = [{ term: t, context, searchedAt: now, count: 1 }, ...recs].slice(
+        0,
+        MAX_SEARCH_RECORDS,
+      );
+    }
+    return {
+      ...data,
+      profile: {
+        ...data.profile,
+        lastActiveAt: now,
+        activeDates: addActiveDate(data.profile.activeDates),
+      },
+      searches: { records: nextRecs },
+    };
+  });
+}
+
+export function getSearches(): SearchRecord[] {
+  return [...getSnapshot().searches.records].sort(
+    (a, b) => new Date(b.searchedAt).getTime() - new Date(a.searchedAt).getTime(),
+  );
+}
+
 export function recordStart(key: string): void {
   fireActivateIfFirst('read');
   const now = new Date().toISOString();
@@ -294,22 +388,26 @@ export interface Dashboard {
     learnedCount: number;
     favoriteCount: number;
     streak: number;
-    lastQuizScore: number | null;
+    /** 最近一局有分游戏的得分；没有任何游戏成绩时为 null */
+    lastGameScore: number | null;
     totalReadSeconds: number;
     downloadCount: number;
+    /** 累计搜索次数（各关键词 count 之和，重复搜同一个词会累加） */
+    searchCount: number;
   };
   recent: DashboardEntry[];
   favorites: DashboardEntry[];
   completed: DashboardEntry[];
-  quizzes: QuizRecord[];
   games: GameRecord[];
   downloads: DownloadRecord[];
+  maps: MapViewRecord[];
+  searches: SearchRecord[];
 }
 
-/** 统一活动流条目（读 / 玩 / 测 / 下），用于「最近动态」合并足迹 */
+/** 统一活动流条目（读 / 玩 / 下 / 地图 / 搜），用于「最近动态」合并足迹 */
 export interface ActivityFeedEntry {
   id: string;
-  kind: 'read' | 'game' | 'quiz' | 'download';
+  kind: 'read' | 'game' | 'download' | 'map' | 'search';
   title: string;
   subtitle: string;
   path: string | null;
@@ -338,10 +436,11 @@ export function getDashboard(): Dashboard {
   );
   const completed = toEntries(completedKeys);
 
-  const lastQuiz =
-    data.quizzes.records.length > 0
-      ? data.quizzes.records[data.quizzes.records.length - 1].score
-      : null;
+  // 最近一局「有分」游戏的成绩（人格类游戏 score 为 null，不计）
+  const lastGame =
+    [...data.games.records]
+      .reverse()
+      .find((g) => g.score != null)?.score ?? null;
 
   const totalReadSeconds = Object.values(readingProgress).reduce(
     (sum, p) => sum + (p.readSeconds ?? 0),
@@ -353,33 +452,33 @@ export function getDashboard(): Dashboard {
       learnedCount: Object.keys(readingProgress).length,
       favoriteCount: favorites.length,
       streak: computeStreak(data.profile.activeDates),
-      lastQuizScore: lastQuiz,
+      lastGameScore: lastGame,
       totalReadSeconds,
       downloadCount: data.downloads.records.length,
+      searchCount: data.searches.records.reduce((s, r) => s + (r.count || 1), 0),
     },
     recent,
     favorites: favEntries,
     completed,
-    quizzes: [...data.quizzes.records].sort(
-      (a, b) => new Date(b.takenAt).getTime() - new Date(a.takenAt).getTime(),
-    ),
     games: [...data.games.records].sort(
       (a, b) => new Date(b.takenAt).getTime() - new Date(a.takenAt).getTime(),
     ),
     downloads: [...data.downloads.records].sort(
       (a, b) => new Date(b.downloadedAt).getTime() - new Date(a.downloadedAt).getTime(),
     ),
+    maps: [...data.maps.records].sort(
+      (a, b) => new Date(b.viewedAt).getTime() - new Date(a.viewedAt).getTime(),
+    ),
+    searches: [...data.searches.records].sort(
+      (a, b) => new Date(b.searchedAt).getTime() - new Date(a.searchedAt).getTime(),
+    ),
   };
 }
 
 // -----------------------------------------------------------------------------
-// 统一活动流（/my「最近动态」用）：把分散的阅读/游戏/测验/下载记录，
-// 按时间倒序合并成一条足迹，解决「玩游戏/做测验不进最近学习」的残缺问题。
+// 统一活动流（/my「最近动态」用）：把分散的阅读/游戏/下载/地图/搜索记录，
+// 按时间倒序合并成一条足迹，解决「玩游戏不进最近学习」的残缺问题。
 // -----------------------------------------------------------------------------
-
-function quizAccuracy(q: QuizRecord): number {
-  return q.total > 0 ? Math.round((q.score / q.total) * 100) : 0;
-}
 
 /** 聚合最近活动（默认取最近 12 条），供学习中心「最近动态」渲染 */
 export function getActivityFeed(limit = 12): ActivityFeedEntry[] {
@@ -416,17 +515,6 @@ export function getActivityFeed(limit = 12): ActivityFeedEntry[] {
     });
   }
 
-  for (const q of data.quizzes.records) {
-    items.push({
-      id: `quiz:${q.id}`,
-      kind: 'quiz',
-      title: q.title,
-      subtitle: `测验 ${q.score}/${q.total}（正确率 ${quizAccuracy(q)}%）`,
-      path: null,
-      at: q.takenAt,
-    });
-  }
-
   for (const d of data.downloads.records) {
     items.push({
       id: `dl:${d.slug}`,
@@ -435,6 +523,34 @@ export function getActivityFeed(limit = 12): ActivityFeedEntry[] {
       subtitle: ['下载', d.format, d.category].filter(Boolean).join(' · '),
       path: `/downloads/${d.slug}`,
       at: d.downloadedAt,
+    });
+  }
+
+  for (const s of data.searches.records) {
+    items.push({
+      id: `search:${s.context}:${s.term}`,
+      kind: 'search',
+      title: s.term,
+      subtitle: [
+        '搜索',
+        s.count > 1 ? `第 ${s.count} 次` : null,
+        SEARCH_CONTEXT[s.context]?.label,
+      ]
+        .filter(Boolean)
+        .join(' · '),
+      path: searchPath(s.term, s.context),
+      at: s.searchedAt,
+    });
+  }
+
+  for (const m of data.maps.records) {
+    items.push({
+      id: `map:${m.slug}`,
+      kind: 'map',
+      title: m.title,
+      subtitle: '打开互动地图',
+      path: `/maps/${m.slug}`,
+      at: m.viewedAt,
     });
   }
 
@@ -456,6 +572,64 @@ const GAME_NAMES_FALLBACK: Record<string, string> = {
   geotype: '地理人格测试',
   chinapuzzle: '中国地图拼图挑战',
 };
+
+// -----------------------------------------------------------------------------
+// 重玩次数 / 用时聚合（/my「游戏战绩」用）
+// -----------------------------------------------------------------------------
+// 成绩是按「每局一条」存的，同一个游戏玩多次会留下多条记录。这里按游戏归并，
+// 得到「已玩 N 次 / 累计用时 X」，避免战绩区被同一游戏的重复行刷屏。
+// 用时来自各游戏结算时上报的 durationSec；geoshape 是打包产物报不了时长，
+// 按 0 计入，不影响重玩次数的准确性。
+// -----------------------------------------------------------------------------
+
+export interface PlayStat {
+  /** 归并键：游戏 gameId */
+  key: string;
+  title: string;
+  /** 累计游玩次数（含第一次） */
+  plays: number;
+  /** 累计用时（秒） */
+  totalDurationSec: number;
+  /** 最近一次游玩时间（ISO 字符串） */
+  lastPlayedAt: string;
+  lastScore: number | null;
+  lastTotal: number | null;
+  /** 回玩入口路径 */
+  path: string | null;
+}
+
+export function getGameStats(): PlayStat[] {
+  const data = getSnapshot();
+  const map = new Map<string, PlayStat>();
+  for (const g of data.games.records) {
+    const dur = g.durationSec ?? 0;
+    const cur = map.get(g.gameId);
+    if (!cur) {
+      map.set(g.gameId, {
+        key: g.gameId,
+        title: g.title || GAME_NAMES_FALLBACK[g.gameId] || '地理小游戏',
+        plays: 1,
+        totalDurationSec: dur,
+        lastPlayedAt: g.takenAt,
+        lastScore: g.score ?? null,
+        lastTotal: g.total ?? null,
+        path: GAME_PATHS_FALLBACK[g.gameId] || '/games',
+      });
+      continue;
+    }
+    cur.plays += 1;
+    cur.totalDurationSec += dur;
+    if (new Date(g.takenAt).getTime() >= new Date(cur.lastPlayedAt).getTime()) {
+      cur.lastPlayedAt = g.takenAt;
+      cur.lastScore = g.score ?? null;
+      cur.lastTotal = g.total ?? null;
+    }
+  }
+  return [...map.values()].sort(
+    (a, b) => new Date(b.lastPlayedAt).getTime() - new Date(a.lastPlayedAt).getTime(),
+  );
+}
+
 
 // -----------------------------------------------------------------------------
 // 续读 / 推荐（/my 增长留存用）
@@ -496,7 +670,8 @@ export interface InsightItem {
   text: string;
 }
 
-function fmtDuration(sec: number): string {
+/** 秒 → 中文时长（供洞察与游戏战绩展示复用） */
+export function formatDuration(sec: number): string {
   if (sec <= 0) return '0 分钟';
   if (sec < 3600) return `${Math.max(1, Math.round(sec / 60))} 分钟`;
   return `${(sec / 3600).toFixed(1)} 小时`;
@@ -517,18 +692,6 @@ export function buildInsights(dash: Dashboard): InsightItem[] {
     });
   }
 
-  // 测验正确率
-  if (dash.quizzes.length > 0) {
-    const acc =
-      dash.quizzes.reduce((s, q) => s + quizAccuracy(q), 0) / dash.quizzes.length;
-    out.push({
-      tone: acc >= 75 ? 'positive' : acc >= 50 ? 'info' : 'warn',
-      text: `地理测验平均正确率 ${Math.round(acc)}%（${dash.quizzes.length} 次），${
-        acc >= 75 ? '基础扎实，可挑战更难的专题。' : '建议回头重读错题对应的知识点。'
-      }`,
-    });
-  }
-
   // 游戏战绩
   const scoredGames = dash.games.filter((g) => g.score != null && g.total);
   if (scoredGames.length > 0) {
@@ -541,14 +704,36 @@ export function buildInsights(dash: Dashboard): InsightItem[] {
     });
   }
 
+  // 重玩 / 投入时长
+  const topGame = getGameStats()[0];
+  if (topGame && topGame.plays > 1) {
+    const mins = Math.round(topGame.totalDurationSec / 60);
+    out.push({
+      tone: 'positive',
+      text: `「${topGame.title}」已玩 ${topGame.plays} 次${
+        mins > 0 ? `，累计投入约 ${mins} 分钟` : ''
+      }——重复练同一个游戏，是最快的空间记忆方式。`,
+    });
+  }
+
   // 学习量 / 完成度
   if (summary.learnedCount > 0) {
     const done = dash.completed.length;
     out.push({
       tone: done > 0 ? 'positive' : 'info',
-      text: `累计学习 ${summary.learnedCount} 篇、完成 ${done} 篇，收藏 ${summary.favoriteCount} 篇；总计阅读约 ${fmtDuration(
+      text: `累计学习 ${summary.learnedCount} 篇、完成 ${done} 篇，收藏 ${summary.favoriteCount} 篇；总计阅读约 ${formatDuration(
         summary.totalReadSeconds,
       )}。`,
+    });
+  }
+
+  // 搜索活跃度
+  if (summary.searchCount > 0) {
+    out.push({
+      tone: 'info',
+      text: `累计搜索 ${summary.searchCount} 次，最常查的关键词是「${
+        dash.searches[0]?.term || '—'
+      }」，可以顺着它挑一篇系统读。`,
     });
   }
 
@@ -557,6 +742,14 @@ export function buildInsights(dash: Dashboard): InsightItem[] {
     out.push({
       tone: 'info',
       text: `已下载 ${summary.downloadCount} 份资料，记得用到作业或项目里，资料才真正属于你。`,
+    });
+  }
+
+  // 互动地图探索
+  if (dash.maps.length > 0) {
+    out.push({
+      tone: 'info',
+      text: `已探索 ${dash.maps.length} 张互动地图，多点点图层与缩放，地理格局会更立体地印在脑子里。`,
     });
   }
 
@@ -703,4 +896,10 @@ export function getBackend(): LearningBackend {
 }
 
 // 断言类型再导出，方便 UI 用类型
-export type { LearningData, Achievement, DownloadRecord };
+export type {
+  LearningData,
+  Achievement,
+  DownloadRecord,
+  MapViewRecord,
+  SearchRecord,
+};

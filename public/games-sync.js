@@ -84,6 +84,8 @@
    *   subtitle {string=} 副标题（如「答对 12 / 15」、人格类型名）
    *   score    {number|null} 数值成绩；人格类游戏传 null
    *   total    {number=}  满分 / 总题数
+   *   durationSec {number=} 本局用时（秒）。「我的学习」据此统计累计投入时长；
+   *                        取不到时（如 geoshape 打包产物）不传，记为无时长。
    */
   function recordGame(opts) {
     if (!opts || !opts.gameId) return;
@@ -114,6 +116,10 @@
       score: opts.score == null ? null : opts.score,
       total: opts.total == null ? null : opts.total,
       takenAt: nowIso,
+      // 仅在游戏确实上报了时长时写入，避免用 0 污染「累计用时」统计
+      ...(typeof opts.durationSec === 'number' && opts.durationSec > 0
+        ? { durationSec: Math.round(opts.durationSec) }
+        : {}),
     });
 
     // 转化级事件：每次完成都发（不止首次），供 GA4 看完成数 / 正确率 / 各游戏热度

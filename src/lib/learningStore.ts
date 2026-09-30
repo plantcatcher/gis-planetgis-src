@@ -45,14 +45,6 @@ export interface FavoriteItem {
   createdAt: string;
 }
 
-export interface QuizRecord {
-  id: string;
-  title: string;
-  score: number;
-  total: number;
-  takenAt: string;
-}
-
 export interface GameRecord {
   id: string;
   /** 游戏标识：'geoquiz' | 'geoshape' | 'geotype' */
@@ -65,6 +57,8 @@ export interface GameRecord {
   /** 满分 / 总题数；可空 */
   total?: number | null;
   takenAt: string;
+  /** 本局用时（秒）。geoshape 为不可改的打包产物，取不到时长时为 undefined */
+  durationSec?: number;
 }
 
 export interface Achievement {
@@ -89,6 +83,26 @@ export interface DownloadRecord {
   downloadedAt: string;
 }
 
+export interface SearchRecord {
+  /** 搜索关键词（去空白后的原样文本） */
+  term: string;
+  /** 搜索框上下文：'learn' 知识库 / 'resources' 资料 / 'home' 首页 */
+  context: string;
+  /** 最近一次搜索时间（ISO 字符串） */
+  searchedAt: string;
+  /** 该词累计搜索次数（同一词重复搜只更新时间与计数，不新增条目） */
+  count: number;
+}
+
+export interface MapViewRecord {
+  /** 地图 slug（路径 /maps/<slug>） */
+  slug: string;
+  /** 地图标题（冗余存储，便于地图被删后仍可读） */
+  title: string;
+  /** 最近一次打开时间戳（ISO 字符串） */
+  viewedAt: string;
+}
+
 export interface LearningData {
   version: number;
   profile: {
@@ -107,9 +121,10 @@ export interface LearningData {
     /** 收藏 */
     favorites: FavoriteItem[];
   };
-  quizzes: { records: QuizRecord[] };
   games: { records: GameRecord[] };
   downloads: { records: DownloadRecord[] };
+  maps: { records: MapViewRecord[] };
+  searches: { records: SearchRecord[] };
   achievements: Achievement[];
 }
 
@@ -124,6 +139,12 @@ const MAX_GAME_RECORDS = 100;
 
 /** 资料下载记录保留条数 */
 export const MAX_DOWNLOAD_RECORDS = 200;
+
+/** 互动地图浏览记录保留条数 */
+export const MAX_MAP_RECORDS = 200;
+
+/** 搜索历史保留条数（按关键词去重，超出后淘汰最久未搜的词） */
+export const MAX_SEARCH_RECORDS = 50;
 
 /** geoshape 累计成绩存储键（打包产物写入，不可改源码） */
 const GEOSHAPE_KEY = 'geoshape:v1';
@@ -143,9 +164,10 @@ function createEmptyData(): LearningData {
       recentlyViewed: [],
       favorites: [],
     },
-    quizzes: { records: [] },
     games: { records: [] },
     downloads: { records: [] },
+    maps: { records: [] },
+    searches: { records: [] },
     achievements: [],
   };
 }
@@ -192,9 +214,10 @@ function mergeWithDefault(partial: Partial<LearningData>): LearningData {
       recentlyViewed: partial.learning?.recentlyViewed || [],
       favorites: partial.learning?.favorites || [],
     },
-    quizzes: { records: partial.quizzes?.records || [] },
     games: { records: partial.games?.records || [] },
     downloads: { records: partial.downloads?.records || [] },
+    maps: { records: partial.maps?.records || [] },
+    searches: { records: partial.searches?.records || [] },
     achievements: partial.achievements || [],
   };
 }
@@ -264,7 +287,6 @@ function isFirstActionNow(): boolean {
   return (
     Object.keys(d.learning.readingProgress).length === 0 &&
     d.learning.favorites.length === 0 &&
-    d.quizzes.records.length === 0 &&
     d.games.records.length === 0 &&
     d.downloads.records.length === 0
   );

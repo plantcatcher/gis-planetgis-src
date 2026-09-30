@@ -702,6 +702,8 @@ function showResult() {
       title: '卫星之眼 · 看卫星图猜城市',
       subtitle: '答对 ' + GameState.correctCount + ' / ' + GameState.questions.length,
       score: GameState.score,
+      // 本局用时（秒）：上面已按 gameStartTime 算好，传给「我的学习」统计累计投入
+      durationSec: timeSpent,
     });
   }
 
