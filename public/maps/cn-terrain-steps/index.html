@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>中国地势三级阶梯 · 西高东低互动地图</title>
+  <meta name="description" content="青藏高原、高原盆地、东部平原——点击任意一级阶梯，看它的海拔区间、面积与代表地形，理解中国西高东低的地貌骨架。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <!-- ── 左：介绍栏 ─────────────────────────────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 全国总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-eq"></i>
+      <b>中国地势三级阶梯</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> WEST HIGH · EAST LOW</small>
+      <h1><span>西高东低</span><b>三级阶梯</b></h1>
+      <p class="lead">从青藏高原一路降到东部沿海，中国的地貌被三道台阶切成三段。每一级台阶，都对应着不同的海拔、气候与生活方式。</p>
+
+      <div class="facts">
+        <span><small>阶梯级数</small><b><span class="v"><em>3</em></span><i>级</i></b></span>
+        <span><small>最高与最低高差</small><b><span class="v">约 <em>8848</em></span><i>米</i></b></span>
+        <span><small>第一阶梯面积</small><b><span class="v">约 <em id="fStage1">—</em></span><i>万 km²</i></b></span>
+      </div>
+
+      <section class="block">
+        <header><small>三级阶梯</small></header>
+        <div class="chapters" id="stageList"></div>
+        <p class="note">点击任意一级阶梯，地图会飞向它并展开说明。</p>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：阶梯范围由 <a href="https://registry.opendata.aws/terrain-tiles/" target="_blank" rel="noopener">AWS Terrain Tiles</a>（terrarium 高程瓦片，公开数据集）在构建期拼接为 DEM 后分级生成：第一阶梯取海拔 3000 米以上的青藏连通区，柴达木盆地（盆底 2600~3000 米）按教科书口径并入第一阶梯；第三阶梯取「大兴安岭—太行山—巫山—雪峰山」一线以东以南的部分，其余为第二阶梯。分级为地理教学口径的概略表达，不作为行政区划或勘界依据。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/works/cn-terrain-steps" target="_top">作品介绍</a>
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── 右上：阶梯详情卡 ───────────────────────────────────── -->
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">STEP</small>
+      <div class="dt-actions">
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtElev">—</p>
+    <div class="dt-metrics">
+      <span><small>平均海拔</small><b><em id="dtElevV">—</em></b></span>
+      <span><small>约占总面积</small><b><em id="dtShare">—</em><i>%</i></b></span>
+      <span><small>大致面积</small><b><em id="dtArea">—</em><i>万 km²</i></b></span>
+    </div>
+    <section class="dt-desc">
+      <small>代表地形</small>
+      <p id="dtTerrain">—</p>
+    </section>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <!-- ── 右下：图例 + 阶梯导航条 ───────────────────────────── -->
+  <div class="dock">
+    <div class="legend" id="legend"></div>
+    <nav class="strip" id="strip" aria-label="三级阶梯导航"></nav>
+  </div>
+
+  <!-- ── 左下：图层与底图 ───────────────────────────────────── -->
+  <div class="panel" id="panel">
+    <div class="panel-head" id="panelHead">
+      <span>图层与底图</span>
+      <button type="button" id="panelToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckLabel" checked /><span>山脉与界线名称</span></label>
+      <label class="row"><input type="checkbox" id="ckBorder" checked /><span>省级行政区边界</span></label>
+      <label class="row"><input type="checkbox" id="ckGraticule" /><span>经纬网格</span></label>
+      <div class="divider"></div>
+      <div class="bm-title">底图</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" checked /><span>深色</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>矢量路网</span></label>
+      </div>
+      <div class="divider"></div>
+      <p class="panel-note">
+        切到<b>卫星影像</b>可以看到阶梯边界与真实山地走向的对应关系：第一级台阶的东缘大致落在横断山与祁连山，第二级的东缘落在大兴安岭—太行山—巫山—雪峰山。
+      </p>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="/maps/_shared/thematic/thematic.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

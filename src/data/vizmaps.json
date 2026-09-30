@@ -51,6 +51,22 @@
       ]
     },
     {
+      "slug": "cn-yangtze",
+      "entry": "/maps/cn-yangtze/index.html",
+      "bbox": [90.8, 25.1, 120.3, 34.8],
+      "crs": "WGS84 / EPSG:4326（底图与省界为 GCJ-02，本图常用层级 5–8 下偏差不足 2 像素）",
+      "basemap": "深色无底图（默认，纯专题）/ 高德瓦片：卫星影像 style=6（纯影像无标注）/ 矢量路网 style=7；可叠加省级行政区边界与 2° 经纬网格",
+      "source": "HydroRIVERS v10 Asia（WWF HydroSHEDS，CC-BY 4.0）——按 NEXT_DOWN 反向拓扑追溯出长江干流与 8 条一级支流（雅砻江 / 岷江 / 嘉陵江 / 乌江 / 湘江 / 沅江 / 汉江 / 赣江）的主干河线；清单依据《中华人民共和国长江保护法》列举的流域面积 8 万平方公里以上一级支流",
+      "updated": "2026-09-30",
+      "data": [
+        {
+          "file": "maps/cn-yangtze/data/rivers.json",
+          "features": 9,
+          "desc": "河流主干线：长江干流 + 8 条一级支流，共 15,534 个坐标点；每条带河长 / 上游汇水面积 / 估算流量 / 河流等级 / 源头与汇入点坐标"
+        }
+      ]
+    },
+    {
       "slug": "cn-provinces",
       "entry": "/maps/cn-provinces/index.html",
       "bbox": [73.0, 17.6, 135.5, 54.4],
@@ -82,6 +98,28 @@
           "features": 34,
           "unit": "篇一省一篇省情页",
           "desc": "静态预渲染的省级省情页（含人口 / GDP / 水系 / 地形 / 之最 + 该省高亮定位图），另有一页 34 省目录"
+        }
+      ]
+    },
+    {
+      "slug": "cn-terrain-steps",
+      "entry": "/maps/cn-terrain-steps/index.html",
+      "bbox": [73.0, 17.5, 136.0, 54.5],
+      "crs": "WGS84 生成后转为 GCJ-02（与高德瓦片底图对齐）",
+      "basemap": "卫星影像（默认，已按专题压暗）/ 矢量路网 style=7 / 深色无底图；可叠加省级行政区边界与 2° 经纬网格",
+      "source": "AWS Open Data「Terrain Tiles」（terrarium 编码高程瓦片，Mapzen 整理，公开数据集）——构建期拼成 DEM（z=7，中国纬度约 1.2 公里/像素）后按海拔分级；第三阶梯的东界取地理教科书给出的「大兴安岭—太行山—巫山—雪峰山」山系走向，第一阶梯取青藏高原 3000 米等高线的自然连通区（柴达木盆地按教科书口径并入）",
+      "updated": "2026-10-01",
+      "data": [
+        {
+          "file": "maps/cn-terrain-steps/data/stages.json",
+          "features": 3,
+          "unit": "级阶梯",
+          "desc": "三级阶梯面：第一阶梯 248 万 km² / 第二阶梯 399 万 km² / 第三阶梯 311 万 km²（合计 958 万 km²，与中国陆地面积 960 万 km² 相差约 0.2%），每级带海拔区间、代表地形与释义"
+        },
+        {
+          "file": "maps/_shared/china-provinces.json",
+          "features": 35,
+          "desc": "省级行政区边界（_shared 跨地图复用，仅用于限定 DEM 的裁剪范围）"
         }
       ]
     }

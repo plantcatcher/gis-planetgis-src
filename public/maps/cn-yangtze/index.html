@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>万里长江 · 一江八脉 —— 长江干流与八大支流互动地图</title>
+  <meta name="description" content="把长江干流与雅砻江、岷江、嘉陵江、乌江、湘江、沅江、汉江、赣江八条一级支流并置观察：点击任意一条，看它的河长、汇水面积与估算流量。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <!-- ── 左：介绍栏 ─────────────────────────────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 水系总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-eq"></i>
+      <b>万里长江 · 一江八脉</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> A RIVER SYSTEM, NOT A SINGLE RIVER</small>
+      <h1><span>万里长江</span><b>一江八脉</b></h1>
+      <p class="lead">长江不是一条孤立的河，而是一套由高原、盆地、湖区共同汇成的水系网络。</p>
+
+      <div class="facts">
+        <span><small>干流主干</small><b><span class="v">约 <em id="fMain">—</em></span><i>千米</i></b></span>
+        <span><small>重要一级支流</small><b><span class="v"><em id="fCount">—</em></span><i>条</i></b></span>
+        <span><small>支流主干合计</small><b><span class="v">约 <em id="fSum">—</em></span><i>千米</i></b></span>
+      </div>
+
+      <section class="block">
+        <header>
+          <small>八脉对照</small>
+          <div class="tabs" id="metricTabs"></div>
+        </header>
+        <div class="chart" id="chart"></div>
+      </section>
+
+      <section class="block">
+        <header><small>水系之最</small></header>
+        <div class="extremes" id="extremes"></div>
+        <p class="note" id="metricNote"></p>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：河流主干线由 <a href="https://www.hydrosheds.org/products/hydrorivers" target="_blank" rel="noopener">HydroRIVERS v10 Asia</a>（WWF HydroSHEDS，CC-BY 4.0）按 <code>NEXT_DOWN</code> 拓扑顺流追踪生成；河长为河段长度累加，汇水面积取流域上游陆地面积 <code>UPLAND_SKM</code>，估算流量取多年平均 <code>DIS_AV_CMS</code>。均为量级参考，不作为水文引用依据。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/works/cn-yangtze" target="_top">作品介绍</a>
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── 右上：河流详情卡 ───────────────────────────────────── -->
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">MAJOR TRIBUTARY</small>
+      <div class="dt-actions">
+        <button type="button" id="dtReplay" title="重播水流">↻</button>
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtTagline">—</p>
+    <div class="dt-metrics">
+      <span><small>主干长度</small><b><em id="dtLen">—</em><i>千米</i></b></span>
+      <span><small>上游汇水面积</small><b><em id="dtArea">—</em><i>平方千米</i></b></span>
+      <span><small>估算流量</small><b><em id="dtDis">—</em><i>m³/s</i></b></span>
+    </div>
+    <section class="dt-desc">
+      <small>水系观察</small>
+      <p id="dtDesc">—</p>
+    </section>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <!-- ── 右下：图例 + 河流导航条 ───────────────────────────── -->
+  <div class="dock">
+    <div class="legend" id="legend"></div>
+    <nav class="strip" id="strip" aria-label="长江干流与八大支流导航"></nav>
+  </div>
+
+  <!-- ── 左下：图层与底图 ───────────────────────────────────── -->
+  <div class="panel" id="panel">
+    <div class="panel-head" id="panelHead">
+      <span>图层与底图</span>
+      <button type="button" id="panelToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckLabel" checked /><span>河流名称</span></label>
+      <label class="row"><input type="checkbox" id="ckBorder" checked /><span>省级行政区边界</span></label>
+      <label class="row"><input type="checkbox" id="ckGraticule" /><span>经纬网格</span></label>
+      <div class="divider"></div>
+      <div class="bm-title">底图</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" checked /><span>深色</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>矢量路网</span></label>
+      </div>
+      <div class="divider"></div>
+      <p class="panel-note">
+        河流几何为 <b>WGS84</b>；底图与省界为 <b>GCJ-02</b>。本图常用层级（5–8 级）下两者偏差不足 2 像素，放大到 10 级以上会看到数百米错位。
+      </p>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

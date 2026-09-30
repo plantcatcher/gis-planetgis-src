@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Map as MapIcon, ArrowRight, FileText, Layers, Database } from 'lucide-react';
+import { Map as MapIcon, ArrowRight, FileText, Layers, Database, Square, LayoutGrid, List } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import { getWorksBySeries, type ContentItem } from '@/lib/content';
@@ -19,6 +19,13 @@ const CardAnim: React.FC<{ children: React.ReactNode; delay?: number }> = ({ chi
   </motion.div>
 );
 
+type ViewMode = 'simple' | 'detail' | 'list';
+const MODES: { id: ViewMode; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
+  { id: 'simple', label: '简单卡片', icon: Square },
+  { id: 'detail', label: '详细卡片', icon: LayoutGrid },
+  { id: 'list', label: '列表模式', icon: List },
+];
+
 /**
  * 可视化互动地图 · 系列汇总页（/maps）
  *
@@ -31,18 +38,20 @@ const Maps: React.FC = () => {
     work: w,
     asset: getVizMap(w.slug) as VizMap | undefined,
   }));
+  const [mode, setMode] = useState<ViewMode>('detail');
+  const compact = mode === 'simple';
 
   return (
     <>
       <PageMeta
         title="可视化互动地图 - 星球小捕手"
-        description="可以点、可以搜、可以查的地理互动地图系列：我国主要河流分布图（1633 条河流按国标分级着色）、卫星历史影像查看器（196 期存档影像时间轴 + 卷帘对比）、中国省情一图览（34 个省级行政区的人口 / GDP / 水系 / 地形 / 之最），每张图都公开数据源与坐标系。"
+        description="可以点、可以搜、可以查的地理互动地图系列：把河流、卫星影像、省情、地势等真实地理数据做成可提问的地图，每张都公开数据源与坐标系。"
         canonical="https://planetgis.cn/maps"
       />
       <Breadcrumb />
       <div className="min-h-screen bg-background text-foreground">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
-          <header className="mb-10">
+          <header className="mb-8">
             <p className="kicker mb-3">可点 · 可搜 · 可查</p>
             <div className="flex items-end gap-4">
               <h1 className="text-3xl md:text-4xl font-bold tracking-tight">可视化互动地图</h1>
@@ -50,17 +59,102 @@ const Maps: React.FC = () => {
             </div>
             <div className="mt-3 h-1 w-14 bg-primary rounded-full" />
             <p className="mt-4 text-base text-muted-foreground leading-relaxed max-w-2xl">
-              把真实的地理数据做成可以提问的地图——不只是看图，而是点一下就知道这条河叫什么、它是几级、多长；或者把 196 期卫星影像摊成一条时间轴，看同一块地这些年怎么变；也可以点开一个省，看它的人口、GDP、水系与「全国之最」。每张地图都标注了数据源与坐标系。
+              把真实的地理数据做成可以提问的地图——可点、可搜、可查，而不只是看图。每张地图都标注了数据源与坐标系，以静态文件托管，无需后端数据库。
             </p>
           </header>
 
+          {/* 视图切换 */}
+          <div className="flex items-center justify-between gap-4 mb-8">
+            <p className="text-sm text-muted-foreground">共 {maps.length} 张地图</p>
+            <div
+              role="group"
+              aria-label="切换展示方式"
+              className="inline-flex rounded-lg border border-border bg-muted/40 p-1"
+            >
+              {MODES.map(({ id, label, icon: Icon }) => (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => setMode(id)}
+                  aria-pressed={mode === id}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm transition-colors ${
+                    mode === id
+                      ? 'bg-primary text-primary-foreground font-medium'
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {maps.length === 0 ? (
             <p className="text-muted-foreground">地图正在路上，敬请期待。</p>
+          ) : mode === 'list' ? (
+            /* 列表模式 */
+            <div className="space-y-3">
+              {maps.map(({ work: w, asset: m }, i) => {
+                const totalFeatures = m?.data.reduce((s, d) => s + d.features, 0) ?? 0;
+                const unit = m?.data[0]?.unit ?? '个要素';
+                return (
+                  <CardAnim key={w.slug} delay={i * 0.04}>
+                    <div className="group flex gap-4 p-4 rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 transition-all duration-300">
+                      <Link
+                        to={`/maps/${w.slug}`}
+                        className="shrink-0 w-44 sm:w-56 aspect-video rounded-lg overflow-hidden"
+                      >
+                        <img
+                          src={w.cover}
+                          alt={`${w.title} - 星球小捕手可视化互动地图`}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </Link>
+                      <div className="flex-1 min-w-0 flex flex-col">
+                        <div className="flex items-center gap-2 mb-1 text-primary">
+                          <MapIcon className="w-4 h-4" />
+                          <span className="text-xs font-medium tracking-wide uppercase">
+                            {w.category || '互动地图'}
+                          </span>
+                        </div>
+                        <h3 className="text-base font-bold">
+                          <Link to={`/maps/${w.slug}`} className="group-hover:text-primary transition-colors">
+                            {w.title}
+                          </Link>
+                        </h3>
+                        <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{w.summary}</p>
+                        <div className="mt-auto pt-3 flex items-center gap-4">
+                          <Link
+                            to={`/maps/${w.slug}`}
+                            className="inline-flex items-center gap-1 text-sm font-medium text-primary"
+                          >
+                            打开地图 <ArrowRight className="w-3.5 h-3.5" />
+                          </Link>
+                          <Link
+                            to={`/works/${w.slug}`}
+                            className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors"
+                          >
+                            <FileText className="w-3.5 h-3.5" />
+                            <span>介绍与解读</span>
+                          </Link>
+                          {m && (
+                            <span className="ml-auto text-xs text-muted-foreground hidden sm:inline">
+                              {totalFeatures.toLocaleString()} {unit} · {m.source}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </CardAnim>
+                );
+              })}
+            </div>
           ) : (
+            /* 卡片模式（simple / detail） */
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {maps.map(({ work: w, asset: m }, i) => {
                 const totalFeatures = m?.data.reduce((s, d) => s + d.features, 0) ?? 0;
-                // 计数单位默认「个要素」（矢量数据集）；影像类地图在登记册里覆写。
                 const unit = m?.data[0]?.unit ?? '个要素';
                 return (
                   <CardAnim key={w.slug} delay={i * 0.08}>
@@ -87,15 +181,17 @@ const Maps: React.FC = () => {
                             {w.title}
                           </Link>
                         </h3>
-                        <p className="text-sm text-muted-foreground line-clamp-3">{w.summary}</p>
+                        <p className={`text-sm text-muted-foreground ${compact ? 'line-clamp-2' : 'line-clamp-3'}`}>
+                          {w.summary}
+                        </p>
 
-                        {m && (
+                        {/* 详细卡片才展示数据源明细 */}
+                        {!compact && m && (
                           <dl className="mt-4 space-y-1.5 text-xs text-muted-foreground">
                             <div className="flex items-start gap-1.5">
                               <Layers className="w-3.5 h-3.5 mt-0.5 shrink-0" />
                               <dd>
                                 共 {totalFeatures.toLocaleString()} {unit}
-                                {/* 单项资产不必再括注一次自身数字 */}
                                 {m.data.length > 1 &&
                                   `（${m.data.map((d) => d.features.toLocaleString()).join(' + ')}）`}
                               </dd>
@@ -114,13 +210,15 @@ const Maps: React.FC = () => {
                           >
                             打开地图 <ArrowRight className="w-3.5 h-3.5 group-hover:gap-2 transition-all" />
                           </Link>
-                          <Link
-                            to={`/works/${w.slug}`}
-                            className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors"
-                          >
-                            <FileText className="w-3.5 h-3.5" />
-                            <span>介绍与解读</span>
-                          </Link>
+                          {!compact && (
+                            <Link
+                              to={`/works/${w.slug}`}
+                              className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors"
+                            >
+                              <FileText className="w-3.5 h-3.5" />
+                              <span>介绍与解读</span>
+                            </Link>
+                          )}
                         </div>
                       </div>
                     </div>

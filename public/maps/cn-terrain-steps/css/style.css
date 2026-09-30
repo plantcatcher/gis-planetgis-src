@@ -1,0 +1,21 @@
+/* 中国地势三级阶梯 —— 专题配色与微调 */
+:root {
+  --accent: #6fa8dc;
+  --accent-light: #bcdcf7;
+  --accent-dark: #3d78ad;
+  --accent-soft: rgba(111, 168, 220, 0.15);
+}
+
+/* 阶梯只有三级，导航条排成一行即可 */
+.strip { grid-template-rows: auto; }
+
+/* 图例里的色块比默认线段略大，便于区分三级 */
+.legend > span > i { box-shadow: 0 0 6px rgba(0, 0, 0, .4); }
+
+/* 阶梯列表：序号用阶梯本色更直观 */
+.chapters button[data-id="stage-1"] .no { color: #b07ad6; border-color: rgba(176,122,214,.5); }
+.chapters button[data-id="stage-2"] .no { color: #e0924a; border-color: rgba(224,146,74,.5); }
+.chapters button[data-id="stage-3"] .no { color: #3fae86; border-color: rgba(63,174,134,.5); }
+.chapters button[data-id="stage-1"].active .no { background: #b07ad6; border-color: #b07ad6; color: #1a0f26; }
+.chapters button[data-id="stage-2"].active .no { background: #e0924a; border-color: #e0924a; color: #241303; }
+.chapters button[data-id="stage-3"].active .no { background: #3fae86; border-color: #3fae86; color: #04180f; }
