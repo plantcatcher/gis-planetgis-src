@@ -143,7 +143,9 @@ const SeriesFooterBlock: React.FC<{
   siblings: ContentItem[];
   prev?: ContentItem;
   next?: ContentItem;
-}> = ({ cfg, item, siblings, prev, next }) => {
+  /** 详情页所在路由前缀：tool→tools，map/game/lab→works（不能写死 /works，否则工具页互链 404） */
+  base: string;
+}> = ({ cfg, item, siblings, prev, next, base }) => {
   const others = siblings.filter((s) => s.slug !== item.slug).slice(0, 4);
   return (
     <>
@@ -159,7 +161,7 @@ const SeriesFooterBlock: React.FC<{
                 <span className="text-muted-foreground select-none">•</span>
                 <span className="min-w-0 block line-clamp-1">
                   <Link
-                    to={`/works/${r.slug}`}
+                    to={`/${base}/${r.slug}`}
                     className="text-primary font-medium hover:underline"
                   >
                     {r.title}
@@ -180,7 +182,7 @@ const SeriesFooterBlock: React.FC<{
         <nav className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
           {prev ? (
             <Link
-              to={`/works/${prev.slug}`}
+              to={`/${base}/${prev.slug}`}
               className="group p-4 rounded-xl bg-muted/50 border border-border/60 hover:border-primary/30 transition-all"
             >
               <span className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -196,7 +198,7 @@ const SeriesFooterBlock: React.FC<{
           )}
           {next ? (
             <Link
-              to={`/works/${next.slug}`}
+              to={`/${base}/${next.slug}`}
               className="group p-4 rounded-xl bg-muted/50 border border-border/60 hover:border-primary/30 transition-all sm:text-right"
             >
               <span className="flex items-center gap-1 text-xs text-muted-foreground sm:justify-end">
@@ -277,6 +279,8 @@ export default function ContentDetail({ type }: Props) {
   const boardPrev = boardIdx > 0 ? boardSiblings[boardIdx - 1] : undefined;
   const boardNext =
     boardIdx >= 0 && boardIdx < boardSiblings.length - 1 ? boardSiblings[boardIdx + 1] : undefined;
+  // 工具页的互链前缀是 tools，map/game/lab 作品的互链前缀是 works。
+  const boardBase = boardKey === 'tool' ? 'tools' : 'works';
   // 系列作品正文中，把「打开/全部」入口卡插在「介绍」与「功能特点」两个小节之间
   // （所有 map/game 作品正文都含这两个 H2，拆分位置稳定）。
   const splitMark = '\n## 功能特点';
@@ -409,6 +413,7 @@ export default function ContentDetail({ type }: Props) {
           siblings={boardSiblings}
           prev={boardPrev}
           next={boardNext}
+          base={boardBase}
         />
       ) : (
         related.length > 0 && (
