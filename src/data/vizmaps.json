@@ -4,7 +4,12 @@
     {
       "slug": "cn-rivers",
       "entry": "/maps/cn-rivers/index.html",
-      "bbox": [73.0, 17.5, 135.5, 54.5],
+      "bbox": [
+        73.0,
+        17.5,
+        135.5,
+        54.5
+      ],
       "crs": "GCJ-02（火星坐标，与高德瓦片对齐）",
       "basemap": "高德瓦片：卫星影像 style=6（纯影像无标注）/ 矢量路网 style=7 / 无底图",
       "source": "国家基础地理信息 1:100 万水系数据（LEVEL_RIVE / LEVEL 字段分级）",
@@ -30,7 +35,12 @@
     {
       "slug": "hist-imagery",
       "entry": "/maps/hist-imagery/index.html",
-      "bbox": [73.0, 3.5, 135.5, 53.6],
+      "bbox": [
+        73.0,
+        3.5,
+        135.5,
+        53.6
+      ],
       "crs": "WGS84 / Web Mercator EPSG:3857（影像瓦片本身即球面墨卡托）；叠加的天地图注记为 CGCS2000",
       "basemap": "Esri World Imagery Wayback 存档影像（196 期，2014-02-20 → 2026-08-05）；可选叠加天地图 cva 中文注记与国界线（需使用者自配 Key，存 localStorage）",
       "source": "Esri World Imagery Wayback 公开存档（索引 s3-us-west-2.amazonaws.com/config.maptiles.arcgis.com/waybackconfig.json；瓦片 wayback-a / -b.maptiles.arcgis.com 双节点互备）",
@@ -53,7 +63,12 @@
     {
       "slug": "cn-yangtze",
       "entry": "/maps/cn-yangtze/index.html",
-      "bbox": [90.8, 25.1, 120.3, 34.8],
+      "bbox": [
+        90.8,
+        25.1,
+        120.3,
+        34.8
+      ],
       "crs": "WGS84 / EPSG:4326（底图与省界为 GCJ-02，本图常用层级 5–8 下偏差不足 2 像素）",
       "basemap": "深色无底图（默认，纯专题）/ 高德瓦片：卫星影像 style=6（纯影像无标注）/ 矢量路网 style=7；可叠加省级行政区边界与 2° 经纬网格",
       "source": "HydroRIVERS v10 Asia（WWF HydroSHEDS，CC-BY 4.0）——按 NEXT_DOWN 反向拓扑追溯出长江干流与 8 条一级支流（雅砻江 / 岷江 / 嘉陵江 / 乌江 / 湘江 / 沅江 / 汉江 / 赣江）的主干河线；清单依据《中华人民共和国长江保护法》列举的流域面积 8 万平方公里以上一级支流",
@@ -69,7 +84,12 @@
     {
       "slug": "cn-provinces",
       "entry": "/maps/cn-provinces/index.html",
-      "bbox": [73.0, 17.6, 135.5, 54.4],
+      "bbox": [
+        73.0,
+        17.6,
+        135.5,
+        54.4
+      ],
       "crs": "GCJ-02（火星坐标，与高德瓦片对齐）",
       "basemap": "高德瓦片：卫星影像 style=6（纯影像无标注）/ 矢量路网 style=7 / 无底图（深色背景，省级色块不透明）",
       "source": "省级边界 DataV.GeoAtlas（34 个省级行政区 + 十段线）；GDP / 常住人口 / 人均 GDP / 陆地面积取自各省统计局与统计公报公开数（2025 年数据，含 2020·2023·2024 历年序列；2020 年人口为第七次全国人口普查标准时点数据）",
@@ -104,7 +124,12 @@
     {
       "slug": "cn-terrain-steps",
       "entry": "/maps/cn-terrain-steps/index.html",
-      "bbox": [73.0, 17.5, 136.0, 54.5],
+      "bbox": [
+        73.0,
+        17.5,
+        136.0,
+        54.5
+      ],
       "crs": "WGS84 生成后转为 GCJ-02（与高德瓦片底图对齐）",
       "basemap": "卫星影像（默认，已按专题压暗）/ 矢量路网 style=7 / 深色无底图；可叠加省级行政区边界与 2° 经纬网格",
       "source": "AWS Open Data「Terrain Tiles」（terrarium 编码高程瓦片，Mapzen 整理，公开数据集）——构建期拼成 DEM（z=7，中国纬度约 1.2 公里/像素）后按海拔分级；第三阶梯的东界取地理教科书给出的「大兴安岭—太行山—巫山—雪峰山」山系走向，第一阶梯取青藏高原 3000 米等高线的自然连通区（柴达木盆地按教科书口径并入）",
@@ -126,7 +151,12 @@
     {
       "slug": "tea-horse-road",
       "entry": "/maps/tea-horse-road/index.html",
-      "bbox": [91.1, 22.8, 108.9, 36.7],
+      "bbox": [
+        91.1,
+        22.8,
+        108.9,
+        36.7
+      ],
       "crs": "GCJ-02（火星坐标，与高德瓦片对齐）——由驿镇节点的 WGS84 经纬度转换而来，原始坐标保留在各节点的 properties.wgs84 中",
       "basemap": "高德瓦片：卫星影像 style=6（默认，纯影像无标注，按专题轻微压暗）/ 矢量路网 style=7 / 深色无底图；可叠加省级行政区边界与 2° 经纬网格",
       "source": "驿镇节点坐标为人工整理的公开史料与地名资料（WGS84，量级 0.01°）；线路几何为「驿镇依次连线 + 端点归零的正弦曲线化」的关系示意——茶马古道是跨时期、多支线的交通网络，不存在单一年代的权威道路线画，故本图不冒充实测道路，也不用作遗址边界或勘界依据",
@@ -143,6 +173,46 @@
           "features": 36,
           "unit": "处驿镇节点",
           "desc": "起点 3 / 驿站 28 / 山口 1 / 汇合点 2 / 终点 2。每处带所属主线、序位与地点释义；芒康、拉萨分属两条主线，各存一份节点，页面上自动合并为一个标签并同时点亮两条线"
+        }
+      ]
+    },
+    {
+      "slug": "house-price",
+      "entry": "/maps/house-price/index.html",
+      "bbox": [
+        73.0,
+        17.5,
+        135.5,
+        54.5
+      ],
+      "crs": "CGCS2000（≈WGS84，DataV.GeoAtlas 原始坐标）——与 _shared/china-provinces.json 同坐标系，省/市两视角边界互相对齐；叠加高德瓦片时存在约 500m 的 GCJ-02 系统偏移，省市级轮廓下不可见（全站地图同此口径）",
+      "basemap": "高德瓦片：矢量路网 style=7 / 卫星影像 style=6 / 深色无底图（默认）；可叠加省界与 5° 经纬网格",
+      "source": "国家统计局「70 个大中城市商品住宅销售价格变动情况」月度数据（2006-01 至 2026-08，经 github.com/hugohe3/70cityprice 整理）：70 城新建商品住宅与二手住宅的同比/环比价格指数。省级视角为省内被监测城市算术平均。价格为相对指数（100=持平），不含绝对房价（元/㎡），不能反推金额",
+      "updated": "2026-10-02",
+      "data": [
+        {
+          "file": "maps/house-price/data/months.json",
+          "features": 248,
+          "unit": "个月份索引",
+          "desc": "2006-01 → 2026-08 共 248 个月 + 数据口径元信息（来源、单位、指标解释）"
+        },
+        {
+          "file": "maps/house-price/data/cities.json",
+          "features": 70,
+          "unit": "个监测城市",
+          "desc": "70 城逐月四序列：新建商品住宅/二手住宅 × 同比/环比（含早期月份缺值）；带 adcode、省属、中心坐标"
+        },
+        {
+          "file": "maps/house-price/data/provinces.json",
+          "features": 31,
+          "unit": "个省级区",
+          "desc": "31 个内地省级区的聚合序列（省内监测城市算术平均）；西藏未被 70 城监测故无数据"
+        },
+        {
+          "file": "maps/house-price/data/cities-geo.json",
+          "features": 70,
+          "unit": "个城市边界",
+          "desc": "70 城地级市边界（DataV.GeoAtlas，抽稀 0.012°），直辖市取自国家级完整要素；仅用于市级视角着色"
         }
       ]
     }

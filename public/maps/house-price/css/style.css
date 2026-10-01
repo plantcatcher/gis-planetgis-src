@@ -1,0 +1,134 @@
+/* 全国房价时空可视化 · 专题样式
+   基于 _shared/thematic/thematic.css，这里只做本专题的换肤与专属控件。 */
+
+:root {
+  /* 主色偏「城市/数据」的青蓝，与红涨绿跌的色阶区分开，避免语义打架 */
+  --accent: #4ea3d8;
+  --accent-light: #8ecdf0;
+  --accent-dark: #2c73a6;
+  --accent-soft: rgba(78, 163, 216, 0.14);
+}
+
+/* 红涨绿跌的色阶条 */
+.legend { gap: 4px 0; }
+.legend .ramp { display: flex; flex-direction: column; gap: 4px; }
+.legend .ramp-row { display: flex; align-items: center; gap: 8px; }
+.legend .ramp-row i {
+  width: 26px; height: 11px; border-radius: 3px; display: block; flex: 0 0 auto;
+  border: 1px solid rgba(255, 255, 255, .1);
+}
+.legend .ramp-row span { font-size: 10.5px; color: var(--muted); white-space: nowrap; }
+.legend .ramp-cap {
+  font-size: 10px; color: var(--dim); letter-spacing: .04em; margin-bottom: 2px;
+}
+
+/* ── 时间轴 ─────────────────────────────────────────────── */
+.timeline-wrap { position: relative; padding: 2px 0 26px; }
+#tbRange {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 22px; background: transparent; cursor: pointer; margin: 0;
+  display: block;
+}
+#tbRange::-webkit-slider-runnable-track {
+  height: 6px; border-radius: 3px;
+  background: linear-gradient(90deg, #1a7f5a 0%, #8fd0b0 26%, #c3d9cf 44%,
+              #e8a86a 62%, #cf4f2e 82%, #b31f1f 100%);
+  opacity: .5;
+}
+#tbRange::-moz-range-track {
+  height: 6px; border-radius: 3px;
+  background: linear-gradient(90deg, #1a7f5a 0%, #8fd0b0 26%, #c3d9cf 44%,
+              #e8a86a 62%, #cf4f2e 82%, #b31f1f 100%);
+  opacity: .5;
+}
+#tbRange::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 15px; height: 15px; border-radius: 50%; margin-top: -4.5px;
+  background: #fff; border: 2.5px solid var(--accent);
+  box-shadow: 0 0 0 3px rgba(78, 163, 216, .22), 0 2px 8px rgba(0, 0, 0, .55);
+  cursor: grab; transition: transform .12s;
+}
+#tbRange::-webkit-slider-thumb:active { cursor: grabbing; transform: scale(1.14); }
+#tbRange::-moz-range-thumb {
+  width: 15px; height: 15px; border-radius: 50%;
+  background: #fff; border: 2.5px solid var(--accent);
+  box-shadow: 0 0 0 3px rgba(78, 163, 216, .22); cursor: grab;
+}
+
+/* 年份刻度：绝对定位在轨道下方 */
+.tb-ticks { position: absolute; left: 7px; right: 7px; bottom: 12px; height: 14px; }
+.tb-ticks b {
+  position: absolute; transform: translateX(-50%);
+  font-size: 9.5px; font-weight: 600; color: var(--dim); white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.tb-ticks b::before {
+  content: ''; position: absolute; left: 50%; top: -5px;
+  width: 1px; height: 3px; background: rgba(148, 178, 214, .34);
+}
+.tb-ticks b.is-major { color: #b9cbe2; font-size: 10.5px; }
+.tb-ticks b.is-major::before { height: 5px; background: rgba(148, 178, 214, .6); }
+
+.tb-year {
+  font-size: 14px; font-weight: 800; color: var(--accent);
+  font-variant-numeric: tabular-nums; letter-spacing: .04em;
+}
+.tb-ctl { display: flex; gap: 5px; margin-top: 2px; }
+.tb-ctl button {
+  font: inherit; font-size: 12px; color: var(--muted); cursor: pointer;
+  background: rgba(255, 255, 255, .045); border: 1px solid var(--line);
+  border-radius: 7px; padding: 4px 9px; flex: 0 0 auto;
+  transition: color .16s, background .16s, border-color .16s;
+  font-variant-numeric: tabular-nums;
+}
+.tb-ctl button:hover { color: #fff; border-color: var(--accent); background: rgba(255, 255, 255, .08); }
+.tb-ctl .tb-play { flex: 1 1 auto; text-align: center; color: var(--accent); border-color: var(--accent-soft); background: var(--accent-soft); font-weight: 600; }
+.tb-ctl .tb-play:hover { background: rgba(78, 163, 216, .22); }
+.tb-ctl .tb-play.is-playing { color: #fff; background: var(--accent); border-color: var(--accent); }
+
+#tbMilestone { min-height: 30px; }
+#tbMilestone b { color: var(--accent-light); font-weight: 700; }
+
+/* ── 口径分段按钮 ───────────────────────────────────────── */
+.seg { display: flex; gap: 3px; padding: 2px; border-radius: 8px; background: rgba(255, 255, 255, .05); margin-bottom: 8px; }
+.seg:last-child { margin-bottom: 0; }
+.seg button {
+  flex: 1 1 0; font: inherit; font-size: 11.5px; color: var(--muted); cursor: pointer;
+  background: transparent; border: 0; border-radius: 6px; padding: 6px 4px;
+  transition: background .16s, color .16s; white-space: nowrap;
+}
+.seg button:hover { color: var(--text); }
+.seg button.active { background: var(--accent); color: #04202f; font-weight: 700; }
+
+/* ── 排行条 ─────────────────────────────────────────────── */
+.chart { gap: 3px; }
+.chart-row { grid-template-columns: var(--nm-w, 58px) 1fr var(--vl-w, 54px); padding: 3px 5px; }
+.chart-row .nm { font-size: 11.5px; }
+.chart-row .bar { height: 7px; }
+.chart-row .vl { font-size: 11.5px; }
+/* 排行条按涨跌着色：涨红跌绿，与地图色阶同一套语义 */
+.chart-row .vl.up { color: #ff8f7a; }
+.chart-row .vl.down { color: #6fd6a4; }
+
+/* ── 详情卡走势小图 ─────────────────────────────────────── */
+.spark { margin-top: 6px; }
+.spark svg { display: block; width: 100%; height: 46px; overflow: visible; }
+.spark .axis { stroke: rgba(148, 178, 214, .3); stroke-width: 1; stroke-dasharray: 3 3; }
+.spark .ln { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.spark .zero { font-size: 8px; fill: var(--dim); }
+
+/* 详情卡的数值着色 */
+#dtV1.up, #dtV2.up, #dtV3.up { color: #ff8f7a; }
+#dtV1.down, #dtV2.down, #dtV3.down { color: #6fd6a4; }
+
+/* ── 移动端 ─────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .tb-ticks { bottom: 10px; }
+  .tb-ticks b { font-size: 9px; }
+  .tb-ticks b.is-major { font-size: 9.5px; }
+  .timeline-wrap { padding-bottom: 22px; }
+  .seg button { padding: 7px 4px; font-size: 11px; }
+  .tb-ctl button { padding: 6px 10px; }
+  .facts { grid-template-columns: repeat(3, 1fr); }
+  .facts em { font-size: 16px; }
+}

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>全国房价涨跌地图 · 70 城 2006-2026 月度时空可视化</title>
+  <meta name="description" content="国家统计局 70 个大中城市住宅价格指数，2006 年至今 248 个月：拖动时间轴看各省市房价同比环比涨跌，切换新房与二手，红涨绿跌。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <!-- ── 左：介绍栏 ─────────────────────────────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 全国总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-eq"></i>
+      <b>全国房价涨跌地图</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> HOUSE PRICE · 2006—2026</small>
+      <h1><span>二十年</span><b>房价涨跌</b></h1>
+      <p class="lead">国家统计局每月发布的 70 城住宅价格指数，被摊平成一条可以拖动的时间轴。红色是涨、绿色是跌——把滑块从 2006 拖到 2026，能看到一轮完整的周期怎么起、怎么落。</p>
+
+      <div class="facts">
+        <span><small>数据跨度</small><b><span class="v"><em id="fMonths">248</em></span><i>个月</i></b></span>
+        <span><small>覆盖城市</small><b><span class="v"><em id="fCities">70</em></span><i>个</i></b></span>
+        <span><small>当前月份</small><b><span class="v"><em id="fCur">—</em></span></b></span>
+      </div>
+
+      <!-- 时间轴：整张图的核心控件 -->
+      <section class="block">
+        <header>
+          <small>时间轴</small>
+          <span class="tb-year" id="tbYear">2026</span>
+        </header>
+        <div class="timeline-wrap">
+          <input type="range" id="tbRange" min="0" max="0" value="0" step="1"
+                 aria-label="月份时间轴" />
+          <div class="tb-months" id="tbMonths"></div>
+          <div class="tb-ticks" id="tbTicks"></div>
+        </div>
+        <div class="tb-ctl">
+          <button type="button" id="tbPlay" class="tb-play" title="播放/暂停">▶ 播放</button>
+          <button type="button" data-step="-12" title="上一年">‹‹</button>
+          <button type="button" data-step="-1" title="上一月">‹</button>
+          <button type="button" data-step="1" title="下一月">›</button>
+          <button type="button" data-step="12" title="下一年">››</button>
+        </div>
+        <p class="note" id="tbMilestone"></p>
+      </section>
+
+      <!-- 口径切换 -->
+      <section class="block">
+        <header><small>口径</small></header>
+        <div class="seg" id="segKind">
+          <button type="button" data-v="new" class="active">新建商品住宅</button>
+          <button type="button" data-v="sh">二手住宅</button>
+        </div>
+        <div class="seg" id="segCal">
+          <button type="button" data-v="yoy" class="active">同比（与去年同期）</button>
+          <button type="button" data-v="mom">环比（与上月）</button>
+        </div>
+      </section>
+
+      <!-- 排行 -->
+      <section class="block">
+        <header>
+          <small id="rankTitle">同比涨幅排行</small>
+        </header>
+        <div class="chart" id="rankList"></div>
+        <p class="note" id="rankNote">—</p>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：国家统计局「70 个大中城市商品住宅销售价格变动情况」月度数据（整理自 <a href="https://github.com/hugohe3/70cityprice" target="_blank" rel="noopener">70cityprice</a>）。<b>重要口径</b>：这是<b>价格指数</b>（100 = 持平），不是每平方米单价，<b>不能反推房价金额</b>。省级数值为省内被监测城市的算术平均，只代表监测城市，不代表全省全域；西藏未被纳入 70 城监测，故无数据。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/works/house-price" target="_top">作品介绍</a>
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── 右上：城市/省份详情卡 ───────────────────────────────── -->
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">CITY</small>
+      <div class="dt-actions">
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtSub">—</p>
+    <div class="dt-metrics">
+      <span><small id="dtLb1">同比</small><b><em id="dtV1">—</em></b></span>
+      <span><small id="dtLb2">环比</small><b><em id="dtV2">—</em></b></span>
+      <span><small id="dtLb3">较峰值</small><b><em id="dtV3">—</em></b></span>
+    </div>
+    <section class="dt-desc">
+      <small>同期走势（近 5 年）</small>
+      <div class="spark" id="dtSpark"></div>
+    </section>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <!-- ── 右下：图例 + 粒度切换 ─────────────────────────────── -->
+  <div class="dock">
+    <div class="legend" id="legend"></div>
+    <nav class="strip" id="strip" aria-label="行政区粒度"></nav>
+  </div>
+
+  <!-- ── 左下：图层与底图 ───────────────────────────────────── -->
+  <div class="panel" id="panel">
+    <div class="panel-head" id="panelHead">
+      <span>图层与底图</span>
+      <button type="button" id="panelToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckLabel" checked /><span>城市名称</span></label>
+      <label class="row"><input type="checkbox" id="ckBorder" checked /><span>省界 / 市界</span></label>
+      <label class="row"><input type="checkbox" id="ckGraticule" /><span>经纬网格</span></label>
+      <div class="divider"></div>
+      <div class="bm-title">底图</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" checked /><span>深色</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>矢量路网</span></label>
+      </div>
+      <div class="divider"></div>
+      <p class="panel-note" id="panelNote">
+        色块表示<b>该月的涨跌幅度</b>，不是房价高低。想比较「贵不贵」请换到<b>绝对值参考</b>视角——本图只呈现官方发布的价格指数。
+      </p>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="/maps/_shared/thematic/thematic.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
