@@ -31,9 +31,11 @@ tags: 地理, 地理可视化, 互动地图, 省情, 行政区划, 人口, GDP
 - **跟随年份的目录数字**：切年份时，34 省目录里的人口与 GDP 数字会跟着一起变，不用再逐个页面核对。
 - **可分享的定位链接**：选中某个省后地址栏会带上 `#p/<slug>`，把链接发给别人，打开就是那个省。
 
-![按人均 GDP 着色：内蒙古、江苏、浙江、福建、广东一带与京津沪构成高地，东北与西南部分省份偏低](/maps/cn-provinces/shots/percapita.jpg)
+![province_1](https://blogphoto.planetgis.cn/PicGo/2026-10-01-province_1.jpg)
 
-![按常住人口着色：广东、山东、河南三省构成第一梯队，人口密度的高度集中在东南半壁](/maps/cn-provinces/shots/pop.jpg)
+![province_3](https://blogphoto.planetgis.cn/PicGo/2026-10-01-province_3.jpg)
+
+![province_2](https://blogphoto.planetgis.cn/PicGo/2026-10-01-province_2.jpg)
 
 ## 使用教程
 

@@ -24,6 +24,14 @@ tags: 地理, 地理可视化, 可视化作品
 - **城市级细节**：可聚焦上海、广州、东京、雅加达、迈阿密等典型沿海都市。
 - **时间轴回放**：从工业革命前到现在，再到 2100 年的预测，平滑过渡。
 
+![sealevel_1](https://blogphoto.planetgis.cn/PicGo/2026-10-01-sealevel_1.jpg)
+
+![sealevel_2](https://blogphoto.planetgis.cn/PicGo/2026-10-01-sealevel_2.jpg)
+
+![sealevel_3](https://blogphoto.planetgis.cn/PicGo/2026-10-01-sealevel_3.jpg)
+
+
+
 ## 使用教程
 
 1. 打开实验室首页，地图默认展示全球视角。

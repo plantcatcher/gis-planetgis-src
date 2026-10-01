@@ -26,6 +26,12 @@ tags: 地理, 地理可视化, 地理游戏, 游戏
 - **国家知识百科**：收录 **175 个国家**，轮廓 / 首都 / 人口 / 邻国一查便知——猜完顺手把常识补上。
 - **成就殿堂**：Explorer（完成第一局）、Asian / European Master（答对 20 个不同国家）、World Champion（累计答对 100 国）、On Fire（每日挑战连胜 7 天），把学习变成一场收集。
 
+![cai_1](https://blogphoto.planetgis.cn/PicGo/2026-10-01-cai_1.jpg)
+
+![cai_2](https://blogphoto.planetgis.cn/PicGo/2026-10-01-cai_2.jpg)
+
+
+
 ## 使用教程
 
 1. 打开首页，选「每日挑战」或「经典模式」开始一局。

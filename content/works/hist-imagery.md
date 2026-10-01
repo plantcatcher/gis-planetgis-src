@@ -29,9 +29,9 @@ tags: 地理, 地理可视化, 互动地图, 卫星影像, 城市变迁
 - **切换不闪屏**：换期时新旧两层影像做交叉淡入，而不是先清空再加载，拖动滑块不会一路白屏。
 - **移动端适配**：顶栏自动折行，触屏可直接拖动卷帘把手。
 
-![上海洋山深水港 2014 与 2026：十几年前只有几座小岛散在海面上，如今是连成链的深水码头与堆场](/maps/hist-imagery/shots/yangshan.jpg)
+![xiongan](https://blogphoto.planetgis.cn/PicGo/2026-10-01-xiongan.jpg)
 
-![河北雄安新区 2014 与 2026：右侧影像上已出现成规模、成方格的规划路网与新建片区](/maps/hist-imagery/shots/xiongan.jpg)
+![yangshan](https://blogphoto.planetgis.cn/PicGo/2026-10-01-yangshan.jpg)
 
 ## 使用教程
 

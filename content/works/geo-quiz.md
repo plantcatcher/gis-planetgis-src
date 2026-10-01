@@ -24,6 +24,16 @@ tags: 地理, 地理可视化, 可视化作品, 游戏
 - **即时解析**：答错也会告诉你正确答案与判断线索。
 - **连续闯关**：记录连胜与历史最佳，适合朋友间 PK。
 
+![weixing_1](https://blogphoto.planetgis.cn/PicGo/2026-10-01-weixing_1.jpg)
+
+![weixing_2](https://blogphoto.planetgis.cn/PicGo/2026-10-01-weixing_2.jpg)
+
+![weixing_3](https://blogphoto.planetgis.cn/PicGo/2026-10-01-weixing_3.jpg)
+
+![weixing_4](https://blogphoto.planetgis.cn/PicGo/2026-10-01-weixing_4.jpg)
+
+
+
 ## 使用教程
 
 1. 进入挑战页，系统随机给出一张卫星图。

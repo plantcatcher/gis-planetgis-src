@@ -25,6 +25,14 @@ tags: 地理, 地理可视化, 地理游戏, 游戏
 - **知识卡片**：每放对一块弹出该区域的小知识，把游戏变成一次轻量地理课。
 - **成绩打通**：每局结果自动写入主站「我的学习」档案，在「我的学习」里回顾你的拼图记录。
 
+![pintu_1](https://blogphoto.planetgis.cn/PicGo/2026-10-01-pintu_1.jpg)
+
+![pintu_2](https://blogphoto.planetgis.cn/PicGo/2026-10-01-pintu_2.jpg)
+
+![pintu_3](https://blogphoto.planetgis.cn/PicGo/2026-10-01-pintu_3.jpg)
+
+
+
 ## 使用教程
 
 1. 打开页面，选「练习模式」或「挑战模式」开始一局。

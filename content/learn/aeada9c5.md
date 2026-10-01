@@ -70,7 +70,7 @@ link: https://blog.planetgis.cn/archives/aeada9c5.html
 
 我们观察下方局部图。从北到南，依次是 西北高底、格兰扁山脉、苏格兰低地、南部高地 和 奔宁山脉。海水在这几块高地之间穿行，即将把英国变成**“大英群岛”**。
 
-![英国模拟图](https://img.xiumi.us/xmi/ua/4OqXz/i/269173d831611d68331ff76c559a2bc6-sz_925027.png)
+![英国模拟图](https://blogphoto.planetgis.cn/PicGo/2026-10-01-269173d831611d68331ff76c559a2bc6-sz_925027.png)
 
 南部区域，可以看到贝尔法斯特、都柏林、普雷斯顿、曼彻斯特、诺丁汉、伦敦、南安普敦、普利茅斯，已经沉入海底；伯明翰海拔100+m，此时还算安全。
 
@@ -100,7 +100,7 @@ link: https://blog.planetgis.cn/archives/aeada9c5.html
 
 ![澳大利亚模拟图](https://blogphoto.planetgis.cn/PicGo/2026-03-14-353ae1b4c27d2230768d72bf49916bb5-sz_2182735.png)
 
-![美国模拟图](https://img.xiumi.us/xmi/ua/4OqXz/i/f1727df912e16bd421336c85b4e71d27-sz_8170653.png?x-oss-process=style/xmwx)
+![美国模拟图](https://blogphoto.planetgis.cn/PicGo/2026-10-01-f1727df912e16bd421336c85b4e71d27-sz_8170653.png)
 
 ![印度模拟图](https://blogphoto.planetgis.cn/PicGo/2026-03-14-00fa4f1f6a1accfdb9bdbdd9d53dc05c-sz_5823245.png)
 

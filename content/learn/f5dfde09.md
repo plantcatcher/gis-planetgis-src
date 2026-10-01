@@ -67,7 +67,7 @@ link: https://blog.planetgis.cn/archives/f5dfde09.html
 
 ![img](https://blogphoto.planetgis.cn/PicGo/2026-03-16-e27d4d039842d018d135c04ff2c34953-sz_467153.png)
 
-![img](https://img.xiumi.us/xmi/ua/4OqXz/i/977594bd62b14fce41e8541bfa8a698b-sz_432467.png)
+![img](https://blogphoto.planetgis.cn/PicGo/2026-10-01-977594bd62b14fce41e8541bfa8a698b-sz_432467.png)
 
 ## **3.海平面上升20米**
 

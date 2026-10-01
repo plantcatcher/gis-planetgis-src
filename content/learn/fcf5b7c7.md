@@ -80,6 +80,6 @@ link: https://blog.planetgis.cn/archives/fcf5b7c7.html
 
 ## 三、最后说说
 
-![img](https://img.xiumi.us/xmi/ua/4OqXz/i/60ceb7d214b65a16c862fd1978a92303-sz_6730966.png?x-oss-process=style/xmwx)
+![img](https://blogphoto.planetgis.cn/PicGo/2026-10-01-60ceb7d214b65a16c862fd1978a92303-sz_6730966.png)
 
 这组海平面上升 200 米的全国地形模拟，虽为极端理论假设（现实全球冰盖全融仅升约 66 米），却用直观的地理格局变化，为我们揭开了地形、发展与风险的深层关联，也让我们对海平面上升的影响有了更清晰的认知。感谢能读到这的各位~
