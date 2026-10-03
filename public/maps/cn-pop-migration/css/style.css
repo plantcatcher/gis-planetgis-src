@@ -1,0 +1,56 @@
+/* 中国历史十次人口迁徙 · 专题配色与微调
+   主色取中性青，给 10 次迁徙各自的事件色让出视觉焦点；
+   事件色写在各事件 / 路线的 properties.color 里，章节与时间轴通过 --rc 引用。 */
+:root {
+  --accent: #5cc8d8;
+  --accent-light: #a7e6ef;
+  --accent-dark: #2f9aa8;
+  --accent-soft: rgba(92, 200, 216, 0.14);
+  /* 详情卡半透明：点选任意事件 / 路线 / 城市时，卡片下方仍能透出流向与地形，方便对照 */
+  --panel-solid: rgba(9, 15, 26, 0.55);
+}
+
+/* 详情卡：把毛玻璃再加强一点，隔着卡片读地图也不费劲 */
+.detail {
+  backdrop-filter: blur(18px) saturate(1.25);
+}
+
+/* ── 左栏章节：按「三次空间格局」分组 ── */
+.chap-group { margin-bottom: 14px; }
+.chap-group-h {
+  font-size: 11px; font-weight: 700; color: var(--dim);
+  letter-spacing: .08em; margin: 0 2px 6px;
+  padding-left: 9px; position: relative;
+}
+.chap-group-h::before {
+  content: ''; position: absolute; left: 0; top: 2px; bottom: 2px;
+  width: 3px; border-radius: 2px; background: linear-gradient(var(--accent-light), var(--accent-dark));
+}
+.chapters button { --rc: var(--accent); }
+.chapters button .no {
+  color: var(--rc);
+  border-color: color-mix(in srgb, var(--rc) 42%, transparent);
+}
+.chapters button.active {
+  border-color: color-mix(in srgb, var(--rc) 60%, transparent);
+  background: color-mix(in srgb, var(--rc) 12%, transparent);
+}
+.chapters button.active .no {
+  background: var(--rc); color: #0a0f18; border-color: var(--rc);
+}
+.chapters button.active .tx b { color: #fff; }
+
+/* ── 图例：事件色块加点阴影，在暗底 / 影像上都看得清 ── */
+.legend > span > i { box-shadow: 0 0 6px rgba(0, 0, 0, .4); }
+
+/* ── 图例保持紧凑方块 ────────────────────────────────────────────────
+   13 项图例（10 事件 + 3 角色）若横向一字排开会宽到横跨整个视口底部，
+   限宽后换行成紧凑方块贴右下角；高度设上限兜底，免得矮屏被撑出屏幕。
+   仅限桌面端（≤900px 移动端引擎自己把图例隐藏并从左侧重排，不能在此覆盖）。 */
+@media (min-width: 901px) {
+  .dock { max-width: 300px; }
+  .legend {
+    max-width: 300px;
+    max-height: 42vh; overflow-y: auto; scrollbar-width: thin;
+  }
+}

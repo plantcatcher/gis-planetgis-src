@@ -212,9 +212,38 @@
           "file": "maps/house-price/data/cities-geo.json",
           "features": 70,
           "unit": "个城市边界",
-          "desc": "70 城地级市边界（DataV.GeoAtlas，抽稀 0.012°），直辖市取自国家级完整要素；仅用于市级视角着色"
-        }
-      ]
-    }
-  ]
+        "desc": "70 城地级市边界（DataV.GeoAtlas，抽稀 0.012°），直辖市取自国家级完整要素；仅用于市级视角着色"
+      }
+    ]
+  },
+  {
+    "slug": "cn-pop-migration",
+    "entry": "/maps/cn-pop-migration/index.html",
+    "bbox": [95.0, -12.0, 128.0, 47.0],
+    "crs": "GCJ-02（火星坐标，与高德瓦片对齐）——由城市节点的 WGS84 经纬度转换而来，原始坐标保留在 properties.wgs84 中",
+    "basemap": "高德瓦片：卫星影像 style=6（纯影像无标注）/ 矢量路网 style=7 / 深色无底图（默认）；可叠加省级行政区边界与 5° 经纬网格",
+    "source": "节点坐标为真实城市的公开地理坐标（WGS84）；路线为「起讫城市连线」的关系示意，非历史路径实测线画。十次迁徙事件与代表路线参照中国历史地理通识整理：衣冠南渡 / 安史之乱南迁 / 靖康南迁 / 洪洞大槐树 / 走西口 / 湖广填四川 / 闯关东 / 下南洋 / 河南大逃荒 / 三线建设",
+    "updated": "2026-10-03",
+    "data": [
+      {
+        "file": "maps/cn-pop-migration/data/routes.json",
+        "features": 32,
+        "unit": "条代表路线",
+        "desc": "32 条代表路线：10 个事件各 2–5 条，从迁出地连向迁入地，带事件 / 时段 / 动因 / 里程"
+      },
+      {
+        "file": "maps/cn-pop-migration/data/nodes.json",
+        "features": 38,
+        "unit": "个城市节点",
+        "desc": "38 个迁出地 / 枢纽 / 迁入地城市，带所属事件、角色与原始 WGS84 坐标"
+      },
+      {
+        "file": "maps/cn-pop-migration/data/events.json",
+        "features": 10,
+        "unit": "次迁徙事件",
+        "desc": "10 次迁徙事件元数据：章节、配色、动因、时段、描述与空间格局分组"
+      }
+    ]
+  }
+]
 }

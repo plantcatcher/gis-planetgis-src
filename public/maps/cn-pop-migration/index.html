@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>中国历史十次人口迁徙 · 互动地图</title>
+  <meta name="description" content="从西晋衣冠南渡到三线建设，十次大迁徙串起中国人口从中原向江南、边疆、东北、西南与海外扩展的空间过程：点任一事件看它的流向与动因，点城市看它经历了哪几次迁徙。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <!-- ── 左：介绍栏 ─────────────────────────────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 全网总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-eq"></i>
+      <b>人口迁徙</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> HISTORICAL MIGRATIONS OF CHINA</small>
+      <h1><span>中国历史</span><b>十次人口迁徙</b></h1>
+      <p class="lead">从西晋末年到 20 世纪后期，十次大迁徙串起人口从中原向江南、边疆、东北、西南与海外扩展的空间过程。选任一事件，看它往哪流、为何走。</p>
+
+      <div class="facts">
+        <span><small>迁徙事件</small><b><span class="v"><em>10</em></span><i>次</i></b></span>
+        <span><small>代表路线</small><b><span class="v"><em>32</em></span><i>条</i></b></span>
+        <span><small>迁徙动因</small><b><span class="v"><em>6</em></span><i>类</i></b></span>
+      </div>
+
+      <section class="block">
+        <header><small>三次空间格局</small></header>
+        <div id="chapters" class="chapters"></div>
+        <p class="note">点任意一次迁徙，地图会飞向它的路线，并让亮线沿流向从迁出地走向迁入地。再次点击或按 <b>Esc</b> 退出。</p>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：节点坐标为真实城市的公开地理坐标（WGS84）。<b>路线并非历史路径实测线画</b>——中国历代大迁徙是跨时期、多流向的人口运动，不存在单一年代的权威线画；本图取「起讫城市连线」的关系示意，仅用于地理人文叙事，<b>不作为道路、疆界或勘界依据</b>。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/works/cn-pop-migration" target="_top">作品介绍</a>
+        <a href="/downloads" target="_top">资料下载</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── 右上：详情卡（事件 / 路线 / 城市共用） ────────────────────── -->
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">MIGRATION</small>
+      <div class="dt-actions">
+        <button type="button" id="dtReplay" title="重播动画">↻</button>
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtTagline">—</p>
+    <div class="dt-metrics">
+      <span><small id="dtM1Label">时间</small><b><em id="dtM1">—</em></b></span>
+      <span><small id="dtM2Label">迁出地</small><b><em id="dtM2">—</em></b></span>
+      <span><small id="dtM3Label">代表路线</small><b><em id="dtM3">—</em></b></span>
+    </div>
+    <section class="dt-desc">
+      <small id="dtDescLabel">概述</small>
+      <p id="dtDesc">—</p>
+    </section>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <!-- ── 右下：图例 ─────────────────────────────────────────── -->
+  <div class="dock"><div class="legend" id="legend"></div></div>
+
+  <!-- ── 左下：图层与底图 ───────────────────────────────────── -->
+  <div class="panel" id="panel">
+    <div class="panel-head" id="panelHead">
+      <span>图层与底图</span>
+      <button type="button" id="panelToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckLabel" checked /><span>事件与城市名称</span></label>
+      <label class="row"><input type="checkbox" id="ckRoutes" checked data-toggle-layer="route-casing,route-line" /><span>迁徙路线</span></label>
+      <label class="row"><input type="checkbox" id="ckArrows" checked /><span>流向箭头</span></label>
+      <label class="row"><input type="checkbox" id="ckNodes" checked data-toggle-layer="node-dot" /><span>城市点位</span></label>
+      <label class="row"><input type="checkbox" id="ckBorder" checked /><span>省级行政区边界</span></label>
+      <label class="row"><input type="checkbox" id="ckGraticule" /><span>经纬网格</span></label>
+      <div class="divider"></div>
+      <div class="bm-title">底图</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" /><span>深色</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" checked /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>矢量路网</span></label>
+      </div>
+      <div class="divider"></div>
+      <p class="panel-note">
+        默认<b>卫星影像</b>（已压暗）：看路线如何骑在真实地理骨架上——衣冠南渡循长江下游南下，
+        走西口出长城诸口，闯关东跨山海关，下南洋一路指向东南海域之外。嫌地面纹理抢戏可切回<b>深色</b>。
+      </p>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="/maps/_shared/thematic/thematic.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
