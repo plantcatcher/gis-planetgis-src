@@ -7,8 +7,10 @@
   --accent: #38bdf8;
   --l1: #ef4444;   /* 一级 红 */
   --l2: #38bdf8;   /* 二级 蓝 */
+  --l3: #fbbf24;   /* 三级 橙 */
   --l4: #34d399;   /* 四级 绿 */
   --l5: #9ca3af;   /* 五级 灰 */
+  --l9: #c084fc;   /* 运河 紫 */
   --sat: #64748b;
 }
 * { box-sizing: border-box; }
@@ -26,8 +28,10 @@ html, body { margin: 0; height: 100%; font-family: "PingFang SC", "Microsoft YaH
 }
 .lbl.l1 { color: #fecaca; }
 .lbl.l2 { color: #bae6fd; }
+.lbl.l3 { color: #fde68a; }
 .lbl.l4 { color: #bbf7d0; font-size: 12px; font-weight: 500; }
 .lbl.l5 { color: #e5e7eb; font-size: 11.5px; font-weight: 400; }
+.lbl.l9 { color: #f3e8ff; font-size: 12px; font-weight: 600; letter-spacing: .3px; }
 
 /* 通用面板 */
 .panel {
@@ -71,8 +75,10 @@ html, body { margin: 0; height: 100%; font-family: "PingFang SC", "Microsoft YaH
 .swatch { width: 18px; height: 4px; border-radius: 2px; display: inline-block; flex: 0 0 auto; }
 .swatch.l1 { background: var(--l1); height: 5px; }
 .swatch.l2 { background: var(--l2); height: 3px; }
+.swatch.l3 { background: var(--l3); height: 2.5px; }
 .swatch.l4 { background: var(--l4); height: 2px; }
 .swatch.l5 { background: var(--l5); height: 1.5px; }
+.swatch.l9 { background: repeating-linear-gradient(90deg, var(--l9) 0 3px, transparent 3px 5px); height: 2.5px; }
 .swatch.water { background: rgba(59,130,246,0.55); border: 1px solid #60a5fa; width: 14px; height: 10px; border-radius: 2px; }
 .swatch.dot { background: #cbd5e1; width: 8px; height: 8px; border-radius: 50%; }
 .swatch.dot2 { background: transparent; border: 1px dashed #94a3b8; width: 14px; height: 0; }
@@ -133,10 +139,14 @@ html, body { margin: 0; height: 100%; font-family: "PingFang SC", "Microsoft YaH
 #searchResult li > span:first-child { color: #f8fafc; font-weight: 600; }
 #searchResult li:hover { background: rgba(56,189,248,0.15); }
 #searchResult li .tag { font-size: 10px; padding: 1px 6px; border-radius: 999px; }
+/* 搜索结果里的别名标注，如「汉江 汉水」 */
+#searchResult li .alias { color: var(--muted); font-size: 11px; margin-left: 6px; }
 #searchResult li .tag.l1 { background: rgba(239,68,68,0.2); color: #fecaca; }
 #searchResult li .tag.l2 { background: rgba(56,189,248,0.2); color: #bae6fd; }
+#searchResult li .tag.l3 { background: rgba(251,191,36,0.2); color: #fde68a; }
 #searchResult li .tag.l4 { background: rgba(52,211,153,0.2); color: #bbf7d0; }
 #searchResult li .tag.l5 { background: rgba(156,163,175,0.22); color: #e5e7eb; }
+#searchResult li .tag.l9 { background: rgba(192,132,252,0.22); color: #f3e8ff; }
 #searchResult .empty { color: var(--muted); cursor: default; }
 
 /* 图例色块 + 计数（位于图层与显示面板内） */
@@ -160,12 +170,23 @@ html, body { margin: 0; height: 100%; font-family: "PingFang SC", "Microsoft YaH
 .pop .lv { font-size: 11px; padding: 1px 7px; border-radius: 999px; margin-left: 6px; }
 .pop .lv.l1 { background: rgba(239,68,68,0.25); color: #fecaca; }
 .pop .lv.l2 { background: rgba(56,189,248,0.25); color: #bae6fd; }
+.pop .lv.l3 { background: rgba(251,191,36,0.25); color: #fde68a; }
 .pop .lv.l4 { background: rgba(52,211,153,0.25); color: #bbf7d0; }
 .pop .lv.l5 { background: rgba(156,163,175,0.28); color: #e5e7eb; }
+.pop .lv.l9 { background: rgba(192,132,252,0.28); color: #f3e8ff; }
 .pop .lv.lw { background: rgba(59,130,246,0.28); color: #bfdbfe; }
 .pop table { border-collapse: collapse; margin-top: 4px; }
 .pop td { padding: 2px 0; vertical-align: top; }
 .pop td.k { color: var(--muted); padding-right: 10px; white-space: nowrap; }
+/* 键值两列：键固定宽度并右对齐，值左对齐，数字用等宽字形便于纵向比对 */
+.pop table.kv { width: 100%; }
+.pop table.kv td.k { text-align: right; font-variant-numeric: tabular-nums; }
+.pop table.kv td:not(.k) { font-variant-numeric: tabular-nums; }
+/* 别名可能很长（京杭运河的括注有 20+ 字），允许换行且不撑破卡片 */
+.pop table.kv td:not(.k) { max-width: 190px; word-break: break-word; }
+@media (max-width: 720px) {
+  .pop table.kv td:not(.k) { max-width: 150px; }
+}
 .pop .note { margin-top: 8px; color: var(--muted); font-size: 12px; line-height: 1.6; }
 
 @media (max-width: 720px) {

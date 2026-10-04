@@ -1,11 +1,13 @@
-/* 我国主要河流分布图 · 互动逻辑（一级 / 二级 / 四级 / 五级） */
+/* 我国主要河流分布图 · 互动逻辑（一级 / 二级 / 三级 / 四级 / 五级） */
 (function () {
   "use strict";
 
   var L1_COLOR = "#ef4444";   // 一级 红
   var L2_COLOR = "#38bdf8";   // 二级 蓝
+  var L3_COLOR = "#fbbf24";   // 三级 橙
   var L4_COLOR = "#34d399";   // 四级 绿
   var L5_COLOR = "#9ca3af";   // 五级 灰
+  var L9_COLOR = "#c084fc";   // 运河 紫（人工河道，不参与 1~5 级分级）
 
   // 高德免 key 瓦片（GCJ-02，带 CORS），subdomain 01~04 负载均衡
   function amapTiles(styleId) {
@@ -34,6 +36,9 @@
       { id: "province-line", type: "line", source: "provinces", paint: { "line-color": "#cbd5e1", "line-width": 0.8, "line-opacity": 0.85 } },
       // 水域面（湖泊 / 水库 / 双线河）：默认开启，位于河流线之下
       {
+        // 仍全部绘制（双线河的水面本身是地理事实），但只让「有名字 或 面积 >= 20km²」的
+        // 湖泊可点：721 个面里 693 个是无名双线河河段，中位面积 0.0 km²，
+        // 若全部可点会把整张图的点击都劫持成「无名水域」。
         id: "water-fill", type: "fill", source: "water",
         paint: { "fill-color": "#1d4ed8", "fill-opacity": ["interpolate", ["linear"], ["zoom"], 3, 0.25, 9, 0.5] }
       },
@@ -68,6 +73,18 @@
         }
       },
       {
+        id: "rivers-l3",
+        type: "line",
+        source: "rivers",
+        filter: ["==", ["get", "level"], 3],
+        layout: { "line-cap": "round", "line-join": "round" },
+        paint: {
+          "line-width": ["interpolate", ["linear"], ["zoom"], 3.5, 1.4, 9, 2.8],
+          "line-color": ["case", ["boolean", ["feature-state", "hover"], false], "#fef3c7", L3_COLOR],
+          "line-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.9]
+        }
+      },
+      {
         id: "rivers-l4",
         type: "line",
         source: "rivers",
@@ -89,6 +106,20 @@
           "line-width": ["interpolate", ["linear"], ["zoom"], 5, 0.5, 11, 0.9],
           "line-color": ["case", ["boolean", ["feature-state", "hover"], false], "#e5e7eb", L5_COLOR],
           "line-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.8]
+        }
+      },
+      {
+        // 人工运河：源数据 LEVEL_RIVE=9。用虚线与天然河道区分，宽度略粗以突出国家工程
+        id: "rivers-l9",
+        type: "line",
+        source: "rivers",
+        filter: ["==", ["get", "level"], 9],
+        layout: { "line-cap": "butt", "line-join": "round" },
+        paint: {
+          "line-width": ["interpolate", ["linear"], ["zoom"], 4, 1.6, 10, 3.0],
+          "line-dasharray": [3, 2],
+          "line-color": ["case", ["boolean", ["feature-state", "hover"], false], "#f3e8ff", L9_COLOR],
+          "line-opacity": ["case", ["boolean", ["feature-state", "hover"], false], 1, 0.95]
         }
       }
     ]
@@ -154,20 +185,29 @@
     });
   }
 
-  // 标注显隐阈值：放大到一定程度才显示 4/5 级细支流名称（1/2 级始终显示）
-  var ZOOM_L4 = 5;      // 四级名称出现的最小缩放级别
+  // 标注显隐阈值：放大到一定程度才显示 3/4/5 级细支流名称（1/2 级始终显示）
+  // 三级放得比四、五级早（它是主要支流，全国视图下也需要 recognition），
+  // 但配合下面的碰撞检测避免标注互相压叠。
+  var ZOOM_L3 = 4.2;    // 三级名称出现的最小缩放级别
+  var ZOOM_L4 = 5.2;    // 四级名称出现的最小缩放级别
   var ZOOM_L5 = 7;      // 五级名称出现的最小缩放级别
-  var MAX_LABELS = 300; // 单屏标注上限，避免细支流全开时卡顿
+  var ZOOM_L9 = 4.2;    // 运河名称与三级同档（京杭运河北段在华北平原，很显眼）
+  var MAX_LABELS = 260; // 单屏标注上限，避免细支流全开时卡顿
+  // 标注碰撞：按优先级（1→5 级）依次放置，与已放置标注太近则跳过
+  var LABEL_MIN_DIST = 26;   // px，同级/异级统一阈值，保证不重叠
+  var LABEL_EDGE = 30;       // px，距画布边缘的最小留白
 
   function updateLabels() {
     if (!labelOn) { labelsEl.innerHTML = ""; return; }
     var z = map.getZoom();
-    // 4/5 级名称仅在对应图层开启且缩放到达阈值后显示
+    // 3/4/5 级名称仅在对应图层开启且缩放到达阈值后显示
+    var showL3 = z >= ZOOM_L3 && document.getElementById("chkL3").checked;
     var showL4 = z >= ZOOM_L4 && document.getElementById("chkL4").checked;
     var showL5 = z >= ZOOM_L5 && document.getElementById("chkL5").checked;
+    var showL9 = z >= ZOOM_L9 && document.getElementById("chkL9").checked;
 
     var w = map.getCanvas().clientWidth, h = map.getCanvas().clientHeight;
-    // 视野经纬度范围：先按包围盒剔除，避免对全部 1633 条河逐锚点投影
+    // 视野经纬度范围：先按包围盒剔除，避免对全部要素逐锚点投影
     var bd = map.getBounds();
     var wmin = bd.getWest(), wmax = bd.getEast(), smin = bd.getSouth(), smax = bd.getNorth();
 
@@ -176,12 +216,16 @@
     var cx = w / 2, cy = h / 2;
     var budget = 80000; // 单次更新的投影次数预算，避免极端缩放下拉卡顿
 
-    var html = "", n = 0;
-    for (var i = 0; i < labelData.length && n < MAX_LABELS && budget > 0; i++) {
+    // 先算出每条河的候选锚点，再按「等级优先 + 碰撞检测」择优落标：
+    // 直接按数组顺序输出会让长河的标注被五级小支流挤掉，或彼此重叠成一片。
+    var cands = [];
+    for (var i = 0; i < labelData.length && budget > 0; i++) {
       var d = labelData[i];
-      // 一/二级始终标注；四/五级按缩放级别与图层开关决定
+      // 一/二级始终标注；三/四/五级按缩放级别与图层开关决定
+      if (d.level === 3 && !showL3) continue;
       if (d.level === 4 && !showL4) continue;
       if (d.level === 5 && !showL5) continue;
+      if (d.level === 9 && !showL9) continue;
 
       var bb = d.bbox;
       if (bb[2] < wmin || bb[0] > wmax || bb[3] < smin || bb[1] > smax) continue;   // 视野外
@@ -197,16 +241,57 @@
         for (var k = 0; k < ln.length; k += step) {
           var p = map.project(ln[k]);
           budget--;
-          if (p.x >= 24 && p.x <= w - 24 && p.y >= 16 && p.y <= h - 16) {
+          if (p.x >= LABEL_EDGE && p.x <= w - LABEL_EDGE && p.y >= 16 && p.y <= h - 16) {
             var d2 = (p.x - cx) * (p.x - cx) + (p.y - cy) * (p.y - cy);
             if (d2 < bestD2) { bestD2 = d2; pt = p; }
           }
         }
       }
       if (!pt) continue;
+      cands.push({ d: d, x: pt.x, y: pt.y });
+    }
 
-      var cls = d.level === 1 ? "l1" : (d.level === 2 ? "l2" : (d.level === 4 ? "l4" : "l5"));
-      html += '<div class="lbl ' + cls + '" style="left:' + pt.x + "px;top:" + pt.y + 'px">' + d.name + "</div>";
+    // 优先级：等级小的先放（1→5），同级按离屏幕中心近的先放
+    cands.sort(function (a, b) {
+      // 运河（level 9）优先级最低：它常与天然河道并行，不该挤掉同级天然河的标注
+      var la = a.d.level === 9 ? 90 : a.d.level;
+      var lb = b.d.level === 9 ? 90 : b.d.level;
+      if (la !== lb) return la - lb;
+      var da = (a.x - cx) * (a.x - cx) + (a.y - cy) * (a.y - cy);
+      var db = (b.x - cx) * (b.x - cx) + (b.y - cy) * (b.y - cy);
+      return da - db;
+    });
+
+    // 碰撞检测：网格加速（每 32px 一格），已占用的格内做过距离判定
+    var CELL = LABEL_MIN_DIST;
+    var grid = {};
+    var placed = [];
+    var MIN2 = LABEL_MIN_DIST * LABEL_MIN_DIST;
+    var html = "", n = 0;
+    for (var ci = 0; ci < cands.length && n < MAX_LABELS; ci++) {
+      var c = cands[ci];
+      var gx = Math.floor(c.x / CELL), gy = Math.floor(c.y / CELL);
+      var hit = false;
+      for (var ax = gx - 1; ax <= gx + 1 && !hit; ax++) {
+        for (var ay = gy - 1; ay <= gy + 1 && !hit; ay++) {
+          var bucket = grid[ax + "," + ay];
+          if (!bucket) continue;
+          for (var bi = 0; bi < bucket.length; bi++) {
+            var o = bucket[bi];
+            var ddx = o[0] - c.x, ddy = o[1] - c.y;
+            if (ddx * ddx + ddy * ddy < MIN2) { hit = true; break; }
+          }
+        }
+      }
+      if (hit) continue;
+      (grid[gx + "," + gy] || (grid[gx + "," + gy] = [])).push([c.x, c.y]);
+      placed.push(c);
+    }
+
+    for (var pi = 0; pi < placed.length; pi++) {
+      var q = placed[pi];
+      var cls = "l" + q.d.level;   // 1/2/3/4/5/9 均已定义同名样式
+      html += '<div class="lbl ' + cls + '" style="left:' + q.x + "px;top:" + q.y + 'px">' + esc(q.d.name) + "</div>";
       n++;
     }
     labelsEl.innerHTML = html;
@@ -219,39 +304,83 @@
   }
 
   // ---------- 信息弹窗（悬停/点击共用，单一实例）----------
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+    });
+  }
+  function row(k, v) {
+    // 空值不占行：弹窗高度随信息量自适应，不留空档
+    if (v === "" || v == null) return "";
+    return '<tr><td class="k">' + k + "</td><td>" + v + "</td></tr>";
+  }
+  function num(v, unit) {
+    return (v && Number(v) > 0) ? (Math.round(Number(v)).toLocaleString() + " " + unit) : "—";
+  }
+
+  // 河流弹窗字段设计：
+  //   干流归属 —— 最有用。渭河→黄河、赣江→长江，一眼看出这条河最终流进哪条大河
+  //   别名     —— 数据源里「汉江(汉水)」「京杭运河(里运河)」的同义名，检索/认知都有用
+  //   河长     —— 规模感（数据源无长度字段，由几何折线算得）
+  //   干流跨度 —— 反映流经范围（东西向）
+  //   河段数   —— 1 段=数据源里是连续单段；多段说明被水库/河道切割，非断续
+  //   拼音     —— 便于搜索框回显
+  // 已按要求去掉「国标码」：源数据 GBCODE 与河名无稳定对应（见 build_cn_rivers.py 注释），
+  // 是内部编码，展示了反而误导。
   function popupHTML(p) {
-    var lv = p.levelText || (p.level === 1 ? "一级河流" : (p.level === 2 ? "二级河流" : p.level + "级河流"));
-    var len = (p.lengthKm && p.lengthKm > 0) ? (Number(p.lengthKm).toLocaleString() + " km") : "—";
-    var gb = p.gbcode ? String(p.gbcode) : "—";
+    var lv = p.levelText || (p.level + "级河流");
+    var isTrunk = p.level === 1;
+    var isCanal = p.level === 9;
+    var rows = "";
+    if (isCanal) {
+      rows += row("类　型", "人工运河（源数据 LEVEL_RIVE=9）");
+    } else {
+      rows += row("干流归属", p.basin
+        ? (isTrunk ? p.basin + "（本流为一级干流）" : "汇入 " + p.basin)
+        : (isTrunk ? "一级干流" : "—"));
+    }
+    rows += row("别　名", p.alias ? esc(p.alias) : "");
+    rows += row("河　长", num(p.lengthKm, "km"));
+    rows += row("干流跨度", num(p.spanKm, "km"));
+    rows += row("河段数", p.segCount ? (Number(p.segCount) + " 段") : "");
+    rows += row("级　别", p.levelText || lv);
+    rows += row("拼　音", p.pinyin ? esc(p.pinyin) : "");
     return '<div class="pop">' +
-      "<h3>" + p.name + '<span class="lv l' + p.level + '">' + lv + "</span></h3>" +
-      "<table>" +
-      '<tr><td class="k">分级</td><td>' + (p.levelText || lv) + "</td></tr>" +
-      '<tr><td class="k">国标码</td><td>' + gb + "</td></tr>" +
-      '<tr><td class="k">估算河长</td><td>' + len + "</td></tr>" +
-      "</table>" +
+      "<h3>" + esc(p.name) + '<span class="lv l' + p.level + '">' + esc(lv) + "</span></h3>" +
+      '<table class="kv">' + rows + "</table>" +
       "</div>";
   }
 
-  // 水域面信息弹窗（点击水域面时显示）
+  // 水域面弹窗：面积取源数据 AREA 字段（万 km² × 10000），已核对青海湖 4490 / 太湖 2240
   function waterPopupHTML(p) {
-    var area = (p.areaKm2 && p.areaKm2 > 0) ? (Number(p.areaKm2).toLocaleString() + " km²") : "—";
+    var unnamed = !p.name || p.name === "未命名水域";
+    var rows = "";
+    rows += row("类　型", p.lakeLevelText ? (p.lakeLevelText + "湖泊 / 水库") : "湖泊 / 水库 / 双线河");
+    rows += row("面　积", num(p.areaKm2, "km²"));
+    rows += row("水面片数", p.partCount ? (Number(p.partCount) + " 片") : "");
+    rows += row("名　称", unnamed ? "无名（本图未收录名称）" : esc(p.name));
     return '<div class="pop">' +
-      "<h3>" + (p.name || "未命名水域") + '<span class="lv lw">水域面</span></h3>' +
-      "<table>" +
-      '<tr><td class="k">类型</td><td>' + (p.kind || "水域") + "</td></tr>" +
-      '<tr><td class="k">面积</td><td>' + area + "</td></tr>" +
-      '<tr><td class="k">国标码</td><td>' + (p.gbcode ? String(p.gbcode) : "—") + "</td></tr>" +
-      "</table>" +
+      "<h3>" + esc(unnamed ? "无名水域" : p.name) + '<span class="lv lw">水域面</span></h3>' +
+      '<table class="kv">' + rows + "</table>" +
       "</div>";
   }
 
   var popup = null, popupFid = null, pinned = false;
+  function validLngLat(v) {
+    return v && isFinite(v.lng) && isFinite(v.lat) ? v : null;
+  }
   function showPopup(props, lngLat, html) {
-    if (popup && popupFid === props.fid) { popup.setLngLat(lngLat); return; }
+    // 兜底：事件对象缺 lngLat 时（如自动化脚本 fire('click', {point})）退回要素自身坐标，
+    // 避免 setLngLat 抛错导致整段交互中断
+    var ll = validLngLat(lngLat);
+    if (!ll) {
+      var bb = props.bbox;
+      ll = (bb && isFinite(bb[0])) ? { lng: (bb[0] + bb[2]) / 2, lat: (bb[1] + bb[3]) / 2 } : map.getCenter();
+    }
+    if (popup && popupFid === props.fid) { popup.setLngLat(ll); return; }
     if (popup) popup.remove();
     popup = new maplibregl.Popup({ offset: 12, closeButton: true, closeOnClick: false })
-      .setLngLat(lngLat)
+      .setLngLat(ll)
       .setHTML(html || popupHTML(props))
       .addTo(map);
     popup.on("close", function () { popup = null; popupFid = null; pinned = false; });
@@ -261,7 +390,7 @@
 
   // ---------- 吸附拾取（半径查询 + 最近要素）----------
   var HOVER_RADIUS = 16;       // 像素：鼠标附近多少范围内都能“吸附”到河流
-  var RIVER_LAYERS = ["rivers-l1", "rivers-l2", "rivers-l4", "rivers-l5"];
+  var RIVER_LAYERS = ["rivers-l1", "rivers-l2", "rivers-l3", "rivers-l4", "rivers-l5", "rivers-l9"];
 
   function geoLines(geom) {
     if (!geom) return [];
@@ -291,6 +420,20 @@
           var d = ptSegDist(px, py, a.x, a.y, b.x, b.y);
           if (d < bestD) { bestD = d; best = features[i]; }
         }
+      }
+    }
+    return best;
+  }
+  // 指针到某河流要素几何线的最短像素距离
+  function riverDist(f, point) {
+    var lines = geoLines(f.geometry);
+    var best = Infinity;
+    for (var l = 0; l < lines.length; l++) {
+      var ln = lines[l];
+      for (var j = 1; j < ln.length; j++) {
+        var a = map.project(ln[j - 1]), b = map.project(ln[j]);
+        var d = ptSegDist(point.x, point.y, a.x, a.y, b.x, b.y);
+        if (d < best) best = d;
       }
     }
     return best;
@@ -325,26 +468,33 @@
       }
     });
 
-    // 点击：带吸附半径的拾取；命中则钉住弹窗，否则收起
+    // 点击：水域面与河流在入湖口/河口处大量重叠（赣江入鄱阳湖等），
+    // 因此按「谁离指针更近」取舍，而不是固定优先级 ——
+    // 固定优先水域会让整张图都被 721 个水面（多数是无名双线河）劫持，点哪儿都是水域。
     map.on("click", function (e) {
       var f = queryRivers(e.point);
+      var wf = map.queryRenderedFeatures(e.point, { layers: ["water-fill"] }).filter(function (x) {
+        var p = x.properties || {};
+        // 只让「有名字 或 面积 >= 20km²」的水域可点：721 个面里 693 个是无名双线河河段
+        // （中位面积 0.0 km²），全放行会把整张图的点击劫持成「无名水域」
+        return p.named === 1 || (p.areaKm2 >= 20);
+      });
+      // 河与湖在入湖口重叠时，若指针明确压在河线上（<=4px）算点河，否则算点湖。
+      // 否则鄱阳湖、青海湖这类被入湖干流穿过的湖，用户永远点不到湖本身。
+      if (f && wf.length && riverDist(f, e.point) > 4) f = null;
       if (f) {
         if (hovered && hovered !== f.properties.fid) map.setFeatureState({ source: "rivers", id: hovered }, { hover: false });
         hovered = f.properties.fid;
         map.setFeatureState({ source: "rivers", id: hovered }, { hover: true });
         showPopup(f.properties, e.lngLat);
         pinned = true;
+      } else if (wf.length) {
+        var wp = wf[0].properties;
+        var wpt = [Number(wp.lng), Number(wp.lat)];
+        showPopup(wp, isFinite(wpt[0]) && isFinite(wpt[1]) ? wpt : e.lngLat, waterPopupHTML(wp));
+        pinned = true;
       } else {
-        // 未命中河流时，尝试点击水域面（湖泊 / 水库 / 双线河）
-        var wf = map.queryRenderedFeatures(e.point, { layers: ["water-fill"] });
-        if (wf.length) {
-          var wp = wf[0].properties;
-          var wpt = [Number(wp.lng), Number(wp.lat)];
-          showPopup(wp, isFinite(wpt[0]) && isFinite(wpt[1]) ? wpt : e.lngLat, waterPopupHTML(wp));
-          pinned = true;
-        } else {
-          removePopup();
-        }
+        removePopup();
       }
     });
   }
@@ -357,13 +507,16 @@
     var ql = q.toLowerCase();
     var hits = allRivers.filter(function (r) {
       var p = r.properties;
+      // 别名也纳入检索：搜「汉水」能找到汉江，搜「里运河」能找到京杭运河
       return (p.name && p.name.indexOf(q) >= 0) ||
+             (p.alias && p.alias.indexOf(q) >= 0) ||
              (p.pinyin && p.pinyin.toLowerCase().indexOf(ql) >= 0);
     }).slice(0, 30);
     if (!hits.length) { searchResult.innerHTML = '<li class="empty">无匹配河流</li>'; return; }
     searchResult.innerHTML = hits.map(function (r) {
       var p = r.properties;
-      return '<li data-fid="' + p.fid + '"><span>' + p.name + '</span>' +
+      var sub = p.alias ? '<span class="alias">' + esc(p.alias) + "</span>" : "";
+      return '<li data-fid="' + p.fid + '"><span>' + esc(p.name) + sub + "</span>" +
              '<span class="tag l' + p.level + '">' + (p.levelText || p.level) + "</span></li>";
     }).join("");
   }
@@ -383,8 +536,10 @@
   function setVis(id, on) { if (map.getLayer(id)) map.setLayoutProperty(id, "visibility", on ? "visible" : "none"); }
   document.getElementById("chkL1").addEventListener("change", function () { setVis("rivers-l1", this.checked); requestLabelUpdate(); updateCount(); });
   document.getElementById("chkL2").addEventListener("change", function () { setVis("rivers-l2", this.checked); requestLabelUpdate(); updateCount(); });
+  document.getElementById("chkL3").addEventListener("change", function () { setVis("rivers-l3", this.checked); requestLabelUpdate(); updateCount(); });
   document.getElementById("chkL4").addEventListener("change", function () { setVis("rivers-l4", this.checked); requestLabelUpdate(); updateCount(); });
   document.getElementById("chkL5").addEventListener("change", function () { setVis("rivers-l5", this.checked); requestLabelUpdate(); updateCount(); });
+  document.getElementById("chkL9").addEventListener("change", function () { setVis("rivers-l9", this.checked); requestLabelUpdate(); updateCount(); });
   document.getElementById("chkWater").addEventListener("change", function () {
     setVis("water-fill", this.checked);
     setVis("water-line", this.checked);
@@ -463,9 +618,12 @@
     function cnt(lv) { return allRivers.filter(function (r) { return r.properties.level === lv; }).length; }
     var n1 = document.getElementById("chkL1").checked ? cnt(1) : 0;
     var n2 = document.getElementById("chkL2").checked ? cnt(2) : 0;
+    var n3 = document.getElementById("chkL3").checked ? cnt(3) : 0;
     var n4 = document.getElementById("chkL4").checked ? cnt(4) : 0;
     var n5 = document.getElementById("chkL5").checked ? cnt(5) : 0;
-    document.getElementById("cnt").textContent = "当前显示 " + (n1 + n2 + n4 + n5) + " 条（一级 " + n1 + " / 二级 " + n2 + " / 四级 " + n4 + " / 五级 " + n5 + "）";
+    var n9 = document.getElementById("chkL9").checked ? cnt(9) : 0;
+    document.getElementById("cnt").textContent = "当前显示 " + (n1 + n2 + n3 + n4 + n5 + n9) +
+      " 条（一级 " + n1 + " / 二级 " + n2 + " / 三级 " + n3 + " / 四级 " + n4 + " / 五级 " + n5 + " / 运河 " + n9 + "）";
   }
 
   // ---------- 启动 ----------

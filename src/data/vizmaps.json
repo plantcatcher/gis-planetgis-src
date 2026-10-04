@@ -12,18 +12,18 @@
       ],
       "crs": "GCJ-02（火星坐标，与高德瓦片对齐）",
       "basemap": "高德瓦片：卫星影像 style=6（纯影像无标注）/ 矢量路网 style=7 / 无底图",
-      "source": "国家基础地理信息 1:100 万水系数据（LEVEL_RIVE / LEVEL 字段分级）",
-      "updated": "2026-09-25",
+      "source": "国家基础地理信息 1:100 万水系数据（LEVEL_RIVE / LEVEL 字段分级；LEVEL_RIVE=9 为人工运河标记，非九级河）",
+      "updated": "2026-10-04",
       "data": [
         {
           "file": "maps/cn-rivers/data/rivers.json",
-          "features": 1633,
-          "desc": "河流线：一级 25 / 二级 25 / 四级 158 / 五级 1425"
+          "features": 1681,
+          "desc": "河流线：一级 25 / 二级 25 / 三级 47 / 四级 157 / 五级 1424 / 人工运河 3"
         },
         {
           "file": "maps/cn-rivers/data/water-areas.json",
-          "features": 812,
-          "desc": "水域面：湖泊 / 水库 / 双线河"
+          "features": 721,
+          "desc": "水域面：湖泊 / 水库 / 双线河（同名湖泊已按名合并）"
         },
         {
           "file": "maps/_shared/china-provinces.json",
