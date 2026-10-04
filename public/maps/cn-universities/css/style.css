@@ -1,0 +1,51 @@
+/* 中国高校分布地图 · 专题样式
+   基于 _shared/thematic/thematic.css，仅做换肤与专属控件。 */
+
+:root {
+  /* 学术蓝紫，呼应「高校 / 知识」气质，与红橙蓝的院校层级色区分 */
+  --accent: #6c8cff;
+  --accent-light: #a9bcff;
+  --accent-dark: #4a6ad6;
+  --accent-soft: rgba(108, 140, 255, 0.14);
+}
+
+/* 4 项统计（普通高校 / 985 / 211 / 军校）一行放下，避免第四项换行 */
+.facts { grid-template-columns: repeat(4, 1fr); }
+.facts > span + span { padding-left: 8px; }
+.facts .v { font-size: 12.5px; }
+
+/* 省份排行条：按高校总数着色（与省级色阶同语义） */
+.chart { gap: 3px; }
+.chart-row { grid-template-columns: var(--nm-w, 58px) 1fr var(--vl-w, 54px); padding: 3px 5px; }
+.chart-row .nm { font-size: 12px; }
+.chart-row .bar { height: 7px; }
+.chart-row .vl { font-size: 11.5px; }
+
+/* 院校类别分段按钮 */
+.seg { display: flex; gap: 3px; padding: 2px; border-radius: 8px; background: rgba(255,255,255,.05); margin-bottom: 8px; }
+.seg button {
+  flex: 1 1 0; font: inherit; font-size: 11.5px; color: var(--muted); cursor: pointer;
+  background: transparent; border: 0; border-radius: 6px; padding: 6px 4px;
+  transition: background .16s, color .16s; white-space: nowrap;
+}
+.seg button:hover { color: var(--text); }
+.seg button.active { background: var(--accent); color: #04122e; font-weight: 700; }
+
+/* 图例：省级分档 + 院校类别，两列呈现 */
+.legend { gap: 6px 14px; max-width: 240px; }.legend .lg-cap { font-size: 10px; color: var(--dim); letter-spacing: .04em; width: 100%; margin-bottom: 2px; }
+.legend .lg-row { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
+.legend .lg-row i { width: 12px; height: 12px; border-radius: 3px; display: block; flex: 0 0 auto; }
+.legend .lg-row s { width: 9px; height: 9px; border-radius: 50%; display: block; text-decoration: none; }
+
+/* 详情卡顶部色条按选中对象切换 */
+.detail { border-top: 3px solid var(--rc, var(--accent)); }
+.detail > header small { color: var(--rc, var(--accent)); }
+.strip button { --rc: var(--accent); }
+
+/* 移动端 */
+@media (max-width: 900px) {
+  .seg button { padding: 7px 4px; font-size: 11px; }
+  .facts { grid-template-columns: repeat(4, 1fr); }
+  .facts em { font-size: 16px; }
+  .legend { max-width: none; }
+}

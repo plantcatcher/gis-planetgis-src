@@ -1,0 +1,262 @@
+{
+ "updated": "2023-06-15",
+ "source": "教育部《全国普通高等学校名单》（截至 2023-06-15，合计 2820 所）",
+ "eliteSource": "211 工程（116 所，含 39 所 985）+ 主要军事院校，人工整理",
+ "provinces": [
+  {
+   "name": "江苏",
+   "total": 168,
+   "n985": 2,
+   "n211": 11,
+   "nMili": 1,
+   "nDouble": 11
+  },
+  {
+   "name": "河南",
+   "total": 168,
+   "n985": 0,
+   "n211": 1,
+   "nMili": 1,
+   "nDouble": 1
+  },
+  {
+   "name": "广东",
+   "total": 162,
+   "n985": 2,
+   "n211": 4,
+   "nMili": 0,
+   "nDouble": 4
+  },
+  {
+   "name": "山东",
+   "total": 156,
+   "n985": 2,
+   "n211": 3,
+   "nMili": 2,
+   "nDouble": 3
+  },
+  {
+   "name": "湖南",
+   "total": 137,
+   "n985": 3,
+   "n211": 4,
+   "nMili": 1,
+   "nDouble": 4
+  },
+  {
+   "name": "四川",
+   "total": 137,
+   "n985": 2,
+   "n211": 5,
+   "nMili": 1,
+   "nDouble": 5
+  },
+  {
+   "name": "湖北",
+   "total": 132,
+   "n985": 2,
+   "n211": 7,
+   "nMili": 2,
+   "nDouble": 7
+  },
+  {
+   "name": "河北",
+   "total": 128,
+   "n985": 0,
+   "n211": 2,
+   "nMili": 0,
+   "nDouble": 2
+  },
+  {
+   "name": "安徽",
+   "total": 121,
+   "n985": 1,
+   "n211": 3,
+   "nMili": 1,
+   "nDouble": 3
+  },
+  {
+   "name": "辽宁",
+   "total": 114,
+   "n985": 2,
+   "n211": 4,
+   "nMili": 1,
+   "nDouble": 4
+  },
+  {
+   "name": "浙江",
+   "total": 109,
+   "n985": 1,
+   "n211": 1,
+   "nMili": 0,
+   "nDouble": 1
+  },
+  {
+   "name": "江西",
+   "total": 108,
+   "n985": 0,
+   "n211": 1,
+   "nMili": 1,
+   "nDouble": 1
+  },
+  {
+   "name": "陕西",
+   "total": 97,
+   "n985": 3,
+   "n211": 8,
+   "nMili": 5,
+   "nDouble": 8
+  },
+  {
+   "name": "北京",
+   "total": 92,
+   "n985": 8,
+   "n211": 26,
+   "nMili": 1,
+   "nDouble": 26
+  },
+  {
+   "name": "福建",
+   "total": 89,
+   "n985": 1,
+   "n211": 2,
+   "nMili": 0,
+   "nDouble": 2
+  },
+  {
+   "name": "云南",
+   "total": 88,
+   "n985": 0,
+   "n211": 1,
+   "nMili": 0,
+   "nDouble": 1
+  },
+  {
+   "name": "广西",
+   "total": 87,
+   "n985": 0,
+   "n211": 1,
+   "nMili": 1,
+   "nDouble": 1
+  },
+  {
+   "name": "山西",
+   "total": 83,
+   "n985": 0,
+   "n211": 1,
+   "nMili": 0,
+   "nDouble": 1
+  },
+  {
+   "name": "黑龙江",
+   "total": 78,
+   "n985": 1,
+   "n211": 4,
+   "nMili": 0,
+   "nDouble": 4
+  },
+  {
+   "name": "贵州",
+   "total": 77,
+   "n985": 0,
+   "n211": 1,
+   "nMili": 0,
+   "nDouble": 1
+  },
+  {
+   "name": "重庆",
+   "total": 71,
+   "n985": 1,
+   "n211": 2,
+   "nMili": 2,
+   "nDouble": 2
+  },
+  {
+   "name": "上海",
+   "total": 68,
+   "n985": 4,
+   "n211": 10,
+   "nMili": 1,
+   "nDouble": 10
+  },
+  {
+   "name": "吉林",
+   "total": 66,
+   "n985": 1,
+   "n211": 3,
+   "nMili": 1,
+   "nDouble": 3
+  },
+  {
+   "name": "新疆",
+   "total": 62,
+   "n985": 0,
+   "n211": 2,
+   "nMili": 0,
+   "nDouble": 2
+  },
+  {
+   "name": "天津",
+   "total": 56,
+   "n985": 2,
+   "n211": 3,
+   "nMili": 1,
+   "nDouble": 3
+  },
+  {
+   "name": "内蒙古",
+   "total": 54,
+   "n985": 0,
+   "n211": 1,
+   "nMili": 0,
+   "nDouble": 1
+  },
+  {
+   "name": "甘肃",
+   "total": 50,
+   "n985": 1,
+   "n211": 1,
+   "nMili": 0,
+   "nDouble": 1
+  },
+  {
+   "name": "海南",
+   "total": 22,
+   "n985": 0,
+   "n211": 1,
+   "nMili": 0,
+   "nDouble": 1
+  },
+  {
+   "name": "宁夏",
+   "total": 21,
+   "n985": 0,
+   "n211": 1,
+   "nMili": 0,
+   "nDouble": 1
+  },
+  {
+   "name": "青海",
+   "total": 12,
+   "n985": 0,
+   "n211": 1,
+   "nMili": 0,
+   "nDouble": 1
+  },
+  {
+   "name": "西藏",
+   "total": 7,
+   "n985": 0,
+   "n211": 1,
+   "nMili": 0,
+   "nDouble": 1
+  }
+ ],
+ "summary": {
+  "univPoints": 136,
+  "n985": 39,
+  "n211": 116,
+  "nMili": 23,
+  "totalAll": 2820
+ }
+}

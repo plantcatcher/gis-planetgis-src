@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>中国高校分布地图 · 2820 所普通高校与精英院校地理格局</title>
+  <meta name="description" content="教育部 2023 年全国 2820 所普通高校分布：省级按高校总数分档着色，叠加 985 / 211 / 军事院校点位，可筛选、可点击查看省份与院校详情。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <!-- ── 左：介绍栏 ─────────────────────────────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 全国总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-eq"></i>
+      <b>中国高校分布地图</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> UNIVERSITIES · 2023</small>
+      <h1><span>中国高校</span><b>分布地图</b></h1>
+      <p class="lead">教育部 2023 年全国 <b>2820 所普通高校</b>，被摊在地图上：省级区块按高校总数分档着色，再叠加 <b>985 / 211 / 军事院校</b> 的精确点位。哪个省是高等教育高地，一目了然。</p>
+
+      <div class="facts">
+        <span><small>普通高校</small><b><span class="v"><em id="fTotal">2820</em></span><i>所</i></b></span>
+        <span><small>985 工程</small><b><span class="v"><em id="f985">39</em></span><i>所</i></b></span>
+        <span><small>211 工程</small><b><span class="v"><em id="f211">116</em></span><i>所</i></b></span>
+        <span><small>军事院校</small><b><span class="v"><em id="fMili">23</em></span><i>所</i></b></span>
+      </div>
+
+      <!-- 分类筛选 -->
+      <section class="block">
+        <header><small>院校类别</small></header>
+        <div class="seg" id="segCat">
+          <button type="button" data-v="all" class="active">全部院校</button>
+          <button type="button" data-v="985">985 工程</button>
+          <button type="button" data-v="211">211 工程</button>
+          <button type="button" data-v="mili">军事院校</button>
+        </div>
+        <p class="note" id="catNote">显示全部入选院校点位（颜色按最高层级：985 红 / 211 橙 / 军校 蓝）。</p>
+      </section>
+
+      <!-- 省份排行 -->
+      <section class="block">
+        <header><small id="rankTitle">普通高校数量排行</small></header>
+        <div class="chart" id="rankList"></div>
+        <p class="note" id="rankNote">—</p>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：省级总数取自教育部《全国普通高等学校名单》（截至 2023-06-15，合计 2820 所）；院校点位为公开的 <b>211 工程（116 所，含 39 所 985）</b> 与主要军事院校，城市坐标人工整理。<b>口径说明</b>：省级区块表示「普通高校总数」（本科 + 高职专科），不是「本科院校数」；点位是精英院校抽样，<b>不代表全省高校全集</b>。港澳台高校未计入。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/works/cn-universities" target="_top">作品介绍</a>
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── 右上：省份 / 院校详情卡 ─────────────────────────────── -->
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">PROVINCE</small>
+      <div class="dt-actions">
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtSub">—</p>
+    <div class="dt-metrics">
+      <span><small id="dtLb1">985</small><b><em id="dtV1">—</em></b></span>
+      <span><small id="dtLb2">211</small><b><em id="dtV2">—</em></b></span>
+      <span><small id="dtLb3">军校</small><b><em id="dtV3">—</em></b></span>
+    </div>
+    <section class="dt-desc">
+      <small id="dtDescLb">分布解读</small>
+      <p id="dtDesc">—</p>
+    </section>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <!-- ── 右下：图例 ─────────────────────────────────────────── -->
+  <div class="dock">
+    <div class="legend" id="legend"></div>
+  </div>
+
+  <!-- ── 左下：图层与底图 ───────────────────────────────────── -->
+  <div class="panel" id="panel">
+    <div class="panel-head" id="panelHead">
+      <span>图层与底图</span>
+      <button type="button" id="panelToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckUniv" checked /><span>院校点位</span></label>
+      <label class="row"><input type="checkbox" id="ckLabel" checked /><span>省份名称</span></label>
+      <label class="row"><input type="checkbox" id="ckBorder" checked /><span>省界</span></label>
+      <label class="row"><input type="checkbox" id="ckGraticule" /><span>经纬网格</span></label>
+      <div class="divider"></div>
+      <div class="bm-title">底图</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" checked /><span>深色</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>矢量路网</span></label>
+      </div>
+      <div class="divider"></div>
+      <p class="panel-note" id="panelNote">
+        色块表示<b>该省的普通高校总数</b>（红 ≥150 / 橙 100–149 / 绿 50–99 / 蓝 1–49）。点位是 <b>985 / 211 / 军校</b> 精英院校抽样，不代表全省高校全集。
+      </p>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="/maps/_shared/thematic/thematic.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

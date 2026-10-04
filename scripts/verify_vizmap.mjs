@@ -39,7 +39,7 @@ const OUT = arg('out', `_shots/${slug}`);
 const PROF = `_g/prof_verify_${slug}`;
 const URL_ = `${BASE}/maps/${slug}/index.html`;
 
-if (!process.env.KEEP_PROFILE) fs.rmSync(PROF, { recursive: true, force: true });
+if (!process.env.KEEP_PROFILE) { try { fs.rmSync(PROF, { recursive: true, force: true }); } catch (_) {} }
 fs.mkdirSync(OUT, { recursive: true });
 
 const child = spawn(CHROME, [
@@ -155,7 +155,7 @@ if (CLICK || CLICK_AT) {
       })()`).then((a) => a.map(Math.round));
   const [cx, cy] = pt;
   const r = await evalJs(`(function(){
-    window.__map.fire('click', { point: { x: ${cx}, y: ${cy} } });
+    window.__map.fire('click', { point: new maplibregl.Point(${cx}, ${cy}) });
     return true;
   })()`);
   await sleep(3000);

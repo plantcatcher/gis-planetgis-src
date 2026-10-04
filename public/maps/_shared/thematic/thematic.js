@@ -308,7 +308,15 @@
   Instance.prototype.pad = function () { return isMobile() ? 14 : 0; };
   Instance.prototype.pick = function (point, layers, pad) {
     var p = (pad === undefined ? this.pad() : pad);
-    var box = p > 0 ? [[point.x - p, point.y - p], [point.x + p, point.y + p]] : point;
+    /* 归一化点：MapLibre 的 queryRenderedFeatures 只认 Point 实例或 [x,y] 数组；
+       普通 {x,y} 对象会被当成「查全部」返回整层导致命中错乱。
+       这里统一抽取成数值坐标，真实点击传来的 Point 行为不变。 */
+    var px, py;
+    if (point && point instanceof Array) { px = point[0]; py = point[1]; }
+    else if (point && typeof point.x === 'number') { px = point.x; py = point.y; }
+    else { px = NaN; py = NaN; }
+    if (px == null || isNaN(px) || py == null || isNaN(py)) return null;
+    var box = p > 0 ? [[px - p, py - p], [px + p, py + p]] : [px, py];
     var fs = this.map.queryRenderedFeatures(box, { layers: layers });
     return fs.length ? fs[0] : null;
   };

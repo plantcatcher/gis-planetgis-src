@@ -244,6 +244,34 @@
         "desc": "10 次迁徙事件元数据：章节、配色、动因、时段、描述与空间格局分组"
       }
     ]
+  },
+  {
+    "slug": "cn-universities",
+    "entry": "/maps/cn-universities/index.html",
+    "bbox": [
+      73.0,
+      17.5,
+      135.5,
+      54.5
+    ],
+    "crs": "CGCS2000（≈WGS84，_shared/china-provinces.json 原始坐标）——院校点位为城市中心坐标 WGS84 手工录入，与省界同坐标系；叠加高德瓦片时存在约500m的 GCJ-02 系统偏移，省级轮廓下不可见（全站地图同此口径）",
+    "basemap": "高德瓦片：矢量路网 style=7 / 卫星影像 style=6 / 深色无底图（默认）；可叠加省界与5° 经纬网格",
+    "source": "省级普通高校总数取教育部 2023-06-15 全国高等学校名单（合计 2820 所）；精英院校点位为自建清单：211 工程 116 所（含 39 所 985）、军事院校 23 所，同城多校以黄金角螺旋抖散防点位重叠。院校为地理分布示意，非精确校址坐标",
+    "updated": "2026-10-04",
+    "data": [
+      {
+        "file": "maps/cn-universities/data/universities.json",
+        "features": 136,
+        "unit": "所精英院校",
+        "desc": "136 个院校点位：39 所 985 / 116 所 211 / 23 所军事院校，带城市、所属省与是否重叠标记"
+      },
+      {
+        "file": "maps/cn-universities/data/provinces.json",
+        "features": 31,
+        "unit": "个省级区",
+        "desc": "31 个省级区的普通高校总数（着色分档依据）与 985 / 211 /军校分项计数"
+      }
+    ]
   }
 ]
 }
