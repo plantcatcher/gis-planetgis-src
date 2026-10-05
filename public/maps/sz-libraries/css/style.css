@@ -1,0 +1,287 @@
+/* 深圳图书馆分布地图 · 专题样式
+   基于 _shared/thematic/thematic.css，仅做换肤与专属控件。
+   配色取「书页暖黄 + 墨蓝」，与红橙绿的藏量色阶区分开。
+
+   ⚠️ 静态页（介绍页 / 目录页）只引本文件、不引 thematic.css，
+   所以 --muted / --dim / --text / --background 这几个基础变量必须在这里
+   自带一份兜底定义，否则整页会退化成无样式的裸HTML。 */
+:root {
+  --background: #0b1220;
+  --text: #e6edf5;
+  --muted: #a9b8ca;
+  --dim: #8497ad;
+  --accent: #d9a441;
+  --accent-light: #f0d18a;
+  --accent-dark: #a97a24;
+  --accent-soft: rgba(217, 164, 65, 0.14);
+}
+
+/* 4 项统计一行放下 */
+.facts { grid-template-columns: repeat(4, 1fr); }
+.facts > span + span { padding-left: 8px; }
+.facts .v { font-size: 12.5px; }
+
+/* 馆别分段按钮 */
+.seg { display: flex; gap: 3px; padding: 2px; border-radius: 8px; background: rgba(255,255,255,.05); margin-bottom: 8px; }
+.seg button {
+  flex: 1 1 0; font: inherit; font-size: 11.5px; color: var(--muted); cursor: pointer;
+  background: transparent; border: 0; border-radius: 6px; padding: 6px 4px;
+  transition: background .16s, color .16s; white-space: nowrap;
+}
+.seg button:hover { color: var(--text); }
+.seg button.active { background: var(--accent); color: #1a1206; font-weight: 700; }
+
+/* 排行条：按实体文献藏量着色（与辖区色块同语义） */
+.chart { gap: 3px; }
+.chart-row { grid-template-columns: var(--nm-w, 82px) 1fr var(--vl-w, 52px); padding: 3px 5px; }
+.chart-row .nm { font-size: 11.5px; }
+.chart-row .bar { height: 7px; }
+.chart-row .vl { font-size: 11.5px; }
+
+/* 图例 */
+.legend { gap: 6px 14px; max-width: 250px; }
+.legend .lg-cap { font-size: 10px; color: var(--dim); letter-spacing: .04em; width: 100%; margin-bottom: 2px; }
+.legend .lg-row { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
+.legend .lg-row i { width: 12px; height: 12px; border-radius: 3px; display: block; flex: 0 0 auto; }
+.legend .lg-row s { width: 9px; height: 9px; border-radius: 50%; display: block; text-decoration: none; }
+.legend .lg-row s.is-square { border-radius: 2px; }
+
+/* 详情卡顶部色条按选中对象切换 */
+.detail { border-top: 3px solid var(--rc, var(--accent)); }
+.detail > header small { color: var(--rc, var(--accent)); }
+/* 藏量口径说明占满一行，字号再降一档避免挤掉链接 */
+.detail > footer .dt-cn { flex: 1 0 100%; color: #8497ad; line-height: 1.6; }
+.detail > footer a { margin-left: auto; }
+
+/* 目录页 / 介绍页 */
+.lib-page {
+  background: #0b1220;
+  color: #dbe5f0;
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+.lib-page .p-topbar {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  max-width: 80rem; margin: 0 auto; padding: 18px 1rem 0;
+  font-size: 12.5px; color: var(--dim);
+}
+.lib-page .p-topbar a.back { color: var(--accent-light); text-decoration: none; }
+.lib-page .p-topbar a.back:hover { color: #fff; }
+.lib-page .crumb a { color: var(--muted); text-decoration: none; }
+.lib-page .crumb a:hover { color: var(--accent-light); }
+.lib-page .eyebrow { color: var(--accent); font-size: 11.5px; letter-spacing: .12em; }
+.lib-page .ic-eq { display: inline-block; width: 14px; height: 2px; background: var(--accent); vertical-align: middle; margin-right: 6px; }
+.lib-hero {
+  padding: 46px 0 30px; border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.lib-hero h1 { font-size: 30px; line-height: 1.3; margin: 8px 0 10px; }
+.lib-hero .sub { color: var(--muted); font-size: 15px; margin: 0; max-width: 74ch; }
+.lib-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 10px; margin-top: 24px; }
+.lib-kpi { background: rgba(255,255,255,.045); border: 1px solid rgba(255,255,255,.08); border-radius: 10px; padding: 12px 14px; }
+.lib-kpi .k { font-size: 11px; color: var(--dim); letter-spacing: .04em; }
+.lib-kpi .v { font-size: 21px; font-weight: 700; margin-top: 4px; color: var(--accent-light); }
+.lib-kpi .v small { font-size: 12px; font-weight: 500; color: var(--muted); margin-left: 3px; }
+.lib-kpi .d { font-size: 11.5px; color: var(--muted); margin-top: 3px; }
+
+.lsec { padding: 30px 0; border-bottom: 1px solid rgba(255,255,255,.07); }
+.lsec h2 { font-size: 19px; margin: 0 0 14px; display: flex; align-items: center; gap: 9px; }
+.lsec h2::before { content: ''; width: 3px; height: 16px; background: var(--accent); border-radius: 2px; }
+.lsec p { color: #c3d2e4; font-size: 15px; line-height: 1.9; margin: 0 0 12px; max-width: 74ch; }
+.lsec p b { color: var(--text); }
+.lsec p.dim, .lsec .dim { color: var(--dim); font-size: 13.5px; }
+.hl { padding-left: 0; margin: 0; list-style: none; }
+.hl li { position: relative; padding-left: 22px; margin-bottom: 9px; color: #c3d2e4; font-size: 14.5px; line-height: 1.8; }
+.hl li::before {
+  content: ''; position: absolute; left: 4px; top: 11px; width: 6px; height: 6px;
+  background: var(--accent); border-radius: 50%;
+}
+.ltable { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 6px; }
+.ltable th, .ltable td { text-align: left; padding: 9px 12px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.ltable th { color: var(--dim); font-weight: 600; font-size: 11.5px; letter-spacing: .05em; }
+.ltable td b { color: var(--accent-light); }
+.ltable td, .ltable th { vertical-align: top; }
+.lib-map { height: 340px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,.1); }
+.crumb { font-size: 12.5px; color: var(--dim); padding: 16px 0 0; }
+.crumb a { color: var(--muted); }
+.related { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.related a {
+  display: block; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.09);
+  border-radius: 10px; padding: 13px 15px; color: var(--text); text-decoration: none;
+  transition: border-color .16s, background .16s;
+}
+.related a:hover { border-color: var(--accent); background: rgba(217,164,65,.09); }
+.related a:hover .rn { color: var(--accent-light); }
+/* 目录页卡片用 <a class="related"> 直接当栅格容器（每张卡自己带边框） */
+.related > a { display: block; text-decoration: none; }
+
+/* ── 目录页 · 数据表 ────────────────────────────────────── */
+.lib-hero h1 .h1sub {
+  display: inline-block; font-size: 14px; font-weight: 500; color: var(--muted);
+  margin-left: 12px; letter-spacing: 0; vertical-align: 3px;
+  padding-left: 12px; border-left: 1px solid rgba(255,255,255,.18);
+}
+
+/* 辖区跳转条：横向可滚，粘顶 */
+.cat-jump {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; gap: 6px; overflow-x: auto;
+  padding: 11px 0; margin: 0 0 4px;
+  background: rgba(11,18,32,.94); backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255,255,255,.09);
+  scrollbar-width: thin;
+}
+.cat-jump .cj-label {
+  font-size: 11px; color: var(--dim); letter-spacing: .08em;
+  padding-right: 6px; white-space: nowrap; flex: 0 0 auto;
+}
+.cat-jump a {
+  flex: 0 0 auto; display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12.5px; color: var(--muted); text-decoration: none;
+  padding: 5px 10px; border-radius: 7px; white-space: nowrap;
+  border: 1px solid transparent; transition: all .16s;
+}
+.cat-jump a:hover { color: #fff; background: rgba(217,164,65,.14); border-color: rgba(217,164,65,.34); }
+.cat-jump a i {
+  font-style: normal; font-size: 10.5px; color: var(--accent);
+  background: rgba(217,164,65,.14); border-radius: 4px; padding: 1px 5px;
+}
+
+.ctable-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid rgba(255,255,255,.09); }
+.ctable { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 860px; }
+/*⚠️ 不要给 thead th 加 position:sticky：.ctable-wrap 的 overflow-x:auto 会把它变成
+   独立滚动容器，粘性表头会在每个分组的表头下方留出残影（上一组内容透出）。
+   每个分组的表只有 1–3 行，粘性表头本来也没有价值。 */
+.ctable thead th {
+  background: #131d2f; color: var(--dim);
+  font-size: 11px; font-weight: 600; letter-spacing: .05em;
+  text-align: left; padding: 9px 12px; white-space: nowrap;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
+.ctable thead th small { font-size: 10px; color: #6f8299; font-weight: 400; }
+.ctable tbody tr { border-bottom: 1px solid rgba(255,255,255,.06); }
+.ctable tbody tr:last-child { border-bottom: 0; }
+.ctable tbody tr:hover { background: rgba(217,164,65,.06); }
+.ctable td { padding: 10px 12px; vertical-align: middle; }
+
+.ctable td.cname { min-width: 190px; }
+.ctable td.cname a {
+  color: var(--text); text-decoration: none; font-weight: 600; font-size: 14px;
+  border-bottom: 1px solid transparent;
+}
+.ctable td.cname a:hover { color: var(--accent-light); border-bottom-color: var(--accent); }
+.ctable .ctag {
+  display: block; font-size: 11.5px; color: #7d90a6; margin-top: 2px;
+  line-height: 1.5; max-width: 30ch;
+}
+.cb {
+  display: inline-block; font-size: 10px; line-height: 1; padding: 3px 6px;
+  border-radius: 4px; margin-left: 7px; vertical-align: 2px; white-space: nowrap;
+}
+.cb-city { background: rgba(217,164,65,.2); color: var(--accent-light); }
+.cb-dist { background: rgba(122,158,200,.16); color: #9db4ce; }
+
+.ctable td.ccoll { font-variant-numeric: tabular-nums; color: var(--accent-light); font-weight: 600; white-space: nowrap; }
+.ctable td.cbar-cell { width: 96px; }
+.cbar { display: block; height: 6px; border-radius: 3px; background: rgba(255,255,255,.07); overflow: hidden; }
+.cbar i { display: block; height: 100%; border-radius: 3px; }
+.cbar i.na { width: 100%; background: repeating-linear-gradient(45deg, rgba(255,255,255,.12) 0 3px, transparent 3px 6px); }
+.ctable td.cnum { font-variant-numeric: tabular-nums; color: var(--muted); white-space: nowrap; }
+.ctable td.cnote { color: #8497ad; font-size: 12px; max-width: 26ch; line-height: 1.6; }
+
+.lsec h2 .h2n {
+  font-size: 12px; font-weight: 500; color: var(--dim); margin-left: 12px;
+  letter-spacing: 0;
+}
+
+/* 宽窄屏各用一份 viewBox：SVG 会被等比缩放，viewBox 宽度必须贴近实际渲染宽度，
+   否则窄屏下宽viewBox（1180）被压到 420px，字号缩到 1/3 不可读。
+   → 同数据生成两份 SVG 用 CSS 切换，比 JS 监听 resize 简单可靠。 */
+.chart-narrow-only { display: none; }
+@media (max-width: 900px) {
+  .chart-wide-only { display: none; }
+  .chart-narrow-only { display: block; }
+}
+
+/* ── 目录页 · 数据可视化（纯内联 SVG）────────────────── */
+.chart-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px; margin-top: 4px;
+}
+.chart-card {
+  margin: 0; padding: 16px 18px 18px;
+  background: rgba(255,255,255,.035);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 12px; min-width: 0;
+}
+.chart-wide { grid-column: 1 / -1; }
+.chart-card figcaption { margin-bottom: 14px; }
+.chart-card figcaption b {
+  display: block; font-size: 14.5px; color: var(--text); margin-bottom: 4px;
+}
+.chart-card figcaption span { font-size: 12px; color: var(--dim); line-height: 1.65; }
+
+/* width:100% + height:auto 让 SVG 按 viewBox 等比缩放；
+   各图在自身 style 里写了 max-width=viewBox 宽，防止被放大后字号虚胖、文字溢出。 */
+.chart-svg { width: 100%; height: auto; display: block; margin: 0 auto; }
+.chart-svg .gl { stroke: rgba(255,255,255,.07); stroke-width: 1; }
+.chart-svg .cl { fill: #a9b8ca; font-size: 11.5px; }
+.chart-svg .cv { fill: #f0d18a; font-size: 11.5px; font-variant-numeric: tabular-nums; }
+.chart-svg .cv.dim { fill: #6f8299; }
+.chart-svg .cbar-rect { transition: opacity .16s; }
+.chart-card:hover .cbar-rect { opacity: .88; }
+/* 未公开值：虚线描边 + 极淡填充（不用 url(#pattern)，SVG 里没定义 pattern 会渲染不出来） */
+.chart-svg .cna {
+  fill: rgba(255,255,255,.05);
+  stroke: rgba(255,255,255,.14); stroke-width: 1; stroke-dasharray: 3 3;
+}
+.chart-svg.donut { max-width: 200px; margin: 0 auto 16px; }
+.chart-svg .seg { transition: opacity .16s; }
+.chart-svg:hover .seg { opacity: .82; }
+.chart-svg .dc-main {
+  fill: #f0d18a; font-size: 30px; font-weight: 700; text-anchor: middle;
+}
+.chart-svg .dc-sub { fill: #8497ad; font-size: 12px; text-anchor: middle; }
+.chart-svg .hs-t { fill: rgba(10,16,26,.82); font-size: 12px; font-weight: 700; }
+
+.cl-legend { list-style: none; padding: 0; margin: 12px 0 0; }
+.cl-legend li {
+  display: flex; align-items: center; gap: 8px;
+  padding: 4px 0; font-size: 12.5px; color: var(--muted);
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
+.cl-legend li:last-child { border-bottom: 0; }
+.cl-legend i { width: 10px; height: 10px; border-radius: 3px; flex: 0 0 auto; }
+.cl-legend .cll { flex: 1 1 auto; color: #c3d2e4; }
+.cl-legend .clv { color: var(--accent-light); font-variant-numeric: tabular-nums; }
+.cl-legend .clp { color: var(--dim); font-size: 11.5px; width: 46px; text-align: right; }
+
+.cnote-inline {
+  margin: 12px 0 0; padding-top: 10px; font-size: 12px; color: var(--dim);
+  line-height: 1.7; border-top: 1px dashed rgba(255,255,255,.08);
+}
+.cnote-inline b { color: var(--accent-light); }
+.related .rd { font-size: 11px; color: var(--dim); }
+.related .rn { font-size: 15px; font-weight: 600; margin: 3px 0 4px; }
+.related .rr { font-size: 12.5px; color: var(--muted); }
+
+/* 移动端 */
+@media (max-width: 900px) {
+  .seg button { padding: 7px 4px; font-size: 11px; }
+  .facts { grid-template-columns: repeat(4, 1fr); }
+  .facts em { font-size: 16px; }
+  .legend { max-width: none; }
+  .lib-hero h1 { font-size: 24px; }
+  .lib-hero h1 .h1sub {
+    display: block; font-size: 12.5px; margin: 6px 0 0; padding-left: 0; border-left: 0;
+  }
+  .lib-kpis { grid-template-columns: repeat(2, 1fr); }
+  .lib-kpi .v { font-size: 18px; }
+  .cat-jump .cj-label { display: none; }
+  .ctable { min-width: 780px; }
+  .lsec h2 .h2n { display: block; margin-left: 0; margin-top: 4px; }
+  .chart-grid { grid-template-columns: 1fr; gap: 12px; }
+  .chart-card { padding: 14px 14px 16px; }
+  .chart-card figcaption b { font-size: 13.5px; }
+  .chart-svg.donut { max-width: 168px; }
+  .cl-legend .clp { width: 40px; }
+}

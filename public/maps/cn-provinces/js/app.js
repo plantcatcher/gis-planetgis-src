@@ -232,6 +232,21 @@ window.onProvinceGeo(function (GEO) {
     maxZoom: 11,
     attributionControl: { compact: true }
   });
+
+  /* 对齐 thematic 引擎的 window.__app 约定：gen_map_cover.mjs 靠它自动取景。
+     老代地图原本 map 只是 IIFE 内的局部变量，封面脚本取不到，只能拍到默认视野。
+     bbox 取主陆域（不含南海十段线南缘 3.4°），与 src/data/vizmaps.json 登记一致——
+     封面底部 46% 被标题渐变盖住，十段线在那儿露出来反而抢标题。*/
+  window.__app = {
+    map: map,
+    fitAll: function (o) {
+      var o2 = o || {};
+      map.fitBounds([[73.0, 18.2], [135.5, 54.4]], {
+        padding: o2.padding || { top: 40, bottom: 132, left: 40, right: 40 },
+        duration: 0
+      });
+    }
+  };
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
 
   // ---------- 省份简称 DOM 标注 ----------

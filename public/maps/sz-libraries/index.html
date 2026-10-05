@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>深圳图书馆分布地图 · 15 座公共图书馆总馆的空间格局</title>
+  <meta name="description" content="深圳 2 家市级馆 + 10 个区级总馆的分布互动地图：按馆藏规模分档着色，逐馆可点，可查看建筑面积、藏书量、阅览座位、国家一级图书馆评定与开馆年份，每馆附独立介绍页。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <!-- ── 左：介绍栏 ─────────────────────────────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 深圳总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-eq"></i>
+      <b>深圳图书馆分布地图</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> LIBRARIES · SHENZHEN</small>
+      <h1><span>深圳图书馆</span><b>分布地图</b></h1>
+      <p class="lead">2003 年深圳在全国率先提出建设<b>「图书馆之城」</b>。二十多年后，<b>4 处市级馆舍</b>与 <b>11 处区级总馆</b>摊在这张图上：从福田中心区的双馆联动，到坪山、光明、大鹏的东部文化节点——谁在中心、谁在边缘，一眼看清。</p>
+
+      <div class="facts">
+        <span><small>总馆馆舍</small><b><span class="v"><em id="fTotal">15</em></span><i>处</i></b></span>
+        <span><small>市级馆</small><b><span class="v"><em id="fCity">4</em></span><i>处</i></b></span>
+        <span><small>纸质文献</small><b><span class="v"><em id="fColl">2000</em></span><i>万册</i></b></span>
+        <span><small>一级馆</small><b><span class="v"><em id="fGrade">10</em></span><i>家</i></b></span>
+      </div>
+
+      <!-- 分类筛选 -->
+      <section class="block">
+        <header><small>馆别筛选</small></header>
+        <div class="seg" id="segTier">
+          <button type="button" data-v="all" class="active">全部总馆</button>
+          <button type="button" data-v="city">市级馆</button>
+          <button type="button" data-v="district">区级总馆</button>
+        </div>
+        <p class="note" id="tierNote">市级馆为「图书馆之城」统一服务中的市级龙头（深圳图书馆含中心馆与北馆两处馆舍），区级总馆是各区服务体系的枢纽。</p>
+      </section>
+
+      <!-- 总馆规模排行 -->
+      <section class="block">
+        <header><small>纸质文献藏量排行（万册）</small></header>
+        <div class="chart" id="rankList"></div>
+        <p class="note" id="rankNote">—</p>
+      </section>
+
+      <p class="note"><b>关于「一级馆」计数</b>：按<b>机构</b>计而非按馆舍计。深圳图书馆中心馆与北馆同属一家机构（北馆为「与中心馆一体评定」），若按点位计会重复算一家；大鹏新区图书馆为<b>市一级</b>，低于国家/地市级一级，未计入。</p>
+
+      <section class="block src">
+        <p><b>数据来源</b>：各馆官网「概况 / 本馆简介」页、区政府门户场馆介绍页与深圳市政府门户场馆名录；坐标由天地图地理编码服务取得（CGCS2000 ≈ WGS84）后转为 <b>GCJ-02</b> 对齐高德底图。<b>口径说明</b>：收录 2 家市级机构（含深圳图书馆中心馆与北馆两处馆舍）、9 个行政区总馆与大鹏新区总馆，共 <b>15 处馆舍</b>，<b>不含街道分馆、社区分馆、自助图书馆与 24 小时书香亭</b>——后者全市逾千个，属「服务网点」而非独立馆舍。馆藏、面积等数据以各馆自报口径为准，年份不一（多为 2021–2025），已在各馆介绍页标注。<b>大鹏新区</b>是深圳的功能区而非行政区（无独立行政区划代码，范围在龙岗区内），本图因此不为其着色块，只作虚线圈示意。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/works/sz-libraries" target="_top">作品介绍</a>
+        <a href="/maps/sz-libraries/catalog.html">总馆目录</a>
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── 右上：图书馆 / 辖区详情卡 ─────────────────────────── -->
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">LIBRARY</small>
+      <div class="dt-actions">
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtSub">—</p>
+    <div class="dt-metrics">
+      <span><small>建筑面积</small><b><em id="dtV1">—</em></b></span>
+      <span><small>实体文献</small><b><em id="dtV2">—</em></b></span>
+      <span><small>阅览座位</small><b><em id="dtV3">—</em></b></span>
+    </div>
+    <section class="dt-desc">
+      <small id="dtDescLb">看点</small>
+      <p id="dtDesc">—</p>
+    </section>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <!-- ── 右下：图例 ─────────────────────────────────────────── -->
+  <div class="dock">
+    <div class="legend" id="legend"></div>
+  </div>
+
+  <!-- ── 左下：图层与底图 ───────────────────────────────────── -->
+  <div class="panel" id="panel">
+    <div class="panel-head" id="panelHead">
+      <span>图层与底图</span>
+      <button type="button" id="panelToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckLib" checked /><span>总馆点位</span></label>
+      <label class="row"><input type="checkbox" id="ckLabel" checked /><span>总馆名称</span></label>
+      <label class="row"><input type="checkbox" id="ckDistrict" checked /><span>辖区色块</span></label>
+      <label class="row"><input type="checkbox" id="ckBorder" checked /><span>辖区边界</span></label>
+      <label class="row"><input type="checkbox" id="ckGraticule" /><span>经纬网格</span></label>
+      <div class="divider"></div>
+      <div class="bm-title">底图</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" checked /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>矢量路网</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" /><span>深色</span></label>
+      </div>
+      <div class="divider"></div>
+      <p class="panel-note" id="panelNote">
+        色块按<b>本区总馆纸质文献藏量合计</b>分档（红 ≥280 万 / 橙 180–279 / 绿 40–179 / 蓝 &lt;40 万或未公开）。
+        圆点为区级总馆，<b>市级馆</b>用方点强调。<b>大鹏新区是功能区而非行政区</b>（无独立行政区面），故只画虚线圈示意范围。
+        街道分馆、社区图书馆与自助图书馆未收录。
+      </p>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="/maps/_shared/thematic/thematic.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

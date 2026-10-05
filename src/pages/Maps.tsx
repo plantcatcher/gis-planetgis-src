@@ -63,7 +63,7 @@ const Maps: React.FC = () => {
             </p>
           </header>
 
-          {/* 视图切换 */}
+          {/* 视图切换：仅图标，文字信息移到 title/aria-label（悬停即有提示，不占横向空间） */}
           <div className="flex items-center justify-between gap-4 mb-8">
             <p className="text-sm text-muted-foreground">共 {maps.length} 张地图</p>
             <div
@@ -77,14 +77,15 @@ const Maps: React.FC = () => {
                   type="button"
                   onClick={() => setMode(id)}
                   aria-pressed={mode === id}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm transition-colors ${
+                  title={label}
+                  aria-label={label}
+                  className={`inline-flex items-center justify-center w-9 h-9 rounded-md transition-colors ${
                     mode === id
-                      ? 'bg-primary text-primary-foreground font-medium'
+                      ? 'bg-primary text-primary-foreground'
                       : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
-                  {label}
                 </button>
               ))}
             </div>

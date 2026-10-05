@@ -1,4 +1,5 @@
-// 构建期自动生成 sitemap.xml 到 dist/，覆盖所有静态路由、内容详情页与标签专题页。
+// 构建期自动生成 sitemap.xml 到 dist/，覆盖所有静态路由、内容详情页、标签专题页，
+// 以及互动地图小网站自带的**馆情介绍页 / 目录页**。
 // 路由清单与 prerender.mjs 共用 scripts/site-routes.mjs，保证 sitemap 里的每条 URL
 // 在 dist 里都有对应的静态产物（不会指向 404 或 3xx）。
 //
@@ -6,7 +7,7 @@
 // 爬虫抓 sitemap 时直接命中 200，不会经过 Cloudflare Pages 的斜杠归一化 308。
 
 import { createServer } from 'vite';
-import { writeFileSync, existsSync } from 'node:fs';
+import { writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { collectRoutes, SITE } from './site-routes.mjs';
 
@@ -28,6 +29,36 @@ const STATIC_PRIORITY = {
   '/privacy-policy': 0.3,
   '/terms': 0.3,
 };
+
+// 互动地图小网站自带的静态内容页：dist/maps/<slug>/libraries/*.html（每馆一篇介绍页）
+// 与 dist/maps/<slug>/catalog.html（目录页）。这些是有实质正文的独立页面（长尾词落地页），
+// 必须进 sitemap；/maps/<slug> 全屏壳页与地图本体 index.html 则排除。
+// 直接扫 dist 而不是写死清单——有哪些产物就收哪些，不会指向不存在的 URL。
+//
+// ⚠️ URL 一律**去掉 .html 后缀**，与全站无尾斜杠扁平化规范一致（canonical/sitemap/Link 三处统一），
+// 也与 check-seo.mjs 的 fileToUrlPath() 期望一致；Cloudflare Pages 对静态 html 支持无后缀直出。
+function collectMapContentPages() {
+  const mapsDir = join(DIST, 'maps');
+  if (!existsSync(mapsDir)) return [];
+  const out = [];
+  let slugs = [];
+  try { slugs = readdirSync(mapsDir, { withFileTypes: true }).filter((d) => d.isDirectory()); } catch (_) { return []; }
+  for (const d of slugs) {
+    const slug = d.name;
+    const dir = join(mapsDir, slug);
+    if (existsSync(join(dir, 'catalog.html'))) {
+      out.push({ url: `/maps/${slug}/catalog`, priority: 0.5 });
+    }
+    const libDir = join(dir, 'libraries');
+    if (!existsSync(libDir)) continue;
+    let files = [];
+    try { files = readdirSync(libDir).filter((f) => f.endsWith('.html')); } catch (_) { continue; }
+    for (const f of files.sort()) {
+      out.push({ url: `/maps/${slug}/libraries/${f.replace(/\.html$/, '')}`, priority: 0.6 });
+    }
+  }
+  return out;
+}
 
 if (!existsSync(DIST)) {
   console.error('[sitemap] 未找到 dist/，请先运行 vite build。');
@@ -53,6 +84,8 @@ try {
 
     // /maps/<slug> 是全屏 iframe 壳页，正文只有一张地图，收录价值低；
     // 真正给搜索引擎看的是 /works/<slug> 介绍页，故此处排除。
+    // ⚠️ 注意只排除壳页这一层：/maps/<slug>/libraries/*.html 与 catalog.html
+    // 是地图小网站自己的内容页（有实质正文），由 collectMapContentPages()单独收录。
     if (u.startsWith('/maps/')) continue;
 
     const isDetail =
@@ -66,10 +99,17 @@ try {
     );
   }
 
+  const mapPages = collectMapContentPages();
+  for (const m of mapPages) {
+    entries.push(
+      `  <url>\n    <loc>${SITE}${m.url}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>${m.priority.toFixed(1)}</priority>\n  </url>`,
+    );
+  }
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.join('\n')}\n</urlset>\n`;
 
   writeFileSync(join(DIST, 'sitemap.xml'), xml, 'utf-8');
-  console.log(`[sitemap] 生成 ${entries.length} 条 -> dist/sitemap.xml`);
+  console.log(`[sitemap] 生成 ${entries.length} 条（含地图内容页 ${mapPages.length} 条）-> dist/sitemap.xml`);
 } finally {
   await vite.close();
 }

@@ -272,6 +272,40 @@
         "desc": "31 个省级区的普通高校总数（着色分档依据）与 985 / 211 /军校分项计数"
       }
     ]
+  },
+  {
+    "slug": "sz-libraries",
+    "entry": "/maps/sz-libraries/index.html",
+    "bbox": [
+      113.74,
+      22.38,
+      114.66,
+      22.84
+    ],
+    "crs": "GCJ-02（火星坐标，与高德瓦片对齐）——原始坐标由天地图地理编码服务取得（CGCS2000 ≈ WGS84），经 scripts/crs_tools.wgs84_to_gcj02 转换，WGS84 原值保留在 properties.wgs84",
+    "basemap": "高德瓦片：卫星影像 style=6 / 矢量路网 style=7 / 深色无底图（默认）；可叠加 9 个行政区边界、功能区虚线圈与 0.1° 经纬网格",
+    "source": "各馆官网「概况 / 本馆简介」页、各区政府门户场馆介绍页、深圳市政府门户「Libraries across Shenzhen」场馆名录、深圳市 2026 年「图书馆之城」阅读报告。收录 2 家市级机构（含深圳图书馆中心馆与北馆两处馆舍）、9 个行政区总馆与大鹏新区总馆共 15 处馆舍；不含街道分馆、社区分馆、自助图书馆与 24 小时书香亭（全市逾千个，属服务网点而非独立馆舍）。藏量统一为纸质文献口径，含电子的总量在各馆 collNote 字段单独标注；馆藏、面积为各馆自报口径，年份不一（多为 2021–2025）。大鹏新区为功能区而非行政区（无独立 adcode，范围在龙岗区内），因此图上不为其着色块，只作虚线圈示意",
+    "updated": "2026-10-05",
+    "data": [
+      {
+        "file": "maps/sz-libraries/data/libraries.json",
+        "features": 15,
+        "unit": "处总馆馆舍",
+        "desc": "15 处馆舍点位：市级 4（深圳图书馆 / 深圳图书馆北馆 / 深圳大学城图书馆 / 深圳少年儿童图书馆）+ 区级 11，带面积、纸质文献藏量与口径说明、阅览座位、评定等级、开放时间、交通与独立介绍页链接"
+      },
+      {
+        "file": "maps/sz-libraries/data/districts.json",
+        "features": 9,
+        "unit": "个行政区",
+        "desc": "深圳 9 个行政区边界（DataV.GeoAtlas 440300_full 抽稀 0.0015°）；大鹏新区为功能区，不在行政区划数据中，故以 config.functionalZones 的虚线圈单列"
+      },
+      {
+        "file": "maps/sz-libraries/libraries/",
+        "features": 15,
+        "unit": "篇馆情介绍页",
+        "desc": "每馆一篇 md（libraries/<id>.md）经 scripts/build_sz_libraries_pages.py 渲染为静态 HTML：完整 title/description/keywords、OG 标签、schema.org Library JSON-LD、内嵌只读定位小地图、同辖区其他馆互链，另有一页 catalog.html 目录"
+      }
+    ]
   }
 ]
 }

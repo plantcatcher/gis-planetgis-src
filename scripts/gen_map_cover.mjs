@@ -84,23 +84,42 @@ const PAD = process.env.PAD_L ? {
 const fitInfo = await send('Runtime.evaluate', {
   returnByValue: true,
   expression: `(function(){
-    if (!(window.__app && window.__app.fitAll)) return { ok:false, app:typeof window.__app };
+    /* 老代地图不暴露 window.__app（那是 thematic 引擎挂的），退而用全局 map 实例兜底 */
+    var app = window.__app;
+    if (!app || !app.fitAll) app = (window.map && window.map.fitBounds) ? { map: window.map } : null;
+    if (!app || !app.map) return { ok:false, app:typeof window.__app, map:typeof window.map };
+    var m = app.map;
     /* 封面是 16:9 宽幅，整框往往需要比页面 minZoom 更小的级别，这里临时放开 */
-    window.__app.map.setMinZoom(0.8);
-    window.__app.fitAll({ padding: ${JSON.stringify(PAD)}, animate: false });
+    try { m.setMinZoom(0.8); } catch (e) {}
+    if (app.fitAll) app.fitAll({ padding: ${JSON.stringify(PAD)}, animate: false });
+    else m.fitBounds(m.getBounds(), { padding: ${JSON.stringify(PAD)}, duration: 0 });
     var r = document.getElementById('map').getBoundingClientRect();
-    return { ok:true, z:+window.__app.map.getZoom().toFixed(3),
-             c:window.__app.map.getCenter().toArray().map(function(v){return +v.toFixed(3)}),
-             b:window.__app.map.getBounds().toArray().map(function(p){return [+p[0].toFixed(2),+p[1].toFixed(2)]}),
+    return { ok:true, z:+m.getZoom().toFixed(3),
+             c:m.getCenter().toArray().map(function(v){return +v.toFixed(3)}),
+             b:m.getBounds().toArray().map(function(p){return [+p[0].toFixed(2),+p[1].toFixed(2)]}),
              box:[Math.round(r.width),Math.round(r.height)] };
   })()`
 });
 console.log('FIT ' + JSON.stringify(fitInfo.result.value));
 await sleep(1200);
 
+/* 不同代际的专题图 UI class 完全不同：
+   -新代（引 _shared/thematic）：.intro / .detail / .dock / .panel
+   - 老代（自带复制版 css）：cn-provinces 用 .topbar/.card-panel/.legend/.map-nav/.catalog
+   只隐藏 thematic 那套 → 老图封面会露出全套 UI 浮层。这里按 slug 补一张表。
+   新增老图封面时把它的顶层 UI class 追加到对应分组即可。*/
+const LEGACY_UI = {
+  'cn-provinces': '.topbar, .card-panel, .legend, .map-nav, .catalog, .brand, .src-note',
+  'cn-rivers': '.topbar, .panel, .legend, .hint, .brand',
+  'cn-yangtze': '.topbar, .panel, .legend, .intro, .brand',
+  'hist-imagery': '.topbar, .panel, .legend, .timeline, .brand',
+};
+const extraHide = LEGACY_UI[slug] || '';
+
 const hideCss = `
   .intro, .detail, .dock, .panel, .maplibregl-ctrl-bottom-right, .timeline, .playbar,
   .maplibregl-ctrl-top-right, .maplibregl-ctrl-top-left { display: none !important; }
+  ${extraHide} { display: none !important; }
   ${keepLabels ? '' : '#labels { display: none !important; }'}
 `;
 const overlay = title ? `
