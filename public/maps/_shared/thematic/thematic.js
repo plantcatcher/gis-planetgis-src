@@ -153,10 +153,17 @@
       legend: document.getElementById('legend')
     };
 
-    /* 1) 样式：底图 + 省界 + 经纬网 + 专题图层 */
+    /* 1) 样式：底图 + 省界 + 经纬网 + 专题图层
+       底图源可由 opts.basemaps 覆盖（中国境外专题用天地图全球服务，高德只覆盖中国）。
+       缺省仍走高德，保证既有专题行为不变。 */
+    var bmDef = this.opts.basemaps || {};
+    var vecTiles = bmDef.vec || amapTiles(7);
+    var imgTiles = bmDef.img || amapTiles(6);
     var sources = {
-      amap_vec: { type: 'raster', tiles: amapTiles(7), tileSize: 256, attribution: '高德地图' },
-      amap_img: { type: 'raster', tiles: amapTiles(6), tileSize: 256, attribution: '高德地图' },
+      amap_vec: { type: 'raster', tiles: vecTiles, tileSize: 256,
+                  attribution: (bmDef.vec && bmDef.vecAttr) || '高德地图' },
+      amap_img: { type: 'raster', tiles: imgTiles, tileSize: 256,
+                  attribution: (bmDef.img && bmDef.imgAttr) || '高德地图' },
       prov: { type: 'geojson', data: PROV_URL },
       grat: { type: 'geojson', data: graticuleFC(this.opts.extent || this.opts.bounds || [73, 17, 136, 55], this.opts.graticuleStep || 2) }
     };
@@ -167,7 +174,8 @@
     });
 
     var provLayers = [];
-    if (!this.opts.province || this.opts.province.line !== false) {
+    /* province === false = 彻底不建中国省界（全球尺度专题用，同时省掉一次 china-provinces.json 请求） */
+    if (this.opts.province !== false && (!this.opts.province || this.opts.province.line !== false)) {
       if (this._provinceFill) {
         provLayers.push({
           id: 'prov-fill', type: 'fill', source: 'prov',
@@ -195,8 +203,13 @@
       style: { version: 8, sources: sources, layers: layers },
       center: (this.opts.view || {}).center || [104, 35],
       zoom: (this.opts.view || {}).zoom || 4,
-      minZoom: (this.opts.view || {}).minZoom || 3,
-      maxZoom: (this.opts.view || {}).maxZoom || 12,
+      /* 这里必须用 ?? 而不是 ||：全球尺度专题要 minZoom: 0（0 是 falsy，
+         `|| 3` 会把它吃回 3，引擎的 `z = max(z, minZoom, 0.2)` 兜底随之把
+         全球总览顶到 z=3，手机竖屏只看得到一小块）。 */
+      minZoom: (this.opts.view || {}).minZoom ?? 3,
+      maxZoom: (this.opts.view || {}).maxZoom ?? 12,
+      /* 全球尺度专题传 false：不铺世界副本，否则低缩放左右会各多出一块重复的世界 */
+      renderWorldCopies: (this.opts.view || {}).renderWorldCopies !== false,
       attributionControl: false,
       dragRotate: false,
       pitchWithRotate: false
@@ -288,10 +301,14 @@
     return target;
   };
 
-  /* 框全部要素：传 bbox 或 GeoJSON 数组 */
+  /* 框全部要素：传 bbox 或 GeoJSON 数组
+     移动端可用opts.boundsMobile 换一个更窄的框：MapLibre 在 renderWorldCopies:false 时
+     会强制「世界尺寸 ≥ 容器最长边」，手机竖屏 390×844 把zoom 顶死在 log2(844/512)=0.72，
+     该级下世界宽 843px > 屏宽 390px，物理上装不下 344° 经度 —— 这是引擎约束，
+     缩 bounds 也躲不掉，只能在移动端主动收窄取景范围、对准内容重心。 */
   Instance.prototype.fitAll = function (o) {
     o = o || {};
-    var b = this.opts.bounds;
+    var b = (isMobile() && this.opts.boundsMobile) || this.opts.bounds;
     if (!b && o.features) {
       var bb = [Infinity, Infinity, -Infinity, -Infinity];
       o.features.forEach(function (f) {
@@ -379,6 +396,16 @@
       var r = opts[i].querySelector('input');
       opts[i].classList.toggle('active', !!(r && r.checked));
     }
+  };
+  /* 运行时替换底图瓦片（天地图需要用户自配 token，只能拿到 token 后再设源）。
+     mode: 'vec' | 'img'；tiles: 瓦片 URL 数组；attr: 版权署名。 */
+  Instance.prototype.setBasemapTiles = function (mode, tiles, attr) {
+    var srcId = mode === 'img' ? 'amap_img' : 'amap_vec';
+    var src = this.map.getSource(srcId);
+    if (!src || !tiles || !tiles.length) return false;
+    src.setTiles(tiles);
+    if (attr) src.setAttribution ? src.setAttribution(attr) : null;
+    return true;
   };
   /* 供专题在数据到位后写入省界填色（按 adcode 匹配） */
   Instance.prototype.fillProvinces = function (byAdcode, fallback) {

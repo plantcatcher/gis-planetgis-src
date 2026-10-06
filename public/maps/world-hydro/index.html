@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>全球水电站分布地图 · 7774 座电站的地理格局</title>
+  <meta name="description" content="全球 7774 座水电站台账：点位半径按装机容量分级着色，叠加国家总装机气泡，可按电站型式筛选、查坝高与库容、看百年投产时间轴。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <!-- ── 左：介绍栏 ─────────────────────────────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 全球总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-eq"></i>
+      <b>全球水电站分布地图</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> GLOBAL HYDROPOWER · 7774 PLANTS</small>
+      <h1><span>全球水电站</span><b>分布地图</b></h1>
+      <p class="lead">全球 <b>7774 座水电站</b>被摊在同一张地图上：站点的<b>圆点大小就是装机容量</b>，颜色分六档；再叠一层<b>国家总装机气泡</b>。水能不是均匀分布的——它跟着地形、跟着河流、跟着国家的工业化走。</p>
+
+      <div class="facts">
+        <span><small>水电站</small><b><span class="v"><em id="fPlant">7774</em></span><i>座</i></b></span>
+        <span><small>总装机</small><b><span class="v"><em id="fCap">11.0</em></span><i>亿千瓦</i></b></span>
+        <span><small>覆盖国家</small><b><span class="v"><em id="fCountry">126</em></span><i>个</i></b></span>
+        <span><small>最早投产</small><b><span class="v"><em id="fYear">1830</em></span><i>年</i></b></span>
+      </div>
+
+      <!-- 电站型式筛选 -->
+      <section class="block">
+        <header><small>电站型式</small><small id="typeN" class="hint-n">7774 座</small></header>
+        <div class="seg" id="segType">
+          <button type="button" data-v="all" class="active">全部</button>
+          <button type="button" data-v="STO">蓄水式</button>
+          <button type="button" data-v="ROR">径流式</button>
+          <button type="button" data-v="PS">抽蓄</button>
+          <button type="button" data-v="CANAL">渠道</button>
+          <button type="button" data-v="UNK">未标注</button>
+        </div>
+        <p class="note" id="typeNote">显示全部 7774 座电站。点下方型式可单独观察某一类电站的地理分布。</p>
+      </section>
+
+      <!-- 装机容量门槛 -->
+      <section class="block">
+        <header><small>装机容量门槛</small><small id="capLb" class="hint-n">≥ 0 MW</small></header>
+        <div class="chips" id="chipCap">
+          <button type="button" data-v="0" class="active">全部</button>
+          <button type="button" data-v="50">≥50</button>
+          <button type="button" data-v="300">≥300</button>
+          <button type="button" data-v="1000">≥1000</button>
+          <button type="button" data-v="5000">≥5000</button>
+        </div>
+        <p class="note">按单站装机（MW）过滤。门槛越高，地图上越只剩下真正的「大坝级」工程。</p>
+      </section>
+
+      <!-- 投产年代时间轴 -->
+      <section class="block">
+        <header><small>百年投产时间轴</small><small id="eraLb" class="hint-n">1830 至今</small></header>
+        <div class="era" id="eraBar">
+          <div class="era-track"><i id="eraFill"></i></div>
+          <input type="range" id="eraRange" min="1830" max="2030" step="10" value="2030" aria-label="投产年代筛选" />
+          <div class="era-ticks" id="eraTicks"></div>
+        </div>
+        <p class="note" id="eraNote">拖动时间轴，只看某个年代之前投产的电站——水电建设的三次浪潮（1900 前后的欧美、1950–1980 的苏联与拉美、2000 年后的中国）会依次浮现。</p>
+      </section>
+
+      <!-- 国家排行 -->
+      <section class="block">
+        <header><small id="rankTitle">国家总装机排行</small><small id="rankNote" class="hint-n">前 12</small></header>
+        <div class="chart" id="rankList"></div>
+        <p class="note" id="rankTip">按总装机降序。点任意一行，地图飞向该国并高亮它的全部电站。</p>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：GloHydroRes v1 全球水电站台账（WRI GeoDAR / JRC 全球水电数据库 / EHA / RePP 等合并），坐标系 WGS84，坐标为电站厂址点。<b>口径</b>：装机容量为单站铭牌容量，「总装机」是台账内所有电站求和，非该国实际水电装机（含未入库的小水电与在建工程）；6912 座有投产年记录，站点最早可追到 1830 年。<b>合规处理</b>：台账中 7 座台湾电站按一个国家的一部分并入中国统计，2 座科索沃电站并入塞尔维亚，两者未单独列为国家；图为避免国界画法问题不绘制世界国界，国家维度用装机加权重心气泡表达。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/works/world-hydro" target="_top">作品介绍</a>
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── 右上：电站 / 国家详情卡 ─────────────────────────────── -->
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">PLANT</small>
+      <div class="dt-actions">
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtSub">—</p>
+    <div class="dt-metrics">
+      <span><small id="dtLb1">装机</small><b><em id="dtV1">—</em><i id="dtU1">MW</i></b></span>
+      <span><small id="dtLb2">坝高</small><b><em id="dtV2">—</em><i id="dtU2">m</i></b></span>
+      <span><small id="dtLb3">投产</small><b><em id="dtV3">—</em><i id="dtU3">年</i></b></span>
+    </div>
+    <section class="dt-desc">
+      <small id="dtDescLb">水库与水头</small>
+      <p id="dtDesc">—</p>
+    </section>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <!-- ── 右下：图例 ─────────────────────────────────────────── -->
+  <div class="dock">
+    <div class="legend" id="legend"></div>
+  </div>
+
+  <!-- ── 左下：图层与底图 ───────────────────────────────────── -->
+  <div class="panel" id="panel">
+    <div class="panel-head" id="panelHead">
+      <span>图层与底图</span>
+      <button type="button" id="panelToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckPlant" checked /><span>电站点位</span></label>
+      <label class="row"><input type="checkbox" id="ckBubble" checked /><span>国家总装机气泡</span></label>
+      <label class="row"><input type="checkbox" id="ckLabel" checked /><span>国家名称</span></label>
+      <label class="row"><input type="checkbox" id="ckGraticule" /><span>经纬网格</span></label>
+      <div class="divider"></div>
+      <div class="bm-title">底图</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" checked /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>地形晕渲</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" /><span>深色</span></label>
+      </div>
+      <div class="divider"></div>
+      <p class="panel-note" id="panelNote">
+        点位<b>半径与颜色按单站装机容量</b>分六档（红 5000 MW 以上 → 灰 未标注）；气泡为该国总装机的<b>装机加权重心</b>，不是首府。
+      </p>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="/maps/_shared/thematic/thematic.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

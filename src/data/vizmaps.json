@@ -306,6 +306,41 @@
         "desc": "每馆一篇 md（libraries/<id>.md）经 scripts/build_sz_libraries_pages.py 渲染为静态 HTML：完整 title/description/keywords、OG 标签、schema.org Library JSON-LD、内嵌只读定位小地图、同辖区其他馆互链，另有一页 catalog.html 目录"
       }
     ]
+  },
+  {
+    "slug": "world-hydro",
+    "entry": "/maps/world-hydro/index.html",
+    "bbox": [
+      -168.0,
+      -56.0,
+      176.0,
+      72.0
+    ],
+    "crs": "WGS84 / EPSG:4326（底图为 WGS84 / Web Mercator 球面墨卡托，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "viewport": "桌面总览 bbox = [-168,-56,176,72]；移动端另用 boundsMobile = [8,-45,168,66]（东亚+南亚+欧洲+中东+非洲北部）——MapLibre 在 renderWorldCopies:false 时强制「世界尺寸 ≥ 容器最长边」，390×844 竖屏把 zoom 顶死在 log2(844/512)=0.72，该级世界宽 843px > 屏宽 390px，物理上装不下 344° 经度（实测 setMinZoom(-2) 与 jumpTo 负 zoom 均被夹回），只能收窄取景对准内容重心",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认为主底图并按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；可叠加国家名称标注与 20° 经纬网格。高德/百度/腾讯瓦片只覆盖中国，全球尺度下境外全空白，故本图不用；services.arcgisonline.com 本机实测超时，改用 server 节点（全球 8/8 瓦片跨洲抽查全通）",
+    "source": "GloHydroRes v1 全球水电站台账（WRI GeoDAR / JRC 全球水电数据库 / EHA / RePP 等来源合并），WGS84，坐标为电站厂址点。收录 7774 座（源表 7778 行，剔除 4 行坐标非法或 ID 重复）。装机容量为单站铭牌值，「国家总装机」是台账内求和，不等于该国实际水电装机（含未入库小水电与在建工程），故本图用于看地理格局与相对关系，不作精确统计。合规处理：台账中 7 座台湾电站并入中国统计、2 座科索沃电站并入塞尔维亚，两者未单独列为国家；图为规避世界国界画法问题不绘制国界，国家维度改用装机容量加权重心气泡（必落在该国电站凸包内，非首府、非国土几何中心）",
+    "updated": "2026-10-06",
+    "data": [
+      {
+        "file": "maps/world-hydro/data/plants.json",
+        "features": 7774,
+        "unit": "座水电站",
+        "desc": "电站点位，属性用短键压缩：n 名称 / c 国家 / w 装机 MW / y 投产年 / p 型式（STO 蓄水式 2662 · ROR 径流式 3233 · PS 抽水蓄能 332 · Canal 渠道引水 297 · 未标注 1250）/ d 坝名 / h 坝高 m / r 河流 / hd 水头 m / av 库容 km³ / ar 库区面积 km²。装机全库无缺测；投产年缺 662、坝高缺 3858、库容缺 3066（缺测统一置 null 不置 0，避免「没有数据」被读成「值为零」）。含 98 组共 110 个共用坐标的要素（梯级/分期开发，如奥地利 Böckstein 五站同址、巴西 Paulo Afonso 三期同址）"
+      },
+      {
+        "file": "maps/world-hydro/data/countries.json",
+        "features": 126,
+        "unit": "个国家/地区",
+        "desc": "国家聚合：站数、装机加权重心 cxy、型式构成、投产年跨度、最高坝、装机前 3 的代表电站。log10(总装机) 实测范围 1.17–5.41，气泡半径插值断点按此标定"
+      },
+      {
+        "file": "maps/world-hydro/data/stats.json",
+        "features": 12,
+        "unit": "组统计口径",
+        "desc": "装机分档 / 国家分档阈值、型式标签与说明、年代分箱、总量与缺测统计、数据与合规说明文案"
+      }
+    ]
   }
 ]
 }

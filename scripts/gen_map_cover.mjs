@@ -25,6 +25,10 @@ const sub = arg('sub', '');
 const eyebrow = arg('eyebrow', '');
 const accent = arg('accent', '#f5b544');
 const keepLabels = argv.includes('--labels');
+/* --hideLayers a,b,c：截图前把指定 MapLibre 图层设为不可见。
+   某些专题的第二层数据（如国家聚合气泡）在封面构图里会盖住第一层的主体叙事，
+   用它按专题裁层，不必为每张图去改页面代码。不传则行为不变。 */
+const hideLayers = (arg('hideLayers', '') || '').split(',').map(s => s.trim()).filter(Boolean);
 if (!slug) { console.error('缺 --slug'); process.exit(1); }
 
 const OUT = arg('out', `public/maps/${slug}/cover.jpg`);
@@ -138,7 +142,15 @@ const overlay = title ? `
 ` : '';
 
 await send('Runtime.evaluate', {
-  expression: `(function(){ var s=document.createElement('style'); s.textContent=${JSON.stringify(hideCss)}; document.head.appendChild(s); ${overlay} })()`
+  expression: `(function(){ var s=document.createElement('style'); s.textContent=${JSON.stringify(hideCss)}; document.head.appendChild(s);
+    ${hideLayers.length ? `(function(){
+      var m = (window.__app || {}).map || window.__map;
+      if (!m) return;
+      ${JSON.stringify(hideLayers)}.forEach(function (id) {
+        try { if (m.getLayer(id)) m.setLayoutProperty(id, 'visibility', 'none'); } catch (e) {}
+      });
+    })()` : ''}
+    ${overlay} })()`
 });
 await sleep(900);
 
