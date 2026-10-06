@@ -27,6 +27,25 @@ build_*.log
 # Agent 内存（非项目源码，不进仓库）
 .workbuddy/
 
+# Agent 临时产物（下划线开头，但按名精确列出）
+# 注意：_pdfmeta/ 与 _retired/ 是**已跟踪的正式内容**（PDF 元数据抽取产物、
+# 已下线文章存档），故意不在此列，切勿用 `/_*` 一刀切。
+/_g/
+/_m/
+/_shots/
+/_validate_shots/
+/_dem_cache/
+/_house_cache/
+/_lib_cache/
+/_serve_public.cjs
+/_serve_dist.cjs
+/_verify_*.cjs
+/_verify_*.mjs
+/_verify_*.txt
+/_cover_*.txt
+/_shots_*.txt
+/_inspect_out.txt
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
