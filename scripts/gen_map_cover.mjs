@@ -34,7 +34,7 @@ if (!slug) { console.error('缺 --slug'); process.exit(1); }
 const OUT = arg('out', `public/maps/${slug}/cover.jpg`);
 const URL_ = `${BASE}/maps/${slug}/index.html`;
 
-fs.rmSync(PROF, { recursive: true, force: true });
+try { fs.rmSync(PROF, { recursive: true, force: true }); } catch (_) {}
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 const child = spawn(CHROME, [
   '--headless=new', '--disable-gpu-sandbox', '--no-first-run', '--no-default-browser-check',

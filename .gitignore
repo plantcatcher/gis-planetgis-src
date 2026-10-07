@@ -45,6 +45,7 @@ build_*.log
 /_cover_*.txt
 /_shots_*.txt
 /_inspect_out.txt
+scripts/_cache/
 
 # Editor directories and files
 .vscode/*

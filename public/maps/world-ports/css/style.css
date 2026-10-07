@@ -1,0 +1,79 @@
+/* 世界港口分布地图 · 专题样式
+   基于 _shared/thematic/thematic.css。
+   配色取「海港」：深水青底 + 青绿 accent（与点位分档的暖色拉开层次）。 */
+
+:root {
+  /* 海港青，呼应「港口」；刻意避开点位分档里的红橙黄 */
+  --accent: #2dd4bf;
+  --accent-light: #7ce8dc;
+  --accent-dark: #14a89a;
+  --accent-soft: rgba(45, 212, 191, 0.14);
+  --panel-solid: rgba(6, 17, 24, 0.94);
+}
+
+html, body, #map { background: #04141c; }
+
+/* 4 项统计一行放下 */
+.facts { grid-template-columns: repeat(4, 1fr); }
+.facts > span + span { padding-left: 8px; }
+.facts .v { font-size: 12px; }
+.facts em { font-size: 17px; }
+
+.hint-n { font-size: 10.5px; color: var(--dim); font-weight: 400; font-variant-numeric: tabular-nums; }
+
+/* ── 名称搜索框 ───────────────────────────────────────────── */
+.search { display: flex; gap: 5px; margin-bottom: 8px; }
+.search input {
+  flex: 1 1 auto; min-width: 0; font: inherit; font-size: 12.5px; color: var(--text);
+  background: rgba(255,255,255,.05); border: 1px solid var(--line);
+  border-radius: 8px; padding: 7px 10px; transition: border-color .16s, background .16s;
+}
+.search input::placeholder { color: var(--dim); }
+.search input:focus { outline: none; border-color: var(--accent); background: rgba(45,212,191,.08); }
+.search button {
+  flex: 0 0 auto; width: 34px; font: inherit; font-size: 13px; color: var(--muted); cursor: pointer;
+  background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 8px;
+  transition: color .16s, border-color .16s;
+}
+.search button:hover { color: var(--text); border-color: var(--accent); }
+
+/* ── 重要性层级 chips ─────────────────────────────────────── */
+.chips { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
+.chips button {
+  font: inherit; font-size: 11.5px; color: var(--muted); cursor: pointer;
+  background: rgba(255,255,255,.04); border: 1px solid var(--line);
+  border-radius: 7px; padding: 5px 10px;
+  transition: background .16s, color .16s, border-color .16s;
+  font-variant-numeric: tabular-nums;
+}
+.chips button:hover { color: var(--text); }
+.chips button.active { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); font-weight: 600; }
+
+/* ── 国家排行条：按港口数着色（accent 同语义） ─────────────── */
+.chart { gap: 3px; }
+.chart-row { grid-template-columns: var(--nm-w, 72px) 1fr var(--vl-w, 64px); padding: 3px 5px; }
+.chart-row .nm { font-size: 12px; }
+.chart-row .bar { height: 7px; }
+.chart-row .bar i { background: var(--accent); }
+.chart-row .vl { font-size: 11.5px; }
+.chart-row .vl em { font-style: normal; color: var(--dim); font-size: 10px; }
+
+/* ── 图例：重要性六档 ─────────────────────────────────────── */
+.legend { gap: 5px 13px; max-width: 270px; }
+.legend .lg-cap { font-size: 10px; color: var(--dim); letter-spacing: .04em; width: 100%; margin-bottom: 1px; }
+.legend .lg-row { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
+.legend .lg-row i { width: 12px; height: 12px; border-radius: 50%; display: block; flex: 0 0 auto; }
+.legend .lg-row em { font-style: normal; color: var(--dim); font-size: 9.5px; }
+
+/* 详情卡顶部色条随选中对象切换 */
+.detail { border-top: 3px solid var(--rc, var(--accent)); }
+.detail > header small { color: var(--rc, var(--accent)); }
+
+/* 移动端 */
+@media (max-width: 900px) {
+  .facts { grid-template-columns: repeat(4, 1fr); }
+  .facts em { font-size: 15px; }
+  .legend { max-width: none; }
+  .panel .row { padding: 9px 0; }
+  .search input { font-size: 14px; }
+}

@@ -381,6 +381,41 @@
         "desc": "状态分组与配色 / 容量分档 / 国家分档阈值 / 投运年代范围（1950–2040）/ 总量与在运统计（在运 363 台 · 340 GW）"
       }
     ]
+  },
+  {
+    "slug": "world-ports",
+    "entry": "/maps/world-ports/index.html",
+    "bbox": [
+      -180,
+      -58,
+      180,
+      76
+    ],
+    "crs": "WGS84 / EPSG:4326（底图为 WGS84 / Web Mercator 球面墨卡托，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "viewport": "桌面总览 bbox = [-180,-58,180,76]；移动端另用 boundsMobile = [-20,-50,150,65]（欧美+亚洲+非洲北部）——MapLibre 在 renderWorldCopies:false 时强制「世界尺寸 ≥ 容器最长边」，390×844 竖屏把 zoom 顶死在 log2(844/512)=0.72，该级世界宽 843px > 屏宽 390px，物理上装不下 360° 经度（实测 setMinZoom(-2) 与 jumpTo 负 zoom 均被夹回），只能收窄取景对准内容重心",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认为主底图并按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；可叠加枢纽港名称标注与 20° 经纬网格。高德/百度/腾讯瓦片只覆盖中国，全球尺度下境外全空白，故本图不用；services.arcgisonline.com 本机实测超时，改用 server 节点",
+    "source": "Natural Earth「ne_10m_ports」（WGS84 / EPSG:4326，公开数据集）。收录 1081 个主要港口，字段为名称、官网链接、重要性 scalerank（0–10，越小越重要；本提取仅含 3–8 六档）与显示比例尺 natlscale。国家归属由 world-atlas（TopoJSON 110m）做点归属，海岸外溢的港口按最近邻国家兜底，21 个真正中洋点位无归属。不绘制世界国界，国家维度用港口数加权重心表达；台湾港口按中国一部分并入，不在排行榜单独列出",
+    "updated": "2026-10-07",
+    "data": [
+      {
+        "file": "maps/world-ports/data/ports.json",
+        "features": 1081,
+        "unit": "个主要港口",
+        "desc": "港口点位：id / n 名称 / w 官网 / r scalerank(3 顶级→8 小型) / t 档位0–5 / color 档位色 / baseR 基础半径 / ns natlscale / c 国家EN / cn 国家ZH / lon,lat。scalerank 与 natlscale 完全反相关（3 最显要↔75，8 最次要↔5）。699 个有官网记录，21 个为真正中洋点位无国家归属"
+      },
+      {
+        "file": "maps/world-ports/data/countries.json",
+        "features": 122,
+        "unit": "个国家/地区",
+        "desc": "国家聚合：港口数 n、枢纽数 hubs(scalerank≤4)、各档计数 tc[6]、港口数加权重心 cxy。最多美国 108 港(24 枢纽)、中国 9 枢纽"
+      },
+      {
+        "file": "maps/world-ports/data/stats.json",
+        "features": 9,
+        "unit": "组统计口径",
+        "desc": "总量(nPort/nCountry/website/noCountry)、六档计数 tierCounts、档位定义 tiers、按数量前 15 国家 topByCount、数据源与合规说明"
+      }
+    ]
   }
 ]
 }
