@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>全球核电站分布地图 · 1387 台机组的地理格局</title>
+  <meta name="description" content="全球 1387 台核电机组被摊在同一张地图上：圆点大小是装机容量、颜色是机组状态（运行中/在建/规划中/搁置/退役/取消），叠加国家总装机气泡，可按状态筛选、按容量门槛过滤、看 70 年投运时间轴。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <!-- ── 左：介绍栏 ─────────────────────────────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 全球总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-eq"></i>
+      <b>全球核电站分布地图</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> GLOBAL NUCLEAR · 1387 UNITS</small>
+      <h1><span>全球核电站</span><b>分布地图</b></h1>
+      <p class="lead">全球 <b>1387 台核电机组</b>被摊在同一张地图上：圆点的<b>大小是装机容量</b>、<b>颜色是机组状态</b>——绿的是运行中、蓝的是在建、黄的是规划中、灰的是退役、红的是取消。核电不是均匀分布的：它跟着工业基础、跟着能源政策、跟着公众对安全的态度走。</p>
+
+      <div class="facts">
+        <span><small>核电机组</small><b><span class="v"><em id="fUnit">1387</em></span><i>台</i></b></span>
+        <span><small>在运装机</small><b><span class="v"><em id="fCapOp">340</em></span><i>GW</i></b></span>
+        <span><small>在运机组</small><b><span class="v"><em id="fOp">363</em></span><i>台</i></b></span>
+        <span><small>覆盖国家</small><b><span class="v"><em id="fCountry">59</em></span><i>个</i></b></span>
+      </div>
+
+      <!-- 反应堆状态筛选 -->
+      <section class="block">
+        <header><small>反应堆状态</small><small id="statusN" class="hint-n">1387 台</small></header>
+        <div class="seg" id="segStatus">
+          <button type="button" data-v="all" class="active">全部</button>
+          <button type="button" data-v="OP">运行中</button>
+          <button type="button" data-v="CON">在建</button>
+          <button type="button" data-v="PLN">规划中</button>
+          <button type="button" data-v="SUS">搁置/封存</button>
+          <button type="button" data-v="RET">退役</button>
+          <button type="button" data-v="CAN">取消</button>
+        </div>
+        <p class="note" id="statusNote">显示全部 1387 台机组。点上方状态可单独观察某一类机组的地理分布。</p>
+      </section>
+
+      <!-- 装机容量门槛 -->
+      <section class="block">
+        <header><small>装机容量门槛</small><small id="capLb" class="hint-n">≥ 0 MW</small></header>
+        <div class="chips" id="chipCap">
+          <button type="button" data-v="0" class="active">全部</button>
+          <button type="button" data-v="100">≥100</button>
+          <button type="button" data-v="500">≥500</button>
+          <button type="button" data-v="1000">≥1000</button>
+          <button type="button" data-v="1500">≥1500</button>
+        </div>
+        <p class="note">按单台机组容量（MW）过滤。门槛越高，地图上越只剩下真正的「千兆瓦级」大堆。</p>
+      </section>
+
+      <!-- 投运年代时间轴 -->
+      <section class="block">
+        <header><small>投运年代时间轴</small><small id="eraLb" class="hint-n">1951 至今</small></header>
+        <div class="era" id="eraBar">
+          <div class="era-track"><i id="eraFill"></i></div>
+          <input type="range" id="eraRange" min="1950" max="2040" step="10" value="2040" aria-label="投运年代筛选" />
+          <div class="era-ticks" id="eraTicks"></div>
+        </div>
+        <p class="note" id="eraNote">拖动时间轴，只看某个年代之前投运的机组——核电的两次浪潮（1970 年前后欧美首波、1980 年前后法苏大建）与 2010 年后的小堆复兴会依次浮现。</p>
+      </section>
+
+      <!-- 国家排行 -->
+      <section class="block">
+        <header><small id="rankTitle">国家总装机排行</small><small id="rankNote" class="hint-n">前 12</small></header>
+        <div class="chart" id="rankList"></div>
+        <p class="note" id="rankTip">按总装机降序。点任意一行，地图飞向该国并高亮它的全部机组。</p>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：Global Energy Monitor（GEM）Global Nuclear Power Tracker（GNPT），2025 年 9 月版，坐标系 WGS84，许可 CC BY 4.0。收录 <b>1387 台核电机组</b>（机组级）与 <b>485 个核电设施地点</b>（按 GEM 地点 ID 去重、多机组合并的项目级），覆盖 61 个国家/地区（本图按源数据国别统计为 59 个，含波多黎各）。<b>已知缺口</b>：源库的国别条目里<b>没有中国大陆</b>，因此本图也不含中国核电站——看东亚时要留意这个缺口（俄罗斯、日本、韩国、朝鲜的在运机组都在图上）。<b>口径</b>：容量为单台机组铭牌值，「总装机」是台账内机组求和，不等于该国实际在运核电装机（含未入库小堆与在建工程）；部分拟建项目坐标为近似位置（Location Accuracy = approximate，362 台）。<b>合规处理</b>：本图不绘制世界国界，国家维度用总装机加权重心气泡表达，规避国界画法问题。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/works/world-nuclear" target="_top">作品介绍</a>
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── 右上：机组 / 设施 / 国家详情卡 ────────────────────── -->
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">UNIT</small>
+      <div class="dt-actions">
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtSub">—</p>
+    <div class="dt-metrics">
+      <span><small id="dtLb1">装机</small><b><em id="dtV1">—</em><i id="dtU1">MW</i></b></span>
+      <span><small id="dtLb2">状态</small><b><em id="dtV2">—</em><i id="dtU2"></i></b></span>
+      <span><small id="dtLb3">投运</small><b><em id="dtV3">—</em><i id="dtU3">年</i></b></span>
+    </div>
+    <section class="dt-desc">
+      <small id="dtDescLb">反应堆与业主</small>
+      <p id="dtDesc">—</p>
+    </section>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <!-- ── 右下：图例 ─────────────────────────────────────────── -->
+  <div class="dock">
+    <div class="legend" id="legend"></div>
+  </div>
+
+  <!-- ── 左下：图层与底图 ───────────────────────────────────── -->
+  <div class="panel" id="panel">
+    <div class="panel-head" id="panelHead">
+      <span>图层与底图</span>
+      <button type="button" id="panelToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckUnit" checked data-toggle-layer="unit-pt" /><span>核电机组</span></label>
+      <label class="row"><input type="checkbox" id="ckSite" data-toggle-layer="site-pt" /><span>核电设施地点（项目）</span></label>
+      <label class="row"><input type="checkbox" id="ckBubble" checked /><span>国家总装机气泡</span></label>
+      <label class="row"><input type="checkbox" id="ckLabel" checked /><span>国家名称</span></label>
+      <label class="row"><input type="checkbox" id="ckGraticule" /><span>经纬网格</span></label>
+      <div class="divider"></div>
+      <div class="bm-title">底图</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" checked /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>地形晕渲</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" /><span>深色</span></label>
+      </div>
+      <div class="divider"></div>
+      <p class="panel-note" id="panelNote">
+        点位<b>大小按单台装机容量</b>、<b>颜色按机组状态</b>分六档（绿 运行中 → 红 取消）；气泡为该国<b>总装机的装机加权重心</b>，不是首府。
+      </p>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="/maps/_shared/thematic/thematic.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

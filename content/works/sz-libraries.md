@@ -1,6 +1,6 @@
 ---
 slug: sz-libraries
-title: 深圳图书馆分布地图 · 15 处总馆的空间格局
+title: 深圳图书馆分布地图
 cover: /maps/sz-libraries/cover.jpg
 summary: 2 家市级机构、9 个行政区与大鹏新区共 15 处公共图书馆总馆馆舍，摊在深圳市域地图上：辖区按本区纸质文献藏量合计分档着色，逐馆可点、逐馆一篇介绍页（含建筑面积、藏量口径、阅览座位、评定等级、开放时间与交通）。可直接查「深圳图书馆地址」「南山图书馆开放时间」这类具体问题。
 link: /maps/sz-libraries
@@ -53,14 +53,7 @@ tags: 地理, 地理可视化, 互动地图, 深圳, 图书馆, 公共文化, �
 - **大鹏新区的处理**：大鹏新区是深圳的**功能区**而非行政区（没有独立行政区划代码，范围在龙岗区内），因此行政边界数据里没有它的面。本图**不编造一条边界**给它着色块，只在图上画一圈虚线示意其大致位置并标注。这是本图唯一一个「不按常规处理」的地方，但它是地理事实而非数据缺失。
 - **数据来源**：各馆官网「概况 / 本馆简介」页（szlib.org.cn、nslib.cn、szlglib.com.cn、szgmlib.com.cn、szlhlib.org.cn 等）、各区政府门户场馆介绍页（baoan.gov.cn、szpsq.gov.cn、dpxq.gov.cn 等）、深圳市政府门户「Libraries across Shenzhen」场馆名录、深圳市 2026 年「图书馆之城」阅读报告。
 
-## 复现方式
 
-```
-python scripts/build_sz_libraries.py        # 地理编码 + 生成 data/libraries.json 与 districts.json
-python scripts/build_sz_libraries_pages.py  # 渲染 libraries/*.md → libraries/*.html + catalog.html
-```
-
-馆情内容全部写在 `public/maps/sz-libraries/libraries/*.md` 里（frontmatter + Markdown），改 md 重跑脚本即可更新所有静态页。
 
 ## 常见问题
 

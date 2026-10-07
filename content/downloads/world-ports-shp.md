@@ -10,7 +10,7 @@ trigger: 世界港口分布数据
 keywordAliases: 全球港口数据, 港口分布数据, 世界港口SHP, 海港shp
 code: NSH-GIS-018
 download: https://downloads.planetgis.cn/GIS/world-ports-shp.zip
-cover: /covers/geo-data-cover-1.jpg
+cover: /covers/geo-data-cover.jpg
 format: SHP（ZIP 压缩包）
 size: 0.06 MB
 source: Natural Earth 公开海港点图层（ne_10m_ports）整理，追加 .qix 空间索引

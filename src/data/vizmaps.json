@@ -341,6 +341,46 @@
         "desc": "装机分档 / 国家分档阈值、型式标签与说明、年代分箱、总量与缺测统计、数据与合规说明文案"
       }
     ]
+  },
+  {
+    "slug": "world-nuclear",
+    "entry": "/maps/world-nuclear/index.html",
+    "bbox": [
+      -168,
+      -56,
+      176,
+      72
+    ],
+    "crs": "WGS84 / EPSG:4326（底图为 WGS84 / Web Mercator 球面墨卡托，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认为主底图并按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；可叠加国家名称标注与 20° 经纬网格。高德/百度/腾讯瓦片只覆盖中国，全球尺度下境外全空白，故本图不用",
+    "source": "Global Energy Monitor（GEM）Global Nuclear Power Tracker（GNPT）2025 年 9 月版（CC BY 4.0），WGS84，坐标为厂址点。收录 1387 台核电机组（机组级）与 485 个核电设施地点（按 GEM 地点 ID 去重、多机组合并的项目级），覆盖 61 个国家/地区（按源数据国别字段统计为 59 个，波多黎各单列）。状态 10 种归并为 6 组：运行中 363 / 规划中 352（已公布+拟建前期）/ 取消 357 / 退役 221 / 搁置封存 51 / 在建 43；部分拟建项目坐标为近似位置（Location Accuracy=approximate 362 台）。本图不绘制世界国界，国家维度用总装机加权重心气泡表达",
+    "updated": "2026-10-07",
+    "data": [
+      {
+        "file": "maps/world-nuclear/data/units.json",
+        "features": 1387,
+        "unit": "台核电机组",
+        "desc": "机组点位：n 名称 / pr 项目 / c 国家 / w 装机 MW（全库有值 0–1830）/ g 状态组 / st 原始状态 / rt 反应堆类型 / y 投运年（830 台有记录，1951–2040）/ owner / operator / wiki。坐标精确 1025 台、近似 362 台；投运年缺测 557 台（多为规划/取消机组，统一置 null 不置 0）"
+      },
+      {
+        "file": "maps/world-nuclear/data/sites.json",
+        "features": 485,
+        "unit": "个设施地点",
+        "desc": "项目级点位（同一地点多机组合并）：总装机 1–10944 MW、单点最多 13 台机组，带主导状态、状态集合、反应堆类型集合与业主运营商；点位半径按地点总装机分级"
+      },
+      {
+        "file": "maps/world-nuclear/data/countries.json",
+        "features": 59,
+        "unit": "个国家/地区",
+        "desc": "国家聚合：机组数、总装机、装机加权重心 cxy、6 组状态构成、反应堆类型构成、首末投运年。最大美国 323,173 MW（log10≈5.51），气泡半径按 log10 分级，断点覆盖到 6"
+      },
+      {
+        "file": "maps/world-nuclear/data/stats.json",
+        "features": 12,
+        "unit": "组统计口径",
+        "desc": "状态分组与配色 / 容量分档 / 国家分档阈值 / 投运年代范围（1950–2040）/ 总量与在运统计（在运 363 台 · 340 GW）"
+      }
+    ]
   }
 ]
 }
