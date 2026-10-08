@@ -490,6 +490,174 @@
         "desc": "市町村（市 / 町 / 村 / 特别区）边界，可作为叠加图层查看最基层行政区划；属性含所属都道府县与类型"
       }
     ]
+  },
+  {
+    "slug": "egy-regions",
+    "entry": "/maps/egy-regions/index.html",
+    "bbox": [
+      24.5,
+      21.5,
+      36.5,
+      32
+    ],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_EGY_shp，WGS84 / EPSG:4326，公开数据）：27 个省（Muhafazah）边界 + 342 个区（Markaz）。中文译名按通行译法整理；人口为公开估计（约值）、面积由几何球面实算，仅供快速对照；省份按大开罗 / 下埃及 / 上埃及 / 沙漠与边疆四大区域归类",
+    "updated": "2026-10-09",
+    "data": [
+      {
+        "file": "maps/egy-regions/data/governorates.geojson",
+        "features": 27,
+        "unit": "个省",
+        "desc": "27 个省（Muhafazah）边界；属性含中文译名 / 阿拉伯语原名 / 类型 / 所属区域 / 省会 / 人口估计 / 几何实算面积 / 看点"
+      },
+      {
+        "file": "maps/egy-regions/data/districts.geojson",
+        "features": 342,
+        "unit": "个区",
+        "desc": "区（Markaz）边界，可作为叠加图层查看省以下行政区划；属性含所属省与类型"
+      }
+    ]
+  },
+  {
+    "slug": "esp-regions",
+    "entry": "/maps/esp-regions/index.html",
+    "bbox": [
+      -10,
+      35.5,
+      4.5,
+      44
+    ],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_ESP_shp，WGS84 / EPSG:4326，公开数据）：18 个自治区要素（17 自治区 + Ceuta y Melilla 合并要素）+ 52 个省。中文译名按通行译法整理；人口为 INE 估计（约值）、面积由几何球面实算，仅供快速对照；按绿色北部 / 梅塞塔 / 地中海东岸 / 安达卢西亚 / 海岛飞地五大区域归类。取景聚焦伊比利亚半岛，加那利群岛与北非飞地需拖动查看",
+    "updated": "2026-10-09",
+    "data": [
+      {
+        "file": "maps/esp-regions/data/communities.geojson",
+        "features": 18,
+        "unit": "个自治区",
+        "desc": "18 个自治区要素（含 Ceuta y Melilla 合并要素）边界；属性含中文译名 / 原名 / 类型 / 所属区域 / 首府 / 人口估计 / 几何实算面积 / 看点"
+      },
+      {
+        "file": "maps/esp-regions/data/provinces.geojson",
+        "features": 52,
+        "unit": "个省",
+        "desc": "52 个省（Provincia）边界，可作为叠加图层查看自治区以下行政区划；属性含所属自治区与类型"
+      }
+    ]
+  },
+  {
+    "slug": "kor-regions",
+    "entry": "/maps/kor-regions/index.html",
+    "bbox": [
+      124,
+      32.8,
+      132.2,
+      38.8
+    ],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_KOR_shp，WGS84 / EPSG:4326，公开数据）：17 个道市级单位（1 特别市 / 6 广域市 / 1 特别自治市 / 1 特别自治道 / 8 道）+ 229 个市郡区。韩文汉字名取自 GADM 本地名（NL_NAME_1，如「釜山廣域市」）；中文译名按通行译法整理；人口为住民登记估计（约值）、面积由几何球面实算，仅供快速对照；按首都圈 / 忠清 / 湖南 / 岭南 / 江原 / 济州六大圈域归类",
+    "updated": "2026-10-09",
+    "data": [
+      {
+        "file": "maps/kor-regions/data/metro.geojson",
+        "features": 17,
+        "unit": "个道市级单位",
+        "desc": "17 个道市级单位边界；属性含中文译名 / 韩文与汉字原名 / 类型 / 所属圈域 / 行政中心 / 人口估计 / 几何实算面积 / 看点"
+      },
+      {
+        "file": "maps/kor-regions/data/citycounty.geojson",
+        "features": 229,
+        "unit": "个市/郡/区",
+        "desc": "市（시）/ 郡（군）/ 区（구）边界，可作为叠加图层查看最基层行政区划；属性含所属道市与类型"
+      }
+    ]
+  },
+  {
+    "slug": "mng-regions",
+    "entry": "/maps/mng-regions/index.html",
+    "bbox": [
+      87.5,
+      41.4,
+      120.2,
+      52.4
+    ],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_MNG_shp，WGS84 / EPSG:4326，公开数据）：22 个省市级要素（21 省 Aimag + 首都乌兰巴托等市）+ 327 个苏木（Sum，NL_NAME_2 自带西里尔原名）。中文译名按通行译法整理；人口为公开估计（约值）、面积由几何球面实算，仅供快速对照；按西部山区 / 杭爱中部 / 戈壁地带 / 东部草原四大自然区域归类",
+    "updated": "2026-10-09",
+    "data": [
+      {
+        "file": "maps/mng-regions/data/aimags.geojson",
+        "features": 22,
+        "unit": "个省市级单位",
+        "desc": "22 个省市级要素（21 省 + 市）边界；属性含中文译名 / 原名 / 类型 / 所属自然区域 / 省会 / 人口估计 / 几何实算面积 / 看点"
+      },
+      {
+        "file": "maps/mng-regions/data/sums.geojson",
+        "features": 327,
+        "unit": "个苏木",
+        "desc": "苏木（Sum）边界，可作为叠加图层查看最基层行政区划；属性含所属省、类型与西里尔原名"
+      }
+    ]
+  },
+  {
+    "slug": "ukr-regions",
+    "entry": "/maps/ukr-regions/index.html",
+    "bbox": [
+      22,
+      44.2,
+      40.5,
+      52.6
+    ],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_UKR_shp，WGS84 / EPSG:4326，公开数据）：27 个州级单位（24 州 + 基辅市 + 克里米亚自治共和国 + 塞瓦斯托波尔；源数据 1 条字段全为「?」的异常记录已剔除）+ 628 个区市（2020 年区划改革前旧口径，10 条占位符记录已剔除）。西里尔原名取自 NL_NAME_1；中文译名按通行译法整理；人口为 2021 年前后官方估计（约值）、面积由几何球面实算；克里米亚等归属与界线画法沿用 GADM 源数据口径，不代表任何立场",
+    "updated": "2026-10-09",
+    "data": [
+      {
+        "file": "maps/ukr-regions/data/oblasts.geojson",
+        "features": 27,
+        "unit": "个州级单位",
+        "desc": "27 个州级单位边界；属性含中文译名 / 西里尔原名 / 类型 / 所属方位 / 首府 / 人口估计 / 几何实算面积 / 看点"
+      },
+      {
+        "file": "maps/ukr-regions/data/raions.geojson",
+        "features": 628,
+        "unit": "个区/市",
+        "desc": "区（Raion）/ 市（Misto）边界（2020 年改革前旧口径），可作为叠加图层；属性含所属州与类型"
+      }
+    ]
+  },
+  {
+    "slug": "vnm-regions",
+    "entry": "/maps/vnm-regions/index.html",
+    "bbox": [
+      102,
+      8.2,
+      109.7,
+      23.6
+    ],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_VNM_shp，WGS84 / EPSG:4326，公开数据）：63 个省级行政区（57 省 + 6 直辖市）+ 710 个县/郡/市社。中文译名按通行译法整理；人口为 2019 年普查口径（约值）、面积由几何球面实算，仅供快速对照；按越南官方八大经济区归类。实测源数据不含西沙/南沙几何，转换脚本另设位置过滤兜底，西沙群岛、南沙群岛自古以来就是中国的固有领土",
+    "updated": "2026-10-09",
+    "data": [
+      {
+        "file": "maps/vnm-regions/data/provinces.geojson",
+        "features": 63,
+        "unit": "个省级行政区",
+        "desc": "63 个省级行政区（57 省 + 6 直辖市）边界；属性含中文译名 / 原名 / 类型 / 所属大区 / 省会 / 人口估计 / 几何实算面积 / 看点"
+      },
+      {
+        "file": "maps/vnm-regions/data/districts.geojson",
+        "features": 710,
+        "unit": "个县/郡/市社",
+        "desc": "县（Huyện）/ 郡（Quận）/ 市社（Thị xã）边界，可作为叠加图层查看省以下行政区划；属性含所属省市与类型"
+      }
+    ]
   }
 ]
 }

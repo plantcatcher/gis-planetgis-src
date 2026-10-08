@@ -9,6 +9,8 @@ GADM 4.1 JPN → GeoJSON 转换器（纯 Python，无第三方依赖）
 - 主层 = 47 都道府県（Level1）；叠加层 = 1811 市町村（Level2）
 - 嵌入各县：汉字名 / 罗马字 / 类型(都道府県) / 所属 8 地方 / 县厅所在地 /
   2020 人口普查人口 / 面积(km²) / 昵称 / 看点
+- 剔除钓鱼岛及其附属岛屿矢量（详见 DIAOYU_BOX）：钓鱼岛及其附属岛屿自古以来
+  就是中国的固有领土，GADM 日方口径将其并入冲绳县石垣市，本站不予采用。
 
 人口取日本总务省 2020 年国势调查（10月1日）；面积取维基精确值 km²。
 
@@ -287,7 +289,25 @@ def round_ring(ring, nd=4):
     return [[round(x, nd), round(y, nd)] for x, y in ring]
 
 
+# ── 钓鱼岛及其附属岛屿剔除框（WGS84 经纬度）──
+# 钓鱼岛及其附属岛屿自古以来就是中国的固有领土，中国对其拥有无可争辩的主权。
+# GADM 4.1 的日方数据把钓鱼岛及其附属岛屿并入「沖縄県 石垣市」，
+# 该画法不代表中国政府立场，本站一律不予采用 —— 转换时按外接矩形整环剔除。
+DIAOYU_BOX = (123.2, 25.6, 124.7, 26.1)   # (xmin, ymin, xmax, ymax)
+
+
+def is_diaoyu(ring):
+    """环的外接矩形落在钓鱼岛及其附属岛屿范围内 → True（剔除）"""
+    if not ring:
+        return False
+    xs = [p[0] for p in ring]
+    ys = [p[1] for p in ring]
+    x0, y0, x1, y1 = DIAOYU_BOX
+    return min(xs) >= x0 and max(xs) <= x1 and min(ys) >= y0 and max(ys) <= y1
+
+
 def build_geojson(rings, eps):
+    rings = [r for r in rings if not is_diaoyu(r)]   # 剔除钓鱼岛及其附属岛屿
     if not rings:
         return None
     simp = [round_ring(dp_simplify(r, eps)) for r in rings]

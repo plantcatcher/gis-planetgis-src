@@ -1,16 +1,14 @@
-/* 日本行政区划互动地图 · 专题样式
-   基于 _shared/thematic/thematic.css。
-   配色取「日本红」：桜粉→深红 accent，与都道府県分级的红阶呼应。 */
+/* 通用行政区划互动地图 · 专题样式（regions-app 配套）
+   基于 _shared/thematic/thematic.css；accent 由各国 index.html 的
+   <style> 覆盖 --accent 系列变量实现主题色。 */
 
 :root {
   --accent: #e15a52;
   --accent-light: #fb7185;
   --accent-dark: #96281b;
   --accent-soft: rgba(225, 90, 82, 0.14);
-  --panel-solid: rgba(20, 8, 10, 0.94);
+  --panel-solid: rgba(20, 10, 8, 0.94);
 }
-
-html, body, #map { background: #140a0c; }
 
 /* 4 项统计一行放下 */
 .facts { grid-template-columns: repeat(4, 1fr); }
@@ -32,7 +30,7 @@ html, body, #map { background: #140a0c; }
 .chips button:hover { color: var(--text); }
 .chips button.active { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); font-weight: 600; }
 
-/* ── 图例：红阶 / 8 地方分类 ───────────────────────────────── */
+/* ── 图例 ─────────────────────────────────────────────────── */
 .legend { gap: 5px 13px; max-width: 280px; }
 .legend .lg-cap { font-size: 10px; color: var(--dim); letter-spacing: .04em; width: 100%; margin-bottom: 1px; }
 .legend .lg-row { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
@@ -43,8 +41,8 @@ html, body, #map { background: #140a0c; }
 .detail { border-top: 3px solid var(--rc, var(--accent)); }
 .detail > header small { color: var(--rc, var(--accent)); }
 
-/* ── 领土声明：来源说明里单独强调的一段 ─────────────────── */
-.block.src p.claim { margin-top: 8px; padding-left: 9px; border-left: 2px solid var(--accent); color: #e9bcb7; }
+/* ── 来源与声明 ───────────────────────────────────────────── */
+.block.src p.claim { margin-top: 8px; padding-left: 9px; border-left: 2px solid var(--accent); color: #e9c9b7; }
 
 /* 移动端 */
 @media (max-width: 900px) {

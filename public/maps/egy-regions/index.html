@@ -4,14 +4,22 @@
   <script src="/shared/ga-bridge.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>日本行政区划地图 · 47 都道府県与 8 地方的人口、面积与看点</title>
-  <meta name="description" content="点一下日本地图，看每个都道府县的汉字名、类型（都道府县）、所属 8 地方、县厅所在地、2020 人口、面积与看点。可在「人口 / 面积 / 地方」之间切换着色，还能展开 1811 个市町村看最基层的行政区划。" />
-  <meta name="keywords" content="日本地图,日本行政区划,都道府县,日本地方,东京,大阪,北海道,市町村,人口,面积" />
+  <title>埃及行政区划地图 · 27 省与 343 区的人口、面积与看点</title>
+  <meta name="description" content="点一下埃及地图，看 27 个省（Muhafazah）的中文译名、首府、人口、面积与看点。可在「人口 / 面积 / 区域」之间切换着色，还能展开 343 个区（Markaz）看省以下的行政区划。边界数据来自 GADM 4.1。" />
+  <meta name="keywords" content="埃及地图,埃及行政区划,埃及省份,开罗,吉萨,金字塔,尼罗河,人口,面积,GADM" />
   <meta name="author" content="PlanetGIS" />
   <link rel="icon" href="data:," />
   <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
   <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="/maps/_shared/regions.css" />
+  <style>
+    :root {
+      --accent: #d9a441; --accent-light: #f0c060; --accent-dark: #8a5a1a;
+      --accent-soft: rgba(217, 164, 65, 0.14);
+      --panel-solid: rgba(22, 14, 4, 0.94);
+    }
+    html, body, #map { background: #160e04; }
+  </style>
 </head>
 <body>
 
@@ -22,25 +30,25 @@
   <aside class="intro" id="intro">
     <div class="intro-head">
       <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
-      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 日本总览</button>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 埃及总览</button>
     </div>
 
     <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
       <i class="ic-eq"></i>
-      <b>日本行政区划地图</b>
+      <b>埃及行政区划地图</b>
       <span><em id="introBarText">收起</em><i class="caret"></i></span>
     </div>
 
     <div class="intro-body" id="introBody">
-      <small class="eyebrow"><i class="ic-eq"></i> JAPAN · PREFECTURES &amp; REGIONS</small>
-      <h1><span>日本</span><b>行政区划地图</b></h1>
-      <p class="lead">日本由 <b>47 个一级行政区（都道府県）</b>组成，下分 <b>1811 个市町村</b>；传统上又按地理与历史归为 <b>8 个地方</b>。点一下地图，看每个都道府县的<b>汉字名、类型、所属地方、县厅、人口、面积与看点</b>。顶栏可在<b>人口 / 面积 / 地方</b>之间切换着色。</p>
+      <small class="eyebrow"><i class="ic-eq"></i> EGYPT · GOVERNORATES</small>
+      <h1><span>埃及</span><b>行政区划地图</b></h1>
+      <p class="lead">埃及全国由 <b>27 个省（Muhafazah）</b>组成，下分 <b>340 余个区</b>。国土近 <b>100 万 km²</b>，却有 95% 以上的人口挤在尼罗河谷与三角洲。点一下地图，看每个省的<b>中文译名、首府、人口、面积与看点</b>；顶栏可在<b>人口 / 面积 / 区域</b>之间切换着色。</p>
 
       <div class="facts">
-        <span><small>都道府県</small><b><span class="v"><em id="fPref">47</em></span><i>个</i></b></span>
-        <span><small>市町村</small><b><span class="v"><em id="fMuni">1811</em></span><i>个</i></b></span>
-        <span><small>总人口</small><b><span class="v"><em id="fPop">—</em></span><i>亿</i></b></span>
-        <span><small>总面积</small><b><span class="v"><em id="fArea">—</em></span><i>万km²</i></b></span>
+        <span><small>省</small><b><span class="v"><em id="fMain">27</em></span><i>个</i></b></span>
+        <span><small>区</small><b><span class="v"><em id="fSub">—</em></span><i>个</i></b></span>
+        <span><small>总人口</small><b><span class="v"><em id="fPop">—</em></span><i id="fPopU"></i></b></span>
+        <span><small>总面积</small><b><span class="v"><em id="fArea">—</em></span><i id="fAreaU"></i></b></span>
       </div>
 
       <!-- 着色指标 -->
@@ -49,28 +57,28 @@
         <div class="chips" id="metricSeg">
           <button type="button" data-metric="pop" class="active">人口</button>
           <button type="button" data-metric="area">面积</button>
-          <button type="button" data-metric="region">地方</button>
+          <button type="button" data-metric="group">区域</button>
         </div>
-        <p class="note" id="metricNote">按<b>人口</b>着色（2020 年国势调查）。东京都一极集中——关东地方（东京、神奈川、埼玉、千叶）就占了全国四成以上人口。</p>
+        <p class="note" id="metricNote">按<b>人口</b>着色。大开罗三省（开罗、吉萨、盖勒尤卜）合计约 2,500 万人，是非洲与阿拉伯世界最大的都会区。</p>
       </section>
 
       <section class="block src">
-        <p><b>数据来源</b>：都道府県、市町村边界来自 <b>GADM 4.1</b>（gadm41_JPN_shp，WGS84 / EPSG:4326，公开数据）。汉字名取自 GADM 本地名（NL_NAME_1）；人口取<b>2020 年国势调查</b>（总务省）、面积为近似值，仅供快速对照。日本行政区划含 <b>1 都（东京）· 1 道（北海道）· 2 府（京都、大阪）· 43 县</b>，下分 8 地方。</p>
-        <p class="claim"><b>领土声明</b>：<b>钓鱼岛及其附属岛屿自古以来就是中国的固有领土</b>，中国对其拥有无可争辩的主权。原始 GADM 数据依日方口径将其并入「沖縄県石垣市」，该画法不代表中国政府立场；本站已在矢量数据中<b>完整剔除钓鱼岛及其附属岛屿</b>，本图不再显示其任何几何。</p>
+        <p><b>数据来源</b>：省、区边界来自 <b>GADM 4.1</b>（gadm41_EGY_shp，WGS84 / EPSG:4326，公开数据）。中文译名按通行译法整理；人口为公开估计（约值）、面积由几何实算，仅供快速对照。埃及行政区划为 <b>27 省 → 340 余区</b>两级。</p>
+        <p class="claim"><b>合规说明</b>：本图数据为国外项目整理的第三方行政边界，<b>界线画法不代表中国政府立场</b>；涉及中国疆域的正式制图请使用自然资源部标准地图服务的官方数据。</p>
       </section>
 
       <div class="intro-nav">
-        <a href="/works/jp-regions" target="_top">作品介绍</a>
-        <a href="/downloads/gadm41-jpn-shp" target="_top">下载源数据</a>
+        <a href="/works/egy-regions" target="_top">作品介绍</a>
+        <a href="/downloads/gadm41-egy-shp" target="_top">下载源数据</a>
         <a href="/maps" target="_top">全部地图</a>
       </div>
     </div>
   </aside>
 
-  <!-- ── 右上：都道府県 / 市町村 详情卡 ───────────────────── -->
+  <!-- ── 右上：详情卡 ───────────────────────────────────────── -->
   <aside class="detail" id="detail" hidden>
     <header>
-      <small id="dtRole">PREFECTURE</small>
+      <small id="dtRole">GOVERNORATE</small>
       <div class="dt-actions">
         <button type="button" id="dtClose" title="关闭">✕</button>
       </div>
@@ -80,7 +88,7 @@
     <div class="dt-metrics">
       <span><small id="dtLb1">人口</small><b><em id="dtV1">—</em><i id="dtU1"></i></b></span>
       <span><small id="dtLb2">面积</small><b><em id="dtV2">—</em><i id="dtU2"></i></b></span>
-      <span><small id="dtLb3">县厅</small><b><em id="dtV3">—</em><i id="dtU3"></i></b></span>
+      <span><small id="dtLb3">省会</small><b><em id="dtV3">—</em><i id="dtU3"></i></b></span>
     </div>
     <section class="dt-desc">
       <small id="dtDescLb">看点</small>
@@ -101,8 +109,8 @@
       <button type="button" id="panelToggle" title="折叠/展开">－</button>
     </div>
     <div class="panel-body" id="panelBody">
-      <label class="row"><input type="checkbox" id="ckMuni" data-toggle-layer="muni-fill,muni-line" /><span>市町村 (市町村)</span></label>
-      <label class="row"><input type="checkbox" id="ckLabel" checked /><span>都道府県名称</span></label>
+      <label class="row"><input type="checkbox" id="ckMuni" data-toggle-layer="sub-fill,sub-line" /><span>区 (Markaz)</span></label>
+      <label class="row"><input type="checkbox" id="ckLabel" checked /><span>省名称</span></label>
       <label class="row"><input type="checkbox" id="ckGraticule" /><span>经纬网格</span></label>
       <div class="divider"></div>
       <div class="bm-title">底图</div>
@@ -113,7 +121,7 @@
       </div>
       <div class="divider"></div>
       <p class="panel-note" id="panelNote">
-        色块按<b>人口 / 面积</b>红阶分级（越深越大）；选「地方」则按 8 地方分类着色。选中都道府県后色块变透明、用红色光圈勾边。勾选「市町村」可看最基层的行政区划边界。
+        色块按<b>人口 / 面积</b>沙金分级（越深越大）；选「区域」则按四大区域分类着色。选中省后色块变透明、用色环勾边。勾选「区」可看省以下的行政边界。
       </p>
     </div>
   </div>
@@ -121,6 +129,6 @@
   <script src="/maps/_shared/maplibre-gl.js"></script>
   <script src="/maps/_shared/thematic/thematic.js"></script>
   <script src="js/config.js"></script>
-  <script src="js/app.js"></script>
+  <script src="/maps/_shared/regions-app.js"></script>
 </body>
 </html>
