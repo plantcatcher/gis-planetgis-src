@@ -37,13 +37,71 @@ const ResourceJsonLd: React.FC<{ item: ContentItem }> = ({ item }) => {
     name: item.title,
     ...(item.summary ? { description: item.summary } : {}),
     ...(item.date ? { datePublished: item.date, dateModified: item.date } : {}),
-    ...(item.download ? { contentUrl: item.download } : {}),
+    // ⚠️ 走验证码门禁的资料不得输出 contentUrl：结构化数据写在 <script> 里是明文，
+    //    一旦带上直链，任何人「查看网页源代码」就能绕过公众号验证码直接下载。
+    //    无需验证码的资料不受影响，仍照常输出利于收录。
+    ...(item.download && !isResourceGated(item) ? { contentUrl: item.download } : {}),
     ...(item.format ? { encodingFormat: item.format } : {}),
     ...(item.size ? { contentSize: item.size } : {}),
     inLanguage: 'zh-CN',
     publisher: { '@type': 'Organization', name: '星球小捕手' },
   });
   return null;
+};
+
+// 备用下载渠道：主链接不可用时的兜底（如 R2 直链之外再挂一个百度网盘）。
+// 刻意弱化——小号次要链接 + 灰色，不与主下载按钮争视觉重心；有 frontmatter downloadAlt 才出现。
+const AltDownload: React.FC<{
+  item: ContentItem;
+  log: (url?: string, type?: string) => void;
+}> = ({ item, log }) => {
+  if (!item.downloadAlt) return null;
+  const isPan =
+    item.downloadAltType === 'baidu' ||
+    /(pan\.baidu\.com|yun\.baidu\.com)/.test(item.downloadAlt);
+  return (
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+      <a
+        href={item.downloadAlt}
+        target="_blank"
+        rel="noreferrer"
+        {...(isPan ? {} : { download: true })}
+        onClick={() => log(item.downloadAlt, item.downloadAltType)}
+        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground underline underline-offset-2 hover:text-foreground"
+      >
+        <Download className="w-3.5 h-3.5" />
+        {isPan ? '备用：百度网盘下载' : '备用下载'}
+      </a>
+      {item.downloadAltCode && (
+        <span className="text-xs text-muted-foreground">
+          提取码{' '}
+          <span className="font-mono font-semibold text-foreground select-all">{item.downloadAltCode}</span>
+        </span>
+      )}
+    </div>
+  );
+};
+
+// 下载说明：一句话讲清「怎么下 + 下的是什么」。按钮只保留「下载资料」四个字，
+// 文件的格式与体积从按钮文案搬到这里的说明文字里（原来拼进按钮会出现
+// 「下载资料（SHP（ZIP 压缩包））」这种嵌套括号）。
+const DownloadHint: React.FC<{
+  item: ContentItem;
+  viaPan: boolean;
+  hasCode: boolean;
+}> = ({ item, viaPan, hasCode }) => {
+  const what = [item.format, item.size ? `约 ${item.size}` : null].filter(Boolean).join('，');
+  const how = viaPan
+    ? hasCode
+      ? '点击「下载资料」将跳转百度网盘，粘贴提取码后即可保存'
+      : '点击「下载资料」将跳转百度网盘，按页面提示保存'
+    : '点击「下载资料」即可直接下载到本机';
+  return (
+    <p className="text-sm leading-relaxed text-muted-foreground">
+      {how}
+      {what ? `：${what}。` : '。'}
+    </p>
+  );
 };
 
 const DownloadPanel: React.FC<{ item: ContentItem }> = ({ item }) => {
@@ -55,7 +113,8 @@ const DownloadPanel: React.FC<{ item: ContentItem }> = ({ item }) => {
   // ① 记本地下载足迹（「我的学习」页展示）
   // ② 上报 GA4 file_download（下载直链在 downloads.planetgis.cn、网盘链接在 pan.baidu.com，
   //    都是跨域，增强衡量自动记不到，只能手动发）
-  const logDownload = () => {
+  // 传 url/type 是为了让「备用渠道」也能如实统计：走网盘就记 baidu_pan，走直链就记 direct。
+  const logDownload = (url?: string, type?: string) => {
     recordDownload({
       slug: item.slug,
       title: item.title,
@@ -66,11 +125,11 @@ const DownloadPanel: React.FC<{ item: ContentItem }> = ({ item }) => {
     trackResourceDownload({
       slug: item.slug,
       title: item.title,
-      url: item.download,
+      url: url || item.download,
       format: item.format,
       size: item.size,
       category: item.category,
-      downloadType: item.downloadType,
+      downloadType: type || item.downloadType,
       access: isResourceGated(item) ? 'gated' : 'open',
     });
   };
@@ -84,12 +143,12 @@ const DownloadPanel: React.FC<{ item: ContentItem }> = ({ item }) => {
             href={item.download}
             target="_blank"
             rel="noreferrer"
-            onClick={logDownload}
+            onClick={() => logDownload()}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-semibold hover:opacity-90 transition-opacity"
             style={{ backgroundColor: '#4e6ef2' }}
           >
             <Download className="w-5 h-5" />
-            百度网盘下载
+            下载资料
           </a>
           {item.panCode && (
             <div className="flex items-baseline gap-2 rounded-lg bg-primary/10 px-3 py-1.5">
@@ -98,26 +157,29 @@ const DownloadPanel: React.FC<{ item: ContentItem }> = ({ item }) => {
             </div>
           )}
         </div>
-        <p className="text-sm text-muted-foreground leading-relaxed">
-          本资料通过百度网盘分享，点击「百度网盘下载」按钮将跳转至网盘页面，粘贴上方提取码即可保存。
-        </p>
+        <DownloadHint item={item} viaPan hasCode={!!item.panCode} />
+        <AltDownload item={item} log={logDownload} />
       </div>
     );
   }
 
   // 直链下载：浏览器直接下载文件
   return (
-    <a
-      href={item.download}
-      target="_blank"
-      rel="noreferrer"
-      download
-      onClick={logDownload}
-      className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-semibold hover:opacity-90 transition-opacity"
-    >
-      <Download className="w-5 h-5" />
-      下载资料{item.format ? `（${item.format}）` : ''}
-    </a>
+    <div className="space-y-3">
+      <a
+        href={item.download}
+        target="_blank"
+        rel="noreferrer"
+        download
+        onClick={() => logDownload()}
+        className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-semibold hover:opacity-90 transition-opacity"
+      >
+        <Download className="w-5 h-5" />
+        下载资料
+      </a>
+      <DownloadHint item={item} viaPan={false} hasCode={false} />
+      <AltDownload item={item} log={logDownload} />
+    </div>
   );
 };
 

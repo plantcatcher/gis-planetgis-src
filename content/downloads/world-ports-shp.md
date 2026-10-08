@@ -4,6 +4,9 @@ title: 世界港口分布数据 SHP（WGS84，Point，1,081 个海港，含官�
 summary: 全球主要海港点位数据集，共 1,081 个港口点位，字段构成（name / website / scalerank / natlscale / featurecla）与 Natural Earth 10m 海港点图层一致，坐标系统一为 WGS84 经纬度，属性含港口名称、港口当局官网、制图等级与国家级重要度分值，适合全球航运网络、港口体系与海运可达性分析。包体小巧（0.06 MB），是做世界贸易、航线与港口专题图的轻量底图层。
 date: 2026-10-07
 category: 地理数据
+group: 地理数据
+region: 全球
+dataFormat: SHP
 tags: 世界港口, 港口分布, 港口数据, Natural Earth, Shapefile, WGS84, 矢量数据, 航运, 交通地理, 地理数据
 access: gated
 trigger: 世界港口分布数据
@@ -64,3 +67,9 @@ source: Natural Earth 公开海港点图层（ne_10m_ports）整理，追加 .qi
 ## 适用场景
 
 全球航运网络主线梳理、世界级枢纽港与区域港的层级体系分析、海运可达性与港口密度制图、贸易地理与港口经济教学演示、WebGIS 世界港口专题底图、作为其他业务数据（航线、货运量、船舶轨迹）的空间参照层。
+
+## 在线互动地图
+
+本数据集已做成可交互的在线地图，支持分级筛选、逐点查询与移动端浏览：
+
+- [世界港口分布互动地图](/maps/world-ports)

@@ -4,6 +4,9 @@ title: 中国海岸线矢量数据 SHP（WGS84，单图层）
 summary: 中国海岸线矢量数据集，Shapefile 格式，GCS_WGS_1984（EPSG:4326）地理坐标系，单图层「中国海岸线」含 2 条要素，配套 .shp/.shx/.dbf/.prj/.sbn/.sbx 齐全，可直接用于 QGIS / ArcGIS / Python 海岸带分析与海平面上升模拟底图。
 date: 2026-09-19
 category: 地理数据
+group: 地理数据
+region: 国内
+dataFormat: SHP
 tags: 海岸线, 中国海岸线, SHP, 矢量数据, WGS84, QGIS, 海岸带, 地理数据
 access: gated
 trigger: 中国海岸线

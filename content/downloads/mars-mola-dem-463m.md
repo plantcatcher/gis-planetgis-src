@@ -4,6 +4,9 @@ title: NASA MGS MOLA 火星全球数字高程模型（463m 分辨率 DEM / GeoTI
 summary: NASA 火星全球勘测者（MGS）搭载的 MOLA 激光高度计获取的全火星数字高程模型，赤道分辨率约 463 m/像素，覆盖全球经纬度，GeoTIFF 单文件格式，含相对火星基准面（areoid）的地形高程，可直接用于 QGIS / ArcGIS / Python / Blender 火星地形三维可视化与科研制图。
 date: 2026-09-16
 category: 地理数据
+group: 地理数据
+region: 其他
+dataFormat: GeoTIFF
 tags: 火星, MOLA, DEM, 数字高程模型, 地形, NASA, 行星科学, 三维可视化, 遥感, 地理数据
 access: gated
 trigger: 火星MOLA

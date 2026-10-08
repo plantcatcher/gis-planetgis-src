@@ -4,6 +4,9 @@ title: 2024 全国铁路（普铁 / 高铁 / 地铁）矢量数据集 SHP（WGS8
 summary: 2024 年全国铁路网络矢量数据集，涵盖普速铁路、高速铁路、地铁及城市轨道等，按 8 类细分图层，GCS_WGS_1984（EPSG:4326）地理坐标系，Shapefile 格式，可直接用于 QGIS / ArcGIS / Python 空间分析与交通地理制图。
 date: 2026-09-19
 category: 地理数据
+group: 地理数据
+region: 国内
+dataFormat: SHP
 tags: 铁路, 高铁, 地铁, SHP, 矢量数据, WGS84, OpenStreetMap, QGIS, 交通地理, 地理数据
 access: gated
 trigger: 全国铁路2024

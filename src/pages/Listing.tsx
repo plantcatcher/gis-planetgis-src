@@ -488,6 +488,24 @@ const Badges: React.FC<{ item: ContentItem }> = ({ item }) => (
   </>
 );
 
+const FacChip: React.FC<{ label: string; count?: number; active: boolean; onClick: () => void }> = ({
+  label,
+  count,
+  active,
+  onClick,
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+      active ? 'bg-primary text-white' : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
+    }`}
+  >
+    {label}
+    {count !== undefined && <span className="ml-1 opacity-70">{count}</span>}
+  </button>
+);
+
 const ResourceGrid = () => {
   const all = getResources();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -502,27 +520,53 @@ const ResourceGrid = () => {
   useEffect(() => {
     setActiveTag(searchParams.get('tag'));
   }, [searchParams]);
-  const [activeCategory, setActiveCategory] = useState('全部');
+  const [activeGroup, setActiveGroup] = useState<string>('全部');
+  const [activeCategory, setActiveCategory] = useState<string>('全部');
+  const [activeRegion, setActiveRegion] = useState<string>('全部');
+  const [activeFormat, setActiveFormat] = useState<string>('全部');
   const [activeAccess, setActiveAccess] = useState<'all' | 'open' | 'gated'>('all');
   const [view, setView] = useState<'grid' | 'list'>('list');
   const tags = useMemo(
     () => getTags().filter((t) => all.some((i) => (i.tags || []).includes(t.tag))).slice(0, 14),
     [all],
   );
-  // 资料类型（category）聚合，用于右侧筛选栏；缺省归为「未分类」。
-  const categories = useMemo(() => {
+  // 顶层分组 + 双轴筛选
+  const grp = (i: ContentItem) => i.group || (i.category === '地理数据' ? '地理数据' : '书籍');
+  const groupCounts = useMemo(() => {
+    const m: Record<string, number> = { 书籍: 0, 地理数据: 0 };
+    for (const r of all) m[grp(r)] = (m[grp(r)] || 0) + 1;
+    return m;
+  }, [all]);
+  // 书籍学科子类（书籍范围内计数）
+  const bookCats = useMemo(() => {
     const map = new Map<string, number>();
-    for (const r of all) {
-      const c = r.category || '未分类';
-      map.set(c, (map.get(c) || 0) + 1);
-    }
+    for (const r of all) if (grp(r) === '书籍') { const c = r.category || '未分类'; map.set(c, (map.get(c) || 0) + 1); }
+    return Array.from(map.entries()).map(([name, count]) => ({ name, count }));
+  }, [all]);
+  // 地理数据：区域 × 格式 两轴计数
+  const regionCounts = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const r of all) if (grp(r) === '地理数据') { const c = r.region || '其他'; map.set(c, (map.get(c) || 0) + 1); }
+    return Array.from(map.entries()).map(([name, count]) => ({ name, count }));
+  }, [all]);
+  const formatCounts = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const r of all) if (grp(r) === '地理数据') { const c = r.dataFormat || '其他'; map.set(c, (map.get(c) || 0) + 1); }
     return Array.from(map.entries()).map(([name, count]) => ({ name, count }));
   }, [all]);
 
   const q = query.trim();
-  // 先按资料类型（category）筛选，再做正文检索、标签与访问方式过滤
-  const base = activeCategory === '全部' ? all : all.filter((i) => (i.category || '未分类') === activeCategory);
-  let list: ContentItem[] = q ? searchAll(q, base).map((h) => h.item) : base;
+  // 1) 顶层分组
+  let scope = activeGroup === '全部' ? all : all.filter((i) => grp(i) === activeGroup);
+  // 2) 书籍按学科；地理数据按 区域 × 格式（两轴独立 AND）
+  if (activeGroup === '书籍' && activeCategory !== '全部') {
+    scope = scope.filter((i) => (i.category || '未分类') === activeCategory);
+  }
+  if (activeGroup === '地理数据') {
+    if (activeRegion !== '全部') scope = scope.filter((i) => (i.region || '其他') === activeRegion);
+    if (activeFormat !== '全部') scope = scope.filter((i) => (i.dataFormat || '其他') === activeFormat);
+  }
+  let list: ContentItem[] = q ? searchAll(q, scope).map((h) => h.item) : scope;
   if (activeTag) list = list.filter((i) => (i.tags || []).includes(activeTag));
   if (activeAccess !== 'all') {
     list = list.filter((i) => (activeAccess === 'gated' ? isResourceGated(i) : !isResourceGated(i)));
@@ -532,17 +576,32 @@ const ResourceGrid = () => {
     <div className="lg:grid lg:grid-cols-[1fr_236px] lg:gap-8">
       {/* 右侧筛选栏：按资料类型 */}
       <aside className="lg:sticky lg:top-24 self-start space-y-6 mb-8 lg:mb-0 lg:order-2">
+        {/* 搜索框 */}
         <div>
-          <SectionLabel className="mb-3">资料类型</SectionLabel>
+          <SectionLabel className="mb-3">搜索</SectionLabel>
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="资料名称 / 说明 / 标签…"
+              className="pl-9 rounded-full text-xs"
+            />
+          </div>
+        </div>
+
+        {/* 顶层分组 */}
+        <div>
+          <SectionLabel className="mb-3">分组</SectionLabel>
           <div className="space-y-1">
-            {['全部', ...categories.map((c) => c.name)].map((name) => {
-              const count = name === '全部' ? all.length : categories.find((c) => c.name === name)?.count ?? 0;
-              const active = activeCategory === name;
+            {['全部', '书籍', '地理数据'].map((name) => {
+              const count = name === '全部' ? all.length : groupCounts[name] ?? 0;
+              const active = activeGroup === name;
               return (
                 <button
                   key={name}
                   type="button"
-                  onClick={() => setActiveCategory(name)}
+                  onClick={() => setActiveGroup(name)}
                   className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-colors ${
                     active ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-muted text-muted-foreground'
                   }`}
@@ -554,6 +613,43 @@ const ResourceGrid = () => {
             })}
           </div>
         </div>
+
+        {/* 书籍：学科子类 */}
+        {activeGroup === '书籍' && (
+          <div>
+            <SectionLabel className="mb-3">学科</SectionLabel>
+            <div className="flex flex-wrap gap-2">
+              <FacChip label="全部" active={activeCategory === '全部'} onClick={() => setActiveCategory('全部')} count={bookCats.reduce((s, c) => s + c.count, 0)} />
+              {bookCats.map((c) => (
+                <FacChip key={c.name} label={c.name} active={activeCategory === c.name} onClick={() => setActiveCategory(c.name)} count={c.count} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 地理数据：区域 × 格式 双轴 */}
+        {activeGroup === '地理数据' && (
+          <>
+            <div>
+              <SectionLabel className="mb-3">区域</SectionLabel>
+              <div className="flex flex-wrap gap-2">
+                <FacChip label="全部" active={activeRegion === '全部'} onClick={() => setActiveRegion('全部')} count={regionCounts.reduce((s, c) => s + c.count, 0)} />
+                {regionCounts.map((c) => (
+                  <FacChip key={c.name} label={c.name} active={activeRegion === c.name} onClick={() => setActiveRegion(c.name)} count={c.count} />
+                ))}
+              </div>
+            </div>
+            <div>
+              <SectionLabel className="mb-3">格式</SectionLabel>
+              <div className="flex flex-wrap gap-2">
+                <FacChip label="全部" active={activeFormat === '全部'} onClick={() => setActiveFormat('全部')} count={formatCounts.reduce((s, c) => s + c.count, 0)} />
+                {formatCounts.map((c) => (
+                  <FacChip key={c.name} label={c.name} active={activeFormat === c.name} onClick={() => setActiveFormat(c.name)} count={c.count} />
+                ))}
+              </div>
+            </div>
+          </>
+        )}
         <div>
           <SectionLabel className="mb-3">标签</SectionLabel>
           <div className="flex flex-wrap gap-2">
@@ -588,15 +684,6 @@ const ResourceGrid = () => {
 
       {/* 主区 */}
       <div className="lg:order-1">
-        <div className="relative mb-4 max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="搜索资料名称、说明或标签…"
-            className="pl-9 rounded-full text-xs"
-          />
-        </div>
         {/* 标签筛选已移至右侧栏（资料类型下方） */}
 
         {/* 访问方式筛选：直接下载 / 需验证码 */}
@@ -620,7 +707,10 @@ const ResourceGrid = () => {
         <div className="flex items-center justify-between gap-3 mb-5">
           <p className="text-xs text-muted-foreground">
             共 <span className="font-semibold text-foreground">{list.length}</span> 份资料
-            {activeCategory !== '全部' && ` · ${activeCategory}`}
+            {activeGroup !== '全部' && ` · ${activeGroup}`}
+            {activeGroup === '书籍' && activeCategory !== '全部' && ` · ${activeCategory}`}
+            {activeGroup === '地理数据' && activeRegion !== '全部' && ` · ${activeRegion}`}
+            {activeGroup === '地理数据' && activeFormat !== '全部' && ` · ${activeFormat}`}
             {activeAccess === 'open' && ' · 直接下载'}
             {activeAccess === 'gated' && ' · 需验证码'}
             {q && ` · 含“${q}”`}

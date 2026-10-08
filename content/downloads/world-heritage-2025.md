@@ -4,6 +4,9 @@ title: 2025 世界遗产名录矢量数据集 SHP（全球 1248 处 + 中国 59 
 summary: 2025 年世界遗产名录的空间矢量数据集，包含全球 1248 处世界遗产（文化遗产 972、自然遗产 235、混合遗产 41）及独立的中国子集 59 处，Shapefile 格式，WGS84 坐标系，49 个多语言与遴选标准属性字段，可直接用于 QGIS / ArcGIS / Python 空间分析与世界遗产专题制图。
 date: 2026-09-20
 category: 地理数据
+group: 地理数据
+region: 全球
+dataFormat: SHP
 tags: 世界遗产, 世界遗产名录, UNESCO, SHP, 矢量数据, WGS84, 文化遗产, 自然遗产, 地理数据
 access: gated
 trigger: 世界遗产名录2025

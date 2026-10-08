@@ -483,6 +483,12 @@
         self.setDrawer(!el.intro.classList.contains('is-collapsed'));
       });
     }
+    /* 手机端：点击地图（含点要素）即收起抽屉，把地图让出来交互。
+       仅移动端生效（collapseDrawer 内部已按 isMobile 守卫），桌面端抽屉是侧栏不收起。
+       某张图若想保留抽屉常开，可在 opts 里设 keepDrawerOnMapClick: true 关闭。 */
+    if (this.map && !this.opts.keepDrawerOnMapClick) {
+      this.map.on('click', function () { self.collapseDrawer(); });
+    }
     var btnOverview = document.getElementById('btnOverview');
     if (btnOverview) {
       btnOverview.addEventListener('click', function () {

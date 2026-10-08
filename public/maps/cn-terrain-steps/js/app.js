@@ -214,8 +214,9 @@
     app.map.on('mouseleave', function () { app.tooltip(null); });
     app.map.on('click', function (e) {
       var f = app.pick(e.point, ['stage-fill']);
-      if (f) { app.collapseDrawer(); selectStage(f.properties.id, true); }
-      else clearSel();
+      if (f) { selectStage(f.properties.id, true); }
+      else { clearSel(); }
+      // 手机端点地图收起抽屉由 _shared/thematic 统一处理
     });
   }
 

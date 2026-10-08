@@ -22,7 +22,15 @@ function leadOf(item: ContentItem): string {
  * 密集知识卡：在封面+标题之外，补充学科/专题徽章、导语、阅读时长、字数、标签，
  * 让列表与首页一眼可判断"这篇值不值得读"，提升知识密度。
  */
-const KnowledgeCard = ({ item, showSubject = true }: { item: ContentItem; showSubject?: boolean }) => {
+const KnowledgeCard = ({
+  item,
+  showSubject = true,
+  showDescription = true,
+}: {
+  item: ContentItem;
+  showSubject?: boolean;
+  showDescription?: boolean;
+}) => {
   const base = TYPE_BASE[item.type];
   const lead = leadOf(item);
   return (
@@ -53,35 +61,39 @@ const KnowledgeCard = ({ item, showSubject = true }: { item: ContentItem; showSu
         <h3 className="font-serif text-lg font-semibold leading-snug line-clamp-2 group-hover:text-primary transition-colors">
           {item.title}
         </h3>
-        <div className="mt-2 h-px w-8 bg-primary/40 group-hover:w-14 transition-all" />
-        <p className="mt-3 text-sm text-muted-foreground line-clamp-3 leading-relaxed">{lead}</p>
-        <div className="mt-3 flex items-center gap-3 text-xs text-muted-foreground">
-          {item.date && (
-            <span className="inline-flex items-center gap-1">
-              <Calendar className="w-3 h-3" />
-              {item.date}
-            </span>
-          )}
-          <span className="inline-flex items-center gap-1">
-            <Clock className="w-3 h-3" />
-            {getReadingTime(item)}′
-          </span>
-          <span className="inline-flex items-center gap-1">
-            <Type className="w-3 h-3" />
-            {getWordCount(item)}字
-          </span>
-        </div>
-        {item.tags && item.tags.length > 0 && (
-          <div className="mt-2.5 flex flex-wrap gap-1.5">
-            {item.tags.slice(0, 4).map((t) => (
-              <span
-                key={t}
-                className="px-2 py-0.5 rounded-md bg-muted text-muted-foreground text-xs"
-              >
-                {t}
+        {showDescription && (
+          <>
+            <div className="mt-2 h-px w-8 bg-primary/40 group-hover:w-14 transition-all" />
+            <p className="mt-3 text-sm text-muted-foreground line-clamp-3 leading-relaxed">{lead}</p>
+            <div className="mt-3 flex items-center gap-3 text-xs text-muted-foreground">
+              {item.date && (
+                <span className="inline-flex items-center gap-1">
+                  <Calendar className="w-3 h-3" />
+                  {item.date}
+                </span>
+              )}
+              <span className="inline-flex items-center gap-1">
+                <Clock className="w-3 h-3" />
+                {getReadingTime(item)}′
               </span>
-            ))}
-          </div>
+              <span className="inline-flex items-center gap-1">
+                <Type className="w-3 h-3" />
+                {getWordCount(item)}字
+              </span>
+            </div>
+            {item.tags && item.tags.length > 0 && (
+              <div className="mt-2.5 flex flex-wrap gap-1.5">
+                {item.tags.slice(0, 4).map((t) => (
+                  <span
+                    key={t}
+                    className="px-2 py-0.5 rounded-md bg-muted text-muted-foreground text-xs"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            )}
+          </>
         )}
       </div>
     </Link>

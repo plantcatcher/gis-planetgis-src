@@ -4,6 +4,9 @@ title: 高德世界地图简易版（国家面 + 大洲边界 WGS84 SHP 矢量�
 summary: 基于高德地图公开数据的世界地图简易版矢量包，Shapefile 格式、WGS84 坐标系，包含 242 个国家/地区面要素与 8 个大洲/区域边界要素，属性含中英文名、大洲、国家编号等，可直接用于 QGIS / ArcGIS / Python 制图与空间分析。
 date: 2026-09-12
 category: 地理数据
+group: 地理数据
+region: 全球
+dataFormat: SHP
 tags: 世界地图, 高德, SHP, 矢量数据, WGS84, 国家边界, QGIS, 地理数据
 access: gated
 trigger: 高德世界地图简易版

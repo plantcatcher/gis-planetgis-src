@@ -4,14 +4,18 @@ title: GADM 4.1 日本行政区划矢量数据 SHP（国界 / 47 都道府县 / 
 summary: GADM 4.1 日本行政区划数据集，含国界、47 个都道府县、1811 个市町村三级 Shapefile，NL_NAME 字段自带日文汉字名（愛知県 / 阿久比町），WGS84 坐标系，可直接用于 QGIS / ArcGIS / Python 空间分析。
 date: 2026-10-08
 category: 地理数据
+group: 地理数据
+region: 国外
+dataFormat: SHP
 tags: GADM, 日本, 行政区划, 都道府县, 市町村, SHP, WGS84, QGIS, 地理数据
 access: gated
 trigger: GADM日本
 keywordAliases: 日本行政区划, 日本SHP, 都道府县shp
 code: NSH-GIS-022
-download: https://pan.baidu.com/s/1I1dPJuFjINKixmzDmFoHBw?pwd=e4ki
-downloadType: baidu
-panCode: e4ki
+download: https://downloads.planetgis.cn/GIS/gadm41_JPN_shp.zip
+downloadAlt: https://pan.baidu.com/s/1I1dPJuFjINKixmzDmFoHBw?pwd=e4ki
+downloadAltType: baidu
+downloadAltCode: e4ki
 cover: /covers/geo-data-cover.jpg
 format: SHP（ZIP 压缩包）
 size: 17.4 MB
@@ -68,3 +72,9 @@ size: 17.4 MB
 ## 适用场景
 
 日本区域地理教学、都道府县 / 市町村尺度的人口与灾害统计制图、地名罗马字—汉字对照、遥感影像行政区裁剪、跨国研究中日韩行政单元对齐等。
+
+## 在线互动地图
+
+本数据集已做成可交互的在线地图，支持分级着色、逐点查询与移动端浏览：
+
+- [日本行政区划互动地图](/maps/jp-regions)

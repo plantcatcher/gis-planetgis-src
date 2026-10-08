@@ -4,10 +4,13 @@ title: 世界晕渲地形图43K（Shaded Relief · 43200×21600 · JPG）
 summary: 一张覆盖全球、超高清（43200×21600）的世界晕渲地形图（Shaded Relief），以光影晕渲表现地表起伏与山脉走向，纯地形渲染、通常不含政治边界线，JPG 格式，ZIP 压缩包约 43.8 MB，适合作为地球底图、PPT 科普配图、WebGIS / 三维地球纹理与地理教学素材。
 date: 2026-09-24
 category: 地理数据
+group: 地理数据
+region: 全球
+dataFormat: 影像
 tags: 世界地图, 晕渲地形图, 地形图, shaded relief, 世界地形, 地球底图, 栅格地图, 地理数据
 access: gated
-trigger: 世界晕渲地形图
-keywordAliases: 世界地图, 世界地形图, 晕渲地形图
+trigger: 世界卫星图
+keywordAliases: 43K地图
 code: NSH-DT-002
 download: https://downloads.planetgis.cn/GIS/world-shaded-map.zip
 cover: https://blogphoto.planetgis.cn/PicGo/2026-09-24-yazhou.jpg

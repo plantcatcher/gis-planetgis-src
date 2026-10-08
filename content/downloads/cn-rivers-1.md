@@ -4,6 +4,9 @@ title: 全国一级河流矢量数据（1:400 万基础地理数据库 SHP，北
 summary: 源自国家 1:400 万基础地理信息数据库的一级河流图层，含河流线 840 条与河流水域面 544 个，北京 1954 坐标系（Krasovsky 1940 椭球），Shapefile 格式，字段含河流名称、国标码 GBCODE 与 1:400 万要素编码，适用于全国水系制图、水文分析与 GIS 教学。
 date: 2026-09-17
 category: 地理数据
+group: 地理数据
+region: 国内
+dataFormat: SHP
 tags: 河流, 水系, SHP, 矢量数据, 北京1954, 基础地理数据库, 水文, 一级河流, 地理数据
 access: gated
 trigger: 一级河流
@@ -31,6 +34,12 @@ size: 0.76 MB
 - **一级河流_水域（river water polygons）**：**544** 个面要素，字段含 `AREA`（面积）、`PERIMETER`（周长）、`HYD1_4M_` / `HYD1_4M_ID`、`GBCODE`、`NAME`（名称）、`LEVEL_LAKE`（湖泊等级）、`CODE_LAKE`（湖泊代码）。
 
 
+
+## 在线互动地图
+
+本数据集已做成可交互的在线地图，支持分级着色、逐点查询与移动端浏览：
+
+- [中国河流水系互动地图](/maps/cn-rivers)
 
 <img src="https://blogphoto.planetgis.cn/PicGo/2026-09-17-river_d.jpg" alt="river_d" style="zoom:50%;" />
 

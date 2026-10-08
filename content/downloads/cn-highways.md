@@ -4,6 +4,9 @@ title: 全国主要公路矢量数据（1:400 万基础地理数据库 SHP，北
 summary: 源自国家 1:400 万基础地理信息数据库的主要公路图层，含 151 条主要公路线要素，北京 1954 坐标系（Krasovsky 1940 椭球），Shapefile 格式，字段含路名国标码 GBCODE 与 1:400 万要素编码，适用于全国公路网概览、交通专题制图与 GIS 教学。
 date: 2026-09-17
 category: 地理数据
+group: 地理数据
+region: 国内
+dataFormat: SHP
 tags: 公路, 交通, SHP, 矢量数据, 北京1954, 基础地理数据库, 国道, 路网, 地理数据
 access: gated
 trigger: 主要公路

@@ -4,6 +4,9 @@ title: GADM 4.1 澳大利亚行政区划矢量数据 SHP（国界 / 州领地 / 
 summary: GADM 4.1 澳大利亚行政区划数据集，含国界、6 州 + 5 领地、568 个地方政府区（LGA）三级 Shapefile，WGS84 地理坐标系，UTF-8 编码，可直接用于 QGIS / ArcGIS / Python 空间分析与制图。
 date: 2026-10-08
 category: 地理数据
+group: 地理数据
+region: 国外
+dataFormat: SHP
 tags: GADM, 澳大利亚, 行政区划, SHP, 矢量数据, WGS84, QGIS, 地理数据
 access: gated
 trigger: GADM澳大利亚
@@ -63,3 +66,9 @@ size: 50.5 MB
 ## 适用场景
 
 澳大利亚区域地理教学、LGA 尺度的人口 / 气候 / 生态专题制图、空间插值与区域统计、遥感影像行政区裁剪、跨国研究中的统一行政框架对齐等。
+
+## 在线互动地图
+
+本数据集已做成可交互的在线地图，支持分级着色、逐点查询与移动端浏览：
+
+- [澳大利亚行政区划互动地图](/maps/au-regions)

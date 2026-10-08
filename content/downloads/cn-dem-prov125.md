@@ -4,6 +4,9 @@ title: 全国 DEM 分省 12.5 米数字高程模型
 summary: 覆盖全国 34 个省级行政区的数字高程模型（DEM）分省数据集，空间分辨率约 12.5 米，按省（区、市）组织为独立文件，便于分区域调用与裁剪。适用于地形三维可视化、坡度坡向分析、水文流域提取、城乡规划等 GIS 与遥感应用。百度网盘分享，关注公众号获取提取码。
 date: 2026-09-04
 category: 地理数据
+group: 地理数据
+region: 国内
+dataFormat: GeoTIFF
 tags: DEM, 数字高程模型, 分省, 地形数据, 12.5米, 全国, GIS, 遥感
 access: gated
 downloadType: baidu

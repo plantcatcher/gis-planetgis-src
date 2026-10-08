@@ -4,6 +4,9 @@ title: 全球核电机组与核设施分布数据 SHP（GNPT 2025-09，WGS84，P
 summary: 依据 Global Energy Monitor「全球核电站追踪器」（Global Nuclear Power Tracker，GNPT，2025 年 9 月发布版）整理的全球核电矢量数据集，含机组级（1,387 台）与场址级（485 座）两个 Point 图层，WGS84 坐标系，属性含国别、项目名、机组名、净容量、运行状态、堆型、型号、投运与退役日期、业主、运营商及 GEM 词条链接，适合做全球核电装机格局、堆型结构与在建/退役趋势分析。数据许可 CC BY 4.0。
 date: 2026-10-07
 category: 地理数据
+group: 地理数据
+region: 全球
+dataFormat: SHP
 tags: 全球核电, 核电站, 核电机组, GNPT, Global Energy Monitor, 堆型, Shapefile, WGS84, 矢量数据, 能源地理, 地理数据
 access: gated
 trigger: 全球核电站分布数据
@@ -82,3 +85,9 @@ Shapefile 字段名最长 **10 个字符**，源文件里的长字段名被强�
 ## 适用场景
 
 全球核电装机格局与堆型结构分析、在运／在建／退役机组的时间演化、全球能源转型与低碳电源地理、 owner集中度与核电产业链分析、世界地理与能源地理教学演示、WebGIS 全球核能专题底图。
+
+## 在线互动地图
+
+本数据集已做成可交互的在线地图，支持分级筛选、逐点查询与移动端浏览：
+
+- [全球核电站分布互动地图](/maps/world-nuclear)

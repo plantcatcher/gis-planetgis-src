@@ -4,6 +4,9 @@ title: 全国行政区划矢量点数据（省 / 市 / 县 / 乡四级中心点 
 summary: 覆盖全国省、市、县、乡四级行政区划的代表性矢量点数据，WGS84 地理坐标系，Shapefile 格式，共 42,046 个点，可直接用于 QGIS / ArcGIS 标注、专题图注记与空间分析底图。
 date: 2026-09-14
 category: 地理数据
+group: 地理数据
+region: 国内
+dataFormat: SHP
 tags: 行政区划, 矢量点, SHP, WGS84, 省, 市, 县, 乡, 中心点, QGIS, 地理数据
 access: gated
 trigger: 行政区点

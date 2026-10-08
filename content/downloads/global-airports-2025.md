@@ -4,6 +4,9 @@ title: 2025 全球机场分布数据 SHP（WGS84，Point，8.2 万座）
 summary: 2025 年全球机场分布矢量数据集，Shapefile 格式，含 82,262 座机场点位，WGS84 坐标系，属性含 ICAO/IATA 标识、机场类型、名称、经纬度、海拔与所属大洲，适合全球航空网络、机场密度与区域可达性分析。
 date: 2026-09-23
 category: 地理数据
+group: 地理数据
+region: 全球
+dataFormat: SHP
 tags: 全球机场, 机场分布, 机场数据, 航空, Shapefile, WGS84, 矢量数据, 交通地理, 地理数据
 access: gated
 trigger: 2025全球机场分布数据

@@ -4,6 +4,9 @@ title: 我国水域矢量数据包（水域线 + 水域面 SHP，WGS84 坐标系
 summary: 基于 OpenStreetMap 水系数据整理的全國水域矢量包，含水域线（河流、沟渠、运河等 32.5 万条）与水域面（湖泊、水库、坑塘、海域等 45.7 万面）两个图层，WGS84 经纬度坐标系，Shapefile 格式，适用于全国尺度水文分析、水系制图与 GIS 教学。
 date: 2026-09-17
 category: 地理数据
+group: 地理数据
+region: 国内
+dataFormat: SHP
 tags: 水域, 水系, SHP, 矢量数据, WGS84, OpenStreetMap, 水文, 湖泊, 河流, 地理数据
 access: gated
 trigger: 我国水域
@@ -53,3 +56,9 @@ size: 415.11 MB
 ## 适用场景
 
 全国尺度水文分析、河网 / 湖泊专题图制作、GIS 与水文学教学演示、WebGIS 水系底图、生态环境与水资源相关空间研究。
+
+## 在线互动地图
+
+本数据集已做成可交互的在线地图，支持分级着色、逐点查询与移动端浏览：
+
+- [中国河流水系互动地图](/maps/cn-rivers)

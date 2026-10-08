@@ -4,6 +4,9 @@ title: GADM 4.1 英国行政区划矢量数据 SHP（五级至选区，含构成
 summary: GADM 4.1 英国行政区划数据集，最深五级：国界、构成国、183 个二级行政区、406 个三级行政区、9111 个四级选区，WGS84 坐标系 Shapefile，可用于 QGIS / ArcGIS / Python 空间分析与制图。
 date: 2026-10-08
 category: 地理数据
+group: 地理数据
+region: 国外
+dataFormat: SHP
 tags: GADM, 英国, 行政区划, SHP, 矢量数据, WGS84, QGIS, 地理数据
 access: gated
 trigger: GADM英国
@@ -75,3 +78,9 @@ size: 272 MB
 ## 适用场景
 
 英国区域地理与城市地理教学、选区尺度社会经济分析、行政单元变迁研究、遥感影像行政区裁剪、与英加澳新等英联邦国家数据的跨国防级行政框架对齐。
+
+## 在线互动地图
+
+本数据集已做成可交互的在线地图，支持分级着色、逐点查询与移动端浏览：
+
+- [英国行政区划互动地图](/maps/uk-regions)

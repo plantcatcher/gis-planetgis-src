@@ -4,6 +4,9 @@ title: 中国陆地区域 DEM 数字高程模型（DEM）地形数据
 summary: 覆盖中国陆地范围的数字高程模型（DEM）栅格数据集，以规则网格逐像元记录地面高程，适用于地形分析、流域提取、三维地形可视化、坡度坡向计算等 GIS 与遥感应用。百度网盘分享，关注公众号获取提取码。
 date: 2026-09-15
 category: 地理数据
+group: 地理数据
+region: 国内
+dataFormat: GeoTIFF
 tags: DEM, 数字高程模型, 地形数据, 高程栅格, 中国陆地, GIS, 地形分析, 遥感
 access: gated
 downloadType: baidu

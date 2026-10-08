@@ -4,6 +4,9 @@ title: 全球废水处理厂数据 SHP（HydroWASTE v1.0，WGS84，Point，4.4 �
 summary: 全球废水处理厂分布矢量数据集（HydroWASTE v1.0），Shapefile 格式，含 43,980 座废水处理厂点位，WGS84 坐标系，属性含厂名、国家及 ISO 代码、经纬度与数据来源，压缩包另含 README 与 CSV 明细，适合全球污水处理设施空间分析。
 date: 2026-09-23
 category: 地理数据
+group: 地理数据
+region: 全球
+dataFormat: SHP
 tags: 废水处理厂, 污水处理厂, HydroWASTE, 全球废水, Shapefile, WGS84, 矢量数据, 环境基础设施, 地理数据
 access: gated
 trigger: 全球废水处理厂数据

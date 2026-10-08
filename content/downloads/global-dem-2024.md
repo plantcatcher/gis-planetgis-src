@@ -4,6 +4,9 @@ title: 全球数字高程模型（2024 版 · GeoTIFF 单文件 DEM）
 summary: 全球尺度数字高程模型（Global DEM，2024 版），以单文件 GeoTIFF（.tif）形式提供，覆盖全球经纬度范围，每个像素记录地形高程，可直接用于 QGIS / ArcGIS / Python 地形分析与三维可视化，适合全球尺度科研、教学与制图底图。
 date: 2026-09-16
 category: 地理数据
+group: 地理数据
+region: 全球
+dataFormat: GeoTIFF
 tags: 全球DEM, DEM, 数字高程模型, 地形, 全球, GIS, 遥感, 三维可视化, 地理数据
 access: gated
 trigger: 全球DEM

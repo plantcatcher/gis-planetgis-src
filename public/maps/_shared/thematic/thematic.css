@@ -408,23 +408,29 @@ body::-webkit-scrollbar-thumb, .intro-body::-webkit-scrollbar-thumb { background
     padding-bottom: env(safe-area-inset-bottom, 0px);
     transition: max-height .28s cubic-bezier(.2,.8,.3,1);
   }
-  .intro.is-collapsed { max-height: calc(80px + env(safe-area-inset-bottom, 0px)); }
-  /* 收起 / 展开：不单独占一条，与卡片融为一体 —— 只在卡片顶部留一个居中的胶囊把手 */
+  /* 手机端拉手：用一条小横杠代替「展开 / 收起」文字（底部抽屉惯例） */
+  .intro.is-collapsed { max-height: calc(44px + env(safe-area-inset-bottom, 0px)); }
   .intro-bar {
-    display: flex; order: -1; justify-content: center;
-    margin: 0; padding: 7px 14px 0;
+    display: flex; order: -1; justify-content: center; align-items: center;
+    height: calc(44px + env(safe-area-inset-bottom, 0px));
+    margin: 0; padding: 0;
     border: 0; border-radius: 0; background: transparent;
+    -webkit-tap-highlight-color: transparent;
   }
-  /* 手机端标题在卡片正文里已有，拉手上不再重复，只留「展开 / 收起」 */
-  .intro-bar > b, .intro-bar > .ic-eq { display: none; }
-  .intro-bar span {
-    margin-left: 0;
-    font-size: 12.5px; gap: 7px; color: #cfdcec;
-    padding: 4px 12px 4px 13px; border-radius: 999px;
-    background: rgba(255, 255, 255, .07); border: 1px solid var(--line);
+  /* 隐藏文字标签与箭头，仅保留横杠把手 */
+  .intro-bar > b, .intro-bar > .ic-eq, .intro-bar > span { display: none; }
+  .intro-bar::before {
+    content: ""; display: block;
+    width: 44px; height: 4px; border-radius: 999px;
+    background: rgba(255, 255, 255, .42);
+    transition: background .15s ease;
   }
+  .intro-bar:active::before { background: rgba(255, 255, 255, .66); }
   .intro-head { padding: 10px 12px 0; }
-  .intro.is-collapsed .intro-body { display: none; }
+  /* 收起时只留横杠：把手占满首屏高度，正文由 overflow 裁切，
+     因此收回也有对称的下滑动效（不再 display:none 瞬切） */
+  .intro.is-collapsed .intro-head { display: none; }
+  .intro.is-collapsed .intro-body { display: block; }
   .intro-body { padding: 12px 14px 20px; -webkit-overflow-scrolling: touch; }
   .intro h1 { font-size: 26px; }
   .intro h1 span { font-size: 19px; }

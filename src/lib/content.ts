@@ -68,10 +68,22 @@ export interface ContentItem {
   downloadType?: 'direct' | 'baidu';
   /** 资料下载专用：百度网盘提取码（downloadType=baidu 时展示） */
   panCode?: string;
+  /** 资料下载专用：备用下载地址（主链接不可用时的兜底渠道，弱化展示在主下载入口下方） */
+  downloadAlt?: string;
+  /** 资料下载专用：备用下载方式。direct=直链（默认）；baidu=百度网盘 */
+  downloadAltType?: 'direct' | 'baidu';
+  /** 资料下载专用：备用下载的百度网盘提取码（downloadAltType=baidu 时展示） */
+  downloadAltCode?: string;
   /** 首页资料下载区专用：设为 true 则该资料优先显示在首页资料区（精选） */
   home?: boolean;
   /** 首页精选排序：数字越小越靠前；缺省按 date 倒序。仅 home:true 时生效 */
   homeOrder?: number;
+  /** 资料下载专用：顶层分组（书籍 / 地理数据），用于下载页双轴筛选 */
+  group?: string;
+  /** 资料下载专用：地理数据的区域范围（国内 / 国外 / 全球 / 其他） */
+  region?: string;
+  /** 资料下载专用：地理数据的格式类型（SHP / GeoTIFF / 影像 / 其他），由 format 归一化而来 */
+  dataFormat?: string;
 }
 
 interface Frontmatter {
@@ -142,8 +154,14 @@ for (const [path, raw] of Object.entries(rawFiles)) {
     keywordAliases: data.keywordAliases ? data.keywordAliases.split(',').map((s) => s.trim()).filter(Boolean) : [],
     downloadType: data.downloadType as ContentItem['downloadType'],
     panCode: data.panCode,
+    downloadAlt: data.downloadAlt,
+    downloadAltType: data.downloadAltType as ContentItem['downloadAltType'],
+    downloadAltCode: data.downloadAltCode,
     home: data.home === 'true' || data.home === '1',
     homeOrder: data.homeOrder ? Number(data.homeOrder) : undefined,
+    group: data.group,
+    region: data.region,
+    dataFormat: data.dataFormat,
   });
 }
 

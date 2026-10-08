@@ -4,6 +4,9 @@ title: 中国 1-5 级水系SHP数据（国家基础地理信息数据库 SHP，W
 summary: 提取自国家基础地理信息系统数据的主要水系图层集合，含三级以上河流（线）、三级以上湖泊/水体（面）、四级河流（线）、五级河流（线）共 4 个图层、约 6928 条/面要素，WGS_1984_Albers（Albers 等面积圆锥投影，WGS84 基准）坐标系，Shapefile 格式，字段含河流名称、国标码 GBCODE、河流等级与流域/支流代码，适用于全国尺度水系制图、水文分析与 GIS 教学底图。
 date: 2026-09-24
 category: 地理数据
+group: 地理数据
+region: 国内
+dataFormat: SHP
 tags: 主要水系, 水系, 河流, 湖泊, SHP, 矢量数据, 国家基础地理信息系统, 水文, WGS84_Albers, 地理数据
 access: gated
 trigger: 中国主要水系
@@ -55,5 +58,11 @@ homeOrder: 1
 ## 适用场景
 
 全国 / 流域尺度水系专题图、河流等级与命名标注、河网密度与湖泊面积统计、水文与水资源分析、GIS 与水文学教学演示、与 1:400 万基础地理其他图层（行政区、公路、居民地等）叠加做综合底图。
+
+## 在线互动地图
+
+本数据集已做成可交互的在线地图，支持分级着色、逐点查询与移动端浏览：
+
+- [中国河流水系互动地图](/maps/cn-rivers)
 
 <img src="https://blogphoto.planetgis.cn/PicGo/2026-09-24-R_cover.jpg" alt="R_cover" style="zoom: 33%;" />

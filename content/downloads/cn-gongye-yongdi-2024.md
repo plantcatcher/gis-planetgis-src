@@ -4,6 +4,9 @@ title: 2024 全国工业用地矢量数据 SHP（WGS84，Polygon，13.4 万宗�
 summary: 基于 OpenStreetMap（OSM）土地利用数据提取的 2024 年全国工业用地矢量数据集，Shapefile 格式，含 134,589 个工业用地面状要素，WGS84 坐标系，属性含用地类型与名称，适合工业用地分布、产业集聚与国土空间规划分析。
 date: 2026-09-23
 category: 地理数据
+group: 地理数据
+region: 国内
+dataFormat: SHP
 tags: 工业用地, 全国工业用地, 土地利用, OSM, Shapefile, WGS84, 矢量数据, 产业用地, 国土空间, 地理数据
 access: gated
 trigger: 全国工业用地矢量数据
