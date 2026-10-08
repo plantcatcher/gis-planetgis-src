@@ -8,6 +8,8 @@ link: /geoshape
 order: 6
 category: 地理游戏
 series: game
+topics: 看图竞猜
+scope: 世界
 tags: 地理, 地理可视化, 地理游戏, 游戏
 ---
 

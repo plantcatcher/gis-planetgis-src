@@ -8,6 +8,8 @@ link: /maps/cn-terrain-steps
 order: 6
 category: 互动地图
 series: map
+topics: 水系与地形
+scope: 中国
 tags: 地理, 地理可视化, 互动地图, 地势, 地形, 三级阶梯, DEM, 青藏高原
 ---
 

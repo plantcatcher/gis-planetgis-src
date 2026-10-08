@@ -6,7 +6,6 @@ import {
   GraduationCap,
   FileText,
   Star,
-  Flame,
   Trophy,
   Gamepad2,
   Satellite,
@@ -74,52 +73,6 @@ const CardAnim: React.FC<{ children: React.ReactNode; delay?: number }> = ({ chi
   </motion.div>
 );
 
-function StatCard({
-  icon,
-  value,
-  label,
-  accent,
-  onClick,
-}: {
-  icon: React.ReactNode;
-  value: string | number;
-  label: string;
-  accent: string;
-  onClick?: () => void;
-}) {
-  const clickable = !!onClick;
-  return (
-    <div
-      onClick={onClick}
-      role={clickable ? 'button' : undefined}
-      tabIndex={clickable ? 0 : undefined}
-      onKeyDown={
-        clickable
-          ? (e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                onClick?.();
-              }
-            }
-          : undefined
-      }
-      className={`group flex flex-col gap-3 p-5 rounded-2xl bg-muted/40 border border-border/50 ${
-        clickable
-          ? 'cursor-pointer hover:border-primary/40 hover:bg-muted/70 hover:-translate-y-0.5 transition-all'
-          : ''
-      }`}
-    >
-      <div className={`shrink-0 w-11 h-11 rounded-xl flex items-center justify-center ${accent}`}>
-        {icon}
-      </div>
-      <div>
-        <div className="text-2xl font-bold leading-none tabular-nums">{value}</div>
-        <div className="text-sm text-muted-foreground mt-1.5">{label}</div>
-      </div>
-    </div>
-  );
-}
-
 function typeIcon(key: string) {
   const t = key.split(':')[0];
   if (t === 'learn') return <GraduationCap className="w-4 h-4" />;
@@ -155,13 +108,6 @@ function gamePath(gameId?: string): string {
 
 function gameIcon(gameId?: string): React.ReactNode {
   return GAME_ICONS[gameId || ''] || <Gamepad2 className="w-5 h-5" />;
-}
-
-function formatReadTime(sec: number): string {
-  if (sec <= 0) return '0';
-  if (sec < 60) return `${sec}s`;
-  if (sec < 3600) return `${Math.round(sec / 60)}m`;
-  return `${(sec / 3600).toFixed(1)}h`;
 }
 
 function ContentRow({ entry }: { entry: DashboardEntry }) {
@@ -440,29 +386,29 @@ function ContinueCard({ entry }: { entry: DashboardEntry }) {
   const path = keyToPath(entry.key);
   const pct = Math.round((entry.progress?.progress ?? 0) * 100);
   const inner = (
-    <div className="flex items-center justify-between gap-4">
+    <div className="flex items-center justify-between gap-3">
       <div className="min-w-0">
-        <div className="text-xs font-semibold tracking-widest text-primary/80 uppercase mb-1">继续学习</div>
-        <div className="text-lg font-bold leading-snug truncate">{entry.item.title}</div>
-        <div className="mt-2 flex items-center gap-3">
-          <Progress value={pct} className="flex-1 max-w-[220px] h-1.5" />
-          <span className="text-sm text-muted-foreground tabular-nums">{pct}%</span>
+        <div className="text-[10px] font-semibold tracking-widest text-primary/80 uppercase mb-0.5">继续学习</div>
+        <div className="text-sm font-bold leading-snug truncate">{entry.item.title}</div>
+        <div className="mt-1.5 flex items-center gap-2">
+          <Progress value={pct} className="flex-1 max-w-[150px] h-1" />
+          <span className="text-xs text-muted-foreground tabular-nums">{pct}%</span>
         </div>
       </div>
-      <span className="shrink-0 inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-transform group-hover:scale-[1.03]">
-        继续 <ArrowRight className="w-4 h-4" />
+      <span className="shrink-0 inline-flex items-center gap-1.5 rounded-full bg-primary px-3.5 py-1.5 text-xs font-semibold text-white shadow-md shadow-primary/20 transition-transform group-hover:scale-[1.03]">
+        继续 <ArrowRight className="w-3.5 h-3.5" />
       </span>
     </div>
   );
   return path ? (
     <Link
       to={path}
-      className="group block rounded-3xl border border-primary/30 bg-gradient-to-r from-primary/10 to-secondary/10 p-5 md:p-6 transition-colors"
+      className="group block rounded-2xl border border-primary/30 bg-gradient-to-r from-primary/10 to-secondary/10 px-4 py-3.5 transition-colors"
     >
       {inner}
     </Link>
   ) : (
-    <div className="rounded-3xl border border-primary/30 bg-gradient-to-r from-primary/10 to-secondary/10 p-5 md:p-6">
+    <div className="rounded-2xl border border-primary/30 bg-gradient-to-r from-primary/10 to-secondary/10 px-4 py-3.5">
       {inner}
     </div>
   );
@@ -518,12 +464,6 @@ const MyLearning: React.FC = () => {
       maps.length +
       searches.length ===
     0;
-
-  const scrollTo = (id: string) => {
-    if (typeof document === 'undefined') return;
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
 
   // 周目标（本地持久化，用户可调整档位）。首帧用默认值，挂载后再读真实值，
   // 与现有「首帧空态、客户端填充」策略一致，避免 hydration mismatch。
@@ -638,53 +578,6 @@ const MyLearning: React.FC = () => {
             </div>
           </header>
 
-          {/* 概览卡片 */}
-          <section className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 md:gap-4 mb-8 md:mb-10">
-            <CardAnim>
-              <StatCard
-                icon={<BookOpen className="w-6 h-6 text-primary" />}
-                value={summary.learnedCount}
-                label="已学习"
-                accent="bg-primary/10 text-primary"
-                onClick={() => scrollTo('section-activity')}
-              />
-            </CardAnim>
-            <CardAnim delay={0.05}>
-              <StatCard
-                icon={<Star className="w-6 h-6 text-amber-500" />}
-                value={summary.favoriteCount}
-                label="收藏"
-                accent="bg-amber-500/10 text-amber-500"
-                onClick={() => scrollTo('section-favorites')}
-              />
-            </CardAnim>
-            <CardAnim delay={0.1}>
-              <StatCard
-                icon={<Flame className="w-6 h-6 text-orange-500" />}
-                value={`${summary.streak} 天`}
-                label="最近连续学习"
-                accent="bg-orange-500/10 text-orange-500"
-              />
-            </CardAnim>
-            <CardAnim delay={0.12}>
-              <StatCard
-                icon={<Clock className="w-6 h-6 text-sky-500" />}
-                value={formatReadTime(summary.totalReadSeconds)}
-                label="阅读时长"
-                accent="bg-sky-500/10 text-sky-500"
-              />
-            </CardAnim>
-            <CardAnim delay={0.15}>
-              <StatCard
-                icon={<Gamepad2 className="w-6 h-6 text-emerald-500" />}
-                value={summary.lastGameScore ?? '—'}
-                label="最近一局得分"
-                accent="bg-emerald-500/10 text-emerald-500"
-                onClick={summary.lastGameScore != null ? () => scrollTo('section-scores') : undefined}
-              />
-            </CardAnim>
-          </section>
-
           {isFresh ? (
             <OnboardingCard />
           ) : (
@@ -694,97 +587,155 @@ const MyLearning: React.FC = () => {
               {/* 继续学习：续读主卡（取未完成且进度最高项） */}
               {continueEntry && <ContinueCard entry={continueEntry} />}
 
-              {/* 学习足迹：统一活动流（读/玩/下/地图/搜索合并） */}
-              <section id="section-activity" className="scroll-mt-24">
-                <SectionLabel className="mb-4">最近动态</SectionLabel>
-                {activity.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {activity.map((entry, i) => (
-                      <CardAnim key={entry.id} delay={i * 0.03}>
-                        <ActivityRow entry={entry} />
-                      </CardAnim>
-                    ))}
-                  </div>
-                ) : (
-                  <EmptyHint text="还没有学习记录，去读一篇或玩一局试试？" to="/learn" cta="浏览知识库" />
-                )}
-              </section>
-
-              {/* 学习足迹：我的收藏 + 已学完（并排，吃满横向空间） */}
-              <section className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-8 scroll-mt-24">
-                <div id="section-favorites">
-                  <SectionLabel className="mb-4">我的收藏</SectionLabel>
-                  {favorites.length > 0 ? (
-                    <div className="space-y-2">
-                      {favorites.map((entry, i) => (
-                        <CardAnim key={entry.key} delay={i * 0.03}>
-                          <ContentRow entry={entry} />
-                        </CardAnim>
-                      ))}
+              {/* 数据统计：周目标 / 分布 / 活跃度（主栏主体） */}
+              <section id="section-stats" className="scroll-mt-24 space-y-4">
+                <SectionLabel>数据统计</SectionLabel>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* 周目标徽章 + 连学里程碑（增长激励） */}
+                  <div className="md:col-span-2 rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 to-secondary/10 p-5">
+                    <div className="flex items-center gap-4">
+                      <div className="shrink-0">
+                        <DonutChart
+                          data={[{ label: '本周已学', value: weekProgress.done, color: '#0891b2' }]}
+                          size={82}
+                          thickness={10}
+                          centerLabel="本周"
+                        />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2 text-sm font-semibold">
+                          <Target className="w-4 h-4 text-primary" /> 本周目标
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
+                          已完成 {weekProgress.done}/{weekProgress.goal} 天
+                          {weekProgress.onTrack
+                            ? '，节奏不错，继续保持'
+                            : `，还差 ${Math.max(0, weekProgress.goal - weekProgress.done)} 天，本周剩 ${weekProgress.daysLeft} 天`}
+                        </p>
+                        <div className="mt-2 flex items-center gap-1">
+                          {WEEKLY_GOAL_OPTIONS.map((opt) => (
+                            <button
+                              key={opt}
+                              type="button"
+                              onClick={() => changeGoal(opt)}
+                              className={`text-xs rounded-full px-2 py-0.5 border transition-colors ${
+                                opt === weeklyGoal
+                                  ? 'bg-primary text-white border-primary'
+                                  : 'border-border/60 text-muted-foreground hover:border-primary/40'
+                              }`}
+                            >
+                              {opt}天
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     </div>
-                  ) : (
-                    <EmptyHint text="还没有收藏任何教程，在内容页点右上角的星标即可收藏。" />
-                  )}
+                    <div className="mt-4 pt-4 border-t border-border/50">
+                      <div className="flex items-center gap-2 text-sm font-semibold mb-2.5">
+                        <Award className="w-4 h-4 text-amber-500" /> 连学里程碑
+                      </div>
+                      <div className="flex items-center justify-between gap-1">
+                        {milestones.map((m) => (
+                          <div key={m.days} className="flex-1 text-center">
+                            <div
+                              className={`mx-auto flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold ${
+                                m.reached
+                                  ? 'bg-primary text-white'
+                                  : m.isNext
+                                    ? 'bg-amber-500/15 text-amber-600 ring-2 ring-amber-500/40'
+                                    : 'bg-muted text-muted-foreground'
+                              }`}
+                            >
+                              {m.reached ? <CheckCircle2 className="w-4 h-4" /> : m.days}
+                            </div>
+                            <div className="mt-1 text-[10px] text-muted-foreground leading-tight">{m.label}</div>
+                          </div>
+                        ))}
+                      </div>
+                      {summary.streak > 0 && (
+                        <p className="mt-2.5 text-xs text-muted-foreground leading-relaxed">
+                          {(() => {
+                            const next = milestones.find((m) => m.isNext);
+                            return next
+                              ? `已连续 ${summary.streak} 天，再学 ${next.days - summary.streak} 天点亮「${next.label}」`
+                              : `已连续 ${summary.streak} 天，已点亮全部里程碑，太强了！`;
+                          })()}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* 学习类型分布 */}
+                  <div className="rounded-2xl border border-border/50 bg-muted/30 p-5">
+                    <h3 className="text-sm font-medium mb-4 flex items-center gap-2">
+                      <PieChart className="w-4 h-4 text-primary" /> 学习类型分布
+                    </h3>
+                    {typeDist.length > 0 ? (
+                      <div className="flex items-center gap-4">
+                        <DonutChart data={typeDist} size={120} />
+                        <div className="min-w-0 flex-1">
+                          <ChartLegend data={typeDist} />
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="text-sm text-muted-foreground">还没有学习记录</p>
+                    )}
+                  </div>
+
+                  {/* 下载资料分类 */}
+                  <div className="rounded-2xl border border-border/50 bg-muted/30 p-5">
+                    <h3 className="text-sm font-medium mb-4 flex items-center gap-2">
+                      <PieChart className="w-4 h-4 text-primary" /> 下载资料分类
+                    </h3>
+                    {downloadDist.length > 0 ? (
+                      <div className="flex items-center gap-4">
+                        <DonutChart data={downloadDist} size={120} />
+                        <div className="min-w-0 flex-1">
+                          <ChartLegend data={downloadDist} />
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="text-sm text-muted-foreground">还没有下载记录</p>
+                    )}
+                  </div>
+
+                  {/* 近 8 周活跃 */}
+                  <div className="md:col-span-2 rounded-2xl border border-border/50 bg-muted/30 p-5">
+                    <h3 className="text-sm font-medium mb-4 flex items-center gap-2">
+                      <BarChart3 className="w-4 h-4 text-primary" /> 近 8 周活跃天数
+                    </h3>
+                    <BarChart data={weekly} />
+                  </div>
                 </div>
-                {completed.length > 0 && (
-                  <div id="section-completed">
-                    <SectionLabel className="mb-4">已学完的课程</SectionLabel>
-                    <div className="space-y-2">
-                      {completed.map((entry, i) => (
-                        <CardAnim key={entry.key} delay={i * 0.03}>
-                          <ContentRow entry={entry} />
-                        </CardAnim>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </section>
 
-              {/* 学习足迹：下载记录 */}
-              {downloads.length > 0 && (
-                <section id="section-downloads" className="scroll-mt-24">
-                  <SectionLabel className="mb-4">下载记录</SectionLabel>
-                  <div className="space-y-2">
-                    {downloads.map((rec, i) => (
-                      <CardAnim key={rec.slug} delay={i * 0.03}>
-                        <DownloadRow rec={rec} />
-                      </CardAnim>
+              {/* 数据分析与建议：放在统计之后，先看数据、再看结论 */}
+              {insights.length > 0 && (
+                <section
+                  id="section-insights"
+                  className="scroll-mt-24 rounded-3xl border border-primary/15 bg-primary/5 p-5 md:p-7"
+                >
+                  <h3 className="text-base font-semibold mb-4 flex items-center gap-2 text-primary">
+                    <Trophy className="w-4 h-4" /> 数据分析与建议
+                  </h3>
+                  <ul className="space-y-2.5 text-sm text-muted-foreground leading-relaxed">
+                    {insights.map((ins, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span
+                          className={
+                            ins.tone === 'positive'
+                              ? 'text-emerald-500'
+                              : ins.tone === 'warn'
+                                ? 'text-amber-500'
+                                : 'text-primary'
+                          }
+                        >
+                          ●
+                        </span>
+                        <span>{ins.text}</span>
+                      </li>
                     ))}
-                  </div>
-                </section>
-              )}
-
-              {/* 学习足迹：互动地图探索 */}
-              {maps.length > 0 && (
-                <section id="section-maps" className="scroll-mt-24">
-                  <SectionLabel className="mb-4">互动地图探索</SectionLabel>
-                  <div className="space-y-2">
-                    {maps.map((rec, i) => (
-                      <CardAnim key={rec.slug} delay={i * 0.03}>
-                        <MapRow rec={rec} />
-                      </CardAnim>
-                    ))}
-                  </div>
-                </section>
-              )}
-
-              {/* 学习足迹：搜索历史（只列最近 8 个词，点回去可重跑该次检索） */}
-              {searches.length > 0 && (
-                <section id="section-searches" className="scroll-mt-24">
-                  <SectionLabel className="mb-4">搜索历史</SectionLabel>
-                  <div className="space-y-2">
-                    {searches.slice(0, 8).map((rec, i) => (
-                      <CardAnim key={`${rec.context}:${rec.term}`} delay={i * 0.03}>
-                        <SearchRow rec={rec} />
-                      </CardAnim>
-                    ))}
-                  </div>
-                  {searches.length > 8 && (
-                    <p className="mt-3 text-xs text-muted-foreground">
-                      仅显示最近 8 个关键词，共搜过 {searches.length} 个词 · 累计{' '}
-                      {summary.searchCount} 次
-                    </p>
-                  )}
+                  </ul>
                 </section>
               )}
 
@@ -919,151 +870,117 @@ const MyLearning: React.FC = () => {
               )}
               </div>{/* 左栏结束 */}
 
-              {/* 右栏：数据洞察（sticky 常驻可视区） */}
-              <aside className="lg:col-span-4">
-                <div className="lg:sticky lg:top-24 space-y-4">
+              {/* 右栏：学习足迹（浏览 / 游玩记录，紧凑副栏，只露最近几条） */}
+              <aside className="lg:col-span-4 space-y-6">
+                <SectionLabel>学习足迹</SectionLabel>
 
-                  {/* 周目标徽章 + 连学里程碑（增长激励） */}
-                  <div className="rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 to-secondary/10 p-5">
-                    <div className="flex items-center gap-4">
-                      <div className="shrink-0">
-                        <DonutChart
-                          data={[{ label: '本周已学', value: weekProgress.done, color: '#0891b2' }]}
-                          size={82}
-                          thickness={10}
-                          centerLabel="本周"
-                        />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center gap-2 text-sm font-semibold">
-                          <Target className="w-4 h-4 text-primary" /> 本周目标
-                        </div>
-                        <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
-                          已完成 {weekProgress.done}/{weekProgress.goal} 天
-                          {weekProgress.onTrack
-                            ? '，节奏不错，继续保持'
-                            : `，还差 ${Math.max(0, weekProgress.goal - weekProgress.done)} 天，本周剩 ${weekProgress.daysLeft} 天`}
-                        </p>
-                        <div className="mt-2 flex items-center gap-1">
-                          {WEEKLY_GOAL_OPTIONS.map((opt) => (
-                            <button
-                              key={opt}
-                              type="button"
-                              onClick={() => changeGoal(opt)}
-                              className={`text-xs rounded-full px-2 py-0.5 border transition-colors ${
-                                opt === weeklyGoal
-                                  ? 'bg-primary text-white border-primary'
-                                  : 'border-border/60 text-muted-foreground hover:border-primary/40'
-                              }`}
-                            >
-                              {opt}天
-                            </button>
-                          ))}
-                        </div>
-                      </div>
+                {/* 最近动态：读 / 玩 / 下 / 地图 / 搜索合并流 */}
+                <section id="section-activity" className="scroll-mt-24">
+                  <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-primary" /> 最近动态
+                  </h3>
+                  {activity.length > 0 ? (
+                    <div className="space-y-2">
+                      {activity.slice(0, 8).map((entry, i) => (
+                        <CardAnim key={entry.id} delay={i * 0.03}>
+                          <ActivityRow entry={entry} />
+                        </CardAnim>
+                      ))}
                     </div>
-                    <div className="mt-4 pt-4 border-t border-border/50">
-                      <div className="flex items-center gap-2 text-sm font-semibold mb-2.5">
-                        <Award className="w-4 h-4 text-amber-500" /> 连学里程碑
-                      </div>
-                      <div className="flex items-center justify-between gap-1">
-                        {milestones.map((m) => (
-                          <div key={m.days} className="flex-1 text-center">
-                            <div
-                              className={`mx-auto flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold ${
-                                m.reached
-                                  ? 'bg-primary text-white'
-                                  : m.isNext
-                                    ? 'bg-amber-500/15 text-amber-600 ring-2 ring-amber-500/40'
-                                    : 'bg-muted text-muted-foreground'
-                              }`}
-                            >
-                              {m.reached ? <CheckCircle2 className="w-4 h-4" /> : m.days}
-                            </div>
-                            <div className="mt-1 text-[10px] text-muted-foreground leading-tight">{m.label}</div>
-                          </div>
-                        ))}
-                      </div>
-                      {summary.streak > 0 && (
-                        <p className="mt-2.5 text-xs text-muted-foreground leading-relaxed">
-                          {(() => {
-                            const next = milestones.find((m) => m.isNext);
-                            return next
-                              ? `已连续 ${summary.streak} 天，再学 ${next.days - summary.streak} 天点亮「${next.label}」`
-                              : `已连续 ${summary.streak} 天，已点亮全部里程碑，太强了！`;
-                          })()}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* 学习类型分布 */}
-                  <div className="rounded-2xl border border-border/50 bg-muted/30 p-5">
-                    <h3 className="text-sm font-medium mb-4 flex items-center gap-2">
-                      <PieChart className="w-4 h-4 text-primary" /> 学习类型分布
-                    </h3>
-                    {typeDist.length > 0 ? (
-                      <div className="flex items-center gap-4">
-                        <DonutChart data={typeDist} size={120} />
-                        <div className="min-w-0 flex-1">
-                          <ChartLegend data={typeDist} />
-                        </div>
-                      </div>
-                    ) : (
-                      <p className="text-sm text-muted-foreground">还没有学习记录</p>
-                    )}
-                  </div>
-
-                  {/* 近 8 周活跃 */}
-                  <div className="rounded-2xl border border-border/50 bg-muted/30 p-5">
-                    <h3 className="text-sm font-medium mb-4 flex items-center gap-2">
-                      <BarChart3 className="w-4 h-4 text-primary" /> 近 8 周活跃天数
-                    </h3>
-                    <BarChart data={weekly} />
-                  </div>
-
-                  {/* 下载分类 */}
-                  {downloadDist.length > 0 && (
-                    <div className="rounded-2xl border border-border/50 bg-muted/30 p-5">
-                      <h3 className="text-sm font-medium mb-4 flex items-center gap-2">
-                        <PieChart className="w-4 h-4 text-primary" /> 下载资料分类
-                      </h3>
-                      <div className="flex items-center gap-4">
-                        <DonutChart data={downloadDist} size={120} />
-                        <div className="min-w-0 flex-1">
-                          <ChartLegend data={downloadDist} />
-                        </div>
-                      </div>
-                    </div>
+                  ) : (
+                    <EmptyHint text="还没有学习记录，去读一篇或玩一局试试？" to="/learn" cta="浏览知识库" />
                   )}
-
-                  {/* 数据分析与建议 */}
-                  {insights.length > 0 && (
-                    <div className="rounded-2xl border border-primary/15 bg-primary/5 p-5">
-                      <h3 className="text-sm font-semibold mb-3 flex items-center gap-2 text-primary">
-                        <Trophy className="w-4 h-4" /> 数据分析与建议
-                      </h3>
-                      <ul className="space-y-2.5 text-sm text-muted-foreground leading-relaxed">
-                        {insights.map((ins, i) => (
-                          <li key={i} className="flex items-start gap-2">
-                            <span
-                              className={
-                                ins.tone === 'positive'
-                                  ? 'text-emerald-500'
-                                  : ins.tone === 'warn'
-                                    ? 'text-amber-500'
-                                    : 'text-primary'
-                              }
-                            >
-                              ●
-                            </span>
-                            <span>{ins.text}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                  {activity.length > 8 && (
+                    <p className="mt-3 text-xs text-muted-foreground">
+                      仅显示最近 8 条，累计 {activity.length} 条记录
+                    </p>
                   )}
-                </div>
+                </section>
+
+                {/* 我的收藏 */}
+                <section id="section-favorites" className="scroll-mt-24">
+                  <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
+                    <Star className="w-4 h-4 text-amber-500" /> 我的收藏
+                  </h3>
+                  {favorites.length > 0 ? (
+                    <div className="space-y-2">
+                      {favorites.slice(0, 8).map((entry, i) => (
+                        <CardAnim key={entry.key} delay={i * 0.03}>
+                          <ContentRow entry={entry} />
+                        </CardAnim>
+                      ))}
+                    </div>
+                  ) : (
+                    <EmptyHint text="还没有收藏任何教程，在内容页点右上角的星标即可收藏。" />
+                  )}
+                </section>
+
+                {/* 已学完的课程 */}
+                {completed.length > 0 && (
+                  <section id="section-completed" className="scroll-mt-24">
+                    <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-500" /> 已学完的课程
+                    </h3>
+                    <div className="space-y-2">
+                      {completed.slice(0, 6).map((entry, i) => (
+                        <CardAnim key={entry.key} delay={i * 0.03}>
+                          <ContentRow entry={entry} />
+                        </CardAnim>
+                      ))}
+                    </div>
+                  </section>
+                )}
+
+                {/* 下载记录 */}
+                {downloads.length > 0 && (
+                  <section id="section-downloads" className="scroll-mt-24">
+                    <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
+                      <Download className="w-4 h-4 text-primary" /> 下载记录
+                    </h3>
+                    <div className="space-y-2">
+                      {downloads.slice(0, 5).map((rec, i) => (
+                        <CardAnim key={rec.slug} delay={i * 0.03}>
+                          <DownloadRow rec={rec} />
+                        </CardAnim>
+                      ))}
+                    </div>
+                  </section>
+                )}
+
+                {/* 互动地图探索 */}
+                {maps.length > 0 && (
+                  <section id="section-maps" className="scroll-mt-24">
+                    <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
+                      <Map className="w-4 h-4 text-primary" /> 互动地图探索
+                    </h3>
+                    <div className="space-y-2">
+                      {maps.slice(0, 5).map((rec, i) => (
+                        <CardAnim key={rec.slug} delay={i * 0.03}>
+                          <MapRow rec={rec} />
+                        </CardAnim>
+                      ))}
+                    </div>
+                  </section>
+                )}
+
+                {/* 搜索历史（只列最近 8 个词，点回去可重跑该次检索） */}
+                {searches.length > 0 && (
+                  <section id="section-searches" className="scroll-mt-24">
+                    <h3 className="text-sm font-medium mb-3 flex items-center gap-2">
+                      <Search className="w-4 h-4 text-primary" /> 搜索历史
+                    </h3>
+                    <div className="space-y-2">
+                      {searches.slice(0, 8).map((rec, i) => (
+                        <CardAnim key={`${rec.context}:${rec.term}`} delay={i * 0.03}>
+                          <SearchRow rec={rec} />
+                        </CardAnim>
+                      ))}
+                    </div>
+                    <p className="mt-3 text-xs text-muted-foreground">
+                      仅显示最近 8 个关键词，共搜过 {searches.length} 个词 · 累计 {summary.searchCount} 次
+                    </p>
+                  </section>
+                )}
               </aside>
             </div>
           )}

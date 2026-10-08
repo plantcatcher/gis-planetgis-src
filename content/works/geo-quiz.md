@@ -8,6 +8,8 @@ link: /geoquiz
 order: 4
 category: 地理游戏
 series: game
+topics: 看图竞猜
+scope: 世界
 tags: 地理, 地理可视化, 可视化作品, 游戏
 ---
 

@@ -7,6 +7,8 @@ link: /maps/world-ports
 order: 13
 category: 互动地图
 series: map
+topics: 交通与贸易
+scope: 世界
 tags: 地理, 地理可视化, 互动地图, 世界港口, 港口, 海运, 航运, 贸易地理, 数据可视化
 ---
 

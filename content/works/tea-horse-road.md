@@ -8,6 +8,8 @@ link: /maps/tea-horse-road
 order: 7
 category: 互动地图
 series: map
+topics: 历史地理, 交通与贸易
+scope: 中国
 tags: 地理, 地理可视化, 互动地图, 茶马古道, 历史地理, 交通, 驿镇, 青藏高原
 ---
 

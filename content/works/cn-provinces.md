@@ -8,6 +8,8 @@ link: /maps/cn-provinces
 order: 4
 category: 互动地图
 series: map
+topics: 行政区划
+scope: 中国
 tags: 地理, 地理可视化, 互动地图, 省情, 行政区划, 人口, GDP
 ---
 

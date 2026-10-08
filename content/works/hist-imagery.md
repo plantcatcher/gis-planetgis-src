@@ -7,6 +7,8 @@ link: /maps/hist-imagery
 order: 3
 category: 互动地图
 series: map
+topics: 历史地理
+scope: 世界
 tags: 地理, 地理可视化, 互动地图, 卫星影像, 城市变迁
 ---
 

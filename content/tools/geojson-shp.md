@@ -3,7 +3,7 @@ slug: geojson-shp
 title: GeoJson转SHP工具
 summary: 将 GeoJSON 转换为 Shapefile，支持属性表保留与坐标系转换，是 GIS 数据处理的实用小工具。
 link: https://covertool.planetgis.cn
-order: 2
+order: 3
 category: 地理小工具
 tags: 地理, 地理工具, 地理小工具
 ---

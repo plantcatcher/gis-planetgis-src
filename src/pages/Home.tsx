@@ -1,8 +1,7 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Progress } from '@/components/ui/progress';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Github, Youtube, MessageCircle, Instagram, Rss, ArrowRight, ExternalLink, Globe, Compass, Box, Share2, Calendar, Lightbulb, Newspaper, Download, Lock, BookOpen, Target } from 'lucide-react';
+import { Github, Youtube, MessageCircle, Instagram, Rss, ArrowRight, ExternalLink, Globe, Compass, Box, Share2, Calendar, Lightbulb, Newspaper, Download, Lock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import {
   getWorks,
@@ -12,6 +11,7 @@ import {
   getResources,
   getHomeResources,
   getChangelogTimeline,
+  getChangelogPlans,
   getLearnSubjects,
   isResourceGated,
 } from '@/lib/content';
@@ -19,8 +19,6 @@ import HomeSidebar, { useScrollSpy } from '@/components/home/HomeSidebar';
 import subdomainsData from '@/data/subdomains.json';
 import PageMeta from '@/components/common/PageMeta';
 import { useJsonLd } from '@/lib/seo';
-import { useLearningData } from '@/hooks/useLearning';
-import { getContinueEntry, keyToPath, getWeekProgress, WEEKLY_GOAL_DEFAULT } from '@/services/learningService';
 import KnowledgeCard from '@/components/knowledge/KnowledgeCard';
 import SectionLabel from '@/components/knowledge/SectionLabel';
 
@@ -199,72 +197,6 @@ const GeoFactCard = () => {
   );
 };
 
-/** 首页续读 + 本周目标激励条：仅在有学习痕迹时客户端渲染；SSG 默认空态，hydration 一致 */
-const ContinueLearningStrip: React.FC = () => {
-  const data = useLearningData();
-  const entry = useMemo(() => getContinueEntry(), [data]);
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  // 首帧用默认值（SSR 一致），挂载后读真实周进度；避免直接读 localStorage 导致水合不一致
-  const week = useMemo(
-    () =>
-      mounted
-        ? getWeekProgress()
-        : { done: 0, goal: WEEKLY_GOAL_DEFAULT, pct: 0, daysLeft: 7, onTrack: true },
-    [mounted, data],
-  );
-
-  // 有学习痕迹（已挂载且本地数据非空）才显示周目标激励；纯新访客不显示，避免噪声
-  const hasLearning =
-    mounted && (data.profile.activeDates.length > 0 || data.learning.recentlyViewed.length > 0);
-  if (!entry && !hasLearning) return null;
-
-  return (
-    <div className="mt-4 space-y-2">
-      {entry &&
-        (() => {
-          const path = keyToPath(entry.key);
-          if (!path) return null;
-          const pct = Math.round((entry.progress?.progress ?? 0) * 100);
-          return (
-            <Link
-              to={path}
-              className="flex items-center gap-3 rounded-xl border border-border/50 bg-muted/30 px-4 py-3 hover:border-primary/30 transition-colors"
-            >
-              <BookOpen className="w-5 h-5 text-primary shrink-0" />
-              <div className="min-w-0 flex-1">
-                <div className="text-xs text-muted-foreground">继续学习</div>
-                <div className="text-sm font-medium truncate">{entry.item.title}</div>
-              </div>
-              <div className="flex items-center gap-2 shrink-0">
-                <Progress value={pct} className="w-20 h-1.5 hidden sm:block" />
-                <span className="text-xs text-muted-foreground tabular-nums">{pct}%</span>
-                <ArrowRight className="w-4 h-4 text-primary" />
-              </div>
-            </Link>
-          );
-        })()}
-
-      {hasLearning && (
-        <Link
-          to="/my"
-          className="flex items-center gap-3 rounded-xl border border-border/50 bg-muted/30 px-4 py-2.5 hover:border-primary/30 transition-colors"
-        >
-          <Target className="w-4 h-4 text-primary shrink-0" />
-          <span className="text-xs text-muted-foreground shrink-0">本周目标</span>
-          <Progress value={week.pct} className="w-20 sm:w-28 h-1.5" />
-          <span className="text-xs font-medium tabular-nums shrink-0">
-            {week.done}/{week.goal} 天
-          </span>
-          <span className="text-xs text-muted-foreground truncate">
-            {week.done >= week.goal ? '已达标 🎉' : `还差 ${week.goal - week.done} 天`}
-          </span>
-        </Link>
-      )}
-    </div>
-  );
-};
-
 const Home = () => {
   const profile = {
     id: '1',
@@ -289,10 +221,8 @@ const Home = () => {
 
   const updateLog = getChangelogTimeline(6);
 
-  const plannedItems = [
-    { title: '地形分析工具', desc: '上传高程数据即可自动生成剖面图与坡度分析，让地形特征一眼可读。' },
-    { title: '星空观测指南', desc: '整理全年星座与深空天体的最佳观测时间地图，把天文放进地理框架。' },
-  ];
+  // 规划项与 /changelog 同源（content/changelog.md 的「## 规划中」），改 md 即两处同步
+  const plannedItems = getChangelogPlans();
 
   const works = getWorks();
   // 系列归属看 frontmatter 的 series 字段（map / game / lab），不靠 tags 猜。
@@ -406,9 +336,6 @@ const Home = () => {
                 </Link>
               </div>
             </div>
-
-            {/* 续读条：把本地学习进度召回首页，形成回访钩子 */}
-            <ContinueLearningStrip />
           </SectionWrapper>
         );
       case 'works':
@@ -472,7 +399,7 @@ const Home = () => {
             id="maps"
             kicker="可点 · 可搜 · 可查"
             title="互动地图"
-            lead="把真实地理数据做成可以提问的地图——点一下就知道这条河叫什么、几级、多长；也能把 196 期卫星影像拉成时间轴，看一块地怎么长成一座城；还能点开 34 个省级行政区中的任意一个，看它的人口、GDP 与「全国之最」；或者把长江干流与八条支流摆在一起，比河长、比汇水、比流量。数据源与坐标系全部公开。"
+            lead="把真实地理数据做成可以点、可以查的地图——从中国河网、省级行政区到全球水电与港口，点开图层就能读到背后的地理故事。"
             action={
               <Link to="/maps" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
                 进入地图系列 <ArrowRight className="w-3.5 h-3.5" />

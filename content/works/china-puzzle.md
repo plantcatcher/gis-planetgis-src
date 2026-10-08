@@ -8,6 +8,8 @@ link: /chinapuzzle
 order: 7
 category: 地理游戏
 series: game
+topics: 拼图挑战
+scope: 中国
 tags: 地理, 地理可视化, 地理游戏, 游戏
 ---
 

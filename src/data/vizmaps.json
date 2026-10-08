@@ -416,6 +416,80 @@
         "desc": "总量(nPort/nCountry/website/noCountry)、六档计数 tierCounts、档位定义 tiers、按数量前 15 国家 topByCount、数据源与合规说明"
       }
     ]
+  },
+  {
+    "slug": "au-regions",
+    "entry": "/maps/au-regions/index.html",
+    "bbox": [112.0, -46.0, 156.0, -9.0],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_AUS_shp，WGS84 / EPSG:4326，公开数据）：一级行政区（6 州 + 2 领地 + 3 海外领地）边界 + 568 个地方政府区（LGA）。首府 / 人口（2021 普查 ABS）/ 面积 / 加入联邦年份为人工整理近似值",
+    "updated": "2026-10-08",
+    "data": [
+      {
+        "file": "maps/au-regions/data/states.geojson",
+        "features": 11,
+        "unit": "个一级行政区",
+        "desc": "6 州 + 2 领地 + 3 海外领地；属性含中文名 / 首府 / 人口 / 面积 / 加入联邦年份 / 昵称 / 简介 / 是否海外领地"
+      },
+      {
+        "file": "maps/au-regions/data/lga.geojson",
+        "features": 568,
+        "unit": "个地方政府区",
+        "desc": "地方政府区（Local Government Area）边界，类型含 City / Region / Area / Shire；可作叠加图层查看最基层行政区划"
+      }
+    ]
+  },
+  {
+    "slug": "uk-regions",
+    "entry": "/maps/uk-regions/index.html",
+    "bbox": [-11.0, 49.0, 4.0, 61.5],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_GBR_shp，WGS84 / EPSG:4326，公开数据）：4 个构成国（英格兰 / 苏格兰 / 威尔士 / 北爱尔兰）边界 + 183 个二级行政区（郡 / 单一管理区 / 都会自治市 / 区 等）。首府 / 人口（ONS 2022 年中估计，由 2021/2022 普查滚动）/ 面积 / 权力下放状况为人工整理近似值；不含马恩岛、海峡群岛等王室属地与海外领地",
+    "updated": "2026-10-08",
+    "data": [
+      {
+        "file": "maps/uk-regions/data/countries.geojson",
+        "features": 4,
+        "unit": "个构成国",
+        "desc": "英格兰 / 苏格兰 / 威尔士 / 北爱尔兰；属性含中文名 / 英文名 / 首府 / 人口 / 面积 / 是否权力下放 / 昵称 / 简介"
+      },
+      {
+        "file": "maps/uk-regions/data/districts.geojson",
+        "features": 183,
+        "unit": "个二级行政区",
+        "desc": "二级行政区（郡 / 单一管理区 / 都会自治区 / 区 等）边界，可作为叠加图层查看最基层地方政府；属性含所属构成国与类型"
+      }
+    ]
+  },
+  {
+    "slug": "jp-regions",
+    "entry": "/maps/jp-regions/index.html",
+    "bbox": [
+      122,
+      24,
+      154,
+      46
+    ],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_JPN_shp，WGS84 / EPSG:4326，公开数据）：47 个都道府县（1 都 东京 · 1 道 北海道 · 2 府 京都/大阪 · 43 县）边界 + 1811 个市町村（市 / 町 / 村 / 特别区）。汉字名取自 GADM 本地名（NL_NAME_1）；人口取 2020 年国势调查（总务省）、面积为近似值，仅供快速对照；都道府县按 8 地方（北海道 / 東北 / 関東 / 中部 / 近畿 / 中国 / 四国 / 九州）归类",
+    "updated": "2026-10-08",
+    "data": [
+      {
+        "file": "maps/jp-regions/data/prefectures.geojson",
+        "features": 47,
+        "unit": "个都道府县",
+        "desc": "47 个一级行政区边界；属性含汉字名 / 罗马字 / 类型(都道府県) / 所属 8 地方 / 县厅所在地 / 2020 人口 / 面积 / 昵称 / 看点"
+      },
+      {
+        "file": "maps/jp-regions/data/municipalities.geojson",
+        "features": 1811,
+        "unit": "个市町村",
+        "desc": "市町村（市 / 町 / 村 / 特别区）边界，可作为叠加图层查看最基层行政区划；属性含所属都道府县与类型"
+      }
+    ]
   }
 ]
 }

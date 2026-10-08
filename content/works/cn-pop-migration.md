@@ -7,6 +7,8 @@ link: /maps/cn-pop-migration
 order: 8
 category: 互动地图
 series: map
+topics: 历史地理, 人口与社会
+scope: 中国
 tags: 地理, 地理可视化, 互动地图, 人口迁徙, 历史地理, 衣冠南渡, 闯关东, 下南洋, 三线建设
 ---
 

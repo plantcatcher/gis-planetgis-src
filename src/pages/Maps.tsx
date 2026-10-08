@@ -4,7 +4,8 @@ import { motion } from 'framer-motion';
 import { Map as MapIcon, ArrowRight, Layers, Database, Square, LayoutGrid, List } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
-import { getWorksBySeries, type ContentItem } from '@/lib/content';
+import FilterChips from '@/components/common/FilterChips';
+import { getWorksBySeries, getWorkTopics, getWorkScopes, type ContentItem } from '@/lib/content';
 import { getVizMap, type VizMap } from '@/lib/vizmaps';
 
 // 卡片入场动画：initial 保持 opacity:1，确保 SSG 静态 HTML 中文本天生可见（利于 SEO / AdSense）。
@@ -39,6 +40,29 @@ const Maps: React.FC = () => {
     asset: getVizMap(w.slug) as VizMap | undefined,
   }));
   const [mode, setMode] = useState<ViewMode>('simple');
+
+  // 细分筛选：主题（topic）+ 地域（scope），两维正交，均由 content/works/<slug>.md
+  // 的 frontmatter（topics / scope）驱动——写什么就筛什么，新增地图不用改本页。
+  const topics = getWorkTopics('map');
+  const scopes = getWorkScopes('map');
+  const [topic, setTopic] = useState('全部');
+  const [scope, setScope] = useState('全部');
+
+  const hitTopic = (w: ContentItem, t: string) => t === '全部' || (w.topics || []).includes(t);
+  const hitScope = (w: ContentItem, s: string) => s === '全部' || w.scope === s;
+  const filtered = maps.filter(({ work }) => hitTopic(work, topic) && hitScope(work, scope));
+
+  // 分面计数：某个主题的条数按「当前地域」算，某个地域的条数按「当前主题」算
+  const topicChips = topics.map(({ name }) => ({
+    name,
+    count: maps.filter(({ work }) => hitScope(work, scope) && hitTopic(work, name)).length,
+  }));
+  const scopeChips = scopes.map(({ name }) => ({
+    name,
+    count: maps.filter(({ work }) => hitTopic(work, topic) && hitScope(work, name)).length,
+  }));
+  const narrowed = topic !== '全部' || scope !== '全部';
+
   const compact = mode === 'simple';
 
   return (
@@ -63,9 +87,36 @@ const Maps: React.FC = () => {
             </p>
           </header>
 
+          {/* ── 细分筛选：主题 / 地域 ──────────────────────────────── */}
+          <div className="space-y-3 mb-6">
+            <FilterChips label="主题" items={topicChips} active={topic} onChange={setTopic} allCount={maps.filter(({ work }) => hitScope(work, scope)).length} />
+            <FilterChips label="地域" items={scopeChips} active={scope} onChange={setScope} allCount={maps.filter(({ work }) => hitTopic(work, topic)).length} />
+          </div>
+
           {/* 视图切换：仅图标，文字信息移到 title/aria-label（悬停即有提示，不占横向空间） */}
           <div className="flex items-center justify-between gap-4 mb-8">
-            <p className="text-sm text-muted-foreground">共 {maps.length} 张地图</p>
+            <p className="text-sm text-muted-foreground">
+              共 {filtered.length} 张地图
+              {narrowed && (
+                <>
+                  <span className="mx-1.5 text-border">|</span>
+                  <span>
+                    已筛选{scope !== '全部' && ` · ${scope}`}
+                    {topic !== '全部' && ` · ${topic}`}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTopic('全部');
+                      setScope('全部');
+                    }}
+                    className="ml-3 text-primary hover:underline"
+                  >
+                    清空筛选
+                  </button>
+                </>
+              )}
+            </p>
             <div
               role="group"
               aria-label="切换展示方式"
@@ -93,10 +144,12 @@ const Maps: React.FC = () => {
 
           {maps.length === 0 ? (
             <p className="text-muted-foreground">地图正在路上，敬请期待。</p>
+          ) : filtered.length === 0 ? (
+            <p className="text-muted-foreground">这个组合下暂时没有地图，换个主题或地域看看。</p>
           ) : mode === 'list' ? (
             /* 列表模式 */
             <div className="space-y-3">
-              {maps.map(({ work: w, asset: m }, i) => {
+              {filtered.map(({ work: w, asset: m }, i) => {
                 const totalFeatures = m?.data.reduce((s, d) => s + d.features, 0) ?? 0;
                 const unit = m?.data[0]?.unit ?? '个要素';
                 return (
@@ -148,7 +201,7 @@ const Maps: React.FC = () => {
           ) : (
             /* 卡片模式（simple / detail） */
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {maps.map(({ work: w, asset: m }, i) => {
+              {filtered.map(({ work: w, asset: m }, i) => {
                 const totalFeatures = m?.data.reduce((s, d) => s + d.features, 0) ?? 0;
                 const unit = m?.data[0]?.unit ?? '个要素';
                 return (

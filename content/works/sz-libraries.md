@@ -7,6 +7,8 @@ link: /maps/sz-libraries
 order: 10
 category: 互动地图
 series: map
+topics: 人口与社会, 城市与经济
+scope: 中国
 tags: 地理, 地理可视化, 互动地图, 深圳, 图书馆, 公共文化, 城市地理, 数据可视化, 图书馆之城
 ---
 

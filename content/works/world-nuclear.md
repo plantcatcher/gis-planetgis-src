@@ -7,6 +7,8 @@ link: /maps/world-nuclear
 order: 12
 category: 互动地图
 series: map
+topics: 能源与工业
+scope: 世界
 tags: 地理, 地理可视化, 互动地图, 核电站, 核电, 能源地理, 反应堆, 装机容量, 世界地理, 数据可视化
 ---
 

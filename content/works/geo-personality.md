@@ -8,6 +8,8 @@ link: /geotype
 order: 5
 category: 趣味测试
 series: game
+topics: 趣味测试
+scope: 通用
 tags: 地理, 地理可视化, 趣味测试, 游戏
 ---
 

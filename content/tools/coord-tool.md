@@ -3,7 +3,7 @@ slug: coord-tool
 title: 经纬度查询工具
 summary: 输入地址即可获取精确经纬度坐标，支持全球地址解析与坐标格式转换，适用于地理标注与地图制作。
 link: https://xyz.planetgis.cn
-order: 1
+order: 2
 category: 地理小工具
 tags: 地理, 地理工具, 地理小工具
 ---

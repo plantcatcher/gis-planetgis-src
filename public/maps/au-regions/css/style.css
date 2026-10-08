@@ -1,0 +1,52 @@
+/* 澳大利亚行政区划互动地图 · 专题样式
+   基于 _shared/thematic/thematic.css。
+   配色取「红色中心」：暖金 accent（与州领地分级的 outback 红金呼应）。 */
+
+:root {
+  --accent: #f59e0b;
+  --accent-light: #fbbf24;
+  --accent-dark: #c2410c;
+  --accent-soft: rgba(245, 158, 11, 0.14);
+  --panel-solid: rgba(6, 17, 24, 0.94);
+}
+
+html, body, #map { background: #0c1408; }
+
+/* 4 项统计一行放下 */
+.facts { grid-template-columns: repeat(4, 1fr); }
+.facts > span + span { padding-left: 8px; }
+.facts .v { font-size: 12px; }
+.facts em { font-size: 17px; }
+
+.hint-n { font-size: 10.5px; color: var(--dim); font-weight: 400; font-variant-numeric: tabular-nums; }
+
+/* ── 着色指标切换 ─────────────────────────────────────────── */
+.chips { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
+.chips button {
+  font: inherit; font-size: 11.5px; color: var(--muted); cursor: pointer;
+  background: rgba(255,255,255,.04); border: 1px solid var(--line);
+  border-radius: 7px; padding: 5px 12px;
+  transition: background .16s, color .16s, border-color .16s;
+  font-variant-numeric: tabular-nums;
+}
+.chips button:hover { color: var(--text); }
+.chips button.active { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); font-weight: 600; }
+
+/* ── 图例：暖色分级 ───────────────────────────────────────── */
+.legend { gap: 5px 13px; max-width: 280px; }
+.legend .lg-cap { font-size: 10px; color: var(--dim); letter-spacing: .04em; width: 100%; margin-bottom: 1px; }
+.legend .lg-row { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
+.legend .lg-row i { width: 13px; height: 13px; border-radius: 3px; display: block; flex: 0 0 auto; }
+.legend .lg-note { width: 100%; font-size: 10px; color: var(--dim); margin-top: 2px; line-height: 1.5; }
+
+/* 详情卡顶部色条随选中对象切换 */
+.detail { border-top: 3px solid var(--rc, var(--accent)); }
+.detail > header small { color: var(--rc, var(--accent)); }
+
+/* 移动端 */
+@media (max-width: 900px) {
+  .facts { grid-template-columns: repeat(4, 1fr); }
+  .facts em { font-size: 15px; }
+  .legend { max-width: none; }
+  .panel .row { padding: 9px 0; }
+}

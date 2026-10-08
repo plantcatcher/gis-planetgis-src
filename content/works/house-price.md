@@ -7,6 +7,8 @@ link: /maps/house-price
 order: 8
 category: 互动地图
 series: map
+topics: 城市与经济
+scope: 中国
 tags: 地理, 地理可视化, 互动地图, 房价, 房地产, 经济地理, 时间序列, 70城, 数据可视化
 ---
 

@@ -25,6 +25,16 @@ export interface ContentItem {
    * 不要再靠 tags 里有没有「游戏」来猜。
    */
   series?: 'map' | 'game' | 'lab';
+  /**
+   * 主题标签（细分分类，仅 works 的 map / game 使用）：比 category（互动地图 / 地理游戏）
+   * 更细的一层，一条目可归多个主题，逗号分隔。用于 /maps、/games 的筛选。
+   */
+  topics?: string[];
+  /**
+   * 地域范围（仅 works 的 map / game 使用）：中国 / 世界 / 通用。
+   * 与 topics（主题）正交，是 /maps、/games 的第二道筛选。
+   */
+  scope?: string;
   tags?: string[];
   body: string;
   /** 资料下载专用：关注公众号后获取的专属验证码（大小写不敏感） */
@@ -113,6 +123,8 @@ for (const [path, raw] of Object.entries(rawFiles)) {
     subject: data.subject,
     level: data.level,
     series: data.series as ContentItem['series'],
+    topics: data.topics ? data.topics.split(',').map((s) => s.trim()).filter(Boolean) : [],
+    scope: data.scope,
     tags: data.tags ? data.tags.split(',').map((s) => s.trim()).filter(Boolean) : [],
     body: content.trim(),
     code: data.code,
@@ -270,6 +282,43 @@ export const getWorkCategories = (): { name: string; count: number }[] => {
     .sort((a, b) => b.count - a.count);
 };
 
+/**
+ * 某系列（map / game）的「主题标签」聚合，用于 /maps、/games 的细分筛选。
+ * 比 category（互动地图 / 地理游戏）更细：一条目可归多个主题，写什么就筛什么。
+ * 排序：出现次数多的在前，同次数按中文拼音（localeCompare zh）稳定排列。
+ */
+export const getWorkTopics = (series: ContentItem['series']): { name: string; count: number }[] => {
+  const map = new Map<string, number>();
+  for (const w of getWorksBySeries(series)) {
+    for (const t of w.topics || []) map.set(t, (map.get(t) || 0) + 1);
+  }
+  return Array.from(map.entries())
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh-Hans-CN'));
+};
+
+/** 地域范围的展示顺序（固定：中国 → 世界 → 通用，其余按出现次数兜底） */
+const SCOPE_ORDER = ['中国', '世界', '通用'];
+
+/**
+ * 某系列（map / game）的「地域范围」聚合，用于第二道筛选。
+ * scope 与 topics 正交——一个是「画的是什么主题」，一个是「画的是哪儿」。
+ */
+export const getWorkScopes = (series: ContentItem['series']): { name: string; count: number }[] => {
+  const map = new Map<string, number>();
+  for (const w of getWorksBySeries(series)) {
+    if (w.scope) map.set(w.scope, (map.get(w.scope) || 0) + 1);
+  }
+  return Array.from(map.entries())
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => {
+      const ia = SCOPE_ORDER.indexOf(a.name);
+      const ib = SCOPE_ORDER.indexOf(b.name);
+      if (ia !== ib) return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+      return b.count - a.count;
+    });
+};
+
 export const getItem = (type: ContentType, slug: string): ContentItem | undefined =>
   items.find((i) => i.type === type && i.slug === slug);
 
@@ -326,6 +375,27 @@ export const getChangelogTimeline = (limit = 6): TimelineEntry[] => {
     entries.push({ date: m[1], title: m[2].trim() });
   }
   return entries.slice(0, limit);
+};
+
+export interface PlanEntry {
+  title: string;
+  desc: string;
+}
+
+// 从 changelog 正文「## 规划中」小节提取「- **标题**：说明」，与 /changelog 同源，
+// 首页「动态与规划」的规划卡片直接由此渲染，改 md 即两处同步。
+export const getChangelogPlans = (): PlanEntry[] => {
+  const cl = getChangelog();
+  if (!cl) return [];
+  const sec = cl.body.match(/##\s*规划中([\s\S]*?)(?=\n##\s|$)/);
+  if (!sec) return [];
+  const out: PlanEntry[] = [];
+  const re = /^-\s*\*\*(.+?)\*\*\s*[：:]\s*(.+)$/gm;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(sec[1])) !== null) {
+    out.push({ title: m[1].trim(), desc: m[2].trim() });
+  }
+  return out;
 };
 
 // 供预渲染脚本枚举所有详情页路由

@@ -7,6 +7,8 @@ link: /maps/world-hydro
 order: 11
 category: 互动地图
 series: map
+topics: 能源与工业
+scope: 世界
 tags: 地理, 地理可视化, 互动地图, 水电站, 水电, 能源地理, 大坝, 装机容量, 世界地理, 数据可视化
 ---
 
