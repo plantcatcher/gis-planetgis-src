@@ -13,7 +13,7 @@ trigger: 全球水电站分布数据
 keywordAliases: 全球水电数据, 水电站分布数据, 全球水电站SHP, GloHydroRes
 code: NSH-GIS-019
 download: https://downloads.planetgis.cn/GIS/global-hydro-plants-shp.zip
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-global-hydro-plants-shp-cover.jpg
 format: SHP（ZIP 压缩包）
 size: 1.67 MB
 source: GloHydroRes v1（WRI / JRC / EHA / RePP 合并的全球水电站台账）

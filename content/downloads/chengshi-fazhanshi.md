@@ -12,7 +12,7 @@ code: NSH-CS-011
 download: https://downloads.planetgis.cn/book/chengshi-fazhanshi.pdf
 format: PDF
 size: 11.4 MB
-cover: /shots/chengshi-fazhanshi/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-chengshi-fazhanshi-cover.jpg
 author: "[美] 刘易斯·芒福德（Lewis Mumford）著，宋俊岭、倪文彦 译"
 publisher: 中国建筑工业出版社
 pubYear: 2005
@@ -62,11 +62,11 @@ isbn: 9787112069736
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/chengshi-fazhanshi/cover.jpg" />
-<img alt="内页 1" src="/shots/chengshi-fazhanshi/p1.jpg" />
-<img alt="内页 2" src="/shots/chengshi-fazhanshi/p2.jpg" />
-<img alt="内页 3" src="/shots/chengshi-fazhanshi/p3.jpg" />
-<img alt="内页 4" src="/shots/chengshi-fazhanshi/p4.jpg" />
-<img alt="内页 5" src="/shots/chengshi-fazhanshi/p5.jpg" />
-<img alt="内页 6" src="/shots/chengshi-fazhanshi/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-chengshi-fazhanshi-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-chengshi-fazhanshi-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-chengshi-fazhanshi-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-chengshi-fazhanshi-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-chengshi-fazhanshi-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-chengshi-fazhanshi-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-chengshi-fazhanshi-p6.jpg" />
 </div>

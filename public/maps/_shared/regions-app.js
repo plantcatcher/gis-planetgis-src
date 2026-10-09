@@ -31,7 +31,7 @@
   var S = {
     main: [],
     sub: [],
-    metric: 'pop',
+    metric: (CFG && CFG.defaultMetric) || 'pop',
     sel: null,
     subSel: null,
     groupCentroids: {},
@@ -357,11 +357,12 @@
 
   /* ── 启动 ── */
   function fmtPop(v) {
-    if (v >= 1e8) { el.fPopU.textContent = '亿'; return (v / 1e8).toFixed(2) + ' 亿'; }
-    el.fPopU.textContent = '万'; return (v / 1e4).toFixed(0) + ' 万';
+    /* 单位由独立的 fPopU 元素承担，返回值不再带单位（避免「2.03 亿亿」式重复） */
+    if (v >= 1e8) { if (el.fPopU) el.fPopU.textContent = '亿'; return (v / 1e8).toFixed(2); }
+    if (el.fPopU) el.fPopU.textContent = '万'; return (v / 1e4).toFixed(0);
   }
   function fmtArea(v) {
-    el.fAreaU.textContent = '万km²'; return (v / 1e4).toFixed(1) + ' 万';
+    el.fAreaU.textContent = '万km²'; return (v / 1e4).toFixed(1);
   }
 
   function boot() {
@@ -377,7 +378,7 @@
 
       el.fMain.textContent = fmt(S.main.length, 0);
       el.fSub.textContent = fmt(S.sub.length, 0);
-      el.fPop.textContent = fmtPop(S.totals.pop);
+      if (el.fPop) el.fPop.textContent = fmtPop(S.totals.pop);
       el.fArea.textContent = fmtArea(S.totals.area);
 
       computeGroupCentroids();

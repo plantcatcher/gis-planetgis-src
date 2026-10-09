@@ -12,7 +12,7 @@ code: NSH-RW-008
 download: https://downloads.planetgis.cn/book/shuijingzhu-zonghe-tuce.pdf
 format: PDF
 size: 46.7 MB
-cover: /shots/shuijingzhu-zonghe-tuce/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuijingzhu-zonghe-tuce-cover.jpg
 author: 张步天 编绘
 publisher: 天佳斋
 pubYear: 2017
@@ -59,11 +59,11 @@ pubYear: 2017
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/shuijingzhu-zonghe-tuce/cover.jpg" />
-<img alt="内页 1" src="/shots/shuijingzhu-zonghe-tuce/p1.jpg" />
-<img alt="内页 2" src="/shots/shuijingzhu-zonghe-tuce/p2.jpg" />
-<img alt="内页 3" src="/shots/shuijingzhu-zonghe-tuce/p3.jpg" />
-<img alt="内页 4" src="/shots/shuijingzhu-zonghe-tuce/p4.jpg" />
-<img alt="内页 5" src="/shots/shuijingzhu-zonghe-tuce/p5.jpg" />
-<img alt="内页 6" src="/shots/shuijingzhu-zonghe-tuce/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuijingzhu-zonghe-tuce-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuijingzhu-zonghe-tuce-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuijingzhu-zonghe-tuce-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuijingzhu-zonghe-tuce-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuijingzhu-zonghe-tuce-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuijingzhu-zonghe-tuce-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuijingzhu-zonghe-tuce-p6.jpg" />
 </div>

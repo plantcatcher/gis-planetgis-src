@@ -15,7 +15,7 @@ code: NSH-SHP-004
 downloadType: baidu
 panCode: zfsj
 download: https://pan.baidu.com/s/1XID9kn0mMiPplZ94AoENnQ?pwd=zfsj
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-geo-data-cover.jpg
 format: SHP（ZIP 压缩包）
 size: 415.11 MB
 ---

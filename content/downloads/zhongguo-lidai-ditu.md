@@ -15,7 +15,7 @@ code: NSH-DT-001
 downloadType: baidu
 download: https://pan.baidu.com/s/14LbYa9EGViQzXXvgo32gsg?pwd=w23r
 panCode: w23r
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-geo-data-cover.jpg
 format: JPG 图片文件夹（百度网盘分享）
 size: 261 MB
 ---

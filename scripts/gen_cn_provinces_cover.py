@@ -8,7 +8,7 @@
   2) 各省数据：public/maps/cn-provinces/js/data.js 的 window.PROVINCES
 
 所以封面上的颜色和地图里「GDP 总量」着色是同一套分位配色，改数据重跑即可同步。
-产物：public/maps/cn-provinces/cover.jpg（GDP 总量）
+产物：public/maps/cn-provinces/vizmap-cn-provinces-cover.jpg（GDP 总量）
       public/maps/cn-provinces/shots/pop.jpg（常住人口）
       public/maps/cn-provinces/shots/percapita.jpg（人均 GDP）
 
@@ -31,7 +31,7 @@ MAPS = os.path.join(PUB, "maps")
 GEO = os.path.join(MAPS, "_shared", "china-provinces.json")
 DATA_JS = os.path.join(MAPS, "cn-provinces", "js", "data.js")
 OUTS = {
-    "gdp": os.path.join(MAPS, "cn-provinces", "cover.jpg"),
+    "gdp": os.path.join(MAPS, "cn-provinces", "vizmap-cn-provinces-cover.jpg"),
     "pop": os.path.join(MAPS, "cn-provinces", "shots", "pop.jpg"),
     "pgdp": os.path.join(MAPS, "cn-provinces", "shots", "percapita.jpg"),
 }

@@ -13,7 +13,7 @@ trigger: 全球废水处理厂数据
 keywordAliases: 废水处理厂, 废水厂数据, 污水处理设施
 code: NSH-GIS-016
 download: https://downloads.planetgis.cn/GIS/global-wastewater.zip
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-geo-data-cover.jpg
 format: SHP（ZIP 压缩包）
 size: 6.15 MB
 ---

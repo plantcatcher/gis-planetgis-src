@@ -1,7 +1,7 @@
 ---
 slug: hist-imagery
 title: 卫星历史影像查看器
-cover: /maps/hist-imagery/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-hist-imagery-cover.jpg
 summary: 把 2014 年至今的卫星影像拉成一条时间轴——196 期存档影像，拖动滑块就能看着一片滩涂长成一座城，还能用卷帘把手左右对比两个年份的同一块地。
 link: /maps/hist-imagery
 order: 3

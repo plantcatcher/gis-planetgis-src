@@ -13,16 +13,14 @@ trigger: GADM韩国
 keywordAliases: 韩国行政区划, 韩国SHP, 韩国行政区shp
 code: NSH-GIS-023
 download: https://downloads.planetgis.cn/GIS/gadm41_KOR_shp.zip
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-gadm41-kor-shp-cover.jpg
 format: SHP（ZIP 压缩包）
 size: 17.7 MB
 ---
 
 > 本数据集为 GADM（Global Administrative Areas）v4.1 的**韩国（大韩民国）**部分，共 **4 个行政层级**、20 个文件，压缩包约 **17.7 MB（18,546,868 字节）**。最大亮点：一级行政区的 `NL_NAME_1` 字段以「韩文 | 汉字」双写形式给出官方名称（`부산광역시 | 釜山廣域市`），17 条全部有值，中文使用者可直接当作地名对照表。本文所有数字均经 Python 逐要素实算（含环数、顶点数），非官方文档转述。
 
-![hp_1](/shots/gadm41-kor-shp/hp_1.jpg)
 
-![hp_2](/shots/gadm41-kor-shp/hp_2.jpg)
 
 ## 数据内容
 

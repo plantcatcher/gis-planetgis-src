@@ -1,7 +1,7 @@
 ---
 slug: world-hydro
 title: 全球水电站分布地图
-cover: /maps/world-hydro/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-world-hydro-cover.jpg
 summary: 全球 7774 座水电站台账摊在同一张地图上：站点的圆点大小就是装机容量（红 5000 MW 以上 → 灰 未标注，共六档），再叠一层国家总装机气泡。可按蓄水式 / 径流式 / 抽水蓄能 / 渠道引水分型筛选，可按装机容量设门槛，可拖动百年投产时间轴，逐站可查坝高、库容、水头与投产年。
 link: /maps/world-hydro
 order: 11
@@ -36,9 +36,9 @@ tags: 地理, 地理可视化, 互动地图, 水电站, 水电, 能源地理, �
 - **三种底图**：卫星影像（Esri World Imagery）/ 地形晕渲（Esri World Shaded Relief）/ 深色纯专题，电站点位与国家名称可独立开关。
 - **移动端适配**：介绍栏收成底部抽屉，点选容差自动放大到 5px，手指也能点中密集点位。
 
-![hp_1](/shots/world-hydro/hp_1.jpg)
+![hp_1](https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-world-hydro-hp1.jpg)
 
-![hp_2](/shots/world-hydro/hp_2.jpg)
+![hp_2](https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-world-hydro-hp2.jpg)
 
 ## 使用教程
 

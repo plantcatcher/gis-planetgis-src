@@ -3,7 +3,7 @@ slug: python-kuaisushangshou
 title: Python编程快速上手：让繁琐工作自动化（Automate the Boring Stuff with Python）
 summary: 资深 Python 程序员 Al Sweigart 写给非程序员的 Python 入门经典，人民邮电出版社 2016 年 7 月简体中文版（王海鹏 译）。面向办公室职员、管理者、学术研究者等需要"让计算机自动完成繁琐工作"的读者，通过大量实战项目（移动/重命名文件、网页抓取、Excel/Word/CSV 自动化、Email 自动回复、图像处理、网页测试等）让初学者真正上手 Python。英文版在美亚 Python 入门类长期居首，被誉为"初学者指南典范"。
 date: 2026-09-04
-cover: /shots/python-kuaisushangshou/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-python-kuaisushangshou-cover.jpg
 category: 计算机与编程
 tags: Python, 自动化, Al Sweigart, 王海鹏, 人民邮电出版社, 入门, 编程, 网络爬虫, Excel自动化, 桌面自动化
 access: gated
@@ -65,11 +65,11 @@ isbn: 9787115422699
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/python-kuaisushangshou/cover.jpg" />
-<img alt="内页 1" src="/shots/python-kuaisushangshou/p1.jpg" />
-<img alt="内页 2" src="/shots/python-kuaisushangshou/p2.jpg" />
-<img alt="内页 3" src="/shots/python-kuaisushangshou/p3.jpg" />
-<img alt="内页 4" src="/shots/python-kuaisushangshou/p4.jpg" />
-<img alt="内页 5" src="/shots/python-kuaisushangshou/p5.jpg" />
-<img alt="内页 6" src="/shots/python-kuaisushangshou/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-python-kuaisushangshou-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-python-kuaisushangshou-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-python-kuaisushangshou-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-python-kuaisushangshou-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-python-kuaisushangshou-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-python-kuaisushangshou-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-python-kuaisushangshou-p6.jpg" />
 </div>

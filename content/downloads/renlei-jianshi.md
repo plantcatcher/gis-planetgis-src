@@ -3,7 +3,7 @@ slug: renlei-jianshi
 title: 人类简史：从动物到上帝（《Sapiens》简体中文版）
 summary: 以色列希伯来大学历史系教授尤瓦尔·赫拉利的全球现象级畅销书，中信出版社 2014 年简体中文版（林俊宏译）。从认知革命、农业革命、人类的融合统一到科学革命，以宏大叙事把生物学、人类学、生态学、政治学与心理学熔于一炉，打通文字发明前后历史的断层。被翻译为 65 种语言，全球销量超过 2500 万册，2015 年获中国国家图书馆第十届"文津图书奖"。
 date: 2026-09-04
-cover: /shots/renlei-jianshi/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-renlei-jianshi-cover.jpg
 category: 人文地理
 tags: 人类简史, 尤瓦尔·赫拉利, Sapiens, 林俊宏, 中信出版社, 认知革命, 农业革命, 科学革命, 全球史, 通识读物
 access: gated
@@ -82,11 +82,11 @@ isbn: 9787508647357
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/renlei-jianshi/cover.jpg" />
-<img alt="内页 1" src="/shots/renlei-jianshi/p1.jpg" />
-<img alt="内页 2" src="/shots/renlei-jianshi/p2.jpg" />
-<img alt="内页 3" src="/shots/renlei-jianshi/p3.jpg" />
-<img alt="内页 4" src="/shots/renlei-jianshi/p4.jpg" />
-<img alt="内页 5" src="/shots/renlei-jianshi/p5.jpg" />
-<img alt="内页 6" src="/shots/renlei-jianshi/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-renlei-jianshi-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-renlei-jianshi-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-renlei-jianshi-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-renlei-jianshi-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-renlei-jianshi-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-renlei-jianshi-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-renlei-jianshi-p6.jpg" />
 </div>

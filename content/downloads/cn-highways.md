@@ -13,7 +13,7 @@ trigger: 主要公路
 keywordAliases: 全国公路矢量, 中国主要公路shp, 国家公路数据
 code: NSH-SHP-005
 download: https://downloads.planetgis.cn/GIS/cn-highways.zip
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-geo-data-cover.jpg
 format: SHP（ZIP 压缩包）
 size: 0.23 MB
 ---

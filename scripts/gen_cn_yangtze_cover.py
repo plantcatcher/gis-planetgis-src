@@ -7,7 +7,7 @@
 
 产物：
     public/maps/cn-yangtze/cover.svg   矢量封面（保留，便于再编辑）
-    public/maps/cn-yangtze/cover.jpg   栅格封面（主站卡片用，16:9）
+    public/maps/cn-yangtze/vizmap-cn-yangtze-cover.jpg   栅格封面（主站卡片用，16:9）
 
 栅格化依赖本机 Chrome / Edge；找不到时只出 SVG，不报错。
 
@@ -205,7 +205,7 @@ def main():
     if not chrome:
         print('[cover] 未找到 Chrome / Edge，跳过栅格化；SVG 已生成。')
         return
-    jpg = os.path.join(MAP, 'cover.jpg')
+    jpg = os.path.join(MAP, 'vizmap-cn-yangtze-cover.jpg')
     cmd = [chrome, '--headless=new', '--no-sandbox', '--hide-scrollbars', '--force-device-scale-factor=1',
            '--window-size=%d,%d' % (W, H), '--screenshot=' + jpg, 'file:///' + tmp_html.replace('\\', '/')]
     subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=120)

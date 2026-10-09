@@ -12,7 +12,7 @@ code: NSH-RW-002
 download: https://downloads.planetgis.cn/book/wenhua-dili-xue.pdf
 format: PDF
 size: 27.6 MB
-cover: /shots/wenhua-dili-xue/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-wenhua-dili-xue-cover.jpg
 author: 周尚意、孔翔、朱竑 编著
 publisher: 高等教育出版社
 pubYear: 2008
@@ -77,11 +77,11 @@ isbn: 9787040144611
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/wenhua-dili-xue/cover.jpg" />
-<img alt="内页 1" src="/shots/wenhua-dili-xue/p1.jpg" />
-<img alt="内页 2" src="/shots/wenhua-dili-xue/p2.jpg" />
-<img alt="内页 3" src="/shots/wenhua-dili-xue/p3.jpg" />
-<img alt="内页 4" src="/shots/wenhua-dili-xue/p4.jpg" />
-<img alt="内页 5" src="/shots/wenhua-dili-xue/p5.jpg" />
-<img alt="内页 6" src="/shots/wenhua-dili-xue/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-wenhua-dili-xue-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-wenhua-dili-xue-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-wenhua-dili-xue-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-wenhua-dili-xue-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-wenhua-dili-xue-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-wenhua-dili-xue-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-wenhua-dili-xue-p6.jpg" />
 </div>

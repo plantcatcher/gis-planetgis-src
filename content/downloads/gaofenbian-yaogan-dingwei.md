@@ -3,7 +3,7 @@ slug: gaofenbian-yaogan-dingwei
 title: 高分辨率卫星遥感精确对地目标定位理论与方法（袁修孝，曹金山等著）
 summary: 科学出版社 2012 年出版、对地观测数据处理与分析丛书之一。系统介绍高空间分辨率卫星遥感影像的辐射校正、几何检校、自动匹配、严格几何处理模型与通用几何处理模型，以及卫星遥感影像对地目标定位的理论与方法，是高分辨率遥感影像精确处理领域的重要专著。
 date: 2026-09-02
-cover: /shots/gaofenbian-yaogan-dingwei/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaofenbian-yaogan-dingwei-cover.jpg
 category: GIS与遥感
 tags: 高分辨率遥感, 卫星遥感, 对地目标定位, 几何检校, 辐射校正, 袁修孝, 曹金山, 科学出版社, 遥感定位, 测绘
 access: gated
@@ -60,11 +60,11 @@ isbn: 9787030336286
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/gaofenbian-yaogan-dingwei/cover.jpg" />
-<img alt="内页 1" src="/shots/gaofenbian-yaogan-dingwei/p1.jpg" />
-<img alt="内页 2" src="/shots/gaofenbian-yaogan-dingwei/p2.jpg" />
-<img alt="内页 3" src="/shots/gaofenbian-yaogan-dingwei/p3.jpg" />
-<img alt="内页 4" src="/shots/gaofenbian-yaogan-dingwei/p4.jpg" />
-<img alt="内页 5" src="/shots/gaofenbian-yaogan-dingwei/p5.jpg" />
-<img alt="内页 6" src="/shots/gaofenbian-yaogan-dingwei/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaofenbian-yaogan-dingwei-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaofenbian-yaogan-dingwei-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaofenbian-yaogan-dingwei-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaofenbian-yaogan-dingwei-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaofenbian-yaogan-dingwei-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaofenbian-yaogan-dingwei-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaofenbian-yaogan-dingwei-p6.jpg" />
 </div>

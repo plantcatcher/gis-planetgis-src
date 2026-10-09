@@ -2,7 +2,7 @@
 
 slug: cn-provinces
 title: 中国省情一图览
-cover: /maps/cn-provinces/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-cn-provinces-cover.jpg
 summary: 点一下地图上的省，就知道它有多少人、GDP 多少、人均第几、最高峰是哪座山、有哪些河湖，还有它的「全国之最」——34 个省级行政区一省一篇，GDP / 人口 / 人均 GDP 可在 2020、2023、2024、2025 四年之间切换着色。
 link: /maps/cn-provinces
 order: 4

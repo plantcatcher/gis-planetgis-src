@@ -12,7 +12,7 @@ code: NSH-CS-010
 download: https://downloads.planetgis.cn/book/shijie-chengshi-baohu.pdf
 format: PDF
 size: 22.0 MB
-cover: /shots/shijie-chengshi-baohu/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shijie-chengshi-baohu-cover.jpg
 author: "[美] 安东尼·滕（Anthony M. Tung）著，郝笑丛 译"
 publisher: 清华大学出版社
 pubYear: 2014
@@ -63,11 +63,11 @@ isbn: 9787302354772
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/shijie-chengshi-baohu/cover.jpg" />
-<img alt="内页 1" src="/shots/shijie-chengshi-baohu/p1.jpg" />
-<img alt="内页 2" src="/shots/shijie-chengshi-baohu/p2.jpg" />
-<img alt="内页 3" src="/shots/shijie-chengshi-baohu/p3.jpg" />
-<img alt="内页 4" src="/shots/shijie-chengshi-baohu/p4.jpg" />
-<img alt="内页 5" src="/shots/shijie-chengshi-baohu/p5.jpg" />
-<img alt="内页 6" src="/shots/shijie-chengshi-baohu/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shijie-chengshi-baohu-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shijie-chengshi-baohu-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shijie-chengshi-baohu-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shijie-chengshi-baohu-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shijie-chengshi-baohu-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shijie-chengshi-baohu-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shijie-chengshi-baohu-p6.jpg" />
 </div>

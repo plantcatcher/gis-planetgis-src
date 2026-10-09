@@ -3,7 +3,7 @@ slug: yaogan-yuanli-yingyong
 title: 遥感原理与应用（李小文 主编，刘素红 副主编）
 summary: 普通高等教育"十一五"国家级规划教材，科学出版社 2008 年出版。系统介绍遥感科学与技术的基本原理与概念，并详细探讨遥感在热红外、微波、植被、海洋水色、陆面蒸散发、城市、地质、考古等领域的研究方法与实践案例，是遥感、GIS、测绘等专业的经典本科教材。
 date: 2026-09-02
-cover: /shots/yaogan-yuanli-yingyong/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-yaogan-yuanli-yingyong-cover.jpg
 category: GIS与遥感
 tags: 遥感原理与应用, 遥感, 李小文, 刘素红, 科学出版社, 十一五规划教材, 遥感教材, 植被遥感, 城市遥感, 地质遥感
 access: gated
@@ -59,11 +59,11 @@ isbn: 9787030214287
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/yaogan-yuanli-yingyong/cover.jpg" />
-<img alt="内页 1" src="/shots/yaogan-yuanli-yingyong/p1.jpg" />
-<img alt="内页 2" src="/shots/yaogan-yuanli-yingyong/p2.jpg" />
-<img alt="内页 3" src="/shots/yaogan-yuanli-yingyong/p3.jpg" />
-<img alt="内页 4" src="/shots/yaogan-yuanli-yingyong/p4.jpg" />
-<img alt="内页 5" src="/shots/yaogan-yuanli-yingyong/p5.jpg" />
-<img alt="内页 6" src="/shots/yaogan-yuanli-yingyong/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-yaogan-yuanli-yingyong-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-yaogan-yuanli-yingyong-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-yaogan-yuanli-yingyong-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-yaogan-yuanli-yingyong-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-yaogan-yuanli-yingyong-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-yaogan-yuanli-yingyong-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-yaogan-yuanli-yingyong-p6.jpg" />
 </div>

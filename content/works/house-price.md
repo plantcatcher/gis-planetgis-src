@@ -1,7 +1,7 @@
 ---
 slug: house-price
 title: 全国房价涨跌地图 · 二十年周期
-cover: /maps/house-price/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-house-price-cover.jpg
 summary: 国家统计局 70 城住宅价格指数，2006 年 1 月到 2026 年 8 月共 248 个月，摊成一条可以拖动的时间轴：省级看大势，市级看 70 个监测城市；新房与二手、同比与环比四套口径随时切换。红涨绿跌，把滑块从 2006 拖到 2026，一轮完整的房地产周期怎么起、怎么落，一眼看完。
 link: /maps/house-price
 order: 8
@@ -33,9 +33,9 @@ tags: 地理, 地理可视化, 互动地图, 房价, 房地产, 经济地理, �
 - **三种底图 + 图层开关**：深色（默认）/ 卫星影像 / 矢量路网，城市名称、省界市界、经纬网格可独立开关。
 - **移动端适配**：介绍栏收成底部抽屉，时间轴触屏可拖，点击容差自动放大。
 
-![hp_1](/shots/house-price/hp_1.jpg)
+![hp_1](https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-house-price-hp1.jpg)
 
-![hp_2](/shots/house-price/hp_2.jpg)
+![hp_2](https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-house-price-hp2.jpg)
 
 ## 使用教程
 

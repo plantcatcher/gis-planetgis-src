@@ -3,7 +3,7 @@ slug: dibiao-xingbian-insar-zhinan
 title: 全国地表形变遥感地质（InSAR）调查技术指南（范景辉等著）
 summary: 中国地质调查局组织编写的 InSAR 地表形变调查技术指导性文件。地质出版社 2015 年出版，围绕 1:250000 比例尺地面沉降调查，兼顾地面塌陷、滑坡及高速铁路沿线工程区地表形变，系统规定调查工作内容、技术流程、数据处理、信息提取、成果编制与质量控制，是开展 InSAR 地质灾害调查与监测的实用参考书。
 date: 2026-09-02
-cover: /shots/dibiao-xingbian-insar-zhinan/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dibiao-xingbian-insar-zhinan-cover.jpg
 category: GIS与遥感
 tags: InSAR, 地表形变, 遥感地质, 地面沉降, 滑坡, 地质灾害, 地质出版社, 范景辉, 调查技术指南, 测绘
 access: gated
@@ -65,11 +65,11 @@ isbn: 9787116094796
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/dibiao-xingbian-insar-zhinan/cover.jpg" />
-<img alt="内页 1" src="/shots/dibiao-xingbian-insar-zhinan/p1.jpg" />
-<img alt="内页 2" src="/shots/dibiao-xingbian-insar-zhinan/p2.jpg" />
-<img alt="内页 3" src="/shots/dibiao-xingbian-insar-zhinan/p3.jpg" />
-<img alt="内页 4" src="/shots/dibiao-xingbian-insar-zhinan/p4.jpg" />
-<img alt="内页 5" src="/shots/dibiao-xingbian-insar-zhinan/p5.jpg" />
-<img alt="内页 6" src="/shots/dibiao-xingbian-insar-zhinan/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dibiao-xingbian-insar-zhinan-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dibiao-xingbian-insar-zhinan-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dibiao-xingbian-insar-zhinan-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dibiao-xingbian-insar-zhinan-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dibiao-xingbian-insar-zhinan-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dibiao-xingbian-insar-zhinan-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dibiao-xingbian-insar-zhinan-p6.jpg" />
 </div>

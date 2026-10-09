@@ -12,7 +12,7 @@ code: NSH-GIS-012
 download: https://downloads.planetgis.cn/book/wulun-gis-tiku.pdf
 format: PDF
 size: 20.0 MB
-cover: /shots/wulun-gis-tiku/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-wulun-gis-tiku-cover.jpg
 author: 圣才考研网 编
 publisher: 圣才考研网
 pubYear: 2020
@@ -54,10 +54,10 @@ pubYear: 2020
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="内页 1" src="/shots/wulun-gis-tiku/p1.jpg" />
-<img alt="内页 2" src="/shots/wulun-gis-tiku/p2.jpg" />
-<img alt="内页 3" src="/shots/wulun-gis-tiku/p3.jpg" />
-<img alt="内页 4" src="/shots/wulun-gis-tiku/p4.jpg" />
-<img alt="内页 5" src="/shots/wulun-gis-tiku/p5.jpg" />
-<img alt="内页 6" src="/shots/wulun-gis-tiku/p6.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-wulun-gis-tiku-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-wulun-gis-tiku-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-wulun-gis-tiku-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-wulun-gis-tiku-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-wulun-gis-tiku-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-wulun-gis-tiku-p6.jpg" />
 </div>

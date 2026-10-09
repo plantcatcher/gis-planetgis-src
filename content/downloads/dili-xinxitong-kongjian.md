@@ -12,7 +12,7 @@ code: NSH-GIS-009
 download: https://downloads.planetgis.cn/book/dili-xinxitong-kongjian.pdf
 format: PDF
 size: 16.6 MB
-cover: /shots/dili-xinxitong-kongjian/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dili-xinxitong-kongjian-cover.jpg
 author: 周成虎、裴韬 等编著
 publisher: 科学出版社
 pubYear: 2011
@@ -53,11 +53,11 @@ isbn: 9787030316219
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/dili-xinxitong-kongjian/cover.jpg" />
-<img alt="内页 1" src="/shots/dili-xinxitong-kongjian/p1.jpg" />
-<img alt="内页 2" src="/shots/dili-xinxitong-kongjian/p2.jpg" />
-<img alt="内页 3" src="/shots/dili-xinxitong-kongjian/p3.jpg" />
-<img alt="内页 4" src="/shots/dili-xinxitong-kongjian/p4.jpg" />
-<img alt="内页 5" src="/shots/dili-xinxitong-kongjian/p5.jpg" />
-<img alt="内页 6" src="/shots/dili-xinxitong-kongjian/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dili-xinxitong-kongjian-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dili-xinxitong-kongjian-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dili-xinxitong-kongjian-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dili-xinxitong-kongjian-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dili-xinxitong-kongjian-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dili-xinxitong-kongjian-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dili-xinxitong-kongjian-p6.jpg" />
 </div>

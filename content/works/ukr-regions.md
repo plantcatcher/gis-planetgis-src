@@ -1,7 +1,7 @@
 ---
 slug: ukr-regions
 title: 乌克兰行政区划地图
-cover: /maps/ukr-regions/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-ukr-regions-cover.jpg
 summary: 点一下乌克兰地图，看 27 个州级单位（24 州 + 基辅市 + 克里米亚自治共和国 + 塞瓦斯托波尔）的中文译名、西里尔原名、人口、面积与看点；可在「人口 / 面积 / 方位」之间切换着色，还能展开 628 个区市（旧口径）。边界数据来自 GADM 4.1。
 link: /maps/ukr-regions
 order: 21

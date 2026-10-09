@@ -1,7 +1,7 @@
 ---
 slug: jp-regions
 title: 日本行政区划地图
-cover: /maps/jp-regions/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-jp-regions-cover.jpg
 summary: 点一下日本地图，看 47 个都道府县（都道府县）的汉字名、类型、所属 8 地方、县厅所在地、2020 人口、面积与看点；可在「人口 / 面积 / 地方」之间切换着色，还能展开 1811 个市町村看最基层的行政区划。边界数据来自 GADM 4.1。
 link: /maps/jp-regions
 order: 16

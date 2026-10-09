@@ -3,7 +3,7 @@ slug: sheying-celiang-xue
 title: 摄影测量学（张剑清，潘励，王树根 编著）
 summary: 普通高等教育"十一五"国家级规划教材、高等学校摄影测量与遥感系列教材。武汉大学出版社 2009 年第 2 版，系统讲授摄影测量学的基本概念、单幅影像解析、双像立体测图、解析空中三角测量、数字影像与特征提取、影像匹配、数字高程模型与数字正射影像等核心内容，是测绘工程、遥感科学与技术、地理信息科学等专业本科生的经典教材。
 date: 2026-09-02
-cover: /shots/sheying-celiang-xue/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-sheying-celiang-xue-cover.jpg
 category: GIS与遥感
 tags: 摄影测量学, 摄影测量, 张剑清, 潘励, 王树根, 武汉大学出版社, 遥感, 测绘工程, 空中三角测量, 教材
 access: gated
@@ -58,11 +58,11 @@ isbn: 9787307069558
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/sheying-celiang-xue/cover.jpg" />
-<img alt="内页 1" src="/shots/sheying-celiang-xue/p1.jpg" />
-<img alt="内页 2" src="/shots/sheying-celiang-xue/p2.jpg" />
-<img alt="内页 3" src="/shots/sheying-celiang-xue/p3.jpg" />
-<img alt="内页 4" src="/shots/sheying-celiang-xue/p4.jpg" />
-<img alt="内页 5" src="/shots/sheying-celiang-xue/p5.jpg" />
-<img alt="内页 6" src="/shots/sheying-celiang-xue/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-sheying-celiang-xue-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-sheying-celiang-xue-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-sheying-celiang-xue-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-sheying-celiang-xue-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-sheying-celiang-xue-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-sheying-celiang-xue-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-sheying-celiang-xue-p6.jpg" />
 </div>

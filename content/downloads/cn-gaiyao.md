@@ -13,7 +13,7 @@ trigger: 全国概要数据
 keywordAliases: 全国概要shp, 全国基础地理
 code: NSH-GIS-013
 download: https://downloads.planetgis.cn/GIS/cn-gaiyao.rar
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-geo-data-cover.jpg
 format: RAR
 size: 3.40 MB
 ---

@@ -1,7 +1,7 @@
 ---
 slug: kor-regions
 title: 韩国行政区划地图
-cover: /maps/kor-regions/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-kor-regions-cover.jpg
 summary: 点一下韩国地图，看 17 个道市级单位（特别市/广域市/特别自治市/特别自治道/道）的中文译名、韩文汉字名、人口、面积与看点；可在「人口 / 面积 / 圈域」之间切换着色，还能展开 229 个市/郡/区。边界数据来自 GADM 4.1。
 link: /maps/kor-regions
 order: 19

@@ -3,7 +3,7 @@ slug: kongjian-dadi-celiang-xue
 title: 空间大地测量学（李征航，魏二虎，王正涛，彭碧波 编著）
 summary: 普通高等教育"十一五"国家级规划教材、高等学校测绘工程系列教材。武汉大学出版社 2010 年出版，系统介绍空间大地测量的产生背景、时间系统、坐标系统、VLBI、激光测卫/测月、卫星测高、重力卫星测量及卫星导航定位等现代大地测量技术，是测绘工程与地球物理学专业的核心教材。
 date: 2026-09-02
-cover: /shots/kongjian-dadi-celiang-xue/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-kongjian-dadi-celiang-xue-cover.jpg
 category: 测绘与地球科学
 tags: 空间大地测量学, 大地测量, VLBI, 卫星测高, 重力卫星, GPS, 李征航, 武汉大学出版社, 测绘工程, 教材
 access: gated
@@ -58,11 +58,11 @@ isbn: 9787307075740
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/kongjian-dadi-celiang-xue/cover.jpg" />
-<img alt="内页 1" src="/shots/kongjian-dadi-celiang-xue/p1.jpg" />
-<img alt="内页 2" src="/shots/kongjian-dadi-celiang-xue/p2.jpg" />
-<img alt="内页 3" src="/shots/kongjian-dadi-celiang-xue/p3.jpg" />
-<img alt="内页 4" src="/shots/kongjian-dadi-celiang-xue/p4.jpg" />
-<img alt="内页 5" src="/shots/kongjian-dadi-celiang-xue/p5.jpg" />
-<img alt="内页 6" src="/shots/kongjian-dadi-celiang-xue/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-kongjian-dadi-celiang-xue-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-kongjian-dadi-celiang-xue-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-kongjian-dadi-celiang-xue-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-kongjian-dadi-celiang-xue-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-kongjian-dadi-celiang-xue-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-kongjian-dadi-celiang-xue-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-kongjian-dadi-celiang-xue-p6.jpg" />
 </div>

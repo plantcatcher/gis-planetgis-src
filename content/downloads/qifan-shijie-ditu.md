@@ -3,7 +3,7 @@ slug: qifan-shijie-ditu
 title: 世界奇幻地图：古老又荒诞不经的神话、谎言和谬误（《诡图》简体中文版）
 summary: 英国皇家地理学会会士、地图史研究者爱德华·布鲁克-海钦所著的地图史奇幻读物，地质出版社 2020 年简体中文版（中信经典文库出品）。首次以 122 张珍稀古地图汇集 57 个行踪诡谲的奇幻之地——子虚乌有的岛屿、虚构的山脉、幻想中的文明与杜撰的地形——以科学证据和事实查访，推翻地图史上那些著名的荒诞神话与谬误。英国亚马逊榜单冠军，《时代周刊》《卫报》《泰晤士报》诚挚推荐。
 date: 2026-09-04
-cover: /shots/qifan-shijie-ditu/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-qifan-shijie-ditu-cover.jpg
 category: 人文地理
 tags: 奇幻地图, 古地图, 地图史, 神话地理, 亚特兰蒂斯, 黄金国, 爱德华·布鲁克-海钦, 地质出版社, 人文地理, 测绘
 access: gated
@@ -138,11 +138,11 @@ isbn: 9787116117297
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/qifan-shijie-ditu/cover.jpg" />
-<img alt="内页 1" src="/shots/qifan-shijie-ditu/p1.jpg" />
-<img alt="内页 2" src="/shots/qifan-shijie-ditu/p2.jpg" />
-<img alt="内页 3" src="/shots/qifan-shijie-ditu/p3.jpg" />
-<img alt="内页 4" src="/shots/qifan-shijie-ditu/p4.jpg" />
-<img alt="内页 5" src="/shots/qifan-shijie-ditu/p5.jpg" />
-<img alt="内页 6" src="/shots/qifan-shijie-ditu/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-qifan-shijie-ditu-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-qifan-shijie-ditu-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-qifan-shijie-ditu-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-qifan-shijie-ditu-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-qifan-shijie-ditu-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-qifan-shijie-ditu-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-qifan-shijie-ditu-p6.jpg" />
 </div>

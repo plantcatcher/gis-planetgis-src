@@ -15,7 +15,7 @@ code: NSH-GDEM-001
 downloadType: baidu
 download: https://pan.baidu.com/s/1Zk47CY6Fm2-0y4NxPb2Lvw?pwd=xart
 panCode: xart
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-geo-data-cover.jpg
 format: GeoTIFF（.tif 单文件，RAR 压缩包）
 size: 4.02 GB
 home: true

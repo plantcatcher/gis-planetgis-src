@@ -1,7 +1,7 @@
 ---
 slug: sz-libraries
 title: 深圳图书馆分布地图
-cover: /maps/sz-libraries/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-sz-libraries-cover.jpg
 summary: 2 家市级机构、9 个行政区与大鹏新区共 15 处公共图书馆总馆馆舍，摊在深圳市域地图上：辖区按本区纸质文献藏量合计分档着色，逐馆可点、逐馆一篇介绍页（含建筑面积、藏量口径、阅览座位、评定等级、开放时间与交通）。可直接查「深圳图书馆地址」「南山图书馆开放时间」这类具体问题。
 link: /maps/sz-libraries
 order: 10

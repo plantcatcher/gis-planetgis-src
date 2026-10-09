@@ -3,7 +3,7 @@ slug: di-li-xin-xi-xi-tong-dao-lun
 title: 地理信息系统导论（科学出版社 2003 版）
 summary: 美国爱达荷大学张康聪（Kang-tsung Chang）教授 GIS 经典入门教材**中译本第 1 版**，科学出版社 2003 年 10 月出版（陈健飞 译）。全书 16 章分三大部分，融 GIS 概念、矢量/栅格数据模型、数据输入与属性管理、数据显示与探查、矢量和栅格分析、空间插值、地形模型、GIS 模型与模拟、区域与网络动态分段于一体；以 ArcView 3.2 与 ARC/INFO 8 为主介绍操作；附光盘一张（含 ArcView 3.2 校园版与各章练习数据）。本中译本第 1 版奠定了该书在中国高校 GIS 课程与考研中的经典地位，后续第 3/5/7/8/9 版均基于此架构修订。
 date: 2026-09-04
-cover: /shots/di-li-xin-xi-xi-tong-dao-lun/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-di-li-xin-xi-xi-tong-dao-lun-cover.jpg
 category: GIS与遥感
 tags: 地理信息系统, GIS, Kang-tsung Chang, 张康聪, 陈健飞, 科学出版社, 入门, ArcView, ARC/INFO, 矢量分析, 栅格分析, 2003版
 access: gated
@@ -67,11 +67,11 @@ isbn: 9787030122209
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/di-li-xin-xi-xi-tong-dao-lun/cover.jpg" />
-<img alt="目录页（罗马 xi 页）" src="/shots/di-li-xin-xi-xi-tong-dao-lun/p1.jpg" />
-<img alt="第 41 页：第 3 章 矢量数据模型 / TIN 透视图" src="/shots/di-li-xin-xi-xi-tong-dao-lun/p2.jpg" />
-<img alt="第 112 页：第 6 章 属性数据管理" src="/shots/di-li-xin-xi-xi-tong-dao-lun/p3.jpg" />
-<img alt="第 10 章 矢量数据分析正文" src="/shots/di-li-xin-xi-xi-tong-dao-lun/p4.jpg" />
-<img alt="第 254 页：第 13 章 空间插值 / IDW 与年降水量插值图" src="/shots/di-li-xin-xi-xi-tong-dao-lun/p5.jpg" />
-<img alt="第 314 页：第 16 章 网络分析 / 转弯阻抗" src="/shots/di-li-xin-xi-xi-tong-dao-lun/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-di-li-xin-xi-xi-tong-dao-lun-cover.jpg" />
+<img alt="目录页（罗马 xi 页）" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-di-li-xin-xi-xi-tong-dao-lun-p1.jpg" />
+<img alt="第 41 页：第 3 章 矢量数据模型 / TIN 透视图" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-di-li-xin-xi-xi-tong-dao-lun-p2.jpg" />
+<img alt="第 112 页：第 6 章 属性数据管理" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-di-li-xin-xi-xi-tong-dao-lun-p3.jpg" />
+<img alt="第 10 章 矢量数据分析正文" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-di-li-xin-xi-xi-tong-dao-lun-p4.jpg" />
+<img alt="第 254 页：第 13 章 空间插值 / IDW 与年降水量插值图" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-di-li-xin-xi-xi-tong-dao-lun-p5.jpg" />
+<img alt="第 314 页：第 16 章 网络分析 / 转弯阻抗" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-di-li-xin-xi-xi-tong-dao-lun-p6.jpg" />
 </div>

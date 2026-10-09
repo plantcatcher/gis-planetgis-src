@@ -15,7 +15,7 @@ code: NSH-TL-001
 download: https://pan.baidu.com/s/1Tgl2V9W3TMeS1E9CkYKx3g?pwd=9i7k 
 downloadType: baidu
 panCode: 9i7k
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-geo-data-cover.jpg
 format: SHP（ZIP 压缩包）
 size: 83.5 MB
 ---

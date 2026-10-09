@@ -658,6 +658,144 @@
         "desc": "县（Huyện）/ 郡（Quận）/ 市社（Thị xã）边界，可作为叠加图层查看省以下行政区划；属性含所属省市与类型"
       }
     ]
+  },
+  {
+    "slug": "bra-regions",
+    "entry": "/maps/bra-regions/index.html",
+    "bbox": [-72.58, -30.47, -35.47, 3.93],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_BRA_shp，WGS84 / EPSG:4326，公开数据）：27 个一级政区（26 州 + 1 联邦区）边界 + 5572 个市镇。中文名 / 首府按通行译法整理，人口为 2022 年巴西人口普查（约值），面积由几何球面实算（约值）、行政区类型取自 GADM 的 ENGTYPE 字段",
+    "updated": "2026-10-09",
+    "data": [
+      {
+        "file": "maps/bra-regions/data/provinces.geojson",
+        "features": 27,
+        "unit": "个州 / 联邦区",
+        "desc": "26 州 + 1 联邦区边界；属性含中文名 / 首府 / 人口（2022 普查）/ 类型(ENGTYPE) / 类型分组 / 几何实算面积 / ISO 代码"
+      },
+      {
+        "file": "maps/bra-regions/data/districts.geojson",
+        "features": 5572,
+        "unit": "个市镇",
+        "desc": "市镇（município）边界，可作为叠加图层查看州以下行政区划；属性含所属州中文名与类型"
+      }
+    ]
+  },
+  {
+    "slug": "can-regions",
+    "entry": "/maps/can-regions/index.html",
+    "bbox": [-135.37, 44.74, -53.96, 82.48],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_CAN_shp，WGS84 / EPSG:4326，公开数据）：13 个一级政区（10 省 + 3 地区）边界 + 293 个普查分区。中文名 / 首府按通行译法整理，人口为 2022 年加拿大官方估计（约值），面积由几何球面实算（约值）、行政区类型取自 GADM 的 ENGTYPE 字段",
+    "updated": "2026-10-09",
+    "data": [
+      {
+        "file": "maps/can-regions/data/provinces.geojson",
+        "features": 13,
+        "unit": "个省 / 地区",
+        "desc": "10 省 + 3 地区边界；属性含中文名 / 首府 / 人口（2022 估计）/ 类型(ENGTYPE) / 类型分组 / 几何实算面积 / ISO 代码"
+      },
+      {
+        "file": "maps/can-regions/data/districts.geojson",
+        "features": 293,
+        "unit": "个普查分区",
+        "desc": "普查分区边界，可作为叠加图层查看省以下行政区划；属性含所属省中文名与类型"
+      }
+    ]
+  },
+  {
+    "slug": "deu-regions",
+    "entry": "/maps/deu-regions/index.html",
+    "bbox": [6.12, 47.5, 14.68, 54.74],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_DEU_shp，WGS84 / EPSG:4326，公开数据）：16 个州（含 3 个城市州）边界 + 403 个县（Kreis）。中文名 / 首府按通行译法整理，人口为 2022 年德国人口普查（约值），面积由几何球面实算（约值）、行政区类型取自 GADM 的 ENGTYPE 字段",
+    "updated": "2026-10-09",
+    "data": [
+      {
+        "file": "maps/deu-regions/data/provinces.geojson",
+        "features": 16,
+        "unit": "个联邦州",
+        "desc": "16 州（13 面积州 + 3 城市州）边界；属性含中文名 / 首府 / 人口（2022 普查）/ 类型(ENGTYPE) / 类型分组 / 几何实算面积 / ISO 代码"
+      },
+      {
+        "file": "maps/deu-regions/data/districts.geojson",
+        "features": 403,
+        "unit": "个县（Kreis）",
+        "desc": "县（Kreis）边界，可作为叠加图层查看州以下行政区划；属性含所属州中文名与类型"
+      }
+    ]
+  },
+  {
+    "slug": "nzl-regions",
+    "entry": "/maps/nzl-regions/index.html",
+    "bbox": [166.1, -50.85, 180, -34.53],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_NZL_shp，WGS84 / EPSG:4326，公开数据）：19 个一级政区（16 大区 + 2 群岛组 + 1 领地）边界 + 75 个地方当局。中文名 / 首府按通行译法整理，人口为 2023 年新西兰人口普查（约值），面积由几何球面实算（约值）、行政区类型取自 GADM 的 ENGTYPE 字段",
+    "updated": "2026-10-09",
+    "data": [
+      {
+        "file": "maps/nzl-regions/data/provinces.geojson",
+        "features": 19,
+        "unit": "个大区 / 群岛 / 领地",
+        "desc": "16 大区 + 2 群岛组 + 1 领地边界；属性含中文名 / 首府 / 人口（2023 普查）/ 类型(ENGTYPE) / 类型分组 / 几何实算面积 / ISO 代码"
+      },
+      {
+        "file": "maps/nzl-regions/data/districts.geojson",
+        "features": 75,
+        "unit": "个地方当局",
+        "desc": "地方当局边界，可作为叠加图层查看大区以下行政区划；属性含所属大区中文名与类型"
+      }
+    ]
+  },
+  {
+    "slug": "rus-regions",
+    "entry": "/maps/rus-regions/index.html",
+    "bbox": [29.01, 43.02, 180, 81.06],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_RUS_shp，WGS84 / EPSG:4326，公开数据）：83 个联邦主体（共和国 / 边疆区 / 州 / 自治区 / 自治州 / 联邦直辖市）边界 + 2445 个区/市。中文名 / 首府按通行译法整理，人口为 2021 年俄罗斯人口普查（约值），面积由几何球面实算（约值）、行政区类型取自 GADM 的 ENGTYPE 字段；GADM 俄罗斯口径为 83 个联邦主体（未计克里米亚等），界线画法不代表中国政府立场",
+    "updated": "2026-10-09",
+    "data": [
+      {
+        "file": "maps/rus-regions/data/provinces.geojson",
+        "features": 83,
+        "unit": "个联邦主体",
+        "desc": "83 个联邦主体（21 共和国 + 9 边疆区 + 46 州 + 4 自治区 + 1 自治州 + 2 直辖市）边界；属性含中文名 / 首府 / 人口（2021 普查）/ 类型(ENGTYPE) / 类型分组 / 几何实算面积 / ISO 代码"
+      },
+      {
+        "file": "maps/rus-regions/data/districts.geojson",
+        "features": 2445,
+        "unit": "个区 / 市",
+        "desc": "区 / 市边界，可作为叠加图层查看联邦主体以下行政区划；属性含所属联邦主体中文名与类型"
+      }
+    ]
+  },
+  {
+    "slug": "usa-regions",
+    "entry": "/maps/usa-regions/index.html",
+    "bbox": [-177.69, 24.72, -68.24, 70.83],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_USA_shp，WGS84 / EPSG:4326，公开数据）：51 个一级政区（50 州 + 1 联邦区）边界 + 3148 个县。中文名 / 首府按通行译法整理，人口为 2020 年美国人口普查（约值），面积由几何球面实算（约值）、行政区类型取自 GADM 的 ENGTYPE 字段；本图按 GADM 口径未含波多黎各等海外领地",
+    "updated": "2026-10-09",
+    "data": [
+      {
+        "file": "maps/usa-regions/data/provinces.geojson",
+        "features": 51,
+        "unit": "个州 / 联邦区",
+        "desc": "50 州 + 1 联邦区（哥伦比亚特区）边界；属性含中文名 / 首府 / 人口（2020 普查）/ 类型(ENGTYPE) / 类型分组 / 几何实算面积 / ISO 代码"
+      },
+      {
+        "file": "maps/usa-regions/data/districts.geojson",
+        "features": 3148,
+        "unit": "个县",
+        "desc": "县（county）边界，可作为叠加图层查看州以下行政区划；属性含所属州中文名与类型"
+      }
+    ]
   }
 ]
 }

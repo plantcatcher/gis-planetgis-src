@@ -12,7 +12,7 @@ code: NSH-RW-007
 download: https://downloads.planetgis.cn/book/shuijingzhu-shuixi-tuji.pdf
 format: PDF
 size: 36.3 MB
-cover: /shots/shuijingzhu-shuixi-tuji/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuijingzhu-shuixi-tuji-cover.jpg
 author: 张步天 编绘
 publisher: 天佳斋
 pubYear: 2016
@@ -54,11 +54,11 @@ pubYear: 2016
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/shuijingzhu-shuixi-tuji/cover.jpg" />
-<img alt="内页 1" src="/shots/shuijingzhu-shuixi-tuji/p1.jpg" />
-<img alt="内页 2" src="/shots/shuijingzhu-shuixi-tuji/p2.jpg" />
-<img alt="内页 3" src="/shots/shuijingzhu-shuixi-tuji/p3.jpg" />
-<img alt="内页 4" src="/shots/shuijingzhu-shuixi-tuji/p4.jpg" />
-<img alt="内页 5" src="/shots/shuijingzhu-shuixi-tuji/p5.jpg" />
-<img alt="内页 6" src="/shots/shuijingzhu-shuixi-tuji/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuijingzhu-shuixi-tuji-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuijingzhu-shuixi-tuji-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuijingzhu-shuixi-tuji-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuijingzhu-shuixi-tuji-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuijingzhu-shuixi-tuji-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuijingzhu-shuixi-tuji-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuijingzhu-shuixi-tuji-p6.jpg" />
 </div>

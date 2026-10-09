@@ -15,7 +15,7 @@ code: NSH-GIS-021
 download: https://pan.baidu.com/s/1AVwW8DKg0GRanfvlRV4DAA?pwd=4nfp
 downloadType: baidu
 panCode: 4nfp
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-gadm41-gbr-shp-cover.jpg
 format: SHP（ZIP 压缩包）
 size: 272 MB
 ---

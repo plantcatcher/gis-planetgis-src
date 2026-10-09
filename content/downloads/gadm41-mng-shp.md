@@ -13,16 +13,14 @@ trigger: GADM蒙古
 keywordAliases: 蒙古行政区划, 蒙古SHP, 蒙古国行政区shp
 code: NSH-GIS-028
 download: https://downloads.planetgis.cn/GIS/gadm41_MNG_shp.zip
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-gadm41-mng-shp-cover.jpg
 format: SHP（ZIP 压缩包）
 size: 0.49 MB
 ---
 
 > 本数据集为 GADM（Global Administrative Areas）v4.1 的**蒙古国**部分，**3 个行政层级**、15 个文件，压缩包仅约 **0.49 MB（516,176 字节）**，是这批国家包里最轻量的一份——全国边界只有 2 个环、6,360 个顶点，加载与渲染几乎无压力。亮点在于二级苏木（Soum）层自带**蒙古西里尔原名**（`NL_NAME_2`，如 `Батцэнгэл`），共 325/327 条有值，适合做地名转写对照。本文所有数字均经 Python 逐要素实算（含环数、顶点数），非官方文档转述。
 
-![hp_1](/shots/gadm41-mng-shp/hp_1.jpg)
 
-![hp_2](/shots/gadm41-mng-shp/hp_2.jpg)
 
 ## 数据内容
 

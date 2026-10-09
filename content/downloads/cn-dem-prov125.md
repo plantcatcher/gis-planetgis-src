@@ -15,7 +15,7 @@ keywordAliases: 全国DEM12.5, 分省DEM数据, 12.5米分辨率DEM
 code: NSH-DEM-003
 download: https://pan.baidu.com/s/1lF0A8ZdhHAp_NRLGhVCPlA?pwd=syy4
 panCode: syy4
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-geo-data-cover.jpg
 format: GeoTIFF 等，以网盘实际为准
 size: 62.18G
 ---

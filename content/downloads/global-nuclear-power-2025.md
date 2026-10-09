@@ -13,7 +13,7 @@ trigger: 全球核电站分布数据
 keywordAliases: 全球核电数据, 核电站分布数据, 全球核电SHP, GNPT
 code: NSH-GIS-017
 download: https://downloads.planetgis.cn/GIS/global-nuclear-power-2025.zip
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-global-nuclear-power-2025-cover.jpg
 format: SHP（ZIP 压缩包）
 size: 0.19 MB
 source: Global Energy Monitor, Global Nuclear Power Tracker（2025-09 发布版，CC BY 4.0）

@@ -3,7 +3,7 @@ slug: diqiu-wuli-dadi-celiang-xue
 title: 地球物理大地测量学原理与方法（许才军，申文斌，晁定波 编著）
 summary: 高等学校测绘工程系列教材，武汉大学出版社 2006 年出版。将大地测量学与地球物理学深度融合，系统讲授地球物理大地测量学的基本原理与方法，涵盖地球参考系统、潮汐大地测量、板块构造、地壳运动监测、地壳应力应变、地震活动研究、海洋学大地测量及大地测量反演等内容。
 date: 2026-09-02
-cover: /shots/diqiu-wuli-dadi-celiang-xue/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-diqiu-wuli-dadi-celiang-xue-cover.jpg
 category: 测绘与地球科学
 tags: 地球物理大地测量学, 大地测量, 地球物理, 地壳运动, 板块构造, 潮汐, 地震, 许才军, 武汉大学出版社, 教材
 access: gated
@@ -68,11 +68,11 @@ isbn: 7307051338
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/diqiu-wuli-dadi-celiang-xue/cover.jpg" />
-<img alt="内页 1" src="/shots/diqiu-wuli-dadi-celiang-xue/p1.jpg" />
-<img alt="内页 2" src="/shots/diqiu-wuli-dadi-celiang-xue/p2.jpg" />
-<img alt="内页 3" src="/shots/diqiu-wuli-dadi-celiang-xue/p3.jpg" />
-<img alt="内页 4" src="/shots/diqiu-wuli-dadi-celiang-xue/p4.jpg" />
-<img alt="内页 5" src="/shots/diqiu-wuli-dadi-celiang-xue/p5.jpg" />
-<img alt="内页 6" src="/shots/diqiu-wuli-dadi-celiang-xue/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-diqiu-wuli-dadi-celiang-xue-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-diqiu-wuli-dadi-celiang-xue-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-diqiu-wuli-dadi-celiang-xue-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-diqiu-wuli-dadi-celiang-xue-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-diqiu-wuli-dadi-celiang-xue-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-diqiu-wuli-dadi-celiang-xue-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-diqiu-wuli-dadi-celiang-xue-p6.jpg" />
 </div>

@@ -3,7 +3,7 @@ slug: python-congrumen-dao-shijian
 title: Python编程：从入门到实践（Python Crash Course, 图灵程序设计丛书）
 summary: 高中科学与数学老师 Eric Matthes 写给所有层次 Python 读者的入门经典，人民邮电出版社 2016 年 7 月图灵程序设计丛书版（袁国忠 译）。全书分两部分：第一部分介绍 Python 编程必须了解的基本概念（matplotlib、NumPy、Pygal、列表、字典、if 语句、类、文件与异常、代码测试）；第二部分通过三个项目（2D 游戏《外星人入侵》、数据可视化、Web 应用程序）让读者把理论付诸实践。
 date: 2026-09-04
-cover: /shots/python-congrumen-dao-shijian/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-python-congrumen-dao-shijian-cover.jpg
 category: 计算机与编程
 tags: Python, 从入门到实践, Eric Matthes, 袁国忠, 人民邮电出版社, 图灵程序设计丛书, Django, Pygame, matplotlib, 入门
 access: gated
@@ -73,11 +73,11 @@ isbn: 9787115428028
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/python-congrumen-dao-shijian/cover.jpg" />
-<img alt="内页 1" src="/shots/python-congrumen-dao-shijian/p1.jpg" />
-<img alt="内页 2" src="/shots/python-congrumen-dao-shijian/p2.jpg" />
-<img alt="内页 3" src="/shots/python-congrumen-dao-shijian/p3.jpg" />
-<img alt="内页 4" src="/shots/python-congrumen-dao-shijian/p4.jpg" />
-<img alt="内页 5" src="/shots/python-congrumen-dao-shijian/p5.jpg" />
-<img alt="内页 6" src="/shots/python-congrumen-dao-shijian/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-python-congrumen-dao-shijian-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-python-congrumen-dao-shijian-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-python-congrumen-dao-shijian-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-python-congrumen-dao-shijian-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-python-congrumen-dao-shijian-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-python-congrumen-dao-shijian-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-python-congrumen-dao-shijian-p6.jpg" />
 </div>

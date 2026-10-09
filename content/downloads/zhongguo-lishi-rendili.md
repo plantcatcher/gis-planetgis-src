@@ -12,7 +12,7 @@ code: NSH-RW-003
 download: https://downloads.planetgis.cn/book/zhongguo-lishi-rendili.pdf
 format: PDF
 size: 24.4 MB
-cover: /shots/zhongguo-lishi-rendili/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-zhongguo-lishi-rendili-cover.jpg
 author: 邹逸麟 主编；王振忠、吴松弟、唐晓峰、韩茂莉 副主编
 publisher: 科学出版社
 pubYear: 2001
@@ -100,11 +100,11 @@ isbn: 9787030090652
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/zhongguo-lishi-rendili/cover.jpg" />
-<img alt="内页 1" src="/shots/zhongguo-lishi-rendili/p1.jpg" />
-<img alt="内页 2" src="/shots/zhongguo-lishi-rendili/p2.jpg" />
-<img alt="内页 3" src="/shots/zhongguo-lishi-rendili/p3.jpg" />
-<img alt="内页 4" src="/shots/zhongguo-lishi-rendili/p4.jpg" />
-<img alt="内页 5" src="/shots/zhongguo-lishi-rendili/p5.jpg" />
-<img alt="内页 6" src="/shots/zhongguo-lishi-rendili/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-zhongguo-lishi-rendili-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-zhongguo-lishi-rendili-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-zhongguo-lishi-rendili-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-zhongguo-lishi-rendili-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-zhongguo-lishi-rendili-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-zhongguo-lishi-rendili-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-zhongguo-lishi-rendili-p6.jpg" />
 </div>

@@ -13,7 +13,7 @@ trigger: 高德世界地图简易版
 keywordAliases: 高德世界地图shp, 简易世界地图shp
 code: NSH-SHP-002
 download: https://downloads.planetgis.cn/GIS/gaode-shijie-ditu-jianyi.zip
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-geo-data-cover.jpg
 format: SHP（ZIP 压缩包）
 size: 1.83 MB
 ---

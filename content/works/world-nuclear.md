@@ -1,7 +1,7 @@
 ---
 slug: world-nuclear
 title: 全球核电站分布地图
-cover: /maps/world-nuclear/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-world-nuclear-cover.jpg
 summary: 全球 1387 台核电机组摊在同一张地图上：圆点大小是单台装机容量、颜色是机组状态（绿 运行中 / 蓝 在建 / 黄 规划中 / 橙 搁置 / 灰 退役 / 红 取消），再叠一层国家总装机气泡。可按状态筛选、按容量门槛过滤、拖 1950–2040 投运时间轴，逐台机组可查容量、堆型、业主与投运年，逐国可查总装机与状态构成。
 link: /maps/world-nuclear
 order: 12
@@ -40,9 +40,9 @@ tags: 地理, 地理可视化, 互动地图, 核电站, 核电, 能源地理, �
 - **三种底图**：卫星影像（Esri World Imagery，影像下自动压暗）/ 地形晕渲 / 深色纯专题，名称标注与经纬网格可独立开关。
 - **移动端适配**：介绍栏收成底部抽屉，点选容差自动放大。
 
-![hp_1](/shots/world-nuclear/hp_1.jpg)
+![hp_1](https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-world-nuclear-hp1.jpg)
 
-![hp_2](/shots/world-nuclear/hp_2.jpg)
+![hp_2](https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-world-nuclear-hp2.jpg)
 
 ## 使用教程
 

@@ -1,7 +1,7 @@
 ---
 slug: au-regions
 title: 澳大利亚行政区划地图
-cover: /maps/au-regions/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-au-regions-cover.jpg
 summary: 点一下澳大利亚地图，看 6 个州 + 2 个领地 + 海外领地的人口、面积、首府、加入联邦年份与看点；可在「人口 / 面积」之间切换着色，还能展开 568 个地方政府区（LGA）看最基层的行政区划。边界数据来自 GADM 4.1。
 link: /maps/au-regions
 order: 14

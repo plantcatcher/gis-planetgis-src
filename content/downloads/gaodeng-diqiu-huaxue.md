@@ -12,7 +12,7 @@ code: NSH-DQHX-001
 download: https://downloads.planetgis.cn/book/gaodeng-diqiu-huaxue.pdf
 format: PDF
 size: 13.2 MB
-cover: /shots/gaodeng-diqiu-huaxue/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaodeng-diqiu-huaxue-cover.jpg
 author: 中国科学院地球化学研究所、广州地球化学研究所、兰州地质研究所 编
 publisher: 科学出版社
 pubYear: 1998
@@ -120,11 +120,11 @@ isbn: 9787030065964
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/gaodeng-diqiu-huaxue/cover.jpg" />
-<img alt="内页 1" src="/shots/gaodeng-diqiu-huaxue/p1.jpg" />
-<img alt="内页 2" src="/shots/gaodeng-diqiu-huaxue/p2.jpg" />
-<img alt="内页 3" src="/shots/gaodeng-diqiu-huaxue/p3.jpg" />
-<img alt="内页 4" src="/shots/gaodeng-diqiu-huaxue/p4.jpg" />
-<img alt="内页 5" src="/shots/gaodeng-diqiu-huaxue/p5.jpg" />
-<img alt="内页 6" src="/shots/gaodeng-diqiu-huaxue/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaodeng-diqiu-huaxue-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaodeng-diqiu-huaxue-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaodeng-diqiu-huaxue-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaodeng-diqiu-huaxue-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaodeng-diqiu-huaxue-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaodeng-diqiu-huaxue-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaodeng-diqiu-huaxue-p6.jpg" />
 </div>

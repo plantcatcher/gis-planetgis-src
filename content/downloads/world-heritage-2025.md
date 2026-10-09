@@ -13,7 +13,7 @@ trigger: 世界遗产名录2025
 keywordAliases: 世界遗产SHP, 世界遗产矢量, 世界遗产名录数据
 code: NSH-WH-001
 download: https://downloads.planetgis.cn/GIS/world-heritage-2025.zip
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-geo-data-cover.jpg
 format: SHP（ZIP 压缩包）
 size: 1.33 MB
 ---

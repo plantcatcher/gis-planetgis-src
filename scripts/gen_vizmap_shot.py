@@ -17,7 +17,7 @@
    甚至看起来不像同一个地方（Esri 每期是全球马赛克，各区域实际拍摄时间不同）。
    releaseNum 取 10 = 2014-02-20、26334 = 2026-08-05（完整表见 vizmaps.json 登记）。
 
-已产出：public/maps/hist-imagery/{cover.jpg, shots/yangshan.jpg, shots/xiongan.jpg}
+已产出：public/maps/hist-imagery/{vizmap-hist-imagery-cover.jpg, shots/yangshan.jpg, shots/xiongan.jpg}
 """
 import math
 import os
@@ -52,7 +52,7 @@ UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Sa
 
 JOBS = [
     # (经度, 纬度, 层级, 输出文件, 左上标签, 右上标签)
-    (113.892, 22.532, 14, "cover.jpg", DATE_A, DATE_B),           # 深圳 · 前海：吹填工地 → 成片楼宇
+    (113.892, 22.532, 14, "vizmap-hist-imagery-cover.jpg", DATE_A, DATE_B),           # 深圳 · 前海：吹填工地 → 成片楼宇
     (122.080, 30.625, 13, "shots/yangshan.jpg", DATE_A, DATE_B),  # 上海 · 洋山深水港：海上的几座小岛 → 深水码头岛链
     (115.970, 39.050, 13, "shots/xiongan.jpg", DATE_A, DATE_B),   # 河北 · 雄安新区：农田村庄 → 成方格规划路网
 ]

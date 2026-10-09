@@ -3,7 +3,7 @@ slug: bijiao-chengshihua
 title: 比较城市化：20世纪的不同道路（汉译世界学术名著丛书）
 summary: 美国城市地理学家布赖恩·J.L. 贝利（Brian J.L. Berry）的代表作，商务印书馆 2010 年 10 月汉译世界学术名著丛书版（顾朝林、汪侠、俞金国、赵玉宗、薛俊菲等译）。本书是西方国家 20 世纪 80 年代城市化研究最重要的研究成果之一，通过对世界不同国家和地区城市化进程的比较研究，揭示尽管城市化存在很多共性，但道路却各不相同——差异主要源于文化背景与发展阶段的不同。
 date: 2026-09-04
-cover: /shots/bijiao-chengshihua/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-bijiao-chengshihua-cover.jpg
 category: 城市与区域
 tags: 比较城市化, 布赖恩·贝利, Brian Berry, 商务印书馆, 汉译世界学术名著丛书, 城市地理学, 北美城市化, 第三世界城市化, 战后欧洲, 城市化
 access: gated
@@ -130,11 +130,11 @@ isbn: 9787100072625
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/bijiao-chengshihua/cover.jpg" />
-<img alt="内页 1" src="/shots/bijiao-chengshihua/p1.jpg" />
-<img alt="内页 2" src="/shots/bijiao-chengshihua/p2.jpg" />
-<img alt="内页 3" src="/shots/bijiao-chengshihua/p3.jpg" />
-<img alt="内页 4" src="/shots/bijiao-chengshihua/p4.jpg" />
-<img alt="内页 5" src="/shots/bijiao-chengshihua/p5.jpg" />
-<img alt="内页 6" src="/shots/bijiao-chengshihua/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-bijiao-chengshihua-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-bijiao-chengshihua-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-bijiao-chengshihua-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-bijiao-chengshihua-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-bijiao-chengshihua-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-bijiao-chengshihua-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-bijiao-chengshihua-p6.jpg" />
 </div>

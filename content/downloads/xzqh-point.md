@@ -13,7 +13,7 @@ trigger: 行政区点
 keywordAliases: 行政区划点, 省市县乡点, 行政中心点
 code: NSH-SHP-003
 download: https://downloads.planetgis.cn/GIS/xzqh-point.zip
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-geo-data-cover.jpg
 format: SHP（ZIP 压缩包）
 size: 1.02 MB
 ---

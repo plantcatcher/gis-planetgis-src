@@ -1,4 +1,4 @@
-/* 一次性：world-hydro 介绍页配图 → public/shots/world-hydro/hp_N.jpg
+/* 一次性：world-hydro 介绍页配图 → public/shots/world-hydro/vizmap-world-hydro-hpN.jpg
  * 用法：BASE=http://127.0.0.1:8942 PORT=9830 node scripts/shoot_map_shots.mjs --slug world-hydro
  * 规格对齐既有先例 public/shots/cn-universities：1440x900 JPEG 约 145KB。
  * 每次重拍（而不是缩放既有 PNG）：截图脚本默认 DSF=2 产出 2880x1800，缩下来会糊。 */
@@ -134,7 +134,7 @@ if (SHOT1_ZOOM || SHOT1_CENTER) {
   await sleep(3500);   // 等瓦片进来
 }
 
-await shot('hp_1.jpg');
+await shot(`vizmap-${slug}-hp1.jpg`);
 /* hp_1 是干净的总览态，隐藏详情卡；hp_2 要展示它，拍完再恢复 */
 await send('Runtime.evaluate', {
   expression: `(function(){
@@ -244,7 +244,7 @@ if (picked) {
     })()`
   });
   await sleep(900);
-  await shot('hp_2.jpg');
+  await shot(`vizmap-${slug}-hp2.jpg`);
 } else {
   console.log('WARN 没取到可点要素，hp_2 跳过');
 }

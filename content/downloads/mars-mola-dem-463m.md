@@ -15,7 +15,7 @@ code: NSH-MARS-001
 downloadType: baidu
 download: https://pan.baidu.com/s/1ZowGzMq9YZYq3nxMAYcp5A?pwd=ya6f
 panCode: ya6f
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-geo-data-cover.jpg
 format: GeoTIFF（.tif 单文件，ZIP 压缩包）
 size: 1.17G
 ---

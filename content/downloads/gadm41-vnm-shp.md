@@ -13,16 +13,14 @@ trigger: GADM越南
 keywordAliases: 越南行政区划, 越南SHP, 越南行政区shp
 code: NSH-GIS-027
 download: https://downloads.planetgis.cn/GIS/gadm41_VNM_shp.zip
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-gadm41-vnm-shp-cover.jpg
 format: SHP（ZIP 压缩包）
 size: 8.8 MB
 ---
 
 > 本数据集为 GADM（Global Administrative Areas）v4.1 的**越南**部分，**4 个行政层级**、20 个文件，压缩包约 **8.8 MB（9,225,308 字节）**。这是「省 → 县 → 乡」三级完整结构的一份数据，且乡级（xã / phường / thị trấn）多达 11,163 个，适合做基层尺度的空间分析。⚠️ **但请注意时效性**：越南已于 2025 年 7 月 1 日起实施两级地方政权（省级 + 乡级）并取消县级，本数据仍为改革前的 63 省结构，详见「已知数据瑕疵」。本文所有数字均经 Python 逐要素实算（含环数、顶点数），非官方文档转述。
 
-![hp_1](/shots/gadm41-vnm-shp/hp_1.jpg)
 
-![hp_2](/shots/gadm41-vnm-shp/hp_2.jpg)
 
 ## 数据内容
 

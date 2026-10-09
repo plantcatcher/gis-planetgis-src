@@ -15,7 +15,7 @@ code: NSH-GIS-020
 download: https://pan.baidu.com/s/1gTD0oB6yV7fy0DgfR32X4A?pwd=hgzc
 downloadType: baidu
 panCode: hgzc
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-gadm41-aus-shp-cover.jpg
 format: SHP（ZIP 压缩包）
 size: 50.5 MB
 ---

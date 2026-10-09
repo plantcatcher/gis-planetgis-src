@@ -13,7 +13,7 @@ trigger: 全国工业用地矢量数据
 keywordAliases: 工业用地矢量, 工业用地数据, 工业用地shp
 code: NSH-GIS-014
 download: https://downloads.planetgis.cn/GIS/cn-gongye-yongdi-2024.zip
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-geo-data-cover.jpg
 format: SHP（ZIP 压缩包）
 size: 17.95 MB
 ---

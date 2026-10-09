@@ -16,7 +16,7 @@ author: 张洪江、程金花 主编；吴发启、王云琦 副主编；尹伟�
 publisher: 科学出版社
 pubYear: 2019
 isbn: 978-7-03-064194-6
-cover: /shots/turang-qinshi-yuanli-4/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-turang-qinshi-yuanli-4-cover.jpg
 ---
 
 > **张洪江、程金花 主编，吴发启、王云琦 副主编，尹伟伦 主审；科学出版社，2019 年 12 月第 4 版第 5 次印刷；ISBN 978-7-03-064194-6；开本 787×1092 1/16，印张 20，字数 508 000；定价 79.00 元。**
@@ -72,11 +72,11 @@ cover: /shots/turang-qinshi-yuanli-4/cover.jpg
 ## 内页速览
 
 <div class="shot-grid">
-<img src="/shots/turang-qinshi-yuanli-4/cover.jpg" alt="封面" />
-<img src="/shots/turang-qinshi-yuanli-4/p1.jpg" alt="内页1" />
-<img src="/shots/turang-qinshi-yuanli-4/p2.jpg" alt="内页2" />
-<img src="/shots/turang-qinshi-yuanli-4/p3.jpg" alt="内页3" />
-<img src="/shots/turang-qinshi-yuanli-4/p4.jpg" alt="内页4" />
-<img src="/shots/turang-qinshi-yuanli-4/p5.jpg" alt="内页5" />
-<img src="/shots/turang-qinshi-yuanli-4/p6.jpg" alt="内页6" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-turang-qinshi-yuanli-4-cover.jpg" alt="封面" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-turang-qinshi-yuanli-4-p1.jpg" alt="内页1" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-turang-qinshi-yuanli-4-p2.jpg" alt="内页2" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-turang-qinshi-yuanli-4-p3.jpg" alt="内页3" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-turang-qinshi-yuanli-4-p4.jpg" alt="内页4" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-turang-qinshi-yuanli-4-p5.jpg" alt="内页5" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-turang-qinshi-yuanli-4-p6.jpg" alt="内页6" />
 </div>

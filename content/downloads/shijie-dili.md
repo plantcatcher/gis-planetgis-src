@@ -12,7 +12,7 @@ code: NSH-RW-004
 download: https://downloads.planetgis.cn/book/shijie-dili.pdf
 format: PDF
 size: 18.9 MB
-cover: /shots/shijie-dili/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shijie-dili-cover.jpg
 author: 杨青山、韩杰、丁四保 主编
 publisher: 高等教育出版社
 pubYear: 2004
@@ -56,11 +56,11 @@ isbn: 9787040144673
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/shijie-dili/cover.jpg" />
-<img alt="内页 1" src="/shots/shijie-dili/p1.jpg" />
-<img alt="内页 2" src="/shots/shijie-dili/p2.jpg" />
-<img alt="内页 3" src="/shots/shijie-dili/p3.jpg" />
-<img alt="内页 4" src="/shots/shijie-dili/p4.jpg" />
-<img alt="内页 5" src="/shots/shijie-dili/p5.jpg" />
-<img alt="内页 6" src="/shots/shijie-dili/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shijie-dili-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shijie-dili-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shijie-dili-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shijie-dili-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shijie-dili-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shijie-dili-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shijie-dili-p6.jpg" />
 </div>

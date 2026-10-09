@@ -1,5 +1,5 @@
 /* 专题地图文章配图截图器（通用）
- * 产出 public/shots/<slug>/hp_1.jpg（总览，全量 + 枢纽港名）与 hp_2.jpg（筛选后，仅顶级枢纽）。
+ * 产出 public/shots/<slug>/vizmap-<slug>-hp1.jpg（总览，全量 + 枢纽港名）与 vizmap-<slug>-hp2.jpg（筛选后，仅顶级枢纽）。
  * 用法：node scripts/shoot_map.mjs --slug world-ports
  * 前置：public/ 已用静态服务提供（默认 http://127.0.0.1:8899）
  */
@@ -76,7 +76,7 @@ await evalJs(`(function(){
   document.head.appendChild(s);
 })()`);
 await sleep(1400);
-await shot('hp_1.jpg');
+await shot(`vizmap-${slug}-hp1.jpg`);
 
 // 筛选：点击「仅顶级」层级 chip
 await evalJs(`(function(){ var b = document.querySelector('#chipTier button[data-v="${FILTER}"]'); if (b) b.click(); return true; })()`);
@@ -85,6 +85,6 @@ await evalJs(`(function(){
   var app = window.__app; if (app && app.map) { app.map.setMinZoom(0.8); app.fitAll({ padding: { left: 24, right: 24, top: 24, bottom: 24 }, animate: false }); }
 })()`);
 await sleep(1400);
-await shot('hp_2.jpg');
+await shot(`vizmap-${slug}-hp2.jpg`);
 
 ws.close(); child.kill(); process.exit(0);

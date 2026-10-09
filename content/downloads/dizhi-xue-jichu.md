@@ -12,7 +12,7 @@ code: NSH-ZR-005
 download: https://downloads.planetgis.cn/book/dizhi-xue-jichu.pdf
 format: PDF
 size: 44.7 MB
-cover: /shots/dizhi-xue-jichu/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dizhi-xue-jichu-cover.jpg
 author: 宋春青、邱维理、张振春 编著
 publisher: 高等教育出版社
 pubYear: 2005
@@ -71,11 +71,11 @@ isbn: 978-7-04-016565-4
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/dizhi-xue-jichu/cover.jpg" />
-<img alt="内页 1" src="/shots/dizhi-xue-jichu/p1.jpg" />
-<img alt="内页 2" src="/shots/dizhi-xue-jichu/p2.jpg" />
-<img alt="内页 3" src="/shots/dizhi-xue-jichu/p3.jpg" />
-<img alt="内页 4" src="/shots/dizhi-xue-jichu/p4.jpg" />
-<img alt="内页 5" src="/shots/dizhi-xue-jichu/p5.jpg" />
-<img alt="内页 6" src="/shots/dizhi-xue-jichu/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dizhi-xue-jichu-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dizhi-xue-jichu-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dizhi-xue-jichu-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dizhi-xue-jichu-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dizhi-xue-jichu-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dizhi-xue-jichu-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-dizhi-xue-jichu-p6.jpg" />
 </div>

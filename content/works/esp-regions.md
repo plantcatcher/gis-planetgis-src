@@ -1,7 +1,7 @@
 ---
 slug: esp-regions
 title: 西班牙行政区划地图
-cover: /maps/esp-regions/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-esp-regions-cover.jpg
 summary: 点一下西班牙地图，看 18 个自治区（含休达与梅利利亚）的中文译名、首府、人口、面积与看点；可在「人口 / 面积 / 区域」之间切换着色，还能展开 52 个省看自治区以下的行政区划。边界数据来自 GADM 4.1。
 link: /maps/esp-regions
 order: 18

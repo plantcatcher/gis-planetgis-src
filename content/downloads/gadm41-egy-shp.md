@@ -13,16 +13,14 @@ trigger: GADM埃及
 keywordAliases: 埃及行政区划, 埃及SHP, 埃及行政区shp
 code: NSH-GIS-026
 download: https://downloads.planetgis.cn/GIS/gadm41_EGY_shp.zip
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-gadm41-egy-shp-cover.jpg
 format: SHP（ZIP 压缩包）
 size: 1.8 MB
 ---
 
 > 本数据集为 GADM（Global Administrative Areas）v4.1 的**埃及**部分，**2 个行政层级**（加国界共 3 级）、15 个文件，压缩包仅约 **1.8 MB（1,925,035 字节）**，是尼罗河流域与北非区域研究中最轻量的一份行政底图。一级省名带阿拉伯语原名（`NL_NAME_1`，如 `الدقهلية`），可直接做地名对照。本文所有数字均经 Python 逐要素实算（含环数、顶点数），非官方文档转述。
 
-![hp_1](/shots/gadm41-egy-shp/hp_1.jpg)
 
-![hp_2](/shots/gadm41-egy-shp/hp_2.jpg)
 
 ## 数据内容
 

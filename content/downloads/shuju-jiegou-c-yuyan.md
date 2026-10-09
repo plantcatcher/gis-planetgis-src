@@ -16,7 +16,7 @@ author: 严蔚敏、吴伟民 编著
 publisher: 清华大学出版社
 pubYear: 2007
 isbn: 978-7-302-14751-0
-cover: /shots/shuju-jiegou-c-yuyan/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuju-jiegou-c-yuyan-cover.jpg
 ---
 
 > **严蔚敏、吴伟民 编著；清华大学出版社；清华大学计算机系列教材；ISBN 978-7-302-14751-0。**
@@ -97,11 +97,11 @@ cover: /shots/shuju-jiegou-c-yuyan/cover.jpg
 ## 内页速览
 
 <div class="shot-grid">
-<img src="/shots/shuju-jiegou-c-yuyan/cover.jpg" alt="封面" />
-<img src="/shots/shuju-jiegou-c-yuyan/p1.jpg" alt="内页1" />
-<img src="/shots/shuju-jiegou-c-yuyan/p2.jpg" alt="内页2" />
-<img src="/shots/shuju-jiegou-c-yuyan/p3.jpg" alt="内页3" />
-<img src="/shots/shuju-jiegou-c-yuyan/p4.jpg" alt="内页4" />
-<img src="/shots/shuju-jiegou-c-yuyan/p5.jpg" alt="内页5" />
-<img src="/shots/shuju-jiegou-c-yuyan/p6.jpg" alt="内页6" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuju-jiegou-c-yuyan-cover.jpg" alt="封面" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuju-jiegou-c-yuyan-p1.jpg" alt="内页1" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuju-jiegou-c-yuyan-p2.jpg" alt="内页2" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuju-jiegou-c-yuyan-p3.jpg" alt="内页3" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuju-jiegou-c-yuyan-p4.jpg" alt="内页4" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuju-jiegou-c-yuyan-p5.jpg" alt="内页5" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shuju-jiegou-c-yuyan-p6.jpg" alt="内页6" />
 </div>

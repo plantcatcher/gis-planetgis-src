@@ -2,7 +2,7 @@
 
 slug: tea-horse-road
 title: 茶马古道 · 不止一条路
-cover: /maps/tea-horse-road/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-tea-horse-road-cover.jpg
 summary: 滇藏、川藏、青藏三条主线，36 处驿镇，放在同一张图上：点任意一条看它的起终点、里程与主要货品，点驿镇看它在古道上的位置与来历。芒康、拉萨这类汇合点会自动点亮它所连接的两条主线。底图默认卫星影像，三条线各自的走法——贴着河谷、翻越山口、还是走在高原面上——一眼能看出来。
 link: /maps/tea-horse-road
 order: 7

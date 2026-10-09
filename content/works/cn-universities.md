@@ -1,7 +1,7 @@
 ---
 slug: cn-universities
 title: 中国高校分布地图 · 2820 所与精英院校的地理格局
-cover: /maps/cn-universities/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-cn-universities-cover.jpg
 summary: 教育部 2023 年全国 2820 所普通高校，被摊在地图上：省级区块按高校总数分档着色（红 ≥150 / 橙 100–149 / 绿 50–99 / 蓝 1–49），再叠加 985 / 211 / 军事院校的精确点位。点省份看总数与精英分布，点院校看层级与城市，一眼看清谁是中国的高等教育高地。
 link: /maps/cn-universities
 order: 9
@@ -33,9 +33,9 @@ tags: 地理, 地理可视化, 互动地图, 高校, 大学, 985, 211, 教育地
 - **三种底图 + 图层开关**：深色（默认）/ 卫星影像 / 矢量路网，省份名称、省界、经纬网格可独立开关。
 - **移动端适配**：介绍栏收成底部抽屉，点选容差自动放大，手指也能点中密集点位。
 
-![hp_1](/shots/cn-universities/hp_1.jpg)
+![hp_1](https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-cn-universities-hp1.jpg)
 
-![hp_2](/shots/cn-universities/hp_2.jpg)
+![hp_2](https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-cn-universities-hp2.jpg)
 
 ## 使用教程
 

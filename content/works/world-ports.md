@@ -1,7 +1,7 @@
 ---
 slug: world-ports
 title: 世界港口分布地图
-cover: /maps/world-ports/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-world-ports-cover.jpg
 summary: 全球 1081 个主要港口被摊在同一张地图上：圆点的大小与颜色代表港口的重要性层级（顶级枢纽港 → 小型港口共六档），可按层级筛选、按名称搜索、看各国港口数量排行。数据来自 Natural Earth 公开数据集。
 link: /maps/world-ports
 order: 13
@@ -33,9 +33,9 @@ tags: 地理, 地理可视化, 互动地图, 世界港口, 港口, 海运, 航�
 - **三种底图**：卫星影像（Esri World Imagery）/ 地形晕渲（Esri World Shaded Relief）/ 深色纯专题，枢纽港名称与 20° 经纬网格可独立开关。
 - **移动端适配**：介绍栏收成底部抽屉，点选容差自动放大，手指也能点中密集港口。
 
-![hp_1](/shots/world-ports/hp_1.jpg)
+![hp_1](https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-world-ports-hp1.jpg)
 
-![hp_2](/shots/world-ports/hp_2.jpg)
+![hp_2](https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-world-ports-hp2.jpg)
 
 ## 使用教程
 

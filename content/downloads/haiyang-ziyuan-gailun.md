@@ -12,7 +12,7 @@ code: NSH-HY-001
 download: https://downloads.planetgis.cn/book/haiyang-ziyuan-gailun.pdf
 format: PDF
 size: 13.5 MB
-cover: /shots/haiyang-ziyuan-gailun/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-haiyang-ziyuan-gailun-cover.jpg
 author: 朱晓东 等编著
 publisher: 高等教育出版社
 pubYear: 2005
@@ -52,11 +52,11 @@ isbn: 9787040165661
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/haiyang-ziyuan-gailun/cover.jpg" />
-<img alt="内页 1" src="/shots/haiyang-ziyuan-gailun/p1.jpg" />
-<img alt="内页 2" src="/shots/haiyang-ziyuan-gailun/p2.jpg" />
-<img alt="内页 3" src="/shots/haiyang-ziyuan-gailun/p3.jpg" />
-<img alt="内页 4" src="/shots/haiyang-ziyuan-gailun/p4.jpg" />
-<img alt="内页 5" src="/shots/haiyang-ziyuan-gailun/p5.jpg" />
-<img alt="内页 6" src="/shots/haiyang-ziyuan-gailun/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-haiyang-ziyuan-gailun-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-haiyang-ziyuan-gailun-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-haiyang-ziyuan-gailun-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-haiyang-ziyuan-gailun-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-haiyang-ziyuan-gailun-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-haiyang-ziyuan-gailun-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-haiyang-ziyuan-gailun-p6.jpg" />
 </div>

@@ -16,7 +16,7 @@ author: [英] 杰里·布罗顿（Jerry Brotton）著；林盛 译
 publisher: 浙江人民出版社
 pubYear: 2016
 isbn: 978-7-213-07331-1
-cover: /shots/shierfu-ditu-shijieshi/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shierfu-ditu-shijieshi-cover.jpg
 ---
 
 > **[英] 杰里·布罗顿（Jerry Brotton）著，林盛 译；浙江人民出版社，2016 年出版；ISBN 978-7-213-07331-1；后浪出品。**
@@ -57,11 +57,11 @@ cover: /shots/shierfu-ditu-shijieshi/cover.jpg
 ## 内页速览
 
 <div class="shot-grid">
-<img src="/shots/shierfu-ditu-shijieshi/cover.jpg" alt="封面" />
-<img src="/shots/shierfu-ditu-shijieshi/p1.jpg" alt="内页1" />
-<img src="/shots/shierfu-ditu-shijieshi/p2.jpg" alt="内页2" />
-<img src="/shots/shierfu-ditu-shijieshi/p3.jpg" alt="内页3" />
-<img src="/shots/shierfu-ditu-shijieshi/p4.jpg" alt="内页4" />
-<img src="/shots/shierfu-ditu-shijieshi/p5.jpg" alt="内页5" />
-<img src="/shots/shierfu-ditu-shijieshi/p6.jpg" alt="内页6" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shierfu-ditu-shijieshi-cover.jpg" alt="封面" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shierfu-ditu-shijieshi-p1.jpg" alt="内页1" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shierfu-ditu-shijieshi-p2.jpg" alt="内页2" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shierfu-ditu-shijieshi-p3.jpg" alt="内页3" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shierfu-ditu-shijieshi-p4.jpg" alt="内页4" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shierfu-ditu-shijieshi-p5.jpg" alt="内页5" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-shierfu-ditu-shijieshi-p6.jpg" alt="内页6" />
 </div>

@@ -1,7 +1,7 @@
 ---
 slug: egy-regions
 title: 埃及行政区划地图
-cover: /maps/egy-regions/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-egy-regions-cover.jpg
 summary: 点一下埃及地图，看 27 个省（Muhafazah）的中文译名、首府、人口、面积与看点；可在「人口 / 面积 / 区域」之间切换着色，还能展开 342 个区（Markaz）看省以下的行政区划。边界数据来自 GADM 4.1。
 link: /maps/egy-regions
 order: 17

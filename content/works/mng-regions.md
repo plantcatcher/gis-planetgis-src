@@ -1,7 +1,7 @@
 ---
 slug: mng-regions
 title: 蒙古国行政区划地图
-cover: /maps/mng-regions/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-mng-regions-cover.jpg
 summary: 点一下蒙古国地图，看 21 个省（Aimag）与首都乌兰巴托的中文译名、省会、人口、面积与看点；可在「人口 / 面积 / 自然区域」之间切换着色，还能展开 327 个苏木看最基层的行政区划。边界数据来自 GADM 4.1。
 link: /maps/mng-regions
 order: 20

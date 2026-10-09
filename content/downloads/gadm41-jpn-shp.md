@@ -16,7 +16,7 @@ download: https://downloads.planetgis.cn/GIS/gadm41_JPN_shp.zip
 downloadAlt: https://pan.baidu.com/s/1I1dPJuFjINKixmzDmFoHBw?pwd=e4ki
 downloadAltType: baidu
 downloadAltCode: e4ki
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-gadm41-jpn-shp-cover.jpg
 format: SHP（ZIP 压缩包）
 size: 17.4 MB
 ---

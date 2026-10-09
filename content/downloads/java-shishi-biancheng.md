@@ -3,7 +3,7 @@ slug: java-shishi-biancheng
 title: Java实时编程（Real-Time Java Programming: With Java RTS）
 summary: 面向开发者和架构师的 Java RTS 权威指南，原书由 Eric J. Bruno 与 Greg Bollella 合著（Sun 公司 Java 标准过程前组长和华尔街实时系统顶级开发者），机械工业出版社 2010 年 1 月简体中文版（田思源 译）。本书分三大部分介绍 Java RTS 的概念、高级 API 与案例研究，并讨论实时垃圾回收器内部机制、证券交易系统等典型应用。
 date: 2026-09-04
-cover: /shots/java-shishi-biancheng/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-java-shishi-biancheng-cover.jpg
 category: 计算机与编程
 tags: Java实时编程, Java RTS, Eric Bruno, Greg Bollella, 机械工业出版社, Sun公司, 实时系统, RTSJ, 实时垃圾回收, 证券交易系统
 access: gated
@@ -60,11 +60,11 @@ isbn: 9787111292821
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/java-shishi-biancheng/cover.jpg" />
-<img alt="内页 1" src="/shots/java-shishi-biancheng/p1.jpg" />
-<img alt="内页 2" src="/shots/java-shishi-biancheng/p2.jpg" />
-<img alt="内页 3" src="/shots/java-shishi-biancheng/p3.jpg" />
-<img alt="内页 4" src="/shots/java-shishi-biancheng/p4.jpg" />
-<img alt="内页 5" src="/shots/java-shishi-biancheng/p5.jpg" />
-<img alt="内页 6" src="/shots/java-shishi-biancheng/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-java-shishi-biancheng-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-java-shishi-biancheng-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-java-shishi-biancheng-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-java-shishi-biancheng-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-java-shishi-biancheng-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-java-shishi-biancheng-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-java-shishi-biancheng-p6.jpg" />
 </div>

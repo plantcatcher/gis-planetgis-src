@@ -16,7 +16,7 @@ author: [美] 霍华德·施耐德（Howard Schneider）著；李昫岱 译
 publisher: 北京联合出版公司
 pubYear: 2017
 isbn: 978-7-5502-8636-8
-cover: /shots/guojia-dili-guanxing-zhinan/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-guojia-dili-guanxing-zhinan-cover.jpg
 ---
 
 > **[美] 霍华德·施耐德（Howard Schneider）著，李昫岱 译；北京联合出版公司，2017 年 8 月出版；ISBN 978-7-5502-8636-8；出品方：未读·探索家；英文原书名 *Backyard Guide to the Night Sky*。**
@@ -73,11 +73,11 @@ cover: /shots/guojia-dili-guanxing-zhinan/cover.jpg
 ## 内页速览
 
 <div class="shot-grid">
-<img src="/shots/guojia-dili-guanxing-zhinan/cover.jpg" alt="封面" />
-<img src="/shots/guojia-dili-guanxing-zhinan/p1.jpg" alt="内页1" />
-<img src="/shots/guojia-dili-guanxing-zhinan/p2.jpg" alt="内页2" />
-<img src="/shots/guojia-dili-guanxing-zhinan/p3.jpg" alt="内页3" />
-<img src="/shots/guojia-dili-guanxing-zhinan/p4.jpg" alt="内页4" />
-<img src="/shots/guojia-dili-guanxing-zhinan/p5.jpg" alt="内页5" />
-<img src="/shots/guojia-dili-guanxing-zhinan/p6.jpg" alt="内页6" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-guojia-dili-guanxing-zhinan-cover.jpg" alt="封面" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-guojia-dili-guanxing-zhinan-p1.jpg" alt="内页1" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-guojia-dili-guanxing-zhinan-p2.jpg" alt="内页2" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-guojia-dili-guanxing-zhinan-p3.jpg" alt="内页3" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-guojia-dili-guanxing-zhinan-p4.jpg" alt="内页4" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-guojia-dili-guanxing-zhinan-p5.jpg" alt="内页5" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-guojia-dili-guanxing-zhinan-p6.jpg" alt="内页6" />
 </div>

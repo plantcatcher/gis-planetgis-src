@@ -3,7 +3,7 @@ slug: gaoguangpu-yaogan-jiehun
 title: 高光谱遥感图像解混理论与方法——从线性到非线性（王斌，杨斌 著）
 summary: 科学出版社 2019 年出版、国家科学技术学术著作出版基金资助，空间微波遥感研究与应用丛书之一。系统整理高光谱遥感图像解混的理论与方法，从线性模型到非线性模型，覆盖端元提取、丰度估计、有监督与无监督解混等核心主题，是高光谱遥感数据处理与定量反演研究的重要参考书。
 date: 2026-09-02
-cover: /shots/gaoguangpu-yaogan-jiehun/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaoguangpu-yaogan-jiehun-cover.jpg
 category: GIS与遥感
 tags: 高光谱遥感, 图像解混, 端元提取, 丰度估计, 线性解混, 非线性解混, 王斌, 杨斌, 科学出版社, 遥感
 access: gated
@@ -53,11 +53,11 @@ isbn: 9787030621627
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/gaoguangpu-yaogan-jiehun/cover.jpg" />
-<img alt="内页 1" src="/shots/gaoguangpu-yaogan-jiehun/p1.jpg" />
-<img alt="内页 2" src="/shots/gaoguangpu-yaogan-jiehun/p2.jpg" />
-<img alt="内页 3" src="/shots/gaoguangpu-yaogan-jiehun/p3.jpg" />
-<img alt="内页 4" src="/shots/gaoguangpu-yaogan-jiehun/p4.jpg" />
-<img alt="内页 5" src="/shots/gaoguangpu-yaogan-jiehun/p5.jpg" />
-<img alt="内页 6" src="/shots/gaoguangpu-yaogan-jiehun/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaoguangpu-yaogan-jiehun-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaoguangpu-yaogan-jiehun-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaoguangpu-yaogan-jiehun-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaoguangpu-yaogan-jiehun-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaoguangpu-yaogan-jiehun-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaoguangpu-yaogan-jiehun-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-gaoguangpu-yaogan-jiehun-p6.jpg" />
 </div>

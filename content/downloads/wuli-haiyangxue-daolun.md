@@ -16,7 +16,7 @@ author: 董昌明 主编；禹凯、刘宇、王锦、董济海 副主编
 publisher: 科学出版社
 pubYear: 2019
 isbn: 978-7-03-060267-1
-cover: /shots/wuli-haiyangxue-daolun/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-wuli-haiyangxue-daolun-cover.jpg
 ---
 
 > **董昌明 主编，禹凯、刘宇、王锦、董济海 副主编；科学出版社，2019 年 1 月第 1 版第 1 次印刷；ISBN 978-7-03-060267-1；开本 787×1092 1/16，印张 14¾，字数 344 000；定价 79.00 元。**
@@ -65,11 +65,11 @@ cover: /shots/wuli-haiyangxue-daolun/cover.jpg
 ## 内页速览
 
 <div class="shot-grid">
-<img src="/shots/wuli-haiyangxue-daolun/cover.jpg" alt="封面" />
-<img src="/shots/wuli-haiyangxue-daolun/p1.jpg" alt="内页1" />
-<img src="/shots/wuli-haiyangxue-daolun/p2.jpg" alt="内页2" />
-<img src="/shots/wuli-haiyangxue-daolun/p3.jpg" alt="内页3" />
-<img src="/shots/wuli-haiyangxue-daolun/p4.jpg" alt="内页4" />
-<img src="/shots/wuli-haiyangxue-daolun/p5.jpg" alt="内页5" />
-<img src="/shots/wuli-haiyangxue-daolun/p6.jpg" alt="内页6" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-wuli-haiyangxue-daolun-cover.jpg" alt="封面" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-wuli-haiyangxue-daolun-p1.jpg" alt="内页1" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-wuli-haiyangxue-daolun-p2.jpg" alt="内页2" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-wuli-haiyangxue-daolun-p3.jpg" alt="内页3" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-wuli-haiyangxue-daolun-p4.jpg" alt="内页4" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-wuli-haiyangxue-daolun-p5.jpg" alt="内页5" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-wuli-haiyangxue-daolun-p6.jpg" alt="内页6" />
 </div>

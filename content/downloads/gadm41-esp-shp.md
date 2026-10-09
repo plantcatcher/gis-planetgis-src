@@ -13,16 +13,14 @@ trigger: GADM西班牙
 keywordAliases: 西班牙行政区划, 西班牙SHP, 西班牙行政区shp
 code: NSH-GIS-024
 download: https://downloads.planetgis.cn/GIS/gadm41_ESP_shp.zip
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-gadm41-esp-shp-cover.jpg
 format: SHP（ZIP 压缩包）
 size: 11.8 MB
 ---
 
 > 本数据集为 GADM（Global Administrative Areas）v4.1 的**西班牙**部分，是这一批国家包里**层级最深的一份**：从国界一直到市镇（Municipality）共 **5 级**、25 个文件，压缩包约 **11.8 MB（12,395,844 字节）**。适合需要「自治区 → 省 → 县 → 市镇」全链条下钻的研究与制图场景（例如按市镇做人口密度或选举空间分析）。本文所有数字均经 Python 逐要素实算（含环数、顶点数），非官方文档转述。
 
-![hp_1](/shots/gadm41-esp-shp/hp_1.jpg)
 
-![hp_2](/shots/gadm41-esp-shp/hp_2.jpg)
 
 ## 数据内容
 

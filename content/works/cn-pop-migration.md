@@ -1,7 +1,7 @@
 ---
 slug: cn-pop-migration
 title: 中国历史十次人口迁徙 · 从衣冠南渡到三线建设
-cover: /maps/cn-pop-migration/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-cn-pop-migration-cover.jpg
 summary: 从西晋衣冠南渡到 20 世纪三线建设，十次大迁徙串起中国人口从中原向江南、边疆、东北、西南与海外扩展的空间过程。点任一事件看它的流向与动因，点城市看它经历了哪几次迁徙。
 link: /maps/cn-pop-migration
 order: 8

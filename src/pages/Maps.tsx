@@ -271,18 +271,6 @@ const Maps: React.FC = () => {
           <section className="mt-14 rounded-2xl border border-border bg-card/40 p-6 md:p-8">
             <h2 className="text-xl font-bold mb-3">关于数据</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              每张地图使用的数据源、坐标系与要素数量都登记在
-              <code className="mx-1 px-1.5 py-0.5 rounded bg-muted text-xs">src/data/vizmaps.json</code>
-              里，页面上的数字直接来自这份登记册——数据一改，页面跟着变；而标题、封面与介绍统一来自
-              <code className="mx-1 px-1.5 py-0.5 rounded bg-muted text-xs">content/works/&lt;slug&gt;.md</code>
-              ，一份内容只维护一处。地图以静态文件形式托管，
-              不需要后端数据库：地理数据在发布前统一做坐标降精度与抽稀，产物放在
-              <code className="mx-1 px-1.5 py-0.5 rounded bg-muted text-xs">public/maps/&lt;slug&gt;/data/</code>，
-              跨地图复用的底图数据（如省级行政区边界）放在
-              <code className="mx-1 px-1.5 py-0.5 rounded bg-muted text-xs">public/maps/_shared/</code>，
-              避免每张地图各存一份。
-            </p>
-            <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
               需要原始数据自己做分析？可前往
               <Link to="/downloads" className="ml-1 text-primary hover:underline">资料下载</Link>
               获取对应的矢量数据包。

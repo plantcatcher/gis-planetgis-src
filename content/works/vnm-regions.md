@@ -1,7 +1,7 @@
 ---
 slug: vnm-regions
 title: 越南行政区划地图
-cover: /maps/vnm-regions/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-vnm-regions-cover.jpg
 summary: 点一下越南地图，看 63 个省级行政区（57 省 + 6 直辖市）的中文译名、省会、人口、面积与看点；可在「人口 / 面积 / 大区」之间切换着色，还能展开 710 个县/郡/市社。边界数据来自 GADM 4.1。
 link: /maps/vnm-regions
 order: 22

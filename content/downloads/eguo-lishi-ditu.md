@@ -12,7 +12,7 @@ code: NSH-RW-009
 download: https://downloads.planetgis.cn/book/eguo-lishi-ditu.pdf
 format: PDF
 size: 12.3 MB
-cover: /shots/eguo-lishi-ditu/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-eguo-lishi-ditu-cover.jpg
 author: ［英］马丁·吉尔伯特 著；王玉菡 译
 publisher: 中国青年出版社
 pubYear: 2009
@@ -61,11 +61,11 @@ isbn: 978-7-5006-8696-5
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/eguo-lishi-ditu/cover.jpg" />
-<img alt="内页 1" src="/shots/eguo-lishi-ditu/p1.jpg" />
-<img alt="内页 2" src="/shots/eguo-lishi-ditu/p2.jpg" />
-<img alt="内页 3" src="/shots/eguo-lishi-ditu/p3.jpg" />
-<img alt="内页 4" src="/shots/eguo-lishi-ditu/p4.jpg" />
-<img alt="内页 5" src="/shots/eguo-lishi-ditu/p5.jpg" />
-<img alt="内页 6" src="/shots/eguo-lishi-ditu/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-eguo-lishi-ditu-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-eguo-lishi-ditu-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-eguo-lishi-ditu-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-eguo-lishi-ditu-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-eguo-lishi-ditu-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-eguo-lishi-ditu-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-eguo-lishi-ditu-p6.jpg" />
 </div>

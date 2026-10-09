@@ -31,7 +31,7 @@ const keepLabels = argv.includes('--labels');
 const hideLayers = (arg('hideLayers', '') || '').split(',').map(s => s.trim()).filter(Boolean);
 if (!slug) { console.error('缺 --slug'); process.exit(1); }
 
-const OUT = arg('out', `public/maps/${slug}/cover.jpg`);
+const OUT = arg('out', `public/maps/${slug}/vizmap-${slug}-cover.jpg`);
 const URL_ = `${BASE}/maps/${slug}/index.html`;
 
 try { fs.rmSync(PROF, { recursive: true, force: true }); } catch (_) {}

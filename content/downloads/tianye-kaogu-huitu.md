@@ -12,7 +12,7 @@ code: NSH-KG-001
 download: https://downloads.planetgis.cn/book/tianye-kaogu-huitu.pdf
 format: PDF
 size: 21.9 MB
-cover: /shots/tianye-kaogu-huitu/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-tianye-kaogu-huitu-cover.jpg
 author: 马鸿藻 著
 publisher: 北京大学出版社
 pubYear: 2010
@@ -52,11 +52,11 @@ isbn: 9787301176405
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/tianye-kaogu-huitu/cover.jpg" />
-<img alt="内页 1" src="/shots/tianye-kaogu-huitu/p1.jpg" />
-<img alt="内页 2" src="/shots/tianye-kaogu-huitu/p2.jpg" />
-<img alt="内页 3" src="/shots/tianye-kaogu-huitu/p3.jpg" />
-<img alt="内页 4" src="/shots/tianye-kaogu-huitu/p4.jpg" />
-<img alt="内页 5" src="/shots/tianye-kaogu-huitu/p5.jpg" />
-<img alt="内页 6" src="/shots/tianye-kaogu-huitu/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-tianye-kaogu-huitu-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-tianye-kaogu-huitu-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-tianye-kaogu-huitu-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-tianye-kaogu-huitu-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-tianye-kaogu-huitu-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-tianye-kaogu-huitu-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-tianye-kaogu-huitu-p6.jpg" />
 </div>

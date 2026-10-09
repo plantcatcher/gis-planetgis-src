@@ -13,7 +13,7 @@ trigger: 2025全球机场分布数据
 keywordAliases: 全球机场数据, 机场分布数据, 全球机场shp
 code: NSH-GIS-015
 download: https://downloads.planetgis.cn/GIS/global-airports-2025.zip
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-geo-data-cover.jpg
 format: SHP（ZIP 压缩包）
 size: 7.85 MB
 ---

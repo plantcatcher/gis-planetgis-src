@@ -1,7 +1,7 @@
 ---
 slug: uk-regions
 title: 英国行政区划地图
-cover: /maps/uk-regions/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-uk-regions-cover.jpg
 summary: 点一下英国地图，看英格兰、苏格兰、威尔士、北爱尔兰四个构成国的人口、面积、首府与权力下放状况；可在「人口 / 面积」之间切换着色，还能展开 183 个二级行政区看最基层的地方政府。边界数据来自 GADM 4.1。
 link: /maps/uk-regions
 order: 15

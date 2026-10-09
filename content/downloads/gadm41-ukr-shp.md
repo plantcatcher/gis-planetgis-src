@@ -13,16 +13,14 @@ trigger: GADM乌克兰
 keywordAliases: 乌克兰行政区划, 乌克兰SHP, 乌克兰行政区shp
 code: NSH-GIS-025
 download: https://downloads.planetgis.cn/GIS/gadm41_UKR_shp.zip
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-gadm41-ukr-shp-cover.jpg
 format: SHP（ZIP 压缩包）
 size: 3.1 MB
 ---
 
 > 本数据集为 GADM（Global Administrative Areas）v4.1 的**乌克兰**部分，**3 个行政层级**、15 个文件，压缩包约 **3.1 MB（3,230,416 字节）**，体量轻、加载快。一级单位带西里尔文原名（`NL_NAME_1`，如 `Черкаська`），适合做地名转写对照；同时需特别注意其**区级结构是 2020 年行政区划改革前的旧口径**（详见「已知数据瑕疵」）。本文所有数字均经 Python 逐要素实算（含环数、顶点数），非官方文档转述。
 
-![hp_1](/shots/gadm41-ukr-shp/hp_1.jpg)
 
-![hp_2](/shots/gadm41-ukr-shp/hp_2.jpg)
 
 ## 数据内容
 

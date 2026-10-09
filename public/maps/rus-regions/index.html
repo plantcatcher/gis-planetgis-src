@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>俄罗斯行政区划地图 · 83 个联邦主体的人口、面积与类型</title>
+  <meta name="description" content="点一下俄罗斯地图，看 83 个联邦主体（共和国、边疆区、州、自治区、直辖市）的中文名、首府、人口、面积与行政区类型。可在「人口 / 面积 / 类型」之间切换着色，还能展开 2445 个区市。边界数据来自 GADM 4.1。" />
+  <meta name="keywords" content="俄罗斯地图,俄罗斯行政区划,联邦主体,共和国,边疆区,州,首府,人口,面积,GADM" />
+  <meta name="author" content="PlanetGIS" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="/maps/_shared/regions.css" />
+  <style>
+    :root {
+      --accent: #2b5fa8; --accent-light: #2b5fa8; --accent-dark: #071426;
+      --accent-soft: #2b5fa824;
+      --panel-solid: #071426f0;
+    }
+    html, body, #map { background: #071426; }
+  </style>
+</head>
+<body>
+
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>&#8249;</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>&#9673;</i> 俄罗斯总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-eq"></i>
+      <b>俄罗斯行政区划地图</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> RUSSIA · FEDERAL SUBJECTS</small>
+      <h1><span>俄罗斯</span><b>行政区划地图</b></h1>
+      <p class="lead">世界面积最大的国家，83 个联邦主体（共和国、边疆区、州、自治区、直辖市）。点一下地图，看每个主体的<b>中文名、首府、人口、面积与类型</b>。</p>
+
+      <div class="facts">
+        <span><small>联邦主体</small><b><span class="v"><em id="fMain">83</em></span><i>个</i></b></span>
+        <span><small>区 / 市</small><b><span class="v"><em id="fSub">2445</em></span><i>个</i></b></span>
+        <span><small>总面积</small><b><span class="v"><em id="fArea">—</em></span><i id="fAreaU">万km²</i></b></span>
+        <span><small>总人口</small><b><span class="v"><em id="fPop">—</em></span><i id="fPopU"></i></b></span>
+      </div>
+
+      <section class="block">
+        <header><small>着色指标</small><small class="hint-n">切换看不同维度</small></header>
+        <div class="chips" id="metricSeg">
+          <button type="button" data-metric="pop" class="active">人口</button>
+          <button type="button" data-metric="area">面积</button>
+          <button type="button" data-metric="group">类型</button>
+        </div>
+        <p class="note" id="metricNote">按<b>人口</b>着色：莫斯科市与莫斯科州合计超过 2100 万，广袤的西伯利亚与远东则地广人稀。</p>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：联邦主体、区市边界来自 <b>GADM 4.1</b>（gadm41_RUS_shp，WGS84 / EPSG:4326，公开数据）；中文名与首府按通行译法整理，人口为 <b>2021 年俄罗斯人口普查</b>（约值），面积由几何球面实算。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/works/rus-regions" target="_top">作品介绍</a>
+        <a href="/downloads/gadm41-rus-shp" target="_top">下载源数据</a>
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </aside>
+
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">—</small>
+      <div class="dt-actions">
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtSub">—</p>
+    <div class="dt-metrics">
+      <span><small id="dtLb1">面积</small><b><em id="dtV1">—</em><i id="dtU1">km²</i></b></span>
+      <span><small id="dtLb2">类型</small><b><em id="dtV2">—</em><i id="dtU2"></i></b></span>
+      <span><small id="dtLb3">ISO</small><b><em id="dtV3">—</em><i id="dtU3"></i></b></span>
+    </div>
+    <section class="dt-desc">
+      <small id="dtDescLb">看点</small>
+      <p id="dtDesc">—</p>
+    </section>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <div class="dock">
+    <div class="legend" id="legend"></div>
+  </div>
+
+  <div class="panel" id="panel">
+    <div class="panel-head" id="panelHead">
+      <span>图层与底图</span>
+      <button type="button" id="panelToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckMuni" data-toggle-layer="sub-fill,sub-line" /><span>区 / 市</span></label>
+      <label class="row"><input type="checkbox" id="ckLabel" checked /><span>联邦主体名称</span></label>
+      <label class="row"><input type="checkbox" id="ckGraticule" /><span>经纬网格</span></label>
+      <div class="divider"></div>
+      <div class="bm-title">底图</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" checked /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>地形晕渲</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" /><span>深色</span></label>
+      </div>
+      <div class="divider"></div>
+      <p class="panel-note" id="panelNote">
+        色块按<b>人口 / 面积</b>分级（越深越大）；选「类型」则按行政区类型分类着色。选中后色块变透明、用色环勾边。勾选「区市」可看一级以下的行政边界。
+      </p>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="/maps/_shared/thematic/thematic.js"></script>
+  <script src="js/config.js"></script>
+  <script src="/maps/_shared/regions-app.js"></script>
+</body>
+</html>

@@ -16,7 +16,7 @@ author: [美] 贾雷德·戴蒙德（Jared Diamond）著；王道还、廖月娟
 publisher: 中信出版集团
 pubYear: 2022
 isbn: 978-7-5217-3681-6
-cover: /shots/qiangpao-bingchong-yugangtie/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-qiangpao-bingchong-yugangtie-cover.jpg
 ---
 
 > **[美] 贾雷德·戴蒙德（Jared Diamond）著，王道还、廖月娟 译；中信出版集团；ISBN 978-7-5217-3681-6；据 2017 年英文二十周年纪念版译出。**
@@ -74,11 +74,11 @@ cover: /shots/qiangpao-bingchong-yugangtie/cover.jpg
 ## 内页速览
 
 <div class="shot-grid">
-<img src="/shots/qiangpao-bingchong-yugangtie/cover.jpg" alt="封面" />
-<img src="/shots/qiangpao-bingchong-yugangtie/p1.jpg" alt="内页1" />
-<img src="/shots/qiangpao-bingchong-yugangtie/p2.jpg" alt="内页2" />
-<img src="/shots/qiangpao-bingchong-yugangtie/p3.jpg" alt="内页3" />
-<img src="/shots/qiangpao-bingchong-yugangtie/p4.jpg" alt="内页4" />
-<img src="/shots/qiangpao-bingchong-yugangtie/p5.jpg" alt="内页5" />
-<img src="/shots/qiangpao-bingchong-yugangtie/p6.jpg" alt="内页6" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-qiangpao-bingchong-yugangtie-cover.jpg" alt="封面" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-qiangpao-bingchong-yugangtie-p1.jpg" alt="内页1" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-qiangpao-bingchong-yugangtie-p2.jpg" alt="内页2" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-qiangpao-bingchong-yugangtie-p3.jpg" alt="内页3" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-qiangpao-bingchong-yugangtie-p4.jpg" alt="内页4" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-qiangpao-bingchong-yugangtie-p5.jpg" alt="内页5" />
+<img src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-qiangpao-bingchong-yugangtie-p6.jpg" alt="内页6" />
 </div>

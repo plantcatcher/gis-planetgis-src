@@ -2,7 +2,7 @@
 
 slug: cn-yangtze
 title: 万里长江 · 一江八脉
-cover: /maps/cn-yangtze/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-cn-yangtze-cover.jpg
 summary: 把长江干流和八条最重要的一级支流并置在同一张图上——点任意一条，看它的河长、上游汇水面积与估算流量；「八脉对照」可以按长度、汇水、流量切换排序，一眼看出哪条河更长、哪条河养的人更多、哪条河流量最大。
 link: /maps/cn-yangtze
 order: 5

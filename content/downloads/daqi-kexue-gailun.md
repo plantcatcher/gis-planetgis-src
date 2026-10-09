@@ -3,7 +3,7 @@ slug: daqi-kexue-gailun
 title: 大气科学概论（徐玉貌、刘红年、徐桂玉 编著）
 summary: 南京大学大气科学系本科生主干课教材，徐玉貌、刘红年、徐桂玉编著，南京大学出版社 2000 年 2 月第 1 版。在分析国内外同类教材优缺点的基础上，系统而全面地介绍大气科学的概貌，使学生掌握大气科学的基础知识和基本理论，为后续课程打下坚实基础，并对未来发展趋势有一定了解。可作高等院校大气科学本科各专业通用的基础教材。
 date: 2026-09-04
-cover: /shots/daqi-kexue-gailun/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-daqi-kexue-gailun-cover.jpg
 category: 自然地理
 tags: 大气科学概论, 大气科学, 气象学, 气候学, 徐玉貌, 南京大学, 南京大学出版社, 大气物理, 大气化学, 自然地理
 access: gated
@@ -65,11 +65,11 @@ isbn: 7305034967
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/daqi-kexue-gailun/cover.jpg" />
-<img alt="内页 1" src="/shots/daqi-kexue-gailun/p1.jpg" />
-<img alt="内页 2" src="/shots/daqi-kexue-gailun/p2.jpg" />
-<img alt="内页 3" src="/shots/daqi-kexue-gailun/p3.jpg" />
-<img alt="内页 4" src="/shots/daqi-kexue-gailun/p4.jpg" />
-<img alt="内页 5" src="/shots/daqi-kexue-gailun/p5.jpg" />
-<img alt="内页 6" src="/shots/daqi-kexue-gailun/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-daqi-kexue-gailun-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-daqi-kexue-gailun-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-daqi-kexue-gailun-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-daqi-kexue-gailun-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-daqi-kexue-gailun-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-daqi-kexue-gailun-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-daqi-kexue-gailun-p6.jpg" />
 </div>

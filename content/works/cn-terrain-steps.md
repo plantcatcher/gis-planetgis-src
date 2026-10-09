@@ -2,7 +2,7 @@
 
 slug: cn-terrain-steps
 title: 中国地势三级阶梯 · 西高东低
-cover: /maps/cn-terrain-steps/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-vizmap-cn-terrain-steps-cover.jpg
 summary: 青藏高原、高原盆地、东部平原——把中国的地貌按海拔切成三级台阶放在一张图上。点任意一级，看它的海拔区间、大致面积与代表地形；底图默认是压暗的卫星影像，台阶边界和真实山地走向怎么对上一眼就能看清。
 link: /maps/cn-terrain-steps
 order: 6

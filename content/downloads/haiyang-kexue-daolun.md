@@ -12,7 +12,7 @@ code: NSH-HY-002
 download: https://downloads.planetgis.cn/book/haiyang-kexue-daolun.pdf
 format: PDF
 size: 24.2 MB
-cover: /shots/haiyang-kexue-daolun/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-haiyang-kexue-daolun-cover.jpg
 author: 冯士筰、李凤岐、李少菁 主编
 publisher: 高等教育出版社
 pubYear: 1999
@@ -56,11 +56,11 @@ isbn: 9787040072679
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/haiyang-kexue-daolun/cover.jpg" />
-<img alt="内页 1" src="/shots/haiyang-kexue-daolun/p1.jpg" />
-<img alt="内页 2" src="/shots/haiyang-kexue-daolun/p2.jpg" />
-<img alt="内页 3" src="/shots/haiyang-kexue-daolun/p3.jpg" />
-<img alt="内页 4" src="/shots/haiyang-kexue-daolun/p4.jpg" />
-<img alt="内页 5" src="/shots/haiyang-kexue-daolun/p5.jpg" />
-<img alt="内页 6" src="/shots/haiyang-kexue-daolun/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-haiyang-kexue-daolun-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-haiyang-kexue-daolun-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-haiyang-kexue-daolun-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-haiyang-kexue-daolun-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-haiyang-kexue-daolun-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-haiyang-kexue-daolun-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-haiyang-kexue-daolun-p6.jpg" />
 </div>

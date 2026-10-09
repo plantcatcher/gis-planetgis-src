@@ -12,7 +12,7 @@ code: NSH-ZR-002
 download: https://downloads.planetgis.cn/book/zhiwu-dili-xue.pdf
 format: PDF
 size: 22.9 MB
-cover: /shots/zhiwu-dili-xue/cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-zhiwu-dili-xue-cover.jpg
 author: 武吉华、张绅、江源、康慕谊、邱扬 编著
 publisher: 高等教育出版社
 pubYear: 2004
@@ -76,11 +76,11 @@ isbn: 9787040155327
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="封面" src="/shots/zhiwu-dili-xue/cover.jpg" />
-<img alt="内页 1" src="/shots/zhiwu-dili-xue/p1.jpg" />
-<img alt="内页 2" src="/shots/zhiwu-dili-xue/p2.jpg" />
-<img alt="内页 3" src="/shots/zhiwu-dili-xue/p3.jpg" />
-<img alt="内页 4" src="/shots/zhiwu-dili-xue/p4.jpg" />
-<img alt="内页 5" src="/shots/zhiwu-dili-xue/p5.jpg" />
-<img alt="内页 6" src="/shots/zhiwu-dili-xue/p6.jpg" />
+<img alt="封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-zhiwu-dili-xue-cover.jpg" />
+<img alt="内页 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-zhiwu-dili-xue-p1.jpg" />
+<img alt="内页 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-zhiwu-dili-xue-p2.jpg" />
+<img alt="内页 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-zhiwu-dili-xue-p3.jpg" />
+<img alt="内页 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-zhiwu-dili-xue-p4.jpg" />
+<img alt="内页 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-zhiwu-dili-xue-p5.jpg" />
+<img alt="内页 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-09-dl-zhiwu-dili-xue-p6.jpg" />
 </div>

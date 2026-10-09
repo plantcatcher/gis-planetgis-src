@@ -15,7 +15,7 @@ keywordAliases: 中国DEM地形, 陆地DEM高程
 code: NSH-DEM-002
 download: https://pan.baidu.com/s/15RwTIO8_HeToI5FudLj23w?pwd=r79b
 panCode: r79b
-cover: /covers/geo-data-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-09-geo-data-cover.jpg
 format: 栅格 DEM（ZIP 压缩包）
 size: 85.75 MB
 home: true
