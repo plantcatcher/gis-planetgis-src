@@ -78,6 +78,10 @@ const vite = await createServer({
 try {
   const routes = await collectRoutes(vite);
   const today = new Date().toISOString().slice(0, 10);
+  // 内容页用 frontmatter 里的真实 date；取不到（或静态路由）才回退到构建当天。
+  // 全站统一填构建日期是失真信号，会让搜索引擎忽略 lastmod 字段。
+  const { getDetailLastmodMap } = await vite.ssrLoadModule('/src/lib/content.ts');
+  const lastmodMap = getDetailLastmodMap();
   const entries = [];
 
   for (const u of routes) {
@@ -101,8 +105,10 @@ try {
       u.startsWith('/tools/') ||
       u.startsWith('/learn/');
     const priority = isDetail ? 0.7 : (STATIC_PRIORITY[u] ?? 0.6);
+    const lastmod = lastmodMap[u] || today;
+    const changefreq = isDetail ? 'monthly' : 'weekly';
     entries.push(
-      `  <url>\n    <loc>${SITE}${u}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>${priority.toFixed(1)}</priority>\n  </url>`,
+      `  <url>\n    <loc>${SITE}${u}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority.toFixed(1)}</priority>\n  </url>`,
     );
   }
 

@@ -47,7 +47,8 @@ const argv = process.argv.slice(2);
 const DRY = argv.includes('--dry') || argv.includes('--dry-run');
 const ALL = argv.includes('--all');
 const limitArg = argv.find((a) => a.startsWith('--limit='));
-const DEFAULT_LIMIT = 50;
+// 实测（2026-10-10）本站百度日配额仅 10 条/天，默认推 8 条留余量
+const DEFAULT_LIMIT = 8;
 const LIMIT = limitArg ? Number.parseInt(limitArg.split('=')[1], 10) : (ALL ? 0 : DEFAULT_LIMIT);
 const explicit = argv.filter((a) => !a.startsWith('--'));
 
@@ -90,9 +91,25 @@ if (candidates.length === 0) {
 }
 
 const history = loadHistory();
+
+// ⚠️ CI（Cloudflare Pages）每次构建都是全新容器，scripts/_cache 里的历史文件根本存不住，
+//    若照旧「取未推过的前 N 条」，每次都会拿到同样的开头几条，存量永远消化不完。
+//    因此在无持久化环境里改用**按日期轮转**：以 UTC 天数为游标，每天取不同的一段，
+//    确定性、无需任何存储；357 条 ÷ 8 条/天 ≈ 45 天轮完一圈。
+const CI = process.env.CI === 'true' || process.env.CF_PAGES === '1';
+
 let pending;
 if (explicit.length || ALL) {
   pending = candidates;
+} else if (CI || !existsSync(HISTORY)) {
+  const day = Math.floor(Date.now() / 86400000);
+  const stride = LIMIT > 0 ? LIMIT : DEFAULT_LIMIT;
+  const start = (day * stride) % candidates.length;
+  const take = Math.min(stride, candidates.length);
+  pending = Array.from({ length: take }, (_, i) => candidates[(start + i) % candidates.length]);
+  console.log(
+    `[baidu-push] 无持久化环境，按日期轮转：sitemap 共 ${candidates.length} 条，本次从第 ${start + 1} 条起取 ${take} 条。`,
+  );
 } else {
   pending = candidates.filter((u) => !history.has(u));
 }
@@ -118,7 +135,10 @@ if (DRY) {
 }
 
 /* ---------- 推送 ---------- */
-const endpoint = `http://data.zz.baidu.com/urls?site=${encodeURIComponent(SITE)}&token=${TOKEN}`;
+// ⚠️ site 参数必须原样拼接、禁止 encodeURIComponent —— 实测编码后（%3A%2F%2F）
+//    百度会返回 400 {"error":400,"message":"site init fail"}。
+//    以百度后台「API提交」页显示的接口地址写法为准：site=https://planetgis.cn
+const endpoint = `http://data.zz.baidu.com/urls?site=${SITE}&token=${TOKEN}`;
 
 try {
   const controller = new AbortController();

@@ -427,6 +427,32 @@ export const getAllDetailPaths = (): string[] => {
   return paths;
 };
 
+/**
+ * 供 gen-sitemap.mjs 使用：路由 -> 内容真实发布日期（YYYY-MM-DD）。
+ *
+ * 之前 sitemap 的 <lastmod> 一律填构建当天，等于告诉搜索引擎「全站每天都在更新」，
+ * 是失真信号（Google 发现 lastmod 不可信后会直接忽略该字段）。改成真实日期后，
+ * 搜索引擎才能据此安排抓取优先级：新内容优先抓，老内容降低频次。
+ */
+export const getDetailLastmodMap = (): Record<string, string> => {
+  const map: Record<string, string> = {};
+  for (const it of items) {
+    const base =
+      it.type === 'work'
+        ? 'works'
+        : it.type === 'tool'
+          ? 'tools'
+          : it.type === 'learn'
+            ? 'learn'
+            : it.type === 'resource'
+              ? 'downloads'
+              : 'articles';
+    const d = (it.date || '').slice(0, 10);
+    if (/^\d{4}-\d{2}-\d{2}$/.test(d)) map[`/${base}/${it.slug}`] = d;
+  }
+  return map;
+};
+
 // 标签聚合：返回所有标签及其出现次数（降序），用于「地理」等专题落地页与 sitemap。
 export interface TagCount {
   tag: string;

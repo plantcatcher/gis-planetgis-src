@@ -41,10 +41,15 @@ export function render(url: string): { html: string; head: string } {
     h.image ? `<meta property="og:image" content="${escapeAttr(h.image)}" />` : '',
     h.type ? `<meta property="og:type" content="${escapeAttr(h.type)}" />` : '',
     '<meta property="og:site_name" content="星球小捕手" />',
+    // ⚠️ twitter:card 是必填项：没有它，twitter:title/description/image 全部无效。
+    // 之前 SSG 输出漏了这一行（客户端 seo.tsx 有，但搜索引擎抓的是 SSG HTML），
+    // 导致全站 100% 缺 twitter:card。
+    '<meta name="twitter:card" content="summary_large_image" />',
     h.title ? `<meta name="twitter:title" content="${escapeHtml(h.title)}" />` : '',
     h.description
       ? `<meta name="twitter:description" content="${escapeHtml(h.description)}" />`
       : '',
+    h.image ? `<meta name="twitter:image" content="${escapeAttr(h.image)}" />` : '',
   ]
     .filter(Boolean)
     .join('\n    ');
