@@ -44,6 +44,11 @@ for (const file of files) {
   // 404 页不参与 canonical / 正文校验
   if (rel === '404.html') continue;
 
+  // 搜索引擎「文件验证」用的根级校验文件（如头条 ByteDanceVerify.html）内容只有一行验证码，
+  // 不是页面，天然没有 title/description/canonical/#root，必须豁免，否则构建直接失败。
+  // ⚠️ 未来新增任何验证文件（百度 baidu_verify_*.html、360、搜狗等）都要加进这个集合。
+  if (/^(ByteDanceVerify|baidu_verify_[a-z0-9]+|sogou_verify|so\.com_verify|360_verify)\.html$/i.test(rel)) continue;
+
   // 游戏内嵌静态资源（public/geoquiz|geoshape|geotype|chinapuzzle 复制而来）与游戏壳页
   // 不是主站 React 路由，其结构（无 #root、canonical 指向子域、正文为游戏自身）
   // 不应参与主站 SEO 校验，否则会误报并使构建失败。
