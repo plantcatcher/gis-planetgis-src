@@ -95,7 +95,9 @@ const fitInfo = await send('Runtime.evaluate', {
     var m = app.map;
     /* 封面是 16:9 宽幅，整框往往需要比页面 minZoom 更小的级别，这里临时放开 */
     try { m.setMinZoom(0.8); } catch (e) {}
-    if (app.fitAll) app.fitAll({ padding: ${JSON.stringify(PAD)}, animate: false });
+    /* thematic 的 fitBounds 默认 maxZoom=9，小国（新加坡/以色列）会被压小 ——
+       MAXZ 提高上限让国家撑满画面；大国自然用不到，不受影响 */
+    if (app.fitAll) app.fitAll({ padding: ${JSON.stringify(PAD)}, animate: false, maxZoom: ${process.env.MAXZ || 9} });
     else m.fitBounds(m.getBounds(), { padding: ${JSON.stringify(PAD)}, duration: 0 });
     var r = document.getElementById('map').getBoundingClientRect();
     return { ok:true, z:+m.getZoom().toFixed(3),
@@ -105,7 +107,8 @@ const fitInfo = await send('Runtime.evaluate', {
   })()`
 });
 console.log('FIT ' + JSON.stringify(fitInfo.result.value));
-await sleep(1200);
+/* fit 会改变视口 → 触发新瓦片请求；等底图（尤其卫星影像）真正加载再截图，否则背景是纯底色 */
+await sleep(Number(process.env.WAIT2 || 1200));
 
 /* 不同代际的专题图 UI class 完全不同：
    -新代（引 _shared/thematic）：.intro / .detail / .dock / .panel

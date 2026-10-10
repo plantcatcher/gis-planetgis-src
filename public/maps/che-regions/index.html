@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>瑞士行政区划地图 · 26 个州 / 半州的人口、面积与类型</title>
+  <meta name="description" content="点一下瑞士地图，看 26 个州 / 半州的中文名、首府、人口、面积与行政区类型。可在「人口 / 面积 / 类型」之间切换着色，还能展开 169 个市镇。边界数据来自 GADM 4.1。" />
+  <meta name="keywords" content="瑞士地图,瑞士行政区划,Switzerland,人口,面积,类型,GADM,互动地图" />
+  <meta name="author" content="PlanetGIS" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="/maps/_shared/regions.css" />
+  <style>
+    :root {
+      --accent: #d42b2b; --accent-light: #d42b2b; --accent-dark: #240909;
+      --accent-soft: #d42b2b24;
+      --panel-solid: #240909f0;
+    }
+    html, body, #map { background: #240909; }
+  </style>
+</head>
+<body>
+
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>&#8249;</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>&#9673;</i> 瑞士总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-eq"></i>
+      <b>瑞士行政区划地图</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> SWITZERLAND · CANTONS</small>
+      <h1><span>瑞士</span><b>行政区划地图</b></h1>
+      <p class="lead">阿尔卑斯山中的联邦制国家，26 个州（含 6 个半州），直接民主与高度地方自治是它最独特的政治基因。点一下地图，看每个州 / 半州的<b>中文名、首府、人口、面积与行政区类型</b>。顶栏可在<b>人口 / 面积 / 类型</b>之间切换着色，颜色越深数值越大。</p>
+
+      <div class="facts">
+        <span><small>州 / 半州</small><b><span class="v"><em id="fMain">26</em></span><i>个</i></b></span>
+        <span><small>市镇</small><b><span class="v"><em id="fSub">169</em></span><i>个</i></b></span>
+        <span><small>总面积</small><b><span class="v"><em id="fArea">—</em></span><i id="fAreaU">万km²</i></b></span>
+      </div>
+
+      <section class="block">
+        <header><small>着色指标</small><small class="hint-n">切换看不同维度</small></header>
+        <div class="chips" id="metricSeg">
+          <button type="button" data-metric="pop" class="active">人口</button>
+          <button type="button" data-metric="area">面积</button>
+          <button type="button" data-metric="group">类型</button>
+        </div>
+        <p class="note" id="metricNote">按<b>人口</b>着色：苏黎世、伯尔尼、日内瓦等中部与西部州人口密集，山地州格劳宾登、瓦莱则相对稀疏。</p>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：州 / 半州、市镇边界来自 <b>GADM 4.1</b>（gadm41_CHE_shp，WGS84 / EPSG:4326，公开数据）。面积由几何球面实算（约值），行政区类型取自 GADM 的 ENGTYPE 字段，人口 / 首府 / 中文译名为人工整理（约值）。本图仅作行政边界示意，界线画法不代表任何立场。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/works/che-regions" target="_top">作品介绍</a>
+        <a href="/downloads/gadm41-che-shp" target="_top">下载源数据</a>
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </aside>
+
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">—</small>
+      <div class="dt-actions">
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtSub">—</p>
+    <div class="dt-metrics">
+      <span><small id="dtLb1">人口</small><b><em id="dtV1">—</em><i id="dtU1">人</i></b></span>
+      <span><small id="dtLb2">面积</small><b><em id="dtV2">—</em><i id="dtU2">km²</i></b></span>
+      <span><small id="dtLb3">首府</small><b><em id="dtV3">—</em><i id="dtU3"></i></b></span>
+    </div>
+    <section class="dt-desc">
+      <small id="dtDescLb">看点</small>
+      <p id="dtDesc">—</p>
+    </section>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <div class="dock">
+    <div class="legend" id="legend"></div>
+  </div>
+
+  <div class="panel" id="panel">
+    <div class="panel-head" id="panelHead">
+      <span>图层与底图</span>
+      <button type="button" id="panelToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckMuni" data-toggle-layer="sub-fill,sub-line" /><span>市镇</span></label>
+      <label class="row"><input type="checkbox" id="ckLabel" checked /><span>州 / 半州名称</span></label>
+      <label class="row"><input type="checkbox" id="ckGraticule" /><span>经纬网格</span></label>
+      <div class="divider"></div>
+      <div class="bm-title">底图</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" checked /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>地形晕渲</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" /><span>深色</span></label>
+      </div>
+      <div class="divider"></div>
+      <p class="panel-note" id="panelNote">
+        色块按<b>人口</b>分级（越深越多）；选「面积」则按面积、选「类型」按行政区类型分类着色。选中后色块变透明、用色环勾边。勾选「市镇」可看省以下的行政边界。
+      </p>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="/maps/_shared/thematic/thematic.js"></script>
+  <script src="js/config.js"></script>
+  <script src="/maps/_shared/regions-app.js"></script>
+</body>
+</html>

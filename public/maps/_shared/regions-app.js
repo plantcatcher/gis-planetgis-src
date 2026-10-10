@@ -362,7 +362,7 @@
     if (el.fPopU) el.fPopU.textContent = '万'; return (v / 1e4).toFixed(0);
   }
   function fmtArea(v) {
-    el.fAreaU.textContent = '万km²'; return (v / 1e4).toFixed(1);
+    if (el.fAreaU) el.fAreaU.textContent = '万km²'; return (v / 1e4).toFixed(1);
   }
 
   function boot() {
@@ -376,10 +376,12 @@
       S.totals.pop = S.main.reduce(function (a, f) { return a + (f.properties.pop || 0); }, 0);
       S.totals.area = S.main.reduce(function (a, f) { return a + (f.properties.area || 0); }, 0);
 
-      el.fMain.textContent = fmt(S.main.length, 0);
-      el.fSub.textContent = fmt(S.sub.length, 0);
+      /* 单级行政区国家（如新加坡 / 以色列，GADM 无二级）页面不含 fSub / fArea 等元素，
+         这里必须做空值防护，否则 boot 会中断、点击事件绑不上（表现为「面点不动」）。 */
+      if (el.fMain) el.fMain.textContent = fmt(S.main.length, 0);
+      if (el.fSub) el.fSub.textContent = fmt(S.sub.length, 0);
       if (el.fPop) el.fPop.textContent = fmtPop(S.totals.pop);
-      el.fArea.textContent = fmtArea(S.totals.area);
+      if (el.fArea) el.fArea.textContent = fmtArea(S.totals.area);
 
       computeGroupCentroids();
       recolor(S.metric);

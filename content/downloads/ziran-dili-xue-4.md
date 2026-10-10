@@ -12,7 +12,7 @@ code: NSH-ZR-001
 download: https://downloads.planetgis.cn/book/ziran-dili-xue-4.pdf
 format: PDF
 size: 46.9 MB
-cover: https://blogphoto.planetgis.cn/PicGo/2026-08-26-20260826020016156.png
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-10-zirandili.jpg
 author: 伍光和、王乃昂 等 主编
 publisher: 高等教育出版社
 pubYear: 2008
