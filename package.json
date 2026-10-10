@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && node scripts/prerender.mjs && node scripts/gen-sitemap.mjs && node scripts/check-seo.mjs && node scripts/baidu-push.mjs",
+    "push:baidu": "node scripts/baidu-push.mjs",
+    "push:indexnow": "node scripts/indexnow-push.mjs",
     "lint": "tsgo -p tsconfig.check.json; npx biome lint; .rules/check.sh;npx tailwindcss -i ./src/index.css -o /dev/null 2>&1 | grep -E '^(CssSyntaxError|Error):.*' || true;.rules/testBuild.sh"
   },
   "dependencies": {

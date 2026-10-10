@@ -34,6 +34,7 @@ function fileToUrlPath(file) {
 const files = walk(DIST);
 const errors = [];
 const warnings = [];
+let noindexCount = 0;
 
 for (const file of files) {
   const rel = relative(DIST, file).split(sep).join('/');
@@ -52,9 +53,19 @@ for (const file of files) {
   // dist/maps/<slug>.html 是只装 iframe 的全屏壳页（正文就是地图，无文字可校验）。
   if (/^maps\//.test(rel)) continue;
 
+  // noindex 页面（tag 聚合页等）不参与 canonical 校验：
+  // noindex 与 canonical 并存是互相矛盾的信号，prerender 会主动移除它们的 canonical，
+  // 所以这里反过来要求「noindex 页不得带 canonical」，而不是要求它必须存在。
+  const isNoindex = /<meta\s+name="robots"[^>]*content="[^"]*noindex/i.test(html);
+  if (isNoindex) noindexCount++;
+
   // 1) canonical 必须存在、必须是 ASCII 绝对地址、必须与自身路径一致（自引用）
   const canonical = (html.match(/rel="canonical"[^>]*href="([^"]*)"/) || [])[1];
-  if (!canonical) {
+  if (isNoindex) {
+    if (canonical) {
+      errors.push(`${rel}: noindex 页面不应带 canonical（两者是矛盾信号）`);
+    }
+  } else if (!canonical) {
     errors.push(`${rel}: 缺少 canonical`);
   } else {
     const expected = SITE + (urlPath === '/' ? '/' : urlPath);
@@ -168,7 +179,7 @@ if (existsSync(sitemapPath)) {
   console.log(`[check-seo] sitemap 条目 ${locs.length} 条`);
 }
 
-console.log(`[check-seo] 扫描 HTML ${files.length} 个`);
+console.log(`[check-seo] 扫描 HTML ${files.length} 个（其中 noindex 页面 ${noindexCount} 个，已移出 sitemap）`);
 for (const w of warnings) console.warn(`[check-seo] ! ${w}`);
 if (errors.length) {
   console.error(`[check-seo] 发现 ${errors.length} 个问题：`);

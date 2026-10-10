@@ -275,6 +275,19 @@ const LearnGrid = () => {
     <div className="lg:grid lg:grid-cols-[236px_1fr] lg:gap-8">
       {/* 左侧筛选栏 */}
       <aside className="lg:sticky lg:top-24 self-start space-y-6 mb-8 lg:mb-0">
+        {/* 搜索框：与资料下载页一致，放在左侧筛选栏顶部 */}
+        <div>
+          <SectionLabel className="mb-3">搜索</SectionLabel>
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="知识点 / 正文关键词…"
+              className="pl-9 rounded-full text-xs"
+            />
+          </div>
+        </div>
         <div>
           <SectionLabel className="mb-3">学科方向</SectionLabel>
           <div className="space-y-1">
@@ -352,16 +365,6 @@ const LearnGrid = () => {
 
       {/* 主区 */}
       <div>
-        <div className="relative mb-4 max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="搜索地理知识点、正文关键词…"
-            className="pl-9 rounded-full"
-          />
-        </div>
-
         {activeTags.length > 0 && (
           <div className="flex flex-wrap items-center gap-2 mb-4">
             <span className="text-xs text-muted-foreground">已选标签：</span>

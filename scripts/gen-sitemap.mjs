@@ -1,5 +1,8 @@
-// 构建期自动生成 sitemap.xml 到 dist/，覆盖所有静态路由、内容详情页、标签专题页，
+// 构建期自动生成 sitemap.xml 到 dist/，覆盖所有静态路由、内容详情页，
 // 以及互动地图小网站自带的**馆情介绍页 / 目录页**。
+// ⚠️ 标签专题页 /tag/* 已不再收录：它们是薄内容且与其他页面高度重复，
+//    曾占全站 1207 条中的 858 条（71%），吃掉抓取配额、拉低整站质量信号。
+//    prerender 会对它们输出 noindex, follow，本脚本同步将其排除出 sitemap。
 // 路由清单与 prerender.mjs 共用 scripts/site-routes.mjs，保证 sitemap 里的每条 URL
 // 在 dist 里都有对应的静态产物（不会指向 404 或 3xx）。
 //
@@ -88,11 +91,15 @@ try {
     // 是地图小网站自己的内容页（有实质正文），由 collectMapContentPages()单独收录。
     if (u.startsWith('/maps/')) continue;
 
+    // tag 聚合页已由 prerender 输出 noindex, follow（薄内容 + 与文章页高度重复，
+    // 曾占全站 1207 条中的 858 条）。noindex 的页面绝不能再出现在 sitemap 里，
+    // 否则是互相矛盾的信号；保留页面本身供站内导航使用。
+    if (u.startsWith('/tag/')) continue;
+
     const isDetail =
       u.startsWith('/works/') ||
       u.startsWith('/tools/') ||
-      u.startsWith('/learn/') ||
-      u.startsWith('/tag/');
+      u.startsWith('/learn/');
     const priority = isDetail ? 0.7 : (STATIC_PRIORITY[u] ?? 0.6);
     entries.push(
       `  <url>\n    <loc>${SITE}${u}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>${priority.toFixed(1)}</priority>\n  </url>`,

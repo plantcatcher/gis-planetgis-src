@@ -64,7 +64,11 @@ try {
   for (const url of routes) {
     try {
       const rendered = await render(url);
-      const out = buildHtml(template, rendered);
+      // tag 聚合页属薄内容：正文仅数百~两千字，且与所属文章高度重合，
+      // 全站 858 条曾占 sitemap 的 71%，会吃掉抓取配额、拉低整站质量信号。
+      // 站内导航照常链接这些页，只是对搜索引擎输出 noindex, follow 并移出 sitemap。
+      const isTagPage = url.startsWith('/tag/');
+      const out = buildHtml(template, rendered, { noindex: isTagPage });
       const file = routeToFile(DIST, url);
       mkdirSync(dirname(file), { recursive: true });
       writeFileSync(file, out, 'utf-8');

@@ -28,6 +28,7 @@ build_*.log
 .workbuddy/
 
 # Agent 临时产物（下划线开头，但按名精确列出）
+/_gadm_six_stats.json
 # 注意：_pdfmeta/ 与 _retired/ 是**已跟踪的正式内容**（PDF 元数据抽取产物、
 # 已下线文章存档），故意不在此列，切勿用 `/_*` 一刀切。
 /_g/

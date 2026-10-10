@@ -15,7 +15,7 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { PageViewCount } from '@/lib/busuanzi';
 import FactBox from '@/components/knowledge/FactBox';
 import SeeAlso from '@/components/knowledge/SeeAlso';
-import { buildInfobox, getSeeAlso, getReadingTime, getWordCount } from '@/lib/knowledge';
+import { buildInfobox, getSeeAlso, getReadingTime, getWordCount, getRelatedInBoard } from '@/lib/knowledge';
 
 interface Props {
   type: ContentType;
@@ -146,7 +146,9 @@ const SeriesFooterBlock: React.FC<{
   /** 详情页所在路由前缀：tool→tools，map/game/lab→works（不能写死 /works，否则工具页互链 404） */
   base: string;
 }> = ({ cfg, item, siblings, prev, next, base }) => {
-  const others = siblings.filter((s) => s.slug !== item.slug).slice(0, 4);
+  // 相关推荐按「主题 → 地域范围 → 标签 → 标题词面」的相关度打分排序，
+  // 不再取同系列前 N 个（那样每页推荐几乎一样）。
+  const others = getRelatedInBoard(item, siblings, 4);
   return (
     <>
       {others.length > 0 && (
@@ -166,6 +168,11 @@ const SeriesFooterBlock: React.FC<{
                   >
                     {r.title}
                   </Link>
+                  {r.topics && r.topics[0] && (
+                    <span className="ml-2 px-1.5 py-0.5 rounded text-[11px] bg-muted text-muted-foreground align-middle">
+                      {r.topics[0]}
+                    </span>
+                  )}
                   {r.summary && (
                     <span className="text-muted-foreground">：{r.summary}</span>
                   )}
