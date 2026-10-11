@@ -390,7 +390,7 @@ const ResourceDetail: React.FC = () => {
                       <ol className="text-sm text-muted-foreground leading-relaxed space-y-1 list-decimal list-inside flex-1 min-w-0">
                         <li>微信搜索并关注公众号 <span className="font-semibold text-foreground">【{WECHAT_OFFICIAL}】</span></li>
                         <li>向公众号后台发送以下任一关键词即可领取验证码（发送{' '}
-                          {[item.trigger || item.title, ...(item.keywordAliases || [])].map((kw, i) => (
+                          {[...new Set([item.trigger || item.title, ...(item.keywordAliases || [])])].map((kw, i) => (
                             <span key={`${i}-${kw}`}>
                               {i > 0 && ' 或 '}
                               <span className="font-semibold text-foreground">{kw}</span>

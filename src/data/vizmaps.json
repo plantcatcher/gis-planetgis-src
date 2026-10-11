@@ -1072,6 +1072,167 @@
         "desc": "929 个二级区划边界，可作为叠加图层查看最基层行政区划；属性含所属一级中文名"
       }
     ]
+  },
+  {
+    "slug": "eth-regions",
+    "entry": "/maps/eth-regions/index.html",
+    "bbox": [33.22, 3.65, 43.1, 14.6],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_ETH_shp，WGS84 / EPSG:4326，公开数据）：11 个一级行政区（埃塞俄比亚）边界 + 79 个二级区划。中文名 / 首府 / 人口为人工整理近似值；面积由几何球面实算。",
+    "updated": "2026-10-11",
+    "data": [
+      {
+        "file": "maps/eth-regions/data/provinces.geojson",
+        "features": 11,
+        "unit": "个一级行政区",
+        "desc": "11 个一级行政区边界；属性含中文名 / 英文名 / 首府 / 人口 / 几何实算面积 / 行政区类型"
+      },
+      {
+        "file": "maps/eth-regions/data/districts.geojson",
+        "features": 79,
+        "unit": "个二级区划",
+        "desc": "79 个二级区划边界，可作为叠加图层查看最基层行政区划；属性含所属一级中文名"
+      }
+    ]
+  },
+  {
+    "slug": "irn-regions",
+    "entry": "/maps/irn-regions/index.html",
+    "bbox": [44.34, 25.37, 61.83, 39.29],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_IRN_shp，WGS84 / EPSG:4326，公开数据）：31 个一级行政区（伊朗）边界 + 267 个二级区划。中文名 / 首府 / 人口为人工整理近似值；面积由几何球面实算。",
+    "updated": "2026-10-11",
+    "data": [
+      {
+        "file": "maps/irn-regions/data/provinces.geojson",
+        "features": 31,
+        "unit": "个一级行政区",
+        "desc": "31 个一级行政区边界；属性含中文名 / 英文名 / 首府 / 人口 / 几何实算面积 / 行政区类型"
+      },
+      {
+        "file": "maps/irn-regions/data/districts.geojson",
+        "features": 267,
+        "unit": "个二级区划",
+        "desc": "267 个二级区划边界，可作为叠加图层查看最基层行政区划；属性含所属一级中文名"
+      }
+    ]
+  },
+  {
+    "slug": "irq-regions",
+    "entry": "/maps/irq-regions/index.html",
+    "bbox": [40.03, 29.48, 48.17, 37.32],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_IRQ_shp，WGS84 / EPSG:4326，公开数据）：18 个一级行政区（伊拉克）边界 + 102 个二级区划。中文名 / 首府 / 人口为人工整理近似值；面积由几何球面实算。",
+    "updated": "2026-10-11",
+    "data": [
+      {
+        "file": "maps/irq-regions/data/provinces.geojson",
+        "features": 18,
+        "unit": "个一级行政区",
+        "desc": "18 个一级行政区边界；属性含中文名 / 英文名 / 首府 / 人口 / 几何实算面积 / 行政区类型"
+      },
+      {
+        "file": "maps/irq-regions/data/districts.geojson",
+        "features": 102,
+        "unit": "个二级区划",
+        "desc": "102 个二级区划边界，可作为叠加图层查看最基层行政区划；属性含所属一级中文名"
+      }
+    ]
+  },
+  {
+    "slug": "kaz-regions",
+    "entry": "/maps/kaz-regions/index.html",
+    "bbox": [47.41, 41.25, 86.24, 54.88],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_KAZ_shp，WGS84 / EPSG:4326，公开数据）：14 个一级行政区（哈萨克斯坦）边界 + 174 个二级区划。中文名 / 首府 / 人口为人工整理近似值；面积由几何球面实算。",
+    "updated": "2026-10-11",
+    "data": [
+      {
+        "file": "maps/kaz-regions/data/provinces.geojson",
+        "features": 14,
+        "unit": "个一级行政区",
+        "desc": "14 个一级行政区边界；属性含中文名 / 英文名 / 首府 / 人口 / 几何实算面积 / 行政区类型"
+      },
+      {
+        "file": "maps/kaz-regions/data/districts.geojson",
+        "features": 174,
+        "unit": "个二级区划",
+        "desc": "174 个二级区划边界，可作为叠加图层查看最基层行政区划；属性含所属一级中文名"
+      }
+    ]
+  },
+  {
+    "slug": "mys-regions",
+    "entry": "/maps/mys-regions/index.html",
+    "bbox": [99.83, 1.02, 118.87, 7.22],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_MYS_shp，WGS84 / EPSG:4326，公开数据）：16 个一级行政区（马来西亚）边界 + 144 个二级区划。中文名 / 首府 / 人口为人工整理近似值；面积由几何球面实算。",
+    "updated": "2026-10-11",
+    "data": [
+      {
+        "file": "maps/mys-regions/data/provinces.geojson",
+        "features": 16,
+        "unit": "个一级行政区",
+        "desc": "16 个一级行政区边界；属性含中文名 / 英文名 / 首府 / 人口 / 几何实算面积 / 行政区类型"
+      },
+      {
+        "file": "maps/mys-regions/data/districts.geojson",
+        "features": 144,
+        "unit": "个二级区划",
+        "desc": "144 个二级区划边界，可作为叠加图层查看最基层行政区划；属性含所属一级中文名"
+      }
+    ]
+  },
+  {
+    "slug": "nga-regions",
+    "entry": "/maps/nga-regions/index.html",
+    "bbox": [2.78, 4.35, 14.17, 13.41],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_NGA_shp，WGS84 / EPSG:4326，公开数据）：37 个一级行政区（尼日利亚）边界 + 774 个二级区划。中文名 / 首府 / 人口为人工整理近似值；面积由几何球面实算。",
+    "updated": "2026-10-11",
+    "data": [
+      {
+        "file": "maps/nga-regions/data/provinces.geojson",
+        "features": 37,
+        "unit": "个一级行政区",
+        "desc": "37 个一级行政区边界；属性含中文名 / 英文名 / 首府 / 人口 / 几何实算面积 / 行政区类型"
+      },
+      {
+        "file": "maps/nga-regions/data/districts.geojson",
+        "features": 774,
+        "unit": "个二级区划",
+        "desc": "774 个二级区划边界，可作为叠加图层查看最基层行政区划；属性含所属一级中文名"
+      }
+    ]
+  },
+  {
+    "slug": "pak-regions",
+    "entry": "/maps/pak-regions/index.html",
+    "bbox": [61.69, 23.81, 76.68, 36.9],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_PAK_shp，WGS84 / EPSG:4326，公开数据）：8 个一级行政区（巴基斯坦）边界 + 32 个二级区划。中文名 / 首府 / 人口为人工整理近似值；面积由几何球面实算。",
+    "updated": "2026-10-11",
+    "data": [
+      {
+        "file": "maps/pak-regions/data/provinces.geojson",
+        "features": 8,
+        "unit": "个一级行政区",
+        "desc": "8 个一级行政区边界；属性含中文名 / 英文名 / 首府 / 人口 / 几何实算面积 / 行政区类型"
+      },
+      {
+        "file": "maps/pak-regions/data/districts.geojson",
+        "features": 32,
+        "unit": "个二级区划",
+        "desc": "32 个二级区划边界，可作为叠加图层查看最基层行政区划；属性含所属一级中文名"
+      }
+    ]
   }
 ]
 }

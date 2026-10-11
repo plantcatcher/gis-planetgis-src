@@ -771,6 +771,20 @@ def process(cc, m):
     # 写 geojson
     p1 = os.path.join(out_dir, "provinces.geojson")
     p2 = os.path.join(out_dir, "districts.geojson")
+    # 中方主张领土合规裁剪：阿克赛钦/喀喇昆仑走廊等中国主张领土不得出现在他国矢量内
+    try:
+        from km_claims import clip_feature_collection
+        n1 = clip_feature_collection(fc1, verbose=False, tag=f"{cc.upper()} L1")
+        n2 = clip_feature_collection(fc2, verbose=False, tag=f"{cc.upper()} L2")
+        if n1 or n2:
+            for f in fc1["features"] + fc2["features"]:
+                try:
+                    f["properties"]["area"] = feat_area_km2(f["geometry"])
+                except Exception:
+                    pass
+            print(f"  [km-claims] {cc.upper()}: L1 裁剪 {n1} / L2 裁剪 {n2} 个要素（中方主张领土合规）")
+    except ImportError:
+        print("  [warn] 未找到 km_claims（需 shapely），跳过中方主张领土裁剪")
     json.dump(fc1, open(p1, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     json.dump(fc2, open(p2, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     s1 = os.path.getsize(p1) / 1e6; s2 = os.path.getsize(p2) / 1e6
