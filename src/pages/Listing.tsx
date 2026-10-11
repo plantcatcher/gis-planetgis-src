@@ -1,10 +1,11 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ExternalLink, Compass, Globe, Search, Download, Calendar, Lock, LayoutGrid, List } from 'lucide-react';
+import { ExternalLink, Compass, Globe, Search, Calendar, LayoutGrid, List } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import CoverImage from '@/components/common/CoverImage';
+import AccessBadge from '@/components/common/AccessBadge';
 import { Input } from '@/components/ui/input';
 import {
   getWorks,
@@ -17,6 +18,7 @@ import {
   getLearnLevels,
   getTags,
   isResourceGated,
+  isResourceViewOnly,
   SUBJECT_META,
   LEARN_SUBJECTS,
   type ContentItem,
@@ -479,15 +481,7 @@ const Badges: React.FC<{ item: ContentItem }> = ({ item }) => (
         {item.format}
       </span>
     )}
-    {isResourceGated(item) ? (
-      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-500/15 text-amber-600 dark:text-amber-400">
-        <Lock className="w-3 h-3" /> 需验证码
-      </span>
-    ) : (
-      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
-        <Download className="w-3 h-3" /> 直接下载
-      </span>
-    )}
+    <AccessBadge item={item} />
   </>
 );
 
@@ -527,7 +521,7 @@ const ResourceGrid = () => {
   const [activeCategory, setActiveCategory] = useState<string>('全部');
   const [activeRegion, setActiveRegion] = useState<string>('全部');
   const [activeFormat, setActiveFormat] = useState<string>('全部');
-  const [activeAccess, setActiveAccess] = useState<'all' | 'open' | 'gated'>('all');
+  const [activeAccess, setActiveAccess] = useState<'all' | 'download' | 'view' | 'gated'>('all');
   const [view, setView] = useState<'grid' | 'list'>('list');
   const tags = useMemo(
     () => getTags().filter((t) => all.some((i) => (i.tags || []).includes(t.tag))).slice(0, 14),
@@ -572,7 +566,14 @@ const ResourceGrid = () => {
   let list: ContentItem[] = q ? searchAll(q, scope).map((h) => h.item) : scope;
   if (activeTag) list = list.filter((i) => (i.tags || []).includes(activeTag));
   if (activeAccess !== 'all') {
-    list = list.filter((i) => (activeAccess === 'gated' ? isResourceGated(i) : !isResourceGated(i)));
+    // 三态：直接下载（有文件、无门禁）/ 在线观看（仅官方在线阅读链接）/ 需验证码
+    list = list.filter((i) =>
+      activeAccess === 'gated'
+        ? isResourceGated(i)
+        : activeAccess === 'view'
+          ? isResourceViewOnly(i)
+          : !isResourceGated(i) && !isResourceViewOnly(i),
+    );
   }
 
   return (
@@ -689,9 +690,9 @@ const ResourceGrid = () => {
       <div className="lg:order-1">
         {/* 标签筛选已移至右侧栏（资料类型下方） */}
 
-        {/* 访问方式筛选：直接下载 / 需验证码 */}
+        {/* 访问方式筛选：直接下载 / 在线观看 / 需验证码 */}
         <div className="flex flex-wrap gap-2 mb-5">
-          {([['all', '全部'], ['open', '直接下载'], ['gated', '需验证码']] as const).map(([key, label]) => (
+          {([['all', '全部'], ['download', '直接下载'], ['view', '在线观看'], ['gated', '需验证码']] as const).map(([key, label]) => (
             <button
               key={key}
               type="button"
@@ -714,7 +715,8 @@ const ResourceGrid = () => {
             {activeGroup === '书籍' && activeCategory !== '全部' && ` · ${activeCategory}`}
             {activeGroup === '地理数据' && activeRegion !== '全部' && ` · ${activeRegion}`}
             {activeGroup === '地理数据' && activeFormat !== '全部' && ` · ${activeFormat}`}
-            {activeAccess === 'open' && ' · 直接下载'}
+            {activeAccess === 'download' && ' · 直接下载'}
+            {activeAccess === 'view' && ' · 在线观看'}
             {activeAccess === 'gated' && ' · 需验证码'}
             {q && ` · 含“${q}”`}
           </p>

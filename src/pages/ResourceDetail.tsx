@@ -1,9 +1,9 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Download, Lock, CheckCircle2, Calendar, ArrowRight, Tag, QrCode, FileText } from 'lucide-react';
+import { Download, Lock, CheckCircle2, Calendar, ArrowRight, Tag, QrCode, FileText, BookOpen, ExternalLink } from 'lucide-react';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import PageMeta from '@/components/common/PageMeta';
-import { getItem, getRelated, isResourceGated, type ContentItem } from '@/lib/content';
+import { getItem, getRelated, isResourceGated, isResourceViewOnly, type ContentItem } from '@/lib/content';
 import { recordDownload } from '@/services/learningService';
 import { trackResourceDownload } from '@/lib/analytics';
 import { renderMarkdown } from '@/lib/markdown';
@@ -85,17 +85,25 @@ const AltDownload: React.FC<{
 // 下载说明：一句话讲清「怎么下 + 下的是什么」。按钮只保留「下载资料」四个字，
 // 文件的格式与体积从按钮文案搬到这里的说明文字里（原来拼进按钮会出现
 // 「下载资料（SHP（ZIP 压缩包））」这种嵌套括号）。
+// mode：pan=百度网盘 / direct=本站直链 / external=第三方外链（gov 直链等）/ view=仅在线观看
 const DownloadHint: React.FC<{
   item: ContentItem;
-  viaPan: boolean;
-  hasCode: boolean;
-}> = ({ item, viaPan, hasCode }) => {
-  const what = [item.format, item.size ? `约 ${item.size}` : null].filter(Boolean).join('，');
-  const how = viaPan
-    ? hasCode
-      ? '点击「下载资料」将跳转百度网盘，粘贴提取码后即可保存'
-      : '点击「下载资料」将跳转百度网盘，按页面提示保存'
-    : '点击「下载资料」即可直接下载到本机';
+  mode: 'pan' | 'direct' | 'external' | 'view';
+}> = ({ item, mode }) => {
+  const what =
+    mode === 'view'
+      ? [item.format, item.pages].filter(Boolean).join('，')
+      : [item.format, item.size ? `约 ${item.size}` : null].filter(Boolean).join('，');
+  const how =
+    mode === 'view'
+      ? '点击「在线观看全文」将跳转官方在线阅读页，免登录逐页浏览，该平台不提供整本下载'
+      : mode === 'external'
+        ? '点击「下载标准全文」将跳转标准发布 / 主管部门的公开链接，文件由对方服务器提供'
+        : mode === 'pan'
+          ? item.panCode
+            ? '点击「下载资料」将跳转百度网盘，粘贴提取码后即可保存'
+            : '点击「下载资料」将跳转百度网盘，按页面提示保存'
+          : '点击「下载资料」即可直接下载到本机';
   return (
     <p className="text-sm leading-relaxed text-muted-foreground">
       {how}
@@ -108,12 +116,17 @@ const DownloadPanel: React.FC<{ item: ContentItem }> = ({ item }) => {
   const isBaidu =
     item.downloadType === 'baidu' ||
     /(pan\.baidu\.com|yun\.baidu\.com)/.test(item.download || '');
+  // 外链下载：下载地址指向第三方（地方自然资源主管部门 gov 直链等），本站不托管文件。
+  // 跨域链接加 download 属性无效、还可能被浏览器忽略，故外链态不带 download，交给对方响应头决定。
+  const isExternal = item.downloadType === 'external';
+  // 仅在线观看：没有下载地址，只有官方在线阅读页（如 nrsis 全文阅读）
+  const viewOnly = isResourceViewOnly(item);
 
   // 点下载按钮时统一做两件事：
   // ① 记本地下载足迹（「我的学习」页展示）
   // ② 上报 GA4 file_download（下载直链在 downloads.planetgis.cn、网盘链接在 pan.baidu.com，
   //    都是跨域，增强衡量自动记不到，只能手动发）
-  // 传 url/type 是为了让「备用渠道」也能如实统计：走网盘就记 baidu_pan，走直链就记 direct。
+  // 传 url/type 是为了让「备用渠道」「在线观看」也能如实统计。
   const logDownload = (url?: string, type?: string) => {
     recordDownload({
       slug: item.slug,
@@ -125,7 +138,7 @@ const DownloadPanel: React.FC<{ item: ContentItem }> = ({ item }) => {
     trackResourceDownload({
       slug: item.slug,
       title: item.title,
-      url: url || item.download,
+      url: url || item.download || item.viewUrl,
       format: item.format,
       size: item.size,
       category: item.category,
@@ -134,50 +147,86 @@ const DownloadPanel: React.FC<{ item: ContentItem }> = ({ item }) => {
     });
   };
 
-  // 百度网盘分享：解锁后按钮在左、提取码在右（放大突出），跳转网盘页面下载（不触发浏览器直下）
-  if (isBaidu) {
-    return (
-      <div className="space-y-3">
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+  const mode: 'pan' | 'direct' | 'external' | 'view' = viewOnly
+    ? 'view'
+    : isBaidu
+      ? 'pan'
+      : isExternal
+        ? 'external'
+        : 'direct';
+
+  return (
+    <div className="space-y-3">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
+        {viewOnly ? (
+          /* 仅在线阅读：没有下载按钮，主按钮就是「在线观看全文」（官方阅读页） */
+          <a
+            href={item.viewUrl}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => logDownload(item.viewUrl, 'view')}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-semibold hover:opacity-90 transition-opacity"
+          >
+            <BookOpen className="w-5 h-5" />
+            在线观看全文
+          </a>
+        ) : (
           <a
             href={item.download}
             target="_blank"
             rel="noreferrer"
+            {...(isBaidu || isExternal ? {} : { download: true })}
             onClick={() => logDownload()}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-semibold hover:opacity-90 transition-opacity"
-            style={{ backgroundColor: '#4e6ef2' }}
+            style={isBaidu ? { backgroundColor: '#4e6ef2' } : undefined}
+            className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity ${
+              isBaidu ? 'text-white' : 'bg-primary text-white'
+            }`}
           >
             <Download className="w-5 h-5" />
-            下载资料
+            {isExternal ? '下载标准全文' : '下载资料'}
           </a>
-          {item.panCode && (
-            <div className="flex items-baseline gap-2 rounded-lg bg-primary/10 px-3 py-1.5">
-              <span className="text-sm text-muted-foreground">提取码</span>
-              <span className="text-2xl font-bold font-mono tracking-widest text-primary select-all">{item.panCode}</span>
-            </div>
-          )}
-        </div>
-        <DownloadHint item={item} viaPan hasCode={!!item.panCode} />
-        <AltDownload item={item} log={logDownload} />
-      </div>
-    );
-  }
+        )}
 
-  // 直链下载：浏览器直接下载文件
-  return (
-    <div className="space-y-3">
-      <a
-        href={item.download}
-        target="_blank"
-        rel="noreferrer"
-        download
-        onClick={() => logDownload()}
-        className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-semibold hover:opacity-90 transition-opacity"
-      >
-        <Download className="w-5 h-5" />
-        下载资料
-      </a>
-      <DownloadHint item={item} viaPan={false} hasCode={false} />
+        {/* 下载 + 在线观看并存时，在线观看作为次级按钮（描边样式，不与主按钮争视觉重心） */}
+        {!viewOnly && item.viewUrl && (
+          <a
+            href={item.viewUrl}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => logDownload(item.viewUrl, 'view')}
+            className="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-primary/30 bg-primary/5 text-primary font-semibold hover:bg-primary/10 transition-colors"
+          >
+            <BookOpen className="w-5 h-5" />
+            在线观看原文
+          </a>
+        )}
+
+        {isBaidu && item.panCode && (
+          <div className="flex items-baseline gap-2 rounded-lg bg-primary/10 px-3 py-1.5">
+            <span className="text-sm text-muted-foreground">提取码</span>
+            <span className="text-2xl font-bold font-mono tracking-widest text-primary select-all">{item.panCode}</span>
+          </div>
+        )}
+      </div>
+
+      <DownloadHint item={item} mode={mode} />
+
+      {/* 官方入口兜底：外链长期可能失效时，给读者一个权威回源入口 */}
+      {item.officialUrl && (
+        <p className="text-xs leading-relaxed text-muted-foreground">
+          官方入口：{' '}
+          <a
+            href={item.officialUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1 underline underline-offset-2 hover:text-foreground"
+          >
+            {item.officialName || item.officialUrl}
+            <ExternalLink className="w-3 h-3" />
+          </a>
+        </p>
+      )}
+
       <AltDownload item={item} log={logDownload} />
     </div>
   );
@@ -276,6 +325,30 @@ const ResourceDetail: React.FC = () => {
                   <dt className="text-muted-foreground shrink-0">来源</dt>
                   <dd className="text-right">{item.source || '星球小捕手'}</dd>
                 </div>
+                {item.standardNo && (
+                  <div className="flex justify-between gap-3">
+                    <dt className="text-muted-foreground shrink-0">标准号</dt>
+                    <dd className="text-right font-mono text-xs">{item.standardNo}</dd>
+                  </div>
+                )}
+                {item.stdStatus && (
+                  <div className="flex justify-between gap-3">
+                    <dt className="text-muted-foreground shrink-0">状态</dt>
+                    <dd className="text-right">{item.stdStatus}</dd>
+                  </div>
+                )}
+                {item.stdDate && (
+                  <div className="flex justify-between gap-3">
+                    <dt className="text-muted-foreground shrink-0">发布</dt>
+                    <dd className="text-right">{item.stdDate}</dd>
+                  </div>
+                )}
+                {item.pages && (
+                  <div className="flex justify-between gap-3">
+                    <dt className="text-muted-foreground shrink-0">页数</dt>
+                    <dd className="text-right">{item.pages}</dd>
+                  </div>
+                )}
                 {item.author && (
                   <div className="flex justify-between gap-3">
                     <dt className="text-muted-foreground shrink-0">作者</dt>
@@ -314,7 +387,8 @@ const ResourceDetail: React.FC = () => {
                     <dd className="text-right">{item.format}</dd>
                   </div>
                 )}
-                {item.size && (
+                {/* 仅在线阅读类不显示文件大小，避免让人误以为可以下载整本 */}
+                {item.size && !isResourceViewOnly(item) && (
                   <div className="flex justify-between gap-3">
                     <dt className="text-muted-foreground shrink-0">大小</dt>
                     <dd className="text-right">{item.size}</dd>
@@ -455,15 +529,26 @@ const ResourceDetail: React.FC = () => {
                 )
               ) : (
                 <div>
-                  {/* 标题行：与验证码态同一节奏，右侧徽标一眼看出无需验证码 */}
-                  <div className="flex items-center gap-2 mb-5 pb-3 border-b border-border/60">
-                    <Download className="w-5 h-5 text-primary" />
-                    <h2 className="text-lg font-bold">下载资料</h2>
-                    <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-green-500/10 px-2.5 py-1 text-xs font-medium text-green-600 dark:text-green-400">
-                      <CheckCircle2 className="w-3.5 h-3.5" />
-                      无需验证码
-                    </span>
-                  </div>
+                  {/* 标题行：与验证码态同一节奏，右侧徽标一眼看出访问方式 */}
+                  {isResourceViewOnly(item) ? (
+                    <div className="flex items-center gap-2 mb-5 pb-3 border-b border-border/60">
+                      <BookOpen className="w-5 h-5 text-primary" />
+                      <h2 className="text-lg font-bold">在线阅读</h2>
+                      <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-sky-500/10 px-2.5 py-1 text-xs font-medium text-sky-600 dark:text-sky-400">
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        官方在线阅读页
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2 mb-5 pb-3 border-b border-border/60">
+                      <Download className="w-5 h-5 text-primary" />
+                      <h2 className="text-lg font-bold">下载资料</h2>
+                      <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-green-500/10 px-2.5 py-1 text-xs font-medium text-green-600 dark:text-green-400">
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        无需验证码
+                      </span>
+                    </div>
+                  )}
 
                   {/* 左：文件信息 + 下载按钮；右：公众号引导（右侧分栏后按钮不必占满整行） */}
                   <div className="flex flex-col gap-5 sm:flex-row sm:gap-6">
@@ -477,8 +562,11 @@ const ResourceDetail: React.FC = () => {
                           <p className="text-sm font-semibold leading-snug text-foreground">{item.title}</p>
                           <p className="mt-1 flex flex-wrap items-center gap-x-1.5 text-xs text-muted-foreground">
                             {item.format && <span>{item.format}</span>}
-                            {item.format && item.size && <span className="opacity-50">·</span>}
-                            {item.size && <span>{item.size}</span>}
+                            {item.format && (isResourceViewOnly(item) ? item.pages : item.size) && <span className="opacity-50">·</span>}
+                            {/* 仅在线阅读类不展示文件大小（下载不了，展示体积会误导），改展示标准页数 */}
+                            {isResourceViewOnly(item)
+                              ? item.pages && <span>{item.pages}</span>
+                              : item.size && <span>{item.size}</span>}
                             {item.source && (
                               <>
                                 <span className="opacity-50">·</span>
@@ -505,7 +593,9 @@ const ResourceDetail: React.FC = () => {
                         />
                       )}
                       <p className="text-xs leading-relaxed text-muted-foreground">
-                        这份资料对你有帮助？长按或扫码关注【{WECHAT_OFFICIAL}】，获取更多地理标准与数据更新。
+                        {isResourceViewOnly(item)
+                          ? `本页为该标准的官方在线阅读入口，官方平台仅提供逐页在线浏览、不提供整本下载。需要更多地理标准与数据更新，长按或扫码关注【${WECHAT_OFFICIAL}】。`
+                          : `这份资料对你有帮助？长按或扫码关注【${WECHAT_OFFICIAL}】，获取更多地理标准与数据更新。`}
                       </p>
                     </div>
                   </div>
@@ -557,10 +647,12 @@ const ResourceDetail: React.FC = () => {
                       className={`absolute top-2 right-2 text-[11px] px-2 py-0.5 rounded-full font-medium ${
                         isResourceGated(r)
                           ? 'bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300'
-                          : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300'
+                          : isResourceViewOnly(r)
+                            ? 'bg-sky-100 text-sky-700 dark:bg-sky-950/50 dark:text-sky-300'
+                            : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300'
                       }`}
                     >
-                      {isResourceGated(r) ? '需验证码' : '直接下载'}
+                      {isResourceGated(r) ? '需验证码' : isResourceViewOnly(r) ? '在线观看' : '直接下载'}
                     </span>
                   </div>
                   <div className="p-2 flex flex-col gap-0.5">

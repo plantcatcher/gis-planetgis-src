@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Github, Youtube, MessageCircle, Instagram, Rss, ArrowRight, ExternalLink, Globe, Compass, Box, Share2, Calendar, Lightbulb, Newspaper, Download, Lock } from 'lucide-react';
+import { Github, Youtube, MessageCircle, Instagram, Rss, ArrowRight, ExternalLink, Globe, Compass, Box, Share2, Calendar, Lightbulb, Newspaper, Download, Lock, BookOpen } from 'lucide-react';
 import { motion } from 'framer-motion';
 import {
   getWorks,
@@ -14,10 +14,12 @@ import {
   getChangelogPlans,
   getLearnSubjects,
   isResourceGated,
+  isResourceViewOnly,
 } from '@/lib/content';
 import HomeSidebar, { useScrollSpy } from '@/components/home/HomeSidebar';
 import subdomainsData from '@/data/subdomains.json';
 import PageMeta from '@/components/common/PageMeta';
+import AccessBadge from '@/components/common/AccessBadge';
 import { useJsonLd } from '@/lib/seo';
 import KnowledgeCard from '@/components/knowledge/KnowledgeCard';
 import SectionLabel from '@/components/knowledge/SectionLabel';
@@ -517,6 +519,8 @@ const Home = () => {
                       <div className="relative w-20 sm:w-24 aspect-[3/4] overflow-hidden rounded-lg bg-gradient-to-br from-primary/15 via-primary/5 to-secondary/10 flex items-center justify-center shrink-0">
                         {isResourceGated(r) ? (
                           <Lock className="w-7 h-7 text-primary/50" />
+                        ) : isResourceViewOnly(r) ? (
+                          <BookOpen className="w-7 h-7 text-primary/50" />
                         ) : (
                           <Download className="w-7 h-7 text-primary/50" />
                         )}
@@ -534,15 +538,7 @@ const Home = () => {
                             {r.format}
                           </span>
                         )}
-                        {isResourceGated(r) ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-amber-500/15 text-amber-600 dark:text-amber-400">
-                            <Lock className="w-3 h-3" /> 需验证码
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
-                            <Download className="w-3 h-3" /> 直接下载
-                          </span>
-                        )}
+                        <AccessBadge item={r} />
                       </div>
                       <h3 className="font-serif text-base sm:text-lg font-semibold leading-snug line-clamp-1 group-hover:text-primary transition-colors">
                         {r.title}

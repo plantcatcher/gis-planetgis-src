@@ -64,8 +64,23 @@ export interface ContentItem {
   trigger?: string;
   /** 资料下载专用：公众号后台配置的额外关键词（中文别名等），与 trigger 等价，半匹配命中。逗号分隔 */
   keywordAliases?: string[];
-  /** 资料下载专用：下载方式。direct=直链下载（默认）；baidu=百度网盘（展示网盘链接+提取码） */
-  downloadType?: 'direct' | 'baidu';
+  /** 资料下载专用：下载方式。direct=本站直链（默认）；baidu=百度网盘（展示网盘链接+提取码）；
+   *  external=第三方外链（如地方自然资源主管部门 gov 直链，文件由对方服务器提供，本站不托管） */
+  downloadType?: 'direct' | 'baidu' | 'external';
+  /** 资料下载专用：在线观看地址（官方在线阅读页，如 nrsis 标准全文阅读）。有值则在下载区追加「在线观看」按钮 */
+  viewUrl?: string;
+  /** 资料下载专用：官方入口兜底链接（如 openstd 国家标准全文公开系统 / 自然资源标准化信息服务平台） */
+  officialUrl?: string;
+  /** 资料下载专用：官方入口名称，缺省则直接显示链接文本 */
+  officialName?: string;
+  /** 资料下载专用（标准规范类）：标准号，如 TD/T 1055-2019，展示在信息卡 */
+  standardNo?: string;
+  /** 资料下载专用（标准规范类）：标准状态，如「现行」「已废止（被 GB/T 42547—2023 代替）」 */
+  stdStatus?: string;
+  /** 资料下载专用（标准规范类）：发布 / 实施日期，如「2019-01-28 发布 · 2019-02-01 实施」 */
+  stdDate?: string;
+  /** 资料下载专用（标准规范类）：总页数，如 135 页 */
+  pages?: string;
   /** 资料下载专用：百度网盘提取码（downloadType=baidu 时展示） */
   panCode?: string;
   /** 资料下载专用：备用下载地址（主链接不可用时的兜底渠道，弱化展示在主下载入口下方） */
@@ -153,6 +168,13 @@ for (const [path, raw] of Object.entries(rawFiles)) {
     trigger: data.trigger,
     keywordAliases: data.keywordAliases ? data.keywordAliases.split(',').map((s) => s.trim()).filter(Boolean) : [],
     downloadType: data.downloadType as ContentItem['downloadType'],
+    viewUrl: data.viewUrl,
+    officialUrl: data.officialUrl,
+    officialName: data.officialName,
+    standardNo: data.standardNo,
+    stdStatus: data.stdStatus,
+    stdDate: data.stdDate,
+    pages: data.pages,
     panCode: data.panCode,
     downloadAlt: data.downloadAlt,
     downloadAltType: data.downloadAltType as ContentItem['downloadAltType'],
@@ -225,6 +247,14 @@ export const isResourceGated = (i: ContentItem): boolean =>
 
 /** 资料是否可直接下载（无需验证码）：地图图片等 */
 export const isResourceOpen = (i: ContentItem): boolean => !isResourceGated(i);
+
+/**
+ * 仅提供在线阅读外链、不提供整本文件下载（如 nrsis 官方在线阅读页）。
+ * 用于 /downloads 卡片徽标与「访问方式」筛选的三态区分：
+ * 需验证码（gated） / 在线观看（view-only） / 直接下载（其余 open）。
+ */
+export const isResourceViewOnly = (i: ContentItem): boolean =>
+  !isResourceGated(i) && !!i.viewUrl && !i.download;
 
 // 地理学习板块的「专题栏目」分类，按固定顺序返回，便于列表页生成筛选。
 // 注意：category 的语义是「专题栏目」（海平面模拟 / 历史地理 / 区域地理 / 地理基础），
