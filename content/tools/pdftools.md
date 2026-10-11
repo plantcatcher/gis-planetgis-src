@@ -1,7 +1,7 @@
 ---
 slug: pdftools
 title: PDF工具箱
-summary: 一站式PDF处理平台，支持PDF转换、合并、拆分、压缩、加密等多种操作，满足日常办公与文档管理的全部需求。
+summary: 一站式 PDF 在线处理平台，支持 PDF 与 Word、Excel、图片之间互相转换，以及合并、拆分、压缩、加密、加水印、页码与旋转等常用操作。所有任务在浏览器本地完成，文件不上传服务器，兼顾办公效率与文档隐私，适合处理合同、报告与扫描件。
 link: https://pdftools.planetgis.cn
 order: 5
 category: 地理小工具

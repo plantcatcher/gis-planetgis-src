@@ -226,3 +226,142 @@ export function extractHeadings(md: string): { level: number; text: string; id: 
   }
   return out;
 }
+
+export interface FaqEntry {
+  question: string;
+  answer: string;
+}
+
+/**
+ * 从正文中抽取「常见问题」章节里的问答对，供 FAQPage 结构化数据使用（GEO）。
+ *
+ * 站内约定：FAQ 章节用 `## 常见问题 FAQ` 作标题，每问答写成原生
+ * `<details><summary>Q: 问题</summary>` + 正文 + `</details>`。
+ * 目前 58 篇 works/tools 页按此格式撰写，共 180+ 组问答。
+ *
+ * @param md     文章正文（不含 frontmatter）
+ * @param maxLen 单条答案的最大字符数，超出截断。结构化数据里的答案过长无益，
+ *               搜索引擎与 AI 引擎更偏好精炼的 1~3 句；超长会被截断并加省略号。
+ */
+export function extractFaq(md: string, maxLen = 320): FaqEntry[] {
+  const lines = md.replace(/\r\n/g, '\n').split('\n');
+  const out: FaqEntry[] = [];
+  let inFaqSection = false;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+
+    // 进入/离开 FAQ 章节：遇到下一个同级或更高级标题即结束
+    const h = line.match(/^(#{1,3})\s+(.*)$/);
+    if (h) {
+      const lvl = h[1].length;
+      if (lvl <= 2 && /(FAQ|常见问题|问答)/i.test(h[2])) {
+        inFaqSection = true;
+        continue;
+      }
+      if (inFaqSection && lvl <= 2) {
+        inFaqSection = false;
+      }
+      continue;
+    }
+    if (!inFaqSection) continue;
+
+    // 匹配 <summary>Q: 问题</summary>
+    const sm = line.match(/<summary>\s*(?:Q|问)\s*[:：]\s*(.*?)\s*<\/summary>/i);
+    if (!sm) continue;
+
+    const question = sm[1].replace(/\s+/g, ' ').trim();
+    if (!question) continue;
+
+    // 收集该 <details> 内 summary 之后、</details> 之前的正文作为答案
+    const buf: string[] = [];
+    let j = i + 1;
+    while (j < lines.length && !/^\s*<\/details>/.test(lines[j])) {
+      buf.push(lines[j]);
+      j++;
+    }
+
+    // 答案做纯文本化处理：去掉 markdown 标记与内联 HTML，压成一段
+    let answer = buf
+      .join('\n')
+      .replace(/```[\s\S]*?```/g, ' ') // 代码块
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ') // 图片
+      .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1') // 链接保留文字
+      .replace(/<[^>]+>/g, ' ') // 其余内联标签
+      .replace(/^\s*[-*+]\s+/gm, '') // 列表符号
+      .replace(/^\s*>\s?/gm, '') // 引用符号
+      .replace(/[*_`#]/g, '') // 强调/代码标记
+      .replace(/&[a-z]+;/gi, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    if (!answer) continue;
+    if (answer.length > maxLen) answer = answer.slice(0, maxLen - 1).trimEnd() + '…';
+
+    out.push({ question, answer });
+    i = j;
+  }
+
+  return out;
+}
+
+/**
+ * 从正文中抽取「使用教程 / 操作步骤」章节的有序列表，供 HowTo 结构化数据使用（GEO）。
+ *
+ * 站内约定：工具页用 `## 使用教程` 作标题，正文为 `1. …` `2. …` 的有序列表。
+ * 生成式引擎在回答「怎么把 X 转成 Y」这类问题时，会优先引用带 Step 列表的页面；
+ * HowTo 正是为此设计的 schema。
+ *
+ * 只认有序列表（`1.` `2.` 或 `1、`），忽略无序列表与段落——避免把正文里
+ * 顺带提到的要点误当成操作步骤。
+ *
+ * @param md        文章正文（不含 frontmatter）
+ * @param sectionRe 匹配教程章节标题的正则，默认「使用教程 / 操作步骤 / 使用步骤 / 使用方法」
+ */
+export function extractSteps(
+  md: string,
+  sectionRe: RegExp = /(使用教程|操作步骤|使用步骤|使用说明|使用方法|如何操作)/,
+): string[] {
+  const lines = md.replace(/\r\n/g, '\n').split('\n');
+  const out: string[] = [];
+  let inSection = false;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+
+    // 章节进出：h1~h3 标题
+    const h = line.match(/^(#{1,3})\s+(.*)$/);
+    if (h) {
+      const lvl = h[1].length;
+      if (lvl <= 3 && sectionRe.test(h[2])) {
+        inSection = true;
+        continue;
+      }
+      if (inSection && lvl <= 2) {
+        // 遇到下一个二级标题（如「常见问题 FAQ」）即结束
+        inSection = false;
+      }
+      if (inSection) continue; // 章节内的三级小标题不作为步骤，跳过
+      continue;
+    }
+    if (!inSection) continue;
+
+    // 有序列表项：1.  1、  1）
+    const m = line.match(/^\s*\d+\s*[.、)]\s+(.*)$/);
+    if (!m) continue;
+
+    const step = m[1]
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+      .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/[*_`]/g, '')
+      .replace(/&[a-z]+;/gi, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    if (step) out.push(step);
+  }
+
+  // 少于 2 步的「教程」不具备 HowTo 语义（HowTo 至少需要 2 个 step），不输出
+  return out.length >= 2 ? out : [];
+}

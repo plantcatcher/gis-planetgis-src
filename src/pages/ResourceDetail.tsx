@@ -6,7 +6,7 @@ import PageMeta from '@/components/common/PageMeta';
 import { getItem, getRelated, isResourceGated, isResourceViewOnly, type ContentItem } from '@/lib/content';
 import { recordDownload } from '@/services/learningService';
 import { trackResourceDownload } from '@/lib/analytics';
-import { renderMarkdown } from '@/lib/markdown';
+import { renderMarkdown, extractFaq } from '@/lib/markdown';
 import { useJsonLd } from '@/lib/seo';
 import { useImageLightbox, ImageLightbox } from '@/components/common/ImageLightbox';
 import { PageViewCount } from '@/lib/busuanzi';
@@ -45,6 +45,64 @@ const ResourceJsonLd: React.FC<{ item: ContentItem }> = ({ item }) => {
     ...(item.size ? { contentSize: item.size } : {}),
     inLanguage: 'zh-CN',
     publisher: { '@type': 'Organization', name: '星球小捕手' },
+  });
+  return null;
+};
+
+// FAQ 结构化数据（GEO）：资料页的「常见问题」章节（原生 <details><summary>Q: …）
+// 解析为 FAQPage，供 AI 搜索引擎直接引用问答片段。
+const ResourceFaqJsonLd: React.FC<{ item: ContentItem }> = ({ item }) => {
+  const faqs = React.useMemo(() => extractFaq(item.body || ''), [item.body]);
+  if (!faqs.length) return null;
+  useJsonLd({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.question,
+      acceptedAnswer: { '@type': 'Answer', text: f.answer },
+    })),
+  });
+  return null;
+};
+
+// Dataset 结构化数据（GEO）：地理数据类资料额外输出一份 Dataset。
+//
+// 与 DataDownload 的分工：DataDownload 描述「这里有一个文件可下载」，
+// Dataset 描述「这是一份数据集」——后者才是 AI 引擎回答
+// 「全球行政区划数据在哪下载」「有没有 WGS84 的 SHP 数据」这类提问时匹配的类型，
+// 可携带 spatialCoverage / 变量说明 / 许可等语义字段。两者并存，互补不冲突。
+//
+// 仅对「地理数据」类资料输出（group=地理数据 或带 dataFormat），
+// 标准规范 / 教材书籍等不属于数据集，不输出，避免语义污染。
+const ResourceDatasetJsonLd: React.FC<{ item: ContentItem }> = ({ item }) => {
+  const isDataset = item.group === '地理数据' || !!item.dataFormat;
+  if (!isDataset) return null;
+
+  // 覆盖范围：region（国内/国外）+ 标题里的国家/区域名，拼成人类可读的地域描述
+  const coverage = [item.region, item.title].filter(Boolean).join(' · ');
+
+  useJsonLd({
+    '@context': 'https://schema.org',
+    '@type': 'Dataset',
+    name: item.title,
+    ...(item.summary ? { description: item.summary } : {}),
+    ...(coverage ? { spatialCoverage: { '@type': 'Place', name: coverage } } : {}),
+    ...(item.dataFormat ? { encodingFormat: item.dataFormat } : {}),
+    ...(item.date ? { datePublished: item.date, dateModified: item.date } : {}),
+    creator: { '@type': 'Organization', name: '星球小捕手' },
+    publisher: { '@type': 'Organization', name: '星球小捕手' },
+    inLanguage: 'zh-CN',
+    // 门禁资料同样不输出 distribution / 直链，与 DataDownload 的规则保持一致
+    ...(item.download && !isResourceGated(item)
+      ? {
+          distribution: {
+            '@type': 'DataDownload',
+            contentUrl: item.download,
+            ...(item.format ? { encodingFormat: item.format } : {}),
+          },
+        }
+      : {}),
   });
   return null;
 };
@@ -289,6 +347,8 @@ const ResourceDetail: React.FC = () => {
 
       <div className="resource-detail max-w-7xl mx-auto px-4 md:px-8 pt-4 pb-12 md:pb-16">
         <ResourceJsonLd item={item} />
+        <ResourceFaqJsonLd item={item} />
+        <ResourceDatasetJsonLd item={item} />
         <PageMeta
           title={`${item.title} - 资料下载 - 星球小捕手`}
           description={item.summary || item.title}

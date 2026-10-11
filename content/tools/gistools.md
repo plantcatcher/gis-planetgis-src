@@ -1,7 +1,7 @@
 ---
 slug: gistools
 title: GIS工具箱
-summary: 一站式GIS工具集合平台，集成坐标转换、格式转换、空间分析与地图可视化等常用功能，让地理数据处理在浏览器里就能完成。
+summary: 一站式 GIS 在线工具箱，集成坐标转换、矢量格式转换、空间分析（相交、缓冲区、面积与长度计算）、地图可视化与数据预览等常用功能，无需安装 ArcGIS 或 QGIS，在浏览器里即可完成日常地理数据处理，适合测绘、规划、遥感与地信专业的学生和从业者应急使用。
 link: https://gistools.planetgis.cn
 order: 1
 category: 地理小工具

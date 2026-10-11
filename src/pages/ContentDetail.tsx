@@ -1,9 +1,10 @@
+import React, { useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import CoverImage from '@/components/common/CoverImage';
 import { getItem, getRelated, getWorksBySeries, getTools, type ContentType, type ContentItem } from '@/lib/content';
-import { renderMarkdown, extractHeadings } from '@/lib/markdown';
+import { renderMarkdown, extractHeadings, extractFaq, extractSteps } from '@/lib/markdown';
 import { buildContentKey } from '@/services/learningService';
 import LearningTracker from '@/components/learning/LearningTracker';
 import FavoriteButton from '@/components/learning/FavoriteButton';
@@ -251,6 +252,53 @@ const ArticleJsonLd: React.FC<{ item: ContentItem; type: ContentType }> = ({ ite
   return null;
 };
 
+// FAQ 结构化数据（GEO）：把「常见问题」章节里的问答对输出为 FAQPage。
+// 生成式引擎本质在回答「问题」，问答对被引用的概率远高于普通段落——
+// 这是面向 AI 搜索引擎收益最高的结构化数据类型之一。
+// 站内 works / tools 页普遍带有 FAQ 章节（原生 <details><summary>Q: …），
+// 这里统一解析并注入，无需逐篇手写 schema。
+const FaqJsonLd: React.FC<{ item: ContentItem }> = ({ item }) => {
+  const faqs = useMemo(() => extractFaq(item.body || ''), [item.body]);
+  if (!faqs.length) return null;
+  useJsonLd({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.question,
+      acceptedAnswer: { '@type': 'Answer', text: f.answer },
+    })),
+  });
+  return null;
+};
+
+// HowTo 结构化数据（GEO）：工具页的「使用教程」有序列表 → HowTo.step。
+// 生成式引擎回答「怎么用 X 工具做 Y」时会优先引用带 Step 的页面。
+const HowToJsonLd: React.FC<{ item: ContentItem; type: ContentType }> = ({ item, type }) => {
+  // 仅工具页产出 HowTo：其正文有规范的「## 使用教程 + 有序列表」结构。
+  const steps = useMemo(
+    () => (type === 'tool' ? extractSteps(item.body || '') : []),
+    [item.body, type],
+  );
+  const canonical = `https://planetgis.cn/tools/${item.slug}`;
+  if (!steps.length) return null;
+  useJsonLd({
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: item.title,
+    ...(item.summary ? { description: item.summary } : {}),
+    ...(item.cover ? { image: [item.cover] } : {}),
+    totalTime: 'PT2M',
+    step: steps.map((text, i) => ({
+      '@type': 'HowToStep',
+      position: i + 1,
+      name: text.length > 40 ? text.slice(0, 39) + '…' : text,
+      text,
+    })),
+  });
+  return null;
+};
+
 export default function ContentDetail({ type }: Props) {
   const { slug } = useParams();
   const { lightbox, onImageClick, closeLightbox, navLightbox } = useImageLightbox();
@@ -322,6 +370,12 @@ export default function ContentDetail({ type }: Props) {
       {type === 'article' || type === 'learn' ? (
         <ArticleJsonLd item={item} type={type} />
       ) : null}
+
+      {/* 互动地图 / 小工具等带有 FAQ 章节的页面，输出 FAQPage 结构化数据 */}
+      <FaqJsonLd item={item} />
+
+      {/* 工具页的「使用教程」输出 HowTo，供 AI 引擎引用操作步骤 */}
+      <HowToJsonLd item={item} type={type} />
 
       <header className="mb-8">
         <p className="kicker mb-3">

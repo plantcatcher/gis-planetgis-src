@@ -185,6 +185,31 @@ if (existsSync(sitemapPath)) {
 }
 
 console.log(`[check-seo] 扫描 HTML ${files.length} 个（其中 noindex 页面 ${noindexCount} 个，已移出 sitemap）`);
+
+// 6) GEO 自检：llms.txt 必须存在且格式基本合规（AI 引擎的站点说明书，llmstxt.org）
+//    这是「面向 AI 搜索引擎（GEO）」的基础设施，缺失会让 AI 无法一次读懂站点结构。
+const llmsPath = join(DIST, 'llms.txt');
+if (!existsSync(llmsPath)) {
+  errors.push(`llms.txt: 不存在（GEO 基础设施缺失，AI 引擎将无法获得站点导读）`);
+} else {
+  const llms = readFileSync(llmsPath, 'utf-8');
+  if (!/^#\s+\S/m.test(llms)) {
+    errors.push(`llms.txt: 缺少 H1 站名（llmstxt.org 规范要求首行为 "# 站名"）`);
+  }
+  // 定位块：llmstxt.org 建议紧跟一个 blockquote 摘要
+  if (!/^>\s+\S/m.test(llms)) {
+    warnings.push(`llms.txt: 缺少 blockquote 摘要块（规范建议）`);
+  }
+  const linkCount = (llms.match(/^-\s+\[[^\]]+\]\(https?:\/\/[^)]+\)/gm) || []).length;
+  if (linkCount < 10) {
+    errors.push(`llms.txt: 有效链接仅 ${linkCount} 条，内容过少（应覆盖各板块代表作）`);
+  }
+  if (llms.length < 1500) {
+    warnings.push(`llms.txt: 体积偏小（${llms.length} 字节），导读信息可能不足`);
+  }
+  console.log(`[check-seo] llms.txt 校验通过：${llms.length} 字节 / ${linkCount} 条链接`);
+}
+
 for (const w of warnings) console.warn(`[check-seo] ! ${w}`);
 if (errors.length) {
   console.error(`[check-seo] 发现 ${errors.length} 个问题：`);

@@ -3,7 +3,7 @@
 slug: geo-personality
 title: 地球人格测试
 cover: https://blogphoto.planetgis.cn/PicGo/2026-08-06-geotype.png
-summary: 20 道题测出你的地球人格，像 MBTI 探索性格一样，探索你与这颗星球的关系。
+summary: 一套 20 道题的地理趣味测试。像 MBTI 一样，通过回答关于旅行、气候、地形、居住偏好与空间感知的问题，得出你与这颗星球的关系类型——是偏爱高原的开阔型，还是眷恋河流的定居型。测完给出人格标签、维度雷达图与匹配地形推荐，结果可生成图片分享，适合社交传播与地理兴趣启蒙。
 link: /geotype
 order: 5
 category: 趣味测试

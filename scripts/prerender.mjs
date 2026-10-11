@@ -68,7 +68,17 @@ try {
       // 全站 858 条曾占 sitemap 的 71%，会吃掉抓取配额、拉低整站质量信号。
       // 站内导航照常链接这些页，只是对搜索引擎输出 noindex, follow 并移出 sitemap。
       const isTagPage = url.startsWith('/tag/');
-      const out = buildHtml(template, rendered, { noindex: isTagPage });
+
+      // 互动地图全屏壳页（/maps/<slug>）：页面正文只有一张 iframe 地图，
+      // 预渲染出来是零文字的空壳，与 /works/<slug> 介绍页又是同一内容的两个 URL。
+      // 对它输出 noindex, follow，既是避免「零正文页面」的负面信号，
+      // 也是让权重集中到真正有内容的 /works/<slug>。
+      //
+      // ⚠️ 只排除壳页本身这一层：/maps/<slug>/catalog 与 /maps/<slug>/libraries/*
+      //    是地图自带的静态内容页（有实质正文的长尾落地页），必须保持可索引。
+      const isMapShell = /^\/maps\/[^/]+\/?$/.test(url);
+
+      const out = buildHtml(template, rendered, { noindex: isTagPage || isMapShell });
       const file = routeToFile(DIST, url);
       mkdirSync(dirname(file), { recursive: true });
       writeFileSync(file, out, 'utf-8');

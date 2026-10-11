@@ -23,17 +23,21 @@ export function render(url: string): { html: string; head: string } {
   const h = getSsrHead();
   const jsonLd = getSsrJsonLd();
 
+  // ⚠️ 属性值一律用 escapeAttr，不要用 escapeHtml。
+  // description / title 里常见 ASCII 双引号（如 summary 写成 教育部"面向21世纪课程教材"），
+  // escapeHtml 不转义 `"`，会导致 content="..." 在引号处提前闭合，属性值被截断成
+  // 「教育部」这样几个字——搜索引擎读到的就是残缺描述，是 meta description 偏短的根因。
   const metaTags = [
     h.title ? `<title>${escapeHtml(h.title)}</title>` : '',
     h.description
-      ? `<meta name="description" content="${escapeHtml(h.description)}" />`
+      ? `<meta name="description" content="${escapeAttr(h.description)}" />`
       : '',
     h.canonical
       ? `<link rel="canonical" href="${escapeAttr(h.canonical)}" />`
       : '',
-    h.title ? `<meta property="og:title" content="${escapeHtml(h.title)}" />` : '',
+    h.title ? `<meta property="og:title" content="${escapeAttr(h.title)}" />` : '',
     h.description
-      ? `<meta property="og:description" content="${escapeHtml(h.description)}" />`
+      ? `<meta property="og:description" content="${escapeAttr(h.description)}" />`
       : '',
     h.canonical
       ? `<meta property="og:url" content="${escapeAttr(h.canonical)}" />`
@@ -45,9 +49,9 @@ export function render(url: string): { html: string; head: string } {
     // 之前 SSG 输出漏了这一行（客户端 seo.tsx 有，但搜索引擎抓的是 SSG HTML），
     // 导致全站 100% 缺 twitter:card。
     '<meta name="twitter:card" content="summary_large_image" />',
-    h.title ? `<meta name="twitter:title" content="${escapeHtml(h.title)}" />` : '',
+    h.title ? `<meta name="twitter:title" content="${escapeAttr(h.title)}" />` : '',
     h.description
-      ? `<meta name="twitter:description" content="${escapeHtml(h.description)}" />`
+      ? `<meta name="twitter:description" content="${escapeAttr(h.description)}" />`
       : '',
     h.image ? `<meta name="twitter:image" content="${escapeAttr(h.image)}" />` : '',
   ]

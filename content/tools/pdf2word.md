@@ -1,7 +1,7 @@
 ---
 slug: pdf2word
 title: PDF转Word工具
-summary: 在线将 PDF 转换为可编辑 Word，保留原始排版与格式，支持批量转换，办公效率利器。
+summary: 在线把 PDF 转换为可编辑的 Word 文档，尽可能保留原始排版、字体、表格与图片位置，转换后可直接在 Word 或 WPS 里继续修改。支持批量上传与拖拽操作，无需注册登录，文件在浏览器本地处理不上传，适合处理论文、标书、合同等需要二次编辑的 PDF。
 link: https://pdf2word.planetgis.cn
 order: 4
 category: 地理小工具

@@ -1,4 +1,75 @@
+# robots.txt — planetgis.cn
+#
+# ⚠️ 注意：本文件可能被 Cloudflare「Bot Preference Sync」管理块追加在开头
+#    （形如 `# BEGIN Cloudflare Bot Preference Sync ... # END ...`）。
+#    CF 是 prepend、不覆盖，所以本文件的规则始终保留在托管块下方。
+#
+# 全站内容原创，欢迎所有搜索引擎与 AI 引擎抓取、索引、引用。
+
+# ── 传统搜索引擎 ──────────────────────────────────────────────
 User-agent: *
+Allow: /
+# tag 聚合页为 noindex 且数量庞大（近千条），无需抓取
+Disallow: /tag/
+
+# ── AI 搜索引擎（GEO：让 AI 能检索到本站内容）────────────────
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# ── AI 助手（用户让 AI 打开本站页面时）───────────────────────
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+User-agent: MistralAI-User
+Allow: /
+
+# ── AI 训练（建立品牌长期知识：让 AI 在离线状态下也认识本站）──
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: PetalBot
 Allow: /
 
 Sitemap: https://planetgis.cn/sitemap.xml
