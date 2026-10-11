@@ -2,9 +2,43 @@
 // 以前两份脚本各维护一份 staticRoutes，导致 /changelog 只进了 sitemap 却没被预渲染。
 
 import { join } from 'node:path';
+import { ModuleRunner, ESModulesEvaluator, createNodeImportMeta } from 'vite/module-runner';
+import { createServerModuleRunnerTransport } from 'vite';
 
 /** 站点 baseURL —— 与 src/lib/seo.tsx 的 SITE 保持一致 */
 export const SITE = 'https://planetgis.cn';
+
+/**
+ * 给 vite 实例打补丁：用自定义 transport 的 ModuleRunner 替换默认 ssrLoadModule。
+ *
+ * 背景：Vite 内部 ModuleRunner 的 transport 超时写死为 `transport.timeout ?? 6e4`
+ * （60s，vite@7.3.1 module-runner.js），而 createServerModuleRunner 会把传入的
+ * options.transport 覆盖掉，没有配置入口。当机器处于低内存/冷文件缓存状态时
+ * （Windows 换页 + 杀软实时扫描），单个模块的首次 transform 可能超过 60s，
+ * 预渲染就会稳定报 "transport invoke timed out after 60000ms"。
+ *
+ * 这里直接构造 ModuleRunner 并把 timeout 放宽到 10 分钟，行为与默认
+ * ssrLoadModule 一致（仅绕过 vite 内部 moduleGraph 登记与堆栈修复，构建脚本可接受）。
+ * @param {import('vite').ViteDevServer} vite 已创建的 dev server 实例（就地修改）
+ */
+export function patchSsrLoadModuleTimeout(vite, timeoutMs = 600_000) {
+  const env = vite.environments.ssr;
+  const transport = Object.assign(
+    createServerModuleRunnerTransport({ channel: env.hot }),
+    { timeout: timeoutMs },
+  );
+  const runner = new ModuleRunner(
+    {
+      transport,
+      createImportMeta: createNodeImportMeta,
+      sourcemapInterceptor: false,
+      hmr: false,
+    },
+    new ESModulesEvaluator(),
+  );
+  vite.ssrLoadModule = (url) => runner.import(url);
+  return vite;
+}
 
 /** 不依赖内容文件的固定路由 */
 export const staticRoutes = [
@@ -34,6 +68,7 @@ export const staticRoutes = [
  * @param {import('vite').ViteDevServer} vite 用于 ssrLoadModule 读取内容层
  */
 export async function collectRoutes(vite) {
+  patchSsrLoadModuleTimeout(vite);
   const { getAllDetailPaths, getAllTagPaths } = await vite.ssrLoadModule('/src/lib/content.ts');
   // 互动地图全屏壳页也需预渲染，否则直接访问 /maps/<slug> 会落到 404.html
   const { getVizMapPaths } = await vite.ssrLoadModule('/src/lib/vizmaps.ts');

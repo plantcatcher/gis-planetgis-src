@@ -80,6 +80,7 @@ try {
   const today = new Date().toISOString().slice(0, 10);
   // 内容页用 frontmatter 里的真实 date；取不到（或静态路由）才回退到构建当天。
   // 全站统一填构建日期是失真信号，会让搜索引擎忽略 lastmod 字段。
+  // collectRoutes 内已把 ssrLoadModule 换成慢通道容忍版（60s → 10min），此处沿用。
   const { getDetailLastmodMap } = await vite.ssrLoadModule('/src/lib/content.ts');
   const lastmodMap = getDetailLastmodMap();
   const entries = [];

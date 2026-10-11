@@ -279,7 +279,7 @@ const LearnGrid = () => {
       <aside className="lg:sticky lg:top-24 self-start space-y-6 mb-8 lg:mb-0">
         {/* 搜索框：与资料下载页一致，放在左侧筛选栏顶部 */}
         <div>
-          <SectionLabel className="mb-3">搜索</SectionLabel>
+          <SectionLabel className="mb-3 !text-[11px]">搜索</SectionLabel>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
@@ -291,7 +291,7 @@ const LearnGrid = () => {
           </div>
         </div>
         <div>
-          <SectionLabel className="mb-3">学科方向</SectionLabel>
+          <SectionLabel className="mb-3 !text-[11px]">学科方向</SectionLabel>
           <div className="space-y-1">
             {['全部', ...subjects.map((s) => s.name)].map((name) => {
               const count = name === '全部' ? all.length : subjects.find((s) => s.name === name)?.count ?? 0;
@@ -301,24 +301,24 @@ const LearnGrid = () => {
                   key={name}
                   type="button"
                   onClick={() => pickSubject(name)}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-[13px] transition-colors ${
                     active ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-muted text-muted-foreground'
                   }`}
                 >
                   <span className="inline-flex items-center gap-2">
                     {name !== '全部' && (
-                      <SubjectIcon name={subjects.find((s) => s.name === name)?.icon || 'Globe'} className="w-4 h-4" />
+                      <SubjectIcon name={subjects.find((s) => s.name === name)?.icon || 'Globe'} className="w-3.5 h-3.5" />
                     )}
                     {name}
                   </span>
-                  <span className="text-xs opacity-70">{count}</span>
+                  <span className="text-[11px] opacity-70">{count}</span>
                 </button>
               );
             })}
           </div>
         </div>
         <div>
-          <SectionLabel className="mb-3">专题</SectionLabel>
+          <SectionLabel className="mb-3 !text-[11px]">专题</SectionLabel>
           <div className="space-y-1">
             {['全部', ...categories].map((name) => {
               const count = name === '全部' ? all.length : all.filter((i) => i.category === name).length;
@@ -328,12 +328,12 @@ const LearnGrid = () => {
                   key={name}
                   type="button"
                   onClick={() => pickCategory(name)}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-[13px] transition-colors ${
                     active ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-muted text-muted-foreground'
                   }`}
                 >
                   <span>{name}</span>
-                  <span className="text-xs opacity-70">{count}</span>
+                  <span className="text-[11px] opacity-70">{count}</span>
                 </button>
               );
             })}
@@ -341,7 +341,7 @@ const LearnGrid = () => {
         </div>
         {levels.length > 0 && (
           <div>
-            <SectionLabel className="mb-3">学段</SectionLabel>
+            <SectionLabel className="mb-3 !text-[11px]">学段</SectionLabel>
             <div className="space-y-1">
               {['全部', ...levels].map((name) => {
                 const count = name === '全部' ? all.filter((i) => i.level).length : all.filter((i) => i.level === name).length;
@@ -351,12 +351,12 @@ const LearnGrid = () => {
                     key={name}
                     type="button"
                     onClick={() => pickLevel(name)}
-                    className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${
+                    className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-[13px] transition-colors ${
                       active ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-muted text-muted-foreground'
                     }`}
                   >
                     <span>{name}</span>
-                    <span className="text-xs opacity-70">{count}</span>
+                    <span className="text-[11px] opacity-70">{count}</span>
                   </button>
                 );
               })}

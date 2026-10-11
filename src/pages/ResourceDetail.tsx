@@ -154,9 +154,9 @@ const DownloadHint: React.FC<{
       : [item.format, item.size ? `约 ${item.size}` : null].filter(Boolean).join('，');
   const how =
     mode === 'view'
-      ? '点击「在线观看全文」将跳转官方在线阅读页，免登录逐页浏览，该平台不提供整本下载'
+      ? '点击「在线观看全文」将跳转官方公开页面在线查看，内容由官方平台提供'
       : mode === 'external'
-        ? '点击「下载标准全文」将跳转标准发布 / 主管部门的公开链接，文件由对方服务器提供'
+        ? '点击「下载」按钮将跳转发布机构 / 主管部门的公开链接，文件由对方服务器提供'
         : mode === 'pan'
           ? item.panCode
             ? '点击「下载资料」将跳转百度网盘，粘贴提取码后即可保存'
@@ -241,7 +241,8 @@ const DownloadPanel: React.FC<{ item: ContentItem }> = ({ item }) => {
             }`}
           >
             <Download className="w-5 h-5" />
-            {isExternal ? '下载标准全文' : '下载资料'}
+            {/* 外链按钮文案按分类区分：标准规范说「下载标准全文」，其他资料（如国土空间规划）用「下载资料」 */}
+            {isExternal ? (item.category === '标准规范' ? '下载标准全文' : '下载资料') : '下载资料'}
           </a>
         )}
 
@@ -551,12 +552,12 @@ const ResourceDetail: React.FC = () => {
                         value={code}
                         onChange={(e) => { setCode(e.target.value); if (error) setError(false); }}
                         placeholder="输入验证码，如 NSH-2026-001"
-                        className="flex-1 h-11 rounded-xl border border-input bg-transparent px-4 text-base shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                        className="w-full sm:flex-1 h-12 sm:h-11 rounded-xl border border-input bg-transparent px-4 text-base shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                         aria-label="验证码"
                       />
                       <button
                         type="submit"
-                        className="h-11 px-5 rounded-xl bg-primary text-white font-semibold hover:opacity-90 transition-opacity shrink-0"
+                        className="w-full sm:w-auto h-12 sm:h-11 px-5 rounded-xl bg-primary text-white font-semibold hover:opacity-90 transition-opacity shrink-0"
                       >
                         验证并解锁
                       </button>
@@ -654,8 +655,8 @@ const ResourceDetail: React.FC = () => {
                       )}
                       <p className="text-xs leading-relaxed text-muted-foreground">
                         {isResourceViewOnly(item)
-                          ? `本页为该标准的官方在线阅读入口，官方平台仅提供逐页在线浏览、不提供整本下载。需要更多地理标准与数据更新，长按或扫码关注【${WECHAT_OFFICIAL}】。`
-                          : `这份资料对你有帮助？长按或扫码关注【${WECHAT_OFFICIAL}】，获取更多地理标准与数据更新。`}
+                          ? `本页为该资料的官方在线阅读入口，官方平台仅提供在线浏览、不提供整本下载。需要更多地理资料与数据更新，长按或扫码关注【${WECHAT_OFFICIAL}】。`
+                          : `这份资料对你有帮助？长按或扫码关注【${WECHAT_OFFICIAL}】，获取更多地理资料与数据更新。`}
                       </p>
                     </div>
                   </div>

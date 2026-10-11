@@ -321,7 +321,7 @@ const Home = () => {
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-semibold tracking-widest text-primary/80 uppercase">30 秒体验一下</p>
                 <p className="mt-1 text-lg font-bold leading-snug">看一张卫星图，猜这是哪座城市</p>
-                <p className="mt-1 text-sm text-muted-foreground">无需注册，打开就能玩——比读一段介绍更先让你「哇」一下。</p>
+                <p className="mt-1 text-sm text-muted-foreground">无需注册，打开就能玩——你熟悉的那座城市，换个角度还认得出来吗？</p>
               </div>
               <div className="flex shrink-0 gap-3">
                 <Link
