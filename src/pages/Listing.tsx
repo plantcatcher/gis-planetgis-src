@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ExternalLink, Compass, Globe, Search, Calendar, LayoutGrid, List } from 'lucide-react';
+import { ExternalLink, Compass, Globe, Search, Calendar, LayoutGrid, List, Flame } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import CoverImage from '@/components/common/CoverImage';
@@ -31,6 +31,10 @@ import SectionLabel from '@/components/knowledge/SectionLabel';
 import subdomainsData from '@/data/subdomains.json';
 
 type ListingType = 'work' | 'tool' | 'subdomain' | 'learn' | 'resource';
+
+// 浏览量格式化：1200 -> 1.2k
+const fmtHeat = (n: number) =>
+  n >= 1000 ? `${(n / 1000).toFixed(1).replace(/\.0$/, '')}k` : String(n);
 
 const meta: Record<ListingType, { title: string; subtitle: string; base: string }> = {
   work: {
@@ -522,6 +526,7 @@ const ResourceGrid = () => {
   const [activeFormat, setActiveFormat] = useState<string>('全部');
   const [activeAccess, setActiveAccess] = useState<'all' | 'download' | 'view' | 'gated'>('all');
   const [view, setView] = useState<'grid' | 'list'>('list');
+  const [sortMode, setSortMode] = useState<'heat' | 'date'>('heat');
   const tags = useMemo(
     () => getTags().filter((t) => all.some((i) => (i.tags || []).includes(t.tag))).slice(0, 14),
     [all],
@@ -574,6 +579,14 @@ const ResourceGrid = () => {
           : !isResourceGated(i) && !isResourceViewOnly(i),
     );
   }
+
+  // 排序：默认按热度（近 30 天 GA4 浏览量）降序；可切到按更新时间倒序。
+  // 热度并列或无数据时回退到日期倒序，保证稳定。新页面（0 热度）会沉底，
+  // 用户可一键切「最新」排序查看刚上线的内容。
+  const sortedList = [...list].sort((a, b) => {
+    if (sortMode === 'date') return (b.date || '').localeCompare(a.date || '');
+    return (b.heat || 0) - (a.heat || 0) || (b.date || '').localeCompare(a.date || '');
+  });
 
   return (
     <div className="lg:grid lg:grid-cols-[1fr_236px] lg:gap-8">
@@ -706,6 +719,28 @@ const ResourceGrid = () => {
           ))}
         </div>
 
+        {/* 排序：热度（默认）/ 最新 */}
+        <div className="flex flex-wrap items-center gap-2 mb-5">
+          <span className="text-xs text-muted-foreground mr-1">排序</span>
+          {([['heat', '热度'], ['date', '最新']] as const).map(([key, label]) => (
+            <button
+              key={key}
+              type="button"
+              onClick={() => setSortMode(key)}
+              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                sortMode === key
+                  ? 'bg-primary text-white'
+                  : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+          {sortMode === 'heat' && (
+            <span className="text-[11px] text-muted-foreground/70">按近 30 天浏览量</span>
+          )}
+        </div>
+
         <div className="flex items-center justify-between gap-3 mb-5">
           <p className="text-xs text-muted-foreground">
             共 <span className="font-semibold text-foreground">{list.length}</span> 份资料
@@ -742,7 +777,7 @@ const ResourceGrid = () => {
           <p className="text-muted-foreground">没有匹配的资料，换个筛选条件试试。</p>
         ) : view === 'grid' ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {list.map((r, i) => (
+            {sortedList.map((r, i) => (
               <CardAnim key={r.slug} delay={i * 0.05}>
                 <Link
                   to={`/downloads/${r.slug}`}
@@ -761,6 +796,11 @@ const ResourceGrid = () => {
                     <div className="mt-auto pt-3 flex items-center gap-3 text-xs text-muted-foreground">
                       {r.date && <span className="inline-flex items-center gap-1"><Calendar className="w-3.5 h-3.5" />{r.date}</span>}
                       {r.size && <span>· {r.size}</span>}
+                      {(r.heat || 0) > 0 && (
+                        <span className="inline-flex items-center gap-1 text-orange-500 ml-auto">
+                          <Flame className="w-3.5 h-3.5" />{fmtHeat(r.heat!)}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </Link>
@@ -769,7 +809,7 @@ const ResourceGrid = () => {
           </div>
         ) : (
           <div className="space-y-2">
-            {list.map((r, i) => (
+            {sortedList.map((r, i) => (
               <CardAnim key={r.slug} delay={i * 0.04}>
                 <Link
                   to={`/downloads/${r.slug}`}
@@ -787,6 +827,11 @@ const ResourceGrid = () => {
                     <div className="mt-auto pt-2 flex items-center gap-3 text-xs text-muted-foreground">
                       {r.date && <span className="inline-flex items-center gap-1"><Calendar className="w-3.5 h-3.5" />{r.date}</span>}
                       {r.size && <span>· {r.size}</span>}
+                      {(r.heat || 0) > 0 && (
+                        <span className="inline-flex items-center gap-1 text-orange-500 ml-auto">
+                          <Flame className="w-3.5 h-3.5" />{fmtHeat(r.heat!)}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </Link>

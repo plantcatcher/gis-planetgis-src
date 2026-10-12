@@ -2,6 +2,10 @@
 // 每个内容文件由 frontmatter（卡片元数据）+ 正文（详情页内容）组成。
 // 无需后端、无需额外依赖，纯前端 + 构建期即可驱动全站。
 
+// 页面热度（浏览量）：由 scripts/gen_heat.mjs 从 GA4 取数生成，构建期 baked 进静态数据。
+import heatRaw from '../data/heat.json';
+const HEAT: Record<string, number> = (heatRaw as unknown as Record<string, number>) || {};
+
 export type ContentType = 'work' | 'tool' | 'article' | 'learn' | 'resource';
 
 export interface ContentItem {
@@ -99,6 +103,8 @@ export interface ContentItem {
   region?: string;
   /** 资料下载专用：地理数据的格式类型（SHP / GeoTIFF / 影像 / 其他），由 format 归一化而来 */
   dataFormat?: string;
+  /** 页面热度：近 30 天 GA4 浏览量（构建期从 heat.json 注入，缺省 0） */
+  heat?: number;
 }
 
 interface Frontmatter {
@@ -184,6 +190,7 @@ for (const [path, raw] of Object.entries(rawFiles)) {
     group: data.group,
     region: data.region,
     dataFormat: data.dataFormat,
+    heat: HEAT[data.slug || filename] || 0,
   });
 }
 
