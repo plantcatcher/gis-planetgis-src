@@ -1,0 +1,52 @@
+# 每日定时从 GA4 拉取【资料下载】各页面近 30 天浏览量，刷新 src/data/heat.json，
+# 再自动提交 -> 触发 Cloudflare Pages 重新构建，使列表「热度排序」保持新鲜。
+#
+# 依赖的仓库 Secrets（Settings -> Secrets and variables -> Actions -> New repository secret）：
+#   GA4_SERVICE_ACCOUNT_JSON   服务账号 JSON 完整内容（含 private_key，直接粘贴整个 .json 文件内容）
+# Property ID 已写死在下方 env（媒体资源 ID=526238098，不是 G-XXXX 也不是数据流 ID）。
+#
+# 说明：Cloudflare Pages 监听 GitHub push 自动部署（不走 GitHub Actions CI），
+#       因此本 workflow 的 commit 会正常触发线上构建；commit 消息带 [skip ci]
+#       仅用于跳过「将来可能存在的」监听 push 的 Actions 工作流，避免循环。
+
+name: Refresh GA4 heat data
+
+on:
+  schedule:
+    # 每天 UTC 17:17（北京时间次日 01:17），避开整点高峰
+    - cron: '17 17 * * *'
+  workflow_dispatch: {} # 允许在 Actions 页面手动触发
+
+permissions:
+  contents: write
+
+jobs:
+  refresh-heat:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate heat.json from GA4
+        env:
+          GA4_PROPERTY_ID: '526238098'
+          GA4_SERVICE_ACCOUNT: ${{ secrets.GA4_SERVICE_ACCOUNT_JSON }}
+        run: node scripts/gen_heat.mjs
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [[ -n "$(git status --porcelain src/data/heat.json)" ]]; then
+            git add src/data/heat.json
+            git commit -m "chore(heat): auto refresh GA4 heat data [skip ci]"
+            git push
+          else
+            echo "heat.json unchanged, skip commit"
+          fi

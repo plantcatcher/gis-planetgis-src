@@ -2,7 +2,7 @@
 // 该脚本不参与日常构建，按需手动执行，或用 GitHub Actions 定时跑（见下方说明）。
 //
 // 前置（需在运行环境提供）：
-//   GA4_PROPERTY_ID            GA4 数字属性 ID（不是 G-XXXX 测量 ID），如 13673930686
+//   GA4_PROPERTY_ID            GA4 数字「媒体资源 ID」（不是 G-XXXX 测量 ID，也不是数据流 ID），planetgis 主站=526238098
 //   GA4_SERVICE_ACCOUNT       Google 服务账号 JSON 字符串（含 client_email / private_key）
 //   或 GA4_SERVICE_ACCOUNT_FILE  服务账号 JSON 文件路径
 //   服务账号需在 GA4 媒体资源里被授予「查看者 / Read & Analyze」角色。

@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ExternalLink, Compass, Globe, Search, Calendar, LayoutGrid, List, Flame } from 'lucide-react';
+import { ExternalLink, Compass, Globe, Search, Calendar, LayoutGrid, List, Flame, SlidersHorizontal, ChevronDown, ChevronUp } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import CoverImage from '@/components/common/CoverImage';
@@ -472,7 +472,10 @@ const ResourceCover: React.FC<{ item: ContentItem; className?: string }> = ({ it
   );
 };
 
-const Badges: React.FC<{ item: ContentItem }> = ({ item }) => (
+const Badges: React.FC<{ item: ContentItem; hideFormatOnMobile?: boolean }> = ({
+  item,
+  hideFormatOnMobile = false,
+}) => (
   <>
     {item.category && (
       <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-foreground/80 text-background">
@@ -480,7 +483,11 @@ const Badges: React.FC<{ item: ContentItem }> = ({ item }) => (
       </span>
     )}
     {item.format && (
-      <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
+      <span
+        className={`px-2 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary ${
+          hideFormatOnMobile ? 'hidden sm:inline-block' : ''
+        }`}
+      >
         {item.format}
       </span>
     )}
@@ -527,6 +534,8 @@ const ResourceGrid = () => {
   const [activeAccess, setActiveAccess] = useState<'all' | 'download' | 'view' | 'gated'>('all');
   const [view, setView] = useState<'grid' | 'list'>('list');
   const [sortMode, setSortMode] = useState<'heat' | 'date'>('heat');
+  // 移动端筛选区默认收起（桌面端 lg:block 常显）
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const tags = useMemo(
     () => getTags().filter((t) => all.some((i) => (i.tags || []).includes(t.tag))).slice(0, 14),
     [all],
@@ -588,6 +597,30 @@ const ResourceGrid = () => {
     return (b.heat || 0) - (a.heat || 0) || (b.date || '').localeCompare(a.date || '');
   });
 
+  // 一键清空所有筛选（右栏底部 + 已选摘要行共用）
+  const clearAll = () => {
+    setActiveGroup('全部');
+    setActiveCategory('全部');
+    setActiveRegion('全部');
+    setActiveFormat('全部');
+    setActiveAccess('all');
+    setActiveTag(null);
+    setQuery('');
+    setSearchParams({}, { replace: true });
+  };
+
+  // 已选条件摘要（可视化展示当前生效的筛选，供一眼核对/清空）
+  const activeFilters: string[] = [];
+  if (activeGroup !== '全部') activeFilters.push(activeGroup);
+  if (activeGroup === '书籍' && activeCategory !== '全部') activeFilters.push(`学科=${activeCategory}`);
+  if (activeGroup === '地理数据' && activeRegion !== '全部') activeFilters.push(`区域=${activeRegion}`);
+  if (activeGroup === '地理数据' && activeFormat !== '全部') activeFilters.push(`格式=${activeFormat}`);
+  if (activeAccess === 'download') activeFilters.push('直接下载');
+  if (activeAccess === 'view') activeFilters.push('在线观看');
+  if (activeAccess === 'gated') activeFilters.push('需验证码');
+  if (activeTag) activeFilters.push(`#${activeTag}`);
+  if (q) activeFilters.push(`含“${q}”`);
+
   return (
     <div className="lg:grid lg:grid-cols-[1fr_236px] lg:gap-8">
       {/* 右侧筛选栏：按资料类型 */}
@@ -605,10 +638,27 @@ const ResourceGrid = () => {
           </div>
         </div>
 
-        {/* 顶层分组 */}
+        {/* 移动端：筛选区折叠开关（桌面端隐藏，右栏常显） */}
+        <button
+          type="button"
+          onClick={() => setFiltersOpen((v) => !v)}
+          className="lg:hidden w-full flex items-center justify-between px-3 py-2.5 rounded-lg border border-border bg-muted/30 text-xs font-medium text-foreground hover:bg-muted transition-colors"
+        >
+          <span className="inline-flex items-center gap-2">
+            <SlidersHorizontal className="w-4 h-4 text-muted-foreground" />
+            筛选{activeFilters.length > 0 && (
+              <span className="px-1.5 py-0.5 rounded-full bg-primary text-white text-[10px]">{activeFilters.length}</span>
+            )}
+          </span>
+          {filtersOpen ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
+        </button>
+
+        {/* 移动端可折叠、桌面端常显的筛选主体 */}
+        <div className={`space-y-6 ${filtersOpen ? 'block' : 'hidden'} lg:block`}>
+        {/* 主分类：顶层互斥切换，用分段控件强视觉 */}
         <div>
-          <SectionLabel className="mb-3">分组</SectionLabel>
-          <div className="space-y-1">
+          <SectionLabel className="mb-3">主分类</SectionLabel>
+          <div className="flex rounded-lg border border-border bg-muted/40 p-0.5">
             {['全部', '书籍', '地理数据'].map((name) => {
               const count = name === '全部' ? all.length : groupCounts[name] ?? 0;
               const active = activeGroup === name;
@@ -617,55 +667,70 @@ const ResourceGrid = () => {
                   key={name}
                   type="button"
                   onClick={() => setActiveGroup(name)}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs transition-colors ${
-                    active ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-muted text-muted-foreground'
+                  className={`flex-1 px-2 py-1.5 rounded-md text-xs text-center transition-colors ${
+                    active ? 'bg-primary text-white font-medium' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
-                  <span>{name}</span>
-                  <span className="text-xs opacity-70">{count}</span>
+                  {name}
+                  <span className={`ml-1 text-[10px] ${active ? 'opacity-80' : 'opacity-60'}`}>{count}</span>
                 </button>
               );
             })}
           </div>
         </div>
 
-        {/* 书籍：学科子类 */}
-        {activeGroup === '书籍' && (
-          <div>
-            <SectionLabel className="mb-3">学科</SectionLabel>
-            <div className="flex flex-wrap gap-2">
-              <FacChip label="全部" active={activeCategory === '全部'} onClick={() => setActiveCategory('全部')} count={bookCats.reduce((s, c) => s + c.count, 0)} />
-              {bookCats.map((c) => (
-                <FacChip key={c.name} label={c.name} active={activeCategory === c.name} onClick={() => setActiveCategory(c.name)} count={c.count} />
-              ))}
-            </div>
+        {/* 子维度：依赖主分类，用分隔线 + 说明区隔层级 */}
+        {(activeGroup === '书籍' || activeGroup === '地理数据') && (
+          <div className="border-t border-border/60 pt-3 space-y-4">
+            <p className="text-[11px] text-muted-foreground/70">子维度 · 随主分类变化</p>
+            {activeGroup === '书籍' && (
+              <div>
+                <SectionLabel className="mb-3">学科</SectionLabel>
+                <div className="flex flex-wrap gap-2">
+                  <FacChip label="全部" active={activeCategory === '全部'} onClick={() => setActiveCategory('全部')} count={bookCats.reduce((s, c) => s + c.count, 0)} />
+                  {bookCats.map((c) => (
+                    <FacChip key={c.name} label={c.name} active={activeCategory === c.name} onClick={() => setActiveCategory(c.name)} count={c.count} />
+                  ))}
+                </div>
+              </div>
+            )}
+            {activeGroup === '地理数据' && (
+              <>
+                <div>
+                  <SectionLabel className="mb-3">区域</SectionLabel>
+                  <div className="flex flex-wrap gap-2">
+                    <FacChip label="全部" active={activeRegion === '全部'} onClick={() => setActiveRegion('全部')} count={regionCounts.reduce((s, c) => s + c.count, 0)} />
+                    {regionCounts.map((c) => (
+                      <FacChip key={c.name} label={c.name} active={activeRegion === c.name} onClick={() => setActiveRegion(c.name)} count={c.count} />
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <SectionLabel className="mb-3">格式</SectionLabel>
+                  <div className="flex flex-wrap gap-2">
+                    <FacChip label="全部" active={activeFormat === '全部'} onClick={() => setActiveFormat('全部')} count={formatCounts.reduce((s, c) => s + c.count, 0)} />
+                    {formatCounts.map((c) => (
+                      <FacChip key={c.name} label={c.name} active={activeFormat === c.name} onClick={() => setActiveFormat(c.name)} count={c.count} />
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         )}
 
-        {/* 地理数据：区域 × 格式 双轴 */}
-        {activeGroup === '地理数据' && (
-          <>
-            <div>
-              <SectionLabel className="mb-3">区域</SectionLabel>
-              <div className="flex flex-wrap gap-2">
-                <FacChip label="全部" active={activeRegion === '全部'} onClick={() => setActiveRegion('全部')} count={regionCounts.reduce((s, c) => s + c.count, 0)} />
-                {regionCounts.map((c) => (
-                  <FacChip key={c.name} label={c.name} active={activeRegion === c.name} onClick={() => setActiveRegion(c.name)} count={c.count} />
-                ))}
-              </div>
-            </div>
-            <div>
-              <SectionLabel className="mb-3">格式</SectionLabel>
-              <div className="flex flex-wrap gap-2">
-                <FacChip label="全部" active={activeFormat === '全部'} onClick={() => setActiveFormat('全部')} count={formatCounts.reduce((s, c) => s + c.count, 0)} />
-                {formatCounts.map((c) => (
-                  <FacChip key={c.name} label={c.name} active={activeFormat === c.name} onClick={() => setActiveFormat(c.name)} count={c.count} />
-                ))}
-              </div>
-            </div>
-          </>
-        )}
-        <div>
+        {/* 全局筛选：不依赖主分类的横向维度 */}
+        <div className="border-t border-border/60 pt-3">
+          <SectionLabel className="mb-3">访问方式</SectionLabel>
+          <div className="flex flex-wrap gap-2">
+            {([['all', '全部'], ['download', '直接下载'], ['view', '在线观看'], ['gated', '需验证码']] as const).map(([key, label]) => (
+              <FacChip key={key} label={label} active={activeAccess === key} onClick={() => setActiveAccess(key)} />
+            ))}
+          </div>
+        </div>
+
+        {/* 标签：全局横向维度 */}
+        <div className="border-t border-border/60 pt-3">
           <SectionLabel className="mb-3">标签</SectionLabel>
           <div className="flex flex-wrap gap-2">
             <button
@@ -695,83 +760,81 @@ const ResourceGrid = () => {
             ))}
           </div>
         </div>
+
+        {/* 一键清空 */}
+        <div className="border-t border-border/60 pt-3">
+          <button
+            type="button"
+            onClick={clearAll}
+            className="w-full px-3 py-2 rounded-lg text-xs font-medium text-muted-foreground border border-border hover:bg-muted hover:text-foreground transition-colors"
+          >
+            清空全部筛选
+          </button>
+        </div>
+        </div>
       </aside>
 
       {/* 主区 */}
       <div className="lg:order-1">
-        {/* 标签筛选已移至右侧栏（资料类型下方） */}
-
-        {/* 访问方式筛选：直接下载 / 在线观看 / 需验证码 */}
-        <div className="flex flex-wrap gap-2 mb-5">
-          {([['all', '全部'], ['download', '直接下载'], ['view', '在线观看'], ['gated', '需验证码']] as const).map(([key, label]) => (
-            <button
-              key={key}
-              type="button"
-              onClick={() => setActiveAccess(key)}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                activeAccess === key
-                  ? 'bg-primary text-white'
-                  : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
-              }`}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-
-        {/* 排序：热度（默认）/ 最新 */}
-        <div className="flex flex-wrap items-center gap-2 mb-5">
-          <span className="text-xs text-muted-foreground mr-1">排序</span>
-          {([['heat', '热度'], ['date', '最新']] as const).map(([key, label]) => (
-            <button
-              key={key}
-              type="button"
-              onClick={() => setSortMode(key)}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                sortMode === key
-                  ? 'bg-primary text-white'
-                  : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
-              }`}
-            >
-              {label}
-            </button>
-          ))}
-          {sortMode === 'heat' && (
-            <span className="text-[11px] text-muted-foreground/70">按近 30 天浏览量</span>
-          )}
-        </div>
+        {/* 访问方式筛选已移至右侧「全局筛选」；排序/视图作为结果操作留在主区顶部 */}
 
         <div className="flex items-center justify-between gap-3 mb-5">
           <p className="text-xs text-muted-foreground">
             共 <span className="font-semibold text-foreground">{list.length}</span> 份资料
-            {activeGroup !== '全部' && ` · ${activeGroup}`}
-            {activeGroup === '书籍' && activeCategory !== '全部' && ` · ${activeCategory}`}
-            {activeGroup === '地理数据' && activeRegion !== '全部' && ` · ${activeRegion}`}
-            {activeGroup === '地理数据' && activeFormat !== '全部' && ` · ${activeFormat}`}
-            {activeAccess === 'download' && ' · 直接下载'}
-            {activeAccess === 'view' && ' · 在线观看'}
-            {activeAccess === 'gated' && ' · 需验证码'}
-            {q && ` · 含“${q}”`}
           </p>
-          <div className="flex items-center gap-1 rounded-lg border border-border p-0.5 shrink-0">
-            <button
-              type="button"
-              onClick={() => setView('grid')}
-              aria-label="网格视图"
-              className={`p-1.5 rounded-md transition-colors ${view === 'grid' ? 'bg-primary text-white' : 'text-muted-foreground hover:bg-muted'}`}
-            >
-              <LayoutGrid className="w-4 h-4" />
-            </button>
-            <button
-              type="button"
-              onClick={() => setView('list')}
-              aria-label="列表视图"
-              className={`p-1.5 rounded-md transition-colors ${view === 'list' ? 'bg-primary text-white' : 'text-muted-foreground hover:bg-muted'}`}
-            >
-              <List className="w-4 h-4" />
-            </button>
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="flex items-center gap-1 rounded-lg border border-border p-0.5">
+              {([['heat', '热度'], ['date', '最新']] as const).map(([key, label]) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setSortMode(key)}
+                  className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
+                    sortMode === key ? 'bg-primary text-white' : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <div className="flex items-center gap-1 rounded-lg border border-border p-0.5">
+              <button
+                type="button"
+                onClick={() => setView('grid')}
+                aria-label="网格视图"
+                className={`p-1.5 rounded-md transition-colors ${view === 'grid' ? 'bg-primary text-white' : 'text-muted-foreground hover:bg-muted'}`}
+              >
+                <LayoutGrid className="w-4 h-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => setView('list')}
+                aria-label="列表视图"
+                className={`p-1.5 rounded-md transition-colors ${view === 'list' ? 'bg-primary text-white' : 'text-muted-foreground hover:bg-muted'}`}
+              >
+                <List className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
+
+        {activeFilters.length > 0 && (
+          <div className="flex flex-wrap items-center gap-1.5 mb-5">
+            <span className="text-[11px] text-muted-foreground/70">已选</span>
+            {activeFilters.map((f) => (
+              <span key={f} className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] bg-primary/10 text-primary">
+                {f}
+              </span>
+            ))}
+            <button
+              type="button"
+              onClick={clearAll}
+              className="text-[11px] text-muted-foreground underline hover:text-foreground ml-1"
+            >
+              清空
+            </button>
+          </div>
+        )}
 
         {list.length === 0 ? (
           <p className="text-muted-foreground">没有匹配的资料，换个筛选条件试试。</p>
@@ -818,7 +881,7 @@ const ResourceGrid = () => {
                   <ResourceCover item={r} className="w-20 sm:w-28 aspect-[3/4] rounded-lg shrink-0" />
                   <div className="flex flex-col flex-1 min-w-0 py-0.5">
                     <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                      <Badges item={r} />
+                      <Badges item={r} hideFormatOnMobile />
                     </div>
                     <h3 className="font-serif text-sm font-semibold leading-snug line-clamp-1 group-hover:text-primary transition-colors">
                       {r.title}
