@@ -19,7 +19,7 @@ const PrivacyPolicy = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <h1 className="text-4xl font-bold mb-2">隐私政策</h1>
-          <p className="text-sm text-muted-foreground mb-12">最后更新日期：2026年7月7日</p>
+          <p className="text-sm text-muted-foreground mb-12">最后更新日期：2026年10月13日</p>
 
           {/* 页面容器统一 7xl（与其它页面对齐），正文保留 3xl 阅读栏避免一行过长 */}
           <div className="prose prose-lg dark:prose-invert max-w-3xl space-y-6">
@@ -37,7 +37,7 @@ const PrivacyPolicy = () => {
               </p>
               <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
                 <li><strong>自动收集的信息：</strong>当您访问本网站时，我们可能通过 Google Analytics 等分析工具自动收集您的 IP 地址、浏览器类型、操作系统、访问时间、访问页面等非个人身份信息。</li>
-                <li><strong>广告相关数据：</strong>本网站使用 Google AdSense 展示广告。Google 可能使用 Cookie 来根据您过往的访问记录提供相关广告。您可以通过访问 <a href="https://www.google.com/settings/ads" target="_blank" rel="noreferrer" className="text-primary hover:underline">Google 广告设置</a> 来管理广告偏好。</li>
+                <li><strong>广告与第三方 Cookie：</strong>本网站可能使用 Google AdSense 等第三方广告服务展示广告。当广告服务启用时，Google 及其合作伙伴会使用 Cookie（包括 DoubleClick DART Cookie）根据您过往的访问记录为您提供相关广告。您可以通过以下方式管理与退出个性化广告：<a href="https://www.google.com/settings/ads" target="_blank" rel="noreferrer" className="text-primary hover:underline">Google 广告设置</a>、<a href="https://optout.aboutads.info" target="_blank" rel="noreferrer" className="text-primary hover:underline">关于广告（About Ads）</a>，欧洲用户还可访问 <a href="https://www.youronlinechoices.com" target="_blank" rel="noreferrer" className="text-primary hover:underline">Your Online Choices</a>。</li>
                 <li><strong>您主动提供的信息：</strong>当您通过社交媒体链接或联系方式与我们互动时，您可能主动提供个人信息。</li>
               </ul>
             </section>
@@ -58,7 +58,10 @@ const PrivacyPolicy = () => {
             <section>
               <h2 className="text-2xl font-bold mb-3">4. Cookie 使用</h2>
               <p className="text-muted-foreground leading-relaxed">
-                本网站使用 Cookie 来改善用户体验和分析网站流量。Cookie 是存储在您浏览器中的小型文本文件。您可以通过浏览器设置禁用 Cookie，但这可能影响网站的某些功能。Google AdSense 使用的 Cookie 包括但不限于：__gads、__gpi 等。
+                本网站使用 Cookie 来改善用户体验、分析网站流量，并在启用广告服务时投放相关广告。Cookie 是存储在您浏览器中的小型文本文件。您可以通过浏览器设置禁用 Cookie，但这可能影响网站的某些功能。
+              </p>
+              <p className="text-muted-foreground leading-relaxed mt-3">
+                我们使用的 Cookie 大致分为三类：①<strong>必要 Cookie</strong>（维持站点基本功能，如主题外观偏好）；②<strong>分析 Cookie</strong>（Google Analytics 的 _ga、_gid 等，用于统计网站访问行为）；③<strong>广告 Cookie</strong>（当启用 Google AdSense 等第三方广告服务时，Google 会使用 __gads、__gpi、IDE 以及 DoubleClick DART Cookie 来投放与衡量广告）。第三方的 Cookie 受其各自的隐私政策约束，您可以随时在浏览器中清除或拒绝。
               </p>
             </section>
 
@@ -69,7 +72,7 @@ const PrivacyPolicy = () => {
               </p>
               <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
                 <li><strong>Google Analytics：</strong>用于分析网站流量和用户行为</li>
-                <li><strong>Google AdSense：</strong>用于展示广告</li>
+                <li><strong>Google AdSense（如启用）：</strong>用于展示个性化广告</li>
               </ul>
               <p className="text-muted-foreground leading-relaxed mt-3">
                 这些第三方服务有其各自的隐私政策，我们建议您阅读它们以了解其数据处理方式。
@@ -99,7 +102,7 @@ const PrivacyPolicy = () => {
                 <li>访问权：您有权了解我们收集了您的哪些个人信息</li>
                 <li>更正权：您有权要求更正不准确的个人信息</li>
                 <li>删除权：您有权要求删除您的个人信息</li>
-                <li>退订权：您可以随时通过浏览器设置禁用 Cookie 或退订广告个性化</li>
+                <li>退订权：您可以随时通过浏览器设置禁用 Cookie；如需退出个性化广告，可通过 <a href="https://www.google.com/settings/ads" target="_blank" rel="noreferrer" className="text-primary hover:underline">Google 广告设置</a> 或 <a href="https://optout.aboutads.info" target="_blank" rel="noreferrer" className="text-primary hover:underline">About Ads</a> 进行管理</li>
               </ul>
             </section>
 

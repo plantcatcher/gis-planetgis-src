@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { MessageCircle, Share2, Youtube, Instagram, Globe, ArrowRight, Newspaper } from 'lucide-react';
+import { MessageCircle, Share2, Youtube, Instagram, Globe, ArrowRight, Newspaper, Mail } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
@@ -16,6 +16,7 @@ const Contact = () => {
     { platform: '小红书', handle: '星球小捕手', desc: '查看地理知识卡片和图文内容', icon: Instagram, url: 'https://www.xiaohongshu.com/user/profile/5f91772d00000000010077da' },
     { platform: 'YouTube', handle: '@ZaynHuang', desc: 'Subscribe for geography content in English', icon: Youtube, url: 'https://www.youtube.com/@ZaynHuang' },
     { platform: '博客', handle: 'blog.planetgis.cn', desc: '阅读深度地理科普文章', icon: Globe, url: 'https://blog.planetgis.cn' },
+    { platform: '邮箱', handle: 'planetcatcherr@gmail.com', desc: '业务合作与咨询，邮件联系作者 Zayn Huang', icon: Mail, url: 'mailto:planetcatcherr@gmail.com' },
   ];
 
   return (

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Globe, Compass, Box, ArrowRight, MessageCircle, Share2, Youtube, Instagram, Newspaper } from 'lucide-react';
+import { Globe, Compass, Box, ArrowRight, MessageCircle, Share2, Youtube, Instagram, Newspaper, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import PageMeta from '@/components/common/PageMeta';
@@ -18,6 +18,7 @@ const About = () => {
     { platform: '小红书', handle: '星球小捕手', desc: '查看地理知识卡片和图文内容', icon: Instagram, url: 'https://www.xiaohongshu.com/user/profile/5f91772d00000000010077da' },
     { platform: 'YouTube', handle: '@ZaynHuang', desc: 'Subscribe for geography content in English', icon: Youtube, url: 'https://www.youtube.com/@ZaynHuang' },
     { platform: '博客', handle: 'blog.planetgis.cn', desc: '阅读深度地理科普文章', icon: Globe, url: 'https://blog.planetgis.cn' },
+    { platform: '邮箱', handle: 'planetcatcherr@gmail.com', desc: '业务合作与咨询，邮件联系作者 Zayn Huang', icon: Mail, url: 'mailto:planetcatcherr@gmail.com' },
   ];
 
   return (
@@ -108,6 +109,28 @@ const About = () => {
             <p className="text-muted-foreground leading-relaxed">
               我们的团队虽然只有一个人加一群 AI Agent（我们称之为 OPC —— One Person Company），但我们用技术杠杆和创意热情，持续产出高质量的地理科普内容和交互工具。
             </p>
+          </div>
+
+          {/* 关于作者 */}
+          <div className="mt-12 space-y-6">
+            <h2 className="text-xl font-bold">关于作者</h2>
+            <div className="flex items-start gap-5">
+              <div className="shrink-0 w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center text-primary text-2xl font-bold">
+                ZH
+              </div>
+              <div className="space-y-3">
+                <div>
+                  <h3 className="text-lg font-bold">Zayn Huang（黄志安）</h3>
+                  <p className="text-sm text-primary font-medium">星球小捕手 创始人 · 地理科普创作者</p>
+                </div>
+                <p className="text-muted-foreground leading-relaxed">
+                  地理信息系统（GIS）专业背景，澳大利亚昆士兰大学（The University of Queensland）硕士。曾从事海洋调查、WebGIS 开发与地理教学工作，既有野外实测一线的经验，也有把地理数据做成可交互产品的工程能力，还懂得如何把专业地理知识讲给非专业读者听。
+                </p>
+                <p className="text-muted-foreground leading-relaxed">
+                  如今以一人公司（OPC，One Person Company）的形式运营「星球小捕手」：用数据讲述地球变化，用地图发现世界的温度，把海平面模拟、城市路网、星空观测与气候变化等课题，转化为直观、有趣、可交互的科普内容。合作与咨询请邮件联系 <a href="mailto:planetcatcherr@gmail.com" className="text-primary hover:underline">planetcatcherr@gmail.com</a>。
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Contact (merged with 关于我们 in top nav) */}
