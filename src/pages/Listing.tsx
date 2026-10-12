@@ -34,7 +34,7 @@ type ListingType = 'work' | 'tool' | 'subdomain' | 'learn' | 'resource';
 
 const meta: Record<ListingType, { title: string; subtitle: string; base: string }> = {
   work: {
-    title: '地理可视化作品',
+    title: '精选作品',
     subtitle: '从海平面模拟到河流分布，用交互可视化把复杂的地理数据变成可感知的体验——地理与数据的直观对话。',
     base: 'works',
   },
@@ -279,7 +279,6 @@ const LearnGrid = () => {
       <aside className="lg:sticky lg:top-24 self-start space-y-6 mb-8 lg:mb-0">
         {/* 搜索框：与资料下载页一致，放在左侧筛选栏顶部 */}
         <div>
-          <SectionLabel className="mb-3 !text-[11px]">搜索</SectionLabel>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
@@ -582,7 +581,6 @@ const ResourceGrid = () => {
       <aside className="lg:sticky lg:top-24 self-start space-y-6 mb-8 lg:mb-0 lg:order-2">
         {/* 搜索框 */}
         <div>
-          <SectionLabel className="mb-3">搜索</SectionLabel>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
@@ -814,7 +812,6 @@ const Listing: React.FC<{ type: ListingType }> = ({ type }) => {
       <div className="min-h-screen bg-background text-foreground">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
           <header className="mb-10">
-            <p className="kicker mb-3">{type === 'learn' ? '自助知识库' : type === 'work' ? '可视化作品' : type === 'tool' ? '在线工具' : type === 'resource' ? '资料合集' : '站点导航'}</p>
             <div className="flex items-end gap-4">
               <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{m.title}</h1>
               <div className="flex-1 h-[2px] bg-gradient-to-r from-primary/50 to-transparent mb-2" />

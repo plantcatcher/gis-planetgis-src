@@ -558,7 +558,6 @@ const MyLearning: React.FC = () => {
           <header className="mb-8 md:mb-10">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div className="min-w-0">
-                <p className="kicker mb-3">学习中心</p>
                 <div className="flex items-end gap-3">
                   <h1 className="text-2xl md:text-3xl font-bold tracking-tight">我的学习</h1>
                   <div className="flex-1 h-[2px] bg-gradient-to-r from-primary/50 to-transparent mb-2 hidden sm:block" />

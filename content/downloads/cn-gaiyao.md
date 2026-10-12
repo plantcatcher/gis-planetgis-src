@@ -6,7 +6,7 @@ date: 2026-09-23
 category: 地理数据
 group: 地理数据
 region: 国内
-dataFormat: 其他
+dataFormat: shp
 tags: 全国概要数据, 基础地理数据, 1:400万, Shapefile, 北京54, Lambert投影, 省级行政区, 国界线, 主要河流, 主要公路, 主要铁路, 中国湖泊, QGIS, 地理数据
 access: gated
 trigger: 全国概要数据

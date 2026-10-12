@@ -58,9 +58,8 @@ const Games: React.FC = () => {
       <div className="min-h-screen bg-background text-foreground">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
           <header className="mb-10">
-            <p className="kicker mb-3">边玩边学</p>
             <div className="flex items-end gap-4">
-              <h1 className="text-3xl md:text-4xl font-bold tracking-tight">地理小游戏</h1>
+              <h1 className="text-2xl md:text-3xl font-bold tracking-tight">地理小游戏</h1>
               <div className="flex-1 h-[2px] bg-gradient-to-r from-primary/50 to-transparent mb-2" />
             </div>
             <div className="mt-3 h-1 w-14 bg-primary rounded-full" />

@@ -68,7 +68,7 @@ const Maps: React.FC = () => {
   return (
     <>
       <PageMeta
-        title="可视化互动地图 - 星球小捕手"
+        title="互动地图 - 星球小捕手"
         description="可以点、可以搜、可以查的地理互动地图系列：把河流、卫星影像、省情、地势等真实地理数据做成可提问的地图，每张都公开数据源与坐标系。"
         canonical="https://planetgis.cn/maps"
       />
@@ -76,9 +76,8 @@ const Maps: React.FC = () => {
       <div className="min-h-screen bg-background text-foreground">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
           <header className="mb-8">
-            <p className="kicker mb-3">可点 · 可搜 · 可查</p>
             <div className="flex items-end gap-4">
-              <h1 className="text-3xl md:text-4xl font-bold tracking-tight">可视化互动地图</h1>
+              <h1 className="text-2xl md:text-3xl font-bold tracking-tight">互动地图</h1>
               <div className="flex-1 h-[2px] bg-gradient-to-r from-primary/50 to-transparent mb-2" />
             </div>
             <div className="mt-3 h-1 w-14 bg-primary rounded-full" />

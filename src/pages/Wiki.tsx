@@ -40,7 +40,6 @@ const Wiki: React.FC = () => {
       <div className="min-h-screen bg-background text-foreground">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
           <header className="mb-10">
-            <p className="kicker mb-3">地理资源导航</p>
             <div className="flex items-end gap-4">
               <h1 className="text-2xl md:text-3xl font-bold tracking-tight">GIS 资源导航</h1>
               <div className="flex-1 h-[2px] bg-gradient-to-r from-primary/50 to-transparent mb-2" />

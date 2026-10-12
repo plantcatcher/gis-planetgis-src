@@ -154,8 +154,8 @@ const SeriesFooterBlock: React.FC<{
     <>
       {others.length > 0 && (
         <section className="mt-12 pt-8 border-t border-border/50">
-          <h2 className="text-xl font-bold mb-5 flex items-center gap-2">
-            <span className="w-1 h-5 rounded-sm bg-primary" />
+          <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+            <span className="w-1 h-4 rounded-sm bg-primary" />
             {cfg.listTitle}
           </h2>
           <ul className="space-y-3">
