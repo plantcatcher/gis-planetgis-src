@@ -16,7 +16,7 @@ import {
   getLearnCategories,
   getLearnSubjects,
   getLearnLevels,
-  getTags,
+  countTags,
   isResourceGated,
   isResourceViewOnly,
   SUBJECT_META,
@@ -197,10 +197,8 @@ const LearnGrid = () => {
   const subjects = getLearnSubjects();
   const categories = getLearnCategories();
   const levels = getLearnLevels();
-  const allTags = useMemo(
-    () => getTags().filter((t) => all.some((i) => (i.tags || []).includes(t.tag))).slice(0, 14),
-    [all],
-  );
+  // 标签：只统计本板块（科普文章）内的出现次数，数字与点击筛选结果一致
+  const allTags = useMemo(() => countTags(all).slice(0, 14), [all]);
 
   const initialSubject = searchParams.get('subject');
   const initialCategory = searchParams.get('category');
@@ -536,10 +534,9 @@ const ResourceGrid = () => {
   const [sortMode, setSortMode] = useState<'heat' | 'date'>('heat');
   // 移动端筛选区默认收起（桌面端 lg:block 常显）
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const tags = useMemo(
-    () => getTags().filter((t) => all.some((i) => (i.tags || []).includes(t.tag))).slice(0, 14),
-    [all],
-  );
+  // 标签栏：计数与排序均基于「本页资料」，数字即点击后筛出的条数；
+  // 数量上限 30，保证省级标签（广西/安徽/福建…）不被截断
+  const tags = useMemo(() => countTags(all).slice(0, 30), [all]);
   // 顶层分组 + 双轴筛选
   const grp = (i: ContentItem) => i.group || (i.category === '地理数据' ? '地理数据' : '书籍');
   const groupCounts = useMemo(() => {
@@ -623,8 +620,10 @@ const ResourceGrid = () => {
 
   return (
     <div className="lg:grid lg:grid-cols-[1fr_236px] lg:gap-8">
-      {/* 右侧筛选栏：按资料类型 */}
-      <aside className="lg:sticky lg:top-24 self-start space-y-6 mb-8 lg:mb-0 lg:order-2">
+      {/* 右侧筛选栏：按资料类型。桌面端限高一屏并自身滚动——
+          鼠标悬停在筛选栏时只滚筛选栏（overscroll-contain 阻止滚动穿透带动整页），
+          悬停在左侧列表时正常滚动页面；避免筛选栏高于视口时下半部分永远看不到。 */}
+      <aside className="lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:overscroll-contain lg:pr-1 self-start space-y-6 mb-8 lg:mb-0 lg:order-2">
         {/* 搜索框 */}
         <div>
           <div className="relative">

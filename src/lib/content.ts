@@ -499,7 +499,8 @@ export interface TagCount {
 export const getTags = (): TagCount[] => {
   const map = new Map<string, number>();
   for (const it of items) {
-    for (const t of it.tags || []) {
+    // 同一篇内重复写的标签只计一次，避免计数虚高
+    for (const t of new Set(it.tags || [])) {
       map.set(t, (map.get(t) || 0) + 1);
     }
   }
@@ -512,6 +513,22 @@ export const getItemsByTag = (tag: string): ContentItem[] =>
   items
     .filter((i) => (i.tags || []).includes(tag))
     .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+// 标签聚合（限定范围）：统计给定资料集合内的标签出现次数（降序）。
+// 列表页的标签栏必须用本函数基于「本页资料」统计——直接用 getTags() 会把
+// 其它板块（科普文章 / 作品）的计数带进来，使标签后的数字与点击筛选后的结果对不上。
+export const countTags = (list: ContentItem[]): TagCount[] => {
+  const map = new Map<string, number>();
+  for (const it of list) {
+    // 一篇资料内重复写的标签只计一次，保证数字 = 点击后筛出的条数
+    for (const t of new Set(it.tags || [])) {
+      map.set(t, (map.get(t) || 0) + 1);
+    }
+  }
+  return Array.from(map.entries())
+    .map(([tag, count]) => ({ tag, count }))
+    .sort((a, b) => b.count - a.count);
+};
 
 // 供预渲染 / sitemap 枚举所有标签专题页路由（中文标签做 URL 编码）。
 export const getAllTagPaths = (): string[] =>
