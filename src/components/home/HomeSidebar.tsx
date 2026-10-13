@@ -1,19 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, ArrowRight, BookOpen, Rss, History, Download } from 'lucide-react';
+import { Search, ArrowRight, BookOpen, History } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { SubjectIcon } from '@/lib/subjectIcons';
 import { trackSearch } from '@/lib/analytics';
 import { recordSearch } from '@/services/learningService';
 import HotBadge from '@/components/common/HotBadge';
-
-export interface SidebarNavItem {
-  id: string;
-  label: string;
-  meta?: string;
-  /** 是否显示 HOT 徽章（如「资料下载」） */
-  hot?: boolean;
-}
 
 export interface SidebarSubject {
   name: string;
@@ -21,19 +13,40 @@ export interface SidebarSubject {
   icon: string;
 }
 
+export interface SidebarNavItem {
+  id: string;
+  label: string;
+  meta?: string;
+  /** 分组名，侧栏按此分段渲染 */
+  group?: string;
+  /** 是否显示 HOT 徽章（如「资料下载」） */
+  hot?: boolean;
+  /** 可展开的二级项（目前用于「地理知识库」下的学科方向） */
+  subjects?: SidebarSubject[];
+}
+
+export interface SidebarUpdate {
+  date: string;
+  title: string;
+}
+
 /**
- * 首页左侧目录栏：知识库门户式导航。
+ * 首页左侧目录栏：本页控制器 + 回访钩子。
  * - 顶部检索直达 /learn?q=
- * - 「本页目录」跟随滚动高亮（scrollspy），点击平滑滚动
- * - 「学科方向」直达知识库分科筛选
+ * - 「本页目录」分组 + 跟随滚动高亮（scrollspy），点击平滑滚动
+ * - 「地理知识库」下嵌学科二级项
+ * - 底部「最近更新」替代纯计数统计卡，给出可点的回访入口
+ *
+ * 吸顶与限高说明：top-24 / max-h 用固定值，不读 --nav-h。
+ * 首页导航栏会随滚动收起并把 --nav-h 归零，若侧栏跟着该变量变化，
+ * 整栏位置与高度会与顶部栏互相拉扯并反复跳动。
  * 所有内容仍完整保留在右侧主区 DOM 中，不影响 SSG 预渲染与 SEO。
  */
 const HomeSidebar: React.FC<{
   items: SidebarNavItem[];
   active: string;
-  subjects: SidebarSubject[];
-  totalEntries: number;
-}> = ({ items, active, subjects, totalEntries }) => {
+  updates: SidebarUpdate[];
+}> = ({ items, active, updates }) => {
   const navigate = useNavigate();
   const [q, setQ] = useState('');
 
@@ -42,8 +55,17 @@ const HomeSidebar: React.FC<{
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
+  // 按 group 顺序切段，保持 items 原有次序
+  const groups: { name: string; items: SidebarNavItem[] }[] = [];
+  for (const it of items) {
+    const last = groups[groups.length - 1];
+    const name = it.group || '本页目录';
+    if (!last || last.name !== name) groups.push({ name, items: [it] });
+    else last.items.push(it);
+  }
+
   return (
-    <aside className="hidden lg:block lg:sticky lg:top-[var(--nav-h)] lg:h-[calc(100vh-var(--nav-h))] lg:overflow-y-auto lg:border-r lg:border-border/60 lg:pr-6 py-8 lg:py-10">
+    <aside className="hidden lg:block lg:sticky lg:top-24 self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:overscroll-contain lg:border-r lg:border-border/60 lg:pr-5 py-8">
       {/* 检索 */}
       <form
         onSubmit={(e) => {
@@ -57,7 +79,7 @@ const HomeSidebar: React.FC<{
           recordSearch(kw, 'learn');
           navigate(`/learn?q=${encodeURIComponent(kw)}`);
         }}
-        className="relative mb-7"
+        className="relative mb-6"
       >
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
         <Input
@@ -69,117 +91,100 @@ const HomeSidebar: React.FC<{
         />
       </form>
 
-      {/* 本页目录（scrollspy） */}
-      <nav className="hidden lg:block mb-8" aria-label="首页目录">
-        <div className="text-xs font-semibold tracking-widest text-muted-foreground/70 uppercase mb-3 px-3">
-          本页目录
-        </div>
-        <ul className="space-y-0.5">
-          {items.map((it) => {
-            const on = active === it.id;
-            return (
-              <li key={it.id}>
-                <button
-                  type="button"
-                  onClick={() => go(it.id)}
-                  className={`w-full text-left flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-sm transition-colors border-l-2 ${
-                    on
-                      ? 'border-primary bg-primary/10 text-primary font-medium'
-                      : 'border-transparent text-muted-foreground hover:bg-muted hover:text-foreground'
-                  }`}
-                >
-                  <span className="flex items-center gap-1.5 min-w-0">
-                    <span className="truncate">{it.label}</span>
-                    {it.hot && <HotBadge className="shrink-0" />}
-                  </span>
-                  {it.meta && <span className="text-[11px] opacity-70 shrink-0">{it.meta}</span>}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+      {/* 本页目录（scrollspy，分组） */}
+      <nav className="mb-6" aria-label="首页目录">
+        {groups.map((g, gi) => (
+          <div key={g.name} className={gi > 0 ? 'mt-4 pt-4 border-t border-border/40' : ''}>
+            {groups.length > 1 && (
+              <div className="text-[11px] font-semibold tracking-widest text-muted-foreground/60 uppercase mb-2 px-3">
+                {g.name}
+              </div>
+            )}
+            <ul className="space-y-0.5">
+              {g.items.map((it) => {
+                const on = active === it.id;
+                return (
+                  <li key={it.id}>
+                    <button
+                      type="button"
+                      onClick={() => go(it.id)}
+                      className={`w-full text-left flex items-center justify-between gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors border-l-2 ${
+                        on
+                          ? 'border-primary bg-primary/10 text-primary font-medium'
+                          : 'border-transparent text-muted-foreground hover:bg-muted hover:text-foreground'
+                      }`}
+                    >
+                      <span className="flex items-center gap-1.5 min-w-0">
+                        <span className="truncate">{it.label}</span>
+                        {it.hot && <HotBadge className="shrink-0" />}
+                      </span>
+                      {it.meta && <span className="text-[11px] opacity-70 shrink-0">{it.meta}</span>}
+                    </button>
+
+                    {/* 二级：学科方向，仅在「地理知识库」项下 */}
+                    {it.subjects?.length ? (
+                      <ul className="mt-0.5 mb-1 space-y-0.5">
+                        {it.subjects.map((s) => (
+                          <li key={s.name}>
+                            <Link
+                              to={`/learn?subject=${encodeURIComponent(s.name)}`}
+                              className="flex items-center justify-between gap-2 pl-7 pr-3 py-1 rounded-md text-[13px] text-muted-foreground/80 hover:bg-muted hover:text-foreground transition-colors"
+                            >
+                              <span className="inline-flex items-center gap-1.5 truncate">
+                                <SubjectIcon name={s.icon} className="w-3.5 h-3.5 text-primary/70" />
+                                {s.name}
+                              </span>
+                              <span className="text-[11px] opacity-60">{s.count}</span>
+                            </Link>
+                          </li>
+                        ))}
+                        <li>
+                          <Link
+                            to="/learn"
+                            className="flex items-center gap-1.5 pl-7 pr-3 py-1 rounded-md text-[13px] text-primary hover:bg-primary/10 transition-colors"
+                          >
+                            <BookOpen className="w-3.5 h-3.5" />
+                            全部条目
+                            <ArrowRight className="w-3 h-3" />
+                          </Link>
+                        </li>
+                      </ul>
+                    ) : null}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
       </nav>
 
-      {/* 学科方向 */}
-      <div className="mb-8">
-        <div className="text-xs font-semibold tracking-widest text-muted-foreground/70 uppercase mb-3 px-3">
-          学科方向
+      {/* 最近更新：给回访一个可点的入口，比纯计数更有用 */}
+      {updates.length > 0 && (
+        <div className="mb-6">
+          <div className="flex items-center gap-1.5 text-[11px] font-semibold tracking-widest text-muted-foreground/60 uppercase mb-2 px-3">
+            <History className="w-3.5 h-3.5" />
+            最近更新
+          </div>
+          <ul className="space-y-2 px-3">
+            {updates.map((u) => (
+              <li key={u.date + u.title}>
+                <Link to="/changelog" className="block group">
+                  <div className="text-[11px] text-muted-foreground/70 tabular-nums">{u.date}</div>
+                  <div className="text-[13px] leading-snug text-muted-foreground group-hover:text-primary transition-colors line-clamp-2">
+                    {u.title}
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <Link
+            to="/changelog"
+            className="flex items-center gap-1 px-3 mt-2 text-[13px] text-primary font-medium hover:gap-2 transition-all"
+          >
+            查看完整日志 <ArrowRight className="w-3 h-3" />
+          </Link>
         </div>
-        <ul className="space-y-0.5">
-          {subjects.map((s) => (
-            <li key={s.name}>
-              <Link
-                to={`/learn?subject=${encodeURIComponent(s.name)}`}
-                className="flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-              >
-                <span className="inline-flex items-center gap-2 truncate">
-                  <SubjectIcon name={s.icon} className="w-4 h-4 text-primary/80" />
-                  {s.name}
-                </span>
-                <span className="text-[11px] opacity-70">{s.count}</span>
-              </Link>
-            </li>
-          ))}
-          <li>
-            <Link
-              to="/learn"
-              className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-primary font-medium hover:bg-primary/10 transition-colors"
-            >
-              <BookOpen className="w-4 h-4" />
-              全部知识条目
-              <ArrowRight className="w-3.5 h-3.5 ml-auto" />
-            </Link>
-          </li>
-        </ul>
-      </div>
-
-      {/* 快捷入口 */}
-      <div className="mb-8">
-        <div className="text-xs font-semibold tracking-widest text-muted-foreground/70 uppercase mb-3 px-3">
-          快捷入口
-        </div>
-        <ul className="space-y-0.5">
-          <li>
-            <a
-              href="https://blog.planetgis.cn"
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-            >
-              <Rss className="w-4 h-4 text-primary/80" />
-              科普博客
-            </a>
-          </li>
-          <li>
-            <Link
-              to="/changelog"
-              className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-            >
-              <History className="w-4 h-4 text-primary/80" />
-              更新日志
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/downloads"
-              className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-            >
-              <Download className="w-4 h-4 text-primary/80" />
-              资料下载
-              <HotBadge className="ml-auto" />
-            </Link>
-          </li>
-        </ul>
-      </div>
-
-      {/* 底部统计 */}
-      <div className="px-3 py-4 rounded-xl bg-muted/50 border border-border/50">
-        <div className="text-2xl font-extrabold text-primary leading-none">{totalEntries}</div>
-        <div className="text-xs text-muted-foreground mt-1">条可检索知识词条</div>
-        <div className="text-xs text-muted-foreground/70 mt-2 leading-relaxed">
-          自然 · 人文 · 区域 · GIS 四大方向持续更新
-        </div>
-      </div>
+      )}
     </aside>
   );
 };

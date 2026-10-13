@@ -417,7 +417,10 @@ h1, h2, h3, .font-serif {
 main section[id] {
   scroll-margin-top: 5rem;
 }
-/* 首页自动隐藏导航栏时，让 --nav-h 归零，主内容与左栏贴顶 */
+/* 首页导航栏向下滚动时会收起（html.nav-hidden）。
+   注意：主内容与左栏的留白已改为固定值（Home.tsx 用 pt-16，首页侧栏用 lg:top-24），
+   不再读 --nav-h —— 否则导航一收起整页就会上下跳 4rem。
+   此规则目前没有消费者，仅保留变量一致性，不要用它去驱动布局。 */
 html.nav-hidden {
   --nav-h: 0rem;
 }

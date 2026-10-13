@@ -241,19 +241,21 @@ const Home = () => {
   const subdomains = subdomainsData as { title: string; description: string; link: string }[];
   const subjects = getLearnSubjects();
 
-  // 左栏目录（与右侧 section 一一对应，滚动高亮）
+  // 左栏目录（与右侧 section 一一对应，滚动高亮）。
+  // group 用于在侧栏里分组，避免 11 项平铺成一条长龙。
   const navItems = [
-    { id: 'profile', label: '站点导览' },
-    { id: 'learn', label: '地理知识库', meta: String(learns.length) },
-    { id: 'works', label: '精选作品', meta: String(worksShown.length) },
-    { id: 'maps', label: '互动地图', meta: String(maps.length) },
-    { id: 'games', label: '地理小游戏', meta: String(games.length) },
-    { id: 'downloads', label: '资料下载', meta: String(resources.length), hot: true },
-    { id: 'tools', label: '地理小工具', meta: String(tools.length) },
-    { id: 'subdomains', label: '子站导航', meta: String(subdomains.length) },
-    { id: 'social', label: '关注我们' },
-    { id: 'about', label: '关于星球小捕手' },
-    { id: 'updates', label: '动态与规划' },
+    { id: 'profile', label: '站点导览', group: '内容板块' },
+    // 学科方向作为「地理知识库」的二级项出现，不再单列一段（顶部导航已有 /learn）
+    { id: 'learn', label: '地理知识库', meta: String(learns.length), group: '内容板块', subjects },
+    { id: 'works', label: '精选作品', meta: String(worksShown.length), group: '内容板块' },
+    { id: 'maps', label: '互动地图', meta: String(maps.length), group: '内容板块' },
+    { id: 'games', label: '地理小游戏', meta: String(games.length), group: '内容板块' },
+    { id: 'downloads', label: '资料下载', meta: String(resources.length), hot: true, group: '内容板块' },
+    { id: 'tools', label: '地理小工具', meta: String(tools.length), group: '内容板块' },
+    { id: 'subdomains', label: '子站导航', meta: String(subdomains.length), group: '关于与动态' },
+    { id: 'social', label: '关注我们', group: '关于与动态' },
+    { id: 'about', label: '关于星球小捕手', group: '关于与动态' },
+    { id: 'updates', label: '动态与规划', group: '关于与动态' },
   ];
   const activeSection = useScrollSpy(navItems.map((n) => n.id));
 
@@ -960,13 +962,14 @@ const Home = () => {
         title="星球小捕手 - 地理科普与可视化实验室"
         description="星球小捕手是一个专注于地球科学的独立创作者品牌。用数据讲述地球变化，用地图发现世界的温度——从海平面模拟到城市路网，致力于让专业地理知识变得直观、有趣、触手可及。"
       />
-      <main className="pt-[var(--nav-h)]">
-        <div className="max-w-[1500px] mx-auto px-4 md:px-8 lg:grid lg:grid-cols-[250px_minmax(0,1fr)]">
+      {/* pt 用固定值：首页导航栏会随滚动收起，若这里跟着 --nav-h 变化，
+          整页内容会在 4rem / 0 之间反复跳动。导航收起只影响导航自身。 */}
+      <main className="pt-16">
+        <div className="max-w-[1500px] mx-auto px-4 md:px-8 lg:grid lg:grid-cols-[220px_minmax(0,1fr)]">
           <HomeSidebar
             items={navItems}
             active={activeSection}
-            subjects={subjects}
-            totalEntries={learns.length + resources.length}
+            updates={updateLog.slice(0, 3)}
           />
           <div className="min-w-0 lg:pl-10">
             {sections.map(sec => (
