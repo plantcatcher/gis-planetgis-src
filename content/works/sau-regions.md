@@ -1,7 +1,7 @@
 ---
 slug: sau-regions
 title: 沙特阿拉伯行政区划地图
-cover: /maps/sau-regions/vizmap-sau-regions-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-14-vizmap-sau-regions-cover.jpg
 summary: 点一下沙特阿拉伯地图，看 13 个省 / 区的中文名、首府、人口、面积与行政区类型；可在「人口 / 面积 / 类型」之间切换着色、147 个次级区划。边界数据来自 GADM 4.1。
 link: /maps/sau-regions
 order: 30

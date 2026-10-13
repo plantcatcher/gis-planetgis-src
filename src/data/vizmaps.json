@@ -1233,6 +1233,98 @@
         "desc": "32 个二级区划边界，可作为叠加图层查看最基层行政区划；属性含所属一级中文名"
       }
     ]
+  },
+  {
+    "slug": "idn-regions",
+    "entry": "/maps/idn-regions/index.html",
+    "bbox": [96.4, -10.13, 139.05, 4.4],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_IDN_shp，WGS84 / EPSG:4326，公开数据）：34 个一级行政区（印度尼西亚）边界 + 497 个二级区划。中文名 / 首府 / 人口为人工整理近似值；面积由几何球面实算。",
+    "updated": "2026-10-14",
+    "data": [
+      {
+        "file": "maps/idn-regions/data/provinces.geojson",
+        "features": 34,
+        "unit": "个一级行政区",
+        "desc": "34 个一级行政区边界；属性含中文名 / 英文名 / 首府 / 人口 / 几何实算面积 / 行政区类型"
+      },
+      {
+        "file": "maps/idn-regions/data/districts.geojson",
+        "features": 497,
+        "unit": "个二级区划",
+        "desc": "497 个二级区划边界，可作为叠加图层查看最基层行政区划；属性含所属一级中文名"
+      }
+    ]
+  },
+  {
+    "slug": "ind-regions",
+    "entry": "/maps/ind-regions/index.html",
+    "bbox": [68.49, 8.35, 94.47, 33.99],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_IND_shp，WGS84 / EPSG:4326，公开数据）：35 个一级行政区（印度）边界 + 648 个二级区划。中文名 / 首府 / 人口为人工整理近似值；面积由几何球面实算。；已按中方主张界线剔除：阿克赛钦、喀喇昆仑走廊归入中国，藏南地区（印方所谓「阿鲁纳恰尔邦」）整体不作为印度行政区呈现，另去除 GADM 标记他国主张版本的 Z 系列重复要素",
+    "updated": "2026-10-14",
+    "data": [
+      {
+        "file": "maps/ind-regions/data/provinces.geojson",
+        "features": 35,
+        "unit": "个一级行政区",
+        "desc": "35 个一级行政区边界；属性含中文名 / 英文名 / 首府 / 人口 / 几何实算面积 / 行政区类型"
+      },
+      {
+        "file": "maps/ind-regions/data/districts.geojson",
+        "features": 648,
+        "unit": "个二级区划",
+        "desc": "648 个二级区划边界，可作为叠加图层查看最基层行政区划；属性含所属一级中文名"
+      }
+    ]
+  },
+  {
+    "slug": "phl-regions",
+    "entry": "/maps/phl-regions/index.html",
+    "bbox": [117.27, 5.09, 126.35, 18.88],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_PHL_shp，WGS84 / EPSG:4326，公开数据）：81 个一级行政区（菲律宾）边界 + 1642 个二级区划。中文名 / 首府 / 人口为人工整理近似值；面积由几何球面实算。",
+    "updated": "2026-10-14",
+    "data": [
+      {
+        "file": "maps/phl-regions/data/provinces.geojson",
+        "features": 81,
+        "unit": "个一级行政区",
+        "desc": "81 个一级行政区边界；属性含中文名 / 英文名 / 首府 / 人口 / 几何实算面积 / 行政区类型"
+      },
+      {
+        "file": "maps/phl-regions/data/districts.geojson",
+        "features": 1642,
+        "unit": "个二级区划",
+        "desc": "1642 个二级区划边界，可作为叠加图层查看最基层行政区划；属性含所属一级中文名"
+      }
+    ]
+  },
+  {
+    "slug": "zaf-regions",
+    "entry": "/maps/zaf-regions/index.html",
+    "bbox": [17.0, -34.44, 32.03, -22.37],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_ZAF_shp，WGS84 / EPSG:4326，公开数据）：9 个一级行政区（南非）边界 + 52 个二级区划。中文名 / 首府 / 人口为人工整理近似值；面积由几何球面实算。",
+    "updated": "2026-10-14",
+    "data": [
+      {
+        "file": "maps/zaf-regions/data/provinces.geojson",
+        "features": 9,
+        "unit": "个一级行政区",
+        "desc": "9 个一级行政区边界；属性含中文名 / 英文名 / 首府 / 人口 / 几何实算面积 / 行政区类型"
+      },
+      {
+        "file": "maps/zaf-regions/data/districts.geojson",
+        "features": 52,
+        "unit": "个二级区划",
+        "desc": "52 个二级区划边界，可作为叠加图层查看最基层行政区划；属性含所属一级中文名"
+      }
+    ]
   }
 ]
 }

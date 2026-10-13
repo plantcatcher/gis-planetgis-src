@@ -1,7 +1,7 @@
 ---
 slug: kaz-regions
 title: 哈萨克斯坦行政区划地图
-cover: /maps/kaz-regions/vizmap-kaz-regions-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-14-vizmap-kaz-regions-cover.jpg
 summary: 点一下哈萨克斯坦地图，看 14 个州的中文名、首府、人口、面积与行政区类型；可在「人口 / 面积 / 类型」之间切换着色，还能展开 174 个区。边界数据来自 GADM 4.1。
 link: /maps/kaz-regions
 order: 30

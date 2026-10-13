@@ -1,7 +1,7 @@
 ---
 slug: tur-regions
 title: 土耳其行政区划地图
-cover: /maps/tur-regions/vizmap-tur-regions-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-14-vizmap-tur-regions-cover.jpg
 summary: 点一下土耳其地图，看 81 个省的中文名、首府、人口、面积与行政区类型；可在「人口 / 面积 / 类型」之间切换着色、929 个区/县。边界数据来自 GADM 4.1。
 link: /maps/tur-regions
 order: 30

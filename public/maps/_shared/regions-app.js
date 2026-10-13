@@ -390,6 +390,8 @@
       bind();
       app.fitAll({ animate: false });
       setLabels();
+      /* 暴露到全局：封面截图脚本（scripts/gen_map_cover.mjs）与调试控制台需要取 map 实例 */
+      window.__app = app;
       window.__regionsDebug = { ready: true, main: S.main.length, sub: S.sub.length };
     }).catch(function (err) {
       console.error('[regions-app] 数据加载失败', err);

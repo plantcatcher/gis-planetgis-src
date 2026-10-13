@@ -1,7 +1,7 @@
 ---
 slug: arg-regions
 title: 阿根廷行政区划地图
-cover: /maps/arg-regions/vizmap-arg-regions-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-14-vizmap-arg-regions-cover.jpg
 summary: 点一下阿根廷地图，看 24 个省 / 自治市的中文名、首府、人口、面积与行政区类型；可在「人口 / 面积 / 类型」之间切换着色、502 个县/市。边界数据来自 GADM 4.1。
 link: /maps/arg-regions
 order: 30

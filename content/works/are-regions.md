@@ -1,7 +1,7 @@
 ---
 slug: are-regions
 title: 阿联酋行政区划地图
-cover: /maps/are-regions/vizmap-are-regions-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-14-vizmap-are-regions-cover.jpg
 summary: 点一下阿联酋地图，看 7 个酋长国的中文名、首府、人口、面积与行政区类型；可在「人口 / 面积 / 类型」之间切换着色、193 个市/镇。边界数据来自 GADM 4.1。
 link: /maps/are-regions
 order: 30

@@ -1,7 +1,7 @@
 ---
 slug: prk-regions
 title: 朝鲜行政区划地图
-cover: /maps/prk-regions/vizmap-prk-regions-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-14-vizmap-prk-regions-cover.jpg
 summary: 点一下朝鲜地图，看 14 个道 / 特别市的中文名、首府、人口、面积与行政区类型；可在「人口 / 面积 / 类型」之间切换着色、186 个郡/市。边界数据来自 GADM 4.1。
 link: /maps/prk-regions
 order: 30
