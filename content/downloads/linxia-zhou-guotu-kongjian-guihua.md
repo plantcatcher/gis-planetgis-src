@@ -1,0 +1,67 @@
+---
+slug: linxia-zhou-guotu-kongjian-guihua
+title: 临夏回族自治州国土空间总体规划（2021—2035年）
+summary: 临夏回族自治州国土空间总体规划（2021—2035年）：批后公开版，118 页，约 1.3 MB，来自临夏回族自治州人民政府。由甘肃省人民政府批复（甘政函〔2024〕28号，2024-03-21）。本站仅作索引与阅读引导，不托管文件。
+date: 2026-10-13
+category: 国土空间规划
+tags: 国土空间规划, 甘肃, 临夏, 总规, 2021-2035, 省政府批复
+access: open
+stdStatus: 批后公开版
+pages: 118 页
+stdDate: 由甘肃省人民政府批复（甘政函〔2024〕28号）
+source: 临夏回族自治州人民政府
+viewUrl: https://linxia.gov.cn/lxz/zwgk/zc/agwzlfl/lzff/art/2024/art_0dd9bba16811413abff468737d93c532.html?xxgkFlg=xxgk
+officialUrl: https://linxia.gov.cn/lxz/zwgk/zc/agwzlfl/lzff/art/2024/art_0dd9bba16811413abff468737d93c532.html?xxgkFlg=xxgk
+officialName: 临夏回族自治州人民政府·临州府发〔2024〕21号（含文件下载）
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-linxia-zhou-guotu-kongjian-guihua-cover.jpg
+format: PDF
+size: 1.3 MB
+---
+
+> 《临夏回族自治州国土空间总体规划（2021—2035年）》为批后公开版（118 页，约 1.3 MB），来自临夏回族自治州人民政府。官网以网页形式公开，本页提供官方公开页入口；规划文件版权归原发布机关所有。
+>
+> 核实说明：州政府政策文件页含附件下载但链接为 jpaas 动态网关，无静态直链；2024-06-11 印发
+
+## 规划简介
+
+《临夏回族自治州国土空间总体规划（2021—2035年）》是甘肃省「多规合一」改革后市（州）级国土空间总体规划的组成部分，规划期为 2021—2035 年（基期 2020 年），远景展望至 2050 年。 本件为批后公开版，由甘肃省人民政府批复（甘政函〔2024〕28号，2024-03-21）。全文 118 页，文件体积约 1.3 MB。
+
+规划围绕「三区三线」统筹划定，明确市域（区域）国土空间开发保护总体格局、底线约束与空间结构，是各类开发保护建设活动的基本依据。
+
+## 批复底线指标（至 2035 年）
+
+- 耕地保有量不低于 **0.61 万亩**。
+- 生态保护红线面积不低于 **1459.95 平方千米**。
+- 城镇开发边界面积控制在 **149.21 平方千米**以内。
+
+## 主要内容
+
+- 规划定位：明确城市性质、目标战略与国土空间开发保护总体格局。
+- 发展定位：临夏州是甘肃省两个民族自治州之一，位于甘肃省“一核三带”区域发展格局中“一核”的重要辐射区内，是兰白都市圈的重要组成部分。
+- 三区三线：永久基本农田、生态保护红线、城镇开发边界的划定与管控要求。
+- 空间格局：农业、生态、城镇三类空间的结构安排与用途管制。
+- 专项安排：支撑高质量发展的产业、交通、基础设施与公共服务空间保障。
+- 实施保障：规划分区、传导机制与近期行动。
+
+## 使用方法
+
+1. 点击「在线观看全文」跳转临夏回族自治州人民政府的官方公开页。
+2. 研究区域国土空间格局时，重点阅读「三区三线」与空间结构章节。
+3. 引用具体指标与边界数据，请以官方正式文本为准。
+
+## 使用须知
+
+- 本页为**免验证码公开资料**：下载均跳转**政府官网原始链接**，文件由发布机构服务器提供，本站不托管、不转存。
+- 规划文件版权归原发布机关所有，本页仅提供索引与阅读便利，仅供个人学习、教学与研究使用；引用数据请以官方正式文本为准。
+- 政府网站可能调整栏目路径，若链接失效，请通过「官方入口」或检索规划全名回到发布机构获取最新版本。
+
+## 内页速览
+
+<div class="shot-grid">
+<img alt="临夏回族自治州国土空间总体规划（2021—2035年） 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-linxia-zhou-guotu-kongjian-guihua-cover.jpg" />
+<img alt="临夏回族自治州国土空间总体规划（2021—2035年） 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-linxia-zhou-guotu-kongjian-guihua-p1.jpg" />
+<img alt="临夏回族自治州国土空间总体规划（2021—2035年） 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-linxia-zhou-guotu-kongjian-guihua-p2.jpg" />
+<img alt="临夏回族自治州国土空间总体规划（2021—2035年） 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-linxia-zhou-guotu-kongjian-guihua-p3.jpg" />
+<img alt="临夏回族自治州国土空间总体规划（2021—2035年） 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-linxia-zhou-guotu-kongjian-guihua-p4.jpg" />
+<img alt="临夏回族自治州国土空间总体规划（2021—2035年） 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-linxia-zhou-guotu-kongjian-guihua-p5.jpg" />
+</div>

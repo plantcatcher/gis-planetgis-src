@@ -14,7 +14,7 @@ downloadType: external
 download: https://dnr.gxzf.gov.cn/IGI/upload/file/2023/05/16/2023051605145545075B.pdf
 officialUrl: https://dnr.gxzf.gov.cn/
 officialName: 广西壮族自治区自然资源厅
-cover: /images/dl-guangxi-guotu-kongjian-guihua-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-guangxi-guotu-kongjian-guihua-cover.jpg
 format: PDF
 size: 8.5 MB
 ---
@@ -48,10 +48,10 @@ size: 8.5 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="广西壮族自治区国土空间规划（2021—2035年）公众征求意见稿 封面" src="/images/dl-guangxi-guotu-kongjian-guihua-cover.jpg" />
-<img alt="广西壮族自治区国土空间规划（2021—2035年）公众征求意见稿 内页速览 1" src="/images/dl-guangxi-guotu-kongjian-guihua-p1.jpg" />
-<img alt="广西壮族自治区国土空间规划（2021—2035年）公众征求意见稿 内页速览 2" src="/images/dl-guangxi-guotu-kongjian-guihua-p2.jpg" />
-<img alt="广西壮族自治区国土空间规划（2021—2035年）公众征求意见稿 内页速览 3" src="/images/dl-guangxi-guotu-kongjian-guihua-p3.jpg" />
-<img alt="广西壮族自治区国土空间规划（2021—2035年）公众征求意见稿 内页速览 4" src="/images/dl-guangxi-guotu-kongjian-guihua-p4.jpg" />
-<img alt="广西壮族自治区国土空间规划（2021—2035年）公众征求意见稿 内页速览 5" src="/images/dl-guangxi-guotu-kongjian-guihua-p5.jpg" />
+<img alt="广西壮族自治区国土空间规划（2021—2035年）公众征求意见稿 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-guangxi-guotu-kongjian-guihua-cover.jpg" />
+<img alt="广西壮族自治区国土空间规划（2021—2035年）公众征求意见稿 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-guangxi-guotu-kongjian-guihua-p1.jpg" />
+<img alt="广西壮族自治区国土空间规划（2021—2035年）公众征求意见稿 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-guangxi-guotu-kongjian-guihua-p2.jpg" />
+<img alt="广西壮族自治区国土空间规划（2021—2035年）公众征求意见稿 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-guangxi-guotu-kongjian-guihua-p3.jpg" />
+<img alt="广西壮族自治区国土空间规划（2021—2035年）公众征求意见稿 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-guangxi-guotu-kongjian-guihua-p4.jpg" />
+<img alt="广西壮族自治区国土空间规划（2021—2035年）公众征求意见稿 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-guangxi-guotu-kongjian-guihua-p5.jpg" />
 </div>

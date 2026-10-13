@@ -13,7 +13,7 @@ pages: 80 页
 source: 河北省国土资源厅
 downloadType: external
 download: http://zrghj.sjz.gov.cn/cms/ewebeditor/uploadfile/2024080210133252771.pdf
-cover: /images/dl-hebei-dijidiaocha-xize-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hebei-dijidiaocha-xize-cover.jpg
 format: PDF
 size: 10.3 MB
 ---
@@ -47,11 +47,11 @@ size: 10.3 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="文件封面：河北省地籍调查技术细则" src="/images/dl-hebei-dijidiaocha-xize-cover.jpg" />
-<img alt="《河北省地籍调查技术细则》内页速览 1" src="/images/dl-hebei-dijidiaocha-xize-p1.jpg" />
-<img alt="《河北省地籍调查技术细则》内页速览 2" src="/images/dl-hebei-dijidiaocha-xize-p2.jpg" />
-<img alt="《河北省地籍调查技术细则》内页速览 3" src="/images/dl-hebei-dijidiaocha-xize-p3.jpg" />
-<img alt="《河北省地籍调查技术细则》内页速览 4" src="/images/dl-hebei-dijidiaocha-xize-p4.jpg" />
-<img alt="《河北省地籍调查技术细则》内页速览 5" src="/images/dl-hebei-dijidiaocha-xize-p5.jpg" />
-<img alt="《河北省地籍调查技术细则》内页速览 6" src="/images/dl-hebei-dijidiaocha-xize-p6.jpg" />
+<img alt="文件封面：河北省地籍调查技术细则" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hebei-dijidiaocha-xize-cover.jpg" />
+<img alt="《河北省地籍调查技术细则》内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hebei-dijidiaocha-xize-p1.jpg" />
+<img alt="《河北省地籍调查技术细则》内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hebei-dijidiaocha-xize-p2.jpg" />
+<img alt="《河北省地籍调查技术细则》内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hebei-dijidiaocha-xize-p3.jpg" />
+<img alt="《河北省地籍调查技术细则》内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hebei-dijidiaocha-xize-p4.jpg" />
+<img alt="《河北省地籍调查技术细则》内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hebei-dijidiaocha-xize-p5.jpg" />
+<img alt="《河北省地籍调查技术细则》内页速览 6" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hebei-dijidiaocha-xize-p6.jpg" />
 </div>

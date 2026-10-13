@@ -14,7 +14,7 @@ downloadType: external
 download: http://zrzyj.yulin.gov.cn/ghjh/tdlygh/P020220129665833563882.pdf
 officialUrl: http://zrzyj.yulin.gov.cn/ghjh/tdlygh/t11234233.shtml
 officialName: 玉林市自然资源局 · 草案公示页
-cover: /images/dl-yulin-guotu-kongjian-guihua-caoan-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-yulin-guotu-kongjian-guihua-caoan-cover.jpg
 format: PDF
 size: 214.2 MB
 ---
@@ -47,10 +47,10 @@ size: 214.2 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="玉林市国土空间总体规划（2021—2035年）草案公示稿 封面" src="/images/dl-yulin-guotu-kongjian-guihua-caoan-cover.jpg" />
-<img alt="玉林市国土空间总体规划（2021—2035年）草案公示稿 内页速览 1" src="/images/dl-yulin-guotu-kongjian-guihua-caoan-p1.jpg" />
-<img alt="玉林市国土空间总体规划（2021—2035年）草案公示稿 内页速览 2" src="/images/dl-yulin-guotu-kongjian-guihua-caoan-p2.jpg" />
-<img alt="玉林市国土空间总体规划（2021—2035年）草案公示稿 内页速览 3" src="/images/dl-yulin-guotu-kongjian-guihua-caoan-p3.jpg" />
-<img alt="玉林市国土空间总体规划（2021—2035年）草案公示稿 内页速览 4" src="/images/dl-yulin-guotu-kongjian-guihua-caoan-p4.jpg" />
-<img alt="玉林市国土空间总体规划（2021—2035年）草案公示稿 内页速览 5" src="/images/dl-yulin-guotu-kongjian-guihua-caoan-p5.jpg" />
+<img alt="玉林市国土空间总体规划（2021—2035年）草案公示稿 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-yulin-guotu-kongjian-guihua-caoan-cover.jpg" />
+<img alt="玉林市国土空间总体规划（2021—2035年）草案公示稿 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-yulin-guotu-kongjian-guihua-caoan-p1.jpg" />
+<img alt="玉林市国土空间总体规划（2021—2035年）草案公示稿 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-yulin-guotu-kongjian-guihua-caoan-p2.jpg" />
+<img alt="玉林市国土空间总体规划（2021—2035年）草案公示稿 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-yulin-guotu-kongjian-guihua-caoan-p3.jpg" />
+<img alt="玉林市国土空间总体规划（2021—2035年）草案公示稿 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-yulin-guotu-kongjian-guihua-caoan-p4.jpg" />
+<img alt="玉林市国土空间总体规划（2021—2035年）草案公示稿 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-yulin-guotu-kongjian-guihua-caoan-p5.jpg" />
 </div>

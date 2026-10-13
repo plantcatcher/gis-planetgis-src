@@ -16,7 +16,7 @@ keywordAliases: GADM,全球行政区SHP,行政区划SHP,全球行政区划数据
 code: NSH-GADM-999
 format: SHP（ZIP 压缩包）
 size: 1.3 MB（1,338,970 字节）
-cover: /images/gadm41-eth-shp-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-gadm41-eth-shp-cover.jpg
 ---
 
 > 本数据集为 GADM（Global Administrative Areas，全球行政区划数据库）v4.1 的**埃塞俄比亚**部分，以 Shapefile 格式提供行政区划边界，压缩包约 **1.3 MB（1,338,970 字节）**。GADM 是国际学术界广泛引用的全球行政区划数据项目，覆盖全球 400+ 国家和地区的高精度行政边界。东非高原之国，非洲唯一从未被长期殖民的国家，11 个民族州与 2 个特别市按民族语言划界，咖啡的发源地与拉利贝拉岩石教堂都在这里。

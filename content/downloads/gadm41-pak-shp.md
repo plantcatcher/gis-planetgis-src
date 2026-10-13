@@ -16,7 +16,7 @@ keywordAliases: GADM,全球行政区SHP,行政区划SHP,全球行政区划数据
 code: NSH-GADM-999
 format: SHP（ZIP 压缩包）
 size: 2.2 MB（2,184,380 字节）
-cover: /images/gadm41-pak-shp-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-gadm41-pak-shp-cover.jpg
 ---
 
 > 本数据集为 GADM（Global Administrative Areas，全球行政区划数据库）v4.1 的**巴基斯坦**部分，以 Shapefile 格式提供行政区划边界，压缩包约 **2.2 MB（2,184,380 字节）**。GADM 是国际学术界广泛引用的全球行政区划数据项目，覆盖全球 400+ 国家和地区的高精度行政边界。南亚次大陆西北的印度河之国，4 个省 + 1 个首都区 + 2 个直管区，印度河灌溉平原养活了全国绝大多数人口，喀喇昆仑公路把它与中国连在一起。

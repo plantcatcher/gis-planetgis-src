@@ -5,7 +5,7 @@ summary: NASA 火星全球勘测者（MGS）搭载的 MOLA 激光高度计获取
 date: 2026-09-16
 category: 地理数据
 group: 地理数据
-region: 其他
+region: 火星
 dataFormat: GeoTIFF
 tags: 火星, MOLA, DEM, 数字高程模型, 地形, NASA, 行星科学, 三维可视化, 遥感, 地理数据
 access: gated

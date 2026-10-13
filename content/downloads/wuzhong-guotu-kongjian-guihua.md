@@ -1,0 +1,62 @@
+---
+slug: wuzhong-guotu-kongjian-guihua
+title: 吴忠市国土空间总体规划（2021—2035年）
+summary: 吴忠市国土空间总体规划（2021—2035年）：批后公开版，167 页，约 1.1 MB，来自吴忠市人民政府。由宁夏回族自治区人民政府批复（宁政函〔2023〕67号，2023-10-18）。本站仅作索引与阅读引导，不托管文件。
+date: 2026-10-13
+category: 国土空间规划
+tags: 国土空间规划, 宁夏, 吴忠, 总规, 2021-2035, 自治区政府批复
+access: open
+stdStatus: 批后公开版
+pages: 167 页
+stdDate: 由宁夏回族自治区人民政府批复（宁政函〔2023〕67号）
+source: 吴忠市人民政府
+downloadType: external
+download: https://wuzhong.gov.cn/xxgk/zfxxgkml/ghxx/zxgh/202405/P020240521630536380761.pdf
+officialUrl: https://www.wuzhong.gov.cn/xxgk/zfxxgkml/ghxx/zxgh/202405/t20240521_4545597.html
+officialName: 吴忠市人民政府·关于《吴忠市国土空间总体规划(2021-2035年)》的公告
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-wuzhong-guotu-kongjian-guihua-cover.jpg
+format: PDF
+size: 1.1 MB
+---
+
+> 《吴忠市国土空间总体规划（2021—2035年）》为批后公开版（167 页，约 1.1 MB），来自吴忠市人民政府。本页直链即官方原件；规划文件版权归原发布机关所有。
+>
+> 核实说明：公布稿文本(2024年5月)，市政府公告页附件
+
+## 规划简介
+
+《吴忠市国土空间总体规划（2021—2035年）》是宁夏回族自治区「多规合一」改革后市（州）级国土空间总体规划的组成部分，规划期为 2021—2035 年（基期 2020 年），远景展望至 2050 年。 本件为批后公开版，由宁夏回族自治区人民政府批复（宁政函〔2023〕67号，2023-10-18）。全文 167 页，文件体积约 1.1 MB。
+
+规划围绕「三区三线」统筹划定，明确市域（区域）国土空间开发保护总体格局、底线约束与空间结构，是各类开发保护建设活动的基本依据。
+
+## 主要内容
+
+- 规划定位：明确城市性质、目标战略与国土空间开发保护总体格局。
+- 发展定位：吴忠市的城市性质和功能定位为绿色发展先行市、能源综合示范市、特色食品产业和先进装备制造业基地、宜居宜业宜游的黄河金岸靓丽生态休闲城市。
+- 三区三线：永久基本农田、生态保护红线、城镇开发边界的划定与管控要求。
+- 空间格局：农业、生态、城镇三类空间的结构安排与用途管制。
+- 专项安排：支撑高质量发展的产业、交通、基础设施与公共服务空间保障。
+- 实施保障：规划分区、传导机制与近期行动。
+
+## 使用方法
+
+1. 点击「下载资料」跳转吴忠市人民政府的官方文件直链（无需验证码，文件由发布机构服务器提供）。
+2. 研究区域国土空间格局时，重点阅读「三区三线」与空间结构章节。
+3. 引用具体指标与边界数据，请以官方正式文本为准。
+
+## 使用须知
+
+- 本页为**免验证码公开资料**：下载均跳转**政府官网原始链接**，文件由发布机构服务器提供，本站不托管、不转存。
+- 规划文件版权归原发布机关所有，本页仅提供索引与阅读便利，仅供个人学习、教学与研究使用；引用数据请以官方正式文本为准。
+- 政府网站可能调整栏目路径，若链接失效，请通过「官方入口」或检索规划全名回到发布机构获取最新版本。
+
+## 内页速览
+
+<div class="shot-grid">
+<img alt="吴忠市国土空间总体规划（2021—2035年） 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-wuzhong-guotu-kongjian-guihua-cover.jpg" />
+<img alt="吴忠市国土空间总体规划（2021—2035年） 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-wuzhong-guotu-kongjian-guihua-p1.jpg" />
+<img alt="吴忠市国土空间总体规划（2021—2035年） 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-wuzhong-guotu-kongjian-guihua-p2.jpg" />
+<img alt="吴忠市国土空间总体规划（2021—2035年） 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-wuzhong-guotu-kongjian-guihua-p3.jpg" />
+<img alt="吴忠市国土空间总体规划（2021—2035年） 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-wuzhong-guotu-kongjian-guihua-p4.jpg" />
+<img alt="吴忠市国土空间总体规划（2021—2035年） 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-wuzhong-guotu-kongjian-guihua-p5.jpg" />
+</div>

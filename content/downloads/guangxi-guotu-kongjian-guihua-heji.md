@@ -14,7 +14,7 @@ download: https://pan.baidu.com/s/1j1bGhyB9oZS_nEXrtMnGdA?pwd=shcn
 panCode: shcn
 officialUrl: https://dnr.gxzf.gov.cn/
 officialName: 广西壮族自治区自然资源厅
-cover: /images/dl-guangxi-guotu-kongjian-guihua-cover.png
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-guangxi-guotu-kongjian-guihua-cover.png
 format: PDF（网盘合集）
 size: 约 600 MB
 ---
@@ -48,7 +48,7 @@ size: 约 600 MB
 - **来宾**：编制成果版全文 + 公众征求意见稿，41 页 / 33 页；[成果版详情页](/downloads/laibin-guotu-kongjian-guihua)、[征求意见稿详情页](/downloads/laibin-guotu-kongjian-guihua-zhengqiu)
 - **崇左**：草案公示稿 + 批后图册公开版，55 页 / 12 图幅；[草案详情页](/downloads/chongzuo-guotu-kongjian-guihua-caoan)、[图册详情页](/downloads/chongzuo-guotu-kongjian-guihua-tuce)
 
-![广西及各地市国土空间总体规划资料包文件列表](/images/dl-guangxi-guotu-kongjian-guihua-netdisk.png)
+![广西及各地市国土空间总体规划资料包文件列表](https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-guangxi-guotu-kongjian-guihua-netdisk.png)
 
 ## 可得性小结
 

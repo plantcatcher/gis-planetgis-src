@@ -14,7 +14,7 @@ downloadType: external
 download: https://tl.gov.cn/openness/file_tl/1/202505/202505194926cc1d67174753bb04c4e092ee7818.pdf
 officialUrl: https://tl.gov.cn/openness/OpennessContent/show/1154719.html
 officialName: 铜陵市人民政府·规划印发通知与解读
-cover: /images/dl-tongling-guotu-kongjian-guihua-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-tongling-guotu-kongjian-guihua-cover.jpg
 format: PDF
 size: 0.9 MB
 ---
@@ -48,10 +48,10 @@ size: 0.9 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="铜陵市国土空间总体规划（2021—2035年） 封面" src="/images/dl-tongling-guotu-kongjian-guihua-cover.jpg" />
-<img alt="铜陵市国土空间总体规划（2021—2035年） 内页速览 1" src="/images/dl-tongling-guotu-kongjian-guihua-p1.jpg" />
-<img alt="铜陵市国土空间总体规划（2021—2035年） 内页速览 2" src="/images/dl-tongling-guotu-kongjian-guihua-p2.jpg" />
-<img alt="铜陵市国土空间总体规划（2021—2035年） 内页速览 3" src="/images/dl-tongling-guotu-kongjian-guihua-p3.jpg" />
-<img alt="铜陵市国土空间总体规划（2021—2035年） 内页速览 4" src="/images/dl-tongling-guotu-kongjian-guihua-p4.jpg" />
-<img alt="铜陵市国土空间总体规划（2021—2035年） 内页速览 5" src="/images/dl-tongling-guotu-kongjian-guihua-p5.jpg" />
+<img alt="铜陵市国土空间总体规划（2021—2035年） 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-tongling-guotu-kongjian-guihua-cover.jpg" />
+<img alt="铜陵市国土空间总体规划（2021—2035年） 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-tongling-guotu-kongjian-guihua-p1.jpg" />
+<img alt="铜陵市国土空间总体规划（2021—2035年） 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-tongling-guotu-kongjian-guihua-p2.jpg" />
+<img alt="铜陵市国土空间总体规划（2021—2035年） 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-tongling-guotu-kongjian-guihua-p3.jpg" />
+<img alt="铜陵市国土空间总体规划（2021—2035年） 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-tongling-guotu-kongjian-guihua-p4.jpg" />
+<img alt="铜陵市国土空间总体规划（2021—2035年） 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-tongling-guotu-kongjian-guihua-p5.jpg" />
 </div>

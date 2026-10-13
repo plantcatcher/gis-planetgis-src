@@ -14,7 +14,7 @@ downloadType: external
 download: http://www.laibin.gov.cn/xxgk/fdzdgknr/fzgh_1/zcqgh/P020211210628685130523.pdf
 officialUrl: http://www.laibin.gov.cn/xxgk/fdzdgknr/fzgh_1/zcqgh/t10939563.shtml
 officialName: 来宾市人民政府 · 规划编制成果公开页
-cover: /images/dl-laibin-guotu-kongjian-guihua-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-laibin-guotu-kongjian-guihua-cover.jpg
 format: PDF
 size: 26.6 MB
 ---
@@ -47,10 +47,10 @@ size: 26.6 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="来宾市国土空间总体规划（2021—2035年） 封面" src="/images/dl-laibin-guotu-kongjian-guihua-cover.jpg" />
-<img alt="来宾市国土空间总体规划（2021—2035年） 内页速览 1" src="/images/dl-laibin-guotu-kongjian-guihua-p1.jpg" />
-<img alt="来宾市国土空间总体规划（2021—2035年） 内页速览 2" src="/images/dl-laibin-guotu-kongjian-guihua-p2.jpg" />
-<img alt="来宾市国土空间总体规划（2021—2035年） 内页速览 3" src="/images/dl-laibin-guotu-kongjian-guihua-p3.jpg" />
-<img alt="来宾市国土空间总体规划（2021—2035年） 内页速览 4" src="/images/dl-laibin-guotu-kongjian-guihua-p4.jpg" />
-<img alt="来宾市国土空间总体规划（2021—2035年） 内页速览 5" src="/images/dl-laibin-guotu-kongjian-guihua-p5.jpg" />
+<img alt="来宾市国土空间总体规划（2021—2035年） 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-laibin-guotu-kongjian-guihua-cover.jpg" />
+<img alt="来宾市国土空间总体规划（2021—2035年） 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-laibin-guotu-kongjian-guihua-p1.jpg" />
+<img alt="来宾市国土空间总体规划（2021—2035年） 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-laibin-guotu-kongjian-guihua-p2.jpg" />
+<img alt="来宾市国土空间总体规划（2021—2035年） 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-laibin-guotu-kongjian-guihua-p3.jpg" />
+<img alt="来宾市国土空间总体规划（2021—2035年） 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-laibin-guotu-kongjian-guihua-p4.jpg" />
+<img alt="来宾市国土空间总体规划（2021—2035年） 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-laibin-guotu-kongjian-guihua-p5.jpg" />
 </div>

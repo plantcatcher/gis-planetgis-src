@@ -14,7 +14,7 @@ downloadType: external
 download: https://fj.gov.cn/zwgk/ghjh/gtkjgh/202407/P020240718595845603662.pdf
 officialUrl: https://zrzyt.fujian.gov.cn/zwgk/ghjh/
 officialName: 福建省人民政府·规划公开
-cover: /images/dl-fujian-sheng-guotu-kongjian-guihua-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fujian-sheng-guotu-kongjian-guihua-cover.jpg
 format: PDF
 size: 2.5 MB
 ---
@@ -50,10 +50,10 @@ size: 2.5 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="福建省国土空间总体规划（2021—2035年） 封面" src="/images/dl-fujian-sheng-guotu-kongjian-guihua-cover.jpg" />
-<img alt="福建省国土空间总体规划（2021—2035年） 内页速览 1" src="/images/dl-fujian-sheng-guotu-kongjian-guihua-p1.jpg" />
-<img alt="福建省国土空间总体规划（2021—2035年） 内页速览 2" src="/images/dl-fujian-sheng-guotu-kongjian-guihua-p2.jpg" />
-<img alt="福建省国土空间总体规划（2021—2035年） 内页速览 3" src="/images/dl-fujian-sheng-guotu-kongjian-guihua-p3.jpg" />
-<img alt="福建省国土空间总体规划（2021—2035年） 内页速览 4" src="/images/dl-fujian-sheng-guotu-kongjian-guihua-p4.jpg" />
-<img alt="福建省国土空间总体规划（2021—2035年） 内页速览 5" src="/images/dl-fujian-sheng-guotu-kongjian-guihua-p5.jpg" />
+<img alt="福建省国土空间总体规划（2021—2035年） 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fujian-sheng-guotu-kongjian-guihua-cover.jpg" />
+<img alt="福建省国土空间总体规划（2021—2035年） 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fujian-sheng-guotu-kongjian-guihua-p1.jpg" />
+<img alt="福建省国土空间总体规划（2021—2035年） 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fujian-sheng-guotu-kongjian-guihua-p2.jpg" />
+<img alt="福建省国土空间总体规划（2021—2035年） 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fujian-sheng-guotu-kongjian-guihua-p3.jpg" />
+<img alt="福建省国土空间总体规划（2021—2035年） 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fujian-sheng-guotu-kongjian-guihua-p4.jpg" />
+<img alt="福建省国土空间总体规划（2021—2035年） 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fujian-sheng-guotu-kongjian-guihua-p5.jpg" />
 </div>

@@ -14,7 +14,7 @@ download: https://pan.baidu.com/s/1uIeYjfhpxjZp2PgAj2xVNg?pwd=sxh8
 panCode: sxh8
 officialUrl: https://zrzyt.fujian.gov.cn/zwgk/ghjh/
 officialName: 福建省自然资源厅·规划计划
-cover: /images/dl-fujian-guotu-kongjian-guihua-cover.png
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fujian-guotu-kongjian-guihua-cover.png
 format: PDF（网盘合集）
 size: 约 170 MB
 ---
@@ -42,7 +42,7 @@ size: 约 170 MB
 - **南平**：公众版，40 页，省政府批复 闽政文〔2024〕121号；[详情页](/downloads/nanping-guotu-kongjian-guihua)
 - **宁德**：草案公示版，45 页，省政府批复 闽政文〔2024〕118号；[详情页](/downloads/ningde-guotu-kongjian-guihua)
 
-![福建及各地市国土空间总体规划资料包文件列表](/images/dl-fujian-guotu-kongjian-guihua-netdisk.png)
+![福建及各地市国土空间总体规划资料包文件列表](https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fujian-guotu-kongjian-guihua-netdisk.png)
 
 ## 可得性小结
 

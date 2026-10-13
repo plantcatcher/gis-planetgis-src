@@ -14,7 +14,7 @@ downloadType: external
 download: http://www.qinzhou.gov.cn/zfxxgk/qzszfxxgkpt/qzszrzyj/fdzdgknr/wsgs/ghgs/W020241023649893226842.pdf
 officialUrl: http://www.qinzhou.gov.cn/zfxxgk/qzszfxxgkpt/qzszrzyj/fdzdgknr/wsgs/ghgs/t19148394.shtml
 officialName: 钦州市人民政府 · 规划公示页
-cover: /images/dl-qinzhou-guotu-kongjian-guihua-caoan-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-qinzhou-guotu-kongjian-guihua-caoan-cover.jpg
 format: PDF
 size: 21.0 MB
 ---
@@ -47,10 +47,10 @@ size: 21.0 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="钦州市国土空间总体规划（2021—2035年）草案公示稿 封面" src="/images/dl-qinzhou-guotu-kongjian-guihua-caoan-cover.jpg" />
-<img alt="钦州市国土空间总体规划（2021—2035年）草案公示稿 内页速览 1" src="/images/dl-qinzhou-guotu-kongjian-guihua-caoan-p1.jpg" />
-<img alt="钦州市国土空间总体规划（2021—2035年）草案公示稿 内页速览 2" src="/images/dl-qinzhou-guotu-kongjian-guihua-caoan-p2.jpg" />
-<img alt="钦州市国土空间总体规划（2021—2035年）草案公示稿 内页速览 3" src="/images/dl-qinzhou-guotu-kongjian-guihua-caoan-p3.jpg" />
-<img alt="钦州市国土空间总体规划（2021—2035年）草案公示稿 内页速览 4" src="/images/dl-qinzhou-guotu-kongjian-guihua-caoan-p4.jpg" />
-<img alt="钦州市国土空间总体规划（2021—2035年）草案公示稿 内页速览 5" src="/images/dl-qinzhou-guotu-kongjian-guihua-caoan-p5.jpg" />
+<img alt="钦州市国土空间总体规划（2021—2035年）草案公示稿 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-qinzhou-guotu-kongjian-guihua-caoan-cover.jpg" />
+<img alt="钦州市国土空间总体规划（2021—2035年）草案公示稿 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-qinzhou-guotu-kongjian-guihua-caoan-p1.jpg" />
+<img alt="钦州市国土空间总体规划（2021—2035年）草案公示稿 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-qinzhou-guotu-kongjian-guihua-caoan-p2.jpg" />
+<img alt="钦州市国土空间总体规划（2021—2035年）草案公示稿 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-qinzhou-guotu-kongjian-guihua-caoan-p3.jpg" />
+<img alt="钦州市国土空间总体规划（2021—2035年）草案公示稿 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-qinzhou-guotu-kongjian-guihua-caoan-p4.jpg" />
+<img alt="钦州市国土空间总体规划（2021—2035年）草案公示稿 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-qinzhou-guotu-kongjian-guihua-caoan-p5.jpg" />
 </div>

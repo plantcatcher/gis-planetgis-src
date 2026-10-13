@@ -34,6 +34,7 @@ const About = () => {
           initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
+          className="max-w-4xl mx-auto"
         >
           <h1 className="text-3xl md:text-4xl font-bold mb-4">关于星球小捕手</h1>
           <p className="text-base text-muted-foreground mb-12 leading-relaxed">
@@ -120,7 +121,7 @@ const About = () => {
               </div>
               <div className="space-y-3">
                 <div>
-                  <h3 className="text-lg font-bold">Zayn Huang（黄志安）</h3>
+                  <h3 className="text-lg font-bold">Zayn Huang</h3>
                   <p className="text-sm text-primary font-medium">星球小捕手 创始人 · 地理科普创作者</p>
                 </div>
                 <p className="text-muted-foreground leading-relaxed">

@@ -97,7 +97,7 @@ export interface ContentItem {
   home?: boolean;
   /** 首页精选排序：数字越小越靠前；缺省按 date 倒序。仅 home:true 时生效 */
   homeOrder?: number;
-  /** 资料下载专用：顶层分组（书籍 / 地理数据），用于下载页双轴筛选 */
+  /** 资料下载专用：顶层分组（文献资料 / 地理数据），用于下载页双轴筛选。缺省由 category 推导 */
   group?: string;
   /** 资料下载专用：地理数据的区域范围（国内 / 国外 / 全球 / 其他） */
   region?: string;
@@ -528,6 +528,175 @@ export const countTags = (list: ContentItem[]): TagCount[] => {
   return Array.from(map.entries())
     .map(([tag, count]) => ({ tag, count }))
     .sort((a, b) => b.count - a.count);
+};
+
+// ===== 资料下载页的「省份」筛选轴 =====
+// 「国土空间规划」类资料按行政区组织，tags 里带有省级标签（广西 / 安徽 / 四川 / 广东…）。
+// 这里用一份省级行政区白名单把这些标签识别出来，供下载页提供一独立筛选轴，
+// 同时把省份标签从「标签」栏剔除——同一个维度不在两处重复出现，标签栏也能让出位置给语义标签。
+export const PROVINCE_ORDER = [
+  '北京', '天津', '河北', '山西', '内蒙古',
+  '辽宁', '吉林', '黑龙江',
+  '上海', '江苏', '浙江', '安徽', '福建', '江西', '山东',
+  '河南', '湖北', '湖南', '广东', '广西', '海南',
+  '重庆', '四川', '贵州', '云南', '西藏',
+  '陕西', '甘肃', '青海', '宁夏', '新疆',
+  '台湾', '香港', '澳门',
+] as const;
+
+const PROVINCE_SET = new Set<string>(PROVINCE_ORDER);
+
+/** 某个标签是否为省级行政区标签（用于标签栏剔除省份、区域轴识别省份） */
+export const isProvinceTag = (tag: string): boolean => PROVINCE_SET.has(tag);
+
+// ===== 资料下载页的分类体系（2026-10-13 重构）=====
+// 设计原则：**顶层取共性，第二层才是个性**。
+// 所有资料的共同属性是「文件形态」——要么是文本（PDF/Word），要么是数据集（SHP/GeoTIFF），
+// 这一层互斥、稳定、不随内容漂移，所以作为主分类；各类内部再挂自己的维度。
+//
+//   主分类：文献资料 407 ｜ 地理数据 65
+//     ├ 图书教材 82  → 学科（自然地理 / 人文地理 / 城市与区域 / GIS与遥感 / 高中地理…）
+//     ├ 标准规范 19  → 级别（国家标准 / 行业标准 / 地方标准）
+//     ├ 规划文本 306 → 层级（省级 / 市级）
+//     └ 地理数据 65  → 格式（SHP / GeoTIFF / 影像）
+//   区域（全局横切）：世界（全球 / 国外） ｜ 中国（全国 / 各省·自治区·直辖市）
+//   访问方式（全局横切）：直接下载 / 在线观看 / 需验证码
+//   标签（最底层）：跨分类的语义关键词
+//
+// 除 group 外全部由现有字段推导，不改 md——将来若要显式覆盖，加同名 frontmatter 字段即可。
+
+export const DL_GROUP_LITERATURE = '文献资料';
+export const DL_GROUP_DATA = '地理数据';
+
+/** 顶层分类。显式 group 字段优先，缺省按 category 推导（数据类恒为「地理数据」，其余为「文献资料」）。 */
+export const resourceGroup = (i: ContentItem): string =>
+  i.group || (i.category === DL_GROUP_DATA ? DL_GROUP_DATA : DL_GROUP_LITERATURE);
+
+export const DL_GROUP_ORDER = [DL_GROUP_LITERATURE, DL_GROUP_DATA] as const;
+
+/**
+ * 第二层「资料性质」：仅文献资料内部细分，地理数据不再分性质（返回其自身）。
+ * - 标准规范（GB/T、TD/T、SL、地方细则）
+ * - 规划文本（各级国土空间规划文本与配套图集）
+ * - 图书教材（教材、专著、论文、题库笔记等技术书刊）
+ */
+export const resourceDocType = (i: ContentItem): string => {
+  const g = resourceGroup(i);
+  if (g === DL_GROUP_DATA) return DL_GROUP_DATA;
+  if (i.category === '标准规范') return '标准规范';
+  if (i.category === '国土空间规划') return '规划文本';
+  return '图书教材';
+};
+
+/** 文献资料内部的资料性质顺序（图书教材 → 标准规范 → 规划文本） */
+export const DL_DOC_TYPES = ['图书教材', '标准规范', '规划文本'] as const;
+
+/** 图书教材的「学科」展示顺序；不在表内的按出现顺序排在最后。 */
+const DL_SUBJECT_ORDER = ['自然地理', '人文地理', '城市与区域', 'GIS与遥感', '测绘与地球科学', '计算机与编程', '高中地理'];
+
+export const sortSubjects = (names: string[]): string[] =>
+  [...names].sort((a, b) => {
+    const ia = DL_SUBJECT_ORDER.indexOf(a);
+    const ib = DL_SUBJECT_ORDER.indexOf(b);
+    if (ia === -1 && ib === -1) return a.localeCompare(b);
+    if (ia === -1) return 1;
+    if (ib === -1) return -1;
+    return ia - ib;
+  });
+
+/** 标准规范的「级别」：按标准号前缀判定，缺号时回退到 slug 前缀。 */
+export const resourceStdLevel = (i: ContentItem): string => {
+  const no = (i.standardNo || '').trim();
+  const slug = i.slug || '';
+  if (no.startsWith('GB/T') || slug.startsWith('gbt')) return '国家标准';
+  if (no.startsWith('TD/T') || slug.startsWith('tdt')) return '行业标准';
+  if (slug.startsWith('sl-') || slug === 'sl') return '行业标准';
+  return '地方标准';
+};
+
+export const DL_STD_LEVELS = ['国家标准', '行业标准', '地方标准'] as const;
+
+// 省级行政区拼音（slug 前缀）。规划文本的 slug 统一为 `<拼音>-guotu-kongjian-guihua[-后缀]`，
+// 去掉规划后缀后命中本表即省级规划，否则为市级（地级市 / 自治州 / 盟）。
+const PROVINCE_SLUGS = new Set([
+  'beijing', 'tianjin', 'hebei', 'shanxi', 'neimenggu',
+  'liaoning', 'jilin', 'heilongjiang',
+  'shanghai', 'jiangsu', 'zhejiang', 'anhui', 'fujian', 'jiangxi', 'shandong',
+  'henan', 'hubei', 'hunan', 'guangdong', 'guangxi', 'hainan',
+  'chongqing', 'sichuan', 'guizhou', 'yunnan', 'xizang',
+  'shaanxi', 'gansu', 'qinghai', 'ningxia', 'xinjiang',
+  'taiwan', 'xianggang', 'aomen',
+]);
+
+/** 规划文本的「层级」：省级 / 市级。 */
+export const resourcePlanLevel = (i: ContentItem): string => {
+  const base = (i.slug || '').replace(/-guotu-kongjian-guihua.*$/, '');
+  return PROVINCE_SLUGS.has(base) ? '省级' : '市级';
+};
+
+export const DL_PLAN_LEVELS = ['省级', '市级'] as const;
+
+/** 地理数据「格式」归一化：修掉大小写不一致（如 shp / SHP），缺省归「其他」。 */
+export const normDataFormat = (raw?: string): string => {
+  const s = (raw || '').trim();
+  if (!s) return '其他';
+  const low = s.toLowerCase();
+  if (low === 'shp' || low === 'shapefile') return 'SHP';
+  if (low === 'geotiff' || low === 'tif' || low === 'tiff') return 'GeoTIFF';
+  return s;
+};
+
+/**
+ * 区域轴（全局横切）：把地理数据的 region 字段（世界）与省级标签（中国）合成一根轴。
+ * 值编码为 `R:<region>`（世界）或 `P:<省>`（中国），供 URL 与筛选共用。
+ * 显示上分两组：世界（全球 / 国外）→ 中国（全国 / 各省·自治区·直辖市）。
+ */
+export interface AreaFacet {
+  group: '世界' | '中国';
+  name: string;
+  value: string;
+  count: number;
+}
+
+const REGION_ORDER = ['全球', '国外', '国内'];
+const REGION_LABEL: Record<string, string> = { 国内: '全国' };
+
+export const getAreaFacets = (list: ContentItem[]): AreaFacet[] => {
+  const world = new Map<string, number>();
+  const china = new Map<string, number>();
+  for (const it of list) {
+    if (it.region) world.set(it.region, (world.get(it.region) || 0) + 1);
+    for (const t of new Set(it.tags || [])) {
+      if (PROVINCE_SET.has(t)) china.set(t, (china.get(t) || 0) + 1);
+    }
+  }
+  const out: AreaFacet[] = [];
+  const rest = Array.from(world.keys()).filter((k) => !REGION_ORDER.includes(k)).sort();
+  for (const k of [...REGION_ORDER, ...rest]) {
+    if (world.has(k)) {
+      out.push({ group: '世界', name: REGION_LABEL[k] || k, value: `R:${k}`, count: world.get(k)! });
+    }
+  }
+  for (const p of PROVINCE_ORDER) {
+    if (china.has(p)) out.push({ group: '中国', name: p, value: `P:${p}`, count: china.get(p)! });
+  }
+  return out;
+};
+
+/** 区域筛选：`R:<region>` 匹配 region 字段，`P:<省>` 匹配省级标签。 */
+export const matchArea = (i: ContentItem, value: string): boolean => {
+  if (value.startsWith('R:')) return (i.region || '') === value.slice(2);
+  if (value.startsWith('P:')) return (i.tags || []).includes(value.slice(2));
+  return true;
+};
+
+/** 区域轴取值 → 显示名（`R:国内` → 全国，`P:广东` → 广东）。 */
+export const areaLabel = (value: string): string => {
+  if (value.startsWith('R:')) {
+    const k = value.slice(2);
+    return REGION_LABEL[k] || k;
+  }
+  return value.slice(2);
 };
 
 // 供预渲染 / sitemap 枚举所有标签专题页路由（中文标签做 URL 编码）。

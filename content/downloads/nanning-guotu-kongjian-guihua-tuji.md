@@ -14,7 +14,7 @@ downloadType: external
 download: https://www.nanning.gov.cn/zwgk/fdzdgknr/zcwj/zfwj/P020250425405755398052.pdf
 officialUrl: https://www.nanning.gov.cn/zwgk/fdzdgknr/zcwj/zfwj/t6259935.html
 officialName: 南宁市人民政府门户网站 · 规划发布页
-cover: /images/dl-nanning-guotu-kongjian-guihua-tuji-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-nanning-guotu-kongjian-guihua-tuji-cover.jpg
 format: PDF
 size: 26.1 MB
 ---
@@ -47,10 +47,10 @@ size: 26.1 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="南宁市国土空间总体规划（2021—2035年）图集 封面" src="/images/dl-nanning-guotu-kongjian-guihua-tuji-cover.jpg" />
-<img alt="南宁市国土空间总体规划（2021—2035年）图集 内页速览 1" src="/images/dl-nanning-guotu-kongjian-guihua-tuji-p1.jpg" />
-<img alt="南宁市国土空间总体规划（2021—2035年）图集 内页速览 2" src="/images/dl-nanning-guotu-kongjian-guihua-tuji-p2.jpg" />
-<img alt="南宁市国土空间总体规划（2021—2035年）图集 内页速览 3" src="/images/dl-nanning-guotu-kongjian-guihua-tuji-p3.jpg" />
-<img alt="南宁市国土空间总体规划（2021—2035年）图集 内页速览 4" src="/images/dl-nanning-guotu-kongjian-guihua-tuji-p4.jpg" />
-<img alt="南宁市国土空间总体规划（2021—2035年）图集 内页速览 5" src="/images/dl-nanning-guotu-kongjian-guihua-tuji-p5.jpg" />
+<img alt="南宁市国土空间总体规划（2021—2035年）图集 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-nanning-guotu-kongjian-guihua-tuji-cover.jpg" />
+<img alt="南宁市国土空间总体规划（2021—2035年）图集 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-nanning-guotu-kongjian-guihua-tuji-p1.jpg" />
+<img alt="南宁市国土空间总体规划（2021—2035年）图集 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-nanning-guotu-kongjian-guihua-tuji-p2.jpg" />
+<img alt="南宁市国土空间总体规划（2021—2035年）图集 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-nanning-guotu-kongjian-guihua-tuji-p3.jpg" />
+<img alt="南宁市国土空间总体规划（2021—2035年）图集 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-nanning-guotu-kongjian-guihua-tuji-p4.jpg" />
+<img alt="南宁市国土空间总体规划（2021—2035年）图集 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-nanning-guotu-kongjian-guihua-tuji-p5.jpg" />
 </div>

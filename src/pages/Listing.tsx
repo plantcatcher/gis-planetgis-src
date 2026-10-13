@@ -17,10 +17,26 @@ import {
   getLearnSubjects,
   getLearnLevels,
   countTags,
+  isProvinceTag,
   isResourceGated,
   isResourceViewOnly,
   SUBJECT_META,
   LEARN_SUBJECTS,
+  resourceGroup,
+  resourceDocType,
+  resourceStdLevel,
+  resourcePlanLevel,
+  normDataFormat,
+  getAreaFacets,
+  matchArea,
+  areaLabel,
+  sortSubjects,
+  DL_GROUP_LITERATURE,
+  DL_GROUP_DATA,
+  DL_GROUP_ORDER,
+  DL_DOC_TYPES,
+  DL_STD_LEVELS,
+  DL_PLAN_LEVELS,
   type ContentItem,
 } from '@/lib/content';
 import { searchAll } from '@/lib/knowledge';
@@ -520,71 +536,195 @@ const ResourceGrid = () => {
   // GA4 + 本地搜索历史：资料下载搜索关键词
   useSearchTracking(query, 'resources');
 
-  const [activeTag, setActiveTag] = useState<string | null>(searchParams.get('tag'));
-  // 从 URL ?tag= 同步（支持从资料详情页点标签跳转过来自动过滤）
+  // 区域轴取值：region 参数（世界）优先，其次 province / 省级标签（中国）。编码为 R:x / P:x。
+  const readArea = (sp: URLSearchParams): string => {
+    const rg = sp.get('region');
+    if (rg) return `R:${rg}`;
+    const pv = sp.get('province');
+    if (pv) return `P:${pv}`;
+    const tg = sp.get('tag');
+    if (tg && isProvinceTag(tg)) return `P:${tg}`;
+    return '全部';
+  };
+
+  const [activeGroup, setActiveGroup] = useState<string>(() => {
+    const g = searchParams.get('group');
+    return g && (DL_GROUP_ORDER as readonly string[]).includes(g) ? g : '全部';
+  });
+  const [activeType, setActiveType] = useState<string>(() => {
+    const t = searchParams.get('type');
+    return t && (DL_DOC_TYPES as readonly string[]).includes(t) ? t : '全部';
+  });
+  const [activeSubject, setActiveSubject] = useState<string>(() => searchParams.get('subject') || '全部');
+  const [activeStdLevel, setActiveStdLevel] = useState<string>(() => searchParams.get('stdLevel') || '全部');
+  const [activePlanLevel, setActivePlanLevel] = useState<string>(() => searchParams.get('planLevel') || '全部');
+  const [activeFormat, setActiveFormat] = useState<string>(() => searchParams.get('format') || '全部');
+  const [activeArea, setActiveArea] = useState<string>(() => readArea(searchParams));
+  const [activeAccess, setActiveAccess] = useState<'all' | 'download' | 'view' | 'gated'>(() => {
+    const a = searchParams.get('access');
+    return a === 'download' || a === 'view' || a === 'gated' ? a : 'all';
+  });
+  const [activeTag, setActiveTag] = useState<string | null>(() => {
+    const t = searchParams.get('tag');
+    return t && !isProvinceTag(t) ? t : null;
+  });
+
+  // 从 URL 同步（支持从资料详情页点标签/区域跳转过来自动过滤，以及浏览器前进后退）
   useEffect(() => {
-    setActiveTag(searchParams.get('tag'));
+    const g = searchParams.get('group');
+    setActiveGroup(g && (DL_GROUP_ORDER as readonly string[]).includes(g) ? g : '全部');
+    const ty = searchParams.get('type');
+    setActiveType(ty && (DL_DOC_TYPES as readonly string[]).includes(ty) ? ty : '全部');
+    setActiveSubject(searchParams.get('subject') || '全部');
+    setActiveStdLevel(searchParams.get('stdLevel') || '全部');
+    setActivePlanLevel(searchParams.get('planLevel') || '全部');
+    setActiveFormat(searchParams.get('format') || '全部');
+    setActiveArea(readArea(searchParams));
+    const a = searchParams.get('access');
+    setActiveAccess(a === 'download' || a === 'view' || a === 'gated' ? a : 'all');
+    const t = searchParams.get('tag');
+    setActiveTag(t && !isProvinceTag(t) ? t : null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
-  const [activeGroup, setActiveGroup] = useState<string>('全部');
-  const [activeCategory, setActiveCategory] = useState<string>('全部');
-  const [activeRegion, setActiveRegion] = useState<string>('全部');
-  const [activeFormat, setActiveFormat] = useState<string>('全部');
-  const [activeAccess, setActiveAccess] = useState<'all' | 'download' | 'view' | 'gated'>('all');
+
   const [view, setView] = useState<'grid' | 'list'>('list');
   const [sortMode, setSortMode] = useState<'heat' | 'date'>('heat');
   // 移动端筛选区默认收起（桌面端 lg:block 常显）
   const [filtersOpen, setFiltersOpen] = useState(false);
-  // 标签栏：计数与排序均基于「本页资料」，数字即点击后筛出的条数；
-  // 数量上限 30，保证省级标签（广西/安徽/福建…）不被截断
-  const tags = useMemo(() => countTags(all).slice(0, 30), [all]);
-  // 顶层分组 + 双轴筛选
-  const grp = (i: ContentItem) => i.group || (i.category === '地理数据' ? '地理数据' : '书籍');
+
+  // 顶层「文献资料」范围：第二层与学科/级别/层级均在此范围内统计
+  const lit = useMemo(() => all.filter((i) => resourceGroup(i) === DL_GROUP_LITERATURE), [all]);
   const groupCounts = useMemo(() => {
-    const m: Record<string, number> = { 书籍: 0, 地理数据: 0 };
-    for (const r of all) m[grp(r)] = (m[grp(r)] || 0) + 1;
+    const m: Record<string, number> = { 全部: all.length, [DL_GROUP_LITERATURE]: 0, [DL_GROUP_DATA]: 0 };
+    for (const r of all) {
+      const g = resourceGroup(r);
+      m[g] = (m[g] || 0) + 1;
+    }
     return m;
   }, [all]);
-  // 书籍学科子类（书籍范围内计数）
-  const bookCats = useMemo(() => {
-    const map = new Map<string, number>();
-    for (const r of all) if (grp(r) === '书籍') { const c = r.category || '未分类'; map.set(c, (map.get(c) || 0) + 1); }
-    return Array.from(map.entries()).map(([name, count]) => ({ name, count }));
-  }, [all]);
-  // 地理数据：区域 × 格式 两轴计数
-  const regionCounts = useMemo(() => {
-    const map = new Map<string, number>();
-    for (const r of all) if (grp(r) === '地理数据') { const c = r.region || '其他'; map.set(c, (map.get(c) || 0) + 1); }
-    return Array.from(map.entries()).map(([name, count]) => ({ name, count }));
-  }, [all]);
+  // 第二层：资料性质（图书教材 / 标准规范 / 规划文本）
+  const docTypeCounts = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const r of lit) {
+      const t = resourceDocType(r);
+      m.set(t, (m.get(t) || 0) + 1);
+    }
+    return DL_DOC_TYPES.filter((t) => m.has(t)).map((t) => ({ name: t, count: m.get(t)! }));
+  }, [lit]);
+  // 图书教材 → 学科（= category）
+  const subjectCounts = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const r of lit) {
+      if (resourceDocType(r) !== '图书教材') continue;
+      const c = r.category || '未分类';
+      m.set(c, (m.get(c) || 0) + 1);
+    }
+    return sortSubjects(Array.from(m.keys())).map((n) => ({ name: n, count: m.get(n)! }));
+  }, [lit]);
+  // 标准规范 → 级别
+  const stdLevelCounts = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const r of lit) {
+      if (resourceDocType(r) !== '标准规范') continue;
+      const c = resourceStdLevel(r);
+      m.set(c, (m.get(c) || 0) + 1);
+    }
+    return DL_STD_LEVELS.filter((n) => m.has(n)).map((n) => ({ name: n, count: m.get(n)! }));
+  }, [lit]);
+  // 规划文本 → 层级
+  const planLevelCounts = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const r of lit) {
+      if (resourceDocType(r) !== '规划文本') continue;
+      const c = resourcePlanLevel(r);
+      m.set(c, (m.get(c) || 0) + 1);
+    }
+    return DL_PLAN_LEVELS.filter((n) => m.has(n)).map((n) => ({ name: n, count: m.get(n)! }));
+  }, [lit]);
+  // 地理数据 → 格式
   const formatCounts = useMemo(() => {
-    const map = new Map<string, number>();
-    for (const r of all) if (grp(r) === '地理数据') { const c = r.dataFormat || '其他'; map.set(c, (map.get(c) || 0) + 1); }
-    return Array.from(map.entries()).map(([name, count]) => ({ name, count }));
+    const m = new Map<string, number>();
+    for (const r of all) {
+      if (resourceGroup(r) !== DL_GROUP_DATA) continue;
+      const c = normDataFormat(r.dataFormat);
+      m.set(c, (m.get(c) || 0) + 1);
+    }
+    return Array.from(m.entries())
+      .sort((a, b) => b[1] - a[1])
+      .map(([name, count]) => ({ name, count }));
   }, [all]);
+  // 结构层筛选（主分类 / 资料性质 / 类内维度 / 访问方式）：两根横切轴的公共基数。
+  // 区域、标签、关键词**不在**这里收窄——它们各自在下方单独参与，避免互相吃掉。
+  const baseScope = useMemo(() => {
+    let s = all;
+    if (activeGroup !== '全部') s = s.filter((i) => resourceGroup(i) === activeGroup);
+    if (activeGroup === DL_GROUP_LITERATURE && activeType !== '全部') {
+      s = s.filter((i) => resourceDocType(i) === activeType);
+    }
+    if (activeType === '图书教材' && activeSubject !== '全部') {
+      s = s.filter((i) => (i.category || '未分类') === activeSubject);
+    }
+    if (activeType === '标准规范' && activeStdLevel !== '全部') {
+      s = s.filter((i) => resourceStdLevel(i) === activeStdLevel);
+    }
+    if (activeType === '规划文本' && activePlanLevel !== '全部') {
+      s = s.filter((i) => resourcePlanLevel(i) === activePlanLevel);
+    }
+    if (activeGroup === DL_GROUP_DATA && activeFormat !== '全部') {
+      s = s.filter((i) => normDataFormat(i.dataFormat) === activeFormat);
+    }
+    if (activeAccess !== 'all') {
+      // 三态：直接下载（有文件、无门禁）/ 在线观看（仅官方在线阅读链接）/ 需验证码
+      s = s.filter((i) =>
+        activeAccess === 'gated'
+          ? isResourceGated(i)
+          : activeAccess === 'view'
+            ? isResourceViewOnly(i)
+            : !isResourceGated(i) && !isResourceViewOnly(i),
+      );
+    }
+    return s;
+  }, [all, activeGroup, activeType, activeSubject, activeStdLevel, activePlanLevel, activeFormat, activeAccess]);
 
-  const q = query.trim();
-  // 1) 顶层分组
-  let scope = activeGroup === '全部' ? all : all.filter((i) => grp(i) === activeGroup);
-  // 2) 书籍按学科；地理数据按 区域 × 格式（两轴独立 AND）
-  if (activeGroup === '书籍' && activeCategory !== '全部') {
-    scope = scope.filter((i) => (i.category || '未分类') === activeCategory);
-  }
-  if (activeGroup === '地理数据') {
-    if (activeRegion !== '全部') scope = scope.filter((i) => (i.region || '其他') === activeRegion);
-    if (activeFormat !== '全部') scope = scope.filter((i) => (i.dataFormat || '其他') === activeFormat);
-  }
-  let list: ContentItem[] = q ? searchAll(q, scope).map((h) => h.item) : scope;
+  // 区域轴（全局横切）：region 字段 + 省级标签合成一根轴，分「世界 / 中国」两组。
+  // 计数口径＝结构层基数叠加「已选标签」，但**不含区域自身的选择**——
+  // 这样数字恒等于点击该项后筛出的条数，且不会出现「地理数据」视图里点省份得 0 条的死角。
+  const areaScope = useMemo(
+    () => (activeTag ? baseScope.filter((i) => (i.tags || []).includes(activeTag)) : baseScope),
+    [baseScope, activeTag],
+  );
+  const areas = useMemo(() => {
+    const list = getAreaFacets(areaScope);
+    // 已选区域若因基数收窄而落榜，补回列表（计数即真实结果数，可能为 0），免得"筛了却看不到选中项"
+    if (activeArea !== '全部' && !list.some((a) => a.value === activeArea)) {
+      list.push({ group: activeArea.startsWith('R:') ? '世界' : '中国', name: areaLabel(activeArea), value: activeArea, count: 0 });
+    }
+    return list;
+  }, [areaScope, activeArea]);
+
+  // 标签轴：同理，基数＝结构层叠加「已选区域」，不含标签自身；数字即点击后筛出的条数。
+  // 省份标签已由「区域」轴承载，这里剔除，避免同一维度在两处重复出现。
+  const tagScope = useMemo(
+    () => (activeArea !== '全部' ? baseScope.filter((i) => matchArea(i, activeArea)) : baseScope),
+    [baseScope, activeArea],
+  );
+  const tags = useMemo(() => {
+    const pool = countTags(tagScope).filter((t) => !isProvinceTag(t.tag));
+    const top = pool.slice(0, 40);
+    // 已选标签若因基数收窄掉出前 40，补回首位，免得"筛了却看不到选中项"
+    if (activeTag && !top.some((t) => t.tag === activeTag)) {
+      top.unshift(pool.find((t) => t.tag === activeTag) ?? { tag: activeTag, count: 0 });
+    }
+    return top;
+  }, [tagScope, activeTag]);
+
+  // 主列表：结构层 → 区域 → 标签 → 正文检索。
+  // 与两根横切轴的计数口径保持一致（各轴计数 = 该轴其余条件 + 本轴选项）。
+  let list: ContentItem[] = baseScope;
+  if (activeArea !== '全部') list = list.filter((i) => matchArea(i, activeArea));
   if (activeTag) list = list.filter((i) => (i.tags || []).includes(activeTag));
-  if (activeAccess !== 'all') {
-    // 三态：直接下载（有文件、无门禁）/ 在线观看（仅官方在线阅读链接）/ 需验证码
-    list = list.filter((i) =>
-      activeAccess === 'gated'
-        ? isResourceGated(i)
-        : activeAccess === 'view'
-          ? isResourceViewOnly(i)
-          : !isResourceGated(i) && !isResourceViewOnly(i),
-    );
-  }
+  const q = query.trim();
+  if (q) list = searchAll(q, list).map((h) => h.item);
 
   // 排序：默认按热度（近 30 天 GA4 浏览量）降序；可切到按更新时间倒序。
   // 热度并列或无数据时回退到日期倒序，保证稳定。新页面（0 热度）会沉底，
@@ -594,12 +734,43 @@ const ResourceGrid = () => {
     return (b.heat || 0) - (a.heat || 0) || (b.date || '').localeCompare(a.date || '');
   });
 
+  // 各轴写回 URL，便于分享与浏览器前进后退。
+  // 区域轴取值为 R:x / P:x，写回时拆成可读的 region / province 两个参数。
+  const syncUrl = (patch: Record<string, string | null | undefined> = {}) => {
+    const g = (patch.group ?? activeGroup) as string;
+    const ty = (patch.type ?? activeType) as string;
+    const sub = (patch.subject ?? activeSubject) as string;
+    const sl = (patch.stdLevel ?? activeStdLevel) as string;
+    const pl = (patch.planLevel ?? activePlanLevel) as string;
+    const fm = (patch.format ?? activeFormat) as string;
+    const ar = (patch.area ?? activeArea) as string;
+    const ac = (patch.access ?? activeAccess) as string;
+    const tg = patch.tag !== undefined ? patch.tag : activeTag;
+    const p: Record<string, string> = {};
+    if (g !== '全部') p.group = g;
+    if (ty !== '全部') p.type = ty;
+    if (sub !== '全部') p.subject = sub;
+    if (sl !== '全部') p.stdLevel = sl;
+    if (pl !== '全部') p.planLevel = pl;
+    if (fm !== '全部') p.format = fm;
+    if (ar.startsWith('R:')) p.region = ar.slice(2);
+    else if (ar.startsWith('P:')) p.province = ar.slice(2);
+    if (ac !== 'all') p.access = ac;
+    if (tg) p.tag = tg;
+    const qq = query.trim();
+    if (qq) p.q = qq;
+    setSearchParams(p, { replace: true });
+  };
+
   // 一键清空所有筛选（右栏底部 + 已选摘要行共用）
   const clearAll = () => {
     setActiveGroup('全部');
-    setActiveCategory('全部');
-    setActiveRegion('全部');
+    setActiveType('全部');
+    setActiveSubject('全部');
+    setActiveStdLevel('全部');
+    setActivePlanLevel('全部');
     setActiveFormat('全部');
+    setActiveArea('全部');
     setActiveAccess('all');
     setActiveTag(null);
     setQuery('');
@@ -609,14 +780,48 @@ const ResourceGrid = () => {
   // 已选条件摘要（可视化展示当前生效的筛选，供一眼核对/清空）
   const activeFilters: string[] = [];
   if (activeGroup !== '全部') activeFilters.push(activeGroup);
-  if (activeGroup === '书籍' && activeCategory !== '全部') activeFilters.push(`学科=${activeCategory}`);
-  if (activeGroup === '地理数据' && activeRegion !== '全部') activeFilters.push(`区域=${activeRegion}`);
-  if (activeGroup === '地理数据' && activeFormat !== '全部') activeFilters.push(`格式=${activeFormat}`);
+  if (activeType !== '全部') activeFilters.push(activeType);
+  if (activeSubject !== '全部') activeFilters.push(`学科=${activeSubject}`);
+  if (activeStdLevel !== '全部') activeFilters.push(`级别=${activeStdLevel}`);
+  if (activePlanLevel !== '全部') activeFilters.push(`层级=${activePlanLevel}`);
+  if (activeFormat !== '全部') activeFilters.push(`格式=${activeFormat}`);
+  if (activeArea !== '全部') {
+    activeFilters.push(`区域=${areaLabel(activeArea)}`);
+  }
   if (activeAccess === 'download') activeFilters.push('直接下载');
   if (activeAccess === 'view') activeFilters.push('在线观看');
   if (activeAccess === 'gated') activeFilters.push('需验证码');
   if (activeTag) activeFilters.push(`#${activeTag}`);
   if (q) activeFilters.push(`含“${q}”`);
+
+  // 各轴选择器：切换上一层时清掉下层的残留选择，避免 chips 显示为选中却不生效。
+  // 区域/标签是横切轴，换主分类或资料类型后原文可能整体不存在（如图书教材没有省份），
+  // 留着必然出现「0 条」死角，所以一并清空；访问方式三态对任何资料都成立，保留。
+  const pickGroup = (name: string) => {
+    setActiveGroup(name);
+    setActiveType('全部');
+    setActiveSubject('全部');
+    setActiveStdLevel('全部');
+    setActivePlanLevel('全部');
+    setActiveFormat('全部');
+    setActiveArea('全部');
+    setActiveTag(null);
+    syncUrl({ group: name, type: '全部', subject: '全部', stdLevel: '全部', planLevel: '全部', format: '全部', area: '全部', tag: null });
+  };
+  const pickType = (name: string) => {
+    setActiveType(name);
+    setActiveSubject('全部');
+    setActiveStdLevel('全部');
+    setActivePlanLevel('全部');
+    setActiveArea('全部');
+    setActiveTag(null);
+    syncUrl({ type: name, subject: '全部', stdLevel: '全部', planLevel: '全部', area: '全部', tag: null });
+  };
+  const pickSubject = (name: string) => { setActiveSubject(name); syncUrl({ subject: name }); };
+  const pickStdLevel = (name: string) => { setActiveStdLevel(name); syncUrl({ stdLevel: name }); };
+  const pickPlanLevel = (name: string) => { setActivePlanLevel(name); syncUrl({ planLevel: name }); };
+  const pickFormat = (name: string) => { setActiveFormat(name); syncUrl({ format: name }); };
+  const pickArea = (value: string) => { setActiveArea(value); syncUrl({ area: value }); };
 
   return (
     <div className="lg:grid lg:grid-cols-[1fr_236px] lg:gap-8">
@@ -654,18 +859,18 @@ const ResourceGrid = () => {
 
         {/* 移动端可折叠、桌面端常显的筛选主体 */}
         <div className={`space-y-6 ${filtersOpen ? 'block' : 'hidden'} lg:block`}>
-        {/* 主分类：顶层互斥切换，用分段控件强视觉 */}
+        {/* 主分类：顶层互斥切换（共性层，按文件形态分），用分段控件强视觉 */}
         <div>
           <SectionLabel className="mb-3">主分类</SectionLabel>
           <div className="flex rounded-lg border border-border bg-muted/40 p-0.5">
-            {['全部', '书籍', '地理数据'].map((name) => {
+            {['全部', DL_GROUP_LITERATURE, DL_GROUP_DATA].map((name) => {
               const count = name === '全部' ? all.length : groupCounts[name] ?? 0;
               const active = activeGroup === name;
               return (
                 <button
                   key={name}
                   type="button"
-                  onClick={() => setActiveGroup(name)}
+                  onClick={() => pickGroup(name)}
                   className={`flex-1 px-2 py-1.5 rounded-md text-xs text-center transition-colors ${
                     active ? 'bg-primary text-white font-medium' : 'text-muted-foreground hover:text-foreground'
                   }`}
@@ -678,43 +883,123 @@ const ResourceGrid = () => {
           </div>
         </div>
 
-        {/* 子维度：依赖主分类，用分隔线 + 说明区隔层级 */}
-        {(activeGroup === '书籍' || activeGroup === '地理数据') && (
+        {/* 第二层 + 第三层：文献资料先按「资料性质」细分，选定后再挂该类自己的维度
+            （图书教材→学科 / 标准规范→级别 / 规划文本→层级）；地理数据只挂格式。 */}
+        {activeGroup !== '全部' && (
           <div className="border-t border-border/60 pt-3 space-y-4">
             <p className="text-[11px] text-muted-foreground/70">子维度 · 随主分类变化</p>
-            {activeGroup === '书籍' && (
+
+            {activeGroup === DL_GROUP_LITERATURE && (
               <div>
-                <SectionLabel className="mb-3">学科</SectionLabel>
+                <SectionLabel className="mb-3">资料类型</SectionLabel>
                 <div className="flex flex-wrap gap-2">
-                  <FacChip label="全部" active={activeCategory === '全部'} onClick={() => setActiveCategory('全部')} count={bookCats.reduce((s, c) => s + c.count, 0)} />
-                  {bookCats.map((c) => (
-                    <FacChip key={c.name} label={c.name} active={activeCategory === c.name} onClick={() => setActiveCategory(c.name)} count={c.count} />
+                  <FacChip label="全部" active={activeType === '全部'} onClick={() => pickType('全部')} count={lit.length} />
+                  {docTypeCounts.map((c) => (
+                    <FacChip key={c.name} label={c.name} active={activeType === c.name} onClick={() => pickType(c.name)} count={c.count} />
                   ))}
                 </div>
               </div>
             )}
-            {activeGroup === '地理数据' && (
-              <>
-                <div>
-                  <SectionLabel className="mb-3">区域</SectionLabel>
-                  <div className="flex flex-wrap gap-2">
-                    <FacChip label="全部" active={activeRegion === '全部'} onClick={() => setActiveRegion('全部')} count={regionCounts.reduce((s, c) => s + c.count, 0)} />
-                    {regionCounts.map((c) => (
-                      <FacChip key={c.name} label={c.name} active={activeRegion === c.name} onClick={() => setActiveRegion(c.name)} count={c.count} />
-                    ))}
-                  </div>
+
+            {activeType === '图书教材' && (
+              <div>
+                <SectionLabel className="mb-3">学科</SectionLabel>
+                <div className="flex flex-wrap gap-2">
+                  <FacChip label="全部" active={activeSubject === '全部'} onClick={() => pickSubject('全部')} count={subjectCounts.reduce((s, c) => s + c.count, 0)} />
+                  {subjectCounts.map((c) => (
+                    <FacChip key={c.name} label={c.name} active={activeSubject === c.name} onClick={() => pickSubject(c.name)} count={c.count} />
+                  ))}
                 </div>
-                <div>
-                  <SectionLabel className="mb-3">格式</SectionLabel>
-                  <div className="flex flex-wrap gap-2">
-                    <FacChip label="全部" active={activeFormat === '全部'} onClick={() => setActiveFormat('全部')} count={formatCounts.reduce((s, c) => s + c.count, 0)} />
-                    {formatCounts.map((c) => (
-                      <FacChip key={c.name} label={c.name} active={activeFormat === c.name} onClick={() => setActiveFormat(c.name)} count={c.count} />
-                    ))}
-                  </div>
-                </div>
-              </>
+              </div>
             )}
+
+            {activeType === '标准规范' && (
+              <div>
+                <SectionLabel className="mb-3">级别</SectionLabel>
+                <div className="flex flex-wrap gap-2">
+                  <FacChip label="全部" active={activeStdLevel === '全部'} onClick={() => pickStdLevel('全部')} count={stdLevelCounts.reduce((s, c) => s + c.count, 0)} />
+                  {stdLevelCounts.map((c) => (
+                    <FacChip key={c.name} label={c.name} active={activeStdLevel === c.name} onClick={() => pickStdLevel(c.name)} count={c.count} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {activeType === '规划文本' && (
+              <div>
+                <SectionLabel className="mb-3">层级</SectionLabel>
+                <div className="flex flex-wrap gap-2">
+                  <FacChip label="全部" active={activePlanLevel === '全部'} onClick={() => pickPlanLevel('全部')} count={planLevelCounts.reduce((s, c) => s + c.count, 0)} />
+                  {planLevelCounts.map((c) => (
+                    <FacChip key={c.name} label={c.name} active={activePlanLevel === c.name} onClick={() => pickPlanLevel(c.name)} count={c.count} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {activeGroup === DL_GROUP_DATA && (
+              <div>
+                <SectionLabel className="mb-3">格式</SectionLabel>
+                <div className="flex flex-wrap gap-2">
+                  <FacChip label="全部" active={activeFormat === '全部'} onClick={() => pickFormat('全部')} count={formatCounts.reduce((s, c) => s + c.count, 0)} />
+                  {formatCounts.map((c) => (
+                    <FacChip key={c.name} label={c.name} active={activeFormat === c.name} onClick={() => pickFormat(c.name)} count={c.count} />
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* 区域：全局横切轴。把数据集的 region 字段（世界）与规划类的省份标签（中国）
+            合成同一根轴——省份不再单列，避免同一维度在两处重复出现。
+            分两组呈现：世界（全球 / 国外）在前，中国（全国 / 各省·自治区·直辖市）在后。 */}
+        {areas.length > 0 && (
+          <div className="border-t border-border/60 pt-3">
+            <div className="flex items-center justify-between mb-3">
+              <SectionLabel>区域</SectionLabel>
+              {activeArea !== '全部' && (
+                <button
+                  type="button"
+                  onClick={() => pickArea('全部')}
+                  className="text-[11px] text-muted-foreground underline hover:text-foreground"
+                >
+                  清除
+                </button>
+              )}
+            </div>
+            <div className="space-y-2.5">
+              {(['世界', '中国'] as const).map((g) => {
+                const items = areas.filter((a) => a.group === g);
+                if (!items.length) return null;
+                return (
+                  <div key={g} className="space-y-1.5">
+                    <p className="text-[10px] font-medium tracking-wide text-muted-foreground/70">{g}</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {items.map((a) => {
+                        const active = activeArea === a.value;
+                        return (
+                          <button
+                            key={a.value}
+                            type="button"
+                            onClick={() => pickArea(a.value)}
+                            title={`${a.name} · ${a.count} 份资料`}
+                            className={`px-2 py-1 rounded-full text-[11px] font-medium transition-colors ${
+                              active
+                                ? 'bg-primary text-white'
+                                : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
+                            }`}
+                          >
+                            {a.name}
+                            <span className={`ml-1 text-[10px] ${active ? 'opacity-80' : 'opacity-60'}`}>{a.count}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
 
@@ -734,7 +1019,7 @@ const ResourceGrid = () => {
           <div className="flex flex-wrap gap-2">
             <button
               type="button"
-              onClick={() => { setActiveTag(null); setSearchParams({}, { replace: true }); }}
+              onClick={() => { setActiveTag(null); syncUrl({ tag: null }); }}
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
                 activeTag === null
                   ? 'bg-primary text-white'
@@ -747,7 +1032,7 @@ const ResourceGrid = () => {
               <button
                 key={t.tag}
                 type="button"
-                onClick={() => { setActiveTag(t.tag); setSearchParams({ tag: t.tag }); }}
+                onClick={() => { setActiveTag(t.tag); syncUrl({ tag: t.tag }); }}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
                   activeTag === t.tag
                     ? 'bg-primary text-white'

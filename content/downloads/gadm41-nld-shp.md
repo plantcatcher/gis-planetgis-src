@@ -16,7 +16,7 @@ keywordAliases: 荷兰行政区划,荷兰行政区shp,荷兰SHP
 code: NSH-GIS-049
 format: SHP（ZIP 压缩包）
 size: 1.0 MB（977,996 字节）
-cover: /images/gadm41-nld-shp-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-gadm41-nld-shp-cover.jpg
 ---
 
 > 本数据集为 GADM（Global Administrative Areas，全球行政区划数据库）v4.1 的**荷兰**部分，以 Shapefile 格式提供行政区划边界，压缩包约 **1.0 MB（977,996 字节）**。GADM 是国际学术界广泛引用的全球行政区划数据项目，覆盖全球 400+ 国家和地区的高精度行政边界。

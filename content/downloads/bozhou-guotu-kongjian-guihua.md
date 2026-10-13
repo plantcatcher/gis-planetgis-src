@@ -14,7 +14,7 @@ downloadType: external
 download: https://www.bozhou.gov.cn/file_bz/1/202403/202403284cb02b5b99b44280a0a8ae25d59ba0d1.pdf
 officialUrl: https://www.bozhou.gov.cn/OpennessContent/show/2978449.html
 officialName: 亳州市人民政府·规划公开稿发布页
-cover: /images/dl-bozhou-guotu-kongjian-guihua-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-bozhou-guotu-kongjian-guihua-cover.jpg
 format: PDF
 size: 0.7 MB
 ---
@@ -48,10 +48,10 @@ size: 0.7 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="亳州市国土空间总体规划（2021—2035年） 封面" src="/images/dl-bozhou-guotu-kongjian-guihua-cover.jpg" />
-<img alt="亳州市国土空间总体规划（2021—2035年） 内页速览 1" src="/images/dl-bozhou-guotu-kongjian-guihua-p1.jpg" />
-<img alt="亳州市国土空间总体规划（2021—2035年） 内页速览 2" src="/images/dl-bozhou-guotu-kongjian-guihua-p2.jpg" />
-<img alt="亳州市国土空间总体规划（2021—2035年） 内页速览 3" src="/images/dl-bozhou-guotu-kongjian-guihua-p3.jpg" />
-<img alt="亳州市国土空间总体规划（2021—2035年） 内页速览 4" src="/images/dl-bozhou-guotu-kongjian-guihua-p4.jpg" />
-<img alt="亳州市国土空间总体规划（2021—2035年） 内页速览 5" src="/images/dl-bozhou-guotu-kongjian-guihua-p5.jpg" />
+<img alt="亳州市国土空间总体规划（2021—2035年） 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-bozhou-guotu-kongjian-guihua-cover.jpg" />
+<img alt="亳州市国土空间总体规划（2021—2035年） 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-bozhou-guotu-kongjian-guihua-p1.jpg" />
+<img alt="亳州市国土空间总体规划（2021—2035年） 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-bozhou-guotu-kongjian-guihua-p2.jpg" />
+<img alt="亳州市国土空间总体规划（2021—2035年） 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-bozhou-guotu-kongjian-guihua-p3.jpg" />
+<img alt="亳州市国土空间总体规划（2021—2035年） 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-bozhou-guotu-kongjian-guihua-p4.jpg" />
+<img alt="亳州市国土空间总体规划（2021—2035年） 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-bozhou-guotu-kongjian-guihua-p5.jpg" />
 </div>

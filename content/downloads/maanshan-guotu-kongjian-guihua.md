@@ -14,7 +14,7 @@ downloadType: external
 download: https://zrzyhgh.mas.gov.cn/group4/M00/09/3E/Cu7KgmYGiAmAB0PCABOdn5Se4-c122.pdf
 officialUrl: https://zrzyhgh.mas.gov.cn/xwzx/ztzl/tdsc/ghjh/ghgs/pqgs/2005238731.html
 officialName: 马鞍山市自然资源和规划局·批后公示页
-cover: /images/dl-maanshan-guotu-kongjian-guihua-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-maanshan-guotu-kongjian-guihua-cover.jpg
 format: PDF
 size: 1.2 MB
 ---
@@ -48,10 +48,10 @@ size: 1.2 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="马鞍山市国土空间总体规划（2021—2035年） 封面" src="/images/dl-maanshan-guotu-kongjian-guihua-cover.jpg" />
-<img alt="马鞍山市国土空间总体规划（2021—2035年） 内页速览 1" src="/images/dl-maanshan-guotu-kongjian-guihua-p1.jpg" />
-<img alt="马鞍山市国土空间总体规划（2021—2035年） 内页速览 2" src="/images/dl-maanshan-guotu-kongjian-guihua-p2.jpg" />
-<img alt="马鞍山市国土空间总体规划（2021—2035年） 内页速览 3" src="/images/dl-maanshan-guotu-kongjian-guihua-p3.jpg" />
-<img alt="马鞍山市国土空间总体规划（2021—2035年） 内页速览 4" src="/images/dl-maanshan-guotu-kongjian-guihua-p4.jpg" />
-<img alt="马鞍山市国土空间总体规划（2021—2035年） 内页速览 5" src="/images/dl-maanshan-guotu-kongjian-guihua-p5.jpg" />
+<img alt="马鞍山市国土空间总体规划（2021—2035年） 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-maanshan-guotu-kongjian-guihua-cover.jpg" />
+<img alt="马鞍山市国土空间总体规划（2021—2035年） 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-maanshan-guotu-kongjian-guihua-p1.jpg" />
+<img alt="马鞍山市国土空间总体规划（2021—2035年） 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-maanshan-guotu-kongjian-guihua-p2.jpg" />
+<img alt="马鞍山市国土空间总体规划（2021—2035年） 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-maanshan-guotu-kongjian-guihua-p3.jpg" />
+<img alt="马鞍山市国土空间总体规划（2021—2035年） 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-maanshan-guotu-kongjian-guihua-p4.jpg" />
+<img alt="马鞍山市国土空间总体规划（2021—2035年） 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-maanshan-guotu-kongjian-guihua-p5.jpg" />
 </div>

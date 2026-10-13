@@ -12,7 +12,7 @@ pages: 55 页
 source: 崇左市自然资源局
 downloadType: external
 download: http://www.chongzuo.gov.cn/xxgk/ggzypzlygk_1/gytdykyq/gytdsyq/tdgyjh/W020230110584147811951.pdf
-cover: /images/dl-chongzuo-guotu-kongjian-guihua-caoan-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-chongzuo-guotu-kongjian-guihua-caoan-cover.jpg
 format: PDF
 size: 20.7 MB
 ---
@@ -45,10 +45,10 @@ size: 20.7 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="崇左市国土空间总体规划（2021—2035年）草案公示稿 封面" src="/images/dl-chongzuo-guotu-kongjian-guihua-caoan-cover.jpg" />
-<img alt="崇左市国土空间总体规划（2021—2035年）草案公示稿 内页速览 1" src="/images/dl-chongzuo-guotu-kongjian-guihua-caoan-p1.jpg" />
-<img alt="崇左市国土空间总体规划（2021—2035年）草案公示稿 内页速览 2" src="/images/dl-chongzuo-guotu-kongjian-guihua-caoan-p2.jpg" />
-<img alt="崇左市国土空间总体规划（2021—2035年）草案公示稿 内页速览 3" src="/images/dl-chongzuo-guotu-kongjian-guihua-caoan-p3.jpg" />
-<img alt="崇左市国土空间总体规划（2021—2035年）草案公示稿 内页速览 4" src="/images/dl-chongzuo-guotu-kongjian-guihua-caoan-p4.jpg" />
-<img alt="崇左市国土空间总体规划（2021—2035年）草案公示稿 内页速览 5" src="/images/dl-chongzuo-guotu-kongjian-guihua-caoan-p5.jpg" />
+<img alt="崇左市国土空间总体规划（2021—2035年）草案公示稿 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-chongzuo-guotu-kongjian-guihua-caoan-cover.jpg" />
+<img alt="崇左市国土空间总体规划（2021—2035年）草案公示稿 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-chongzuo-guotu-kongjian-guihua-caoan-p1.jpg" />
+<img alt="崇左市国土空间总体规划（2021—2035年）草案公示稿 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-chongzuo-guotu-kongjian-guihua-caoan-p2.jpg" />
+<img alt="崇左市国土空间总体规划（2021—2035年）草案公示稿 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-chongzuo-guotu-kongjian-guihua-caoan-p3.jpg" />
+<img alt="崇左市国土空间总体规划（2021—2035年）草案公示稿 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-chongzuo-guotu-kongjian-guihua-caoan-p4.jpg" />
+<img alt="崇左市国土空间总体规划（2021—2035年）草案公示稿 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-chongzuo-guotu-kongjian-guihua-caoan-p5.jpg" />
 </div>

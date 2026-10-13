@@ -12,7 +12,7 @@ pages: 33 页
 source: 来宾市自然资源局
 downloadType: external
 download: http://lb.dnr.gxzf.gov.cn/xxgk/zdgkwj/wjzdgkwj/P020231008713526655312.pdf
-cover: /images/dl-laibin-guotu-kongjian-guihua-zhengqiu-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-laibin-guotu-kongjian-guihua-zhengqiu-cover.jpg
 format: PDF
 size: 13.3 MB
 ---
@@ -45,10 +45,10 @@ size: 13.3 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="来宾市国土空间总体规划（2021—2035年）公众征求意见稿 封面" src="/images/dl-laibin-guotu-kongjian-guihua-zhengqiu-cover.jpg" />
-<img alt="来宾市国土空间总体规划（2021—2035年）公众征求意见稿 内页速览 1" src="/images/dl-laibin-guotu-kongjian-guihua-zhengqiu-p1.jpg" />
-<img alt="来宾市国土空间总体规划（2021—2035年）公众征求意见稿 内页速览 2" src="/images/dl-laibin-guotu-kongjian-guihua-zhengqiu-p2.jpg" />
-<img alt="来宾市国土空间总体规划（2021—2035年）公众征求意见稿 内页速览 3" src="/images/dl-laibin-guotu-kongjian-guihua-zhengqiu-p3.jpg" />
-<img alt="来宾市国土空间总体规划（2021—2035年）公众征求意见稿 内页速览 4" src="/images/dl-laibin-guotu-kongjian-guihua-zhengqiu-p4.jpg" />
-<img alt="来宾市国土空间总体规划（2021—2035年）公众征求意见稿 内页速览 5" src="/images/dl-laibin-guotu-kongjian-guihua-zhengqiu-p5.jpg" />
+<img alt="来宾市国土空间总体规划（2021—2035年）公众征求意见稿 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-laibin-guotu-kongjian-guihua-zhengqiu-cover.jpg" />
+<img alt="来宾市国土空间总体规划（2021—2035年）公众征求意见稿 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-laibin-guotu-kongjian-guihua-zhengqiu-p1.jpg" />
+<img alt="来宾市国土空间总体规划（2021—2035年）公众征求意见稿 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-laibin-guotu-kongjian-guihua-zhengqiu-p2.jpg" />
+<img alt="来宾市国土空间总体规划（2021—2035年）公众征求意见稿 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-laibin-guotu-kongjian-guihua-zhengqiu-p3.jpg" />
+<img alt="来宾市国土空间总体规划（2021—2035年）公众征求意见稿 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-laibin-guotu-kongjian-guihua-zhengqiu-p4.jpg" />
+<img alt="来宾市国土空间总体规划（2021—2035年）公众征求意见稿 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-laibin-guotu-kongjian-guihua-zhengqiu-p5.jpg" />
 </div>

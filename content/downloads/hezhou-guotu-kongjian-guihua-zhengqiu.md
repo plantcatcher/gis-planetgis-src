@@ -12,7 +12,7 @@ pages: 43 页
 source: 贺州市人民政府
 downloadType: external
 download: http://www.gxhz.gov.cn/IGI/upload/file/2024/03/20/20240320112037152LqA.pdf
-cover: /images/dl-hezhou-guotu-kongjian-guihua-zhengqiu-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hezhou-guotu-kongjian-guihua-zhengqiu-cover.jpg
 format: PDF
 size: 28.2 MB
 ---
@@ -46,10 +46,10 @@ size: 28.2 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="贺州市国土空间总体规划（2021—2035年）公众稿 封面" src="/images/dl-hezhou-guotu-kongjian-guihua-zhengqiu-cover.jpg" />
-<img alt="贺州市国土空间总体规划（2021—2035年）公众稿 内页速览 1" src="/images/dl-hezhou-guotu-kongjian-guihua-zhengqiu-p1.jpg" />
-<img alt="贺州市国土空间总体规划（2021—2035年）公众稿 内页速览 2" src="/images/dl-hezhou-guotu-kongjian-guihua-zhengqiu-p2.jpg" />
-<img alt="贺州市国土空间总体规划（2021—2035年）公众稿 内页速览 3" src="/images/dl-hezhou-guotu-kongjian-guihua-zhengqiu-p3.jpg" />
-<img alt="贺州市国土空间总体规划（2021—2035年）公众稿 内页速览 4" src="/images/dl-hezhou-guotu-kongjian-guihua-zhengqiu-p4.jpg" />
-<img alt="贺州市国土空间总体规划（2021—2035年）公众稿 内页速览 5" src="/images/dl-hezhou-guotu-kongjian-guihua-zhengqiu-p5.jpg" />
+<img alt="贺州市国土空间总体规划（2021—2035年）公众稿 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hezhou-guotu-kongjian-guihua-zhengqiu-cover.jpg" />
+<img alt="贺州市国土空间总体规划（2021—2035年）公众稿 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hezhou-guotu-kongjian-guihua-zhengqiu-p1.jpg" />
+<img alt="贺州市国土空间总体规划（2021—2035年）公众稿 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hezhou-guotu-kongjian-guihua-zhengqiu-p2.jpg" />
+<img alt="贺州市国土空间总体规划（2021—2035年）公众稿 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hezhou-guotu-kongjian-guihua-zhengqiu-p3.jpg" />
+<img alt="贺州市国土空间总体规划（2021—2035年）公众稿 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hezhou-guotu-kongjian-guihua-zhengqiu-p4.jpg" />
+<img alt="贺州市国土空间总体规划（2021—2035年）公众稿 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hezhou-guotu-kongjian-guihua-zhengqiu-p5.jpg" />
 </div>

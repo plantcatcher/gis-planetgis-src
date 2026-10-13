@@ -16,7 +16,7 @@ keywordAliases: 瑞典行政区划,瑞典行政区shp,瑞典SHP
 code: NSH-GIS-053
 format: SHP（ZIP 压缩包）
 size: 7.1 MB（7,145,080 字节）
-cover: /images/gadm41-swe-shp-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-gadm41-swe-shp-cover.jpg
 ---
 
 > 本数据集为 GADM（Global Administrative Areas，全球行政区划数据库）v4.1 的**瑞典**部分，以 Shapefile 格式提供行政区划边界，压缩包约 **7.1 MB（7,145,080 字节）**。GADM 是国际学术界广泛引用的全球行政区划数据项目，覆盖全球 400+ 国家和地区的高精度行政边界。

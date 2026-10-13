@@ -14,7 +14,7 @@ downloadType: external
 download: https://www.luan.gov.cn/group1/M00/10/75/wKgSGWc0b76AARYrABF3Cwoamik975.pdf
 officialUrl: https://www.luan.gov.cn/public/6608171/10686407.html
 officialName: 六安市人民政府·市级国土空间总体规划公开
-cover: /images/dl-luan-guotu-kongjian-guihua-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-luan-guotu-kongjian-guihua-cover.jpg
 format: PDF
 size: 1.1 MB
 ---
@@ -48,10 +48,10 @@ size: 1.1 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="六安市国土空间总体规划（2021—2035年） 封面" src="/images/dl-luan-guotu-kongjian-guihua-cover.jpg" />
-<img alt="六安市国土空间总体规划（2021—2035年） 内页速览 1" src="/images/dl-luan-guotu-kongjian-guihua-p1.jpg" />
-<img alt="六安市国土空间总体规划（2021—2035年） 内页速览 2" src="/images/dl-luan-guotu-kongjian-guihua-p2.jpg" />
-<img alt="六安市国土空间总体规划（2021—2035年） 内页速览 3" src="/images/dl-luan-guotu-kongjian-guihua-p3.jpg" />
-<img alt="六安市国土空间总体规划（2021—2035年） 内页速览 4" src="/images/dl-luan-guotu-kongjian-guihua-p4.jpg" />
-<img alt="六安市国土空间总体规划（2021—2035年） 内页速览 5" src="/images/dl-luan-guotu-kongjian-guihua-p5.jpg" />
+<img alt="六安市国土空间总体规划（2021—2035年） 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-luan-guotu-kongjian-guihua-cover.jpg" />
+<img alt="六安市国土空间总体规划（2021—2035年） 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-luan-guotu-kongjian-guihua-p1.jpg" />
+<img alt="六安市国土空间总体规划（2021—2035年） 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-luan-guotu-kongjian-guihua-p2.jpg" />
+<img alt="六安市国土空间总体规划（2021—2035年） 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-luan-guotu-kongjian-guihua-p3.jpg" />
+<img alt="六安市国土空间总体规划（2021—2035年） 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-luan-guotu-kongjian-guihua-p4.jpg" />
+<img alt="六安市国土空间总体规划（2021—2035年） 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-luan-guotu-kongjian-guihua-p5.jpg" />
 </div>

@@ -16,7 +16,7 @@ keywordAliases: 法国行政区划,法国行政区shp,法国SHP
 code: NSH-GIS-047
 format: SHP（ZIP 压缩包）
 size: 14.4 MB（14,410,397 字节）
-cover: /images/gadm41-fra-shp-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-gadm41-fra-shp-cover.jpg
 ---
 
 > 本数据集为 GADM（Global Administrative Areas，全球行政区划数据库）v4.1 的**法国**部分，以 Shapefile 格式提供行政区划边界，压缩包约 **14.4 MB（14,410,397 字节）**。GADM 是国际学术界广泛引用的全球行政区划数据项目，覆盖全球 400+ 国家和地区的高精度行政边界。

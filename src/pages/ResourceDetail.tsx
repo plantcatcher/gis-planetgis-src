@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Download, Lock, CheckCircle2, Calendar, ArrowRight, Tag, QrCode, FileText, BookOpen, ExternalLink } from 'lucide-react';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import PageMeta from '@/components/common/PageMeta';
-import { getItem, getRelated, isResourceGated, isResourceViewOnly, type ContentItem } from '@/lib/content';
+import { getItem, getRelated, isResourceGated, isResourceViewOnly, isProvinceTag, type ContentItem } from '@/lib/content';
 import { recordDownload } from '@/services/learningService';
 import { trackResourceDownload } from '@/lib/analytics';
 import { renderMarkdown, extractFaq } from '@/lib/markdown';
@@ -464,7 +464,12 @@ const ResourceDetail: React.FC = () => {
                 {item.tags.map((t) => (
                   <Link
                     key={t}
-                    to={`/downloads?tag=${encodeURIComponent(t)}`}
+                    // 省级行政区标签走下载页「区域」轴的中国组，其余标签走「标签」轴
+                    to={
+                      isProvinceTag(t)
+                        ? `/downloads?province=${encodeURIComponent(t)}`
+                        : `/downloads?tag=${encodeURIComponent(t)}`
+                    }
                     className="px-3 py-1 rounded-full text-xs font-medium bg-muted hover:bg-primary/10 text-primary border border-border/50 transition-colors inline-flex items-center gap-1"
                   >
                     <Tag className="w-3 h-3" /> {t}

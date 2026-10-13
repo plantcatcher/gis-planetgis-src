@@ -16,7 +16,7 @@ keywordAliases: GADM,全球行政区SHP,行政区划SHP,全球行政区划数据
 code: NSH-GADM-999
 format: SHP（ZIP 压缩包）
 size: 5.9 MB（5,856,170 字节）
-cover: /images/gadm41-mys-shp-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-gadm41-mys-shp-cover.jpg
 ---
 
 > 本数据集为 GADM（Global Administrative Areas，全球行政区划数据库）v4.1 的**马来西亚**部分，以 Shapefile 格式提供行政区划边界，压缩包约 **5.9 MB（5,856,170 字节）**。GADM 是国际学术界广泛引用的全球行政区划数据项目，覆盖全球 400+ 国家和地区的高精度行政边界。被南海劈成两半的东南亚国家，13 州 + 3 个联邦直辖区，西马的都市带与东马（婆罗洲）的雨林隔海相望，马六甲海峡是全球最繁忙的海运通道之一。

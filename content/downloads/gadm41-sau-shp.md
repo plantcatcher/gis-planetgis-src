@@ -16,7 +16,7 @@ keywordAliases: 沙特阿拉伯行政区划,沙特阿拉伯行政区shp,沙特�
 code: NSH-GIS-051
 format: SHP（ZIP 压缩包）
 size: 6.7 MB（6,651,811 字节）
-cover: /images/gadm41-sau-shp-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-gadm41-sau-shp-cover.jpg
 ---
 
 > 本数据集为 GADM（Global Administrative Areas，全球行政区划数据库）v4.1 的**沙特阿拉伯**部分，以 Shapefile 格式提供行政区划边界，压缩包约 **6.7 MB（6,651,811 字节）**。GADM 是国际学术界广泛引用的全球行政区划数据项目，覆盖全球 400+ 国家和地区的高精度行政边界。

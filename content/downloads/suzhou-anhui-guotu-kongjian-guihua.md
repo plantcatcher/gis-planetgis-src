@@ -14,7 +14,7 @@ downloadType: external
 download: https://zrzyghj.ahsz.gov.cn/group1/M00/48/6F/Cpc8VmaU3_-ALLwVASfKe4T7ZSQ031.pdf
 officialUrl: https://zrzyghj.ahsz.gov.cn/public/2655597/194769581.html
 officialName: 宿州市自然资源和规划局·规划公开页
-cover: /images/dl-suzhou-anhui-guotu-kongjian-guihua-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-suzhou-anhui-guotu-kongjian-guihua-cover.jpg
 format: PDF
 size: 18.5 MB
 ---
@@ -48,10 +48,10 @@ size: 18.5 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="宿州市国土空间总体规划（2021—2035年） 封面" src="/images/dl-suzhou-anhui-guotu-kongjian-guihua-cover.jpg" />
-<img alt="宿州市国土空间总体规划（2021—2035年） 内页速览 1" src="/images/dl-suzhou-anhui-guotu-kongjian-guihua-p1.jpg" />
-<img alt="宿州市国土空间总体规划（2021—2035年） 内页速览 2" src="/images/dl-suzhou-anhui-guotu-kongjian-guihua-p2.jpg" />
-<img alt="宿州市国土空间总体规划（2021—2035年） 内页速览 3" src="/images/dl-suzhou-anhui-guotu-kongjian-guihua-p3.jpg" />
-<img alt="宿州市国土空间总体规划（2021—2035年） 内页速览 4" src="/images/dl-suzhou-anhui-guotu-kongjian-guihua-p4.jpg" />
-<img alt="宿州市国土空间总体规划（2021—2035年） 内页速览 5" src="/images/dl-suzhou-anhui-guotu-kongjian-guihua-p5.jpg" />
+<img alt="宿州市国土空间总体规划（2021—2035年） 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-suzhou-anhui-guotu-kongjian-guihua-cover.jpg" />
+<img alt="宿州市国土空间总体规划（2021—2035年） 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-suzhou-anhui-guotu-kongjian-guihua-p1.jpg" />
+<img alt="宿州市国土空间总体规划（2021—2035年） 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-suzhou-anhui-guotu-kongjian-guihua-p2.jpg" />
+<img alt="宿州市国土空间总体规划（2021—2035年） 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-suzhou-anhui-guotu-kongjian-guihua-p3.jpg" />
+<img alt="宿州市国土空间总体规划（2021—2035年） 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-suzhou-anhui-guotu-kongjian-guihua-p4.jpg" />
+<img alt="宿州市国土空间总体规划（2021—2035年） 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-suzhou-anhui-guotu-kongjian-guihua-p5.jpg" />
 </div>

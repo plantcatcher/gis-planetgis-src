@@ -14,7 +14,7 @@ downloadType: external
 download: https://www.bengbu.gov.cn/group6/M00/0D/A0/wKgQBWZGzHqAG9ngABw07rRtMOs953.pdf
 officialUrl: https://www.bengbu.gov.cn/zfxxgk/public/21981/51647170.html
 officialName: 蚌埠市人民政府·规划公开页
-cover: /images/dl-bengbu-guotu-kongjian-guihua-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-bengbu-guotu-kongjian-guihua-cover.jpg
 format: PDF
 size: 1.8 MB
 ---
@@ -48,10 +48,10 @@ size: 1.8 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="蚌埠市国土空间总体规划（2021—2035年） 封面" src="/images/dl-bengbu-guotu-kongjian-guihua-cover.jpg" />
-<img alt="蚌埠市国土空间总体规划（2021—2035年） 内页速览 1" src="/images/dl-bengbu-guotu-kongjian-guihua-p1.jpg" />
-<img alt="蚌埠市国土空间总体规划（2021—2035年） 内页速览 2" src="/images/dl-bengbu-guotu-kongjian-guihua-p2.jpg" />
-<img alt="蚌埠市国土空间总体规划（2021—2035年） 内页速览 3" src="/images/dl-bengbu-guotu-kongjian-guihua-p3.jpg" />
-<img alt="蚌埠市国土空间总体规划（2021—2035年） 内页速览 4" src="/images/dl-bengbu-guotu-kongjian-guihua-p4.jpg" />
-<img alt="蚌埠市国土空间总体规划（2021—2035年） 内页速览 5" src="/images/dl-bengbu-guotu-kongjian-guihua-p5.jpg" />
+<img alt="蚌埠市国土空间总体规划（2021—2035年） 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-bengbu-guotu-kongjian-guihua-cover.jpg" />
+<img alt="蚌埠市国土空间总体规划（2021—2035年） 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-bengbu-guotu-kongjian-guihua-p1.jpg" />
+<img alt="蚌埠市国土空间总体规划（2021—2035年） 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-bengbu-guotu-kongjian-guihua-p2.jpg" />
+<img alt="蚌埠市国土空间总体规划（2021—2035年） 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-bengbu-guotu-kongjian-guihua-p3.jpg" />
+<img alt="蚌埠市国土空间总体规划（2021—2035年） 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-bengbu-guotu-kongjian-guihua-p4.jpg" />
+<img alt="蚌埠市国土空间总体规划（2021—2035年） 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-bengbu-guotu-kongjian-guihua-p5.jpg" />
 </div>

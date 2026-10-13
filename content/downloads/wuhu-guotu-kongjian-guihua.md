@@ -13,7 +13,7 @@ source: 芜湖市自然资源和规划局
 viewUrl: https://zrzyhghj.wuhu.gov.cn/openness/public/6596701/39719459.html
 officialUrl: https://zrzyhghj.wuhu.gov.cn/openness/public/6596701/39719459.html
 officialName: 芜湖市自然资源和规划局·批后公开页
-cover: /images/dl-wuhu-guotu-kongjian-guihua-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-wuhu-guotu-kongjian-guihua-cover.jpg
 format: PDF
 size: 0.7 MB
 ---
@@ -47,10 +47,10 @@ size: 0.7 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="芜湖市国土空间总体规划（2021—2035年） 封面" src="/images/dl-wuhu-guotu-kongjian-guihua-cover.jpg" />
-<img alt="芜湖市国土空间总体规划（2021—2035年） 内页速览 1" src="/images/dl-wuhu-guotu-kongjian-guihua-p1.jpg" />
-<img alt="芜湖市国土空间总体规划（2021—2035年） 内页速览 2" src="/images/dl-wuhu-guotu-kongjian-guihua-p2.jpg" />
-<img alt="芜湖市国土空间总体规划（2021—2035年） 内页速览 3" src="/images/dl-wuhu-guotu-kongjian-guihua-p3.jpg" />
-<img alt="芜湖市国土空间总体规划（2021—2035年） 内页速览 4" src="/images/dl-wuhu-guotu-kongjian-guihua-p4.jpg" />
-<img alt="芜湖市国土空间总体规划（2021—2035年） 内页速览 5" src="/images/dl-wuhu-guotu-kongjian-guihua-p5.jpg" />
+<img alt="芜湖市国土空间总体规划（2021—2035年） 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-wuhu-guotu-kongjian-guihua-cover.jpg" />
+<img alt="芜湖市国土空间总体规划（2021—2035年） 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-wuhu-guotu-kongjian-guihua-p1.jpg" />
+<img alt="芜湖市国土空间总体规划（2021—2035年） 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-wuhu-guotu-kongjian-guihua-p2.jpg" />
+<img alt="芜湖市国土空间总体规划（2021—2035年） 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-wuhu-guotu-kongjian-guihua-p3.jpg" />
+<img alt="芜湖市国土空间总体规划（2021—2035年） 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-wuhu-guotu-kongjian-guihua-p4.jpg" />
+<img alt="芜湖市国土空间总体规划（2021—2035年） 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-wuhu-guotu-kongjian-guihua-p5.jpg" />
 </div>

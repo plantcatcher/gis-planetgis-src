@@ -14,7 +14,7 @@ downloadType: external
 download: https://zrgh.fy.gov.cn/files/1/202404/20240409181150105944_oWnT4Pp7.pdf
 officialUrl: https://www.fy.gov.cn/OpennessContent/show/2288879.html
 officialName: 阜阳市人民政府·规划公布页
-cover: /images/dl-fuyang-guotu-kongjian-guihua-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fuyang-guotu-kongjian-guihua-cover.jpg
 format: PDF
 size: 49.2 MB
 ---
@@ -48,10 +48,10 @@ size: 49.2 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="阜阳市国土空间总体规划（2021—2035年） 封面" src="/images/dl-fuyang-guotu-kongjian-guihua-cover.jpg" />
-<img alt="阜阳市国土空间总体规划（2021—2035年） 内页速览 1" src="/images/dl-fuyang-guotu-kongjian-guihua-p1.jpg" />
-<img alt="阜阳市国土空间总体规划（2021—2035年） 内页速览 2" src="/images/dl-fuyang-guotu-kongjian-guihua-p2.jpg" />
-<img alt="阜阳市国土空间总体规划（2021—2035年） 内页速览 3" src="/images/dl-fuyang-guotu-kongjian-guihua-p3.jpg" />
-<img alt="阜阳市国土空间总体规划（2021—2035年） 内页速览 4" src="/images/dl-fuyang-guotu-kongjian-guihua-p4.jpg" />
-<img alt="阜阳市国土空间总体规划（2021—2035年） 内页速览 5" src="/images/dl-fuyang-guotu-kongjian-guihua-p5.jpg" />
+<img alt="阜阳市国土空间总体规划（2021—2035年） 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fuyang-guotu-kongjian-guihua-cover.jpg" />
+<img alt="阜阳市国土空间总体规划（2021—2035年） 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fuyang-guotu-kongjian-guihua-p1.jpg" />
+<img alt="阜阳市国土空间总体规划（2021—2035年） 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fuyang-guotu-kongjian-guihua-p2.jpg" />
+<img alt="阜阳市国土空间总体规划（2021—2035年） 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fuyang-guotu-kongjian-guihua-p3.jpg" />
+<img alt="阜阳市国土空间总体规划（2021—2035年） 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fuyang-guotu-kongjian-guihua-p4.jpg" />
+<img alt="阜阳市国土空间总体规划（2021—2035年） 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fuyang-guotu-kongjian-guihua-p5.jpg" />
 </div>

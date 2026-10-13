@@ -14,7 +14,7 @@ downloadType: external
 download: https://www.fuzhou.gov.cn/zfxxgkzl/szfbmjxsqxxgk/szfbmxxgk/fzsrmzf/zfxxgkml/gmjjhshfzghzxghqyghjxgzc/202504/P020250403416882737940.pdf
 officialUrl: https://www.fuzhou.gov.cn/zfxxgkzl/szfbmjxsqxxgk/szfbmxxgk/fzsrmzf/zfxxgkml/gmjjhshfzghzxghqyghjxgzc/
 officialName: 福州市人民政府·规划公开
-cover: /images/dl-fuzhou-guotu-kongjian-guihua-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fuzhou-guotu-kongjian-guihua-cover.jpg
 format: PDF
 size: 88.2 MB
 ---
@@ -50,10 +50,10 @@ size: 88.2 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="福州市国土空间总体规划（2021—2035年） 封面" src="/images/dl-fuzhou-guotu-kongjian-guihua-cover.jpg" />
-<img alt="福州市国土空间总体规划（2021—2035年） 内页速览 1" src="/images/dl-fuzhou-guotu-kongjian-guihua-p1.jpg" />
-<img alt="福州市国土空间总体规划（2021—2035年） 内页速览 2" src="/images/dl-fuzhou-guotu-kongjian-guihua-p2.jpg" />
-<img alt="福州市国土空间总体规划（2021—2035年） 内页速览 3" src="/images/dl-fuzhou-guotu-kongjian-guihua-p3.jpg" />
-<img alt="福州市国土空间总体规划（2021—2035年） 内页速览 4" src="/images/dl-fuzhou-guotu-kongjian-guihua-p4.jpg" />
-<img alt="福州市国土空间总体规划（2021—2035年） 内页速览 5" src="/images/dl-fuzhou-guotu-kongjian-guihua-p5.jpg" />
+<img alt="福州市国土空间总体规划（2021—2035年） 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fuzhou-guotu-kongjian-guihua-cover.jpg" />
+<img alt="福州市国土空间总体规划（2021—2035年） 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fuzhou-guotu-kongjian-guihua-p1.jpg" />
+<img alt="福州市国土空间总体规划（2021—2035年） 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fuzhou-guotu-kongjian-guihua-p2.jpg" />
+<img alt="福州市国土空间总体规划（2021—2035年） 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fuzhou-guotu-kongjian-guihua-p3.jpg" />
+<img alt="福州市国土空间总体规划（2021—2035年） 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fuzhou-guotu-kongjian-guihua-p4.jpg" />
+<img alt="福州市国土空间总体规划（2021—2035年） 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fuzhou-guotu-kongjian-guihua-p5.jpg" />
 </div>

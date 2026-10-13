@@ -14,7 +14,7 @@ downloadType: external
 download: https://zrzyj.np.gov.cn/cms/pages/430580085228450000/attachments/%E5%8D%97%E5%B9%B3%E5%B8%82%E5%9B%BD%E5%9C%9F%E7%A9%BA%E9%97%B4%E6%80%BB%E4%BD%93%E8%A7%84%E5%88%92%E5%85%AC%E4%BC%97%E7%89%88%281%29.pdf
 officialUrl: https://zrzyj.np.gov.cn/cms/html/npsgtzyj/ghgs/index.html
 officialName: 南平市自然资源局·规划公开
-cover: /images/dl-nanping-guotu-kongjian-guihua-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-nanping-guotu-kongjian-guihua-cover.jpg
 format: PDF
 size: 28.6 MB
 ---
@@ -50,10 +50,10 @@ size: 28.6 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="南平市国土空间总体规划（2021—2035年） 封面" src="/images/dl-nanping-guotu-kongjian-guihua-cover.jpg" />
-<img alt="南平市国土空间总体规划（2021—2035年） 内页速览 1" src="/images/dl-nanping-guotu-kongjian-guihua-p1.jpg" />
-<img alt="南平市国土空间总体规划（2021—2035年） 内页速览 2" src="/images/dl-nanping-guotu-kongjian-guihua-p2.jpg" />
-<img alt="南平市国土空间总体规划（2021—2035年） 内页速览 3" src="/images/dl-nanping-guotu-kongjian-guihua-p3.jpg" />
-<img alt="南平市国土空间总体规划（2021—2035年） 内页速览 4" src="/images/dl-nanping-guotu-kongjian-guihua-p4.jpg" />
-<img alt="南平市国土空间总体规划（2021—2035年） 内页速览 5" src="/images/dl-nanping-guotu-kongjian-guihua-p5.jpg" />
+<img alt="南平市国土空间总体规划（2021—2035年） 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-nanping-guotu-kongjian-guihua-cover.jpg" />
+<img alt="南平市国土空间总体规划（2021—2035年） 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-nanping-guotu-kongjian-guihua-p1.jpg" />
+<img alt="南平市国土空间总体规划（2021—2035年） 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-nanping-guotu-kongjian-guihua-p2.jpg" />
+<img alt="南平市国土空间总体规划（2021—2035年） 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-nanping-guotu-kongjian-guihua-p3.jpg" />
+<img alt="南平市国土空间总体规划（2021—2035年） 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-nanping-guotu-kongjian-guihua-p4.jpg" />
+<img alt="南平市国土空间总体规划（2021—2035年） 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-nanping-guotu-kongjian-guihua-p5.jpg" />
 </div>

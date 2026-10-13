@@ -534,7 +534,7 @@ const Home = () => {
                           </span>
                         )}
                         {r.format && (
-                          <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
+                          <span className="hidden sm:inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
                             {r.format}
                           </span>
                         )}

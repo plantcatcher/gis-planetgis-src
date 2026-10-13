@@ -14,7 +14,7 @@ downloadType: external
 download: https://www.xuancheng.gov.cn/file_xc/48/202409/202409145f67ed2dccf54b2aa947fe96ee047073.pdf
 officialUrl: https://www.xuancheng.gov.cn/OpennessContent/show/3391381.html
 officialName: 宣城市人民政府·批后公布页
-cover: /images/dl-xuancheng-guotu-kongjian-guihua-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-xuancheng-guotu-kongjian-guihua-cover.jpg
 format: PDF
 size: 1.0 MB
 ---
@@ -48,10 +48,10 @@ size: 1.0 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="宣城市国土空间总体规划（2021—2035年） 封面" src="/images/dl-xuancheng-guotu-kongjian-guihua-cover.jpg" />
-<img alt="宣城市国土空间总体规划（2021—2035年） 内页速览 1" src="/images/dl-xuancheng-guotu-kongjian-guihua-p1.jpg" />
-<img alt="宣城市国土空间总体规划（2021—2035年） 内页速览 2" src="/images/dl-xuancheng-guotu-kongjian-guihua-p2.jpg" />
-<img alt="宣城市国土空间总体规划（2021—2035年） 内页速览 3" src="/images/dl-xuancheng-guotu-kongjian-guihua-p3.jpg" />
-<img alt="宣城市国土空间总体规划（2021—2035年） 内页速览 4" src="/images/dl-xuancheng-guotu-kongjian-guihua-p4.jpg" />
-<img alt="宣城市国土空间总体规划（2021—2035年） 内页速览 5" src="/images/dl-xuancheng-guotu-kongjian-guihua-p5.jpg" />
+<img alt="宣城市国土空间总体规划（2021—2035年） 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-xuancheng-guotu-kongjian-guihua-cover.jpg" />
+<img alt="宣城市国土空间总体规划（2021—2035年） 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-xuancheng-guotu-kongjian-guihua-p1.jpg" />
+<img alt="宣城市国土空间总体规划（2021—2035年） 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-xuancheng-guotu-kongjian-guihua-p2.jpg" />
+<img alt="宣城市国土空间总体规划（2021—2035年） 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-xuancheng-guotu-kongjian-guihua-p3.jpg" />
+<img alt="宣城市国土空间总体规划（2021—2035年） 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-xuancheng-guotu-kongjian-guihua-p4.jpg" />
+<img alt="宣城市国土空间总体规划（2021—2035年） 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-xuancheng-guotu-kongjian-guihua-p5.jpg" />
 </div>

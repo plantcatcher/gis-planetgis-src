@@ -16,7 +16,7 @@ keywordAliases: GADM,全球行政区SHP,行政区划SHP,全球行政区划数据
 code: NSH-GADM-999
 format: SHP（ZIP 压缩包）
 size: 2.3 MB（2,262,609 字节）
-cover: /images/gadm41-irn-shp-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-gadm41-irn-shp-cover.jpg
 ---
 
 > 本数据集为 GADM（Global Administrative Areas，全球行政区划数据库）v4.1 的**伊朗**部分，以 Shapefile 格式提供行政区划边界，压缩包约 **2.3 MB（2,262,609 字节）**。GADM 是国际学术界广泛引用的全球行政区划数据项目，覆盖全球 400+ 国家和地区的高精度行政边界。西亚高原大国，31 个省，波斯文明与什叶派伊斯兰在此交汇，扎格罗斯与厄尔布尔士两条山脉夹着中央高原，石油、地毯与里海—波斯湾的双海岸线是它的地理标签。

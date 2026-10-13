@@ -16,7 +16,7 @@ keywordAliases: GADM,全球行政区SHP,行政区划SHP,全球行政区划数据
 code: NSH-GADM-999
 format: SHP（ZIP 压缩包）
 size: 0.3 MB（318,732 字节）
-cover: /images/gadm41-irq-shp-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-gadm41-irq-shp-cover.jpg
 ---
 
 > 本数据集为 GADM（Global Administrative Areas，全球行政区划数据库）v4.1 的**伊拉克**部分，以 Shapefile 格式提供行政区划边界，压缩包约 **0.3 MB（318,732 字节）**。GADM 是国际学术界广泛引用的全球行政区划数据项目，覆盖全球 400+ 国家和地区的高精度行政边界。两河流域（美索不达米亚）的文明发源地，18 个省，底格里斯与幼发拉底河在南部汇成阿拉伯河，石油储量与巴格达的千年古城是它最重的两个标签。

@@ -14,7 +14,7 @@ downloadType: external
 download: http://cz.dnr.gxzf.gov.cn/zwgk/xxgk/ghjh/P020250411566655633674.pdf
 officialUrl: https://cz.dnr.gxzf.gov.cn/zwgk/xxgk/ghjh/t19929919.shtml
 officialName: 崇左市自然资源局 · 规划公开页
-cover: /images/dl-chongzuo-guotu-kongjian-guihua-tuce-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-chongzuo-guotu-kongjian-guihua-tuce-cover.jpg
 format: PDF
 size: 19.6 MB
 ---
@@ -47,10 +47,10 @@ size: 19.6 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="崇左市国土空间总体规划（2021—2035年）批后图册公开版 封面" src="/images/dl-chongzuo-guotu-kongjian-guihua-tuce-cover.jpg" />
-<img alt="崇左市国土空间总体规划（2021—2035年）批后图册公开版 内页速览 1" src="/images/dl-chongzuo-guotu-kongjian-guihua-tuce-p1.jpg" />
-<img alt="崇左市国土空间总体规划（2021—2035年）批后图册公开版 内页速览 2" src="/images/dl-chongzuo-guotu-kongjian-guihua-tuce-p2.jpg" />
-<img alt="崇左市国土空间总体规划（2021—2035年）批后图册公开版 内页速览 3" src="/images/dl-chongzuo-guotu-kongjian-guihua-tuce-p3.jpg" />
-<img alt="崇左市国土空间总体规划（2021—2035年）批后图册公开版 内页速览 4" src="/images/dl-chongzuo-guotu-kongjian-guihua-tuce-p4.jpg" />
-<img alt="崇左市国土空间总体规划（2021—2035年）批后图册公开版 内页速览 5" src="/images/dl-chongzuo-guotu-kongjian-guihua-tuce-p5.jpg" />
+<img alt="崇左市国土空间总体规划（2021—2035年）批后图册公开版 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-chongzuo-guotu-kongjian-guihua-tuce-cover.jpg" />
+<img alt="崇左市国土空间总体规划（2021—2035年）批后图册公开版 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-chongzuo-guotu-kongjian-guihua-tuce-p1.jpg" />
+<img alt="崇左市国土空间总体规划（2021—2035年）批后图册公开版 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-chongzuo-guotu-kongjian-guihua-tuce-p2.jpg" />
+<img alt="崇左市国土空间总体规划（2021—2035年）批后图册公开版 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-chongzuo-guotu-kongjian-guihua-tuce-p3.jpg" />
+<img alt="崇左市国土空间总体规划（2021—2035年）批后图册公开版 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-chongzuo-guotu-kongjian-guihua-tuce-p4.jpg" />
+<img alt="崇左市国土空间总体规划（2021—2035年）批后图册公开版 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-chongzuo-guotu-kongjian-guihua-tuce-p5.jpg" />
 </div>

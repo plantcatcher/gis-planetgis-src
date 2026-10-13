@@ -13,7 +13,7 @@ source: 合肥市自然资源和规划局
 viewUrl: https://www.hefei.gov.cn/public/13081/110866431.html
 officialUrl: https://www.hefei.gov.cn/public/13081/110866431.html
 officialName: 合肥市人民政府·国土空间总体规划公开
-cover: /images/dl-hefei-guotu-kongjian-guihua-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hefei-guotu-kongjian-guihua-cover.jpg
 format: PDF
 size: 64.6 MB
 ---
@@ -47,10 +47,10 @@ size: 64.6 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="合肥市国土空间总体规划（2021—2035年） 封面" src="/images/dl-hefei-guotu-kongjian-guihua-cover.jpg" />
-<img alt="合肥市国土空间总体规划（2021—2035年） 内页速览 1" src="/images/dl-hefei-guotu-kongjian-guihua-p1.jpg" />
-<img alt="合肥市国土空间总体规划（2021—2035年） 内页速览 2" src="/images/dl-hefei-guotu-kongjian-guihua-p2.jpg" />
-<img alt="合肥市国土空间总体规划（2021—2035年） 内页速览 3" src="/images/dl-hefei-guotu-kongjian-guihua-p3.jpg" />
-<img alt="合肥市国土空间总体规划（2021—2035年） 内页速览 4" src="/images/dl-hefei-guotu-kongjian-guihua-p4.jpg" />
-<img alt="合肥市国土空间总体规划（2021—2035年） 内页速览 5" src="/images/dl-hefei-guotu-kongjian-guihua-p5.jpg" />
+<img alt="合肥市国土空间总体规划（2021—2035年） 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hefei-guotu-kongjian-guihua-cover.jpg" />
+<img alt="合肥市国土空间总体规划（2021—2035年） 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hefei-guotu-kongjian-guihua-p1.jpg" />
+<img alt="合肥市国土空间总体规划（2021—2035年） 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hefei-guotu-kongjian-guihua-p2.jpg" />
+<img alt="合肥市国土空间总体规划（2021—2035年） 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hefei-guotu-kongjian-guihua-p3.jpg" />
+<img alt="合肥市国土空间总体规划（2021—2035年） 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hefei-guotu-kongjian-guihua-p4.jpg" />
+<img alt="合肥市国土空间总体规划（2021—2035年） 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hefei-guotu-kongjian-guihua-p5.jpg" />
 </div>

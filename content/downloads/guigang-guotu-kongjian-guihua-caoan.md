@@ -11,7 +11,7 @@ stdDate: 2022-12 公示
 pages: 39 页
 source: 贵港市自然资源局
 viewUrl: http://gg.dnr.gxzf.gov.cn/ghly/cxgh/t14843233.shtml
-cover: /images/dl-guigang-guotu-kongjian-guihua-caoan-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-guigang-guotu-kongjian-guihua-caoan-cover.jpg
 format: 网页图片公示
 ---
 
@@ -43,10 +43,10 @@ format: 网页图片公示
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="贵港市国土空间总体规划（2021—2035年）草案公示 封面" src="/images/dl-guigang-guotu-kongjian-guihua-caoan-cover.jpg" />
-<img alt="贵港市国土空间总体规划（2021—2035年）草案公示 内页速览 1" src="/images/dl-guigang-guotu-kongjian-guihua-caoan-p1.jpg" />
-<img alt="贵港市国土空间总体规划（2021—2035年）草案公示 内页速览 2" src="/images/dl-guigang-guotu-kongjian-guihua-caoan-p2.jpg" />
-<img alt="贵港市国土空间总体规划（2021—2035年）草案公示 内页速览 3" src="/images/dl-guigang-guotu-kongjian-guihua-caoan-p3.jpg" />
-<img alt="贵港市国土空间总体规划（2021—2035年）草案公示 内页速览 4" src="/images/dl-guigang-guotu-kongjian-guihua-caoan-p4.jpg" />
-<img alt="贵港市国土空间总体规划（2021—2035年）草案公示 内页速览 5" src="/images/dl-guigang-guotu-kongjian-guihua-caoan-p5.jpg" />
+<img alt="贵港市国土空间总体规划（2021—2035年）草案公示 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-guigang-guotu-kongjian-guihua-caoan-cover.jpg" />
+<img alt="贵港市国土空间总体规划（2021—2035年）草案公示 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-guigang-guotu-kongjian-guihua-caoan-p1.jpg" />
+<img alt="贵港市国土空间总体规划（2021—2035年）草案公示 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-guigang-guotu-kongjian-guihua-caoan-p2.jpg" />
+<img alt="贵港市国土空间总体规划（2021—2035年）草案公示 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-guigang-guotu-kongjian-guihua-caoan-p3.jpg" />
+<img alt="贵港市国土空间总体规划（2021—2035年）草案公示 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-guigang-guotu-kongjian-guihua-caoan-p4.jpg" />
+<img alt="贵港市国土空间总体规划（2021—2035年）草案公示 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-guigang-guotu-kongjian-guihua-caoan-p5.jpg" />
 </div>

@@ -12,7 +12,7 @@ pages: 10 页
 source: 防城港市自然资源局
 downloadType: external
 download: http://fcg.dnr.gxzf.gov.cn/zrgz/gtkjgh/P020260320693782090734.pdf
-cover: /images/dl-fangchenggang-guotu-kongjian-guihua-dongtai-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fangchenggang-guotu-kongjian-guihua-dongtai-cover.jpg
 format: PDF
 size: 0.6 MB
 ---
@@ -45,10 +45,10 @@ size: 0.6 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="防城港市国土空间总体规划动态维护方案（公示稿） 封面" src="/images/dl-fangchenggang-guotu-kongjian-guihua-dongtai-cover.jpg" />
-<img alt="防城港市国土空间总体规划动态维护方案（公示稿） 内页速览 1" src="/images/dl-fangchenggang-guotu-kongjian-guihua-dongtai-p1.jpg" />
-<img alt="防城港市国土空间总体规划动态维护方案（公示稿） 内页速览 2" src="/images/dl-fangchenggang-guotu-kongjian-guihua-dongtai-p2.jpg" />
-<img alt="防城港市国土空间总体规划动态维护方案（公示稿） 内页速览 3" src="/images/dl-fangchenggang-guotu-kongjian-guihua-dongtai-p3.jpg" />
-<img alt="防城港市国土空间总体规划动态维护方案（公示稿） 内页速览 4" src="/images/dl-fangchenggang-guotu-kongjian-guihua-dongtai-p4.jpg" />
-<img alt="防城港市国土空间总体规划动态维护方案（公示稿） 内页速览 5" src="/images/dl-fangchenggang-guotu-kongjian-guihua-dongtai-p5.jpg" />
+<img alt="防城港市国土空间总体规划动态维护方案（公示稿） 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fangchenggang-guotu-kongjian-guihua-dongtai-cover.jpg" />
+<img alt="防城港市国土空间总体规划动态维护方案（公示稿） 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fangchenggang-guotu-kongjian-guihua-dongtai-p1.jpg" />
+<img alt="防城港市国土空间总体规划动态维护方案（公示稿） 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fangchenggang-guotu-kongjian-guihua-dongtai-p2.jpg" />
+<img alt="防城港市国土空间总体规划动态维护方案（公示稿） 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fangchenggang-guotu-kongjian-guihua-dongtai-p3.jpg" />
+<img alt="防城港市国土空间总体规划动态维护方案（公示稿） 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fangchenggang-guotu-kongjian-guihua-dongtai-p4.jpg" />
+<img alt="防城港市国土空间总体规划动态维护方案（公示稿） 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-fangchenggang-guotu-kongjian-guihua-dongtai-p5.jpg" />
 </div>

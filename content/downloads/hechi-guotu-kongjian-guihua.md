@@ -12,7 +12,7 @@ pages: 138 页
 source: 河池市人民政府
 downloadType: external
 download: http://www.hechi.gov.cn/zfxxgk/zfwj/hzf/P020241111345047818119.wps
-cover: /images/dl-hechi-guotu-kongjian-guihua-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hechi-guotu-kongjian-guihua-cover.jpg
 format: WPS 文档
 size: 1.1 MB
 ---
@@ -45,10 +45,10 @@ size: 1.1 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="河池市国土空间总体规划（2021—2035年）文本 封面" src="/images/dl-hechi-guotu-kongjian-guihua-cover.jpg" />
-<img alt="河池市国土空间总体规划（2021—2035年）文本 内页速览 1" src="/images/dl-hechi-guotu-kongjian-guihua-p1.jpg" />
-<img alt="河池市国土空间总体规划（2021—2035年）文本 内页速览 2" src="/images/dl-hechi-guotu-kongjian-guihua-p2.jpg" />
-<img alt="河池市国土空间总体规划（2021—2035年）文本 内页速览 3" src="/images/dl-hechi-guotu-kongjian-guihua-p3.jpg" />
-<img alt="河池市国土空间总体规划（2021—2035年）文本 内页速览 4" src="/images/dl-hechi-guotu-kongjian-guihua-p4.jpg" />
-<img alt="河池市国土空间总体规划（2021—2035年）文本 内页速览 5" src="/images/dl-hechi-guotu-kongjian-guihua-p5.jpg" />
+<img alt="河池市国土空间总体规划（2021—2035年）文本 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hechi-guotu-kongjian-guihua-cover.jpg" />
+<img alt="河池市国土空间总体规划（2021—2035年）文本 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hechi-guotu-kongjian-guihua-p1.jpg" />
+<img alt="河池市国土空间总体规划（2021—2035年）文本 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hechi-guotu-kongjian-guihua-p2.jpg" />
+<img alt="河池市国土空间总体规划（2021—2035年）文本 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hechi-guotu-kongjian-guihua-p3.jpg" />
+<img alt="河池市国土空间总体规划（2021—2035年）文本 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hechi-guotu-kongjian-guihua-p4.jpg" />
+<img alt="河池市国土空间总体规划（2021—2035年）文本 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-hechi-guotu-kongjian-guihua-p5.jpg" />
 </div>

@@ -14,7 +14,7 @@ downloadType: external
 download: http://zrzyj.sm.gov.cn/xxgk/tzgg/cxghgs/ghgs/202212/P020230308407818936466.pdf
 officialUrl: http://zrzyj.sm.gov.cn/xxgk/tzgg/cxghgs/ghgs/
 officialName: 三明市自然资源局·规划公开
-cover: /images/dl-sanming-guotu-kongjian-guihua-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-sanming-guotu-kongjian-guihua-cover.jpg
 format: PDF
 size: 27.9 MB
 ---
@@ -50,10 +50,10 @@ size: 27.9 MB
 ## 内页速览
 
 <div class="shot-grid">
-<img alt="三明市国土空间总体规划（2021—2035年） 封面" src="/images/dl-sanming-guotu-kongjian-guihua-cover.jpg" />
-<img alt="三明市国土空间总体规划（2021—2035年） 内页速览 1" src="/images/dl-sanming-guotu-kongjian-guihua-p1.jpg" />
-<img alt="三明市国土空间总体规划（2021—2035年） 内页速览 2" src="/images/dl-sanming-guotu-kongjian-guihua-p2.jpg" />
-<img alt="三明市国土空间总体规划（2021—2035年） 内页速览 3" src="/images/dl-sanming-guotu-kongjian-guihua-p3.jpg" />
-<img alt="三明市国土空间总体规划（2021—2035年） 内页速览 4" src="/images/dl-sanming-guotu-kongjian-guihua-p4.jpg" />
-<img alt="三明市国土空间总体规划（2021—2035年） 内页速览 5" src="/images/dl-sanming-guotu-kongjian-guihua-p5.jpg" />
+<img alt="三明市国土空间总体规划（2021—2035年） 封面" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-sanming-guotu-kongjian-guihua-cover.jpg" />
+<img alt="三明市国土空间总体规划（2021—2035年） 内页速览 1" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-sanming-guotu-kongjian-guihua-p1.jpg" />
+<img alt="三明市国土空间总体规划（2021—2035年） 内页速览 2" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-sanming-guotu-kongjian-guihua-p2.jpg" />
+<img alt="三明市国土空间总体规划（2021—2035年） 内页速览 3" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-sanming-guotu-kongjian-guihua-p3.jpg" />
+<img alt="三明市国土空间总体规划（2021—2035年） 内页速览 4" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-sanming-guotu-kongjian-guihua-p4.jpg" />
+<img alt="三明市国土空间总体规划（2021—2035年） 内页速览 5" src="https://blogphoto.planetgis.cn/PicGo/2026-10-13-dl-sanming-guotu-kongjian-guihua-p5.jpg" />
 </div>
