@@ -1,11 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar, Clock, Type } from 'lucide-react';
+import { Calendar, Clock, Type, Flame } from 'lucide-react';
 import CoverImage from '@/components/common/CoverImage';
 import { SubjectIcon } from '@/lib/subjectIcons';
 import { SUBJECT_META } from '@/lib/content';
 import { getReadingTime, getWordCount, TYPE_BASE } from '@/lib/knowledge';
 import type { ContentItem } from '@/lib/content';
+
+// 浏览量格式化：1200 -> 1.2k（与资料下载页一致）
+const fmtHeat = (n: number) =>
+  n >= 1000 ? `${(n / 1000).toFixed(1).replace(/\.0$/, '')}k` : String(n);
 
 /** 从正文提取导语：优先摘要，否则取正文去 markdown 符号后的前若干字 */
 function leadOf(item: ContentItem): string {
@@ -80,6 +84,12 @@ const KnowledgeCard = ({
                 <Type className="w-3 h-3" />
                 {getWordCount(item)}字
               </span>
+              {(item.heat || 0) > 0 && (
+                <span className="inline-flex items-center gap-1 text-orange-500 ml-auto">
+                  <Flame className="w-3 h-3" />
+                  {fmtHeat(item.heat ?? 0)}
+                </span>
+              )}
             </div>
             {item.tags && item.tags.length > 0 && (
               <div className="mt-2.5 flex flex-wrap gap-1.5">

@@ -1,4 +1,8 @@
-// 从 GA4 拉取【资料下载】各页面近 30 天浏览量，生成 src/data/heat.json（slug -> 浏览量）。
+// 从 GA4 拉取各板块页面近 30 天浏览量，生成 src/data/heat.json（slug -> 浏览量）。
+// 覆盖：资料下载 /downloads/、地理知识库 /learn/、精选作品 /works/、互动地图 /maps/、
+//       地理小游戏 /games/、地理小工具 /tools/。
+// 取数按「路径前缀 → slug」剥离，同一 slug 在多条路径（如 /works/<slug> + /maps/<slug>）
+// 上的浏览量**求和**，得到「该内容总热度」，供各列表页统一按热度排序。
 // 该脚本不参与日常构建，按需手动执行，或用 GitHub Actions 定时跑（见下方说明）。
 //
 // 前置（需在运行环境提供）：
@@ -18,7 +22,7 @@
 //   $env:GA4_PROPERTY_ID="13673930686"
 //   $env:GA4_SERVICE_ACCOUNT_FILE="C:\Users\ZhuanZ\Downloads\planetgis-ga4-2e9c58c67bb0.json"
 //   node scripts/gen_heat.mjs
-// 输出：src/data/heat.json —— content.ts 在构建期读取它给每个资料注入 heat 字段。
+// 输出：src/data/heat.json —— content.ts 在构建期读取它给每个内容项注入 heat 字段。
 
 import { createSign } from 'node:crypto';
 import { writeFile, readFile } from 'node:fs/promises';
@@ -121,18 +125,21 @@ async function run() {
   const sa = JSON.parse(saJson);
   const token = await getAccessToken(sa);
 
+  // 覆盖全站各板块详情页路径前缀；同一 slug 跨路径的浏览量在下方汇总时求和。
+  const PREFIXES = ['/downloads/', '/learn/', '/works/', '/maps/', '/games/', '/tools/'];
   const body = {
     dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
     dimensions: [{ name: 'pagePath' }],
     metrics: [{ name: 'screenPageViews' }],
     dimensionFilter: {
-      filter: {
-        fieldName: 'pagePath',
-        stringFilter: { matchType: 'BEGINS_WITH', value: '/downloads/' },
+      orGroup: {
+        expressions: PREFIXES.map((p) => ({
+          filter: { fieldName: 'pagePath', stringFilter: { matchType: 'BEGINS_WITH', value: p } },
+        })),
       },
     },
     orderBys: [{ metric: { metricName: 'screenPageViews' }, desc: true }],
-    limit: 2000,
+    limit: 5000,
   };
 
   const data = await httpPost(
@@ -145,9 +152,18 @@ async function run() {
   const heat = {};
   for (const row of data.rows || []) {
     let path = (row.dimensionValues?.[0]?.value || '').split('?')[0];
-    const slug = path.replace(/^\/downloads\//, '').replace(/\.html$/, '').replace(/\/+$/, '');
+    path = path.replace(/\.html$/, '').replace(/\/+$/, '');
+    // 剥离已知前缀得到 slug（一个 work 的 /works/<slug> 与 /maps/<slug> 指向同一 slug）
+    let slug = path;
+    for (const p of PREFIXES) {
+      if (slug.startsWith(p)) {
+        slug = slug.slice(p.length);
+        break;
+      }
+    }
     if (!slug) continue;
-    heat[slug] = Number(row.metricValues?.[0]?.value) || 0;
+    // 同 slug 跨路径浏览量求和，得到该内容的总热度
+    heat[slug] = (heat[slug] || 0) + (Number(row.metricValues?.[0]?.value) || 0);
   }
 
   await writeFile(OUT, JSON.stringify(heat, null, 2) + '\n', 'utf8');

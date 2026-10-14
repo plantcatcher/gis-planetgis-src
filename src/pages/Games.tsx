@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Gamepad2, ArrowRight } from 'lucide-react';
+import { Gamepad2, ArrowRight, Flame } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import FilterChips from '@/components/common/FilterChips';
+import Pagination from '@/components/common/Pagination';
 import { getWorksBySeries, getWorkTopics, getWorkScopes, type ContentItem } from '@/lib/content';
 
 // 卡片入场动画：initial 保持 opacity:1，确保 SSG 静态 HTML 中文本天生可见（利于 SEO / AdSense）。
@@ -19,6 +20,19 @@ const CardAnim: React.FC<{ children: React.ReactNode; delay?: number }> = ({ chi
   </motion.div>
 );
 
+// 浏览量格式化：1200 -> 1.2k（与资料下载页一致）
+const fmtHeat = (n: number) =>
+  n >= 1000 ? `${(n / 1000).toFixed(1).replace(/\.0$/, '')}k` : String(n);
+
+// 卡片上的热度标记（仅在有真实浏览量时显示）
+const HeatTag: React.FC<{ heat?: number }> = ({ heat }) =>
+  (heat || 0) > 0 ? (
+    <span className="inline-flex items-center gap-1 text-xs text-orange-500">
+      <Flame className="w-3.5 h-3.5" />
+      {fmtHeat(heat ?? 0)}
+    </span>
+  ) : null;
+
 // 地理小游戏汇总页：与「互动地图 /maps」「精选作品 /works」「地理小工具 /tools」结构对称。
 // 数据源是 content/works 中 series: game 的条目（显式声明归属，不靠 tags 猜），
 // 每个 link 指向对应的游戏 iframe 页，SEO 正文在其 /works/<slug> 介绍页。
@@ -31,10 +45,29 @@ const Games: React.FC = () => {
   const scopes = getWorkScopes('game');
   const [topic, setTopic] = useState('全部');
   const [scope, setScope] = useState('全部');
+  const [sortMode, setSortMode] = useState<'default' | 'heat'>('default');
 
   const hitTopic = (g: ContentItem, t: string) => t === '全部' || (g.topics || []).includes(t);
   const hitScope = (g: ContentItem, s: string) => s === '全部' || g.scope === s;
   const filtered = games.filter((g) => hitTopic(g, topic) && hitScope(g, scope));
+
+  // 热度模式：按近 30 天 GA4 浏览量降序（并列回退日期）；默认模式：沿用作品 order
+  const sorted =
+    sortMode === 'heat'
+      ? [...filtered].sort(
+          (a, b) => (b.heat || 0) - (a.heat || 0) || (b.date || '').localeCompare(a.date || ''),
+        )
+      : filtered;
+
+  // 分页：每页 12 款；主题/地域/排序变化自动归 1
+  const PAGE_SIZE = 12;
+  const [page, setPage] = useState(1);
+  const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
+  const currentPage = Math.min(page, totalPages);
+  const pageItems = sorted.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  useEffect(() => {
+    setPage(1);
+  }, [topic, scope, sortMode]);
 
   // 分面计数：主题的条数按当前地域算，地域的条数按当前主题算
   const topicChips = topics.map(({ name }) => ({
@@ -74,36 +107,52 @@ const Games: React.FC = () => {
             <FilterChips label="地域" items={scopeChips} active={scope} onChange={setScope} allCount={games.filter((g) => hitTopic(g, topic)).length} />
           </div>
 
-          <p className="text-sm text-muted-foreground mb-6">
-            共 {filtered.length} 款游戏
-            {narrowed && (
-              <>
-                <span className="mx-1.5 text-border">|</span>
-                <span>
-                  已筛选{scope !== '全部' && ` · ${scope}`}
-                  {topic !== '全部' && ` · ${topic}`}
-                </span>
+          <div className="flex items-center justify-between gap-4 mb-6">
+            <p className="text-sm text-muted-foreground">
+              共 {filtered.length} 款游戏
+              {narrowed && (
+                <>
+                  <span className="mx-1.5 text-border">|</span>
+                  <span>
+                    已筛选{scope !== '全部' && ` · ${scope}`}
+                    {topic !== '全部' && ` · ${topic}`}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTopic('全部');
+                      setScope('全部');
+                    }}
+                    className="ml-3 text-primary hover:underline"
+                  >
+                    清空筛选
+                  </button>
+                </>
+              )}
+            </p>
+            <div className="flex items-center gap-1 rounded-lg border border-border p-0.5 shrink-0">
+              {([['default', '默认'], ['heat', '热度']] as const).map(([key, label]) => (
                 <button
+                  key={key}
                   type="button"
-                  onClick={() => {
-                    setTopic('全部');
-                    setScope('全部');
-                  }}
-                  className="ml-3 text-primary hover:underline"
+                  onClick={() => setSortMode(key)}
+                  className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
+                    sortMode === key ? 'bg-primary text-white' : 'text-muted-foreground hover:text-foreground'
+                  }`}
                 >
-                  清空筛选
+                  {label}
                 </button>
-              </>
-            )}
-          </p>
+              ))}
+            </div>
+          </div>
 
           {games.length === 0 ? (
             <p className="text-muted-foreground">游戏正在路上，敬请期待。</p>
-          ) : filtered.length === 0 ? (
+          ) : sorted.length === 0 ? (
             <p className="text-muted-foreground">这个组合下暂时没有游戏，换个玩法或地域看看。</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filtered.map((game, i) => {
+              {pageItems.map((game, i) => {
                 const playUrl = game.link || `/${game.slug}`;
                 return (
                   <CardAnim key={game.slug} delay={i * 0.08}>
@@ -132,18 +181,32 @@ const Games: React.FC = () => {
                           </Link>
                         </h3>
                         <p className="text-sm text-muted-foreground line-clamp-2">{game.summary}</p>
-                        <Link
-                          to={`/works/${game.slug}`}
-                          className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary"
-                        >
-                          查看介绍 <ArrowRight className="w-3.5 h-3.5 group-hover:gap-2 transition-all" />
-                        </Link>
+                        <div className="mt-4 flex items-center gap-3">
+                          <Link
+                            to={`/works/${game.slug}`}
+                            className="inline-flex items-center gap-1 text-sm font-medium text-primary"
+                          >
+                            查看介绍 <ArrowRight className="w-3.5 h-3.5 group-hover:gap-2 transition-all" />
+                          </Link>
+                          <HeatTag heat={game.heat} />
+                        </div>
                       </div>
                     </div>
                   </CardAnim>
                 );
               })}
             </div>
+          )}
+
+          {totalPages > 1 && (
+            <Pagination
+              page={currentPage}
+              pageCount={totalPages}
+              onChange={(p) => {
+                setPage(p);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            />
           )}
         </div>
       </div>

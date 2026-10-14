@@ -102,38 +102,61 @@ const WorkGrid = () => {
   const all = getWorks();
   const categories = useMemo(() => getWorkCategories(), []);
   const [active, setActive] = useState('全部');
+  const [sortMode, setSortMode] = useState<'default' | 'heat'>('default');
   const list = active === '全部' ? all : all.filter((w) => (w.category || '未分类') === active);
 
-  // 分页：每页 12 个；切换分类自动归 1
+  // 热度模式：按近 30 天 GA4 浏览量降序（并列回退日期）；默认模式：沿用 frontmatter order
+  const sorted =
+    sortMode === 'heat'
+      ? [...list].sort((a, b) => (b.heat || 0) - (a.heat || 0) || (b.date || '').localeCompare(a.date || ''))
+      : list;
+
+  // 分页：每页 12 个；切换分类 / 排序自动归 1
   const PAGE_SIZE = 12;
   const [page, setPage] = useState(1);
-  const totalPages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
+  const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
   const currentPage = Math.min(page, totalPages);
-  const pageItems = list.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  const pageItems = sorted.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
   useEffect(() => {
     setPage(1);
-  }, [active]);
+  }, [active, sortMode]);
 
   return (
     <>
-      <div className="flex flex-wrap gap-2 mb-6">
-        {['全部', ...categories.map((c) => c.name)].map((name) => {
-          const count = name === '全部' ? all.length : categories.find((c) => c.name === name)?.count ?? 0;
-          return (
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+        <div className="flex flex-wrap gap-2">
+          {['全部', ...categories.map((c) => c.name)].map((name) => {
+            const count = name === '全部' ? all.length : categories.find((c) => c.name === name)?.count ?? 0;
+            return (
+              <button
+                key={name}
+                type="button"
+                onClick={() => setActive(name)}
+                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                  active === name
+                    ? 'bg-primary text-white'
+                    : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
+                }`}
+              >
+                {name} <span className="ml-1 text-xs opacity-70">{count}</span>
+              </button>
+            );
+          })}
+        </div>
+        <div className="flex items-center gap-1 rounded-lg border border-border p-0.5 shrink-0">
+          {([['default', '默认'], ['heat', '热度']] as const).map(([key, label]) => (
             <button
-              key={name}
+              key={key}
               type="button"
-              onClick={() => setActive(name)}
-              className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                active === name
-                  ? 'bg-primary text-white'
-                  : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
+              onClick={() => setSortMode(key)}
+              className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
+                sortMode === key ? 'bg-primary text-white' : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              {name} <span className="ml-1 text-xs opacity-70">{count}</span>
+              {label}
             </button>
-          );
-        })}
+          ))}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -161,6 +184,12 @@ const WorkGrid = () => {
               <div className="p-6">
                 <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors">{w.title}</h3>
                 <p className="text-sm text-muted-foreground line-clamp-2">{w.summary}</p>
+                {(w.heat || 0) > 0 && (
+                  <div className="mt-3 flex items-center gap-1 text-xs text-orange-500">
+                    <Flame className="w-3.5 h-3.5" />
+                    {fmtHeat(w.heat ?? 0)}
+                  </div>
+                )}
               </div>
             </Link>
           </CardAnim>
@@ -249,6 +278,14 @@ const LearnGrid = () => {
   );
   const [activeTags, setActiveTags] = useState<string[]>([]);
   const [query, setQuery] = useState(searchParams.get('q') || '');
+  // 排序：默认「最新」（保留学科分组）；「热度」模式整页按浏览量拍平排序（取消分组）
+  const [sortMode, setSortMode] = useState<'latest' | 'heat'>('latest');
+  const pickSort = (m: 'latest' | 'heat') => {
+    setSortMode(m);
+    const sp = new URLSearchParams(searchParams);
+    sp.delete('page');
+    setSearchParams(sp, { replace: true });
+  };
 
   // GA4：知识库搜索关键词（防抖 + 会话内去重，避免记录输入中间态）
   useSearchTracking(query, 'learn');
@@ -310,14 +347,24 @@ const LearnGrid = () => {
         })).filter((g) => g.items.length)
       : [{ name: activeSubject, items: searched }];
 
-  // 分页 + 扁平分组（方案 A：保留学科小标题，跨页重复显示）
+  // 热度模式：整页按热度拍平排序；最新模式：保留学科分组（见下方 flatAll / groupedNodes 分支）
+  const heatSorted = useMemo(
+    () =>
+      [...searched].sort(
+        (a, b) => (b.heat || 0) - (a.heat || 0) || (b.date || '').localeCompare(a.date || ''),
+      ),
+    [searched],
+  );
+
+  // 分页 + 扁平分组（方案 A：最新模式保留学科小标题，热度模式整页拍平）
   const PAGE_SIZE = 18;
   const subjectCount: Record<string, number> = {};
   for (const g of groups) subjectCount[g.name] = g.items.length;
   const flat = groups.flatMap((g) => g.items.map((it) => ({ subject: g.name, item: it })));
-  const totalPages = Math.max(1, Math.ceil(flat.length / PAGE_SIZE));
+  const flatAll = sortMode === 'heat' ? heatSorted.map((it) => ({ subject: '', item: it })) : flat;
+  const totalPages = Math.max(1, Math.ceil(flatAll.length / PAGE_SIZE));
   const currentPage = Math.min(Math.max(1, Number(searchParams.get('page')) || 1), totalPages);
-  const pageItems = flat.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  const pageItems = flatAll.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
   const goPage = (p: number) => {
     const sp = new URLSearchParams(searchParams);
     if (p <= 1) sp.delete('page');
@@ -489,16 +536,40 @@ const LearnGrid = () => {
           </div>
         )}
 
-        <p className="text-sm text-muted-foreground mb-5">
-          共 <span className="font-semibold text-foreground">{searched.length}</span> 篇
-          {activeSubject !== '全部' && ` · ${activeSubject}`}
-          {activeCategory !== '全部' && ` · ${activeCategory}`}
-          {activeLevel !== '全部' && ` · ${activeLevel}`}
-          {q && ` · 含“${q}”`}
-        </p>
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
+          <p className="text-sm text-muted-foreground">
+            共 <span className="font-semibold text-foreground">{searched.length}</span> 篇
+            {activeSubject !== '全部' && ` · ${activeSubject}`}
+            {activeCategory !== '全部' && ` · ${activeCategory}`}
+            {activeLevel !== '全部' && ` · ${activeLevel}`}
+            {q && ` · 含“${q}”`}
+          </p>
+          <div className="flex items-center gap-1 rounded-lg border border-border p-0.5 shrink-0">
+            {([['latest', '最新'], ['heat', '热度']] as const).map(([key, label]) => (
+              <button
+                key={key}
+                type="button"
+                onClick={() => pickSort(key)}
+                className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
+                  sortMode === key ? 'bg-primary text-white' : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
 
         {searched.length === 0 ? (
           <p className="text-muted-foreground">该筛选下还没有内容，敬请期待。</p>
+        ) : sortMode === 'heat' ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+            {pageItems.map(({ item }) => (
+              <CardAnim key={item.slug} delay={0}>
+                <KnowledgeCard item={item} />
+              </CardAnim>
+            ))}
+          </div>
         ) : (
           <div className="space-y-10">{groupedNodes}</div>
         )}

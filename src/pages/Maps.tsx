@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Map as MapIcon, ArrowRight, Layers, Database, Square, LayoutGrid, List } from 'lucide-react';
+import { Map as MapIcon, ArrowRight, Layers, Database, Square, LayoutGrid, List, Flame } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import FilterChips from '@/components/common/FilterChips';
@@ -20,6 +20,19 @@ const CardAnim: React.FC<{ children: React.ReactNode; delay?: number }> = ({ chi
     {children}
   </motion.div>
 );
+
+// 浏览量格式化：1200 -> 1.2k（与资料下载页一致）
+const fmtHeat = (n: number) =>
+  n >= 1000 ? `${(n / 1000).toFixed(1).replace(/\.0$/, '')}k` : String(n);
+
+// 卡片上的热度标记（仅在有真实浏览量时显示）
+const HeatTag: React.FC<{ heat?: number }> = ({ heat }) =>
+  (heat || 0) > 0 ? (
+    <span className="inline-flex items-center gap-1 text-xs text-orange-500">
+      <Flame className="w-3.5 h-3.5" />
+      {fmtHeat(heat ?? 0)}
+    </span>
+  ) : null;
 
 type ViewMode = 'simple' | 'detail' | 'list';
 const MODES: { id: ViewMode; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
@@ -41,6 +54,7 @@ const Maps: React.FC = () => {
     asset: getVizMap(w.slug) as VizMap | undefined,
   }));
   const [mode, setMode] = useState<ViewMode>('simple');
+  const [sortMode, setSortMode] = useState<'default' | 'heat'>('default');
 
   // 细分筛选：主题（topic）+ 地域（scope），两维正交，均由 content/works/<slug>.md
   // 的 frontmatter（topics / scope）驱动——写什么就筛什么，新增地图不用改本页。
@@ -53,15 +67,23 @@ const Maps: React.FC = () => {
   const hitScope = (w: ContentItem, s: string) => s === '全部' || w.scope === s;
   const filtered = maps.filter(({ work }) => hitTopic(work, topic) && hitScope(work, scope));
 
-  // 分页：每页 12 张；主题/地域变化自动归 1
+  // 热度模式：按近 30 天 GA4 浏览量降序（并列回退日期）；默认模式：沿用作品 order
+  const sorted =
+    sortMode === 'heat'
+      ? [...filtered].sort(
+          (a, b) => (b.work.heat || 0) - (a.work.heat || 0) || (b.work.date || '').localeCompare(a.work.date || ''),
+        )
+      : filtered;
+
+  // 分页：每页 12 张；主题/地域/排序变化自动归 1
   const PAGE_SIZE = 12;
   const [page, setPage] = useState(1);
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
   const currentPage = Math.min(page, totalPages);
-  const pageItems = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  const pageItems = sorted.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
   useEffect(() => {
     setPage(1);
-  }, [topic, scope]);
+  }, [topic, scope, sortMode]);
 
   // 分面计数：某个主题的条数按「当前地域」算，某个地域的条数按「当前主题」算
   const topicChips = topics.map(({ name }) => ({
@@ -127,28 +149,44 @@ const Maps: React.FC = () => {
                 </>
               )}
             </p>
-            <div
-              role="group"
-              aria-label="切换展示方式"
-              className="inline-flex rounded-lg border border-border bg-muted/40 p-1"
-            >
-              {MODES.map(({ id, label, icon: Icon }) => (
-                <button
-                  key={id}
-                  type="button"
-                  onClick={() => setMode(id)}
-                  aria-pressed={mode === id}
-                  title={label}
-                  aria-label={label}
-                  className={`inline-flex items-center justify-center w-9 h-9 rounded-md transition-colors ${
-                    mode === id
-                      ? 'bg-primary text-primary-foreground'
-                      : 'text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                </button>
-              ))}
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1 rounded-lg border border-border p-0.5">
+                {([['default', '默认'], ['heat', '热度']] as const).map(([key, label]) => (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => setSortMode(key)}
+                    className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
+                      sortMode === key ? 'bg-primary text-white' : 'text-muted-foreground hover:text-foreground'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+              <div
+                role="group"
+                aria-label="切换展示方式"
+                className="inline-flex rounded-lg border border-border bg-muted/40 p-1"
+              >
+                {MODES.map(({ id, label, icon: Icon }) => (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => setMode(id)}
+                    aria-pressed={mode === id}
+                    title={label}
+                    aria-label={label}
+                    className={`inline-flex items-center justify-center w-9 h-9 rounded-md transition-colors ${
+                      mode === id
+                        ? 'bg-primary text-primary-foreground'
+                        : 'text-muted-foreground hover:text-foreground'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4" />
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -196,6 +234,7 @@ const Maps: React.FC = () => {
                           >
                             查看介绍 <ArrowRight className="w-3.5 h-3.5" />
                           </Link>
+                          <HeatTag heat={w.heat} />
                           {m && (
                             <span className="ml-auto text-xs text-muted-foreground hidden sm:inline">
                               {totalFeatures.toLocaleString()} {unit} · {m.source}
@@ -269,6 +308,7 @@ const Maps: React.FC = () => {
                           >
                             查看介绍 <ArrowRight className="w-3.5 h-3.5 group-hover:gap-2 transition-all" />
                           </Link>
+                          <HeatTag heat={w.heat} />
                         </div>
                       </div>
                     </div>
