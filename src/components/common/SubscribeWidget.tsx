@@ -53,7 +53,7 @@ const SubscribeWidget: React.FC = () => {
           <div className="flex flex-col items-center gap-2 rounded-xl border border-border bg-background p-3">
             <div className="relative h-28 w-28 overflow-hidden rounded-lg bg-white">
               <img
-                src="/wechat-official-qr.jpg"
+                src="/images/wechat-official-qr.jpg"
                 alt="公众号二维码：那山那海那座城"
                 className="h-full w-full object-cover"
               />
@@ -67,7 +67,7 @@ const SubscribeWidget: React.FC = () => {
           <div className="flex flex-col items-center gap-2 rounded-xl border border-border bg-background p-3">
             <div className="relative h-28 w-28 overflow-hidden rounded-lg bg-white">
               <img
-                src="/wechat-qr.png"
+                src="/images/wechat-qr.png"
                 alt="微信二维码：星球小捕手"
                 className="h-full w-full object-cover"
               />

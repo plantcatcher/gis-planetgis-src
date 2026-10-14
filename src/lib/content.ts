@@ -1,12 +1,35 @@
 // 内容加载层：在编译期通过 import.meta.glob 把所有 Markdown 打进 bundle。
 // 每个内容文件由 frontmatter（卡片元数据）+ 正文（详情页内容）组成。
 // 无需后端、无需额外依赖，纯前端 + 构建期即可驱动全站。
+//
+// 文件夹即类型：content 下的一级目录名直接决定 type 与详情页路径前缀，
+//   works  ->  /works/:slug      模拟实验等独立作品
+//   maps   ->  /maps/:slug       互动地图（本体在 /maps/:slug/full）
+//   games  ->  /games/:slug      地理小游戏
+//   tools  ->  /tools/:slug      地理小工具
+//   learn      /learn/:slug      地理知识库
+//   downloads  /downloads/:slug  资料下载
+// 新增内容只需放进对应文件夹，不需要额外的归属字段。
 
 // 页面热度（浏览量）：由 scripts/gen_heat.mjs 从 GA4 取数生成，构建期 baked 进静态数据。
 import heatRaw from '../data/heat.json';
 const HEAT: Record<string, number> = (heatRaw as unknown as Record<string, number>) || {};
 
-export type ContentType = 'work' | 'tool' | 'article' | 'learn' | 'resource';
+export type ContentType = 'work' | 'map' | 'game' | 'tool' | 'article' | 'learn' | 'resource';
+
+/**
+ * type -> URL 路径前缀。详情页与列表页路径的唯一映射来源，与 content 下的文件夹名一一对应。
+ * ContentDetail / TagPage / learningService / 预渲染脚本都从这里取，不要再各写一份。
+ */
+export const BASE_PATH: Record<ContentType, string> = {
+  work: 'works',
+  map: 'maps',
+  game: 'games',
+  tool: 'tools',
+  article: 'articles',
+  learn: 'learn',
+  resource: 'downloads',
+};
 
 export interface ContentItem {
   slug: string;
@@ -24,18 +47,12 @@ export interface ContentItem {
   /** 学段（仅 learn 使用，可选）：初中 / 高中 / 大学。与 category（专题）、subject（学科）三者正交。 */
   level?: string;
   /**
-   * 作品系列（仅 content/works 使用）：map=互动地图 / game=地理小游戏 / lab=模拟实验室。
-   * 决定该作品出现在哪个系列汇总页（/maps、/games、/labs），是显式的归属声明，
-   * 不要再靠 tags 里有没有「游戏」来猜。
-   */
-  series?: 'map' | 'game' | 'lab';
-  /**
-   * 主题标签（细分分类，仅 works 的 map / game 使用）：比 category（互动地图 / 地理游戏）
+   * 主题标签（细分分类，仅 maps / games 使用）：比 category（互动地图 / 地理游戏）
    * 更细的一层，一条目可归多个主题，逗号分隔。用于 /maps、/games 的筛选。
    */
   topics?: string[];
   /**
-   * 地域范围（仅 works 的 map / game 使用）：中国 / 世界 / 通用。
+   * 地域范围（仅 maps / games 使用）：中国 / 世界 / 通用。
    * 与 topics（主题）正交，是 /maps、/games 的第二道筛选。
    */
   scope?: string;
@@ -142,7 +159,7 @@ for (const [path, raw] of Object.entries(rawFiles)) {
   const folder = seg[seg.length - 2]; // works | tools | articles
   const filename = seg[seg.length - 1].replace(/\.md$/, '');
   const type: ContentType =
-    folder === 'works' ? 'work' : folder === 'tools' ? 'tool' : folder === 'learn' ? 'learn' : folder === 'downloads' ? 'resource' : 'article';
+    folder === 'works' ? 'work' : folder === 'maps' ? 'map' : folder === 'games' ? 'game' : folder === 'tools' ? 'tool' : folder === 'learn' ? 'learn' : folder === 'downloads' ? 'resource' : 'article';
   items.push({
     slug: data.slug || filename,
     type,
@@ -155,7 +172,6 @@ for (const [path, raw] of Object.entries(rawFiles)) {
     category: data.category,
     subject: data.subject,
     level: data.level,
-    series: data.series as ContentItem['series'],
     topics: data.topics ? data.topics.split(',').map((s) => s.trim()).filter(Boolean) : [],
     scope: data.scope,
     tags: data.tags ? data.tags.split(',').map((s) => s.trim()).filter(Boolean) : [],
@@ -200,11 +216,19 @@ export const getWorks = (): ContentItem[] =>
     .sort((a, b) => a.order - b.order);
 
 /**
- * 按系列取作品（map / game / lab）——/maps、/games 等系列页的唯一数据源。
- * 归属由 frontmatter 的 series 字段显式声明，不再靠 tags 猜。
+ * 按 type 取某一类内容——文件夹即归属，/maps、/games、/works 等汇总页的唯一数据源。
+ * 以前靠 frontmatter 的 series 字段区分，现在 type 本身就表达归属。
  */
-export const getWorksBySeries = (series: ContentItem['series']): ContentItem[] =>
-  getWorks().filter((i) => i.series === series);
+export const getByType = (type: ContentType): ContentItem[] =>
+  items
+    .filter((i) => i.type === type)
+    .sort((a, b) => a.order - b.order);
+
+/** 互动地图：content/maps（63 条），本体在 /maps/<slug>/full */
+export const getMaps = (): ContentItem[] => getByType('map');
+
+/** 地理小游戏：content/games，本体是站内 GameEmbed 路由 */
+export const getGames = (): ContentItem[] => getByType('game');
 
 export const getTools = (): ContentItem[] =>
   items
@@ -338,13 +362,13 @@ export const getWorkCategories = (): { name: string; count: number }[] => {
 };
 
 /**
- * 某系列（map / game）的「主题标签」聚合，用于 /maps、/games 的细分筛选。
+ * 某一类（map / game）的「主题标签」聚合，用于 /maps、/games 的细分筛选。
  * 比 category（互动地图 / 地理游戏）更细：一条目可归多个主题，写什么就筛什么。
  * 排序：出现次数多的在前，同次数按中文拼音（localeCompare zh）稳定排列。
  */
-export const getWorkTopics = (series: ContentItem['series']): { name: string; count: number }[] => {
+export const getWorkTopics = (type: 'map' | 'game'): { name: string; count: number }[] => {
   const map = new Map<string, number>();
-  for (const w of getWorksBySeries(series)) {
+  for (const w of getByType(type)) {
     for (const t of w.topics || []) map.set(t, (map.get(t) || 0) + 1);
   }
   return Array.from(map.entries())
@@ -356,12 +380,12 @@ export const getWorkTopics = (series: ContentItem['series']): { name: string; co
 const SCOPE_ORDER = ['中国', '世界', '通用'];
 
 /**
- * 某系列（map / game）的「地域范围」聚合，用于第二道筛选。
+ * 某一类（map / game）的「地域范围」聚合，用于第二道筛选。
  * scope 与 topics 正交——一个是「画的是什么主题」，一个是「画的是哪儿」。
  */
-export const getWorkScopes = (series: ContentItem['series']): { name: string; count: number }[] => {
+export const getWorkScopes = (type: 'map' | 'game'): { name: string; count: number }[] => {
   const map = new Map<string, number>();
-  for (const w of getWorksBySeries(series)) {
+  for (const w of getByType(type)) {
     if (w.scope) map.set(w.scope, (map.get(w.scope) || 0) + 1);
   }
   return Array.from(map.entries())
@@ -457,8 +481,7 @@ export const getChangelogPlans = (): PlanEntry[] => {
 export const getAllDetailPaths = (): string[] => {
   const paths: string[] = [];
   for (const it of items) {
-    const base = it.type === 'work' ? 'works' : it.type === 'tool' ? 'tools' : it.type === 'learn' ? 'learn' : it.type === 'resource' ? 'downloads' : 'articles';
-    paths.push(`/${base}/${it.slug}`);
+    paths.push(`/${BASE_PATH[it.type]}/${it.slug}`);
   }
   if (changelogRaw) paths.push('/changelog');
   return paths;

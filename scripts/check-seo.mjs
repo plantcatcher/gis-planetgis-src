@@ -49,14 +49,22 @@ for (const file of files) {
   // ⚠️ 未来新增任何验证文件（百度 baidu_verify_*.html、360、搜狗等）都要加进这个集合。
   if (/^(ByteDanceVerify|baidu_verify_[a-z0-9]+|sogou_verify|so\.com_verify|360_verify)\.html$/i.test(rel)) continue;
 
-  // 游戏内嵌静态资源（public/geoquiz|geoshape|geotype|chinapuzzle 复制而来）与游戏壳页
+  // 游戏内嵌静态资源（public/games/geoquiz|geoshape|geotype|chinapuzzle 复制而来）与游戏壳页
   // 不是主站 React 路由，其结构（无 #root、canonical 指向子域、正文为游戏自身）
   // 不应参与主站 SEO 校验，否则会误报并使构建失败。
-  if (/^(geoquiz|geoshape|geotype|chinapuzzle)/.test(rel)) continue;
+  // ⚠️ 正则必须带尾斜杠：dist/games/<game>.html 是游戏详情页（有正文，必须校验），
+  //    只有 dist/games/<game>/** 才是从 public/games 复制来的游戏资源（含 geotype 城市页）。
+  if (/^games\/(geoquiz|geoshape|geotype|chinapuzzle)\//.test(rel)) continue;
 
-  // 互动地图同理：public/maps/<slug>/index.html 是地图本体，
-  // dist/maps/<slug>.html 是只装 iframe 的全屏壳页（正文就是地图，无文字可校验）。
-  if (/^maps\//.test(rel)) continue;
+  // 游戏 iframe 壳页（prerender 产物 dist/<game>.html，对应对外路由 /<game>）：
+  // 画面由 iframe 承载、壳页正文自然很短，与上面同理豁免，避免误报导致构建失败。
+  if (/^(geoquiz|geoshape|geotype|chinapuzzle)\.html$/.test(rel)) continue;
+
+  // 互动地图同理，但要区分两个文件：
+  //   dist/maps/<slug>.html        详情页（有正文，必须参与校验）
+  //   dist/maps/<slug>/full.html   全屏壳页，正文就是 iframe 里的地图、无文字可校验
+  //   dist/maps/<slug>/**          public/maps 复制来的地图源码资源，也不是页面
+  if (/^maps\/[^/]+\//.test(rel)) continue;
 
   // noindex 页面（tag 聚合页等）不参与 canonical 校验：
   // noindex 与 canonical 并存是互相矛盾的信号，prerender 会主动移除它们的 canonical，

@@ -5,8 +5,8 @@ cover: https://blogphoto.planetgis.cn/PicGo/2026-10-03-dixing_cover.jpg
 summary: 在地图上圈一块区域，几十秒内得到一份包含高程、坡度、剖面、河网水系与地形特征解读的完整分析报告——所有指标来自真实 DEM 计算，全部在浏览器本地完成，数据不上传任何服务器。
 link: https://terrain.planetgis.cn
 order: 2
+date: 2026-10-03
 category: 地形分析
-series: lab
 tags: 地理, GIS, DEM, 地形分析, 地理可视化, 可视化作品
 ---
 

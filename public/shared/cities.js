@@ -5793,7 +5793,7 @@ window.CITY_MASTER = {
       "elevation": 44,
       "coastal": false,
       "urbanization": 87,
-      "geotypeDetail": "/geotype/cities/北京.html"
+      "geotypeDetail": "/games/geotype/cities/北京.html"
     },
     "上海": {
       "name": "上海",
@@ -5808,7 +5808,7 @@ window.CITY_MASTER = {
       "elevation": 4,
       "coastal": true,
       "urbanization": 89,
-      "geotypeDetail": "/geotype/cities/上海.html"
+      "geotypeDetail": "/games/geotype/cities/上海.html"
     },
     "香港": {
       "name": "香港",
@@ -5823,7 +5823,7 @@ window.CITY_MASTER = {
       "elevation": 8,
       "coastal": true,
       "urbanization": 100,
-      "geotypeDetail": "/geotype/cities/香港.html"
+      "geotypeDetail": "/games/geotype/cities/香港.html"
     },
     "东京": {
       "name": "东京",
@@ -5838,7 +5838,7 @@ window.CITY_MASTER = {
       "elevation": 40,
       "coastal": true,
       "urbanization": 92,
-      "geotypeDetail": "/geotype/cities/东京.html"
+      "geotypeDetail": "/games/geotype/cities/东京.html"
     },
     "首尔": {
       "name": "首尔",
@@ -5853,7 +5853,7 @@ window.CITY_MASTER = {
       "elevation": 38,
       "coastal": false,
       "urbanization": 100,
-      "geotypeDetail": "/geotype/cities/首尔.html"
+      "geotypeDetail": "/games/geotype/cities/首尔.html"
     },
     "新加坡": {
       "name": "新加坡",
@@ -5868,7 +5868,7 @@ window.CITY_MASTER = {
       "elevation": 15,
       "coastal": true,
       "urbanization": 100,
-      "geotypeDetail": "/geotype/cities/新加坡.html"
+      "geotypeDetail": "/games/geotype/cities/新加坡.html"
     },
     "曼谷": {
       "name": "曼谷",
@@ -5883,7 +5883,7 @@ window.CITY_MASTER = {
       "elevation": 5,
       "coastal": false,
       "urbanization": 90,
-      "geotypeDetail": "/geotype/cities/曼谷.html"
+      "geotypeDetail": "/games/geotype/cities/曼谷.html"
     },
     "孟买": {
       "name": "孟买",
@@ -5898,7 +5898,7 @@ window.CITY_MASTER = {
       "elevation": 14,
       "coastal": true,
       "urbanization": 95,
-      "geotypeDetail": "/geotype/cities/孟买.html"
+      "geotypeDetail": "/games/geotype/cities/孟买.html"
     },
     "迪拜": {
       "name": "迪拜",
@@ -5913,7 +5913,7 @@ window.CITY_MASTER = {
       "elevation": 16,
       "coastal": true,
       "urbanization": 95,
-      "geotypeDetail": "/geotype/cities/迪拜.html"
+      "geotypeDetail": "/games/geotype/cities/迪拜.html"
     },
     "多哈": {
       "name": "多哈",
@@ -6018,7 +6018,7 @@ window.CITY_MASTER = {
       "elevation": 35,
       "coastal": false,
       "urbanization": 100,
-      "geotypeDetail": "/geotype/cities/巴黎.html"
+      "geotypeDetail": "/games/geotype/cities/巴黎.html"
     },
     "伦敦": {
       "name": "伦敦",
@@ -6033,7 +6033,7 @@ window.CITY_MASTER = {
       "elevation": 11,
       "coastal": true,
       "urbanization": 100,
-      "geotypeDetail": "/geotype/cities/伦敦.html"
+      "geotypeDetail": "/games/geotype/cities/伦敦.html"
     },
     "罗马": {
       "name": "罗马",
@@ -6198,7 +6198,7 @@ window.CITY_MASTER = {
       "elevation": 156,
       "coastal": false,
       "urbanization": 90,
-      "geotypeDetail": "/geotype/cities/莫斯科.html"
+      "geotypeDetail": "/games/geotype/cities/莫斯科.html"
     },
     "圣彼得堡": {
       "name": "圣彼得堡",
@@ -6243,7 +6243,7 @@ window.CITY_MASTER = {
       "elevation": 10,
       "coastal": true,
       "urbanization": 100,
-      "geotypeDetail": "/geotype/cities/纽约.html"
+      "geotypeDetail": "/games/geotype/cities/纽约.html"
     },
     "拉斯维加斯": {
       "name": "拉斯维加斯",
@@ -6318,7 +6318,7 @@ window.CITY_MASTER = {
       "elevation": 2,
       "coastal": true,
       "urbanization": 92,
-      "geotypeDetail": "/geotype/cities/里约热内卢.html"
+      "geotypeDetail": "/games/geotype/cities/里约热内卢.html"
     },
     "布宜诺斯艾利斯": {
       "name": "布宜诺斯艾利斯",
@@ -6378,7 +6378,7 @@ window.CITY_MASTER = {
       "elevation": 70,
       "coastal": true,
       "urbanization": 97,
-      "geotypeDetail": "/geotype/cities/温哥华.html"
+      "geotypeDetail": "/games/geotype/cities/温哥华.html"
     },
     "迈阿密": {
       "name": "迈阿密",
@@ -6423,7 +6423,7 @@ window.CITY_MASTER = {
       "elevation": 23,
       "coastal": false,
       "urbanization": 90,
-      "geotypeDetail": "/geotype/cities/开罗.html"
+      "geotypeDetail": "/games/geotype/cities/开罗.html"
     },
     "开普敦": {
       "name": "开普敦",
@@ -6438,7 +6438,7 @@ window.CITY_MASTER = {
       "elevation": 25,
       "coastal": true,
       "urbanization": 90,
-      "geotypeDetail": "/geotype/cities/开普敦.html"
+      "geotypeDetail": "/games/geotype/cities/开普敦.html"
     },
     "内罗毕": {
       "name": "内罗毕",
@@ -6498,7 +6498,7 @@ window.CITY_MASTER = {
       "elevation": 58,
       "coastal": true,
       "urbanization": 95,
-      "geotypeDetail": "/geotype/cities/悉尼.html"
+      "geotypeDetail": "/games/geotype/cities/悉尼.html"
     },
     "墨尔本": {
       "name": "墨尔本",
@@ -6543,7 +6543,7 @@ window.CITY_MASTER = {
       "elevation": 21,
       "coastal": true,
       "urbanization": 86,
-      "geotypeDetail": "/geotype/cities/广州.html"
+      "geotypeDetail": "/games/geotype/cities/广州.html"
     },
     "深圳": {
       "name": "深圳",
@@ -6558,7 +6558,7 @@ window.CITY_MASTER = {
       "elevation": 20,
       "coastal": true,
       "urbanization": 95,
-      "geotypeDetail": "/geotype/cities/深圳.html"
+      "geotypeDetail": "/games/geotype/cities/深圳.html"
     },
     "成都": {
       "name": "成都",
@@ -6573,7 +6573,7 @@ window.CITY_MASTER = {
       "elevation": 500,
       "coastal": false,
       "urbanization": 75,
-      "geotypeDetail": "/geotype/cities/成都.html"
+      "geotypeDetail": "/games/geotype/cities/成都.html"
     },
     "台北": {
       "name": "台北",
@@ -6588,7 +6588,7 @@ window.CITY_MASTER = {
       "elevation": 9,
       "coastal": true,
       "urbanization": 95,
-      "geotypeDetail": "/geotype/cities/台北.html"
+      "geotypeDetail": "/games/geotype/cities/台北.html"
     },
     "伊斯坦布尔": {
       "name": "伊斯坦布尔",
@@ -6858,7 +6858,7 @@ window.CITY_MASTER = {
       "elevation": 131,
       "coastal": true,
       "urbanization": 80,
-      "geotypeDetail": "/geotype/cities/雷克雅未克.html"
+      "geotypeDetail": "/games/geotype/cities/雷克雅未克.html"
     },
     "慕尼黑": {
       "name": "慕尼黑",
@@ -7308,7 +7308,7 @@ window.CITY_MASTER = {
       "elevation": 18,
       "coastal": true,
       "urbanization": 70,
-      "geotypeDetail": "/geotype/cities/三亚.html"
+      "geotypeDetail": "/games/geotype/cities/三亚.html"
     },
     "三明": {
       "name": "三明",
@@ -7368,7 +7368,7 @@ window.CITY_MASTER = {
       "elevation": 25,
       "coastal": true,
       "urbanization": 85,
-      "geotypeDetail": "/geotype/cities/东莞.html"
+      "geotypeDetail": "/games/geotype/cities/东莞.html"
     },
     "东营": {
       "name": "东营",
@@ -7488,7 +7488,7 @@ window.CITY_MASTER = {
       "elevation": 846,
       "coastal": false,
       "urbanization": 75,
-      "geotypeDetail": "/geotype/cities/丽江.html"
+      "geotypeDetail": "/games/geotype/cities/丽江.html"
     },
     "乌兰察布": {
       "name": "乌兰察布",
@@ -7518,7 +7518,7 @@ window.CITY_MASTER = {
       "elevation": 800,
       "coastal": false,
       "urbanization": 75,
-      "geotypeDetail": "/geotype/cities/乌鲁木齐.html"
+      "geotypeDetail": "/games/geotype/cities/乌鲁木齐.html"
     },
     "乐山": {
       "name": "乐山",
@@ -7608,7 +7608,7 @@ window.CITY_MASTER = {
       "elevation": 11,
       "coastal": true,
       "urbanization": 83,
-      "geotypeDetail": "/geotype/cities/佛山.html"
+      "geotypeDetail": "/games/geotype/cities/佛山.html"
     },
     "佳木斯": {
       "name": "佳木斯",
@@ -7638,7 +7638,7 @@ window.CITY_MASTER = {
       "elevation": 1495,
       "coastal": false,
       "urbanization": 61,
-      "geotypeDetail": "/geotype/cities/保定.html"
+      "geotypeDetail": "/games/geotype/cities/保定.html"
     },
     "保山": {
       "name": "保山",
@@ -7713,7 +7713,7 @@ window.CITY_MASTER = {
       "elevation": 1520,
       "coastal": false,
       "urbanization": 70,
-      "geotypeDetail": "/geotype/cities/兰州.html"
+      "geotypeDetail": "/games/geotype/cities/兰州.html"
     },
     "内江": {
       "name": "内江",
@@ -7743,7 +7743,7 @@ window.CITY_MASTER = {
       "elevation": 325,
       "coastal": true,
       "urbanization": 85,
-      "geotypeDetail": "/geotype/cities/北海.html"
+      "geotypeDetail": "/games/geotype/cities/北海.html"
     },
     "十堰": {
       "name": "十堰",
@@ -7773,7 +7773,7 @@ window.CITY_MASTER = {
       "elevation": 20,
       "coastal": false,
       "urbanization": 82,
-      "geotypeDetail": "/geotype/cities/南京.html"
+      "geotypeDetail": "/games/geotype/cities/南京.html"
     },
     "南充": {
       "name": "南充",
@@ -7803,7 +7803,7 @@ window.CITY_MASTER = {
       "elevation": 76,
       "coastal": false,
       "urbanization": 72,
-      "geotypeDetail": "/geotype/cities/南宁.html"
+      "geotypeDetail": "/games/geotype/cities/南宁.html"
     },
     "南平": {
       "name": "南平",
@@ -7818,7 +7818,7 @@ window.CITY_MASTER = {
       "elevation": 55,
       "coastal": false,
       "urbanization": 73,
-      "geotypeDetail": "/geotype/cities/南平.html"
+      "geotypeDetail": "/games/geotype/cities/南平.html"
     },
     "南昌": {
       "name": "南昌",
@@ -7833,7 +7833,7 @@ window.CITY_MASTER = {
       "elevation": 47,
       "coastal": false,
       "urbanization": 76,
-      "geotypeDetail": "/geotype/cities/南昌.html"
+      "geotypeDetail": "/games/geotype/cities/南昌.html"
     },
     "南阳": {
       "name": "南阳",
@@ -7863,7 +7863,7 @@ window.CITY_MASTER = {
       "elevation": 63,
       "coastal": true,
       "urbanization": 80,
-      "geotypeDetail": "/geotype/cities/厦门.html"
+      "geotypeDetail": "/games/geotype/cities/厦门.html"
     },
     "双鸭山": {
       "name": "双鸭山",
@@ -7908,7 +7908,7 @@ window.CITY_MASTER = {
       "elevation": 30,
       "coastal": false,
       "urbanization": 76,
-      "geotypeDetail": "/geotype/cities/合肥.html"
+      "geotypeDetail": "/games/geotype/cities/合肥.html"
     },
     "吉安": {
       "name": "吉安",
@@ -7983,7 +7983,7 @@ window.CITY_MASTER = {
       "elevation": 1060,
       "coastal": false,
       "urbanization": 72,
-      "geotypeDetail": "/geotype/cities/呼和浩特.html"
+      "geotypeDetail": "/games/geotype/cities/呼和浩特.html"
     },
     "咸宁": {
       "name": "咸宁",
@@ -8013,7 +8013,7 @@ window.CITY_MASTER = {
       "elevation": 150,
       "coastal": false,
       "urbanization": 80,
-      "geotypeDetail": "/geotype/cities/哈尔滨.html"
+      "geotypeDetail": "/games/geotype/cities/哈尔滨.html"
     },
     "唐山": {
       "name": "唐山",
@@ -8028,7 +8028,7 @@ window.CITY_MASTER = {
       "elevation": 531,
       "coastal": false,
       "urbanization": 73,
-      "geotypeDetail": "/geotype/cities/唐山.html"
+      "geotypeDetail": "/games/geotype/cities/唐山.html"
     },
     "商丘": {
       "name": "商丘",
@@ -8073,7 +8073,7 @@ window.CITY_MASTER = {
       "elevation": 347,
       "coastal": false,
       "urbanization": 84,
-      "geotypeDetail": "/geotype/cities/嘉兴.html"
+      "geotypeDetail": "/games/geotype/cities/嘉兴.html"
     },
     "四平": {
       "name": "四平",
@@ -8133,7 +8133,7 @@ window.CITY_MASTER = {
       "elevation": 93,
       "coastal": true,
       "urbanization": 78,
-      "geotypeDetail": "/geotype/cities/大连.html"
+      "geotypeDetail": "/games/geotype/cities/大连.html"
     },
     "天水": {
       "name": "天水",
@@ -8163,7 +8163,7 @@ window.CITY_MASTER = {
       "elevation": 5,
       "coastal": true,
       "urbanization": 83,
-      "geotypeDetail": "/geotype/cities/天津.html"
+      "geotypeDetail": "/games/geotype/cities/天津.html"
     },
     "太原": {
       "name": "太原",
@@ -8178,7 +8178,7 @@ window.CITY_MASTER = {
       "elevation": 800,
       "coastal": false,
       "urbanization": 75,
-      "geotypeDetail": "/geotype/cities/太原.html"
+      "geotypeDetail": "/games/geotype/cities/太原.html"
     },
     "威海": {
       "name": "威海",
@@ -8193,7 +8193,7 @@ window.CITY_MASTER = {
       "elevation": 65,
       "coastal": true,
       "urbanization": 75,
-      "geotypeDetail": "/geotype/cities/威海.html"
+      "geotypeDetail": "/games/geotype/cities/威海.html"
     },
     "娄底": {
       "name": "娄底",
@@ -8253,7 +8253,7 @@ window.CITY_MASTER = {
       "elevation": 13,
       "coastal": true,
       "urbanization": 79,
-      "geotypeDetail": "/geotype/cities/宁波.html"
+      "geotypeDetail": "/games/geotype/cities/宁波.html"
     },
     "安庆": {
       "name": "安庆",
@@ -8358,7 +8358,7 @@ window.CITY_MASTER = {
       "elevation": 838,
       "coastal": false,
       "urbanization": 56,
-      "geotypeDetail": "/geotype/cities/宜昌.html"
+      "geotypeDetail": "/games/geotype/cities/宜昌.html"
     },
     "宜春": {
       "name": "宜春",
@@ -8433,7 +8433,7 @@ window.CITY_MASTER = {
       "elevation": 1134,
       "coastal": false,
       "urbanization": 81,
-      "geotypeDetail": "/geotype/cities/岳阳.html"
+      "geotypeDetail": "/games/geotype/cities/岳阳.html"
     },
     "崇左": {
       "name": "崇左",
@@ -8478,7 +8478,7 @@ window.CITY_MASTER = {
       "elevation": 8,
       "coastal": true,
       "urbanization": 78,
-      "geotypeDetail": "/geotype/cities/常州.html"
+      "geotypeDetail": "/games/geotype/cities/常州.html"
     },
     "常德": {
       "name": "常德",
@@ -8583,7 +8583,7 @@ window.CITY_MASTER = {
       "elevation": 31,
       "coastal": false,
       "urbanization": 65,
-      "geotypeDetail": "/geotype/cities/廊坊.html"
+      "geotypeDetail": "/games/geotype/cities/廊坊.html"
     },
     "延安": {
       "name": "延安",
@@ -8598,7 +8598,7 @@ window.CITY_MASTER = {
       "elevation": 153,
       "coastal": false,
       "urbanization": 73,
-      "geotypeDetail": "/geotype/cities/延安.html"
+      "geotypeDetail": "/games/geotype/cities/延安.html"
     },
     "开封": {
       "name": "开封",
@@ -8613,7 +8613,7 @@ window.CITY_MASTER = {
       "elevation": 1387,
       "coastal": false,
       "urbanization": 63,
-      "geotypeDetail": "/geotype/cities/开封.html"
+      "geotypeDetail": "/games/geotype/cities/开封.html"
     },
     "张家口": {
       "name": "张家口",
@@ -8643,7 +8643,7 @@ window.CITY_MASTER = {
       "elevation": 933,
       "coastal": false,
       "urbanization": 58,
-      "geotypeDetail": "/geotype/cities/张家界.html"
+      "geotypeDetail": "/games/geotype/cities/张家界.html"
     },
     "张掖": {
       "name": "张掖",
@@ -8673,7 +8673,7 @@ window.CITY_MASTER = {
       "elevation": 1061,
       "coastal": false,
       "urbanization": 62,
-      "geotypeDetail": "/geotype/cities/徐州.html"
+      "geotypeDetail": "/games/geotype/cities/徐州.html"
     },
     "德州": {
       "name": "德州",
@@ -8793,7 +8793,7 @@ window.CITY_MASTER = {
       "elevation": 3650,
       "coastal": false,
       "urbanization": 55,
-      "geotypeDetail": "/geotype/cities/拉萨.html"
+      "geotypeDetail": "/games/geotype/cities/拉萨.html"
     },
     "揭阳": {
       "name": "揭阳",
@@ -8868,7 +8868,7 @@ window.CITY_MASTER = {
       "elevation": 6,
       "coastal": true,
       "urbanization": 80,
-      "geotypeDetail": "/geotype/cities/无锡.html"
+      "geotypeDetail": "/games/geotype/cities/无锡.html"
     },
     "日照": {
       "name": "日照",
@@ -8898,7 +8898,7 @@ window.CITY_MASTER = {
       "elevation": 1890,
       "coastal": false,
       "urbanization": 75,
-      "geotypeDetail": "/geotype/cities/昆明.html"
+      "geotypeDetail": "/games/geotype/cities/昆明.html"
     },
     "昭通": {
       "name": "昭通",
@@ -9063,7 +9063,7 @@ window.CITY_MASTER = {
       "elevation": 19,
       "coastal": true,
       "urbanization": 83,
-      "geotypeDetail": "/geotype/cities/杭州.html"
+      "geotypeDetail": "/games/geotype/cities/杭州.html"
     },
     "松原": {
       "name": "松原",
@@ -9138,7 +9138,7 @@ window.CITY_MASTER = {
       "elevation": 273,
       "coastal": false,
       "urbanization": 78,
-      "geotypeDetail": "/geotype/cities/桂林.html"
+      "geotypeDetail": "/games/geotype/cities/桂林.html"
     },
     "梧州": {
       "name": "梧州",
@@ -9198,7 +9198,7 @@ window.CITY_MASTER = {
       "elevation": 37,
       "coastal": false,
       "urbanization": 80,
-      "geotypeDetail": "/geotype/cities/武汉.html"
+      "geotypeDetail": "/games/geotype/cities/武汉.html"
     },
     "毕节": {
       "name": "毕节",
@@ -9258,7 +9258,7 @@ window.CITY_MASTER = {
       "elevation": 357,
       "coastal": true,
       "urbanization": 69,
-      "geotypeDetail": "/geotype/cities/汕头.html"
+      "geotypeDetail": "/games/geotype/cities/汕头.html"
     },
     "江门": {
       "name": "江门",
@@ -9303,7 +9303,7 @@ window.CITY_MASTER = {
       "elevation": 55,
       "coastal": false,
       "urbanization": 80,
-      "geotypeDetail": "/geotype/cities/沈阳.html"
+      "geotypeDetail": "/games/geotype/cities/沈阳.html"
     },
     "沧州": {
       "name": "沧州",
@@ -9348,7 +9348,7 @@ window.CITY_MASTER = {
       "elevation": 21,
       "coastal": true,
       "urbanization": 78,
-      "geotypeDetail": "/geotype/cities/泉州.html"
+      "geotypeDetail": "/games/geotype/cities/泉州.html"
     },
     "泰安": {
       "name": "泰安",
@@ -9408,7 +9408,7 @@ window.CITY_MASTER = {
       "elevation": 638,
       "coastal": false,
       "urbanization": 70,
-      "geotypeDetail": "/geotype/cities/洛阳.html"
+      "geotypeDetail": "/games/geotype/cities/洛阳.html"
     },
     "济南": {
       "name": "济南",
@@ -9423,7 +9423,7 @@ window.CITY_MASTER = {
       "elevation": 51,
       "coastal": false,
       "urbanization": 78,
-      "geotypeDetail": "/geotype/cities/济南.html"
+      "geotypeDetail": "/games/geotype/cities/济南.html"
     },
     "济宁": {
       "name": "济宁",
@@ -9468,7 +9468,7 @@ window.CITY_MASTER = {
       "elevation": 14,
       "coastal": true,
       "urbanization": 75,
-      "geotypeDetail": "/geotype/cities/海口.html"
+      "geotypeDetail": "/games/geotype/cities/海口.html"
     },
     "淮北": {
       "name": "淮北",
@@ -9543,7 +9543,7 @@ window.CITY_MASTER = {
       "elevation": 21,
       "coastal": true,
       "urbanization": 78,
-      "geotypeDetail": "/geotype/cities/温州.html"
+      "geotypeDetail": "/games/geotype/cities/温州.html"
     },
     "湖州": {
       "name": "湖州",
@@ -9558,7 +9558,7 @@ window.CITY_MASTER = {
       "elevation": 705,
       "coastal": false,
       "urbanization": 69,
-      "geotypeDetail": "/geotype/cities/湖州.html"
+      "geotypeDetail": "/games/geotype/cities/湖州.html"
     },
     "湘潭": {
       "name": "湘潭",
@@ -9588,7 +9588,7 @@ window.CITY_MASTER = {
       "elevation": 1192,
       "coastal": true,
       "urbanization": 81,
-      "geotypeDetail": "/geotype/cities/湛江.html"
+      "geotypeDetail": "/games/geotype/cities/湛江.html"
     },
     "滁州": {
       "name": "滁州",
@@ -9663,7 +9663,7 @@ window.CITY_MASTER = {
       "elevation": 1189,
       "coastal": false,
       "urbanization": 61,
-      "geotypeDetail": "/geotype/cities/潍坊.html"
+      "geotypeDetail": "/games/geotype/cities/潍坊.html"
     },
     "潮州": {
       "name": "潮州",
@@ -9693,7 +9693,7 @@ window.CITY_MASTER = {
       "elevation": 6,
       "coastal": true,
       "urbanization": 100,
-      "geotypeDetail": "/geotype/cities/澳门.html"
+      "geotypeDetail": "/games/geotype/cities/澳门.html"
     },
     "濮阳": {
       "name": "濮阳",
@@ -9723,7 +9723,7 @@ window.CITY_MASTER = {
       "elevation": 47,
       "coastal": true,
       "urbanization": 76,
-      "geotypeDetail": "/geotype/cities/烟台.html"
+      "geotypeDetail": "/games/geotype/cities/烟台.html"
     },
     "焦作": {
       "name": "焦作",
@@ -9798,7 +9798,7 @@ window.CITY_MASTER = {
       "elevation": 32,
       "coastal": true,
       "urbanization": 82,
-      "geotypeDetail": "/geotype/cities/珠海.html"
+      "geotypeDetail": "/games/geotype/cities/珠海.html"
     },
     "白城": {
       "name": "白城",
@@ -9918,7 +9918,7 @@ window.CITY_MASTER = {
       "elevation": 81,
       "coastal": false,
       "urbanization": 75,
-      "geotypeDetail": "/geotype/cities/石家庄.html"
+      "geotypeDetail": "/games/geotype/cities/石家庄.html"
     },
     "福州": {
       "name": "福州",
@@ -9933,7 +9933,7 @@ window.CITY_MASTER = {
       "elevation": 84,
       "coastal": true,
       "urbanization": 78,
-      "geotypeDetail": "/geotype/cities/福州.html"
+      "geotypeDetail": "/games/geotype/cities/福州.html"
     },
     "秦皇岛": {
       "name": "秦皇岛",
@@ -9948,7 +9948,7 @@ window.CITY_MASTER = {
       "elevation": 1213,
       "coastal": true,
       "urbanization": 69,
-      "geotypeDetail": "/geotype/cities/秦皇岛.html"
+      "geotypeDetail": "/games/geotype/cities/秦皇岛.html"
     },
     "绍兴": {
       "name": "绍兴",
@@ -9963,7 +9963,7 @@ window.CITY_MASTER = {
       "elevation": 1161,
       "coastal": false,
       "urbanization": 74,
-      "geotypeDetail": "/geotype/cities/绍兴.html"
+      "geotypeDetail": "/games/geotype/cities/绍兴.html"
     },
     "绥化": {
       "name": "绥化",
@@ -9993,7 +9993,7 @@ window.CITY_MASTER = {
       "elevation": 199,
       "coastal": false,
       "urbanization": 59,
-      "geotypeDetail": "/geotype/cities/绵阳.html"
+      "geotypeDetail": "/games/geotype/cities/绵阳.html"
     },
     "聊城": {
       "name": "聊城",
@@ -10053,7 +10053,7 @@ window.CITY_MASTER = {
       "elevation": 1041,
       "coastal": false,
       "urbanization": 78,
-      "geotypeDetail": "/geotype/cities/舟山.html"
+      "geotypeDetail": "/games/geotype/cities/舟山.html"
     },
     "芜湖": {
       "name": "芜湖",
@@ -10083,7 +10083,7 @@ window.CITY_MASTER = {
       "elevation": 8,
       "coastal": true,
       "urbanization": 81,
-      "geotypeDetail": "/geotype/cities/苏州.html"
+      "geotypeDetail": "/games/geotype/cities/苏州.html"
     },
     "茂名": {
       "name": "茂名",
@@ -10293,7 +10293,7 @@ window.CITY_MASTER = {
       "elevation": 191,
       "coastal": false,
       "urbanization": 62,
-      "geotypeDetail": "/geotype/cities/襄阳.html"
+      "geotypeDetail": "/games/geotype/cities/襄阳.html"
     },
     "西宁": {
       "name": "西宁",
@@ -10308,7 +10308,7 @@ window.CITY_MASTER = {
       "elevation": 2275,
       "coastal": false,
       "urbanization": 68,
-      "geotypeDetail": "/geotype/cities/西宁.html"
+      "geotypeDetail": "/games/geotype/cities/西宁.html"
     },
     "西安": {
       "name": "西安",
@@ -10323,7 +10323,7 @@ window.CITY_MASTER = {
       "elevation": 405,
       "coastal": false,
       "urbanization": 78,
-      "geotypeDetail": "/geotype/cities/西安.html"
+      "geotypeDetail": "/games/geotype/cities/西安.html"
     },
     "许昌": {
       "name": "许昌",
@@ -10368,7 +10368,7 @@ window.CITY_MASTER = {
       "elevation": 1100,
       "coastal": false,
       "urbanization": 72,
-      "geotypeDetail": "/geotype/cities/贵阳.html"
+      "geotypeDetail": "/games/geotype/cities/贵阳.html"
     },
     "贺州": {
       "name": "贺州",
@@ -10563,7 +10563,7 @@ window.CITY_MASTER = {
       "elevation": 1161,
       "coastal": false,
       "urbanization": 55,
-      "geotypeDetail": "/geotype/cities/遵义.html"
+      "geotypeDetail": "/games/geotype/cities/遵义.html"
     },
     "邢台": {
       "name": "邢台",
@@ -10623,7 +10623,7 @@ window.CITY_MASTER = {
       "elevation": 110,
       "coastal": false,
       "urbanization": 78,
-      "geotypeDetail": "/geotype/cities/郑州.html"
+      "geotypeDetail": "/games/geotype/cities/郑州.html"
     },
     "郴州": {
       "name": "郴州",
@@ -10698,7 +10698,7 @@ window.CITY_MASTER = {
       "elevation": 244,
       "coastal": false,
       "urbanization": 70,
-      "geotypeDetail": "/geotype/cities/重庆.html"
+      "geotypeDetail": "/games/geotype/cities/重庆.html"
     },
     "金华": {
       "name": "金华",
@@ -10713,7 +10713,7 @@ window.CITY_MASTER = {
       "elevation": 64,
       "coastal": false,
       "urbanization": 73,
-      "geotypeDetail": "/geotype/cities/金华.html"
+      "geotypeDetail": "/games/geotype/cities/金华.html"
     },
     "钦州": {
       "name": "钦州",
@@ -10788,7 +10788,7 @@ window.CITY_MASTER = {
       "elevation": 1110,
       "coastal": false,
       "urbanization": 70,
-      "geotypeDetail": "/geotype/cities/银川.html"
+      "geotypeDetail": "/games/geotype/cities/银川.html"
     },
     "锦州": {
       "name": "锦州",
@@ -10833,7 +10833,7 @@ window.CITY_MASTER = {
       "elevation": 215,
       "coastal": false,
       "urbanization": 78,
-      "geotypeDetail": "/geotype/cities/长春.html"
+      "geotypeDetail": "/games/geotype/cities/长春.html"
     },
     "长沙": {
       "name": "长沙",
@@ -10848,7 +10848,7 @@ window.CITY_MASTER = {
       "elevation": 68,
       "coastal": false,
       "urbanization": 79,
-      "geotypeDetail": "/geotype/cities/长沙.html"
+      "geotypeDetail": "/games/geotype/cities/长沙.html"
     },
     "长治": {
       "name": "长治",
@@ -10998,7 +10998,7 @@ window.CITY_MASTER = {
       "elevation": 76,
       "coastal": true,
       "urbanization": 79,
-      "geotypeDetail": "/geotype/cities/青岛.html"
+      "geotypeDetail": "/games/geotype/cities/青岛.html"
     },
     "韶关": {
       "name": "韶关",
@@ -11058,7 +11058,7 @@ window.CITY_MASTER = {
       "elevation": 12,
       "coastal": true,
       "urbanization": 92,
-      "geotypeDetail": "/geotype/cities/高雄.html"
+      "geotypeDetail": "/games/geotype/cities/高雄.html"
     },
     "鸡西": {
       "name": "鸡西",
@@ -11148,7 +11148,7 @@ window.CITY_MASTER = {
       "elevation": 702,
       "coastal": false,
       "urbanization": 67,
-      "geotypeDetail": "/geotype/cities/黄山.html"
+      "geotypeDetail": "/games/geotype/cities/黄山.html"
     },
     "黄石": {
       "name": "黄石",

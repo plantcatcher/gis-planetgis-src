@@ -4,8 +4,8 @@
 //   （DataV.GeoAtlas，与互动地图同源；35 要素 = 34 省 + 十段线）
 //
 // 本脚本从同一份源同时产出两份派生数据，保证边界精度、投影、坐标系完全一致：
-//   1) public/chinapuzzle/data/chinaData.js        —— 全国 34 省级行政区（省级拼图模式）
-//   2) public/chinapuzzle/data/chinaRegions_region.js —— 七大地理大区（大区拼图模式）
+//   1) public/games/chinapuzzle/data/chinaData.js        —— 全国 34 省级行政区（省级拼图模式）
+//   2) public/games/chinapuzzle/data/chinaRegions_region.js —— 七大地理大区（大区拼图模式）
 //
 // 做法：Web Mercator 重投影进拼图现有坐标系（viewBox 0,0,1000,785.1，均匀缩放居中），
 //       不输出南海九段线（用户选择：只升级省界、视图范围不变）。
@@ -17,11 +17,11 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const GEO = path.join(ROOT, 'public/maps/_shared/china-provinces.json');
-const OLD_CHINA = path.join(ROOT, 'public/chinapuzzle/data/chinaData.js');
-const OLD_REGIONS = path.join(ROOT, 'public/chinapuzzle/data/chinaRegions_region.js');
-const PROVINCE_INDEX = path.join(ROOT, 'public/chinapuzzle/data/provinceIndex.js');
-const OUT_CHINA = path.join(ROOT, 'public/chinapuzzle/data/chinaData.js');
-const OUT_REGIONS = path.join(ROOT, 'public/chinapuzzle/data/chinaRegions_region.js');
+const OLD_CHINA = path.join(ROOT, 'public/games/chinapuzzle/data/chinaData.js');
+const OLD_REGIONS = path.join(ROOT, 'public/games/chinapuzzle/data/chinaRegions_region.js');
+const PROVINCE_INDEX = path.join(ROOT, 'public/games/chinapuzzle/data/provinceIndex.js');
+const OUT_CHINA = path.join(ROOT, 'public/games/chinapuzzle/data/chinaData.js');
+const OUT_REGIONS = path.join(ROOT, 'public/games/chinapuzzle/data/chinaRegions_region.js');
 
 const TARGET_W = 1000;
 const TARGET_H = 785.1;

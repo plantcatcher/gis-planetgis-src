@@ -4,6 +4,7 @@ title: PDF工具箱
 summary: 一站式 PDF 在线处理平台，支持 PDF 与 Word、Excel、图片之间互相转换，以及合并、拆分、压缩、加密、加水印、页码与旋转等常用操作。所有任务在浏览器本地完成，文件不上传服务器，兼顾办公效率与文档隐私，适合处理合同、报告与扫描件。
 link: https://pdftools.planetgis.cn
 order: 5
+date: 2026-08-06
 category: 地理小工具
 tags: 地理, 地理工具, 地理小工具
 ---

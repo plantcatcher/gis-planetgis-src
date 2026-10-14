@@ -41,11 +41,13 @@ const GAME_INTRO: Record<GameKey, string> = {
 };
 
 /**
- * 游戏内嵌壳页：以 iframe 渲染 public/<game>/index.html。
+ * 游戏内嵌壳页：以 iframe 渲染 public/games/<game>/index.html。
  *
  * - 用 iframe 隔离各游戏自带的全局 CSS / JS，避免污染主站。
- * - src 用「/<game>/index.html」显式命中 public 复制的游戏文件，
- *   避开 Cloudflare 对目录 /<game>/ 的 308 重定向歧义。
+ * - src 用「/games/<game>/index.html」显式命中 public 复制的游戏文件，
+ *   避开 Cloudflare 对目录 /games/<game>/ 的 308 重定向歧义。
+ *   游戏源码统一收在 public/games/ 下，与 public/maps/ 对称：
+ *   对外 URL 仍是 /<game>（本页路由），静态资源路径变了、网页地址不变。
  * - 游戏文件与主站同源（planetgis.cn），后续可直接读游戏 localStorage 做成绩打通。
  */
 const GameEmbed: React.FC<{ game: GameKey }> = ({ game }) => {
@@ -60,7 +62,7 @@ const GameEmbed: React.FC<{ game: GameKey }> = ({ game }) => {
         canonical={`https://planetgis.cn/${game}`}
       />
       <iframe
-        src={`/${game}/index.html`}
+        src={`/games/${game}/index.html`}
         title={meta.title}
         loading="lazy"
         className="w-full h-full border-0 block"

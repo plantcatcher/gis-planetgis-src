@@ -5,7 +5,8 @@ import { Github, Youtube, MessageCircle, Instagram, Rss, ArrowRight, ExternalLin
 import { motion } from 'framer-motion';
 import {
   getWorks,
-  getWorksBySeries,
+  getMaps,
+  getGames,
   getTools,
   getLearns,
   getResources,
@@ -227,11 +228,11 @@ const Home = () => {
   const plannedItems = getChangelogPlans();
 
   const works = getWorks();
-  // 系列归属看 frontmatter 的 series 字段（map / game / lab），不靠 tags 猜。
-  // 地图与小游戏各自有独立板块，「精选作品」放其余作品（模拟实验等），三者不重复。
-  const games = getWorksBySeries('game');
-  const maps = getWorksBySeries('map');
-  const worksShown = works.filter((w) => w.series !== 'game' && w.series !== 'map');
+  // 文件夹即归属：content/maps → 互动地图、content/games → 地理小游戏，
+  // content/works 剩下的就是模拟实验室等独立作品，三者不重复。
+  const games = getGames();
+  const maps = getMaps();
+  const worksShown = getWorks();
   // 每个卡片板块首页只露一行三个，其余进各自的汇总页
   const HOME_CARD_LIMIT = 3;
   const tools = getTools();
@@ -357,42 +358,33 @@ const Home = () => {
           >
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {worksShown.slice(0, HOME_CARD_LIMIT).map((work, index) => (
-                <div key={work.slug} className="flex flex-col">
-                  <motion.a
-                    href={work.link}
-                    target="_blank"
-                    rel="noreferrer"
-                    initial={{ opacity: 1, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
-                    viewport={{ once: true }}
-                    whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                    className="group block overflow-hidden rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 hover:shadow-lg transition-all duration-300"
-                  >
-                    <div className="aspect-video overflow-hidden relative">
-                      <img
-                        src={work.cover}
-                        alt={`${work.title} - 星球小捕手地理可视化作品`}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                        <span className="w-full text-center text-sm font-medium text-white/90">访问作品 →</span>
-                      </div>
+                <motion.a
+                  key={work.slug}
+                  href={work.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  initial={{ opacity: 1, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                  className="group block overflow-hidden rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 hover:shadow-lg transition-all duration-300"
+                >
+                  <div className="aspect-video overflow-hidden relative">
+                    <img
+                      src={work.cover}
+                      alt={`${work.title} - 星球小捕手地理可视化作品`}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                      <span className="w-full text-center text-sm font-medium text-white/90">访问作品 →</span>
                     </div>
-                    <div className="p-6">
-                      <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{work.title}</h3>
-                      <p className="text-muted-foreground line-clamp-2">{work.summary}</p>
-                    </div>
-                  </motion.a>
-                  <div className="mt-3 text-center">
-                    <Link
-                      to={`/works/${work.slug}`}
-                      className="text-sm font-medium text-primary hover:underline inline-flex items-center gap-1"
-                    >
-                      查看详情与解读 <ArrowRight className="w-3 h-3" />
-                    </Link>
                   </div>
-                </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{work.title}</h3>
+                    <p className="text-muted-foreground line-clamp-2">{work.summary}</p>
+                  </div>
+                </motion.a>
               ))}
             </div>
           </SectionWrapper>
@@ -413,37 +405,27 @@ const Home = () => {
           >
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {maps.slice(0, HOME_CARD_LIMIT).map((m, index) => (
-                <div key={m.slug} className="flex flex-col">
-                  <CardAnim delay={index * 0.05}>
-                    <Link
-                      to={`/maps/${m.slug}`}
-                      className="group block overflow-hidden rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 hover:shadow-lg transition-all duration-300"
-                    >
-                      <div className="aspect-video overflow-hidden relative">
-                        <img
-                          src={m.cover}
-                          alt={`${m.title} - 星球小捕手互动地图`}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                          <span className="w-full text-center text-sm font-medium text-white/90">打开地图 →</span>
-                        </div>
+                <CardAnim key={m.slug} delay={index * 0.05}>
+                  <Link
+                    to={m.link || `/maps/${m.slug}/full`}
+                    className="group block overflow-hidden rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 hover:shadow-lg transition-all duration-300"
+                  >
+                    <div className="aspect-video overflow-hidden relative">
+                      <img
+                        src={m.cover}
+                        alt={`${m.title} - 星球小捕手互动地图`}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                        <span className="w-full text-center text-sm font-medium text-white/90">打开地图 →</span>
                       </div>
-                      <div className="p-6">
-                        <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{m.title}</h3>
-                        <p className="text-muted-foreground line-clamp-2">{m.summary}</p>
-                      </div>
-                    </Link>
-                  </CardAnim>
-                  <div className="mt-3 text-center">
-                    <Link
-                      to={`/works/${m.slug}`}
-                      className="text-sm font-medium text-primary hover:underline inline-flex items-center gap-1"
-                    >
-                      查看详情与解读 <ArrowRight className="w-3 h-3" />
-                    </Link>
-                  </div>
-                </div>
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{m.title}</h3>
+                      <p className="text-muted-foreground line-clamp-2">{m.summary}</p>
+                    </div>
+                  </Link>
+                </CardAnim>
               ))}
             </div>
           </SectionWrapper>
@@ -599,46 +581,38 @@ const Home = () => {
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {tools.map((tool, index) => (
-                <div key={tool.slug} className="flex flex-col">
-                  <motion.a
-                    href={tool.link}
-                    target="_blank"
-                    rel="noreferrer"
-                    initial={{ opacity: 1, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.2, delay: index * 0.08, ease: 'easeOut' }}
-                    viewport={{ once: true }}
-                    whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-                    className="group flex gap-4 p-4 rounded-xl bg-white dark:bg-zinc-900 border border-border/50 hover:border-secondary/50 hover:shadow-lg hover:shadow-secondary/10 transition-all duration-300"
+                <motion.a
+                  key={tool.slug}
+                  href={tool.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  initial={{ opacity: 1, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2, delay: index * 0.08, ease: 'easeOut' }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
+                  className="group flex gap-4 p-4 rounded-xl bg-white dark:bg-zinc-900 border border-border/50 hover:border-secondary/50 hover:shadow-lg hover:shadow-secondary/10 transition-all duration-300"
+                >
+                  <motion.div
+                    whileHover={{ rotate: 10, transition: { duration: 0.3 } }}
+                    className="shrink-0 w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-white transition-colors"
                   >
-                    <motion.div
-                      whileHover={{ rotate: 10, transition: { duration: 0.3 } }}
-                      className="shrink-0 w-12 h-12 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-white transition-colors"
-                    >
-                      <Compass className="w-6 h-6" />
-                    </motion.div>
-                    <div>
-                      <h3 className="text-base font-semibold mb-1 flex items-center gap-2 leading-snug">
-                        {tool.title} <motion.span
-                          initial={{ opacity: 1, x: -10 }}
-                          whileHover={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <ExternalLink className="w-4 h-4" />
-                        </motion.span>
-                      </h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">{tool.summary}</p>
-                    </div>
-                  </motion.a>
-                  <div className="mt-3 text-center">
-                    <Link
-                      to={`/tools/${tool.slug}`}
-                      className="text-sm font-medium text-primary hover:underline inline-flex items-center gap-1"
-                    >
-                      查看详情与使用教程 <ArrowRight className="w-3 h-3" />
-                    </Link>
+                    <Compass className="w-6 h-6" />
+                  </motion.div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-base font-semibold mb-1 flex items-center justify-between gap-4 leading-snug">
+                      {tool.title} <motion.span
+                        initial={{ opacity: 1, x: -10 }}
+                        whileHover={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="shrink-0"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                      </motion.span>
+                    </h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">{tool.summary}</p>
                   </div>
-                </div>
+                </motion.a>
               ))}
             </div>
           </SectionWrapper>
@@ -665,12 +639,14 @@ const Home = () => {
                   whileHover={{ scale: 1.05, y: -5, transition: { duration: 0.2 } }}
                   className="group flex flex-col gap-2 items-start h-full p-4 rounded-2xl border border-primary/20 hover:border-primary transition-all hover:shadow-lg"
                 >
-                  <Globe className="w-8 h-8 text-primary" />
+                  <div className="w-full flex items-start justify-between gap-3">
+                    <Globe className="w-8 h-8 text-primary shrink-0" />
+                    <span className="shrink-0 pt-0.5 text-xs text-primary flex items-center gap-1">
+                      前往 <ExternalLink className="w-3 h-3" />
+                    </span>
+                  </div>
                   <span className="font-bold text-base">{sub.title}</span>
                   <span className="text-xs text-muted-foreground w-full text-left">{sub.description}</span>
-                  <span className="mt-auto text-xs text-primary flex items-center gap-1">
-                    前往 <ExternalLink className="w-3 h-3" />
-                  </span>
                 </motion.a>
               ))}
             </div>
@@ -767,7 +743,7 @@ const Home = () => {
                 </DialogHeader>
                 <div className="flex justify-center py-2">
                   <img
-                    src="/wechat-qr.png"
+                    src="/images/wechat-qr.png"
                     alt="微信二维码：星球小捕手"
                     className="w-60 h-60 rounded-lg border border-border object-cover"
                   />
@@ -784,7 +760,7 @@ const Home = () => {
                 </DialogHeader>
                 <div className="flex justify-center py-2">
                   <img
-                    src="/wechat-official-qr.jpg"
+                    src="/images/wechat-official-qr.jpg"
                     alt="公众号二维码：那山那海那座城"
                     className="w-60 h-60 rounded-lg border border-border object-cover"
                   />

@@ -25,13 +25,13 @@ import {
   getSnapshot,
   update,
 } from '@/lib/learningStore';
-import { getItem, getLearns, type ContentType, type ContentItem } from '@/lib/content';
+import { getItem, getLearns, BASE_PATH, type ContentType, type ContentItem } from '@/lib/content';
 import { trackEvent } from '@/lib/analytics';
 
 /** 阅读进度达到该比例即标记为「已完成」 */
 export const COMPLETE_THRESHOLD = 0.9;
 
-const VALID_TYPES: ContentType[] = ['work', 'tool', 'article', 'learn'];
+const VALID_TYPES: ContentType[] = ['work', 'map', 'game', 'tool', 'article', 'learn', 'resource'];
 
 // -----------------------------------------------------------------------------
 // 内容键（contentId）：站点内每篇内容的全局唯一标识
@@ -43,6 +43,41 @@ export function buildContentKey(type: ContentType, slug: string): string {
   return `${type}:${slug}`;
 }
 
+/**
+ * 老版本遗留键的归一：地图/游戏此前都挂在 type=work 下，且部分 slug 带连字符。
+ * 迁移后 `work:<slug>` 查不到内容，这里按「找得到就纠正」的原则转成新键，
+ * 让用户浏览器里的历史学习足迹不留孤儿。
+ *   work:cn-rivers        -> map:cn-rivers（63 张地图）
+ *   work:geo-quiz         -> game:geoquiz（游戏 slug 顺带对齐了站内路由）
+ */
+const LEGACY_SLUG_MAP: Record<string, ContentType> = {
+  'geo-quiz': 'game',
+  'china-puzzle': 'game',
+  'geo-personality': 'game',
+};
+const LEGACY_SLUG_RENAME: Record<string, string> = {
+  'geo-quiz': 'geoquiz',
+  'china-puzzle': 'chinapuzzle',
+  'geo-personality': 'geotype',
+};
+
+/** 把 `work:<旧 slug>` 纠正成迁移后的 type:slug，其余原样返回 */
+function normalizeLegacy(
+  parsed: { type: ContentType; slug: string },
+): { type: ContentType; slug: string } {
+  const slug = LEGACY_SLUG_RENAME[parsed.slug] ?? parsed.slug;
+  const type = LEGACY_SLUG_MAP[parsed.slug] ?? parsed.type;
+  const candidate = { type, slug };
+  if (getItem(type, slug)) return candidate;
+  // slugs 相同但换了类别（63 张地图：work -> map）
+  if (type === 'work') {
+    for (const fallback of ['map', 'game'] as const) {
+      if (getItem(fallback, slug)) return { type: fallback, slug };
+    }
+  }
+  return candidate;
+}
+
 export function parseContentKey(
   key: string,
 ): { type: ContentType; slug: string } | null {
@@ -51,7 +86,7 @@ export function parseContentKey(
   const type = key.slice(0, idx) as ContentType;
   const slug = key.slice(idx + 1);
   if (!VALID_TYPES.includes(type) || !slug) return null;
-  return { type, slug };
+  return normalizeLegacy({ type, slug });
 }
 
 /** 通过内容键解析出内容元数据（标题/封面/类型/路径），找不到返回 undefined */
@@ -61,11 +96,11 @@ export function resolveItem(key: string): ContentItem | undefined {
   return getItem(parsed.type, parsed.slug);
 }
 
-/** 内容详情页的跳转路径，如 /learn/earth-is-round */
+/** 内容详情页的跳转路径，如 /learn/earth-is-round。前缀统一取自 BASE_PATH */
 export function keyToPath(key: string): string | null {
   const parsed = parseContentKey(key);
   if (!parsed) return null;
-  return `/${parsed.type === 'learn' ? 'learn' : parsed.type === 'article' ? 'articles' : parsed.type === 'work' ? 'works' : 'tools'}/${parsed.slug}`;
+  return `/${BASE_PATH[parsed.type]}/${parsed.slug}`;
 }
 
 // -----------------------------------------------------------------------------

@@ -90,11 +90,11 @@ try {
     // 不应被搜索引擎收录，故排除出 sitemap（但仍参与预渲染，保证直链可访问）。
     if (u === '/my') continue;
 
-    // /maps/<slug> 是全屏 iframe 壳页，正文只有一张地图，收录价值低；
-    // 真正给搜索引擎看的是 /works/<slug> 介绍页，故此处排除。
-    // ⚠️ 注意只排除壳页这一层：/maps/<slug>/libraries/*.html 与 catalog.html
+    // /maps/<slug>/full 是全屏 iframe 壳页，正文只有一张地图，收录价值低；
+    // 真正给搜索引擎看的是 /maps/<slug> 详情页（地图介绍正文），此处只排除壳页。
+    // ⚠️ 注意只排除 /full 这一层：/maps/<slug>/libraries/*.html 与 catalog.html
     // 是地图小网站自己的内容页（有实质正文），由 collectMapContentPages()单独收录。
-    if (u.startsWith('/maps/')) continue;
+    if (/^\/maps\/[^/]+\/full$/.test(u)) continue;
 
     // tag 聚合页已由 prerender 输出 noindex, follow（薄内容 + 与文章页高度重复，
     // 曾占全站 1207 条中的 858 条）。noindex 的页面绝不能再出现在 sitemap 里，
@@ -103,6 +103,8 @@ try {
 
     const isDetail =
       u.startsWith('/works/') ||
+      u.startsWith('/maps/') ||
+      u.startsWith('/games/') ||
       u.startsWith('/tools/') ||
       u.startsWith('/learn/');
     const priority = isDetail ? 0.7 : (STATIC_PRIORITY[u] ?? 0.6);

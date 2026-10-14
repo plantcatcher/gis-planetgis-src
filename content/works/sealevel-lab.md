@@ -6,8 +6,8 @@ cover: https://blogphoto.planetgis.cn/PicGo/2026-07-28-20260728105530084.png
 summary: 一个交互式全球海平面上升模拟器，基于 NASA 观测与 IPCC 评估报告的公开冰盖消融数据，把"厘米级"的海平面变化转化为可亲眼看到的海岸线后退、低地淹没与岛屿消失。支持拖动滑块设定任意升幅、RCP/SSP 多情景对比、上海东京雅加达等城市级细节放大，以及从工业革命前到 2100 年的时间轴动画回放，适合气候变化科普教学与可视化演示。
 link: https://sealevel.planetgis.cn
 order: 1
+date: 2026-07-29
 category: 模拟实验
-series: lab
 tags: 地理, 地理可视化, 可视化作品
 ---
 

@@ -56,6 +56,16 @@ const routes: RouteConfig[] = [
     element: <ContentDetail type="work" />
   },
   {
+    name: '地图详情',
+    path: '/maps/:slug',
+    element: <ContentDetail type="map" />
+  },
+  {
+    name: '游戏详情',
+    path: '/games/:slug',
+    element: <ContentDetail type="game" />
+  },
+  {
     name: '工具详情',
     path: '/tools/:slug',
     element: <ContentDetail type="tool" />
@@ -121,7 +131,7 @@ const routes: RouteConfig[] = [
   },
   {
     name: '互动地图全屏',
-    path: '/maps/:slug',
+    path: '/maps/:slug/full',
     element: <MapEmbed />,
     visible: false,
   },

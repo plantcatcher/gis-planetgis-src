@@ -5,15 +5,9 @@ import { Calendar, ArrowRight } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import CoverImage from '@/components/common/CoverImage';
-import { getItemsByTag, type ContentType } from '@/lib/content';
+import { getItemsByTag, BASE_PATH, type ContentType } from '@/lib/content';
 
-const basePath: Record<ContentType, string> = {
-  work: 'works',
-  tool: 'tools',
-  article: 'articles',
-  learn: 'learn',
-  resource: 'downloads',
-};
+const basePath: Record<ContentType, string> = { ...BASE_PATH };
 
 const CardAnim: React.FC<{ children: React.ReactNode; delay?: number }> = ({ children, delay = 0 }) => (
   <motion.div

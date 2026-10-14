@@ -200,7 +200,7 @@ const About = () => {
                 </DialogHeader>
                 <div className="flex justify-center py-2">
                   <img
-                    src="/wechat-qr.png"
+                    src="/images/wechat-qr.png"
                     alt="微信二维码：星球小捕手"
                     className="w-60 h-60 rounded-lg border border-border object-cover"
                   />
@@ -218,7 +218,7 @@ const About = () => {
                 </DialogHeader>
                 <div className="flex justify-center py-2">
                   <img
-                    src="/wechat-official-qr.jpg"
+                    src="/images/wechat-official-qr.jpg"
                     alt="公众号二维码：那山那海那座城"
                     className="w-60 h-60 rounded-lg border border-border object-cover"
                   />

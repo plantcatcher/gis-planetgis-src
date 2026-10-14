@@ -4,6 +4,7 @@ title: GIS工具箱
 summary: 一站式 GIS 在线工具箱，集成坐标转换、矢量格式转换、空间分析（相交、缓冲区、面积与长度计算）、地图可视化与数据预览等常用功能，无需安装 ArcGIS 或 QGIS，在浏览器里即可完成日常地理数据处理，适合测绘、规划、遥感与地信专业的学生和从业者应急使用。
 link: https://gistools.planetgis.cn
 order: 1
+date: 2026-08-06
 category: 地理小工具
 tags: 地理, 地理工具, 地理小工具
 ---

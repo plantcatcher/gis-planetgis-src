@@ -9,9 +9,12 @@ import SubscribeWidget from '@/components/common/SubscribeWidget';
 // Navbar/Footer，由 iframe 全屏承载游戏本身，避免游戏自带全局样式污染主站。
 const GAME_PATHS = ['/geoquiz', '/geoshape', '/geotype', '/chinapuzzle'];
 
-// 可视化互动地图全屏壳页（/maps/<slug>）同理：iframe 承载地图本体，
-// 只保留 /maps 汇总页作为带导航的常规页面。
-const isMapEmbed = (pathname: string) => /^\/maps\/[^/]+$/.test(pathname);
+// 可视化互动地图「本体」全屏壳页（/maps/<slug>/full）同理：iframe 承载地图本体，
+// 必须隐藏 Navbar/Footer/订阅浮层，否则地图画面顶部会压着一条主站导航栏。
+// ⚠️ 只对带 /full 后缀的壳页生效：/maps/<slug> 是地图详情页（正文页，与 /works/<slug> 同款），
+//    它必须保留导航栏 —— 早期 /maps/<slug> 曾是全屏壳页，详情页迁入后这里的条件没同步改，
+//    导致「详情页丢导航 + 本体页多导航」两边都反了。
+const isMapFullscreen = (pathname: string) => /^\/maps\/[^/]+\/full$/.test(pathname);
 
 /**
  * 页面骨架：CSR（App.tsx）与 SSG 预渲染（entry-server.tsx）共用同一棵渲染树。
@@ -24,7 +27,7 @@ const isMapEmbed = (pathname: string) => /^\/maps\/[^/]+$/.test(pathname);
 const AppShell: React.FC = () => {
   const { pathname } = useLocation();
   const isGame = GAME_PATHS.includes(pathname);
-  const isFullscreen = isGame || isMapEmbed(pathname);
+  const isFullscreen = isGame || isMapFullscreen(pathname);
   return (
     <div className="flex flex-col min-h-screen">
       {!isFullscreen && <Navbar />}

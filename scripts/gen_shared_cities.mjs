@@ -1,8 +1,8 @@
 // 生成地理游戏共享城市主数据（单一权威源）
 //
 // 合并来源：
-//   public/geoquiz/data.js     → CITY_DB（卫星图猜城市 100 城：坐标/国家/旗/俯视特征/冷知识/双语）
-//   public/geotype/data/cities.js → CITIES（城市气候类型：气候/海拔/沿海/城市化，约 400 城）
+//   public/games/geoquiz/data.js     → CITY_DB（卫星图猜城市 100 城：坐标/国家/旗/俯视特征/冷知识/双语）
+//   public/games/geotype/data/cities.js → CITIES（城市气候类型：气候/海拔/沿海/城市化，约 400 城）
 //
 // 产出：
 //   public/shared/cities.js（经典脚本，挂载 window.CITY_MASTER / CITY_DB / CITIES）
@@ -15,9 +15,9 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
-const GEOQUIZ_DATA = path.join(ROOT, 'public/geoquiz/data.js');
-const GEOTYPE_CITIES = path.join(ROOT, 'public/geotype/data/cities.js');
-const GEOTYPE_CITY_PAGES = path.join(ROOT, 'public/geotype/cities');
+const GEOQUIZ_DATA = path.join(ROOT, 'public/games/geoquiz/data.js');
+const GEOTYPE_CITIES = path.join(ROOT, 'public/games/geotype/data/cities.js');
+const GEOTYPE_CITY_PAGES = path.join(ROOT, 'public/games/geotype/cities');
 const OUT = path.join(ROOT, 'public/shared/cities.js');
 
 // ---- 提取 geoquiz CITY_DB（经典脚本，用 vm 捕获全局 const）----
@@ -65,7 +65,7 @@ for (const c of CITY_DB) {
     elevation: g ? g.elevation : null,
     coastal: g ? g.coastal : null,
     urbanization: g ? g.urbanization : null,
-    geotypeDetail: detailPages.has(c.name) ? `/geotype/cities/${c.name}.html` : null,
+    geotypeDetail: detailPages.has(c.name) ? `/games/geotype/cities/${c.name}.html` : null,
   };
 }
 // 再补仅 geotype 有的城市（多为国内中小城市，无坐标）
@@ -82,7 +82,7 @@ for (const c of CITIES) {
     elevation: c.elevation,
     coastal: c.coastal,
     urbanization: c.urbanization,
-    geotypeDetail: detailPages.has(c.city) ? `/geotype/cities/${c.city}.html` : null,
+    geotypeDetail: detailPages.has(c.city) ? `/games/geotype/cities/${c.city}.html` : null,
   };
 }
 

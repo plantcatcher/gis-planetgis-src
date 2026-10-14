@@ -7,7 +7,10 @@ import { recordMapView } from '@/services/learningService';
 import NotFound from './NotFound';
 
 /**
- * 可视化互动地图 · 全屏壳页（/maps/:slug）
+ * 可视化互动地图 · 全屏壳页（/maps/:slug/full）
+ *
+ * 详情页占用了 /maps/:slug，全屏壳页后退到 /full 后缀：
+ * 这里是纯交互视图（无正文），不参与收录，全部 SEO 权重给详情页。
  *
  * 与游戏壳页（GameEmbed）同一套路：用 iframe 承载 public/maps/<slug>/index.html，
  * 隔离各地图自带的全局 CSS / JS（MapLibre 有自己的 canvas 与样式约定），
@@ -16,14 +19,14 @@ import NotFound from './NotFound';
  * src 指向「/<slug>/index.html」显式命中静态文件，避开 Cloudflare 对目录
  * /maps/<slug>/ 的 308 斜杠归一化。
  *
- * 内容（标题 / 摘要 / 介绍页）取自 content/works/<slug>.md，
+ * 内容（标题 / 摘要 / 介绍页）取自 content/maps/<slug>.md，
  * 入口与数据资产取自 src/data/vizmaps.json，两者按 slug 关联。
  */
 const MapEmbed: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
-  const work = getItem('work', slug || '');
+  const work = getItem('map', slug || '');
   const asset = getVizMap(slug);
-  // 兜底：登记册漏配时仍可用 works 的 link 推出入口，不至于整页 404
+  // 兜底：登记册漏配时仍可用 link 推出入口，不至于整页 404
   const entry = asset?.entry || (work?.link ? `${work.link}/index.html` : '');
 
   // 打开互动地图即记入「我的学习」：地图探索足迹（与主站同源，可直读本地学习数据）。
@@ -37,6 +40,8 @@ const MapEmbed: React.FC = () => {
 
   return (
     <div className="w-full bg-[#060912]" style={{ height: '100dvh' }}>
+      {/* canonical 指向详情页（/maps/<slug>）：全屏壳页没有正文，不参与收录，
+          权重全部集中到详情页。 */}
       <PageMeta
         title={`${work.title} · 互动地图`}
         description={work.summary || work.title}

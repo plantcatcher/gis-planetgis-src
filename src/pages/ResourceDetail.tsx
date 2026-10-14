@@ -19,9 +19,9 @@ import NotFound from './NotFound';
 const WECHAT_OFFICIAL = '那山那海那座城';
 // 公众号二维码图片地址：填了你自己的二维码 URL 后，下载页会展示二维码，方便用户扫码关注。
 // 留空则只显示文字引导。建议把二维码图传到 R2/PicGo，再把地址填到这里。
-// 当前引用 public/wechat-official-qr.jpg —— Vite 会把 public/ 根目录原样拷到 dist 根，
-// 线上地址即 https://planetgis.cn/wechat-official-qr.jpg（站点根相对绝对路径，任意路由层级均可加载）。
-const WECHAT_QR = '/wechat-official-qr.jpg';
+// 当前引用 public/images/wechat-official-qr.jpg —— Vite 会把 public/ 原样拷到 dist，
+// 线上地址即 https://planetgis.cn/images/wechat-official-qr.jpg（站点根相对绝对路径，任意路由层级均可加载）。
+const WECHAT_QR = '/images/wechat-official-qr.jpg';
 
 // ── 版权声明：每个资料详情页底部统一展示（改这一处即可全局生效） ──────────────
 const COPYRIGHT_NOTICE =

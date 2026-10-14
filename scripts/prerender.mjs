@@ -20,6 +20,18 @@ if (!existsSync(join(DIST, 'index.html'))) {
   process.exit(1);
 }
 
+// ⚠️ 模板必须是 vite build 刚产出的空壳。
+// buildHtml() 靠 `<div id="root"></div>` 这一处替换把 SSR 内容注入模板；
+// prerender 结束会把首页写回 dist/index.html（此时 #root 已装满 Navbar / Footer / 首页正文），
+// 若紧接着再跑一次 prerender，替换就会失配 —— 结果是**整份首页**被当成模板套到每一个页面，
+// 于是所有页面顶部都残留一份站点导航栏与搜索面板 DOM（2026-10-15 实测踩坑）。
+// 这里提前拦截，让人一眼看到「先重跑 vite build」而不是产出被污染的站点。
+if (!readFileSync(join(DIST, 'index.html'), 'utf-8').includes('<div id="root"></div>')) {
+  console.error('[prerender] dist/index.html 的 #root 已被预渲染内容填充，不是 vite build 的空壳。');
+  console.error('[prerender] prerender 必须紧跟 vite build 只跑一次：先执行 npx vite build 再重跑本脚本。');
+  process.exit(1);
+}
+
 const vite = await createServer({
   server: { middlewareMode: true },
   appType: 'custom',
@@ -69,14 +81,14 @@ try {
       // 站内导航照常链接这些页，只是对搜索引擎输出 noindex, follow 并移出 sitemap。
       const isTagPage = url.startsWith('/tag/');
 
-      // 互动地图全屏壳页（/maps/<slug>）：页面正文只有一张 iframe 地图，
-      // 预渲染出来是零文字的空壳，与 /works/<slug> 介绍页又是同一内容的两个 URL。
+      // 互动地图全屏壳页（/maps/<slug>/full）：页面正文只有一张 iframe 地图，
+      // 预渲染出来是零文字的空壳，与 /maps/<slug> 介绍页又是同一内容的两个 URL。
       // 对它输出 noindex, follow，既是避免「零正文页面」的负面信号，
-      // 也是让权重集中到真正有内容的 /works/<slug>。
+      // 也是让权重集中到真正有内容的 /maps/<slug>。
       //
-      // ⚠️ 只排除壳页本身这一层：/maps/<slug>/catalog 与 /maps/<slug>/libraries/*
+      // ⚠️ 只匹配壳页这一层（多一级 /full）：/maps/<slug>/catalog 与 /maps/<slug>/libraries/*
       //    是地图自带的静态内容页（有实质正文的长尾落地页），必须保持可索引。
-      const isMapShell = /^\/maps\/[^/]+\/?$/.test(url);
+      const isMapShell = /^\/maps\/[^/]+\/full\/?$/.test(url);
 
       const out = buildHtml(template, rendered, { noindex: isTagPage || isMapShell });
       const file = routeToFile(DIST, url);

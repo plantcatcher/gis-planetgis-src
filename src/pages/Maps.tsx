@@ -6,7 +6,7 @@ import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import FilterChips from '@/components/common/FilterChips';
 import Pagination from '@/components/common/Pagination';
-import { getWorksBySeries, getWorkTopics, getWorkScopes, type ContentItem } from '@/lib/content';
+import { getMaps, getWorkTopics, getWorkScopes, type ContentItem } from '@/lib/content';
 import { getVizMap, type VizMap } from '@/lib/vizmaps';
 
 // 卡片入场动画：initial 保持 opacity:1，确保 SSG 静态 HTML 中文本天生可见（利于 SEO / AdSense）。
@@ -44,19 +44,20 @@ const MODES: { id: ViewMode; label: string; icon: React.ComponentType<{ classNam
 /**
  * 可视化互动地图 · 系列汇总页（/maps）
  *
- * 「有哪些地图、叫什么、封面是什么」由 content/works/<slug>.md 的 series: map 决定；
+ * 「有哪些地图、叫什么、封面是什么」由 content/maps/<slug>.md 决定；
  * 「用了哪些数据、什么坐标系、多少要素」由 src/data/vizmaps.json 资产登记册补充。
  * 两者按 slug 关联，新增地图改这两处即可，本页不用动。
  */
 const Maps: React.FC = () => {
-  const maps = getWorksBySeries('map').map((w: ContentItem) => ({
+  const maps = getMaps().map((w: ContentItem) => ({
     work: w,
     asset: getVizMap(w.slug) as VizMap | undefined,
   }));
   const [mode, setMode] = useState<ViewMode>('simple');
-  const [sortMode, setSortMode] = useState<'default' | 'heat'>('default');
+  // 默认按热度（近 30 天 GA4 浏览量）降序，与资料下载页一致；可切回最新。
+  const [sortMode, setSortMode] = useState<'latest' | 'heat'>('heat');
 
-  // 细分筛选：主题（topic）+ 地域（scope），两维正交，均由 content/works/<slug>.md
+  // 细分筛选：主题（topic）+ 地域（scope），两维正交，均由 content/maps/<slug>.md
   // 的 frontmatter（topics / scope）驱动——写什么就筛什么，新增地图不用改本页。
   const topics = getWorkTopics('map');
   const scopes = getWorkScopes('map');
@@ -67,13 +68,15 @@ const Maps: React.FC = () => {
   const hitScope = (w: ContentItem, s: string) => s === '全部' || w.scope === s;
   const filtered = maps.filter(({ work }) => hitTopic(work, topic) && hitScope(work, scope));
 
-  // 热度模式：按近 30 天 GA4 浏览量降序（并列回退日期）；默认模式：沿用作品 order
-  const sorted =
+  // 排序：最新=上线日期倒序（date 写在 content/maps/<slug>.md 的 frontmatter）；
+  // 热度=近 30 天 GA4 浏览量降序。两者都以日期做并列回退，无日期的条目沉底。
+  const sorted = [...filtered].sort((a, b) =>
     sortMode === 'heat'
-      ? [...filtered].sort(
-          (a, b) => (b.work.heat || 0) - (a.work.heat || 0) || (b.work.date || '').localeCompare(a.work.date || ''),
-        )
-      : filtered;
+      ? (b.work.heat || 0) - (a.work.heat || 0) ||
+        (b.work.date || '').localeCompare(a.work.date || '') ||
+        a.work.order - b.work.order
+      : (b.work.date || '').localeCompare(a.work.date || '') || a.work.order - b.work.order,
+  );
 
   // 分页：每页 12 张；主题/地域/排序变化自动归 1
   const PAGE_SIZE = 12;
@@ -151,7 +154,7 @@ const Maps: React.FC = () => {
             </p>
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-1 rounded-lg border border-border p-0.5">
-                {([['default', '默认'], ['heat', '热度']] as const).map(([key, label]) => (
+                {([['latest', '最新'], ['heat', '热度']] as const).map(([key, label]) => (
                   <button
                     key={key}
                     type="button"
@@ -203,8 +206,9 @@ const Maps: React.FC = () => {
                 return (
                   <CardAnim key={w.slug} delay={i * 0.04}>
                     <div className="group flex gap-4 p-4 rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 transition-all duration-300">
+                      {/* 封面进地图本体（全屏壳页），下方「查看详情与解读」进 /maps/<slug> 介绍页 */}
                       <Link
-                        to={`/maps/${w.slug}`}
+                        to={`/maps/${w.slug}/full`}
                         className="shrink-0 w-44 sm:w-56 aspect-video rounded-lg overflow-hidden"
                       >
                         <img
@@ -221,18 +225,17 @@ const Maps: React.FC = () => {
                           </span>
                         </div>
                         <h3 className="text-base font-bold">
-                          <Link to={`/maps/${w.slug}`} className="group-hover:text-primary transition-colors">
+                          <Link to={`/maps/${w.slug}/full`} className="group-hover:text-primary transition-colors">
                             {w.title}
                           </Link>
                         </h3>
                         <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{w.summary}</p>
                         <div className="mt-auto pt-3 flex items-center gap-4">
-                          {/* 封面 / 标题负责「进地图」，这颗按钮负责「看介绍」——两者分工，别都指向地图 */}
                           <Link
-                            to={`/works/${w.slug}`}
+                            to={`/maps/${w.slug}`}
                             className="inline-flex items-center gap-1 text-sm font-medium text-primary"
                           >
-                            查看介绍 <ArrowRight className="w-3.5 h-3.5" />
+                            查看详情与解读 <ArrowRight className="w-3.5 h-3.5" />
                           </Link>
                           <HeatTag heat={w.heat} />
                           {m && (
@@ -256,7 +259,8 @@ const Maps: React.FC = () => {
                 return (
                   <CardAnim key={w.slug} delay={i * 0.08}>
                     <div className="group flex flex-col h-full overflow-hidden rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 hover:shadow-lg transition-all duration-300">
-                      <Link to={`/maps/${w.slug}`} className="block">
+                      {/* 同上：封面与标题 → 地图本体（全屏），底部链接 → /maps/<slug> 介绍页 */}
+                      <Link to={`/maps/${w.slug}/full`} className="block">
                         <div className="aspect-video overflow-hidden relative">
                           <img
                             src={w.cover}
@@ -274,7 +278,7 @@ const Maps: React.FC = () => {
                           <span className="text-xs font-medium tracking-wide uppercase">{w.category || '互动地图'}</span>
                         </div>
                         <h3 className="text-lg font-bold mb-2">
-                          <Link to={`/maps/${w.slug}`} className="group-hover:text-primary transition-colors">
+                          <Link to={`/maps/${w.slug}/full`} className="group-hover:text-primary transition-colors">
                             {w.title}
                           </Link>
                         </h3>
@@ -301,12 +305,11 @@ const Maps: React.FC = () => {
                         )}
 
                         <div className="mt-4 pt-4 border-t border-border/60 flex items-center gap-4">
-                          {/* 同上：封面 / 标题进地图，这颗按钮进 /works/<slug> 介绍页 */}
                           <Link
-                            to={`/works/${w.slug}`}
+                            to={`/maps/${w.slug}`}
                             className="inline-flex items-center gap-1 text-sm font-medium text-primary"
                           >
-                            查看介绍 <ArrowRight className="w-3.5 h-3.5 group-hover:gap-2 transition-all" />
+                            查看详情与解读 <ArrowRight className="w-3.5 h-3.5 group-hover:gap-2 transition-all" />
                           </Link>
                           <HeatTag heat={w.heat} />
                         </div>

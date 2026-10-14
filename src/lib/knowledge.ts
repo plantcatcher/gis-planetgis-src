@@ -3,11 +3,13 @@
 // 全部纯前端、零依赖，预渲染期即可直接计算并打进静态 HTML。
 
 import type { ContentItem, ContentType } from './content';
-import { getWorks, getTools, getArticles, getLearns, LEARN_SUBJECTS, SUBJECT_META } from './content';
+import { getWorks, getMaps, getGames, getTools, getArticles, getLearns, BASE_PATH, LEARN_SUBJECTS, SUBJECT_META } from './content';
 
-/** 所有内容（跨作品/工具/文章/学习），供搜索与交叉引用使用 */
+/** 所有内容（跨地图/游戏/作品/工具/文章/学习），供搜索与交叉引用使用 */
 export const getAllItems = (): ContentItem[] => [
   ...getWorks(),
+  ...getMaps(),
+  ...getGames(),
   ...getTools(),
   ...getArticles(),
   ...getLearns(),
@@ -248,7 +250,9 @@ export const getSubjectStats = (): SubjectStat[] => {
 
 /** 内容类型的中文名映射，供卡片/面包屑统一显示 */
 export const TYPE_LABEL: Record<ContentType, string> = {
-  work: '可视化作品',
+  work: '模拟实验',
+  map: '互动地图',
+  game: '地理小游戏',
   tool: '地理工具',
   article: '科普文章',
   learn: '地理知识库',
@@ -256,10 +260,4 @@ export const TYPE_LABEL: Record<ContentType, string> = {
 };
 
 /** 路由 base 映射 */
-export const TYPE_BASE: Record<ContentType, string> = {
-  work: 'works',
-  tool: 'tools',
-  article: 'articles',
-  learn: 'learn',
-  resource: 'downloads',
-};
+export const TYPE_BASE: Record<ContentType, string> = { ...BASE_PATH };

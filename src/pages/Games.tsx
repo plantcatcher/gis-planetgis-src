@@ -6,7 +6,7 @@ import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import FilterChips from '@/components/common/FilterChips';
 import Pagination from '@/components/common/Pagination';
-import { getWorksBySeries, getWorkTopics, getWorkScopes, type ContentItem } from '@/lib/content';
+import { getGames, getWorkTopics, getWorkScopes, type ContentItem } from '@/lib/content';
 
 // 卡片入场动画：initial 保持 opacity:1，确保 SSG 静态 HTML 中文本天生可见（利于 SEO / AdSense）。
 const CardAnim: React.FC<{ children: React.ReactNode; delay?: number }> = ({ children, delay = 0 }) => (
@@ -34,30 +34,33 @@ const HeatTag: React.FC<{ heat?: number }> = ({ heat }) =>
   ) : null;
 
 // 地理小游戏汇总页：与「互动地图 /maps」「精选作品 /works」「地理小工具 /tools」结构对称。
-// 数据源是 content/works 中 series: game 的条目（显式声明归属，不靠 tags 猜），
-// 每个 link 指向对应的游戏 iframe 页，SEO 正文在其 /works/<slug> 介绍页。
+// 数据源就是 content/games 下的 md（文件夹即归属，不再需要 series 字段），
+// 每个 link 指向对应的游戏 iframe 页，SEO 正文在其 /games/<slug> 介绍页。
 const Games: React.FC = () => {
-  const games = getWorksBySeries('game');
+  const games = getGames();
 
   // 细分筛选：玩法主题（topics）+ 地域题材（scope），与 /maps 同一套组件与数据口径，
-  // 均来自 content/works/<slug>.md 的 frontmatter，新增游戏改 md 即生效。
+  // 均来自 content/games/<slug>.md 的 frontmatter，新增游戏改 md 即生效。
   const topics = getWorkTopics('game');
   const scopes = getWorkScopes('game');
   const [topic, setTopic] = useState('全部');
   const [scope, setScope] = useState('全部');
-  const [sortMode, setSortMode] = useState<'default' | 'heat'>('default');
+  // 默认按热度（近 30 天 GA4 浏览量）降序，与资料下载页一致；可切回最新。
+  const [sortMode, setSortMode] = useState<'latest' | 'heat'>('heat');
 
   const hitTopic = (g: ContentItem, t: string) => t === '全部' || (g.topics || []).includes(t);
   const hitScope = (g: ContentItem, s: string) => s === '全部' || g.scope === s;
   const filtered = games.filter((g) => hitTopic(g, topic) && hitScope(g, scope));
 
-  // 热度模式：按近 30 天 GA4 浏览量降序（并列回退日期）；默认模式：沿用作品 order
-  const sorted =
+  // 排序：最新=上线日期倒序（date 写在 content/games/<slug>.md 的 frontmatter）；
+  // 热度=近 30 天 GA4 浏览量降序。两者都以日期做并列回退，无日期的条目沉底。
+  const sorted = [...filtered].sort((a, b) =>
     sortMode === 'heat'
-      ? [...filtered].sort(
-          (a, b) => (b.heat || 0) - (a.heat || 0) || (b.date || '').localeCompare(a.date || ''),
-        )
-      : filtered;
+      ? (b.heat || 0) - (a.heat || 0) ||
+        (b.date || '').localeCompare(a.date || '') ||
+        a.order - b.order
+      : (b.date || '').localeCompare(a.date || '') || a.order - b.order,
+  );
 
   // 分页：每页 12 款；主题/地域/排序变化自动归 1
   const PAGE_SIZE = 12;
@@ -131,7 +134,7 @@ const Games: React.FC = () => {
               )}
             </p>
             <div className="flex items-center gap-1 rounded-lg border border-border p-0.5 shrink-0">
-              {([['default', '默认'], ['heat', '热度']] as const).map(([key, label]) => (
+              {([['latest', '最新'], ['heat', '热度']] as const).map(([key, label]) => (
                 <button
                   key={key}
                   type="button"
@@ -156,7 +159,7 @@ const Games: React.FC = () => {
                 const playUrl = game.link || `/${game.slug}`;
                 return (
                   <CardAnim key={game.slug} delay={i * 0.08}>
-                    {/* 卡片外壳不再整块是链接：封面与标题 → 游戏本体，底部按钮 → /works/<slug> 的玩法介绍 */}
+                    {/* 卡片分工：封面与标题 → 游戏本体，底部「查看详情与解读」→ /games/<slug> 介绍页 */}
                     <div className="group overflow-hidden rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 hover:shadow-lg transition-all duration-300">
                       <Link to={playUrl} className="block">
                         <div className="aspect-video overflow-hidden relative">
@@ -183,10 +186,10 @@ const Games: React.FC = () => {
                         <p className="text-sm text-muted-foreground line-clamp-2">{game.summary}</p>
                         <div className="mt-4 flex items-center gap-3">
                           <Link
-                            to={`/works/${game.slug}`}
+                            to={`/games/${game.slug}`}
                             className="inline-flex items-center gap-1 text-sm font-medium text-primary"
                           >
-                            查看介绍 <ArrowRight className="w-3.5 h-3.5 group-hover:gap-2 transition-all" />
+                            查看详情与解读 <ArrowRight className="w-3.5 h-3.5 group-hover:gap-2 transition-all" />
                           </Link>
                           <HeatTag heat={game.heat} />
                         </div>

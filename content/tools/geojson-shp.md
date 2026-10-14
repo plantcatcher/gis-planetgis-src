@@ -4,6 +4,7 @@ title: GeoJson转SHP工具
 summary: 在浏览器里把 GeoJSON 转换为 Shapefile（含 .shp/.shx/.dbf/.prj 全套文件），也可将 SHP 逆向转回 GeoJSON，转换过程完整保留属性表字段与中文编码，支持自定义坐标系与投影。数据全程在本地内存处理、不上传服务器，适合处理涉密或体积较大的 GIS 数据。
 link: https://covertool.planetgis.cn
 order: 3
+date: 2026-07-29
 category: 地理小工具
 tags: 地理, 地理工具, 地理小工具
 ---

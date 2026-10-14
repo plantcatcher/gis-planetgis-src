@@ -4,6 +4,7 @@ title: 矢量边界下载器
 summary: 免费在线下载中国省、市、区县三级行政区划与全球 234 个国家及地区的矢量边界，支持 SVG、GeoJSON、TopoJSON、Shapefile、KML、GPX、WKT、PNG 共 8 种格式导出，可自定义投影、配色、简化容差与坐标精度，支持批量打包，无需注册登录。中国国界依据国家标准地图数据处理，含台湾省、香港特别行政区、澳门特别行政区、南海诸岛及九段线。
 link: https://boundary.planetgis.cn
 order: 4
+date: 2026-10-14
 category: 地理小工具
 tags: 地理, 地理工具, 地理小工具
 ---

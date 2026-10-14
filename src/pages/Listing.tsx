@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ExternalLink, Compass, Globe, Search, Calendar, LayoutGrid, List, Flame, SlidersHorizontal, ChevronDown, ChevronUp } from 'lucide-react';
+import { ArrowRight, ExternalLink, Compass, Globe, Search, Calendar, LayoutGrid, List, Flame, SlidersHorizontal, ChevronDown, ChevronUp } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import CoverImage from '@/components/common/CoverImage';
@@ -53,6 +53,15 @@ type ListingType = 'work' | 'tool' | 'subdomain' | 'learn' | 'resource';
 const fmtHeat = (n: number) =>
   n >= 1000 ? `${(n / 1000).toFixed(1).replace(/\.0$/, '')}k` : String(n);
 
+// 卡片上的热度标记（仅在有真实浏览量时显示），与 /maps、/games 一致
+const HeatTag: React.FC<{ heat?: number }> = ({ heat }) =>
+  (heat || 0) > 0 ? (
+    <span className="inline-flex items-center gap-1 text-xs text-orange-500 shrink-0">
+      <Flame className="w-3.5 h-3.5" />
+      {fmtHeat(heat ?? 0)}
+    </span>
+  ) : null;
+
 const meta: Record<ListingType, { title: string; subtitle: string; base: string }> = {
   work: {
     title: '精选作品',
@@ -96,20 +105,24 @@ const CardAnim: React.FC<{ children: React.ReactNode; delay?: number }> = ({ chi
   </motion.div>
 );
 
-// 精选作品总页：按 category（真实子分类：互动地图 / 地理游戏 / 模拟实验 / 趣味测试）筛选。
-// 作品归属哪个系列页由 frontmatter 的 series 声明，这里只做展示层筛选。
+// 精选作品总页：content/works 下只剩模拟实验类（海平面模拟实验室、地形分析器），
+// 互动地图与小游戏已迁到 /maps、/games 各自独立的汇总页。
 const WorkGrid = () => {
   const all = getWorks();
   const categories = useMemo(() => getWorkCategories(), []);
   const [active, setActive] = useState('全部');
-  const [sortMode, setSortMode] = useState<'default' | 'heat'>('default');
+  // 默认按热度（近 30 天 GA4 浏览量）降序，与资料下载页一致；可切回最新。
+  const [sortMode, setSortMode] = useState<'latest' | 'heat'>('heat');
   const list = active === '全部' ? all : all.filter((w) => (w.category || '未分类') === active);
 
-  // 热度模式：按近 30 天 GA4 浏览量降序（并列回退日期）；默认模式：沿用 frontmatter order
-  const sorted =
+  // 排序：最新=上线日期倒序；热度=近 30 天 GA4 浏览量降序。两者以日期做并列回退。
+  const sorted = [...list].sort((a, b) =>
     sortMode === 'heat'
-      ? [...list].sort((a, b) => (b.heat || 0) - (a.heat || 0) || (b.date || '').localeCompare(a.date || ''))
-      : list;
+      ? (b.heat || 0) - (a.heat || 0) ||
+        (b.date || '').localeCompare(a.date || '') ||
+        a.order - b.order
+      : (b.date || '').localeCompare(a.date || '') || a.order - b.order,
+  );
 
   // 分页：每页 12 个；切换分类 / 排序自动归 1
   const PAGE_SIZE = 12;
@@ -144,7 +157,7 @@ const WorkGrid = () => {
           })}
         </div>
         <div className="flex items-center gap-1 rounded-lg border border-border p-0.5 shrink-0">
-          {([['default', '默认'], ['heat', '热度']] as const).map(([key, label]) => (
+          {([['latest', '最新'], ['heat', '热度']] as const).map(([key, label]) => (
             <button
               key={key}
               type="button"
@@ -162,36 +175,48 @@ const WorkGrid = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {pageItems.map((w, i) => (
           <CardAnim key={w.slug} delay={i * 0.08}>
-            <Link
-              to={`/works/${w.slug}`}
-              className="group block overflow-hidden rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 hover:shadow-lg transition-all duration-300"
-            >
-              <div className="aspect-video overflow-hidden relative">
-                <img
-                  src={w.cover}
-                  alt={`${w.title} - 星球小捕手地理可视化作品`}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-                {w.category && (
-                  <span className="absolute top-3 left-3 px-2 py-0.5 rounded-full text-xs font-medium bg-black/55 text-white backdrop-blur-sm">
-                    {w.category}
-                  </span>
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                  <span className="w-full text-center text-sm font-medium text-white/90">查看详情与解读 →</span>
+            {/* 卡片分工：封面与标题 → 作品本体（站外，新窗口），底部链接 → /works/<slug> 详情页 */}
+            <div className="group overflow-hidden rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+              <a href={w.link} target="_blank" rel="noreferrer" className="block">
+                <div className="aspect-video overflow-hidden relative">
+                  <img
+                    src={w.cover}
+                    alt={`${w.title} - 星球小捕手地理可视化作品`}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  {w.category && (
+                    <span className="absolute top-3 left-3 px-2 py-0.5 rounded-full text-xs font-medium bg-black/55 text-white backdrop-blur-sm">
+                      {w.category}
+                    </span>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                    <span className="w-full text-center text-sm font-medium text-white/90">访问作品 →</span>
+                  </div>
+                </div>
+              </a>
+              <div className="p-6">
+                <h3 className="text-lg font-bold mb-2">
+                  <a href={w.link} target="_blank" rel="noreferrer" className="group-hover:text-primary transition-colors">
+                    {w.title}
+                  </a>
+                </h3>
+                <p className="text-sm text-muted-foreground line-clamp-2">{w.summary}</p>
+                <div className="mt-4 flex items-center gap-3">
+                  <Link
+                    to={`/works/${w.slug}`}
+                    className="inline-flex items-center gap-1 text-sm font-medium text-primary"
+                  >
+                    查看详情与解读 <ArrowRight className="w-3.5 h-3.5 group-hover:gap-2 transition-all" />
+                  </Link>
+                  {(w.heat || 0) > 0 && (
+                    <span className="flex items-center gap-1 text-xs text-orange-500">
+                      <Flame className="w-3.5 h-3.5" />
+                      {fmtHeat(w.heat ?? 0)}
+                    </span>
+                  )}
                 </div>
               </div>
-              <div className="p-6">
-                <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors">{w.title}</h3>
-                <p className="text-sm text-muted-foreground line-clamp-2">{w.summary}</p>
-                {(w.heat || 0) > 0 && (
-                  <div className="mt-3 flex items-center gap-1 text-xs text-orange-500">
-                    <Flame className="w-3.5 h-3.5" />
-                    {fmtHeat(w.heat ?? 0)}
-                  </div>
-                )}
-              </div>
-            </Link>
+            </div>
           </CardAnim>
         ))}
       </div>
@@ -207,28 +232,59 @@ const WorkGrid = () => {
   );
 };
 
-const ToolGrid = () => (
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-    {getTools().map((t, i) => (
-      <CardAnim key={t.slug} delay={i * 0.08}>
-        <Link
-          to={`/tools/${t.slug}`}
-          className="group flex gap-6 p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-border/50 hover:border-secondary/50 hover:shadow-xl hover:shadow-secondary/10 transition-all duration-300"
-        >
-          <div className="shrink-0 w-16 h-16 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-white transition-colors">
-            <Compass className="w-8 h-8" />
-          </div>
-          <div>
-              <h3 className="text-lg font-bold mb-1 flex items-center gap-2">
-                {t.title} <ExternalLink className="w-4 h-4" />
-              </h3>
-              <p className="text-sm text-muted-foreground">{t.summary}</p>
-          </div>
-        </Link>
-      </CardAnim>
-    ))}
-  </div>
-);
+const ToolGrid = () => {
+  // 默认按热度（近 30 天 GA4 浏览量）降序，与资料下载页、其它列表页一致；可切回手动序。
+  const [sortMode, setSortMode] = useState<'latest' | 'heat'>('heat');
+  const sorted = [...getTools()].sort((a, b) =>
+    sortMode === 'heat' ? (b.heat || 0) - (a.heat || 0) || a.order - b.order : a.order - b.order,
+  );
+  return (
+    <>
+      <div className="flex items-center justify-between gap-3 mb-6">
+        <p className="text-sm text-muted-foreground">
+          共 <span className="font-semibold text-foreground">{sorted.length}</span> 个小工具
+        </p>
+        <div className="flex items-center gap-1 rounded-lg border border-border p-0.5 shrink-0">
+          {([['heat', '热度'], ['latest', '最新']] as const).map(([key, label]) => (
+            <button
+              key={key}
+              type="button"
+              onClick={() => setSortMode(key)}
+              className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
+                sortMode === key ? 'bg-primary text-white' : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {sorted.map((t, i) => (
+          <CardAnim key={t.slug} delay={i * 0.08}>
+            <Link
+              to={`/tools/${t.slug}`}
+              className="group flex gap-6 p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-border/50 hover:border-secondary/50 hover:shadow-xl hover:shadow-secondary/10 transition-all duration-300"
+            >
+              <div className="shrink-0 w-16 h-16 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-white transition-colors">
+                <Compass className="w-8 h-8" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <h3 className="text-lg font-bold flex items-center gap-2 truncate">
+                    {t.title} <ExternalLink className="w-4 h-4 shrink-0" />
+                  </h3>
+                  <HeatTag heat={t.heat} />
+                </div>
+                <p className="text-sm text-muted-foreground">{t.summary}</p>
+              </div>
+            </Link>
+          </CardAnim>
+        ))}
+      </div>
+    </>
+  );
+};
 
 const SubdomainGrid = () => {
   const subs = subdomainsData as { title: string; description: string; link: string }[];
@@ -278,8 +334,8 @@ const LearnGrid = () => {
   );
   const [activeTags, setActiveTags] = useState<string[]>([]);
   const [query, setQuery] = useState(searchParams.get('q') || '');
-  // 排序：默认「最新」（保留学科分组）；「热度」模式整页按浏览量拍平排序（取消分组）
-  const [sortMode, setSortMode] = useState<'latest' | 'heat'>('latest');
+  // 排序：默认「热度」（近 30 天 GA4 浏览量降序，整页拍平）；可切「最新」恢复学科分组
+  const [sortMode, setSortMode] = useState<'latest' | 'heat'>('heat');
   const pickSort = (m: 'latest' | 'heat') => {
     setSortMode(m);
     const sp = new URLSearchParams(searchParams);

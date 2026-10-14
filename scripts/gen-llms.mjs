@@ -63,9 +63,10 @@ const tools = loadDir('tools');
 // ── 排序：日期倒序（有就排前面），保证「精选」取到较新的代表内容 ────────────
 const byDateDesc = (a, b) => String(b.date || '').localeCompare(String(a.date || ''));
 
-const maps = works.filter((w) => w.series === 'map').sort(byDateDesc);
-const games = works.filter((w) => w.series === 'game').sort(byDateDesc);
-const labs = works.filter((w) => w.series === 'lab').sort(byDateDesc);
+// 文件夹即类型：地图在 content/maps、游戏在 content/games，works 只剩模拟实验。
+const maps = loadDir('maps').sort(byDateDesc);
+const games = loadDir('games').sort(byDateDesc);
+const labs = [...works].sort(byDateDesc);
 const learnSorted = [...learn].sort(byDateDesc);
 const dlSorted = [...downloads].sort(byDateDesc);
 
@@ -152,9 +153,9 @@ if (maps.length) {
   push();
   // 精选：混合取样（GADM 国家不霸榜，兼顾中国专题与其他类型）
   for (const m of pickDiverse(maps, 10, mapGroup)) {
-    push(`- [${m.title}](${SITE}/works/${m.slug}): ${oneLine(m.summary)}`);
+    push(`- [${m.title}](${SITE}/maps/${m.slug}): ${oneLine(m.summary)}`);
   }
-  push(`- [全部互动地图（共 ${maps.length} 张）](${SITE}/works): 完整地图作品列表，含中国各省、世界主要国家行政区划、水系、地形、人口迁移等专题。`);
+  push(`- [全部互动地图（共 ${maps.length} 张）](${SITE}/maps): 完整地图作品列表，含中国各省、世界主要国家行政区划、水系、地形、人口迁移等专题。`);
   push();
 }
 
@@ -202,7 +203,7 @@ if (playables.length) {
   push('## 地理游戏与可视化实验');
   push();
   for (const g of playables) {
-    push(`- [${g.title}](${SITE}/works/${g.slug}): ${oneLine(g.summary)}`);
+    push(`- [${g.title}](${SITE}/games/${g.slug}): ${oneLine(g.summary)}`);
   }
   push();
 }
@@ -220,7 +221,7 @@ push();
 // ── Optional（llms.txt 规范：次要/大体积内容放这里）─────────────────────────
 push('## Optional');
 push();
-push(`- [互动地图在线体验](${SITE}/maps): 地图全屏交互入口（内容与 /works 的介绍页一致）。`);
+push(`- [互动地图在线体验](${SITE}/maps): 地图全屏交互入口（每张地图的介绍正文在 /maps/<slug>）。`);
 push(`- [Sitemap](${SITE}/sitemap.xml): 全站 ${learn.length + downloads.length + works.length + tools.length}+ 页面的完整 URL 清单。`);
 push();
 

@@ -198,7 +198,7 @@ function DownloadRow({ rec }: { rec: DownloadRecord }) {
 
 function MapRow({ rec }: { rec: MapViewRecord }) {
   const path = `/maps/${rec.slug}`;
-  const item = getItem('work', rec.slug);
+  const item = getItem('map', rec.slug);
   const inner = (
     <div className="flex items-center gap-3 p-2.5 rounded-xl bg-muted/40 hover:bg-muted border border-transparent hover:border-primary/30 transition-all">
       <div className="shrink-0 w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center">

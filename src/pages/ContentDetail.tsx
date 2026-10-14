@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import CoverImage from '@/components/common/CoverImage';
-import { getItem, getRelated, getWorksBySeries, getTools, type ContentType, type ContentItem } from '@/lib/content';
+import { getItem, getRelated, getByType, BASE_PATH, type ContentType, type ContentItem } from '@/lib/content';
 import { renderMarkdown, extractHeadings, extractFaq, extractSteps } from '@/lib/markdown';
 import { buildContentKey } from '@/services/learningService';
 import LearningTracker from '@/components/learning/LearningTracker';
@@ -24,25 +24,25 @@ interface Props {
 
 const typeLabel: Record<ContentType, string> = {
   work: '精选作品',
+  map: '互动地图',
+  game: '地理小游戏',
   tool: '地理小工具',
   article: '文章',
   learn: '地理知识库',
   resource: '资料下载',
 };
 
-const basePath: Record<ContentType, string> = {
-  work: 'works',
-  tool: 'tools',
-  article: 'articles',
-  learn: 'learn',
-  resource: 'downloads',
-};
+const basePath: Record<ContentType, string> = { ...BASE_PATH };
+
+/** 有「板块 footer」的 type：这些板块既有同板块互链，也有「打开本体 / 全部」入口 */
+type BoardType = 'map' | 'game' | 'work' | 'tool';
+const BOARD_TYPES = new Set<ContentType>(['map', 'game', 'work', 'tool']);
 
 const LOGO = 'https://blogphoto.planetgis.cn/PicGo/2026-02-27-favicon-dec42c.png';
 
-// 板块详情页底部「系列 footer」模块的文案配置：互动地图 / 地理小游戏 /
-// 海平面模拟实验室（series:lab）/ 地理小工具（type:tool）各一份，
-// 板块名、按钮文案、入口路径按板块自适应。
+// 详情页底部「板块 footer」模块的文案配置：互动地图 / 地理小游戏 /
+// 模拟实验（type:work）/ 地理小工具（type:tool）各一份，
+// 板块名、按钮文案、入口路径按板块自适应。key 直接用 type，与文件夹一一对应。
 interface SeriesFooterConfig {
   listTitle: string;
   ctaBadge: string;
@@ -54,7 +54,7 @@ interface SeriesFooterConfig {
   nextLabel: string;
 }
 
-const SERIES_FOOTER: Record<'map' | 'game' | 'lab' | 'tool', SeriesFooterConfig> = {
+const SERIES_FOOTER: Record<'map' | 'game' | 'work' | 'tool', SeriesFooterConfig> = {
   map: {
     listTitle: '相关地图',
     ctaBadge: '在线互动',
@@ -75,8 +75,8 @@ const SERIES_FOOTER: Record<'map' | 'game' | 'lab' | 'tool', SeriesFooterConfig>
     prevLabel: '上一款',
     nextLabel: '下一款',
   },
-  lab: {
-    listTitle: '相关实验室',
+  work: {
+    listTitle: '相关实验',
     ctaBadge: '在线体验',
     ctaDesc: '浏览器打开即可模拟，支持交互调节与实时可视化，无需安装、无需登录。',
     primaryLabel: '打开实验室',
@@ -137,14 +137,14 @@ const SeriesCtaCard: React.FC<{ cfg: SeriesFooterConfig; item: ContentItem }> = 
 };
 
 // 互动地图 / 地理小游戏详情页底部组合：相关推荐（列表式）+ 打开入口卡 + 上一个/下一个。
-// 相关推荐链接到同系列作品的介绍页（/works/<slug>），入口卡主按钮跳作品本体（frontmatter link）。
+// 相关推荐链接到同类型内容的介绍页（前缀取自 BASE_PATH），入口卡主按钮跳内容本体（frontmatter link）。
 const SeriesFooterBlock: React.FC<{
   cfg: SeriesFooterConfig;
   item: ContentItem;
   siblings: ContentItem[];
   prev?: ContentItem;
   next?: ContentItem;
-  /** 详情页所在路由前缀：tool→tools，map/game/lab→works（不能写死 /works，否则工具页互链 404） */
+  /** 详情页所在路由前缀，取自 BASE_PATH：map→maps、game→games、tool→tools、work→works */
   base: string;
 }> = ({ cfg, item, siblings, prev, next, base }) => {
   // 相关推荐按「主题 → 地域范围 → 标签 → 标题词面」的相关度打分排序，
@@ -315,27 +315,17 @@ export default function ContentDetail({ type }: Props) {
   const readingTime = type === 'article' || type === 'learn' ? getReadingTime(item) : 0;
   const wordCount = type === 'article' || type === 'learn' ? getWordCount(item) : 0;
 
-  // 板块 footer 适用范围：互动地图 / 地理小游戏（series）/ 海平面模拟实验室（series:lab）/ 地理小工具（type:tool）。
-  // 同板块数据 + 上一个/下一个均按各自 order 排序。
-  const boardKey: 'map' | 'game' | 'lab' | 'tool' | null =
-    type === 'tool'
-      ? 'tool'
-      : type === 'work' &&
-          (item.series === 'map' || item.series === 'game' || item.series === 'lab')
-        ? (item.series as 'map' | 'game' | 'lab')
-        : null;
+  // 板块 footer 适用范围：互动地图 / 地理小游戏 / 模拟实验 / 地理小工具。
+  // 哪些 type 有 footer 由 BOARD_TYPES 决定，同板块数据与上一个/下一个按各自 order 排序。
+  const boardKey = BOARD_TYPES.has(type) ? (type as BoardType) : null;
   const boardCfg = boardKey ? SERIES_FOOTER[boardKey] : null;
-  const boardSiblings = boardKey
-    ? boardKey === 'tool'
-      ? getTools()
-      : getWorksBySeries(boardKey)
-    : [];
+  const boardSiblings = boardKey ? getByType(boardKey) : [];
   const boardIdx = boardKey ? boardSiblings.findIndex((s) => s.slug === item.slug) : -1;
   const boardPrev = boardIdx > 0 ? boardSiblings[boardIdx - 1] : undefined;
   const boardNext =
     boardIdx >= 0 && boardIdx < boardSiblings.length - 1 ? boardSiblings[boardIdx + 1] : undefined;
-  // 工具页的互链前缀是 tools，map/game/lab 作品的互链前缀是 works。
-  const boardBase = boardKey === 'tool' ? 'tools' : 'works';
+  // 互链前缀与 type 一一对应（map→maps、game→games、tool→tools、work→works），统一取自 BASE_PATH
+  const boardBase = BASE_PATH[type];
   // 系列作品正文中，把「打开/全部」入口卡插在「介绍」与「功能特点」两个小节之间
   // （所有 map/game 作品正文都含这两个 H2，拆分位置稳定）。
   const splitMark = '\n## 功能特点';
