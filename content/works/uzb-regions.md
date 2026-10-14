@@ -1,7 +1,7 @@
 ---
 slug: uzb-regions
 title: 乌兹别克斯坦行政区划地图
-cover: https://blogphoto.planetgis.cn/PicGo/2026-10-14-vizmap-uzb-regions-cover.jpg
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-14-vizmap-uzb-regions-cover.jpg?v=2
 summary: 点一下乌兹别克斯坦地图，看 14 个州 / 共和国 / 市的中文名、首府、人口、面积与行政区类型；可在「人口 / 面积 / 类型」之间切换着色、161 个区。边界数据来自 GADM 4.1。
 link: /maps/uzb-regions
 order: 30
