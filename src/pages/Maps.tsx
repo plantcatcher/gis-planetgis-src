@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Map as MapIcon, ArrowRight, Layers, Database, Square, LayoutGrid, List } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import FilterChips from '@/components/common/FilterChips';
+import Pagination from '@/components/common/Pagination';
 import { getWorksBySeries, getWorkTopics, getWorkScopes, type ContentItem } from '@/lib/content';
 import { getVizMap, type VizMap } from '@/lib/vizmaps';
 
@@ -51,6 +52,16 @@ const Maps: React.FC = () => {
   const hitTopic = (w: ContentItem, t: string) => t === '全部' || (w.topics || []).includes(t);
   const hitScope = (w: ContentItem, s: string) => s === '全部' || w.scope === s;
   const filtered = maps.filter(({ work }) => hitTopic(work, topic) && hitScope(work, scope));
+
+  // 分页：每页 12 张；主题/地域变化自动归 1
+  const PAGE_SIZE = 12;
+  const [page, setPage] = useState(1);
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const currentPage = Math.min(page, totalPages);
+  const pageItems = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  useEffect(() => {
+    setPage(1);
+  }, [topic, scope]);
 
   // 分面计数：某个主题的条数按「当前地域」算，某个地域的条数按「当前主题」算
   const topicChips = topics.map(({ name }) => ({
@@ -148,7 +159,7 @@ const Maps: React.FC = () => {
           ) : mode === 'list' ? (
             /* 列表模式 */
             <div className="space-y-3">
-              {filtered.map(({ work: w, asset: m }, i) => {
+              {pageItems.map(({ work: w, asset: m }, i) => {
                 const totalFeatures = m?.data.reduce((s, d) => s + d.features, 0) ?? 0;
                 const unit = m?.data[0]?.unit ?? '个要素';
                 return (
@@ -200,7 +211,7 @@ const Maps: React.FC = () => {
           ) : (
             /* 卡片模式（simple / detail） */
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filtered.map(({ work: w, asset: m }, i) => {
+              {pageItems.map(({ work: w, asset: m }, i) => {
                 const totalFeatures = m?.data.reduce((s, d) => s + d.features, 0) ?? 0;
                 const unit = m?.data[0]?.unit ?? '个要素';
                 return (
@@ -266,6 +277,15 @@ const Maps: React.FC = () => {
               })}
             </div>
           )}
+
+          <Pagination
+            page={currentPage}
+            pageCount={totalPages}
+            onChange={(p) => {
+              setPage(p);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          />
 
           <section className="mt-14 rounded-2xl border border-border bg-card/40 p-6 md:p-8">
             <h2 className="text-xl font-bold mb-3">关于数据</h2>

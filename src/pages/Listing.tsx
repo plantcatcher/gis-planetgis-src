@@ -6,6 +6,7 @@ import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import CoverImage from '@/components/common/CoverImage';
 import AccessBadge from '@/components/common/AccessBadge';
+import Pagination from '@/components/common/Pagination';
 import { Input } from '@/components/ui/input';
 import {
   getWorks,
@@ -103,6 +104,16 @@ const WorkGrid = () => {
   const [active, setActive] = useState('全部');
   const list = active === '全部' ? all : all.filter((w) => (w.category || '未分类') === active);
 
+  // 分页：每页 12 个；切换分类自动归 1
+  const PAGE_SIZE = 12;
+  const [page, setPage] = useState(1);
+  const totalPages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
+  const currentPage = Math.min(page, totalPages);
+  const pageItems = list.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  useEffect(() => {
+    setPage(1);
+  }, [active]);
+
   return (
     <>
       <div className="flex flex-wrap gap-2 mb-6">
@@ -126,7 +137,7 @@ const WorkGrid = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {list.map((w, i) => (
+        {pageItems.map((w, i) => (
           <CardAnim key={w.slug} delay={i * 0.08}>
             <Link
               to={`/works/${w.slug}`}
@@ -155,6 +166,14 @@ const WorkGrid = () => {
           </CardAnim>
         ))}
       </div>
+      <Pagination
+        page={currentPage}
+        pageCount={totalPages}
+        onChange={(p) => {
+          setPage(p);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+      />
     </>
   );
 };
@@ -291,6 +310,69 @@ const LearnGrid = () => {
         })).filter((g) => g.items.length)
       : [{ name: activeSubject, items: searched }];
 
+  // 分页 + 扁平分组（方案 A：保留学科小标题，跨页重复显示）
+  const PAGE_SIZE = 18;
+  const subjectCount: Record<string, number> = {};
+  for (const g of groups) subjectCount[g.name] = g.items.length;
+  const flat = groups.flatMap((g) => g.items.map((it) => ({ subject: g.name, item: it })));
+  const totalPages = Math.max(1, Math.ceil(flat.length / PAGE_SIZE));
+  const currentPage = Math.min(Math.max(1, Number(searchParams.get('page')) || 1), totalPages);
+  const pageItems = flat.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  const goPage = (p: number) => {
+    const sp = new URLSearchParams(searchParams);
+    if (p <= 1) sp.delete('page');
+    else sp.set('page', String(p));
+    setSearchParams(sp, { replace: true });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  // 搜索词变化 → 页码归 1
+  useEffect(() => {
+    const cur = Number(searchParams.get('page')) || 1;
+    if (cur > 1) {
+      const sp = new URLSearchParams(searchParams);
+      sp.delete('page');
+      setSearchParams(sp, { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query]);
+
+  // 当页条目按学科分段渲染：某学科在当页首次出现时显示其小标题（跨页重显示）
+  const groupedNodes: React.ReactNode[] = [];
+  {
+    let curSubj: string | null = null;
+    let buffer: ContentItem[] = [];
+    const flush = () => {
+      if (curSubj && buffer.length) {
+        groupedNodes.push(
+          <section key={`${curSubj}-${groupedNodes.length}`}>
+            <div className="flex items-center gap-3 mb-4">
+              <SubjectIcon name={SUBJECT_META[curSubj]?.icon || 'Globe'} className="w-5 h-5 text-primary" />
+              <h2 className="font-serif text-lg font-bold">{curSubj}</h2>
+              <span className="text-xs text-muted-foreground">{subjectCount[curSubj]} 篇</span>
+              <div className="flex-1 h-px bg-border" />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+              {buffer.map((a, i) => (
+                <CardAnim key={a.slug} delay={i * 0.05}>
+                  <KnowledgeCard item={a} />
+                </CardAnim>
+              ))}
+            </div>
+          </section>,
+        );
+        buffer = [];
+      }
+    };
+    for (const { subject, item } of pageItems) {
+      if (subject !== curSubj) {
+        flush();
+        curSubj = subject;
+      }
+      buffer.push(item);
+    }
+    flush();
+  }
+
   return (
     <div className="lg:grid lg:grid-cols-[236px_1fr] lg:gap-8">
       {/* 左侧筛选栏 */}
@@ -418,25 +500,7 @@ const LearnGrid = () => {
         {searched.length === 0 ? (
           <p className="text-muted-foreground">该筛选下还没有内容，敬请期待。</p>
         ) : (
-          <div className="space-y-10">
-            {groups.map((g) => (
-              <section key={g.name}>
-                <div className="flex items-center gap-3 mb-4">
-                  <SubjectIcon name={SUBJECT_META[g.name]?.icon || 'Globe'} className="w-5 h-5 text-primary" />
-                  <h2 className="font-serif text-lg font-bold">{g.name}</h2>
-                  <span className="text-xs text-muted-foreground">{g.items.length} 篇</span>
-                  <div className="flex-1 h-px bg-border" />
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-                  {g.items.map((a, i) => (
-                    <CardAnim key={a.slug} delay={i * 0.05}>
-                      <KnowledgeCard item={a} />
-                    </CardAnim>
-                  ))}
-                </div>
-              </section>
-            ))}
-          </div>
+          <div className="space-y-10">{groupedNodes}</div>
         )}
 
         {allTags.length > 0 && activeTags.length === 0 && (
@@ -456,6 +520,7 @@ const LearnGrid = () => {
             </div>
           </div>
         )}
+        <Pagination page={currentPage} pageCount={totalPages} onChange={goPage} />
       </div>
     </div>
   );
@@ -733,6 +798,29 @@ const ResourceGrid = () => {
     if (sortMode === 'date') return (b.date || '').localeCompare(a.date || '');
     return (b.heat || 0) - (a.heat || 0) || (b.date || '').localeCompare(a.date || '');
   });
+
+  // 分页：每页 24 条；页码走 URL ?page=N（筛选/搜索变化自动归 1）
+  const PAGE_SIZE = 24;
+  const totalPages = Math.max(1, Math.ceil(sortedList.length / PAGE_SIZE));
+  const currentPage = Math.min(Math.max(1, Number(searchParams.get('page')) || 1), totalPages);
+  const pageItems = sortedList.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  const goPage = (p: number) => {
+    const sp = new URLSearchParams(searchParams);
+    if (p <= 1) sp.delete('page');
+    else sp.set('page', String(p));
+    setSearchParams(sp, { replace: true });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  // 搜索词变化 → 页码归 1
+  useEffect(() => {
+    const cur = Number(searchParams.get('page')) || 1;
+    if (cur > 1) {
+      const sp = new URLSearchParams(searchParams);
+      sp.delete('page');
+      setSearchParams(sp, { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query]);
 
   // 各轴写回 URL，便于分享与浏览器前进后退。
   // 区域轴取值为 R:x / P:x，写回时拆成可读的 region / province 两个参数。
@@ -1124,7 +1212,7 @@ const ResourceGrid = () => {
           <p className="text-muted-foreground">没有匹配的资料，换个筛选条件试试。</p>
         ) : view === 'grid' ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {sortedList.map((r, i) => (
+            {pageItems.map((r, i) => (
               <CardAnim key={r.slug} delay={i * 0.05}>
                 <Link
                   to={`/downloads/${r.slug}`}
@@ -1156,7 +1244,7 @@ const ResourceGrid = () => {
           </div>
         ) : (
           <div className="space-y-2">
-            {sortedList.map((r, i) => (
+            {pageItems.map((r, i) => (
               <CardAnim key={r.slug} delay={i * 0.04}>
                 <Link
                   to={`/downloads/${r.slug}`}
@@ -1186,6 +1274,7 @@ const ResourceGrid = () => {
             ))}
           </div>
         )}
+        <Pagination page={currentPage} pageCount={totalPages} onChange={goPage} />
       </div>
     </div>
   );
