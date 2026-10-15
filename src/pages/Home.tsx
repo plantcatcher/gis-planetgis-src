@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Github, Youtube, MessageCircle, Instagram, Rss, ArrowRight, ExternalLink, Globe, Compass, Box, Share2, Calendar, Lightbulb, Newspaper, Download, Lock, BookOpen } from 'lucide-react';
+import { Github, Youtube, MessageCircle, Instagram, Rss, ArrowRight, ExternalLink, Globe, Compass, Box, Share2, Calendar, Newspaper, Download, Lock, BookOpen } from 'lucide-react';
 import { motion } from 'framer-motion';
 import {
   getWorks,
@@ -63,7 +63,7 @@ const SectionWrapper = ({ children, title, id, className = '', kicker, lead, act
   };
 
   return (
-    <section id={id} className={`py-14 first:pt-8 overflow-hidden relative ${className}`}>
+    <section id={id} className={`py-10 first:pt-8 border-t border-border/60 first:border-t-0 overflow-hidden relative ${className}`}>
       {id === 'profile' && (
         <div className="absolute inset-y-0 right-0 -z-10 hidden lg:flex items-center justify-end pr-4 overflow-hidden pointer-events-none">
           <svg
@@ -90,7 +90,7 @@ const SectionWrapper = ({ children, title, id, className = '', kicker, lead, act
           {kicker && <SectionLabel className="mb-3">{kicker}</SectionLabel>}
           <div className="mb-3">
             <div className="flex items-end justify-between flex-wrap gap-3">
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">{title}</h2>
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight">{title}</h2>
               {action}
             </div>
             <div className="mt-3 h-1 w-14 bg-primary rounded-full" />
@@ -181,9 +181,6 @@ const GeoFactCard = () => {
 
   return (
     <div className="mb-10 rounded-2xl border border-primary/40 bg-background p-6 flex items-start gap-4">
-      <div className="shrink-0 w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-        <Lightbulb className="w-6 h-6" />
-      </div>
       <div className="flex-1 min-w-0">
         <div className="text-xs font-semibold tracking-widest text-primary/80 uppercase mb-1">地理冷知识</div>
         <p className="font-serif text-lg font-bold leading-snug">{fact.q}</p>
@@ -308,7 +305,7 @@ const Home = () => {
               <h1 className="text-3xl md:text-4xl font-bold tracking-tight leading-snug">
                 一个自助探索的地理知识库
               </h1>
-              <p className="mt-5 text-base md:text-lg text-muted-foreground leading-relaxed">
+              <p className="mt-5 text-sm md:text-base text-muted-foreground leading-relaxed">
                 自然、人文、区域、GIS 四大方向，把讲不透的地理知识讲透、讲活——
                 词条随手可查，地图随时可玩，资料即下即用。
               </p>
@@ -320,22 +317,22 @@ const Home = () => {
             </div>
 
             {/* 啊哈时刻单一引导：与「地理冷知识」卡同宽（占满内容列，不局限 max-w-3xl） */}
-            <div className="mt-8 flex flex-col gap-4 rounded-2xl border border-primary/30 bg-gradient-to-r from-primary/10 to-secondary/10 p-5 sm:flex-row sm:items-center">
+            <div className="mt-8 flex flex-col gap-4 rounded-2xl border border-primary/30 bg-gradient-to-r from-primary/10 to-secondary/10 p-4 sm:flex-row sm:items-center">
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-semibold tracking-widest text-primary/80 uppercase">30 秒体验一下</p>
-                <p className="mt-1 text-lg font-bold leading-snug">看一张卫星图，猜这是哪座城市</p>
-                <p className="mt-1 text-sm text-muted-foreground">无需注册，打开就能玩——你熟悉的那座城市，换个角度还认得出来吗？</p>
+                <p className="mt-1 text-base font-bold leading-snug">看一张卫星图，猜这是哪座城市</p>
+                <p className="mt-1 text-xs text-muted-foreground">无需注册，打开就能玩——你熟悉的那座城市，换个角度还认得出来吗？</p>
               </div>
               <div className="flex shrink-0 gap-3">
                 <Link
                   to="/geoquiz"
-                  className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-transform hover:scale-[1.03]"
+                  className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-primary/25 transition-transform hover:scale-[1.03]"
                 >
                   开始挑战 <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
                   to="/maps/cn-rivers"
-                  className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-5 py-2.5 text-sm font-medium transition-colors hover:border-primary/40"
+                  className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-xs font-medium transition-colors hover:border-primary/40"
                 >
                   或查一条河
                 </Link>
@@ -393,7 +390,6 @@ const Home = () => {
         return (
           <SectionWrapper
             id="maps"
-            kicker="可点 · 可搜 · 可查"
             title="互动地图"
             lead="把真实地理数据做成可以点、可以查的地图——从中国河网、省级行政区到全球水电与港口，点开图层就能读到背后的地理故事。"
             action={
@@ -474,7 +470,6 @@ const Home = () => {
         return (
           <SectionWrapper
             id="downloads"
-            kicker="资料合集"
             title="资料下载"
             lead="板牙整理的地图素材与数据集——地图类可直接下载，PDF / 压缩包等需关注公众号【那山那海那座城】后凭验证码解锁。"
             action={
@@ -546,7 +541,6 @@ const Home = () => {
 
             <SectionWrapper
               id="learn"
-              kicker="地理知识库"
               title="按学科探索地理"
               lead="从自然地理到 GIS 技术，按学科与专题组织成可检索的自助知识库——随时来翻、随手可读。"
               action={
@@ -788,8 +782,7 @@ const Home = () => {
                   viewport={{ once: true }}
                   whileHover={{ rotate: 360, transition: { duration: 0.8 } }}
                 />
-                <div className="text-center md:text-left space-y-3 flex-1">
-                  <h3 className="text-xl md:text-2xl font-bold">星球小捕手</h3>
+                <div className="text-center md:text-left flex-1">
                   <p className="text-muted-foreground text-base leading-relaxed">
                     一个专注于地球科学的独立创作者品牌。我们用数据讲述地球变化，用地图发现世界的温度——从南极冰盖消融到城市交通脉络，从古代文明的水利智慧到未来海平面的模拟预测，致力于让专业的地理知识变得直观、有趣、触手可及。
                   </p>

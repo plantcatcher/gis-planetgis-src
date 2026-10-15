@@ -65,7 +65,7 @@ const HomeSidebar: React.FC<{
   }
 
   return (
-    <aside className="hidden lg:block lg:sticky lg:top-24 self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:overscroll-contain lg:border-r lg:border-border/60 lg:pr-5 py-8">
+    <aside className="hidden lg:block lg:sticky lg:top-24 self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto lg:overscroll-contain lg:border-r lg:border-border/60 lg:pr-5 pb-8">
       {/* 检索 */}
       <form
         onSubmit={(e) => {

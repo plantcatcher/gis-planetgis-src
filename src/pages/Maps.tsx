@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Map as MapIcon, ArrowRight, Layers, Database, Square, LayoutGrid, List, Flame } from 'lucide-react';
+import { Map as MapIcon, ArrowRight, Layers, Database, Square, LayoutGrid, List, Flame, Search, X } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import FilterChips from '@/components/common/FilterChips';
 import Pagination from '@/components/common/Pagination';
+import { Input } from '@/components/ui/input';
+import { useSearchTracking } from '@/hooks/use-search-tracking';
 import { getMaps, getWorkTopics, getWorkScopes, type ContentItem } from '@/lib/content';
 import { getVizMap, type VizMap } from '@/lib/vizmaps';
 
@@ -56,6 +58,9 @@ const Maps: React.FC = () => {
   const [mode, setMode] = useState<ViewMode>('simple');
   // 默认按热度（近 30 天 GA4 浏览量）降序，与资料下载页一致；可切回最新。
   const [sortMode, setSortMode] = useState<'latest' | 'heat'>('heat');
+  // 关键词搜索：叠加在主题/地域筛选之上（两者正交组合）
+  const [search, setSearch] = useState('');
+  useSearchTracking(search, 'maps');
 
   // 细分筛选：主题（topic）+ 地域（scope），两维正交，均由 content/maps/<slug>.md
   // 的 frontmatter（topics / scope）驱动——写什么就筛什么，新增地图不用改本页。
@@ -66,7 +71,27 @@ const Maps: React.FC = () => {
 
   const hitTopic = (w: ContentItem, t: string) => t === '全部' || (w.topics || []).includes(t);
   const hitScope = (w: ContentItem, s: string) => s === '全部' || w.scope === s;
-  const filtered = maps.filter(({ work }) => hitTopic(work, topic) && hitScope(work, scope));
+  // 关键词命中：标题 / 简介 / 分类 / 地域 / 主题 / 标签 / 数据源，任一包含即命中（不区分大小写）。
+  const hitSearch = (w: ContentItem, m: VizMap | undefined, q: string) => {
+    const needle = q.trim().toLowerCase();
+    if (!needle) return true;
+    const haystack = [
+      w.title,
+      w.summary,
+      w.category,
+      w.scope,
+      (w.topics || []).join(' '),
+      (w.tags || []).join(' '),
+      m?.source,
+    ]
+      .filter(Boolean)
+      .join(' ')
+      .toLowerCase();
+    return haystack.includes(needle);
+  };
+  const filtered = maps.filter(
+    ({ work, asset }) => hitSearch(work, asset, search) && hitTopic(work, topic) && hitScope(work, scope),
+  );
 
   // 排序：最新=上线日期倒序（date 写在 content/maps/<slug>.md 的 frontmatter）；
   // 热度=近 30 天 GA4 浏览量降序。两者都以日期做并列回退，无日期的条目沉底。
@@ -86,7 +111,7 @@ const Maps: React.FC = () => {
   const pageItems = sorted.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
   useEffect(() => {
     setPage(1);
-  }, [topic, scope, sortMode]);
+  }, [topic, scope, sortMode, search]);
 
   // 分面计数：某个主题的条数按「当前地域」算，某个地域的条数按「当前主题」算
   const topicChips = topics.map(({ name }) => ({
@@ -97,7 +122,7 @@ const Maps: React.FC = () => {
     name,
     count: maps.filter(({ work }) => hitTopic(work, topic) && hitScope(work, name)).length,
   }));
-  const narrowed = topic !== '全部' || scope !== '全部';
+  const narrowed = topic !== '全部' || scope !== '全部' || search.trim() !== '';
 
   const compact = mode === 'simple';
 
@@ -122,6 +147,28 @@ const Maps: React.FC = () => {
             </p>
           </header>
 
+          {/* ── 搜索框：按名称 / 简介 / 主题 / 地域 / 标签 / 数据源检索 ── */}
+          <div className="relative mb-6">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="搜索地图名称、主题或数据源…"
+              aria-label="搜索互动地图"
+              className="pl-9 pr-9 rounded-full text-sm"
+            />
+            {search && (
+              <button
+                type="button"
+                onClick={() => setSearch('')}
+                aria-label="清空搜索"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+
           {/* ── 细分筛选：主题 / 地域 ──────────────────────────────── */}
           <div className="space-y-3 mb-6">
             <FilterChips label="主题" items={topicChips} active={topic} onChange={setTopic} allCount={maps.filter(({ work }) => hitScope(work, scope)).length} />
@@ -136,12 +183,14 @@ const Maps: React.FC = () => {
                 <>
                   <span className="mx-1.5 text-border">|</span>
                   <span>
-                    已筛选{scope !== '全部' && ` · ${scope}`}
+                    已筛选{search.trim() && ` · “${search.trim()}”`}
+                    {scope !== '全部' && ` · ${scope}`}
                     {topic !== '全部' && ` · ${topic}`}
                   </span>
                   <button
                     type="button"
                     onClick={() => {
+                      setSearch('');
                       setTopic('全部');
                       setScope('全部');
                     }}
@@ -196,7 +245,11 @@ const Maps: React.FC = () => {
           {maps.length === 0 ? (
             <p className="text-muted-foreground">地图正在路上，敬请期待。</p>
           ) : filtered.length === 0 ? (
-            <p className="text-muted-foreground">这个组合下暂时没有地图，换个主题或地域看看。</p>
+            <p className="text-muted-foreground">
+              {search.trim()
+                ? `没有匹配“${search.trim()}”的地图，换个关键词或清空筛选试试。`
+                : '这个组合下暂时没有地图，换个主题或地域看看。'}
+            </p>
           ) : mode === 'list' ? (
             /* 列表模式 */
             <div className="space-y-3">
