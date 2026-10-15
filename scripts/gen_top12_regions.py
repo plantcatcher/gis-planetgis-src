@@ -6,7 +6,7 @@
     public/maps/<slug>/data/{provinces,districts}.geojson
     public/maps/<slug>/js/config.js
     public/maps/<slug>/index.html
-    content/works/<slug>.md
+    content/maps/<slug>.md               （互动地图：放 maps，不放 works）
     content/downloads/gadm41-<iso>-shp.md   (gated + 验证码 NSH-GADM-999；>20MB 百度网盘 / <20MB CF R2 直链)
     src/data/vizmaps.json 追加 12 条登记
 封面由 _g/gen_top12_covers.py 另跑（系统 Python，含 matplotlib），再传图床。
@@ -23,12 +23,17 @@ R2_BASE = "https://downloads.planetgis.cn/GIS"
 # 验证码批次共用（第二批起 NSH-GADM-999）
 CODE = "NSH-GADM-999"
 
+# md frontmatter 的发布日期（与 vizmaps 的 updated 保持一致；每批发布前改这一处即可）
+GEN_DATE = "2026-10-15"
+
 # 百度网盘链接（用户提供的 >20MB 四国）。key=cc(小写)，value=(完整链接含pwd, 提取码)
 BAIDU = {
     "tha": ("https://pan.baidu.com/s/1WgvcOSPdMIA9E0GngYHRvg?pwd=vjkd", "vjkd"),
     "mex": ("https://pan.baidu.com/s/1mOICLNbIqbjsiGVDhCcDpg?pwd=q7v3", "q7v3"),
     "ken": ("https://pan.baidu.com/s/1xBMSKelc6HjI_E_5aumOtw?pwd=x729", "x729"),
     "col": ("https://pan.baidu.com/s/1udUMtf13Um38e9oWKs1fcw?pwd=2nmh", "2nmh"),
+    "prt": ("https://pan.baidu.com/s/1uQOXmxFN2_qSn9zAbgGNYg?pwd=9asi", "9asi"),
+    "chl": ("https://pan.baidu.com/s/1To_H1_GuETX8iCkPX9BEJA?pwd=w2t8", "w2t8"),
 }
 # 体积阈值（MB）：> 此值走百度网盘，<= 此值走 CF R2 直链
 SIZE_THRESHOLD_MB = 20.0
@@ -97,6 +102,37 @@ META = {
                 blurb="南美洲西北部的国家，32 个省 + 波哥大首都区，安第斯三纵列、咖啡与加勒比海岸。",
                 note="按<b>人口</b>着色：波哥大、安蒂奥基亚（麦德林）、山谷（卡利）等安第斯诸省密集，东南部的亚马孙等省份稀疏。",
                 read="哥伦比亚一级政区按人口着色，安第斯山脉沿线的波哥大、安蒂奥基亚、山谷三省明显偏重，东南部的亚马孙、沃佩斯等雨林省一眼空旷。切到「类型」看，主体是「省(Departamento)」，波哥大是首都区。"),
+    # ── 批次 A（NSH-GIS-055 ~ 060，2026-10-15 新增）──
+    "lao": dict(slug="lao-regions", zh="老挝", en="Laos", eyebrow="LAOS · PROVINCES",
+                role="省 / 直辖市 / 特别区", sub="县", accent="#e0524f", dark="#240c0b",
+                blurb="中南半岛内陆国，中老铁路打通陆锁国出海口；18 个一级行政区（16 省 + 万象直辖市 + 赛松本特别区），湄公河纵贯、山地与热带季风。",
+                note="按<b>人口</b>着色：万象直辖市与湄公河沿岸的沙湾拿吉、占巴塞等省份密集，北部丰沙里、华潘等山地省份明显偏疏。",
+                read="老挝一级政区按人口着色，万象与湄公河沿岸的沙湾拿吉、占巴塞一带偏重，北部的丰沙里、华潘等山地省份明显偏冷。中老铁路从云南直通万象，把这条「陆锁国」走廊点亮——切到「类型」看，除「省(Khoueng)」外还有万象直辖市与赛松本特别区。"),
+    "grc": dict(slug="grc-regions", zh="希腊", en="Greece", eyebrow="GREECE · REGIONS",
+                role="权力下放管理局", sub="大区", accent="#0e7c86", dark="#06201f",
+                blurb="巴尔干南端、爱琴海半岛国家，8 个权力下放管理局统辖 14 个大区；西方文明的发源地，东地中海地缘与旅游的交汇点。",
+                note="按<b>人口</b>着色：阿提卡（雅典）权力下放管理局极度密集，爱琴海诸岛与伯罗奔尼撒等明显偏疏。",
+                read="希腊一级政区按人口着色，阿提卡（雅典都会圈）像一颗孤星般突出，整个爱琴海与伯罗奔尼撒明显偏冷。作为西方文明与东地中海地缘的交汇点，它的 8 个权力下放管理局之下还统辖着 14 个大区——勾选「大区」即可展开看熟悉的希腊版图。"),
+    "jor": dict(slug="jor-regions", zh="约旦", en="Jordan", eyebrow="JORDAN · GOVERNORATES",
+                role="省", sub="区", accent="#c0792b", dark="#241603",
+                blurb="中东稳定王国，扼约旦河与红海亚喀巴湾；12 个省，佩特拉古城、死海与难民地缘焦点。",
+                note="按<b>人口</b>着色：安曼、伊尔比德等西北部省份密集，南部与东部沙漠省（马安、亚喀巴周边）人口稀疏。",
+                read="约旦 12 个省按人口着色，西北部的安曼、伊尔比德一带密集成团，而南部、东部的沙漠省份一眼空旷。作为中东的稳定样板，亚喀巴湾出海口与佩特拉古城都在它的版图之内。"),
+    "npl": dict(slug="npl-regions", zh="尼泊尔", en="Nepal", eyebrow="NEPAL · DEVELOPMENT REGIONS",
+                role="发展区", sub="行政区", accent="#2f7d32", dark="#07210a",
+                blurb="喜马拉雅南麓的山国，与中国接壤；GADM 4.1 沿用 2015 年前的区划框架，5 个发展区统辖 14 个行政区，珠峰与徒步圣地。",
+                note="按<b>人口</b>着色：中部（含加德满都谷地的发展区）极度密集，西部与远西部发展区明显偏疏。",
+                read="尼泊尔一级政区按人口着色，中部的加德满都谷地一带明显偏重，向西向北迅速沉入喜马拉雅与丘陵的空旷。作为与中国接壤的山国，珠峰在其境内——切到「类型」看，5 个「发展区」是 GADM 沿用的 2015 年前区划框架，其下还统辖 14 个行政区。"),
+    "prt": dict(slug="prt-regions", zh="葡萄牙", en="Portugal", eyebrow="PORTUGAL · DISTRICTS",
+                role="区 / 自治区", sub="自治市", accent="#1b6ca8", dark="#07182a",
+                blurb="伊比利亚西端、大西洋岸的国家，20 个一级行政区（18 区 + 亚速尔、马德拉 2 个自治区），历史航海帝国、葡萄酒与阳光海岸。",
+                note="按<b>人口</b>着色：里斯本、波尔图两大都会区密集，内陆中部与南部（阿连特茹）稀疏，大西洋上的亚速尔、马德拉自治区地广人稀。",
+                read="葡萄牙一级政区按人口着色，西部的里斯本、北部的波尔图两大都会像两团热源，内陆的阿连特茹与大西洋上的亚速尔、马德拉自治区则偏冷。作为曾经的航海帝国，它的一级政区中还有亚速尔、马德拉两个自治区。"),
+    "chl": dict(slug="chl-regions", zh="智利", en="Chile", eyebrow="CHILE · REGIONS",
+                role="大区", sub="省", accent="#d8335b", dark="#240a14",
+                blurb="南美洲西南的狭长国家，16 个大区（含圣地亚哥首都大区），安第斯山脉、阿塔卡马沙漠与火山带纵贯。",
+                note="按<b>人口</b>着色：圣地亚哥首都大区极度密集，中部河谷大区次之，北部阿塔卡马沙漠与南部巴塔哥尼亚人烟极稀。",
+                read="智利 16 个大区按人口着色，圣地亚哥首都大区像一颗超新星般突出，向北的阿塔卡马沙漠、向南的巴塔哥尼亚迅速沉入空旷。这条沿安第斯山脉展开的狭长国，一级大区之下还有省二级框架。"),
 }
 
 # ENGTYPE_1 → 中文分组（覆盖 GADM 常见取值；未命中保留英文）
@@ -128,6 +164,11 @@ ENG_OVERRIDE = {
     "mex": {"estado": "州", "ciudad": "联邦区"},
     "uzb": {"viloyat": "州", "republic": "共和国", "shahar": "市", "region": "州", "autononous region": "自治共和国", "city": "市"},
     "khm": {"province": "省", "municipality": "直辖市"},
+    "lao": {"province": "省", "municipality|prefecture": "直辖市", "special region|zone": "特别区"},
+    "grc": {"decentralized administration": "权力下放管理局"},
+    "npl": {"development region": "发展区"},
+    "prt": {"'autonomous region'": "自治区"},
+    "chl": {"region": "大区", "metropolian region": "大区"},
 }
 
 GROUP_PALETTE = ["#e6194b","#3cb44b","#4363d8","#f58231","#911eb4","#46f0f0","#f032e6",
@@ -434,7 +475,7 @@ def make_index_html(m, slug, L1n, L2n, area_total, groups, hasSub):
       </section>
 
       <div class="intro-nav">
-        <a href="/works/{slug}" target="_top">作品介绍</a>
+        <a href="/maps/{slug}" target="_top">作品介绍</a>
         <a href="/downloads/gadm41-{m['slug'].split('-')[0]}-shp" target="_top">下载源数据</a>
         <a href="/maps" target="_top">全部地图</a>
       </div>
@@ -496,7 +537,7 @@ def make_index_html(m, slug, L1n, L2n, area_total, groups, hasSub):
 </html>
 '''
 
-def make_works_md(m, slug, L1n, L2n, area_total, groups, hasSub):
+def make_map_md(m, slug, L1n, L2n, area_total, groups, hasSub):
     cc = slug.split("-")[0]
     area_wan = area_total / 1e4
     sub_para = (f'不满足于一级？勾选左下角「{m["sub"]}」，展开 **{L2n} 个{m["sub"]}**看省以下的行政区划。\n\n' if hasSub else '')
@@ -506,10 +547,10 @@ slug: {slug}
 title: {m['zh']}行政区划地图
 cover: /maps/{slug}/vizmap-{slug}-cover.jpg
 summary: 点一下{m['zh']}地图，看 {L1n} 个{m['role']}的中文名、首府、人口、面积与行政区类型；可在「人口 / 面积 / 类型」之间切换着色{l2_line}。边界数据来自 GADM 4.1。
-link: /maps/{slug}
+link: /maps/{slug}/full
 order: 30
+date: {GEN_DATE}
 category: 互动地图
-series: map
 topics: 行政区划
 scope: 世界
 tags: {m['zh']},行政区划,{m['en']},人口,面积,类型,互动地图,地理可视化,GADM
@@ -660,7 +701,7 @@ def make_downloads_md(m, slug, cc, L1n, L2n, area_total, zip_bytes, hasSub):
 slug: gadm41-{cc}-shp
 title: GADM 4.1 {m['zh']}行政区划矢量数据 SHP（国界 / {m['role']}{(' / ' + m['sub']) if hasSub else ''}，WGS84）
 summary: GADM 4.1 {m['zh']}行政区划数据集，含国界、{L1n} 个{m['role']}{('、' + str(L2n) + ' 个' + m['sub']) if hasSub else ''}的 Shapefile，WGS84 地理坐标系，可直接用于 QGIS / ArcGIS / Python 空间分析与制图。
-date: 2026-10-14
+date: 2026-10-15
 category: 地理数据
 group: 地理数据
 region: 国外
@@ -839,8 +880,8 @@ def process(cc, m):
         make_config_js(m, slug, view, bnd, extent, groups, group_colors))
     open(os.path.join(map_dir, "index.html"), "w", encoding="utf-8").write(
         make_index_html(m, slug, L1n, L2n, area_total, groups, hasSub))
-    open(os.path.join(ROOT, "content", "works", f"{slug}.md"), "w", encoding="utf-8").write(
-        make_works_md(m, slug, L1n, L2n, area_total, groups, hasSub))
+    open(os.path.join(ROOT, "content", "maps", f"{slug}.md"), "w", encoding="utf-8").write(
+        make_map_md(m, slug, L1n, L2n, area_total, groups, hasSub))
     zip_path = os.path.join(BASE, f"gadm41_{cc.upper()}_shp.zip")
     zip_bytes = os.path.getsize(zip_path) if os.path.exists(zip_path) else 0
     open(os.path.join(ROOT, "content", "downloads", f"gadm41-{cc}-shp.md"), "w", encoding="utf-8").write(
@@ -859,11 +900,41 @@ def process(cc, m):
                 s1=s1, s2=s2, groups=groups, view=view, bnd=bnd, group_colors=group_colors,
                 hasSub=hasSub)
 
+def _dump_json(o, ind=0):
+    """自定义序列化：短数字数组保持单行，其余按 json 规范缩进 2 空格。
+    仅用于把新条目以文本方式插入 vizmaps.json，避免 json.dump 整体重写既有排版。"""
+    pad = "  " * ind
+    if isinstance(o, dict):
+        if not o:
+            return "{}"
+        lines = ["{"]
+        keys = list(o.keys())
+        for i, k in enumerate(keys):
+            comma = "," if i < len(keys) - 1 else ""
+            lines.append(f'{pad}  {json.dumps(k, ensure_ascii=False)}: {_dump_json(o[k], ind + 1)}{comma}')
+        lines.append(pad + "}")
+        return "\n".join(lines)
+    if isinstance(o, list):
+        if not o:
+            return "[]"
+        if all(isinstance(x, (int, float)) for x in o) and len(o) <= 8:
+            return "[" + ", ".join(json.dumps(x, ensure_ascii=False) for x in o) + "]"
+        lines = ["["]
+        for i, v in enumerate(o):
+            comma = "," if i < len(o) - 1 else ""
+            lines.append(f'{pad}  {_dump_json(v, ind + 1)}{comma}')
+        lines.append(pad + "]")
+        return "\n".join(lines)
+    return json.dumps(o, ensure_ascii=False)
+
 def append_vizmaps(results):
+    """文本级插入新条目：已有条目一个字节都不改（禁 json.dump 整体重写，会污染人工排版）。"""
     vp = os.path.join(ROOT, "src", "data", "vizmaps.json")
-    data = json.load(open(vp, encoding="utf-8"))
+    with open(vp, encoding="utf-8") as f:
+        raw = f.read()
+    data = json.loads(raw)
     existing = {m["slug"] for m in data["maps"]}
-    added = 0
+    new_items = []
     for r in results:
         if not r or r["slug"] in existing:
             continue
@@ -875,7 +946,7 @@ def append_vizmaps(results):
             "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
             "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
             "source": f"GADM 4.1（gadm41_{cc}_shp，WGS84 / EPSG:4326，公开数据）：{r['L1n']} 个一级行政区（{r['zh']}）边界 + {r['L2n']} 个二级区划。中文名 / 首府 / 人口为人工整理近似值；面积由几何球面实算。",
-            "updated": "2026-10-14",
+            "updated": GEN_DATE,
             "data": [
                 {"file": f"maps/{r['slug']}/data/provinces.geojson", "features": r["L1n"], "unit": "个一级行政区",
                  "desc": f"{r['L1n']} 个一级行政区边界；属性含中文名 / 英文名 / 首府 / 人口 / 几何实算面积 / 行政区类型"},
@@ -883,10 +954,21 @@ def append_vizmaps(results):
                  "desc": f"{r['L2n']} 个二级区划边界，可作为叠加图层查看最基层行政区划；属性含所属一级中文名"}
             ]
         }
-        data["maps"].append(entry)
-        added += 1
-    json.dump(data, open(vp, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
-    print(f"vizmaps.json 追加 {added} 条（总计 {len(data['maps'])}）")
+        new_items.append(entry)
+    if not new_items:
+        print("vizmaps.json 无新增条目")
+        return
+    marker = "  }\n]\n}"
+    if not raw.rstrip().endswith(marker):
+        raise SystemExit("!! vizmaps.json 末尾形态不符（应为 '  }\\n]\\n}' 结尾），先人工确认再插入")
+    head = raw.rstrip()[: -len(marker)]
+    blocks = ",\n".join("  " + _dump_json(m, 1).lstrip() for m in new_items)
+    out = head + "  },\n" + blocks + "\n]\n}\n"
+    with open(vp, "w", encoding="utf-8") as f:
+        f.write(out)
+    check = json.load(open(vp, encoding="utf-8"))
+    assert len(check["maps"]) == len(data["maps"]) + len(new_items), "vizmaps.json 回读校验失败"
+    print(f"vizmaps.json 文本级追加 {len(new_items)} 条（总计 {len(check['maps'])}）")
 
 if __name__ == "__main__":
     print("=" * 60)

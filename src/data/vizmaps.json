@@ -1601,6 +1601,144 @@
         "desc": "1118 个二级区划边界，可作为叠加图层查看最基层行政区划；属性含所属一级中文名"
       }
     ]
+  },
+  {
+    "slug": "lao-regions",
+    "entry": "/maps/lao-regions/index.html",
+    "bbox": [100.41, 14.12, 107.56, 22.38],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_LAO_shp，WGS84 / EPSG:4326，公开数据）：18 个一级行政区（老挝）边界 + 142 个二级区划。中文名 / 首府 / 人口为人工整理近似值；面积由几何球面实算。",
+    "updated": "2026-10-15",
+    "data": [
+      {
+        "file": "maps/lao-regions/data/provinces.geojson",
+        "features": 18,
+        "unit": "个一级行政区",
+        "desc": "18 个一级行政区边界；属性含中文名 / 英文名 / 首府 / 人口 / 几何实算面积 / 行政区类型"
+      },
+      {
+        "file": "maps/lao-regions/data/districts.geojson",
+        "features": 142,
+        "unit": "个二级区划",
+        "desc": "142 个二级区划边界，可作为叠加图层查看最基层行政区划；属性含所属一级中文名"
+      }
+    ]
+  },
+  {
+    "slug": "grc-regions",
+    "entry": "/maps/grc-regions/index.html",
+    "bbox": [19.88, 35.0, 27.86, 41.5],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_GRC_shp，WGS84 / EPSG:4326，公开数据）：8 个一级行政区（希腊）边界 + 14 个二级区划。中文名 / 首府 / 人口为人工整理近似值；面积由几何球面实算。",
+    "updated": "2026-10-15",
+    "data": [
+      {
+        "file": "maps/grc-regions/data/provinces.geojson",
+        "features": 8,
+        "unit": "个一级行政区",
+        "desc": "8 个一级行政区边界；属性含中文名 / 英文名 / 首府 / 人口 / 几何实算面积 / 行政区类型"
+      },
+      {
+        "file": "maps/grc-regions/data/districts.geojson",
+        "features": 14,
+        "unit": "个二级区划",
+        "desc": "14 个二级区划边界，可作为叠加图层查看最基层行政区划；属性含所属一级中文名"
+      }
+    ]
+  },
+  {
+    "slug": "jor-regions",
+    "entry": "/maps/jor-regions/index.html",
+    "bbox": [34.97, 29.26, 39.06, 32.75],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_JOR_shp，WGS84 / EPSG:4326，公开数据）：12 个一级行政区（约旦）边界 + 52 个二级区划。中文名 / 首府 / 人口为人工整理近似值；面积由几何球面实算。",
+    "updated": "2026-10-15",
+    "data": [
+      {
+        "file": "maps/jor-regions/data/provinces.geojson",
+        "features": 12,
+        "unit": "个一级行政区",
+        "desc": "12 个一级行政区边界；属性含中文名 / 英文名 / 首府 / 人口 / 几何实算面积 / 行政区类型"
+      },
+      {
+        "file": "maps/jor-regions/data/districts.geojson",
+        "features": 52,
+        "unit": "个二级区划",
+        "desc": "52 个二级区划边界，可作为叠加图层查看最基层行政区划；属性含所属一级中文名"
+      }
+    ]
+  },
+  {
+    "slug": "npl-regions",
+    "entry": "/maps/npl-regions/index.html",
+    "bbox": [80.25, 26.41, 88.14, 30.38],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_NPL_shp，WGS84 / EPSG:4326，公开数据）：5 个一级行政区（尼泊尔）边界 + 14 个二级区划。中文名 / 首府 / 人口为人工整理近似值；面积由几何球面实算。",
+    "updated": "2026-10-15",
+    "data": [
+      {
+        "file": "maps/npl-regions/data/provinces.geojson",
+        "features": 5,
+        "unit": "个一级行政区",
+        "desc": "5 个一级行政区边界；属性含中文名 / 英文名 / 首府 / 人口 / 几何实算面积 / 行政区类型"
+      },
+      {
+        "file": "maps/npl-regions/data/districts.geojson",
+        "features": 14,
+        "unit": "个二级区划",
+        "desc": "14 个二级区划边界，可作为叠加图层查看最基层行政区划；属性含所属一级中文名"
+      }
+    ]
+  },
+  {
+    "slug": "prt-regions",
+    "entry": "/maps/prt-regions/index.html",
+    "bbox": [-31.1, 32.73, -6.57, 41.97],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_PRT_shp，WGS84 / EPSG:4326，公开数据）：20 个一级行政区（葡萄牙）边界 + 308 个二级区划。中文名 / 首府 / 人口为人工整理近似值；面积由几何球面实算。",
+    "updated": "2026-10-15",
+    "data": [
+      {
+        "file": "maps/prt-regions/data/provinces.geojson",
+        "features": 20,
+        "unit": "个一级行政区",
+        "desc": "20 个一级行政区边界；属性含中文名 / 英文名 / 首府 / 人口 / 几何实算面积 / 行政区类型"
+      },
+      {
+        "file": "maps/prt-regions/data/districts.geojson",
+        "features": 308,
+        "unit": "个二级区划",
+        "desc": "308 个二级区划边界，可作为叠加图层查看最基层行政区划；属性含所属一级中文名"
+      }
+    ]
+  },
+  {
+    "slug": "chl-regions",
+    "entry": "/maps/chl-regions/index.html",
+    "bbox": [-75.51, -55.59, -67.57, -21.28],
+    "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "basemap": "Esri World Imagery 卫星影像（server.arcgisonline.com，默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，境外空白故不用",
+    "source": "GADM 4.1（gadm41_CHL_shp，WGS84 / EPSG:4326，公开数据）：16 个一级行政区（智利）边界 + 55 个二级区划。中文名 / 首府 / 人口为人工整理近似值；面积由几何球面实算。",
+    "updated": "2026-10-15",
+    "data": [
+      {
+        "file": "maps/chl-regions/data/provinces.geojson",
+        "features": 16,
+        "unit": "个一级行政区",
+        "desc": "16 个一级行政区边界；属性含中文名 / 英文名 / 首府 / 人口 / 几何实算面积 / 行政区类型"
+      },
+      {
+        "file": "maps/chl-regions/data/districts.geojson",
+        "features": 55,
+        "unit": "个二级区划",
+        "desc": "55 个二级区划边界，可作为叠加图层查看最基层行政区划；属性含所属一级中文名"
+      }
+    ]
   }
 ]
 }

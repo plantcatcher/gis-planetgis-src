@@ -13,7 +13,10 @@ from enrich_top12_meta import META
 COUNTRIES = [('tha','tha-regions'),('mex','mex-regions'),('ita','ita-regions'),
              ('cod','cod-regions'),('ken','ken-regions'),('uzb','uzb-regions'),
              ('khm','khm-regions'),('mmr','mmr-regions'),('mar','mar-regions'),
-             ('tza','tza-regions'),('gha','gha-regions'),('col','col-regions')]
+             ('tza','tza-regions'),('gha','gha-regions'),('col','col-regions'),
+             # 第三批：南欧 / 中东 / 东南亚 / 南亚 / 南美
+             ('lao','lao-regions'),('grc','grc-regions'),('jor','jor-regions'),
+             ('npl','npl-regions'),('prt','prt-regions'),('chl','chl-regions')]
 
 def dump(path, obj):
     with open(path, 'w', encoding='utf-8') as f:
