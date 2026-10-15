@@ -9,10 +9,11 @@ import { buildContentKey } from '@/services/learningService';
 import LearningTracker from '@/components/learning/LearningTracker';
 import FavoriteButton from '@/components/learning/FavoriteButton';
 import ShareButton from '@/components/common/ShareButton';
+import RewardCallout from '@/components/common/RewardCallout';
 import { useJsonLd } from '@/lib/seo';
 import { useImageLightbox, ImageLightbox } from '@/components/common/ImageLightbox';
 import NotFound from './NotFound';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ExternalLink, BookOpen, Layers, Wrench, Gamepad2, FileText, Map } from 'lucide-react';
 import { PageViewCount } from '@/lib/busuanzi';
 import FactBox from '@/components/knowledge/FactBox';
 import SeeAlso from '@/components/knowledge/SeeAlso';
@@ -30,6 +31,17 @@ const typeLabel: Record<ContentType, string> = {
   article: '文章',
   learn: '地理知识库',
   resource: '资料下载',
+};
+
+// 相关推荐卡片的分类图标，与【互动地图】【地理小游戏】卡片风格一致
+const REL_ICON: Record<ContentType, React.ComponentType<{ className?: string }>> = {
+  work: Layers,
+  map: Map,
+  game: Gamepad2,
+  tool: Wrench,
+  article: FileText,
+  learn: BookOpen,
+  resource: FileText,
 };
 
 const basePath: Record<ContentType, string> = { ...BASE_PATH };
@@ -308,7 +320,7 @@ export default function ContentDetail({ type }: Props) {
 
   const label = typeLabel[type];
   const contentKey = buildContentKey(type, item.slug);
-  const related = getRelated(type, item.slug, 3);
+  const related = getRelated(type, item.slug, 6);
   const toc = type === 'article' || type === 'learn' ? extractHeadings(item.body) : [];
   const infobox = buildInfobox(item);
   const seeAlso = getSeeAlso(item, 5);
@@ -445,19 +457,24 @@ export default function ContentDetail({ type }: Props) {
       )}
 
       {item.link && !(boardKey && boardCfg) && (
-        <div className="mt-10 p-5 rounded-2xl bg-primary/5 border border-primary/10">
+        <div className="mt-10">
           <a
             href={item.link}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1 text-primary font-medium hover:underline"
+            className="group inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-primary/90 hover:shadow-md"
           >
-            访问在线版本 / 查看原文 →
+            <ExternalLink className="w-4 h-4" />
+            访问在线版本 / 查看原文
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
           </a>
         </div>
       )}
 
-      {boardKey && boardCfg ? (
+      {/* 文末赞赏引导：仅文章/学习长文页，读者读完正文情绪最高点转化最佳 */}
+      {(type === 'article' || type === 'learn') && <RewardCallout />}
+
+      {boardKey && boardCfg && (
         <SeriesFooterBlock
           cfg={boardCfg}
           item={item}
@@ -466,38 +483,8 @@ export default function ContentDetail({ type }: Props) {
           next={boardNext}
           base={boardBase}
         />
-      ) : (
-        related.length > 0 && (
-          <section className="mt-12 pt-8 border-t border-border/50">
-            <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-              <ArrowRight className="w-5 h-5 text-primary" />
-              {type === 'work' ? '相关作品' : type === 'tool' ? '相关工具' : type === 'learn' ? '相关学习' : '相关文章'}
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {related.map((r) => (
-                <Link
-                  key={r.slug}
-                  to={`/${basePath[type]}/${r.slug}`}
-                  className="group block p-4 rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 transition-all"
-                >
-                  <CoverImage
-                    cover={r.cover}
-                    title={r.title}
-                    lazy
-                    className="h-32 rounded-lg mb-3"
-                  />
-                  <span className="text-sm font-medium group-hover:text-primary transition-colors line-clamp-2">
-                    {r.title}
-                  </span>
-                  {r.date && (
-                    <span className="block mt-1 text-xs text-muted-foreground">{r.date}</span>
-                  )}
-                </Link>
-              ))}
-            </div>
-          </section>
-        )
       )}
+
         </article>
         <aside className="hidden lg:block">
           <div className="sticky top-24 space-y-6">
@@ -519,9 +506,66 @@ export default function ContentDetail({ type }: Props) {
               </div>
             )}
             <SeeAlso items={seeAlso} />
+
+            {/* 侧栏仅保留 FactBox / 本文大纲 / SeeAlso；相关学习已移到页面底部、跨两列全宽渲染 */}
           </div>
         </aside>
       </div>
+
+      {/* 相关学习：跨「正文列 + 侧栏列」全宽（容器 ≈1216px），左边界用 lg:pl-32(128px) 对齐正文左边界，向右一直铺到容器右缘，吃掉右侧空白；宽屏单行 6 张、窄屏降级 2-3 列。仅文章/学习长文页 */}
+      {(type === 'article' || type === 'learn') && related.length > 0 && (
+        <section className="mt-12 pt-8 border-t border-border/50 lg:pl-32">
+          <div className="mb-6 flex items-center justify-between gap-3">
+            <h2 className="text-xl font-bold flex items-center gap-2">
+              <ArrowRight className="w-5 h-5 text-primary" />
+              {type === 'work' ? '相关作品' : type === 'tool' ? '相关工具' : type === 'learn' ? '相关学习' : '相关文章'}
+            </h2>
+            <Link
+              to="/learn"
+              className="group inline-flex shrink-0 items-center gap-1 text-sm font-medium text-primary hover:underline"
+            >
+              浏览更多地理知识
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-5">
+            {related.map((r) => {
+              const RelIcon = REL_ICON[type];
+              return (
+                <Link
+                  key={r.slug}
+                  to={`/${basePath[type]}/${r.slug}`}
+                  className="group block overflow-hidden rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 hover:shadow-lg transition-all duration-300"
+                >
+                  <div className="aspect-video overflow-hidden">
+                    <CoverImage
+                      cover={r.cover}
+                      title={r.title}
+                      lazy
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                  <div className="p-3">
+                    <div className="flex items-center gap-1.5 mb-1.5 text-primary">
+                      <RelIcon className="w-3 h-3" />
+                      <span className="text-[11px] font-medium tracking-wide uppercase">
+                        {r.category || typeLabel[type]}
+                      </span>
+                    </div>
+                    <h3 className="text-[13px] font-semibold leading-snug line-clamp-2 group-hover:text-primary transition-colors">
+                      {r.title}
+                    </h3>
+                    <div className="mt-2 flex items-center gap-1 text-[11px] font-medium text-primary">
+                      阅读
+                      <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      )}
       </div>
     </>
   );

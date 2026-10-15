@@ -1,80 +1,66 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Globe } from 'lucide-react';
-import { getLearnSubjects, getLearnCategories } from '@/lib/content';
+import { Globe, Heart } from 'lucide-react';
 
 const Footer = () => {
-  const subjects = getLearnSubjects();
-  const categories = getLearnCategories();
   return (
-    <footer className="bg-muted py-12 px-4 border-t mt-16">
-      <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-8">
-        <div className="col-span-2 md:col-span-1">
-          <div className="flex items-center gap-2 mb-3">
-            <Globe className="w-6 h-6 text-primary" />
-            <span className="font-bold text-lg">星球小捕手</span>
+    <footer className="bg-muted border-t mt-16">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
+        {/* 三栏同排：品牌 / 关于 / 支持创作者。支持创作者做成独立卡片，视觉权重一致、转化突出 */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <Globe className="w-6 h-6 text-primary" />
+              <span className="font-bold text-lg">星球小捕手</span>
+            </div>
+            <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
+              致力于普及地理知识，探索地球奥秘——自然、人文、区域、GIS 四大方向的自助知识库。
+            </p>
           </div>
-          <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
-            致力于普及地理知识，探索地球奥秘——自然、人文、区域、GIS 四大方向的自助知识库。
-          </p>
+
+          <div>
+            <h4 className="font-semibold text-sm mb-3">关于</h4>
+            <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm text-muted-foreground">
+              <Link to="/about" className="hover:text-primary transition-colors">关于我们</Link>
+              <Link to="/privacy-policy" className="hover:text-primary transition-colors">隐私政策</Link>
+              <Link to="/changelog" className="hover:text-primary transition-colors">更新日志</Link>
+              <Link to="/terms" className="hover:text-primary transition-colors">服务条款</Link>
+              <Link to="/contact" className="hover:text-primary transition-colors">联系我们</Link>
+            </div>
+          </div>
+
+          <div className="md:justify-self-end w-full md:max-w-xs">
+            <div className="h-full rounded-2xl border border-border bg-background p-5 flex flex-col sm:flex-row items-center gap-4 shadow-sm">
+              <div className="flex-1 text-center sm:text-left">
+                <div className="inline-flex items-center gap-2 text-primary font-semibold mb-2">
+                  <Heart className="w-4 h-4" /> 支持创作者
+                </div>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  星球小捕手维护网站运行需要持续的成本投入。如果这里的地理内容帮到了你，欢迎用微信赞赏请作者喝杯咖啡。
+                </p>
+              </div>
+              <div className="shrink-0 flex flex-col items-center gap-1.5">
+                <div className="h-24 w-24 overflow-hidden rounded-lg border border-border bg-white p-1">
+                  <img
+                    src="/images/wechat-reward-qr.png"
+                    alt="微信赞赏码"
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+                <span className="text-[11px] text-muted-foreground">微信扫一扫 · 赞赏</span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div>
-          <h4 className="font-semibold text-sm mb-3">学科方向</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            {subjects.map((s) => (
-              <li key={s.name}>
-                <Link to={`/learn?subject=${encodeURIComponent(s.name)}`} className="hover:text-primary transition-colors">
-                  {s.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
+        <div className="mt-10 pt-6 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground font-mono">
+          <span>© 2026 星球小捕手. 保留所有权利.</span>
+          <span className="flex items-center gap-1">
+            访客 <span id="busuanzi_value_site_uv" className="text-primary font-semibold">—</span>
+            <span className="opacity-40 mx-1">·</span>
+            访问量 <span id="busuanzi_value_site_pv" className="text-primary font-semibold">—</span>
+          </span>
         </div>
-
-        <div>
-          <h4 className="font-semibold text-sm mb-3">专题</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            {categories.map((c) => (
-              <li key={c}>
-                <Link to={`/learn?category=${encodeURIComponent(c)}`} className="hover:text-primary transition-colors">
-                  {c}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <h4 className="font-semibold text-sm mb-3">内容板块</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/works" className="hover:text-primary transition-colors">可视化作品</Link></li>
-            <li><Link to="/maps" className="hover:text-primary transition-colors">互动地图</Link></li>
-            <li><Link to="/learn" className="hover:text-primary transition-colors">科普文章</Link></li>
-            <li><Link to="/tools" className="hover:text-primary transition-colors">地理工具</Link></li>
-            <li><Link to="/subdomains" className="hover:text-primary transition-colors">子站导航</Link></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 className="font-semibold text-sm mb-3">关于</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/about" className="hover:text-primary transition-colors">关于我们</Link></li>
-            <li><Link to="/changelog" className="hover:text-primary transition-colors">更新日志</Link></li>
-            <li><Link to="/contact" className="hover:text-primary transition-colors">联系我们</Link></li>
-            <li><Link to="/privacy-policy" className="hover:text-primary transition-colors">隐私政策</Link></li>
-            <li><Link to="/terms" className="hover:text-primary transition-colors">服务条款</Link></li>
-          </ul>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto mt-10 pt-6 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground font-mono">
-        <span>© 2026 星球小捕手. 保留所有权利.</span>
-        <span className="flex items-center gap-1">
-          访客 <span id="busuanzi_value_site_uv" className="text-primary font-semibold">—</span>
-          <span className="opacity-40 mx-1">·</span>
-          访问量 <span id="busuanzi_value_site_pv" className="text-primary font-semibold">—</span>
-        </span>
       </div>
     </footer>
   );
