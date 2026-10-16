@@ -5,10 +5,10 @@
         /maps/house-price/data/cities-geo.json（70 个地级市界，复用共用数据）
    坐标系：数据一律 WGS84 入库；底图是高德 GCJ-02，故**渲染前统一 wgs84ToGcj02 配准**
         （绿地 / 省界 / 市界 / 选区框全部转换，漏一个就整体偏 ~500m）。
-   底图：高德（白底 / 卫星 style=6 / 矢量 style=7）。
-   功能：默认北京视图、省 / 市行政边界（到城市）、按城市/省份筛选（仅显示所选范围绿地，
-        不在全国一次性堆出全量）、按绿地类型多选、按名称搜索、
-        按缩放分级的中文名称标注（DOM 实现，不依赖 glyphs 字体服务）、
+   底图：高德（白底 / 卫星 style=6 / 矢量 style=7），默认卫星影像。
+   功能：默认故宫视图（北京已选中，仅显示北京绿地）、省 / 市行政边界（到城市）、
+        按城市/省份筛选（仅显示所选范围绿地，不在全国一次性堆出全量）、按绿地类型多选、
+        按名称搜索、按缩放分级的中文名称标注（DOM 实现，不依赖 glyphs 字体服务）、
         点选浮窗（名称 / 类型 / 面积 / 中心坐标）。 */
 (function () {
   "use strict";
@@ -29,6 +29,9 @@
     "":            { label: "其他绿地",     color: "#95d5b2" }
   };
   var FCLASS_KEYS = Object.keys(FCLASS);
+
+  // 默认落点：故宫（WGS84），加载后飞行到此处并放大
+  var FORBIDDEN_CITY_WGS = [116.3972, 39.9183];
 
   // 高德瓦片子域：wprd01~wprd04（两位数，wprd0~wprd3 域名不存在）
   function amapTiles(styleId) {
@@ -189,7 +192,7 @@
     return [cx / (6 * a), cy / (6 * a)];
   }
 
-  /* ── 底图样式（默认无底图 = 白底） ── */
+  /* ── 底图样式（默认卫星影像；白底为 background 兜底） ── */
   var style = {
     version: 8,
     sources: {
@@ -198,17 +201,17 @@
     },
     layers: [
       { id: "bg", type: "background", paint: { "background-color": "#ffffff" } },
-      { id: "amap-img", type: "raster", source: "amap_img", layout: { visibility: "none" }, paint: { "raster-opacity": 1 } },
+      { id: "amap-img", type: "raster", source: "amap_img", layout: { visibility: "visible" }, paint: { "raster-opacity": 1 } },
       { id: "amap-vec", type: "raster", source: "amap_vec", layout: { visibility: "none" }, paint: { "raster-opacity": 1 } }
     ]
   };
 
-  // 默认视图：北京（applyDefault 中按 城市/省份 adcode 定位）
+  // 默认视图：故宫（applyDefault 中会再次精确飞行到故宫中心）
   var map = new maplibregl.Map({
     container: "map",
     style: style,
-    center: [116.40, 39.90],
-    zoom: 8.6,
+    center: [116.403, 39.920],
+    zoom: 13.5,
     minZoom: 2.5,
     maxZoom: 14,
     maxBounds: [[60, 5], [145, 60]],
@@ -244,6 +247,7 @@
   FCLASS_KEYS.forEach(function (k) { typeFilter[k] = true; });
   var provGeom = {};
   var cityGeom = {};
+  var cityCenter = {};        // 城市 adcode -> 行政中心（GCJ-02，已配准）
   var cgjFeatures = [];       // 城市要素（供级联重建城市下拉）
   var CITY_PARENT = {};       // 城市 adcode -> 所属省 adcode（前 2 位 + "0000"）
 
@@ -394,7 +398,8 @@
     }
   }
 
-  // 默认视图：北京（优先城市级边界 110100，否则省级 110000）
+  // 默认视图：北京已选中（优先城市级边界 110100，否则省级 110000），
+  // 但相机直接飞行到「故宫」中心并放大，而不是框选整个北京边界。
   function applyDefault() {
     var provSel = document.getElementById("provSelect");
     provSel.value = "110000";
@@ -407,7 +412,18 @@
       document.getElementById("citySelect").value = "";
       setRegion(provGeom["110000"], "北京市", "110000");
     }
-    zoomToGeom(currentRegion);
+    var fc = wgs84ToGcj02(FORBIDDEN_CITY_WGS[0], FORBIDDEN_CITY_WGS[1]);
+    map.flyTo({ center: fc, zoom: 14, duration: 900 });
+  }
+
+  /* 选中城市后：飞行到该城市行政中心（而非仅框选边界）。
+     缩放由城市外接框反算（cameraForBounds），并限制不超过 12，避免小城市过近。 */
+  function flyToCityCenter(geom, center) {
+    if (!center || !geom) { if (geom) zoomToGeom(geom); return; }
+    var b = geomBBox(geom);
+    var cam = map.cameraForBounds([[b[0], b[1]], [b[2], b[3]]], { padding: 70 });
+    var z = cam ? Math.min(cam.zoom, 12) : 10;
+    map.flyTo({ center: center, zoom: z, duration: 700 });
   }
 
   /* ── 省 / 市 下拉 ── */
@@ -466,7 +482,7 @@
       if (pa && provSel.value !== pa) provSel.value = pa;   // 省份自动跟随
       var f = cityGeom[v];
       setRegion(f, this.options[this.selectedIndex].textContent, v);
-      zoomToGeom(f);
+      flyToCityCenter(f, cityCenter[v]);   // 飞行到城市行政中心，而非仅框选边界
     } else {
       var pv = provSel.value;                 // 「全部城市」-> 回到省级范围
       if (pv) {
@@ -616,6 +632,9 @@
       cgj.features.forEach(function (f) {
         var ad = String(f.properties.adcode);
         CITY_PARENT[ad] = ad.slice(0, 2) + "0000";
+        // 行政中心：src 与几何同为 WGS84，统一配准到 GCJ-02 与底图对齐
+        var c = f.properties.center;
+        if (c && c.length === 2) cityCenter[ad] = wgs84ToGcj02(c[0], c[1]);
       });
 
       // 1.5) 绿地类型多选勾选框（必须构建，否则勾选功能不可用）
@@ -760,12 +779,26 @@
     showFeaturePopup({ properties: best.properties || {} }, e.lngLat);
     if (best.geometry) setSelected(best.geometry);          // 选中 -> 呼吸光晕
   });
-  // 点空白处：清除选中与浮窗
+  // 移动端：点击地图空白处时，若「工具 / 说明」面板正展开，则自动收起
+  // （桌面端卡片始终可见，移除 .open 不影响显示，故无需区分设备）
+  function closeMobileCards() {
+    if (card && card.classList.contains("open")) {
+      card.classList.remove("open");
+      cardToggle.textContent = "☰ 工具";
+    }
+    if (infoCard && infoCard.classList.contains("open")) {
+      infoCard.classList.remove("open");
+      infoToggleBtn.textContent = "ℹ 说明";
+    }
+  }
+
+  // 点空白处：清除选中与浮窗，并收起移动端面板
   map.on("click", function (e) {
     var hits = map.queryRenderedFeatures(e.point, { layers: ["green-fill"] });
     if (!hits.length) {
       setSelected(null);
       popup.remove();
+      closeMobileCards();
     }
   });
   map.on("mouseenter", "green-fill", function () { map.getCanvas().style.cursor = "pointer"; });
