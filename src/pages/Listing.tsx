@@ -1009,6 +1009,16 @@ const ResourceGrid = () => {
   if (activeTag) activeFilters.push(`#${activeTag}`);
   if (q) activeFilters.push(`含“${q}”`);
 
+  // 空态指引：有任一筛选/搜索生效时才提示「清空全部筛选」。
+  // 仅做通用引导：各分类都可能有 region/省份标签（如历史地理类带省志标签），
+  // 不做「某分类必无某区域」的预设，避免给用户错误暗示。
+  const hasAnyFilter = activeFilters.length > 0;
+  const emptyHint = hasAnyFilter
+    ? q
+      ? `没有匹配「${q}」的资料，换个关键词或清空筛选试试。`
+      : '这个筛选组合下暂无资料，试试清空部分条件或换个分类。'
+    : '该分类下暂无资料，稍后再来看看。';
+
   // 各轴选择器：切换上一层时清掉下层的残留选择，避免 chips 显示为选中却不生效。
   // 区域/标签是横切轴，换主分类或资料类型后原文可能整体不存在（如图书教材没有省份），
   // 留着必然出现「0 条」死角，所以一并清空；访问方式三态对任何资料都成立，保留。
@@ -1280,6 +1290,11 @@ const ResourceGrid = () => {
         <div className="flex items-center justify-between gap-3 mb-5">
           <p className="text-xs text-muted-foreground">
             共 <span className="font-semibold text-foreground">{list.length}</span> 份资料
+            {sortMode === 'heat' && (
+              <span className="hidden sm:inline-block ml-2 text-muted-foreground/60">
+                · 按近 30 天热度排序，新资料可切「最新」查看
+              </span>
+            )}
           </p>
           <div className="flex items-center gap-2 shrink-0">
             <div className="flex items-center gap-1 rounded-lg border border-border p-0.5">
@@ -1336,7 +1351,18 @@ const ResourceGrid = () => {
         )}
 
         {list.length === 0 ? (
-          <p className="text-muted-foreground">没有匹配的资料，换个筛选条件试试。</p>
+          <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">
+            <p className="text-muted-foreground">{emptyHint}</p>
+            {hasAnyFilter && (
+              <button
+                type="button"
+                onClick={clearAll}
+                className="px-4 py-2 rounded-lg text-xs font-medium text-primary border border-primary/30 bg-primary/5 hover:bg-primary/10 transition-colors"
+              >
+                清空全部筛选
+              </button>
+            )}
+          </div>
         ) : view === 'grid' ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {pageItems.map((r, i) => (
@@ -1382,7 +1408,7 @@ const ResourceGrid = () => {
                     <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                       <Badges item={r} hideFormatOnMobile />
                     </div>
-                    <h3 className="font-serif text-sm font-semibold leading-snug line-clamp-1 group-hover:text-primary transition-colors">
+                    <h3 className="font-serif text-sm font-semibold leading-snug line-clamp-2 group-hover:text-primary transition-colors">
                       {r.title}
                     </h3>
                     <p className="mt-1.5 text-sm text-muted-foreground line-clamp-2 leading-relaxed">{r.summary}</p>

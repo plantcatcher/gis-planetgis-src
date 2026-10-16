@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Map as MapIcon, ArrowRight, Layers, Database, Square, LayoutGrid, List, Flame, Search, X } from 'lucide-react';
+import { Map as MapIcon, ArrowRight, Layers, Database, Square, LayoutGrid, List, Flame, Search, X, ChevronDown, ChevronUp, SlidersHorizontal } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
-import FilterChips from '@/components/common/FilterChips';
 import Pagination from '@/components/common/Pagination';
+import SectionLabel from '@/components/knowledge/SectionLabel';
 import { Input } from '@/components/ui/input';
 import { useSearchTracking } from '@/hooks/use-search-tracking';
 import { getMaps, getWorkTopics, getWorkScopes, type ContentItem } from '@/lib/content';
@@ -61,6 +61,8 @@ const Maps: React.FC = () => {
   // 关键词搜索：叠加在主题/地域筛选之上（两者正交组合）
   const [search, setSearch] = useState('');
   useSearchTracking(search, 'maps');
+  // 移动端筛选栏默认收起（桌面端 lg:block 常显，复用 /downloads 的折叠模式）
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   // 细分筛选：主题（topic）+ 地域（scope），两维正交，均由 content/maps/<slug>.md
   // 的 frontmatter（topics / scope）驱动——写什么就筛什么，新增地图不用改本页。
@@ -147,100 +149,211 @@ const Maps: React.FC = () => {
             </p>
           </header>
 
-          {/* ── 搜索框：按名称 / 简介 / 主题 / 地域 / 标签 / 数据源检索 ── */}
-          <div className="relative mb-6">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="搜索地图名称、主题或数据源…"
-              aria-label="搜索互动地图"
-              className="pl-9 pr-9 rounded-full text-sm"
-            />
-            {search && (
+          {/* ── 双栏：左侧轻量筛选栏 + 右侧地图主区 ── */}
+          <div className="lg:grid lg:grid-cols-[236px_1fr] lg:gap-8">
+            {/* 左侧筛选栏：搜索 + 主题 + 地域。移动端默认收起、桌面端常显（复用 /downloads 折叠模式） */}
+            <aside className="lg:sticky lg:top-24 self-start space-y-6 mb-8 lg:mb-0">
+              {/* 移动端：筛选区折叠开关（桌面端隐藏，侧栏常显） */}
               <button
                 type="button"
-                onClick={() => setSearch('')}
-                aria-label="清空搜索"
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                onClick={() => setFiltersOpen((v) => !v)}
+                className="lg:hidden w-full flex items-center justify-between px-3 py-2.5 rounded-lg border border-border bg-muted/30 text-xs font-medium text-foreground hover:bg-muted transition-colors"
               >
-                <X className="w-4 h-4" />
+                <span className="inline-flex items-center gap-2">
+                  <SlidersHorizontal className="w-4 h-4 text-muted-foreground" />
+                  筛选
+                  {narrowed && (
+                    <span className="px-1.5 py-0.5 rounded-full bg-primary text-white text-[10px]">
+                      已筛选
+                    </span>
+                  )}
+                </span>
+                {filtersOpen ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
               </button>
-            )}
-          </div>
 
-          {/* ── 细分筛选：主题 / 地域 ──────────────────────────────── */}
-          <div className="space-y-3 mb-6">
-            <FilterChips label="主题" items={topicChips} active={topic} onChange={setTopic} allCount={maps.filter(({ work }) => hitScope(work, scope)).length} />
-            <FilterChips label="地域" items={scopeChips} active={scope} onChange={setScope} allCount={maps.filter(({ work }) => hitTopic(work, topic)).length} />
-          </div>
+              {/* 移动端可折叠、桌面端常显的筛选主体 */}
+              <div className={`space-y-6 ${filtersOpen ? 'block' : 'hidden'} lg:block`}>
+                {/* 搜索框：按名称 / 简介 / 主题 / 地域 / 标签 / 数据源检索 */}
+                <div>
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <Input
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      placeholder="搜索地图名称、主题或数据源…"
+                      aria-label="搜索互动地图"
+                      className="pl-9 pr-9 rounded-full text-xs"
+                    />
+                    {search && (
+                      <button
+                        type="button"
+                        onClick={() => setSearch('')}
+                        aria-label="清空搜索"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+                </div>
 
-          {/* 视图切换：仅图标，文字信息移到 title/aria-label（悬停即有提示，不占横向空间） */}
-          <div className="flex items-center justify-between gap-4 mb-8">
-            <p className="text-sm text-muted-foreground">
-              共 {filtered.length} 张地图
-              {narrowed && (
-                <>
-                  <span className="mx-1.5 text-border">|</span>
-                  <span>
-                    已筛选{search.trim() && ` · “${search.trim()}”`}
-                    {scope !== '全部' && ` · ${scope}`}
-                    {topic !== '全部' && ` · ${topic}`}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSearch('');
-                      setTopic('全部');
-                      setScope('全部');
-                    }}
-                    className="ml-3 text-primary hover:underline"
-                  >
-                    清空筛选
-                  </button>
-                </>
-              )}
-            </p>
-            <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1 rounded-lg border border-border p-0.5">
-                {([['latest', '最新'], ['heat', '热度']] as const).map(([key, label]) => (
-                  <button
-                    key={key}
-                    type="button"
-                    onClick={() => setSortMode(key)}
-                    className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
-                      sortMode === key ? 'bg-primary text-white' : 'text-muted-foreground hover:text-foreground'
-                    }`}
-                  >
-                    {label}
-                  </button>
-                ))}
+                {/* 主题 */}
+                <div>
+                  <SectionLabel className="mb-3 !text-[11px]">主题</SectionLabel>
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setTopic('全部')}
+                      aria-pressed={topic === '全部'}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                        topic === '全部' ? 'bg-primary text-white' : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
+                      }`}
+                    >
+                      全部
+                      <span className="ml-1 text-xs opacity-70">{maps.filter(({ work }) => hitScope(work, scope)).length}</span>
+                    </button>
+                    {topicChips.map(({ name, count }) => {
+                      const active = topic === name;
+                      return (
+                        <button
+                          key={name}
+                          type="button"
+                          onClick={() => setTopic(name)}
+                          aria-pressed={active}
+                          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                            active ? 'bg-primary text-white' : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
+                          }`}
+                        >
+                          {name}
+                          <span className="ml-1 text-[11px] opacity-70">{count}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* 地域 */}
+                <div>
+                  <SectionLabel className="mb-3 !text-[11px]">地域</SectionLabel>
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setScope('全部')}
+                      aria-pressed={scope === '全部'}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                        scope === '全部' ? 'bg-primary text-white' : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
+                      }`}
+                    >
+                      全部
+                      <span className="ml-1 text-xs opacity-70">{maps.filter(({ work }) => hitTopic(work, topic)).length}</span>
+                    </button>
+                    {scopeChips.map(({ name, count }) => {
+                      const active = scope === name;
+                      return (
+                        <button
+                          key={name}
+                          type="button"
+                          onClick={() => setScope(name)}
+                          aria-pressed={active}
+                          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                            active ? 'bg-primary text-white' : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
+                          }`}
+                        >
+                          {name}
+                          <span className="ml-1 text-[11px] opacity-70">{count}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* 一键清空筛选（有筛选生效时才显示） */}
+                {narrowed && (
+                  <div className="border-t border-border/60 pt-3">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSearch('');
+                        setTopic('全部');
+                        setScope('全部');
+                      }}
+                      className="w-full px-3 py-2 rounded-lg text-xs font-medium text-muted-foreground border border-border hover:bg-muted hover:text-foreground transition-colors"
+                    >
+                      清空全部筛选
+                    </button>
+                  </div>
+                )}
               </div>
-              <div
-                role="group"
-                aria-label="切换展示方式"
-                className="inline-flex rounded-lg border border-border bg-muted/40 p-1"
-              >
-                {MODES.map(({ id, label, icon: Icon }) => (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => setMode(id)}
-                    aria-pressed={mode === id}
-                    title={label}
-                    aria-label={label}
-                    className={`inline-flex items-center justify-center w-9 h-9 rounded-md transition-colors ${
-                      mode === id
-                        ? 'bg-primary text-primary-foreground'
-                        : 'text-muted-foreground hover:text-foreground'
-                    }`}
+            </aside>
+
+            {/* 右侧主区：结果摘要 + 排序/视图（这两个是「浏览工具」，留在顶部顺手） */}
+            <div>
+              {/* 视图切换：仅图标，文字信息移到 title/aria-label（悬停即有提示，不占横向空间） */}
+              <div className="flex items-center justify-between gap-4 mb-6">
+                <p className="text-sm text-muted-foreground">
+                  共 {filtered.length} 张地图
+                  {narrowed && (
+                    <>
+                      <span className="mx-1.5 text-border">|</span>
+                      <span>
+                        已筛选{search.trim() && ` · “${search.trim()}”`}
+                        {scope !== '全部' && ` · ${scope}`}
+                        {topic !== '全部' && ` · ${topic}`}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSearch('');
+                          setTopic('全部');
+                          setScope('全部');
+                        }}
+                        className="ml-3 text-primary hover:underline"
+                      >
+                        清空筛选
+                      </button>
+                    </>
+                  )}
+                </p>
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1 rounded-lg border border-border p-0.5">
+                    {([['latest', '最新'], ['heat', '热度']] as const).map(([key, label]) => (
+                      <button
+                        key={key}
+                        type="button"
+                        onClick={() => setSortMode(key)}
+                        className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
+                          sortMode === key ? 'bg-primary text-white' : 'text-muted-foreground hover:text-foreground'
+                        }`}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                  <div
+                    role="group"
+                    aria-label="切换展示方式"
+                    className="inline-flex rounded-lg border border-border bg-muted/40 p-1"
                   >
-                    <Icon className="w-4 h-4" />
-                  </button>
-                ))}
+                    {MODES.map(({ id, label, icon: Icon }) => (
+                      <button
+                        key={id}
+                        type="button"
+                        onClick={() => setMode(id)}
+                        aria-pressed={mode === id}
+                        title={label}
+                        aria-label={label}
+                        className={`inline-flex items-center justify-center w-9 h-9 rounded-md transition-colors ${
+                          mode === id
+                            ? 'bg-primary text-primary-foreground'
+                            : 'text-muted-foreground hover:text-foreground'
+                        }`}
+                      >
+                        <Icon className="w-4 h-4" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
 
           {maps.length === 0 ? (
             <p className="text-muted-foreground">地图正在路上，敬请期待。</p>
@@ -391,6 +504,8 @@ const Maps: React.FC = () => {
               获取对应的矢量数据包。
             </p>
           </section>
+            </div>
+          </div>
         </div>
       </div>
     </>
