@@ -20,6 +20,8 @@ size: 17.95 MB
 
 > 本数据集为 **2024 年全国工业用地矢量数据**，基于 OpenStreetMap（OSM）土地利用数据提取，以 Shapefile 形式提供，共 **134,589 个**工业用地面状要素（Polygon）。坐标系为 **GCS_WGS_1984（WGS84，EPSG:4326 经纬度）**，属性含 osm_id、code、fclass（用地类型）、name（名称），可直接用于 QGIS / ArcGIS / Python 工业用地分布与制图。**未标注官方审图号**。
 
+在浏览器里直接查看分布：打开 [中国工业用地分布互动地图](/maps/cn-gongye-yongdi-2024)，可按省份 / 城市筛选、点选查看名称与面积，并一键下载完整数据。
+
 
 
 ![gy_1](https://blogphoto.planetgis.cn/PicGo/2026-09-23-gy_1.jpg)
