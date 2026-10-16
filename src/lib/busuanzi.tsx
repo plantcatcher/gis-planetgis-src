@@ -54,14 +54,25 @@ export function usePageView(): void {
 }
 
 // 浏览量展示徽标：眼睛图标 + 数字 + “次浏览”。
-// 注意：busuanzi_value_page_pv 的内容由脚本直接写 innerHTML，
-// 这里用常量占位符 “—”，React 不会因 vdom 不变而覆盖脚本写入的值。
+//
+// 三个 busuanzi_value_* 的占位文本必须用 dangerouslySetInnerHTML 写，不能用 children。
+// 背景：不蒜子脚本（index.html 里 async 引入）会用 innerHTML 把 “—” 替换成真实数字；
+// 而正文改成懒加载之后，main.tsx 的 hydrateRoot() 要多等一个正文 chunk 的网络往返，
+// hydration 因此被推到几百毫秒之后，常常落在不蒜子的 jsonp 回调之后。
+// 于是 hydration 那一刻 DOM 里是数字、vdom 里还是 “—”：
+//   · 用 children  → React 报 #425（文本不匹配）并整棵树回退重建（连带多个 #418）。
+//     DOM 被重建正是百度渲染器判定「有跳转」的同一条根因；
+//   · 加 suppressHydrationWarning 只能消掉报错，React 仍会在 hydration 时把 vdom 的 “—”
+//     写回 DOM，真实数字照样被抹掉（实测 2.9s 处被覆盖）；
+//   · 用 dangerouslySetInnerHTML → React 对该元素既不 diff 子内容、也不在 hydration 时写入，
+//     报错为 0，不蒜子的数字原样保留（实测 15 / 8113561 / 10962403）。
+// 值是硬编码常量 “—”，无注入风险；__html 恒定，后续 update 也不会产生 DOM 写入。
 export const PageViewCount: React.FC<{ className?: string }> = ({ className }) => {
   usePageView();
   return (
     <span className={className ?? 'inline-flex items-center gap-1'}>
       <Eye className="w-3.5 h-3.5" />
-      <span id="busuanzi_value_page_pv">—</span>
+      <span id="busuanzi_value_page_pv" dangerouslySetInnerHTML={{ __html: '—' }} />
       <span>次浏览</span>
     </span>
   );

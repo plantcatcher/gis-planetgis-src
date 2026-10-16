@@ -41,8 +41,79 @@ const vite = await createServer({
   cacheDir: '.vite-prerender',
 });
 
+// ===== 正文 chunk 预载（modulepreload）=====
+// 详情页正文不在主 bundle 里（见 src/lib/content.ts 的 loadBody）。默认链路是
+// 「下载 main bundle → 执行 → 才知道该下载哪个正文 chunk → 再下载」，串行两跳，
+// hydration 因此要多等一个网络往返。预渲染时我们已经知道当前页是哪一篇，
+// 可以直接在 head 写 <link rel="modulepreload">：浏览器解析 HTML 时就开始下载该 chunk，
+// 与 main bundle 并行，省掉这一跳。查不到映射就降级为不注入，不影响页面本身。
+const MANIFEST_CANDIDATES = [join(DIST, '.vite', 'manifest.json'), join(DIST, 'manifest.json')];
+
+function readManifest() {
+  for (const p of MANIFEST_CANDIDATES) {
+    if (!existsSync(p)) continue;
+    try {
+      return JSON.parse(readFileSync(p, 'utf-8'));
+    } catch {
+      /* 读不到就当没有，后面静默降级 */
+    }
+  }
+  return null;
+}
+
+/** manifest -> 「content/<folder>/<filename>.md」到产物 chunk 的映射 */
+function buildBodyChunkMap(manifest) {
+  const map = new Map();
+  for (const [key, entry] of Object.entries(manifest || {})) {
+    if (!entry || !entry.file) continue;
+    const m = /(?:^|\/)content\/([^/]+)\/([^/]+)\.md(?:\?raw)?$/.exec(key);
+    if (m) map.set(`${m[1]}/${m[2]}`, `/${String(entry.file).replace(/^\/+/, '')}`);
+  }
+  return map;
+}
+
+/** content-index -> 「<folder>/<slug>」到「<folder>/<filename>」的映射（slug 与文件名可能不同） */
+function buildSlugToFile() {
+  const map = new Map();
+  try {
+    const idx = JSON.parse(readFileSync(join(ROOT, 'src/data/content-index.json'), 'utf-8'));
+    for (const row of idx) {
+      const slug = (row.fm && row.fm.slug) || row.filename;
+      map.set(`${row.folder}/${slug}`, `${row.folder}/${row.filename}`);
+    }
+  } catch {
+    /* 同上，降级 */
+  }
+  return map;
+}
+
+const bodyChunkMap = buildBodyChunkMap(readManifest());
+const slugToFileMap = buildSlugToFile();
+let preloadCount = 0;
+
+if (!bodyChunkMap.size) {
+  console.warn('[prerender] 未取到正文 chunk 映射，本次不注入 modulepreload（页面照常产出）');
+}
+
+/** 详情页 URL -> <link rel="modulepreload">；非详情页或查不到映射时返回空串 */
+function modulePreloadTag(url) {
+  const m = /^\/(works|maps|games|tools|articles|learn|downloads)\/([^/]+?)\/?$/.exec(url);
+  if (!m) return '';
+  let slug = m[2];
+  try {
+    slug = decodeURIComponent(slug);
+  } catch {
+    /* 非法编码按原样查 */
+  }
+  const fileKey = slugToFileMap.get(`${m[1]}/${slug}`);
+  const file = fileKey && bodyChunkMap.get(fileKey);
+  if (!file) return '';
+  preloadCount++;
+  return `<link rel="modulepreload" href="${file}" />`;
+}
+
 /** 用页面级 head 替换模板里的默认 SEO 标签，并把正文塞进 #root */
-function buildHtml(template, { html, head }, { noindex = false } = {}) {
+function buildHtml(template, { html, head }, { noindex = false, preload = '' } = {}) {
   let out = template;
   // 移除模板默认 SEO 标签，避免与页面级 head（PageMeta 注入）重复。
   out = out.replace(/<title>[\s\S]*?<\/title>/gi, '');
@@ -52,6 +123,7 @@ function buildHtml(template, { html, head }, { noindex = false } = {}) {
   out = out.replace(/<link\s+rel="canonical"[^>]*>/gi, '');
 
   let injected = head;
+  if (preload) injected = injected ? `${injected}\n${preload}` : preload;
   if (noindex) {
     // 404 页不应被索引，也不需要 canonical（否则会指向占位路由）
     injected = injected.replace(/<link rel="canonical"[^>]*>/gi, '');
@@ -93,7 +165,10 @@ try {
       //    是地图自带的静态内容页（有实质正文的长尾落地页），必须保持可索引。
       const isMapShell = /^\/maps\/[^/]+\/full\/?$/.test(url);
 
-      const out = buildHtml(template, rendered, { noindex: isTagPage || isMapShell });
+      const out = buildHtml(template, rendered, {
+        noindex: isTagPage || isMapShell,
+        preload: modulePreloadTag(url),
+      });
       const file = routeToFile(DIST, url);
       mkdirSync(dirname(file), { recursive: true });
       writeFileSync(file, out, 'utf-8');
@@ -122,7 +197,7 @@ try {
     fail++;
   }
 
-  console.log(`[prerender] 完成：成功 ${ok}，失败 ${fail}`);
+  console.log(`[prerender] 完成：成功 ${ok}，失败 ${fail}；注入 modulepreload ${preloadCount} 页`);
   if (fail > 0) process.exitCode = 1;
 } finally {
   await vite.close();

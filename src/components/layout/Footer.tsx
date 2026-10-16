@@ -56,9 +56,20 @@ const Footer = () => {
         <div className="mt-10 pt-6 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-muted-foreground font-mono">
           <span>© 2026 星球小捕手. 保留所有权利.</span>
           <span className="flex items-center gap-1">
-            访客 <span id="busuanzi_value_site_uv" className="text-primary font-semibold">—</span>
+            {/* 占位文本走 dangerouslySetInnerHTML：不蒜子会改写它，React 不能接管（详见 src/lib/busuanzi.tsx） */}
+            访客{' '}
+            <span
+              id="busuanzi_value_site_uv"
+              className="text-primary font-semibold"
+              dangerouslySetInnerHTML={{ __html: '—' }}
+            />
             <span className="opacity-40 mx-1">·</span>
-            访问量 <span id="busuanzi_value_site_pv" className="text-primary font-semibold">—</span>
+            访问量{' '}
+            <span
+              id="busuanzi_value_site_pv"
+              className="text-primary font-semibold"
+              dangerouslySetInnerHTML={{ __html: '—' }}
+            />
           </span>
         </div>
       </div>
