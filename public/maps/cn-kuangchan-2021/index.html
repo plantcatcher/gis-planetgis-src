@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>全国矿产分布互动地图 · 22.8 万处矿产地</title>
+  <meta name="description" content="基于 2021 版全国矿产地名录的互动地图：22.8 万处矿产地按 11 个矿种大类着色，可按大类 / 规模 / 利用现状 / 省份 / 城市筛选，按名称搜索，支持散点与热力两种视图，并可下载完整 SHP 数据。" />
+  <meta name="keywords" content="全国矿产分布,中国矿产资源分布图,矿产地数据,矿产shp,矿业地图,煤炭铁矿有色金属,贵金属稀土,互动地图,数据可视化" />
+  <meta name="author" content="PlanetGIS" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div id="map"></div>
+
+  <!-- 顶部栏（仅标题） -->
+  <header class="topbar">
+    <div class="brand">
+      <h1>全国矿产分布互动地图</h1>
+      <p class="sub">22.8 万处矿产地 · 按矿种大类着色 · 可按省 / 市筛选 · 数据基准 2021 版</p>
+    </div>
+  </header>
+
+  <!-- 移动端：展开 / 收起工具卡片 -->
+  <button class="card-toggle" id="cardToggle" type="button">☰ 工具</button>
+  <button class="info-toggle-btn" id="infoToggleBtn" type="button">ℹ 说明</button>
+
+  <!-- 统一控制卡片（右侧）：显示模式 / 底图 / 筛选 / 矿种大类 -->
+  <div class="control-card" id="controlCard">
+    <div class="card-scroll">
+      <div class="card-block">
+        <div class="card-title">显示模式</div>
+        <div class="seg" id="modeSeg">
+          <button class="seg-btn active" data-mode="point">散点</button>
+          <button class="seg-btn" data-mode="heat">热力</button>
+        </div>
+      </div>
+      <div class="card-block">
+        <div class="card-title">底图切换</div>
+        <div class="seg" id="basemapSeg">
+          <button class="seg-btn active" data-bm="none">深色</button>
+          <button class="seg-btn" data-bm="img">卫星影像</button>
+          <button class="seg-btn" data-bm="vec">矢量路网</button>
+        </div>
+      </div>
+      <div class="card-block">
+        <div class="card-title">筛选与搜索</div>
+        <label class="filter-label" for="provSelect">省份</label>
+        <select id="provSelect" class="filter-select"><option value="">全部省份</option></select>
+        <label class="filter-label" for="citySelect">城市</label>
+        <select id="citySelect" class="filter-select"><option value="">全部城市</option></select>
+        <label class="filter-label" for="scaleSelect">矿床规模</label>
+        <select id="scaleSelect" class="filter-select"><option value="">全部规模</option></select>
+        <label class="filter-label" for="useSelect">利用现状</label>
+        <select id="useSelect" class="filter-select"><option value="">全部现状</option></select>
+        <label class="filter-label" for="searchInput">按矿产地名称搜索</label>
+        <div class="search-row">
+          <input id="searchInput" class="filter-input" type="text" placeholder="如：大冶 / 攀枝花 / 金川" />
+          <button id="searchBtn" class="filter-btn" type="button">搜索</button>
+        </div>
+      </div>
+      <div class="card-block">
+        <div class="card-title">矿种大类（可多选）</div>
+        <div class="type-checks" id="typeChecks"></div>
+        <div class="filter-meta">
+          <span id="countLabel">加载中…</span>
+        </div>
+        <div class="type-all-row">
+          <a id="typeAll" class="reset-link" role="button">全不选</a>
+          <button id="resetBtn" class="reset-link" type="button">重置</button>
+        </div>
+        <div class="legend-note">每个圆点是一处矿产地，颜色为矿种大类，圆点大小随矿床规模递增（超大型 &gt; 特大型 &gt; 大型 &gt; 中型 &gt; 小型 &gt; 矿点）。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 信息卡片（左侧）：关于本图 + 排行榜 + 作品介绍 / 全部地图 / 下载数据 -->
+  <div class="info-card" id="infoCard">
+    <button class="info-toggle" id="infoToggle" aria-expanded="true"><i>▾</i> 关于本图</button>
+    <div class="info-body" id="infoBody">
+      <div class="facts" id="facts"></div>
+      <p>本图把公开版《全国矿产地分布（2021版）》名录整体落点：全国 <b>22.8 万处</b>矿产地，含矿种、矿床规模、利用现状、地质工作程度与矿床成因等属性，按 <b>11 个矿种大类</b>着色。</p>
+      <p>想看「某省到底有多少矿」，用左侧排行榜；想看「某个矿在哪」，搜索名称后地图直接飞过去。选了城市就只看该市范围，省市可级联切换。</p>
+      <div class="card-divider"></div>
+      <div class="card-title">矿产地数量排行（省级）</div>
+      <div class="rank-list" id="rankList"></div>
+    </div>
+    <div class="card-actions">
+      <a href="/maps/cn-kuangchan-2021" target="_top">作品介绍</a>
+      <a href="/maps" target="_top">全部地图</a>
+      <a class="download" href="/downloads/cn-kuangchan-2021" target="_top">下载数据 ↓</a>
+    </div>
+  </div>
+
+  <!-- 浮层提示 -->
+  <div class="loading" id="loading">正在加载矿产地数据（约 16 MB）…</div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

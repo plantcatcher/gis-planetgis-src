@@ -150,6 +150,8 @@ const LEGACY_UI = {
   'cn-yangtze': '.topbar, .panel, .legend, .intro, .brand',
   'hist-imagery': '.topbar, .panel, .legend, .timeline, .brand',
   'cn-greenland-shp-2024': '.topbar, .control-card, .info-card, .card-toggle, .info-toggle-btn',
+  'cn-gongye-yongdi-2024': '.topbar, .control-card, .info-card, .card-toggle, .info-toggle-btn',
+  'cn-kuangchan-2021': '.topbar, .control-card, .info-card, .card-toggle, .info-toggle-btn',
 };
 const extraHide = LEGACY_UI[slug] || '';
 
