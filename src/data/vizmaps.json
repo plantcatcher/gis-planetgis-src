@@ -1739,6 +1739,46 @@
         "desc": "55 个二级区划边界，可作为叠加图层查看最基层行政区划；属性含所属一级中文名"
       }
     ]
+  },
+  {
+    "slug": "cn-greenland-shp-2024",
+    "entry": "/maps/cn-greenland-shp-2024/index.html",
+    "bbox": [
+      73.88,
+      15.78,
+      134.76,
+      53.49
+    ],
+    "crs": "WGS84 / EPSG:4326（源数据）；页面运行时把省界 / 市界 / 绿地几何整体转换为 GCJ-02，与高德底图对齐（全国偏移 100—700 m）",
+    "basemap": "高德瓦片：白底（默认，无底图）/ 卫星影像 style=6（纯影像无标注）/ 矢量路网 style=7",
+    "source": "OpenStreetMap 提取（ODbL）的中国绿地与休闲用地（leisure / tourism 及相关 landuse 标签），2024 基准；187,840 个面要素，按 fclass 分 12 类，投影总面积约 1.23 万 km²",
+    "updated": "2026-10-16",
+    "data": [
+      {
+        "file": "maps/cn-greenland-shp-2024/data/greenland.json",
+        "features": 69276,
+        "unit": "个较大绿地面（33 m 简化）",
+        "desc": "由 greenland.shp 按 33 m 容差 Douglas-Peucker 简化、滤除 <4000 m² 碎面后保留的较大绿地多边形（原始 18.8 万面）；属性仅 fclass / name，另含实算面积 _area 与质心 _wgs"
+      },
+      {
+        "file": "maps/_shared/china-provinces.json",
+        "features": 35,
+        "unit": "份省级边界（_shared 复用）",
+        "desc": "省级行政区边界，用于按省筛选与省界限图层"
+      },
+      {
+        "file": "maps/house-price/data/cities-geo.json",
+        "features": 70,
+        "unit": "份市级边界（跨地图复用）",
+        "desc": "70 个城市边界，用于按城市筛选绿地并限制城市下拉在所选省份内"
+      },
+      {
+        "file": "maps/cn-greenland-shp-2024/index.html",
+        "features": 1,
+        "unit": "个互动页面",
+        "desc": "MapLibre 互动查看器：按 fclass 着色（可多选过滤）、按面积分级名称标注、点选呼吸光晕 + 详情浮窗（名称 / 类型 / 面积 / 坐标）、高德底图切换、下载入口"
+      }
+    ]
   }
 ]
 }

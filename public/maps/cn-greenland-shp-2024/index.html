@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>中国绿地分布互动地图 · 按城市查看公园/球场/景区</title>
+  <meta name="description" content="基于 OpenStreetMap 提取的中国绿地与休闲用地分布：可切换底图、按省份/城市筛选（仅显示所选城市的绿地，不堆全量）、按绿地类型多选、点选查看名称与类型，并下载完整 SHP 数据。" />
+  <meta name="keywords" content="中国绿地,公园分布,OSM绿地,休闲用地,绿地数据,互动地图,城市绿地" />
+  <meta name="author" content="PlanetGIS" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div id="map"></div>
+
+  <!-- 顶部栏（仅标题） -->
+  <header class="topbar">
+    <div class="brand">
+      <h1>中国绿地分布互动地图</h1>
+      <p class="sub">选一个城市，只看它内部的绿地 · 数据来自 OpenStreetMap 提取</p>
+    </div>
+  </header>
+
+  <!-- 移动端：展开 / 收起工具卡片 -->
+  <button class="card-toggle" id="cardToggle" type="button">☰ 工具</button>
+  <button class="info-toggle-btn" id="infoToggleBtn" type="button">ℹ 说明</button>
+
+  <!-- 统一控制卡片（右侧）：底图切换 / 筛选与搜索 / 绿地类型（可多选） -->
+  <div class="control-card" id="controlCard">
+    <div class="card-scroll">
+      <div class="card-block">
+        <div class="card-title">底图切换</div>
+        <div class="seg" id="basemapSeg">
+          <button class="seg-btn active" data-bm="none">白底</button>
+          <button class="seg-btn" data-bm="img">卫星影像</button>
+          <button class="seg-btn" data-bm="vec">矢量路网</button>
+        </div>
+      </div>
+      <div class="card-block">
+        <div class="card-title">筛选与搜索</div>
+        <label class="filter-label" for="provSelect">省份</label>
+        <select id="provSelect" class="filter-select"><option value="">全部省份</option></select>
+        <label class="filter-label" for="citySelect">城市</label>
+        <select id="citySelect" class="filter-select"><option value="">全部城市</option></select>
+        <label class="filter-label" for="searchInput">按名称搜索</label>
+        <div class="search-row">
+          <input id="searchInput" class="filter-input" type="text" placeholder="如：颐和园 / 公园" />
+          <button id="searchBtn" class="filter-btn" type="button">搜索</button>
+        </div>
+      </div>
+      <div class="card-block">
+        <div class="card-title">绿地类型（可多选）</div>
+        <div class="type-checks" id="typeChecks"></div>
+        <div class="filter-meta">
+          <span id="countLabel">请选择城市查看绿地</span>
+        </div>
+        <div class="type-all-row">
+          <a id="typeAll" class="reset-link" role="button">全不选</a>
+          <button id="resetBtn" class="reset-link" type="button">重置</button>
+        </div>
+        <div class="legend-note">方块即色卡，按 OSM 类型区分；选中城市后仅显示该市绿地，不堆全量。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 信息卡片（左侧）：关于本图 + 作品介绍 / 全部地图 / 下载数据 -->
+  <div class="info-card" id="infoCard">
+    <button class="info-toggle" id="infoToggle" aria-expanded="true"><i>▾</i> 关于本图</button>
+    <div class="info-body" id="infoBody">
+      <div class="facts">
+        <span><small>面要素</small><b>18.8&nbsp;万</b><i>个（全量）</i></span>
+        <span><small>绿地总面积</small><b>≈1.23&nbsp;万</b><i>km²</i></span>
+        <span><small>类型</small><b>12</b><i>类</i></span>
+        <span><small>坐标系</small><b>WGS84</b><i>EPSG:4326</i></span>
+      </div>
+      <p>本图展示由 OpenStreetMap 提取的中国<b>绿地与休闲用地</b>分布：公园、体育球场、景区、主题公园、高尔夫球场、动物园、游乐场等。颜色按 OSM 标签（<code>leisure</code> / <code>tourism</code> 等）分类。</p>
+      <p>为避免一次性堆出 18.8 万个面导致画面杂乱，本图<b>默认只显示所选城市</b>内部的绿地（选省份则显示该省）；灰色细线为地级市行政边界，深灰为省级边界，绿色高亮为当前选中范围。完整带属性表的 Shapefile 请点卡片底部「下载数据」。</p>
+    </div>
+    <div class="card-actions">
+      <a href="/maps/cn-greenland-shp-2024" target="_top">作品介绍</a>
+      <a href="/maps" target="_top">全部地图</a>
+      <a class="download" href="/downloads/cn-greenland-shp-2024" target="_top">下载数据 ↓</a>
+    </div>
+  </div>
+
+  <!-- 浮层提示 -->
+  <div class="loading" id="loading">正在加载绿地数据…</div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

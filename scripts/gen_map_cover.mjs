@@ -80,6 +80,21 @@ await send('Emulation.setUserAgentOverride', {
 await send('Page.navigate', { url: URL_ });
 await sleep(WAIT);
 
+/* READY：可选就绪轮询。重数据地图的 JSON 下载/解析耗时不定，固定 sleep 容易
+   截到「正在加载…」占位层。传一段 JS 表达式，返回真值即继续，最长轮询 60s。 */
+const READY = process.env.READY;
+if (READY) {
+  let ok = false;
+  for (let i = 0; i < 120; i++) {
+    try {
+      const r = await send('Runtime.evaluate', { expression: READY, returnByValue: true });
+      if (r && r.result && r.result.value) { ok = true; break; }
+    } catch (_) {}
+    await sleep(500);
+  }
+  console.log('READY ' + (ok ? 'ok' : 'timeout(60s)'));
+}
+
 /* 封面视角：地图尽量占满画面（不套页面的侧栏留白），底部留出标题区 */
 const PAD = process.env.PAD_L ? {
   left: Number(process.env.PAD_L), right: Number(process.env.PAD_R || 70),
@@ -88,13 +103,27 @@ const PAD = process.env.PAD_L ? {
 const fitInfo = await send('Runtime.evaluate', {
   returnByValue: true,
   expression: `(function(){
-    /* 老代地图不暴露 window.__app（那是 thematic 引擎挂的），退而用全局 map 实例兜底 */
+    /* 老代地图不暴露 window.__app（那是 thematic 引擎挂的），退而用全局 map 实例兜底。
+       注意：__app 只要有 map 就该用（有的地图只暴露 map，没有 fitAll），
+       不能因为没有 fitAll 就丢弃，否则按城市筛选的新图封面会取不到地图实例。 */
     var app = window.__app;
-    if (!app || !app.fitAll) app = (window.map && window.map.fitBounds) ? { map: window.map } : null;
+    if (!app || !app.map) app = (window.map && window.map.fitBounds) ? { map: window.map } : null;
     if (!app || !app.map) return { ok:false, app:typeof window.__app, map:typeof window.map };
     var m = app.map;
     /* 封面是 16:9 宽幅，整框往往需要比页面 minZoom 更小的级别，这里临时放开 */
     try { m.setMinZoom(0.8); } catch (e) {}
+    /* --center "lng,lat" --zoom N：封面自定义取景（如按城市筛选的地图，
+       全国框没有内容，需要落到某个有数据的城区）。给了 center 就跳过 fit。 */
+    var CENTER = ${JSON.stringify(arg('center', ''))};
+    var ZOOM = ${arg('zoom', '0')};
+    if (CENTER) {
+      var p = CENTER.split(',');
+      m.jumpTo({ center: [+p[0], +p[1]], zoom: +ZOOM || 10 });
+      var r0 = document.getElementById('map').getBoundingClientRect();
+      return { ok:true, mode:'center', z:+m.getZoom().toFixed(3),
+               c:m.getCenter().toArray().map(function(v){return +v.toFixed(3)}),
+               box:[Math.round(r0.width),Math.round(r0.height)] };
+    }
     /* thematic 的 fitBounds 默认 maxZoom=9，小国（新加坡/以色列）会被压小 ——
        MAXZ 提高上限让国家撑满画面；大国自然用不到，不受影响 */
     if (app.fitAll) app.fitAll({ padding: ${JSON.stringify(PAD)}, animate: false, maxZoom: ${process.env.MAXZ || 9} });
@@ -120,6 +149,7 @@ const LEGACY_UI = {
   'cn-rivers': '.topbar, .panel, .legend, .hint, .brand',
   'cn-yangtze': '.topbar, .panel, .legend, .intro, .brand',
   'hist-imagery': '.topbar, .panel, .legend, .timeline, .brand',
+  'cn-greenland-shp-2024': '.topbar, .control-card, .info-card, .card-toggle, .info-toggle-btn',
 };
 const extraHide = LEGACY_UI[slug] || '';
 
@@ -129,7 +159,25 @@ const hideCss = `
   ${extraHide} { display: none !important; }
   ${keepLabels ? '' : '#labels { display: none !important; }'}
 `;
-const overlay = title ? `
+/* 详情页封面用 <img object-cover> 展示，四周按容器比例裁切：
+   - 桌面横容器裁上下、手机竖容器裁左右 —— 唯一任何裁切都保得住的位置是正中央。
+   - TITLE_CENTER=1 时标题放画面正中 + 径向暗色晕影，专供 downloads 详情页。 */
+const TITLE_CENTER = !!process.env.TITLE_CENTER;
+const titleHtml =
+  `${eyebrow ? `<div style="font-size:12px;font-weight:700;letter-spacing:.22em;color:${accent};margin-bottom:12px">${eyebrow}</div>` : ''}` +
+  `<div style="font-size:${TITLE_CENTER ? (title.length > 12 ? 34 : 42) : (title.length > 12 ? 38 : 46)}px;font-weight:800;color:#fff;letter-spacing:.02em;line-height:1.15">${title}</div>` +
+  `${sub ? `<div style="font-size:15px;color:#a8bcd4;margin-top:12px;letter-spacing:.02em">${sub}</div>` : ''}`;
+const overlay = title ? (TITLE_CENTER ? `
+  var g = document.createElement('div');
+  g.style.cssText = 'position:fixed;left:0;right:0;top:0;bottom:0;z-index:2147483646;pointer-events:none;' +
+    'background:radial-gradient(ellipse 72% 58% at center, rgba(6,11,20,.88) 0%, rgba(6,11,20,.62) 46%, rgba(6,11,20,0) 100%)';
+  document.body.appendChild(g);
+  var d = document.createElement('div');
+  d.style.cssText = 'position:fixed;left:6%;right:6%;top:50%;transform:translateY(-50%);z-index:2147483647;pointer-events:none;text-align:center;' +
+    'text-shadow:0 2px 18px rgba(0,0,0,.85);font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif';
+  d.innerHTML = ${JSON.stringify(titleHtml)};
+  document.body.appendChild(d);
+` : `
   var g = document.createElement('div');
   g.style.cssText = 'position:fixed;left:0;right:0;bottom:0;height:46%;z-index:2147483646;pointer-events:none;' +
     'background:linear-gradient(to top, rgba(6,11,20,.94) 0%, rgba(6,11,20,.72) 34%, rgba(6,11,20,0) 100%)';
@@ -137,12 +185,9 @@ const overlay = title ? `
   var d = document.createElement('div');
   d.style.cssText = 'position:fixed;left:52px;bottom:44px;z-index:2147483647;pointer-events:none;' +
     'text-shadow:0 2px 18px rgba(0,0,0,.85);font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif';
-  d.innerHTML =
-    '${eyebrow ? `<div style="font-size:12px;font-weight:700;letter-spacing:.22em;color:${accent};margin-bottom:12px">${eyebrow}</div>` : ''}' +
-    '<div style="font-size:${title.length > 12 ? 38 : 46}px;font-weight:800;color:#fff;letter-spacing:.02em;line-height:1.15">${title}</div>' +
-    '${sub ? `<div style="font-size:15px;color:#a8bcd4;margin-top:12px;letter-spacing:.02em">${sub}</div>` : ''}';
+  d.innerHTML = ${JSON.stringify(titleHtml)};
   document.body.appendChild(d);
-` : '';
+`) : '';
 
 await send('Runtime.evaluate', {
   expression: `(function(){ var s=document.createElement('style'); s.textContent=${JSON.stringify(hideCss)}; document.head.appendChild(s);
