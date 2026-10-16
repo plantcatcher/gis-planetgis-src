@@ -6,7 +6,7 @@ import PageMeta from '@/components/common/PageMeta';
 import { getItem, getRelated, isResourceGated, isResourceViewOnly, isProvinceTag, type ContentItem } from '@/lib/content';
 import { recordDownload } from '@/services/learningService';
 import { trackResourceDownload } from '@/lib/analytics';
-import { renderMarkdown, extractFaq } from '@/lib/markdown';
+import { renderMarkdown, extractFaq, type FaqEntry } from '@/lib/markdown';
 import { useJsonLd } from '@/lib/seo';
 import { useImageLightbox, ImageLightbox } from '@/components/common/ImageLightbox';
 import { useContentBody } from '@/hooks/useContentBody';
@@ -52,9 +52,10 @@ const ResourceJsonLd: React.FC<{ item: ContentItem }> = ({ item }) => {
 
 // FAQ 结构化数据（GEO）：资料页的「常见问题」章节（原生 <details><summary>Q: …）
 // 解析为 FAQPage，供 AI 搜索引擎直接引用问答片段。
-const ResourceFaqJsonLd: React.FC<{ item: ContentItem }> = ({ item }) => {
-  const faqs = React.useMemo(() => extractFaq(item.body || ''), [item.body]);
-  if (!faqs.length) return null;
+// ⚠️ 注入器单独成组件、无条件调用 useJsonLd（理由同 ContentDetail 的 FaqSchema）：
+//    正文按篇懒加载，站内跳转时首渲染 faqs 为空、次渲染非空，若在 useJsonLd 之前
+//    early return 会造成前后 Hooks 数量不一致 → React #310 → 整棵树卸载 → 白屏。
+const ResourceFaqSchema: React.FC<{ faqs: FaqEntry[] }> = ({ faqs }) => {
   useJsonLd({
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -67,6 +68,12 @@ const ResourceFaqJsonLd: React.FC<{ item: ContentItem }> = ({ item }) => {
   return null;
 };
 
+const ResourceFaqJsonLd: React.FC<{ item: ContentItem }> = ({ item }) => {
+  const faqs = React.useMemo(() => extractFaq(item.body || ''), [item.body]);
+  if (!faqs.length) return null;
+  return <ResourceFaqSchema faqs={faqs} />;
+};
+
 // Dataset 结构化数据（GEO）：地理数据类资料额外输出一份 Dataset。
 //
 // 与 DataDownload 的分工：DataDownload 描述「这里有一个文件可下载」，
@@ -76,13 +83,12 @@ const ResourceFaqJsonLd: React.FC<{ item: ContentItem }> = ({ item }) => {
 //
 // 仅对「地理数据」类资料输出（group=地理数据 或带 dataFormat），
 // 标准规范 / 教材书籍等不属于数据集，不输出，避免语义污染。
-const ResourceDatasetJsonLd: React.FC<{ item: ContentItem }> = ({ item }) => {
-  const isDataset = item.group === '地理数据' || !!item.dataFormat;
-  if (!isDataset) return null;
-
-  // 覆盖范围：region（国内/国外）+ 标题里的国家/区域名，拼成人类可读的地域描述
-  const coverage = [item.region, item.title].filter(Boolean).join(' · ');
-
+// Dataset schema 注入器：同理单独成组件。isDataset 会随「资料页之间互相跳转」变化，
+//  在 useJsonLd 之前 early return 同样会触发 Hooks 数量不一致（React #310）导致白屏。
+const ResourceDatasetSchema: React.FC<{ item: ContentItem; coverage: string }> = ({
+  item,
+  coverage,
+}) => {
   useJsonLd({
     '@context': 'https://schema.org',
     '@type': 'Dataset',
@@ -106,6 +112,14 @@ const ResourceDatasetJsonLd: React.FC<{ item: ContentItem }> = ({ item }) => {
       : {}),
   });
   return null;
+};
+
+const ResourceDatasetJsonLd: React.FC<{ item: ContentItem }> = ({ item }) => {
+  const isDataset = item.group === '地理数据' || !!item.dataFormat;
+  if (!isDataset) return null;
+  // 覆盖范围：region（国内/国外）+ 标题里的国家/区域名，拼成人类可读的地域描述
+  const coverage = [item.region, item.title].filter(Boolean).join(' · ');
+  return <ResourceDatasetSchema item={item} coverage={coverage} />;
 };
 
 // 备用下载渠道：主链接不可用时的兜底（如 R2 直链之外再挂一个百度网盘）。

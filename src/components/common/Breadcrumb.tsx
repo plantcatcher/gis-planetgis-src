@@ -29,6 +29,24 @@ const pageNameMap: Record<string, string> = {
   changelog: '更新日志',
 };
 
+// BreadcrumbList 结构化数据注入器：单独拆成叶子组件，保证 useJsonLd 无条件调用。
+// ⚠️ 绝不能在调用 useJsonLd 之前 early return：路由切换时 items 条数会变
+//    （列表页 1 条 → 详情页 3 条），而同一位置的组件实例会被 React 复用，
+//    于是「上次渲染 0 个 Hook、这次 1 个 Hook」→ React #310 抛错 → 整棵树卸载 → 页面全白。
+const BreadcrumbSchema: React.FC<{ items: BreadcrumbItem[] }> = ({ items }) => {
+  useJsonLd({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: item.label,
+      ...(item.path ? { item: `https://planetgis.cn${item.path}` } : {}),
+    })),
+  });
+  return null;
+};
+
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ items: propItems }) => {
   const location = useLocation();
 
@@ -41,22 +59,9 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items: propItems }) => {
 
   if (items.length <= 1) return null;
 
-  // JSON-LD structured data for breadcrumbs
-  const schemaItems = items.map((item, i) => ({
-    '@type': 'ListItem',
-    position: i + 1,
-    name: item.label,
-    ...(item.path ? { item: `https://planetgis.cn${item.path}` } : {}),
-  }));
-
-  useJsonLd({
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: schemaItems,
-  });
-
   return (
     <>
+      <BreadcrumbSchema items={items} />
       {/* 容器宽度与全站列表页 / 详情页统一：max-w-7xl + px-4 md:px-8。
           改这里会同时影响所有页面，如需局部不同宽度请另建变体，不要直接改。 */}
       <nav aria-label="面包屑导航" className="max-w-7xl mx-auto px-4 md:px-8 pt-20 pb-2">

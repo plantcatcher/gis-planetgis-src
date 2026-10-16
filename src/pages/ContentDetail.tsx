@@ -4,7 +4,7 @@ import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import CoverImage from '@/components/common/CoverImage';
 import { getItem, getRelated, getByType, BASE_PATH, type ContentType, type ContentItem } from '@/lib/content';
-import { renderMarkdown, extractHeadings, extractFaq, extractSteps } from '@/lib/markdown';
+import { renderMarkdown, extractHeadings, extractFaq, extractSteps, type FaqEntry } from '@/lib/markdown';
 import { buildContentKey } from '@/services/learningService';
 import LearningTracker from '@/components/learning/LearningTracker';
 import FavoriteButton from '@/components/learning/FavoriteButton';
@@ -270,9 +270,11 @@ const ArticleJsonLd: React.FC<{ item: ContentItem; type: ContentType }> = ({ ite
 // 这是面向 AI 搜索引擎收益最高的结构化数据类型之一。
 // 站内 works / tools 页普遍带有 FAQ 章节（原生 <details><summary>Q: …），
 // 这里统一解析并注入，无需逐篇手写 schema。
-const FaqJsonLd: React.FC<{ item: ContentItem }> = ({ item }) => {
-  const faqs = useMemo(() => extractFaq(item.body || ''), [item.body]);
-  if (!faqs.length) return null;
+// ⚠️ 注入器必须单独成组件、无条件调用 useJsonLd：正文是按篇懒加载的，站内跳转时
+//    首渲染 body 为空（faqs=[] → 只调了 useMemo），正文到位后再渲染 faqs 非空又调
+//    useJsonLd → 前后 Hooks 数量不一致 → React #310 抛错 → 整棵树卸载 → 页面全白。
+//    早期把 `if (!faqs.length) return null` 写在 useJsonLd 之前，就是这个白屏的根因。
+const FaqSchema: React.FC<{ faqs: FaqEntry[] }> = ({ faqs }) => {
   useJsonLd({
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -285,16 +287,15 @@ const FaqJsonLd: React.FC<{ item: ContentItem }> = ({ item }) => {
   return null;
 };
 
+const FaqJsonLd: React.FC<{ item: ContentItem }> = ({ item }) => {
+  const faqs = useMemo(() => extractFaq(item.body || ''), [item.body]);
+  if (!faqs.length) return null;
+  return <FaqSchema faqs={faqs} />;
+};
+
 // HowTo 结构化数据（GEO）：工具页的「使用教程」有序列表 → HowTo.step。
 // 生成式引擎回答「怎么用 X 工具做 Y」时会优先引用带 Step 的页面。
-const HowToJsonLd: React.FC<{ item: ContentItem; type: ContentType }> = ({ item, type }) => {
-  // 仅工具页产出 HowTo：其正文有规范的「## 使用教程 + 有序列表」结构。
-  const steps = useMemo(
-    () => (type === 'tool' ? extractSteps(item.body || '') : []),
-    [item.body, type],
-  );
-  const canonical = `https://planetgis.cn/tools/${item.slug}`;
-  if (!steps.length) return null;
+const HowToSchema: React.FC<{ item: ContentItem; steps: string[] }> = ({ item, steps }) => {
   useJsonLd({
     '@context': 'https://schema.org',
     '@type': 'HowTo',
@@ -310,6 +311,16 @@ const HowToJsonLd: React.FC<{ item: ContentItem; type: ContentType }> = ({ item,
     })),
   });
   return null;
+};
+
+const HowToJsonLd: React.FC<{ item: ContentItem; type: ContentType }> = ({ item, type }) => {
+  // 仅工具页产出 HowTo：其正文有规范的「## 使用教程 + 有序列表」结构。
+  const steps = useMemo(
+    () => (type === 'tool' ? extractSteps(item.body || '') : []),
+    [item.body, type],
+  );
+  if (!steps.length) return null;
+  return <HowToSchema item={item} steps={steps} />;
 };
 
 export default function ContentDetail({ type }: Props) {
