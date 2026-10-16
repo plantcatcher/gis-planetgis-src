@@ -11,15 +11,10 @@ import type { ContentItem } from '@/lib/content';
 const fmtHeat = (n: number) =>
   n >= 1000 ? `${(n / 1000).toFixed(1).replace(/\.0$/, '')}k` : String(n);
 
-/** 从正文提取导语：优先摘要，否则取正文去 markdown 符号后的前若干字 */
+/** 从正文提取导语：优先摘要，否则用构建期预算好的正文摘录（正文已懒加载，卡片不持有它） */
 function leadOf(item: ContentItem): string {
   if (item.summary) return item.summary;
-  const text = item.body
-    .replace(/^---[\s\S]*?---/, '')
-    .replace(/[#>*`_>\-]/g, '')
-    .replace(/\s+/g, ' ')
-    .trim();
-  return text.slice(0, 72);
+  return item.lead || '';
 }
 
 /**

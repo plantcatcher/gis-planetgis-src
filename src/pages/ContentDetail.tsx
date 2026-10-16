@@ -12,6 +12,7 @@ import ShareButton from '@/components/common/ShareButton';
 import RewardCallout from '@/components/common/RewardCallout';
 import { useJsonLd } from '@/lib/seo';
 import { useImageLightbox, ImageLightbox } from '@/components/common/ImageLightbox';
+import { useContentBody } from '@/hooks/useContentBody';
 import NotFound from './NotFound';
 import { ArrowLeft, ArrowRight, ExternalLink, BookOpen, Layers, Wrench, Gamepad2, FileText, Map } from 'lucide-react';
 import { PageViewCount } from '@/lib/busuanzi';
@@ -315,13 +316,15 @@ export default function ContentDetail({ type }: Props) {
   const { slug } = useParams();
   const { lightbox, onImageClick, closeLightbox, navLightbox } = useImageLightbox();
   const item = slug ? getItem(type, slug) : undefined;
+  // 正文懒加载：首屏（hydration）前已由 main.tsx 预载，站内跳转时异步补载。
+  const { body, loading } = useContentBody(type, slug);
 
   if (!item) return <NotFound />;
 
   const label = typeLabel[type];
   const contentKey = buildContentKey(type, item.slug);
   const related = getRelated(type, item.slug, 6);
-  const toc = type === 'article' || type === 'learn' ? extractHeadings(item.body) : [];
+  const toc = type === 'article' || type === 'learn' ? extractHeadings(body) : [];
   const infobox = buildInfobox(item);
   const seeAlso = getSeeAlso(item, 5);
   const readingTime = type === 'article' || type === 'learn' ? getReadingTime(item) : 0;
@@ -341,9 +344,9 @@ export default function ContentDetail({ type }: Props) {
   // 系列作品正文中，把「打开/全部」入口卡插在「介绍」与「功能特点」两个小节之间
   // （所有 map/game 作品正文都含这两个 H2，拆分位置稳定）。
   const splitMark = '\n## 功能特点';
-  const splitAt = item.body.indexOf(splitMark);
-  const bodyBefore = splitAt >= 0 ? item.body.slice(0, splitAt) : item.body;
-  const bodyAfter = splitAt >= 0 ? item.body.slice(splitAt) : '';
+  const splitAt = body.indexOf(splitMark);
+  const bodyBefore = splitAt >= 0 ? body.slice(0, splitAt) : body;
+  const bodyAfter = splitAt >= 0 ? body.slice(splitAt) : '';
 
   return (
     <>
@@ -417,7 +420,16 @@ export default function ContentDetail({ type }: Props) {
         <p className="standfirst">{item.summary}</p>
       )}
 
-      {boardKey && boardCfg ? (
+      {loading ? (
+        // 站内跳转、目标正文尚未载入时的骨架。首屏（SSR/hydration）阶段 loading 恒为 false，
+        // 故不会与预渲染 HTML 产生差异；仅在客户端跳转的空窗期出现。
+        <div className="md-body animate-pulse space-y-3" aria-hidden="true">
+          <div className="h-4 w-3/4 rounded bg-muted" />
+          <div className="h-4 w-full rounded bg-muted" />
+          <div className="h-4 w-5/6 rounded bg-muted" />
+          <div className="h-4 w-2/3 rounded bg-muted" />
+        </div>
+      ) : boardKey && boardCfg ? (
         <>
           <div
             className="md-body"
@@ -437,7 +449,7 @@ export default function ContentDetail({ type }: Props) {
         <div
           className="md-body"
           onClick={onImageClick}
-          dangerouslySetInnerHTML={{ __html: renderMarkdown(item.body) }}
+          dangerouslySetInnerHTML={{ __html: renderMarkdown(body) }}
         />
       )}
       <ImageLightbox state={lightbox} onClose={closeLightbox} onNav={navLightbox} />
@@ -518,7 +530,8 @@ export default function ContentDetail({ type }: Props) {
           <div className="mb-6 flex items-center justify-between gap-3">
             <h2 className="text-xl font-bold flex items-center gap-2">
               <ArrowRight className="w-5 h-5 text-primary" />
-              {type === 'work' ? '相关作品' : type === 'tool' ? '相关工具' : type === 'learn' ? '相关学习' : '相关文章'}
+              {/* 本区块仅在 type 为 article / learn 时渲染（见上方条件），故只需区分这两种 */}
+              {type === 'learn' ? '相关学习' : '相关文章'}
             </h2>
             <Link
               to="/learn"

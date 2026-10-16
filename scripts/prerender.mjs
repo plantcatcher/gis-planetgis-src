@@ -67,7 +67,7 @@ function buildHtml(template, { html, head }, { noindex = false } = {}) {
 
 try {
   const routes = await collectRoutes(vite);
-  const { render } = await vite.ssrLoadModule('/src/entry-server.tsx');
+  const { render, preloadRoute } = await vite.ssrLoadModule('/src/entry-server.tsx');
   const template = readFileSync(join(DIST, 'index.html'), 'utf-8');
 
   let ok = 0;
@@ -75,6 +75,9 @@ try {
 
   for (const url of routes) {
     try {
+      // 正文按篇懒加载（见 src/lib/content.ts）：渲染前先把当前路由的正文预载好，
+      // 否则 renderToString 拿到的是空正文，产出「零正文页面」。
+      await preloadRoute(url);
       const rendered = await render(url);
       // tag 聚合页属薄内容：正文仅数百~两千字，且与所属文章高度重合，
       // 全站 858 条曾占 sitemap 的 71%，会吃掉抓取配额、拉低整站质量信号。

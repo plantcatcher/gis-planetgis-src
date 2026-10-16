@@ -15,6 +15,11 @@
 import heatRaw from '../data/heat.json';
 const HEAT: Record<string, number> = (heatRaw as unknown as Record<string, number>) || {};
 
+// 内容元数据索引（不含正文）：由 scripts/gen-content-index.mjs 在 dev/build 前置生成。
+// 过去这里是 eager glob 把全部 markdown（含正文，约 4MB）打进主 bundle，是首包 4.9MB 的主因；
+// 现在只常驻这份轻量元数据，正文改由下方 loadBody() 按篇懒加载（详见该函数注释）。
+import contentIndexRaw from '../data/content-index.json';
+
 export type ContentType = 'work' | 'map' | 'game' | 'tool' | 'article' | 'learn' | 'resource';
 
 /**
@@ -122,13 +127,40 @@ export interface ContentItem {
   dataFormat?: string;
   /** 页面热度：近 30 天 GA4 浏览量（构建期从 heat.json 注入，缺省 0） */
   heat?: number;
+  /**
+   * 正文字数（去空白）。由 scripts/gen-content-index.mjs 在构建期预计算并写入元数据索引，
+   * 列表卡片据此展示「N 字」而无需加载正文。
+   */
+  words?: number;
+  /** 预计阅读时长（分钟，由 words 按 350 字/分钟推导，构建期预计算） */
+  readingMin?: number;
+  /** 卡片导语：无 summary 时的正文摘录（构建期预计算，前 72 字）；有 summary 时为空 */
+  lead?: string;
 }
 
 interface Frontmatter {
   [key: string]: string;
 }
 
-const rawFiles = import.meta.glob('../../content/**/*.md', {
+interface IndexRow {
+  folder: string;
+  filename: string;
+  fm: Record<string, string>;
+  words: number;
+  lead: string;
+}
+const CONTENT_INDEX = contentIndexRaw as unknown as IndexRow[];
+
+// 正文按篇懒加载：非 eager 的 glob 让每个 .md 成为独立 chunk，仅在需要时拉取。
+// key 形如 `../../content/<folder>/<filename>.md`，loadBody 用它取到对应 loader。
+const bodyGlob = import.meta.glob('../../content/**/*.md', {
+  query: '?raw',
+  import: 'default',
+}) as Record<string, () => Promise<string>>;
+
+// changelog.md 供首页「动态与规划」实时读取（getChangelog / 时间线 / 规划卡片），
+// 保持 eager——仅一个文件，体积可忽略，但必须同步可得。
+const changelogGlob = import.meta.glob('../../content/changelog.md', {
   query: '?raw',
   import: 'default',
   eager: true,
@@ -151,19 +183,37 @@ function parseFrontmatter(raw: string): { data: Frontmatter; content: string } {
 
 const items: ContentItem[] = [];
 
-for (const [path, raw] of Object.entries(rawFiles)) {
-  // changelog.md 是更新日志专用文件，由 getChangelog 单独处理，不要当成文章。
-  if (path.endsWith('/changelog.md')) continue;
-  const { data, content } = parseFrontmatter(raw);
-  const seg = path.split('/');
-  const folder = seg[seg.length - 2]; // works | tools | articles
-  const filename = seg[seg.length - 1].replace(/\.md$/, '');
-  const type: ContentType =
-    folder === 'works' ? 'work' : folder === 'maps' ? 'map' : folder === 'games' ? 'game' : folder === 'tools' ? 'tool' : folder === 'learn' ? 'learn' : folder === 'downloads' ? 'resource' : 'article';
+/** 目录名 -> 内容类型。与 content 下的一级目录一一对应；preloadRoute 也复用。 */
+const folderToType = (folder: string): ContentType =>
+  folder === 'works'
+    ? 'work'
+    : folder === 'maps'
+      ? 'map'
+      : folder === 'games'
+        ? 'game'
+        : folder === 'tools'
+          ? 'tool'
+          : folder === 'learn'
+            ? 'learn'
+            : folder === 'downloads'
+              ? 'resource'
+              : 'article';
+
+/** `type:slug` -> 该篇正文的 loader（供 loadBody 按篇拉取） */
+const loaderByKey: Record<string, () => Promise<string>> = {};
+
+for (const row of CONTENT_INDEX) {
+  const data = row.fm;
+  const type = folderToType(row.folder);
+  const slug = data.slug || row.filename;
+
+  const loader = bodyGlob[`../../content/${row.folder}/${row.filename}.md`];
+  if (loader) loaderByKey[`${type}:${slug}`] = loader;
+
   items.push({
-    slug: data.slug || filename,
+    slug,
     type,
-    title: data.title || filename,
+    title: data.title || row.filename,
     cover: data.cover,
     summary: data.summary,
     link: data.link,
@@ -175,7 +225,11 @@ for (const [path, raw] of Object.entries(rawFiles)) {
     topics: data.topics ? data.topics.split(',').map((s) => s.trim()).filter(Boolean) : [],
     scope: data.scope,
     tags: data.tags ? data.tags.split(',').map((s) => s.trim()).filter(Boolean) : [],
-    body: content.trim(),
+    // 正文不在此常驻：初始为空，由 loadBody() 在需要时（hydration 前 / 预渲染前 / 站内跳转时）填入。
+    body: '',
+    words: row.words,
+    readingMin: Math.max(1, Math.ceil(row.words / 350)),
+    lead: row.lead || undefined,
     code: data.code,
     download: data.download,
     format: data.format,
@@ -206,8 +260,50 @@ for (const [path, raw] of Object.entries(rawFiles)) {
     group: data.group,
     region: data.region,
     dataFormat: data.dataFormat,
-    heat: HEAT[data.slug || filename] || 0,
+    heat: HEAT[slug] || 0,
   });
+}
+
+// ===== 正文懒加载 =====
+// 正文（全站约 4MB）不进主 bundle，按篇拆成独立 chunk。为了不破坏 SSG + hydrateRoot
+// 的 DOM 一致性，会在「第一次渲染之前」预载当前路由的正文：
+//   · 客户端：main.tsx 在 hydrateRoot() 之前 await preloadRoute(location.pathname)；
+//   · 预渲染：prerender.mjs 在 renderToString() 之前 await preloadRoute(url)。
+// 这样首屏渲染拿到的正文与服务端完全一致；只有站内客户端跳转到另一篇时才走异步补载。
+const bodyLoading = new Map<string, Promise<void>>();
+
+/** 载入某篇正文到 item.body（幂等；并发调用复用同一 Promise）。 */
+export function loadBody(type: ContentType, slug: string): Promise<void> {
+  const key = `${type}:${slug}`;
+  const item = items.find((i) => i.type === type && i.slug === slug);
+  if (!item || item.body) return Promise.resolve();
+  const existing = bodyLoading.get(key);
+  if (existing) return existing;
+  const loader = loaderByKey[key];
+  if (!loader) return Promise.resolve();
+  const p = loader()
+    .then((raw) => {
+      item.body = parseFrontmatter(raw).content.trim();
+    })
+    .finally(() => bodyLoading.delete(key));
+  bodyLoading.set(key, p);
+  return p;
+}
+
+/**
+ * 按 URL 路径预载正文——仅详情页路径会命中（`/<板块>/<slug>`，如 /learn/xxx）。
+ * 列表页 / 首页 / 多级路径（/maps/x/full 等）不需要正文，直接返回。
+ */
+export async function preloadRoute(pathname: string): Promise<void> {
+  const m = /^\/(works|maps|games|tools|articles|learn|downloads)\/([^/]+?)\/?$/.exec(pathname);
+  if (!m) return;
+  let slug = m[2];
+  try {
+    slug = decodeURIComponent(slug);
+  } catch {
+    /* 非法编码则按原样查 */
+  }
+  await loadBody(folderToType(m[1]), slug);
 }
 
 export const getWorks = (): ContentItem[] =>
@@ -422,8 +518,8 @@ export const getRelated = (type: ContentType, slug: string, limit = 6): ContentI
     .map((x) => x.i);
 };
 
-// 更新日志：content/changelog.md 单文件
-const changelogRaw = rawFiles['../../content/changelog.md'];
+// 更新日志：content/changelog.md 单文件（eager，见 changelogGlob）
+const changelogRaw = changelogGlob['../../content/changelog.md'];
 
 export const getChangelog = (): ContentItem | null => {
   if (!changelogRaw) return null;
@@ -497,16 +593,11 @@ export const getAllDetailPaths = (): string[] => {
 export const getDetailLastmodMap = (): Record<string, string> => {
   const map: Record<string, string> = {};
   for (const it of items) {
-    const base =
-      it.type === 'work'
-        ? 'works'
-        : it.type === 'tool'
-          ? 'tools'
-          : it.type === 'learn'
-            ? 'learn'
-            : it.type === 'resource'
-              ? 'downloads'
-              : 'articles';
+    // 路径前缀的唯一来源是 BASE_PATH（map→maps、game→games…），不要再手写一份。
+    // 旧实现用 if/else 且漏掉了 map / game 两类，它们落到默认分支被写成
+    // /articles/<slug>，于是 /maps/*、/games/* 在 sitemap 里取不到真实日期、
+    // 退化成构建当天——正是本函数要消除的「全站每天都在更新」失真信号。
+    const base = BASE_PATH[it.type];
     const d = (it.date || '').slice(0, 10);
     if (/^\d{4}-\d{2}-\d{2}$/.test(d)) map[`/${base}/${it.slug}`] = d;
   }

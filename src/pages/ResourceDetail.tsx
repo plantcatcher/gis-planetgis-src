@@ -9,6 +9,7 @@ import { trackResourceDownload } from '@/lib/analytics';
 import { renderMarkdown, extractFaq } from '@/lib/markdown';
 import { useJsonLd } from '@/lib/seo';
 import { useImageLightbox, ImageLightbox } from '@/components/common/ImageLightbox';
+import { useContentBody } from '@/hooks/useContentBody';
 import { PageViewCount } from '@/lib/busuanzi';
 import StandardTimeline from '@/components/common/StandardTimeline';
 import ShareButton from '@/components/common/ShareButton';
@@ -297,6 +298,8 @@ const ResourceDetail: React.FC = () => {
   const [unlocked, setUnlocked] = useState(false);
   const [error, setError] = useState(false);
   const { lightbox, onImageClick, closeLightbox, navLightbox } = useImageLightbox();
+  // 正文懒加载：首屏 hydration 前由 main.tsx 预载，站内跳转时异步补载。
+  const { body, loading } = useContentBody('resource', slug);
 
   const item = slug ? getItem('resource', slug) : undefined;
 
@@ -507,11 +510,19 @@ const ResourceDetail: React.FC = () => {
             </header>
 
             {/* 资料说明正文（预渲染，保证 SEO 正文完整；点击图片放大） */}
-            <div
-              className="md-body"
-              onClick={onImageClick}
-              dangerouslySetInnerHTML={{ __html: renderMarkdown(item.body) }}
-            />
+            {loading ? (
+              <div className="md-body animate-pulse space-y-3" aria-hidden="true">
+                <div className="h-4 w-3/4 rounded bg-muted" />
+                <div className="h-4 w-full rounded bg-muted" />
+                <div className="h-4 w-5/6 rounded bg-muted" />
+              </div>
+            ) : (
+              <div
+                className="md-body"
+                onClick={onImageClick}
+                dangerouslySetInnerHTML={{ __html: renderMarkdown(body) }}
+              />
+            )}
             <ImageLightbox state={lightbox} onClose={closeLightbox} onNav={navLightbox} />
 
             {/* ── 同主题标准演进时间线：当前页高亮，其余可点击跳转（frontmatter 有 timeline 才出现） ── */}

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Github, Youtube, MessageCircle, Instagram, Rss, ArrowRight, ExternalLink, Globe, Compass, Box, Share2, Calendar, Newspaper, Download, Lock, BookOpen } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import {
   getWorks,
   getMaps,
@@ -41,7 +41,9 @@ const iconMap: Record<string, any> = {
 // 注意：所有 motion 的 initial 都保持 opacity:1，确保预渲染（SSG）产出的
 // 静态 HTML 中文本天生可见，利于搜索引擎与 AdSense 抓取。
 const SectionWrapper = ({ children, title, id, className = '', kicker, lead, action }: { children: React.ReactNode, title?: string, id: string, className?: string, kicker?: string, lead?: string, action?: React.ReactNode }) => {
-  const getAnimationVariants = () => {
+  // 显式标注 Variants 返回类型：否则 ease: 'easeOut' 被推断为宽泛的 string，
+  // 与 framer-motion 的 Easing 联合类型不兼容（tsgo 会报 TS2322）。
+  const getAnimationVariants = (): Variants => {
     switch (id) {
       case 'profile':
         return { hidden: { opacity: 1, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } } };

@@ -3,12 +3,13 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build && node scripts/gen-redirects.mjs && node scripts/prerender.mjs && node scripts/gen-sitemap.mjs && node scripts/gen-llms.mjs && node scripts/check-seo.mjs && node scripts/baidu-push.mjs",
+    "dev": "node scripts/gen-content-index.mjs && vite",
+    "build": "node scripts/gen-content-index.mjs && tsc && vite build && node scripts/gen-redirects.mjs && node scripts/prerender.mjs && node scripts/gen-sitemap.mjs && node scripts/gen-llms.mjs && node scripts/check-seo.mjs && node scripts/baidu-push.mjs",
+    "gen:index": "node scripts/gen-content-index.mjs",
     "gen:llms": "node scripts/gen-llms.mjs --public",
     "push:baidu": "node scripts/baidu-push.mjs",
     "push:indexnow": "node scripts/indexnow-push.mjs",
-    "lint": "tsgo -p tsconfig.check.json; npx biome lint; .rules/check.sh;npx tailwindcss -i ./src/index.css -o /dev/null 2>&1 | grep -E '^(CssSyntaxError|Error):.*' || true;.rules/testBuild.sh"
+    "lint": "node scripts/gen-content-index.mjs; tsgo -p tsconfig.check.json; npx biome lint; .rules/check.sh;npx tailwindcss -i ./src/index.css -o /dev/null 2>&1 | grep -E '^(CssSyntaxError|Error):.*' || true;.rules/testBuild.sh"
   },
   "dependencies": {
     "@fontsource/noto-serif-sc": "^5.2.8",

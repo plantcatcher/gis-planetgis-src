@@ -21,10 +21,13 @@ export const estimateReadingTime = (body: string, wpm = 350): number => {
   return Math.max(1, Math.ceil(chars / wpm));
 };
 
-export const getReadingTime = (item: ContentItem): number => estimateReadingTime(item.body);
+/** 阅读时长：优先用构建期预算好的 readingMin（列表卡片在正文未加载时也能正确显示） */
+export const getReadingTime = (item: ContentItem): number =>
+  item.readingMin ?? estimateReadingTime(item.body);
 
-/** 正文字数（去空白） */
-export const getWordCount = (item: ContentItem): number => item.body.replace(/\s/g, '').length;
+/** 正文字数（去空白）：优先用构建期预算好的 words */
+export const getWordCount = (item: ContentItem): number =>
+  item.words ?? item.body.replace(/\s/g, '').length;
 
 export interface SearchHit {
   item: ContentItem;
@@ -46,7 +49,11 @@ export const searchAll = (query: string, pool?: ContentItem[]): SearchHit[] => {
     if (item.title.toLowerCase().includes(q)) score += 10;
     if (item.summary && item.summary.toLowerCase().includes(q)) score += 5;
     if ((item.tags || []).some((t) => t.toLowerCase().includes(q))) score += 3;
-    if (item.body.toLowerCase().includes(q)) score += 1;
+    if (item.category && item.category.toLowerCase().includes(q)) score += 2;
+    // 正文已改为按篇懒加载，列表页搜索时通常尚未加载，故以构建期预算的 lead（正文摘录）
+    // 作为「正文命中」的常驻弱信号；若该篇正文恰好已加载（如从详情页返回），再叠加原 +1 分。
+    if (item.lead && item.lead.toLowerCase().includes(q)) score += 1;
+    if (item.body && item.body.toLowerCase().includes(q)) score += 1;
     if (score > 0) hits.push({ item, type: item.type, score });
   }
   return hits.sort((a, b) => {

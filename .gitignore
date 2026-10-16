@@ -24,6 +24,9 @@ package-lock.json
 *.log
 build_*.log
 
+# 内容元数据索引：由 scripts/gen-content-index.mjs 在 dev/build 前置生成，属构建产物
+src/data/content-index.json
+
 # Agent 内存（非项目源码，不进仓库）
 .workbuddy/
 
@@ -46,6 +49,19 @@ build_*.log
 /_cover_*.txt
 /_shots_*.txt
 /_inspect_out.txt
+/_inspect_zip.py
+/_list_out.txt
+/_list_zip.py
+/_validate_out.txt
+/_validate_res.mjs
+/_git_check.txt
+/_git_push.txt
+/_git_status.txt
+/verify_games.txt
+# dist-check/ 是构建产物的临时快照目录（dist 已在上面忽略，这里补上同源目录）
+/dist-check/
+# Windows 快捷方式，误落仓库根目录时不应进版本库
+*.lnk
 scripts/_cache/
 
 # Editor directories and files
