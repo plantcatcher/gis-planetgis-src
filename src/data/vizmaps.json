@@ -1859,6 +1859,50 @@
         "desc": "MapLibre 互动查看器：按 11 个矿种大类着色（圆点大小随矿床规模递增）、散点 / 热力双模式、大类 / 规模 / 利用现状 / 省市级联筛选、名称搜索（飞向首个命中）、点选呼吸光晕 + 详情浮窗、省级排行榜、高德底图切换、下载入口"
       }
     ]
-  }
+  },
+{
+  "slug": "earthquake",
+  "entry": "/maps/earthquake/index.html",
+  "bbox": [
+    -180.0,
+    -85.0,
+    180.0,
+    85.0
+  ],
+  "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐，无需坐标偏移；不叠加 GCJ-02 底图）",
+  "basemap": "Esri World Imagery 卫星影像 / Esri World Shaded Relief 地形晕渲 / 深色无底图；高德瓦片只覆盖中国，全球尺度境外空白故不用",
+  "source": "美国地质调查局（USGS）实时地震目录 GeoJSON Feed（earthquake.usgs.gov，公共领域 / CC0，浏览器端每 60 秒拉取一次）。提供 all_hour / all_day / all_week / all_month 四种时间窗，前端按震级门槛（全部 / ≥1 / ≥2.5 / ≥4.5 / ≥6）过滤；点位颜色与半径按震级分级（<2.5 蓝、2.5–4.5 黄、4.5–6 橙、≥6 红），可点选看震级 / 深度 / 时间 / 坐标 / 海啸标记并跳转 USGS 事件页。本图为实时动态，不缓存静态矢量、不绘制国界，规避国界画法问题。",
+  "updated": "2026-10-18",
+  "data": [
+    {
+      "file": "maps/earthquake/index.html",
+      "features": 0,
+      "unit": "个互动页面（数据运行时从 USGS 拉取，无静态矢量文件）",
+      "desc": "MapLibre 实时查看器：USGS 四档时间窗切换、震级门槛过滤、自动刷新（60s）、最近地震列表、点选详情卡（震级 / 深度 / 时间 / 坐标 / 海啸预警 + USGS 链接）、按震级着色与发光、Esri 卫星 / 地形 / 深色三底图切换"
+    }
+  ]
+},
+{
+  "slug": "truesize",
+  "entry": "/maps/truesize/index.html",
+  "bbox": [
+    -180.0,
+    -85.0,
+    180.0,
+    85.0
+  ],
+  "crs": "WGS84 / EPSG:4326，底图采用 MapLibre 默认 Web 墨卡托（本图正是用这套常见投影演示其面积失真）；不叠加 GCJ-02 底图",
+  "basemap": "深色（默认）/ Esri 卫星影像 / Esri 地形晕渲；高德瓦片只覆盖中国，全球尺度境外空白故不用",
+  "source": "Natural Earth 110m Admin 0 国界（naturalearthdata.com，公共领域），已转 GeoJSON 自托管于本域名 /maps/truesize/data/countries.geojson，浏览器端一次性加载，不依赖外部 API。交互：点选或搜索选国 → 高亮可拖拽；拖动改写坐标；真实面积按球面公式对原始国界算定并写入属性 area_km2（拖动不改变），墨卡托放大倍数（1/cos²φ）随当前纬度实时变化。本图用 Web 墨卡托渲染来演示该投影的面积失真，不涉及国界画法争议。台湾按中国一部分并入 China 要素（同色、可整体拖动，不单列为独立国家），与本站水电、港口等地图口径一致。",
+  "updated": "2026-10-18",
+  "data": [
+    {
+      "file": "maps/truesize/index.html",
+      "features": 0,
+      "unit": "个互动页面（数据运行时从自托管 GeoJSON 拉取，无静态矢量文件）",
+      "desc": "MapLibre 真实面积对比器：176 国国界作参照（台湾已并入中国，不单列）；点选/搜索选国；拖拽改写坐标；右侧详情卡显示锁定的真实面积(km²)、随位置变化的中心纬度与墨卡托放大倍数(1/cos²φ)、相对老家倍数；原位置虚影对比；深色/卫星/地形三底图 + 30° 经纬网格"
+    }
+  ]
+}
 ]
 }

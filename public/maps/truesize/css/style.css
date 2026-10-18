@@ -1,0 +1,59 @@
+/* 国家真实面积对比 · True Size · 专题样式（其余复用 _shared/thematic/thematic.css） */
+html, body, #map { background: #060b14; }
+
+/* 搜索选国 */
+.ts-search { position: relative; }
+.ts-search input {
+  width: 100%; box-sizing: border-box;
+  padding: 9px 11px; font-size: 13px;
+  color: var(--text); background: rgba(255,255,255,.05);
+  border: 1px solid var(--line); border-radius: 8px; outline: none;
+}
+.ts-search input:focus { border-color: var(--accent); background: rgba(255,255,255,.08); }
+.ts-search input::placeholder { color: var(--muted); }
+.ts-results {
+  position: absolute; z-index: 30; top: calc(100% + 4px); left: 0; right: 0;
+  max-height: 240px; overflow-y: auto;
+  background: #0d1726; border: 1px solid var(--line); border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.5); padding: 4px;
+}
+.ts-res {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 1px; width: 100%;
+  padding: 7px 9px; background: none; border: none; border-radius: 6px; cursor: pointer; text-align: left;
+}
+.ts-res:hover { background: var(--accent-soft); }
+.ts-res b { font-size: 13px; color: #e6eefb; font-weight: 600; }
+.ts-res span { font-size: 11px; color: var(--muted); }
+.ts-empty { padding: 10px; font-size: 12px; color: var(--muted); text-align: center; }
+
+/* 快捷对比 */
+.ts-quick { display: flex; flex-wrap: wrap; gap: 6px; }
+.ts-chip {
+  padding: 6px 11px; font-size: 12.5px; color: #d7e2f1;
+  background: rgba(255,255,255,.05); border: 1px solid var(--line); border-radius: 999px;
+  cursor: pointer; transition: .15s;
+}
+.ts-chip:hover { color: #fff; border-color: var(--accent); background: var(--accent-soft); }
+
+/* 操作区 */
+.ts-ops { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.ts-btn {
+  padding: 7px 12px; font-size: 12.5px; color: var(--accent); font-weight: 600;
+  background: var(--accent-soft); border: 1px solid var(--accent-soft); border-radius: 8px; cursor: pointer;
+}
+.ts-btn:hover { color: #fff; border-color: var(--accent); }
+
+/* 左栏内的「行」控件（底图/网格已从原独立 .panel 并入介绍卡） */
+.block .row {
+  display: flex; align-items: center; gap: 8px; padding: 5px 0;
+  font-size: 12.5px; color: #cdd9e8; cursor: pointer;
+}
+.block .row input { accent-color: var(--accent); }
+.ts-row-gap { margin-top: 9px; }
+
+/* 详情卡：第三 metric 单位较长时收窄 */
+.detail .dt-metrics .v { font-size: 16px; }
+.detail .dt-metrics em { font-size: 17px; }
+
+/* 拖拽时禁止选中文字 */
+#map { user-select: none; }

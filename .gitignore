@@ -64,6 +64,9 @@ src/data/content-index.json
 *.lnk
 scripts/_cache/
 
+# ImageGen 生成的原图（封面已上传 R2 图床，原图不入库）
+/generated-images/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

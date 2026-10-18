@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>国家真实面积对比 · True Size of Countries</title>
+  <meta name="description" content="拖动任意国家到地图任意位置，亲眼看墨卡托投影如何让高纬度国家「虚胖」、让赤道国家「缩水」。数据基于 Natural Earth 公共领域国界，实时计算真实面积与墨卡托放大倍数。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <!-- ── 左：介绍 / 操作栏 ─────────────────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 全球总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-eq"></i>
+      <b>国家真实面积对比</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> TRUE SIZE · MERCATOR</small>
+      <h1><span>国家真实</span><b>面积对比</b></h1>
+      <p class="lead">你每天看到的平面世界地图（墨卡托投影）会<b>把高纬度国家放大</b>——格陵兰看起来和非洲一样大，其实只有它的 <b>1/14</b>。<b>点选任意国家，拖到地图任意位置</b>，它的真实面积不变，但视觉大小会随纬度剧烈变化。右侧实时显示真实面积与「墨卡托放大倍数」。</p>
+
+      <!-- 搜索选国 -->
+      <section class="block">
+        <header><small>搜索国家</small><small class="hint-n">中文 / 英文</small></header>
+        <div class="ts-search">
+          <input id="tsSearch" type="text" autocomplete="off" placeholder="输入国家名，如 格陵兰 / Greenland" />
+          <div id="tsResults" class="ts-results" hidden></div>
+        </div>
+        <p class="note">也可以直接在地图上点击某个国家来选中它。</p>
+      </section>
+
+      <!-- 快捷对比 -->
+      <section class="block">
+        <header><small>快捷对比</small><small class="hint-n">点一下即选中</small></header>
+        <div class="ts-quick" id="tsQuick"></div>
+      </section>
+
+      <!-- 操作 -->
+      <section class="block">
+        <header><small>操作</small></header>
+        <div class="ts-ops">
+          <button type="button" id="btnReset" class="ts-btn">↺ 复位到原位置</button>
+          <label class="row"><input type="checkbox" id="ckGhost" checked /><span>保留原位置虚影</span></label>
+        </div>
+        <p class="note" id="dragHint">提示：用鼠标按住选中国家，拖动它到其他纬度，看大小如何变化。虚线轮廓是它的「老家」位置——对比两者就知道墨卡托骗了你多少。</p>
+      </section>
+
+      <!-- 底图与网格（并入左侧卡片，不再单独浮层） -->
+      <section class="block">
+        <header><small>底图与网格</small><small class="hint-n">切换底图 / 网格</small></header>
+        <div class="bm-seg">
+          <label class="bm-opt"><input type="radio" name="basemap" value="none" checked /><span>深色</span></label>
+          <label class="bm-opt"><input type="radio" name="basemap" value="img" /><span>卫星影像</span></label>
+          <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>地形晕渲</span></label>
+        </div>
+        <label class="row ts-row-gap"><input type="checkbox" id="ckGraticule" /><span>经纬网格</span></label>
+      </section>
+
+      <section class="block src">
+        <p><b>原理</b>：Web 墨卡托投影在纬度 φ 处把面积放大约 <b>1/cos²φ</b> 倍（相对赤道）。所以在 60° 纬度，同一块地看起来比在赤道大 <b>4 倍</b>；在 80° 高达 <b>33 倍</b>。本图实时按你拖动后的中心纬度计算这个倍数。<b>数据</b>：Natural Earth 110m 国界（公共领域），自托管于本域名，无需外部 API。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── 右上：选中国家详情卡 ─────────────────────────── -->
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">国家</small>
+      <div class="dt-actions">
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtSub">—</p>
+    <div class="dt-metrics">
+      <span><small id="dtLb1">真实面积</small><b><em id="dtV1">—</em><i id="dtU1">km²</i></b></span>
+      <span><small id="dtLb2">中心纬度</small><b><em id="dtV2">—</em><i id="dtU2">°</i></b></span>
+      <span><small id="dtLb3">墨卡托放大</small><b><em id="dtV3">—</em><i id="dtU3">×</i></b></span>
+    </div>
+    <section class="dt-desc">
+      <small id="dtDescLb">说明</small>
+      <p id="dtDesc">—</p>
+    </section>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <!-- ── 右下：图例 ─────────────────────────────────── -->
+  <div class="dock">
+    <div class="legend" id="legend"></div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="/maps/_shared/thematic/thematic.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

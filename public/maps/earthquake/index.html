@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>全球实时地震地图 · USGS 实时震情</title>
+  <meta name="description" content="数据来自美国地质调查局（USGS）实时地震目录，每 60 秒自动刷新。圆点大小与颜色随震级变化：蓝为微震、黄为中强震、橙为强震、红为大地震。可切换时间窗（1 小时 / 24 小时 / 7 天 / 30 天）与震级门槛，点选震源看震级、深度、时间与坐标，右侧列表按时间倒序列出最近地震。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <!-- ── 左：介绍栏 ─────────────────────────────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 全球总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-eq"></i>
+      <b>全球实时地震地图</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> LIVE EARTHQUAKES · USGS</small>
+      <h1><span>全球实时</span><b>地震地图</b></h1>
+      <p class="lead">数据来自 <b>美国地质调查局（USGS）</b>实时地震目录，<b>每 60 秒自动刷新</b>。圆点的<b>大小与颜色随震级变化</b>——蓝是微震、黄是中强震、橙是强震、红是大地震。点任意震源看震级、深度、时间和坐标；右侧列表按时间倒序列出最近发生的地震。</p>
+
+      <div class="facts">
+        <span><small>地震次数</small><b><span class="v"><em id="fCount">—</em></span><i>次</i></b></span>
+        <span><small>最大震级</small><b><span class="v"><em id="fMax">—</em></span><i>M</i></b></span>
+        <span><small>时间窗</small><b><span class="v"><em id="fWin">24h</em></span><i></i></b></span>
+        <span><small>最后更新</small><b><span class="v"><em id="fUpd">—</em></span><i></i></b></span>
+      </div>
+
+      <!-- 时间窗 -->
+      <section class="block">
+        <header><small>时间窗</small><small id="winN" class="hint-n">过去 24 小时</small></header>
+        <div class="seg" id="segWin">
+          <button type="button" data-v="hour">1 小时</button>
+          <button type="button" data-v="day" class="active">24 小时</button>
+          <button type="button" data-v="week">7 天</button>
+          <button type="button" data-v="month">30 天</button>
+        </div>
+        <p class="note" id="winNote">切换时间窗会重新拉取 USGS 对应时段的地震目录。</p>
+      </section>
+
+      <!-- 震级门槛 -->
+      <section class="block">
+        <header><small>震级门槛</small><small id="magLb" class="hint-n">全部</small></header>
+        <div class="chips" id="chipMag">
+          <button type="button" data-v="0" class="active">全部</button>
+          <button type="button" data-v="1">≥1</button>
+          <button type="button" data-v="2.5">≥2.5</button>
+          <button type="button" data-v="4.5">≥4.5</button>
+          <button type="button" data-v="6">≥6</button>
+        </div>
+        <p class="note">按震级下限过滤。M≥4.5 只留能明显感知的中强以上地震，M≥6 是全球关注的破坏性地震。</p>
+      </section>
+
+      <!-- 最近地震列表 -->
+      <section class="block">
+        <header><small>最近地震</small><small id="listN" class="hint-n">按时间倒序</small></header>
+        <div class="qlist" id="qlist"></div>
+        <p class="note" id="listNote">点任意一条，地图飞向该震源并展开详情。</p>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：美国地质调查局（USGS）实时地震目录 GeoJSON Feed（<b>earthquake.usgs.gov</b>，公共领域 / CC0），浏览器端每 60 秒拉取一次。<b>口径</b>：点位为地震震中（经纬度 + 深度），震级为 USGS 给出的矩震级估计；颜色与半径按震级分级（&lt;2.5 蓝 / 2.5–4.5 黄 / 4.5–6 橙 / ≥6 红）。<b>合规处理</b>：本图为实时动态，不缓存静态矢量、不绘制国界，规避国界画法问题。震级与定位会随台网数据回溯修正，以 USGS 事件页为准。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── 右上：震源详情卡 ───────────────────────────────────── -->
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">QUAKE</small>
+      <div class="dt-actions">
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtSub">—</p>
+    <div class="dt-metrics">
+      <span><small id="dtLb1">震级</small><b><em id="dtV1">—</em><i id="dtU1">级</i></b></span>
+      <span><small id="dtLb2">深度</small><b><em id="dtV2">—</em><i id="dtU2">km</i></b></span>
+      <span><small id="dtLb3">类型</small><b><em id="dtV3">—</em><i id="dtU3"></i></b></span>
+    </div>
+    <section class="dt-desc">
+      <small id="dtDescLb">震中与坐标</small>
+      <p id="dtDesc">—</p>
+    </section>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <!-- ── 右下：图例 ─────────────────────────────────────────── -->
+  <div class="dock">
+    <div class="legend" id="legend"></div>
+  </div>
+
+  <!-- ── 左下：图层与底图 ───────────────────────────────────── -->
+  <div class="panel" id="panel">
+    <div class="panel-head" id="panelHead">
+      <span>图层与底图</span>
+      <button type="button" id="panelToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckAuto" checked /><span>自动刷新（60s）</span></label>
+      <label class="row"><input type="checkbox" id="ckGlow" checked /><span>震源光晕</span></label>
+      <label class="row"><input type="checkbox" id="ckGraticule" /><span>经纬网格</span></label>
+      <div class="divider"></div>
+      <div class="bm-title">底图</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" /><span>深色</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" checked /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>地形晕渲</span></label>
+      </div>
+      <div class="divider"></div>
+      <p class="panel-note" id="panelNote">圆点<b>颜色与大小按震级</b>分级：<span style="color:#7dd3fc">蓝</span> 微震 → <span style="color:#fde047">黄</span> 中强 → <span style="color:#fb923c">橙</span> 强震 → <span style="color:#ef4444">红</span> 大震。深色底图下震源最清晰。</p>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="/maps/_shared/thematic/thematic.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
