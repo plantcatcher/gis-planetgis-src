@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>全球夜间灯光地图 · NASA Black Marble 夜间地球</title>
+  <meta name="description" content="用 NASA Black Marble 的 VIIRS 昼夜波段（DNB）年度合成，把地球所有灯光摊成一张图：城市、工业区、油气田火焰、远洋渔船灯光在漆黑的海陆背景上连成光网。可切换关灯地球、调节亮度、飞向 10 个区域。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <!-- ── 左：介绍栏 ─────────────────────────────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 全球总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar">
+      <i class="ic-eq"></i>
+      <b>全球夜间灯光</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> GLOBAL NIGHT LIGHTS · NASA BLACK MARBLE</small>
+      <h1><span>全球夜间灯光</span><b>分布地图</b></h1>
+      <p class="lead">把地球所有的灯光摊成一张图：城市、工业区、油气田的火焰、甚至远洋渔船的集鱼灯，都在漆黑的海陆背景上连成光网。这张图用 NASA Black Marble 的 VIIRS 昼夜波段（DNB）年度合成，按真实辐射亮度着色——你能直接「看见」人类活动的空间分布。</p>
+
+      <div class="facts">
+        <span><small>数据年份</small><b><span class="v">2012</span></b><i>年度合成</i></span>
+        <span><small>分辨率</small><b><span class="v">~750</span></b><i>米 / 像素</i></span>
+        <span><small>数据源</small><b><span class="v">NASA</span></b><i>Black Marble</i></span>
+      </div>
+
+      <section class="block">
+        <header><small>快速定位</small><small class="hint-n">10 个视角</small></header>
+        <div class="chips" id="presetList"></div>
+        <p class="note">点任意视角飞向该区域；再拖拽或滚轮缩放，看灯光如何沿海岸、河谷与工业带聚集。</p>
+      </section>
+
+      <section class="block">
+        <header><small>怎么读这张图</small></header>
+        <p class="note">亮度 ∝ 该像元的夜间平均辐射（nW·cm⁻²·sr⁻¹）。黄色越亮，人类夜间活动越密集。但 DNB 不只记城市灯光：天然气燃火、渔船灯光、野火也会被录进去；高纬度夏季的「白夜」在合成中被抑制，所以极区偏暗并非没有人类——只是算法压掉了余光。它反映「夜间被点亮的程度」，不能直接当人口或 GDP 地图读。</p>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：NASA Black Marble 计划 VIIRS Day-Night Band（DNB）合成，经 NASA GIBS（EOSDIS）以 WMTS 瓦片公开提供，<b>CC BY 4.0</b>，无需密钥。国界来自 Natural Earth 110m Admin 0（公共领域），自托管并做反子午线切割；台湾作为中国一部分并入，与本站口径一致。默认用 <b>VIIRS_CityLights_2012</b> 年度合成（GIBS 该年份端点稳定）；2020 年后年度图层在 GIBS 返回 400，故年份写死，后续可一处常量切换。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/maps" target="_top">全部地图</a>
+        <a href="/maps/world-nightlight" target="_top">图文详情</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── 右上：国家 / 区域详情卡 ──────────────────────────── -->
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">COUNTRY</small>
+      <div class="dt-actions">
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtSub">—</p>
+    <div class="dt-metrics">
+      <span><small id="dtLb1">面积</small><b><em id="dtV1">—</em><i id="dtU1">km²</i></b></span>
+      <span><small id="dtLb2">数据</small><b><em id="dtV2">—</em><i id="dtU2"></i></b></span>
+      <span><small id="dtLb3">编号</small><b><em id="dtV3">—</em><i id="dtU3"></i></b></span>
+    </div>
+    <section class="dt-desc">
+      <small id="dtDescLb">图注</small>
+      <p id="dtDesc">—</p>
+    </section>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <!-- ── 右下：图例 ─────────────────────────────────────────── -->
+  <div class="dock">
+    <div class="legend">
+      <span class="lg-cap">夜间灯光强度（DNB 辐射）</span>
+      <span class="grad"></span>
+      <span class="lg-row"><i style="background:#0a1428"></i>暗 · 无人区</span>
+      <span class="lg-row"><i style="background:#ffd98a"></i>亮 · 城市 / 工业区</span>
+      <span class="note" style="width:100%">注：DNB 同时记录城市灯光、天然气燃火、渔船与野火，非纯「人口密度」。</span>
+    </div>
+  </div>
+
+  <!-- ── 左下：图层与显示 ───────────────────────────────────── -->
+  <div class="panel" id="panel">
+    <div class="panel-head" id="panelHead">
+      <span>图层与显示</span>
+      <button type="button" id="panelToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckNight" checked /><span>夜间灯光（NASA）</span></label>
+      <label class="row"><input type="checkbox" id="ckBorders" checked /><span>国界线</span></label>
+      <label class="row"><input type="checkbox" id="ckGrat" checked /><span>经纬网格</span></label>
+      <label class="row"><input type="checkbox" id="ckBoost" /><span>灯光增强（提高对比）</span></label>
+      <div class="divider"></div>
+      <div class="row" style="display:block">
+        <small style="display:block;margin-bottom:7px">灯光不透明度 <b id="opacityVal">100%</b></small>
+        <input type="range" id="opacity" class="slider" min="20" max="100" value="100" />
+      </div>
+      <button type="button" id="btnLights" class="panel-btn">关灯地球（隐藏灯光）</button>
+      <div class="divider"></div>
+      <p class="panel-note"><b>数据源</b>：NASA Black Marble / VIIRS DNB（GIBS，CC BY 4.0）。底图本身即夜间灯光影像，国界细线为自托管矢量（176 国，已反子午线切割）。点国界看中文国名，点金色热点看区域解读。</p>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

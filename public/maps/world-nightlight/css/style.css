@@ -1,0 +1,71 @@
+/* 全球夜间灯光互动地图 · 专题样式
+   基于 _shared/thematic/thematic.css（深色专题风）。
+   配色取「夜灯」暖金：深空底 + 暖金 accent，与灯光黄呼应。 */
+
+:root {
+  --accent: #ffd98a;
+  --accent-light: #fff0c2;
+  --accent-dark: #e0a93a;
+  --accent-soft: rgba(255, 217, 138, 0.14);
+  --bg: #04060d;
+}
+
+html, body, #map { background: var(--bg); }
+
+/* 介绍栏小字统计 */
+.facts em { font-size: 18px; }
+.hint-n { font-size: 10.5px; color: var(--dim); font-weight: 400; }
+
+/* ── 预设视角 chips ─────────────────────────────────────── */
+.chips { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
+.chips button {
+  font: inherit; font-size: 11.5px; color: var(--muted); cursor: pointer;
+  background: rgba(255, 255, 255, .04); border: 1px solid var(--line);
+  border-radius: 7px; padding: 5px 10px;
+  transition: background .16s, color .16s, border-color .16s;
+  font-variant-numeric: tabular-nums;
+}
+.chips button:hover { color: var(--text); border-color: rgba(148, 178, 214, .42); background: rgba(255, 255, 255, .07); }
+.chips button.active { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); font-weight: 600; }
+
+/* ── 亮度滑块 ─────────────────────────────────────────── */
+.slider {
+  -webkit-appearance: none; appearance: none; width: 100%; height: 5px;
+  border-radius: 3px; background: rgba(255, 255, 255, .12); outline: none; cursor: pointer; margin: 0; display: block;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: 15px; height: 15px; border-radius: 50%;
+  background: var(--accent); border: 2px solid #04060d; box-shadow: 0 0 0 1px var(--accent), 0 2px 8px rgba(0, 0, 0, .5);
+}
+.slider::-moz-range-thumb {
+  width: 15px; height: 15px; border-radius: 50%; background: var(--accent); border: 2px solid #04060d;
+}
+
+/* ── 关灯地球 按钮 ───────────────────────────────────── */
+.panel-btn {
+  width: 100%; margin-top: 10px; font: inherit; font-size: 12.5px; color: var(--accent);
+  background: var(--accent-soft); border: 1px solid var(--accent-soft);
+  border-radius: 8px; padding: 8px 0; cursor: pointer;
+  transition: background .16s, color .16s, border-color .16s;
+}
+.panel-btn:hover { color: #fff; border-color: var(--accent); }
+.panel-btn.active { background: var(--accent); color: #241703; font-weight: 700; }
+
+/* ── 图例：亮度渐变条 ─────────────────────────────────── */
+.legend .lg-cap { font-size: 10px; color: var(--dim); letter-spacing: .04em; width: 100%; margin-bottom: 1px; }
+.legend .grad {
+  height: 10px; border-radius: 5px; width: 100%; margin: 2px 0 6px;
+  background: linear-gradient(90deg, #06101f, #1b2a4d, #6b5a2e, #ffd98a, #fff3c4);
+}
+.legend .lg-row { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
+.legend .lg-row i { width: 10px; height: 10px; border-radius: 2px; display: block; flex: 0 0 auto; }
+
+/* 详情卡顶部色条随选中对象切换（暖金） */
+.detail { border-top: 3px solid var(--rc, var(--accent)); }
+.detail > header small { color: var(--rc, var(--accent)); }
+
+/* 移动端：介绍栏收起时面板也收起，避免遮挡 */
+@media (max-width: 900px) {
+  .facts em { font-size: 16px; }
+  .legend { display: none; }
+}

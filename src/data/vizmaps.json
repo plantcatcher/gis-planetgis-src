@@ -1903,6 +1903,35 @@
       "desc": "MapLibre 真实面积对比器：176 国国界作参照（台湾已并入中国，不单列）；点选/搜索选国；拖拽改写坐标；右侧详情卡显示锁定的真实面积(km²)、随位置变化的中心纬度与墨卡托放大倍数(1/cos²φ)、相对老家倍数；原位置虚影对比；深色/卫星/地形三底图 + 30° 经纬网格"
     }
   ]
+},
+{
+  "slug": "world-nightlight",
+  "entry": "/maps/world-nightlight/index.html",
+  "bbox": [
+    -180.0,
+    -60.0,
+    180.0,
+    78.0
+  ],
+  "crs": "WGS84 / EPSG:4326；底图为 NASA Black Marble（Web 墨卡托瓦片），与 WGS84 对齐，无需坐标偏移；不叠加 GCJ-02 底图",
+  "viewport": "桌面总览 bbox = [-180,-60,180,78]；移动端 renderWorldCopies:false 下世界尺寸受限，默认全球视图（zoom 1.5）即可装下 360° 经度",
+  "basemap": "NASA Black Marble / VIIRS Day-Night Band 夜间灯光年度合成（GIBS WMTS，纯黑底 + 黄色灯光，主角图层）；叠加自托管世界国界细线（176 国，已做反子午线切割，无横贯全图横线）与 20° 经纬网格；可切换「关灯地球」（隐藏灯光层只剩国界与网格，直观对比人类活动的空间分布）。无外部底图依赖，GIBS 瓦片为唯一外网请求。",
+  "source": "NASA Black Marble 计划 VIIRS Day-Night Band（DNB）月度/年度合成，经 NASA GIBS（Global Imagery Browse Services, EOSDIS）以 WMTS 瓦片形式公开提供，无需密钥（CC BY 4.0 / NASA 公开数据）。本图默认用 VIIRS_CityLights_2012 年度城市灯光合成（GIBS 端点稳定可用）；GIBS 2020+ 年度图层在该 WMTS 返回 400，故年份写死为 2012，后续可在 config.js 单常量切换。国界来自 Natural Earth 110m Admin 0（公共领域），已转 GeoJSON 自托管并做反子午线切割，台湾作为中国一部分并入 China 要素（不单列），与本站口径一致；未绘制争议边界。灯光数据不能等同「人口密度」或「GDP」：DNB 同时记录城市灯光、天然气燃火、渔船灯光与野火，且受云、月相、极昼极夜影响；高纬度夏季的「白夜」区在合成中被抑制。",
+  "updated": "2026-10-19",
+  "data": [
+    {
+      "file": "maps/world-nightlight/data/countries.geojson",
+      "features": 176,
+      "unit": "个国家/地区国界线（已反子午线切割）",
+      "desc": "自托管世界国界细线，hover 显示中文国名、点选显示面积与数据年份；台湾已并入中国，不单列为国家"
+    },
+    {
+      "file": "maps/world-nightlight/index.html",
+      "features": 1,
+      "unit": "个互动页面",
+      "desc": "MapLibre 夜间灯光查看器：NASA Black Marble 瓦片叠加国界 + 经纬网；亮度不透明度滑块、灯光增强开关、关灯地球对比、10 个区域预设（全球/东亚/中国/南亚/欧洲/北美/中东/非洲/南美/澳洲）、12 个灯光热点标注（东京/长三角/珠三角/恒河平原/尼罗河三角洲/欧洲之夜/美国东北走廊等）"
+    }
+  ]
 }
 ]
 }
