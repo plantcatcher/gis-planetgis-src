@@ -1,0 +1,34 @@
+/* 中国人口密度点密度图 + 胡焕庸线 · 专题配色与微调
+   主色取暖金（人口点东南侧），强调色取深红（胡焕庸线）；
+   冷蓝为西北侧，与暖金在暗底上形成强对比的"两种人口密度"。 */
+:root {
+  --accent: #ffcf5c;
+  --accent-light: #ffe39a;
+  --accent-dark: #e0a82e;
+  --accent-soft: rgba(255, 207, 92, 0.14);
+  --hu: #ff5470;
+  --panel-solid: rgba(9, 15, 26, 0.55);
+}
+
+/* 详情卡：毛玻璃加强，隔着卡片读地图也不费劲 */
+.detail {
+  backdrop-filter: blur(18px) saturate(1.25);
+}
+.detail header { border-top: 3px solid var(--hu); }
+
+/* 介绍栏标题的金→红渐变，呼应"东南暖、西北冷"的叙事 */
+.intro-body h1 b {
+  background: linear-gradient(90deg, var(--accent-light), var(--hu));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* 图例：圆点 swatch 与线 swatch 在暗底上都加一点阴影 */
+.legend > span > i { box-shadow: 0 0 6px rgba(0, 0, 0, .4); }
+
+/* 事实数字卡片：东南侧占比用暖金强调 */
+.facts .v em { color: var(--accent-light); }
+
+@media (min-width: 901px) {
+  .dock { max-width: 280px; }
+  .legend { max-width: 280px; max-height: 42vh; overflow-y: auto; scrollbar-width: thin; }
+}
