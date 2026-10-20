@@ -1,0 +1,146 @@
+:root {
+  --bg: #05070d;
+  --panel: rgba(10, 15, 24, 0.8);
+  --panel-solid: rgba(8, 12, 20, 0.95);
+  --line: rgba(168, 199, 230, 0.17);
+  --text: #e8eef6;
+  --muted: #9db0c4;
+  --dim: #6e8199;
+  --accent: #9fd0ff;
+  --accent-light: #d4ecff;
+  --accent-dark: #5b8dc9;
+  --accent-soft: rgba(159, 208, 255, 0.15);
+  --radius: 12px;
+  --shadow: 0 12px 36px rgba(0, 0, 0, 0.55);
+  --intro-w: 356px;
+}
+
+#map {
+  background:
+    radial-gradient(circle at 50% 42%, rgba(25, 34, 52, 0.35), transparent 62%),
+    radial-gradient(circle at 50% 120%, rgba(255, 255, 255, 0.06), transparent 45%),
+    #05070d;
+}
+
+/* 3D 容器与 canvas */
+#map canvas { display: block; cursor: grab; }
+#map canvas:active { cursor: grabbing; }
+
+.legend em i { width: 10px; height: 3px; border-radius: 3px; }
+
+/* 共享主题不带的 chips / hint-n（regions.css 才有，这里按主题补一份） */
+.hint-n { font-size: 10.5px; color: var(--dim); font-weight: 400; font-variant-numeric: tabular-nums; }
+.chips { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; }
+.chips button {
+  font: inherit; font-size: 11.5px; color: var(--muted); cursor: pointer;
+  background: rgba(255,255,255,.04); border: 1px solid var(--line);
+  border-radius: 7px; padding: 5px 11px;
+  transition: background .16s, color .16s, border-color .16s;
+  font-variant-numeric: tabular-nums;
+}
+.chips button:hover { color: var(--text); }
+.chips button.active { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); font-weight: 600; }
+
+/* 标注：随球体旋转的月面地名 / 任务点 */
+.moon-label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 6;
+  font-size: 11px;
+  line-height: 1.3;
+  color: #e4ecf6;
+  padding: 3px 8px 3px 7px;
+  border-radius: 7px;
+  background: rgba(7, 11, 18, 0.82);
+  border: 1px solid rgba(159, 208, 255, 0.28);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  transition: color .16s, border-color .16s, background .16s, transform .16s;
+  white-space: nowrap;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.moon-label::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 2px;
+  height: 14px;
+  transform: translateX(-50%);
+  background: linear-gradient(to bottom, rgba(159, 208, 255, 0.45), transparent);
+}
+.moon-label.is-mission {
+  border-color: rgba(125, 211, 252, 0.5);
+  color: #dff2ff;
+}
+.moon-label.is-mission::before {
+  background: linear-gradient(to bottom, rgba(125, 211, 252, 0.6), transparent);
+}
+.moon-label:hover, .moon-label.active {
+  color: #fff;
+  background: rgba(9, 14, 24, 0.96);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(159, 208, 255, 0.25), 0 6px 18px rgba(0, 0, 0, 0.5);
+}
+/* 桌面端悬停高亮（JS 加 class，命中球面地物锚点时） */
+.moon-label.hover {
+  color: #fff;
+  background: rgba(9, 14, 24, 0.96);
+  border-color: var(--rc, var(--accent));
+}
+.moon-label.is-hidden { display: none; }
+.moon-label .dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  vertical-align: middle;
+}
+.moon-label.is-mission .dot { background: #7dd3fc; box-shadow: 0 0 8px #7dd3fc; }
+
+/* 悬停命中提示（跟随鼠标） */
+.ttip { z-index: 10; }
+
+/* 点击空白月面的临时坐标签 */
+.moon-pin {
+  position: absolute;
+  transform: translate(-50%, -165%);
+  pointer-events: none;
+  z-index: 7;
+  font-size: 11px;
+  color: #eaf3ff;
+  background: rgba(8, 14, 24, 0.92);
+  border: 1px solid rgba(125, 211, 252, 0.45);
+  border-radius: 7px;
+  padding: 3px 9px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity .25s;
+}
+.moon-pin.is-on { opacity: 1; }
+.moon-pin i {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 7px;
+  height: 7px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: #7dd3fc;
+  box-shadow: 0 0 8px #7dd3fc;
+}
+
+/* 触屏 / 小屏适配走共享主题样式；额外保证月球占满 */
+@media (max-width: 900px) {
+  .moon-label { font-size: 10px; padding: 2px 6px 2px 5px; max-width: 132px; }
+  .moon-label::before { height: 10px; }
+}

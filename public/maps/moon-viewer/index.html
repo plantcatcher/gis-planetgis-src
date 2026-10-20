@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>月球查看器 · 真实月面 3D 互动地图</title>
+  <meta name="description" content="可旋转、可搜索的 3D 月球查看器：真实月面纹理打底，叠加中文月海、撞击坑、山脉月谷与人类探测记录；点选即可查看经纬坐标、直径、任务与解读。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="labels" aria-hidden="true"></div>
+
+  <!-- ── 左：介绍 / 快速定位 ───────────────────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 回到正面</button>
+    </div>
+
+    <div class="intro-bar" id="introBar">
+      <i class="ic-eq"></i>
+      <b>月球查看器</b>
+      <span><em>收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> MOON VIEWER · 3D LUNAR GLOBE</small>
+      <h1><span>月球</span><b>三维查看器</b></h1>
+      <p class="lead">拖拽旋转这颗 3D 月球，滚轮拉近看月海与环形山。地图以真实月面纹理打底，叠加中文月面地名、山脉月谷与人类探测记录：从阿波罗着陆点到嫦娥六号，从雨海到南极-艾特肯盆地。</p>
+
+      <div class="facts">
+        <span><small>数据底图</small><b><span class="v">2K</span></b><i>月面等距圆柱纹理</i></span>
+        <span><small>月面地名</small><b><span class="v">60+</span></b><i>中文标注</i></span>
+        <span><small>记录起点</small><b><span class="v">1959</span></b><i>月球 2 号</i></span>
+      </div>
+
+      <section class="block">
+        <header><small>快速定位</small><small class="hint-n">拖拽 / 滚轮自由看</small></header>
+        <div class="chips" id="presetList"></div>
+        <p class="note">点预设镜头平滑转到对应区域。再拖拽即可自由旋转，滚轮放大看环形山细节。</p>
+      </section>
+
+      <section class="block">
+        <header><small>怎么读这张图</small></header>
+        <p class="note">颜色来自月面反射率（反照率）：亮色多为古老高地与年轻环形山的辐射纹，暗色为后期玄武岩熔岩充填的月海。月海大多集中在正面，背面高地遍布撞击坑——这种「正背不对称」本身就是月球故事的一部分。</p>
+      </section>
+
+      <section class="block">
+        <header><small>分类速查</small><small class="hint-n">点选切到该类别</small></header>
+        <div class="tabs" id="typeTabs" aria-label="按类别筛选标注"></div>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：月面影像来自 Solar System Scope 公开纹理（2K 等距圆柱贴图，版权见其许可）。月海 / 环形山 / 山脉 / 探测器坐标为 IAU 月面命名及 NASA LRO / 中国探月工程公开任务坐标整理，标注坐标供探索参考，非勘界用途。引擎使用 three.js（MIT）自托管。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/maps" target="_top">全部地图</a>
+        <a href="/maps/moon-viewer" target="_top">图文详情</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── 右上：地物 / 任务详情卡 ───────────────────────────── -->
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">LUNAR FEATURE</small>
+      <div class="dt-actions">
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtSub">—</p>
+    <div class="dt-metrics">
+      <span><small id="dtLb1">坐标</small><b><em id="dtV1">—</em><i id="dtU1">月面经纬</i></b></span>
+      <span><small id="dtLb2">规模</small><b><em id="dtV2">—</em><i id="dtU2">km</i></b></span>
+      <span><small id="dtLb3">分类</small><b><em id="dtV3">—</em><i id="dtU3"></i></b></span>
+    </div>
+    <section class="dt-desc">
+      <small id="dtDescLb">图注</small>
+      <p id="dtDesc">—</p>
+    </section>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <!-- ── 右下：图例 ─────────────────────────────────────────── -->
+  <div class="dock">
+    <div class="legend">
+      <span><em><i style="background:#d9d3c4"></i></em> 高地 / 亮区</span>
+      <span><em><i style="background:#5d6572"></i></em> 月海 / 暗色玄武岩</span>
+      <span><s style="background:var(--accent);box-shadow:0 0 6px var(--accent)"></s> 可点地物</span>
+      <span><s class="sq" style="background:#7dd3fc"></s> 人类探测记录</span>
+    </div>
+  </div>
+
+  <!-- ── 左下：图层与显示 ───────────────────────────────────── -->
+  <div class="panel" id="panel">
+    <div class="panel-head" id="panelHead">
+      <span>图层与显示</span>
+      <button type="button" id="panelToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckNames" checked /><span>月面地名</span></label>
+      <label class="row"><input type="checkbox" id="ckMissions" checked /><span>人类探测记录</span></label>
+      <label class="row"><input type="checkbox" id="ckGrat" /><span>经纬网格</span></label>
+      <label class="row"><input type="checkbox" id="ckSpin" checked /><span>自动旋转</span></label>
+      <div class="divider"></div>
+      <button type="button" id="btnReset" class="panel-btn">回到正面全景</button>
+      <div class="divider"></div>
+      <p class="panel-note"><b>操作</b>：拖拽旋转 · 滚轮 / 双指缩放 · 双击月面飞近看点。点地物弹出详情；<b>点月面空白处可读出该点经纬坐标</b>。</p>
+    </div>
+  </div>
+
+  <script src="js/three.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="data/features.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

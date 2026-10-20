@@ -32,7 +32,8 @@ const hideLayers = (arg('hideLayers', '') || '').split(',').map(s => s.trim()).f
 if (!slug) { console.error('缺 --slug'); process.exit(1); }
 
 const OUT = arg('out', `public/maps/${slug}/vizmap-${slug}-cover.jpg`);
-const URL_ = `${BASE}/maps/${slug}/index.html`;
+/* --url：自定义页面地址。3D 地图（无 MapLibre）可用它传 ?spin=0 等参数固定取景 */
+const URL_ = arg('url', `${BASE}/maps/${slug}/index.html`);
 
 try { fs.rmSync(PROF, { recursive: true, force: true }); } catch (_) {}
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
