@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>南极科考站分布地图 · 114 处南极设施一张图看全</title>
+  <meta name="description" content="把 COMNAP 南极设施总表里的 114 处科考站、营地与避难小屋放到同一张南极极地立体投影（EPSG:3031）地图上：颜色代表运营国，大小区分常年站与夏季站，可按国家/季节/分区筛选、搜索站名、查看海拔与距南极点距离。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"><canvas id="cv"></canvas></div>
+  <div id="labels"></div>
+
+  <!-- ── 左：介绍栏 ─────────────────────────────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 全洲总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-eq"></i>
+      <b>南极科考站分布地图</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> ANTARCTIC STATIONS · COMNAP 114</small>
+      <h1><span>南极科考站</span><b>分布地图</b></h1>
+      <p class="lead">31 个国家在南极大陆与周边岛屿上维持着 <b>114 处科考设施</b>。本图把它们放进同一张<b>南极极地立体投影</b>（EPSG:3031，极点为心的俯视图）：圆点的<b>颜色代表运营国</b>，<b>大小与描边区分常年站与夏季站</b>——离极点越远、越靠近海岸的地方站点越密，而冰盖内陆只有少数几座「灯塔」。</p>
+
+      <div class="facts">
+        <span><small>科考设施</small><b><span class="v"><em id="fSite">114</em></span><i>处</i></b></span>
+        <span><small>常年运行</small><b><span class="v"><em id="fYear">44</em></span><i>处</i></b></span>
+        <span><small>运营国家</small><b><span class="v"><em id="fCountry">31</em></span><i>个</i></b></span>
+        <span><small>夏季设施</small><b><span class="v"><em id="fSeasonN">70</em></span><i>处</i></b></span>
+      </div>
+
+      <!-- 地理分区筛选 -->
+      <section class="block">
+        <header><small>地理分区</small><small id="zoneN" class="hint-n"></small></header>
+        <div class="chips" id="chipZone">
+          <button type="button" data-v="all" class="active">全部</button>
+          <button type="button" data-v="AP">南极半岛</button>
+          <button type="button" data-v="RS">罗斯海</button>
+          <button type="button" data-v="IO">东南极·印度洋岸</button>
+          <button type="button" data-v="IN">内陆冰盖</button>
+          <button type="button" data-v="PO">威尔克斯—阿黛利</button>
+          <button type="button" data-v="WS">威德尔海</button>
+          <button type="button" data-v="MB">西南极</button>
+          <button type="button" data-v="SB">亚南极</button>
+        </div>
+        <p class="note" id="zoneNote">《南极条约》适用于南纬 60° 以南——这条金色虚线圈就是条约的南界起点。内陆冰盖一圈的站点海拔普遍在 2000 米以上，其中冰穹 A 的昆仑站 4087 米为全洲最高。</p>
+      </section>
+
+      <!-- 运行状态 / 季节 -->
+      <section class="block">
+        <header><small>运行状态与季节</small><small id="sn" class="hint-n"></small></header>
+        <div class="chips" id="chipSeason">
+          <button type="button" data-v="all" class="active">全部季节</button>
+          <button type="button" data-v="Y">常年</button>
+          <button type="button" data-v="S">夏季</button>
+        </div>
+        <div class="chips" id="chipStatus">
+          <button type="button" data-v="all" class="active">含暂时关闭</button>
+          <button type="button" data-v="O">仅在运行</button>
+        </div>
+        <p class="note" id="sNote">「常年」指全年有人驻守过冬，「夏季」只在南半球夏天（11 月—次年 3 月）开放。暂时关闭的设施以虚线圆表示，多受天气或换季维护影响。</p>
+      </section>
+
+      <!-- 名称搜索 -->
+      <section class="block">
+        <header><small>按名称搜索</small><small id="qN" class="hint-n"></small></header>
+        <div class="search">
+          <input type="search" id="q" placeholder="输入站名，如 昆仑 / McMurdo…" autocomplete="off" />
+          <button type="button" id="qClear" title="清除">✕</button>
+        </div>
+        <p class="note" id="qNote">中英文均可（大小写不敏感），同时匹配国家与落点描述。搜索与其他筛选叠加生效。</p>
+      </section>
+
+      <!-- 国家排行 -->
+      <section class="block">
+        <header><small id="rankTitle">各国设施数排行</small><small id="rankNote" class="hint-n">前 15</small></header>
+        <div class="chart" id="rankList"></div>
+        <p class="note" id="rankTip">按设施数降序，括号内为其中常年运行数。点任意一行，地图飞向该国全部站点并高亮。</p>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：COMNAP（各国南极计划管理者理事会）「Antarctic Facilities」总表 v3.5.0（2024 年发布，各成员国南极计划自报口径，仅含 Open 与 Temporarily Closed 设施），坐标、建成年、海拔与峰值人数均来自该表。共收录 <b>114 处</b>：考察站 83、营地 10、避难小屋 8、机场营地 7、实验室 3、中转库 3。已永久退役的历史站点不在本表内。<b>投影</b>：EPSG:3031 南极极地立体投影（标准纬线 71°S），底图为 Esri 南极影像（同为 3031 瓦片）；海岸线与冰架轮廓来自 Natural Earth。<b>合规处理</b>：依《南极条约》第四条，图上不绘制任何领土主张；麦夸里岛站位于南纬 60° 以北，已在卡片中单独标注。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/maps/antarctic-stations" target="_top">作品介绍</a>
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── 右上：站点 / 国家详情卡 ─────────────────────────────── -->
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">SITE</small>
+      <div class="dt-actions">
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtSub">—</p>
+    <div class="dt-metrics">
+      <span><small id="dtLb1">类型</small><b><em id="dtV1">—</em><i id="dtU1"></i></b></span>
+      <span><small id="dtLb2">建成</small><b><em id="dtV2">—</em><i id="dtU2"></i></b></span>
+      <span><small id="dtLb3">海拔</small><b><em id="dtV3">—</em><i id="dtU3"></i></b></span>
+    </div>
+    <section class="dt-desc">
+      <small id="dtDescLb">位置与说明</small>
+      <p id="dtDesc">—</p>
+    </section>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <!-- ── 右下：图例 ─────────────────────────────────────────── -->
+  <div class="dock">
+    <div class="legend" id="legend"></div>
+  </div>
+
+  <!-- ── 左下：图层与底图 ───────────────────────────────────── -->
+  <div class="panel" id="panel">
+    <div class="panel-head" id="panelHead">
+      <span>图层与底图</span>
+      <button type="button" id="panelToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckSites" checked /><span>科考站点</span></label>
+      <label class="row"><input type="checkbox" id="ckLabels" checked /><span>站点名称</span></label>
+      <label class="row"><input type="checkbox" id="ckPlaces" checked /><span>地名注记</span></label>
+      <label class="row"><input type="checkbox" id="ckGrat" checked /><span>经纬网与极点</span></label>
+      <div class="divider"></div>
+      <div class="bm-title">底图</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" checked /><span>冰盖矢量</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="dark" /><span>深色</span></label>
+      </div>
+      <div class="divider"></div>
+      <p class="panel-note" id="panelNote">
+        圆点<b>颜色代表运营国</b>；大圆为常年有人驻守，小圆为夏季设施，虚线圆为暂时关闭。选中站点显示白色脉冲环。
+      </p>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

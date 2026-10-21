@@ -1990,6 +1990,42 @@
         "desc": "自托管 Three.js 非模块版运行时，避免外网 CDN，保证 CF Pages 部署下始终可用。"
       }
     ]
+  },
+  {
+    "slug": "antarctic-stations",
+    "entry": "/maps/antarctic-stations/index.html",
+    "bbox": [-180.0, -90.0, 180.0, -60.0],
+    "crs": "EPSG:3031（WGS 84 / Antarctic Polar Stereographic，标准纬线 71°S、中央经线 0°）——Web 墨卡托在 85.05°S 以南无定义、画不出南极点站，故整图改用极地立体投影自绘 Canvas 渲染；底图瓦片服务本身就是 3031，无需重投影",
+    "viewport": "Canvas 2D 自绘相机：全洲总览视野半径约 3450 km（含 60°S 条约线），每像素米数上限 34000、下限 3；桌面视口避开 352px 侧栏与详情卡，移动端地图居上、介绍栏收成底部抽屉",
+    "basemap": "Esri「Polar / Antarctic Imagery」卫星影像（server.arcgisonline.com，EPSG:3031 原生瓦片：origin(-33699550.99, 33699551.02)、256px、24 级 LOD，本图用 3–17 级）/ 冰盖矢量（Natural Earth 陆地+冰架，亮色制图风）/ 深色纯专题；叠加 60°S 南极条约界线、南极圈、70°/80°S 纬圈、30° 经线辐条与地理南极点十字",
+    "source": "COMNAP（各国南极计划管理者理事会）「Antarctic Facilities」总表 v3.5.0（2024 年发布，各成员国南极计划自报，仅含 Open 与 Temporarily Closed）：114 处设施=考察站 83+营地 10+避难小屋 8+机场营地 7+实验室 3+中转库 3，覆盖 31 国；已永久退役的历史站点不在表内。海岸线与冰架轮廓取 Natural Earth ne_10m_land 与 ne_10m_antarctic_ice_shelves_polys（DP 容差 0.02° 抽稀）。中文名/地理分区/落点描述为人工整理；依《南极条约》第四条不绘制任何领土主张",
+    "updated": "2026-10-22",
+    "data": [
+      {
+        "file": "maps/antarctic-stations/data/points.json",
+        "features": 114,
+        "unit": "处科考设施",
+        "desc": "设施点位：id / n 中文名 / en 英文名 / c 运营国 / t 类型(station·camp·refuge·airfield·lab·depot) / s 季节(Y 常年·S 夏季) / st 状态(O 开放·C 暂关) / y 建成年 / pop 峰值人数 / el 海拔 / z 地理分区 / loc 落点描述 / sub 是否 60°S 以北。类型构成：考察站 83+营地 10+避难小屋 8+机场营地 7+实验室 3+中转库 3"
+      },
+      {
+        "file": "maps/antarctic-stations/data/countries.json",
+        "features": 31,
+        "unit": "个运营国",
+        "desc": "国家聚合：设施数 n、常年数 yr、夏季数 se、合计峰值人数 pop、规模最大站 top、首末建成年、分区构成 zc、球面加权重心 cxy（经度用单位矢量合成，避免跨反子午线取均值翻面）。最多智利 14 处、阿根廷 13、俄罗斯 11；中国 6 处"
+      },
+      {
+        "file": "maps/antarctic-stations/data/stats.json",
+        "features": 8,
+        "unit": "组统计口径",
+        "desc": "总量（114 设施/31 国/44 常年/70 夏季/11 暂关/1 亚南极）、八个地理分区计数与配色、六类设施计数、极值（最高海拔昆仑站 4087 m、最大峰值人数麦克默多站 1200、最早建成奥卡达斯站 1904）、缺测统计与数据源说明"
+      },
+      {
+        "file": "maps/antarctic-stations/data/geo.json",
+        "features": 462,
+        "unit": "个陆地/冰架面（304 陆地 + 158 冰架）",
+        "desc": "底图矢量：南极大陆（绕极点闭合环，含南极点）+ 亚南极岛屿 + Ross/Ronne-Filchner/Amery/Larsen 等命名冰架；WGS84 经纬 4 位小数、DP 0.02° 抽稀，前端按 EPSG:3031 投影后绘制"
+      }
+    ]
   }
 ]
 }

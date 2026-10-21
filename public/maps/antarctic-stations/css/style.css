@@ -1,0 +1,85 @@
+/* 南极科考站分布地图 · 专题样式
+   基于 _shared/thematic/thematic.css。
+   配色取「极地冰」：accent 用冰川蓝青，与站点按国家着色的暖冷色板拉开层次；
+   Canvas 本体负责地图渲染，这里只调浮层。 */
+
+:root {
+  --accent: #6ac4e8;
+  --accent-light: #a5ddf5;
+  --accent-dark: #3a9ec4;
+  --accent-soft: rgba(106, 196, 232, 0.14);
+  --panel-solid: rgba(5, 12, 22, 0.94);
+}
+
+html, body, #map { background: #060d18; }
+#map canvas { display: block; touch-action: none; cursor: grab; }
+#map canvas:active { cursor: grabbing; }
+
+/* 4 项统计一行放下 */
+.facts { grid-template-columns: repeat(4, 1fr); }
+.facts > span + span { padding-left: 8px; }
+.facts .v { font-size: 12px; }
+.facts em { font-size: 17px; }
+
+.hint-n { font-size: 10.5px; color: var(--dim); font-weight: 400; font-variant-numeric: tabular-nums; }
+
+/* ── 名称搜索框 ───────────────────────────────────────────── */
+.search { display: flex; gap: 5px; margin-bottom: 8px; }
+.search input {
+  flex: 1 1 auto; min-width: 0; font: inherit; font-size: 12.5px; color: var(--text);
+  background: rgba(255,255,255,.05); border: 1px solid var(--line);
+  border-radius: 8px; padding: 7px 10px; transition: border-color .16s, background .16s;
+}
+.search input::placeholder { color: var(--dim); }
+.search input:focus { outline: none; border-color: var(--accent); background: rgba(106,196,232,.08); }
+.search button {
+  flex: 0 0 auto; width: 34px; font: inherit; font-size: 13px; color: var(--muted); cursor: pointer;
+  background: rgba(255,255,255,.04); border: 1px solid var(--line); border-radius: 8px;
+  transition: color .16s, border-color .16s;
+}
+.search button:hover { color: var(--text); border-color: var(--accent); }
+
+/* ── 分区 / 状态 chips ────────────────────────────────────── */
+.chips { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
+.chips button {
+  font: inherit; font-size: 11.5px; color: var(--muted); cursor: pointer;
+  background: rgba(255,255,255,.04); border: 1px solid var(--line);
+  border-radius: 7px; padding: 5px 10px;
+  transition: background .16s, color .16s, border-color .16s;
+  font-variant-numeric: tabular-nums;
+}
+.chips button:hover { color: var(--text); }
+.chips button.active { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); font-weight: 600; }
+#chipStatus { margin-top: -2px; }
+
+/* ── 国家排行条：按国家色着色 ─────────────────────────────── */
+.chart { gap: 3px; }
+.chart-row { grid-template-columns: var(--nm-w, 72px) 1fr var(--vl-w, 64px); padding: 3px 5px; }
+.chart-row .nm { font-size: 12px; }
+.chart-row .bar { height: 7px; }
+.chart-row .bar i { background: var(--accent); }
+.chart-row .vl { font-size: 11.5px; }
+.chart-row .vl em { font-style: normal; color: var(--dim); font-size: 10px; }
+
+/* ── 图例 ─────────────────────────────────────────────────── */
+.legend { gap: 5px 13px; max-width: 300px; }
+.legend s { border: 1.4px solid rgba(255,255,255,.55); }
+
+/* 详情卡顶部色条随选中对象切换 */
+.detail { border-top: 3px solid var(--rc, var(--accent)); }
+.detail > header small { color: var(--rc, var(--accent)); }
+
+/* 底图 attribution（自绘 Canvas 没有控件，放图例下小字） */
+.attr {
+  font-size: 10px; color: rgba(100, 116, 139, .8); text-align: right;
+  padding: 2px 6px; pointer-events: none;
+}
+
+/* 移动端 */
+@media (max-width: 900px) {
+  .facts { grid-template-columns: repeat(4, 1fr); }
+  .facts em { font-size: 15px; }
+  .legend { max-width: none; }
+  .panel .row { padding: 9px 0; }
+  .search input { font-size: 14px; }
+}
