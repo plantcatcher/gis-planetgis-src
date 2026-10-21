@@ -288,7 +288,7 @@
     labelsEl.innerHTML = '';
     labelInfos = features.map(function (f, idx) {
       var el = document.createElement('div');
-      el.className = 'moon-label' + (f.type === 'mission' ? ' is-mission' : '');
+      el.className = 'moon-label type-' + (f.type || 'crater');
       el.style.setProperty('--rc', typeColor[f.type] || '#9fd0ff');
       el.innerHTML = '<span class="dot"></span><span class="txt"></span>';
       el.querySelector('.txt').textContent = f.name;
