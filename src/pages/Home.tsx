@@ -10,7 +10,6 @@ import {
   getTools,
   getLearns,
   getResources,
-  getHomeResources,
   getChangelogTimeline,
   getChangelogPlans,
   getLearnSubjects,
@@ -185,8 +184,8 @@ const GeoFactCard = () => {
     <div className="mb-10 rounded-2xl border border-primary/40 bg-background p-6 flex items-start gap-4">
       <div className="flex-1 min-w-0">
         <div className="text-xs font-semibold tracking-widest text-primary/80 uppercase mb-1">地理冷知识</div>
-        <p className="font-serif text-lg font-bold leading-snug">{fact.q}</p>
-        <p className="text-sm text-muted-foreground mt-1">{fact.a}</p>
+        <p className="font-serif text-base font-bold leading-snug">{fact.q}</p>
+        <p className="text-xs text-muted-foreground mt-1">{fact.a}</p>
       </div>
       <button
         type="button"
@@ -236,10 +235,25 @@ const Home = () => {
   const HOME_CARD_LIMIT = 3;
   const tools = getTools();
   const resources = getResources();
-  const homeResources = getHomeResources(6);
   const learns = getLearns();
   const subdomains = subdomainsData as { title: string; description: string; link: string }[];
   const subjects = getLearnSubjects();
+
+  // 首页各卡片板块按热度（近 30 天 GA4 浏览量）降序取前 N，与列表页排序口径一致；
+  // 热度图标不显示（learn 卡片 showDescription=false 已隐藏；其余板块本就不渲染热度标记）。
+  const learnTop = [...learns].sort((a, b) => (b.heat || 0) - (a.heat || 0)).slice(0, HOME_CARD_LIMIT);
+  const mapsTop = [...maps].sort((a, b) => (b.heat || 0) - (a.heat || 0)).slice(0, HOME_CARD_LIMIT);
+  const gamesTop = [...games].sort((a, b) => (b.heat || 0) - (a.heat || 0)).slice(0, HOME_CARD_LIMIT);
+  const downloadTop = [...resources].sort((a, b) => (b.heat || 0) - (a.heat || 0)).slice(0, 6);
+
+  // 关于/首页数据条：全部由内容库实时统计，确保两处一致且反映网站现状
+  const siteStats = [
+    { value: String(learns.length), label: '科普文章' },
+    { value: String(maps.length), label: '互动地图' },
+    { value: String(tools.length), label: '在线工具' },
+    { value: String(works.length), label: '可视化作品' },
+    { value: String(resources.length), label: '资料下载' },
+  ];
 
   // 左栏目录（与右侧 section 一一对应，滚动高亮）。
   // group 用于在侧栏里分组，避免 11 项平铺成一条长龙。
@@ -402,7 +416,7 @@ const Home = () => {
             className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {maps.slice(0, HOME_CARD_LIMIT).map((m, index) => (
+              {mapsTop.map((m, index) => (
                 <CardAnim key={m.slug} delay={index * 0.05}>
                   <Link
                     to={m.link || `/maps/${m.slug}/full`}
@@ -442,7 +456,7 @@ const Home = () => {
             className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {games.slice(0, HOME_CARD_LIMIT).map((game, index) => (
+              {gamesTop.map((game, index) => (
                 <CardAnim key={game.slug} delay={index * 0.05}>
                   <Link
                     to={game.link || `/${game.slug}`}
@@ -482,7 +496,7 @@ const Home = () => {
             className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
           >
             <div className="space-y-3">
-              {homeResources.slice(0, 6).map((r, index) => (
+              {downloadTop.map((r, index) => (
                 <CardAnim key={r.slug} delay={index * 0.04}>
                   <Link
                     to={`/downloads/${r.slug}`}
@@ -553,7 +567,7 @@ const Home = () => {
               className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
             >
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-              {getLearns().slice(0, HOME_CARD_LIMIT).map((item, i) => (
+              {learnTop.map((item, i) => (
                 <CardAnim key={item.slug} delay={i * 0.05}>
                   <KnowledgeCard item={item} showDescription={false} />
                 </CardAnim>
@@ -849,13 +863,8 @@ const Home = () => {
                 viewport={{ once: true }}
                 className="rounded-2xl bg-gradient-to-r from-primary/5 to-primary/10 dark:from-primary/10 dark:to-primary/5 border border-primary/10 p-6 md:p-8"
               >
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                  {[
-                    { value: '200+', label: '科普文章' },
-                    { value: String(tools.length), label: '在线工具' },
-                    { value: String(works.length), label: '可视化作品' },
-                    { value: '6+', label: '内容平台' }
-                  ].map((stat, index) => (
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-center">
+                  {siteStats.map((stat, index) => (
                     <motion.div
                       key={stat.label}
                       initial={{ opacity: 1, scale: 0.8 }}

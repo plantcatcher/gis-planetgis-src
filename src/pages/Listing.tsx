@@ -270,11 +270,12 @@ const ToolGrid = () => {
                 <Compass className="w-8 h-8" />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <h3 className="text-lg font-bold flex items-center gap-2 truncate">
-                    {t.title} <ExternalLink className="w-4 h-4 shrink-0" />
-                  </h3>
-                  <HeatTag heat={t.heat} />
+                <div className="flex items-start justify-between gap-3 mb-1.5">
+                  <h3 className="text-lg font-bold leading-snug">{t.title}</h3>
+                  <div className="flex items-center gap-2 shrink-0 pt-1">
+                    <HeatTag heat={t.heat} />
+                    <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                  </div>
                 </div>
                 <p className="text-sm text-muted-foreground">{t.summary}</p>
               </div>
@@ -298,12 +299,14 @@ const SubdomainGrid = () => {
             rel="noreferrer"
             className="group flex flex-col gap-2 items-start h-full p-4 rounded-2xl border border-primary/20 hover:border-primary transition-all hover:shadow-lg"
           >
-            <Globe className="w-8 h-8 text-primary" />
+            <div className="w-full flex items-start justify-between gap-3">
+              <Globe className="w-8 h-8 text-primary shrink-0" />
+              <span className="shrink-0 pt-0.5 text-xs text-primary flex items-center gap-1">
+                前往 <ExternalLink className="w-3 h-3" />
+              </span>
+            </div>
             <span className="font-bold text-base">{s.title}</span>
             <span className="text-xs text-muted-foreground w-full text-left">{s.description}</span>
-            <span className="mt-auto text-xs text-primary flex items-center gap-1">
-              前往 <ExternalLink className="w-3 h-3" />
-            </span>
           </a>
         </CardAnim>
       ))}

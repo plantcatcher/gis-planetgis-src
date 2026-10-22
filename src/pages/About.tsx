@@ -6,13 +6,25 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
-import { getTools } from '@/lib/content';
+import { getTools, getMaps, getWorks, getLearns, getResources } from '@/lib/content';
 
 const About = () => {
   const [wechatOpen, setWechatOpen] = useState(false);
   const [officialOpen, setOfficialOpen] = useState(false);
   // 工具数量从 content/tools/*.md 实时统计，避免手工维护的数字过时
   const toolCount = getTools().length;
+  const learnCount = getLearns().length;
+  const mapCount = getMaps().length;
+  const workCount = getWorks().length;
+  const resourceCount = getResources().length;
+  // 数据条与首页完全一致：全部由内容库实时统计
+  const siteStats = [
+    { value: String(learnCount), label: '科普文章' },
+    { value: String(mapCount), label: '互动地图' },
+    { value: String(toolCount), label: '在线工具' },
+    { value: String(workCount), label: '可视化作品' },
+    { value: String(resourceCount), label: '资料下载' },
+  ];
   const socialLinks = [
     { platform: '微信公众号', handle: '星球小捕手', desc: '搜索关注，获取最新地理科普推送', icon: MessageCircle, url: '#' },
     { platform: '公众号', handle: '那山那海那座城', desc: '扫码关注，获取最新地理科普文章', icon: Newspaper, url: '#' },
@@ -28,7 +40,7 @@ const About = () => {
     <>
       <PageMeta
         title="关于我们 - 星球小捕手 | PlanetGIS"
-        description={`星球小捕手是一个专注于地球科学的独立创作者品牌，用数据讲述地球变化，用地图发现世界的温度。近200篇原创文章、${toolCount}款在线工具、3个可视化作品，覆盖B站、YouTube、小红书等多平台。`}
+        description={`星球小捕手是一个专注于地球科学的独立创作者品牌，用数据讲述地球变化，用地图发现世界的温度。${learnCount}篇科普文章、${toolCount}款在线工具、${mapCount}个互动地图、${workCount}个可视化作品、${resourceCount}份资料下载，覆盖B站、YouTube、小红书等多平台。`}
       />
       <Breadcrumb />
     <div className="min-h-screen bg-background text-foreground">
@@ -81,13 +93,8 @@ const About = () => {
 
           {/* Stats */}
           <div className="rounded-2xl bg-gradient-to-r from-primary/5 to-primary/10 border border-primary/10 p-8 md:p-10 mb-12">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-              {[
-                { value: '200+', label: '科普文章' },
-                { value: String(toolCount), label: '在线工具' },
-                { value: '4', label: '可视化作品' },
-                { value: '6+', label: '内容平台' }
-              ].map((stat, index) => (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-center">
+              {siteStats.map((stat, index) => (
                 <motion.div
                   key={stat.label}
                   initial={false}
