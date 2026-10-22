@@ -2102,6 +2102,27 @@
         "desc": "自托管 Three.js 非模块版运行时，避免外网 CDN，保证 CF Pages 部署下始终可用。"
       }
     ]
+  },
+  {
+    "slug": "cn-basins",
+    "entry": "/maps/cn-basins/index.html",
+    "bbox": [73.0, 17.5, 135.5, 54.5],
+    "crs": "GCJ-02（火星坐标，与高德瓦片对齐）；盆地多边形为 USGS 真实沉积盆地边界（WGS84 已转 GCJ-02）",
+    "basemap": "高德瓦片：卫星影像 style=6（纯影像无标注）/ 矢量路网 style=7 / 无底图；可叠加省级行政区边界",
+    "source": "盆地边界：USGS Open-File Report 00-047《中国及邻近海域构造沉积盆地》Shapefile（1:500 万，据 1992 年能源矿产图数字化，原始 WGS84，已转 GCJ-02）；盆地识别与元数据：主要地理文献与教材通说归纳（四大盆地 + 吐鲁番—哈密 / 鄂尔多斯 / 松辽 / 华北（渤海）/ 江汉 / 南阳 / 珠江口 / 酒泉（河西走廊））；面积取常见说法；省界来自 _shared/china-provinces.json",
+    "updated": "2026-10-22",
+    "data": [
+      {
+        "file": "maps/cn-basins/data/basins.json",
+        "features": 12,
+        "desc": "真实沉积盆地边界多边形（USGS OFR 00-047，GCJ-02）：四大盆地（塔里木 / 准噶尔 / 柴达木 / 四川）+ 8 个主要盆地（吐鲁番—哈密 / 鄂尔多斯 / 松辽 / 华北（渤海）/ 江汉 / 南阳 / 珠江口 / 酒泉（河西走廊）），每个带名称 / 拼音 / 面积 / 位置 / 类型 / 海拔 / 特征 / 盘点亮点 / 配色 / 质心坐标；平均约 186 个顶点/盆地"
+      },
+      {
+        "file": "maps/_shared/china-provinces.json",
+        "features": 35,
+        "desc": "省级行政区边界（_shared 跨地图复用）"
+      }
+    ]
   }
 ]
 }

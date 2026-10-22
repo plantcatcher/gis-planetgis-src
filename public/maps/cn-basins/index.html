@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我国主要盆地分布图 · 互动地图</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+
+  <!-- 顶部栏：标题 -->
+  <div class="topbar">
+    <div class="brand">
+      <h1>我国主要盆地分布图</h1>
+      <p class="sub">四大盆地 + 8 个主要盆地 · 真实地质边界盘点 · 点击盆地查看详情</p>
+    </div>
+  </div>
+
+  <!-- 控制面板：图层开关 + 底图 + 盆地盘点列表 -->
+  <div class="panel ctrl-panel" id="ctrlPanel">
+    <div class="ctrl-head">
+      <span>图层与盆地盘点</span>
+      <button id="ctrlToggle" title="关闭面板" aria-label="关闭面板">×</button>
+    </div>
+    <div class="ctrl-body">
+      <label class="row"><input type="checkbox" id="chkBasins" checked />
+        <span class="swatch basin"></span> 盆地范围</label>
+      <label class="row"><input type="checkbox" id="chkLabel" checked />
+        <span class="swatch dot"></span> 盆地名称标注</label>
+      <label class="row"><input type="checkbox" id="chkBorder" checked />
+        <span class="swatch dot2"></span> 省级行政区边界（叠加）</label>
+
+      <div class="divider"></div>
+
+      <div class="bm-title">底图（三选一）</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" checked /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>矢量路网</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" /><span>无底图</span></label>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="basin-group-title">四大盆地</div>
+      <ul class="basin-list" id="listBig4"></ul>
+      <div class="basin-group-title">其他主要盆地</div>
+      <ul class="basin-list" id="listOther"></ul>
+
+      <div class="divider"></div>
+
+      <div class="cnt-box" id="cnt"></div>
+
+      <div class="legend-note">
+        <b>关于范围</b>：盆地多边形取自 <b>USGS《中国及邻近海域构造沉积盆地》</b>数据集（Open-File 00-047，1:500 万，据 1992 年能源矿产图数字化），是真实的沉积盆地地质边界，已转为 GCJ-02 坐标对齐高德底图；该数据在地理尺度上做了概化，且不同文献对盆地面积口径差异较大，弹窗中的面积取常见说法，请勿用于地质分析。<br/><br/>
+        <b>四大盆地</b>：塔里木、准噶尔、柴达木、四川——中学地理的经典组合；前三个是内陆盆地，四川盆地是外流盆地。<br/><br/>
+        <b>底图</b>：三选一 —— 卫星影像（默认，高德纯影像、免 key、无标注）/ 矢量路网 / 无底图（深色背景，只看盆地，做专题图很好用）。
+      </div>
+
+      <div class="divider"></div>
+      <!-- 站内导航：地图跑在主站的 iframe 里，用 target="_top" 跳出 iframe 整页跳转
+           （主站是 SSG 预渲染，直接访问 /maps/<slug> 为 200） -->
+      <div class="ctrl-nav">
+        <a href="/maps/cn-basins" target="_top">作品介绍</a>
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 面板关闭后出现的重新打开按钮 -->
+  <button id="ctrlOpen" class="ctrl-open" title="打开图层与盆地盘点">图层与盆地盘点</button>
+
+  <!-- 名称标注层：由 JS 注入到地图容器内，确保弹窗层级高于标注 -->
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
