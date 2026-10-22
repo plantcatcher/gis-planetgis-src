@@ -20,7 +20,7 @@ for (const k of ['HTTP_PROXY', 'HTTPS_PROXY', 'http_proxy', 'https_proxy', 'ALL_
   delete process.env[k];
 }
 
-import { readFileSync, writeFileSync, existsSync, mkdirSync, appendFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, mkdirSync, appendFileSync, copyFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 
 const ROOT = process.cwd();
@@ -42,7 +42,13 @@ const TOKEN = process.env.BAIDU_PUSH_TOKEN;
 const argv = process.argv.slice(2);
 const DRY = argv.includes('--dry') || argv.includes('--dry-run');
 const maxArg = argv.find((a) => a.startsWith('--max='));
-const MAX = maxArg ? Number.parseInt(maxArg.split('=')[1], 10) : 10;
+const maxParsed = maxArg ? Number.parseInt(maxArg.split('=')[1], 10) : NaN;
+// ⚠️ --max=abc 这类非法值会让 parseInt 返回 NaN，slice(0, NaN) 得到空数组，
+//    随后会把 undefined 推给百度并静默吃掉 1 条配额 —— 这里兜底回默认值。
+const MAX = Number.isFinite(maxParsed) && maxParsed > 0 ? maxParsed : 10;
+if (maxArg && Number.isNaN(maxParsed)) {
+  console.warn(`[baidu-daily] --max 参数非法（${maxArg}），回退为默认 ${MAX} 条。`);
+}
 
 if (!TOKEN) {
   console.log('[baidu-daily] 未配置 BAIDU_PUSH_TOKEN，跳过。');
@@ -86,11 +92,15 @@ async function pushOnce(urls) {
 /* ---------- 1. 拉线上 sitemap ---------- */
 let candidates = [];
 try {
-  const res = await fetch(SITEMAP_URL, { headers: { 'User-Agent': 'Mozilla/5.0 baidu-push-daily' } });
+  const res = await fetch(SITEMAP_URL, {
+    headers: { 'User-Agent': 'Mozilla/5.0 baidu-push-daily' },
+    signal: AbortSignal.timeout(20000)
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const xml = await res.text();
   candidates = Array.from(xml.matchAll(/<loc>([^<]+)<\/loc>/g), (m) => m[1]);
 } catch (e) {
-  console.error(`[baidu-daily] 拉取 ${SITEMAP_URL} 失败: ${e.message}`);
+  console.error(`[baidu-daily] 拉取 ${SITEMAP_URL} 失败: ${e.message}，本次不推送（避免拉到残缺 sitemap 误清历史）。`);
   process.exit(0);
 }
 if (!candidates.length) {
@@ -150,10 +160,23 @@ if (remain === null || remain > 0) {
 for (const u of accepted) history.add(u);
 const live = new Set(candidates);
 let pruned = 0;
-for (const u of [...history]) {
-  if (!live.has(u)) { history.delete(u); pruned++; }
+// ⚠️ 只有当本次候选集不小于已有历史时才做清理。sitemap 异常变少（CDN 旧缓存 / 线上短暂缺页）
+//    会触发大规模误删，而这些 URL 之后会被重复推送。异常时保留历史、只告警。
+if (candidates.length >= history.size) {
+  for (const u of [...history]) {
+    if (!live.has(u)) { history.delete(u); pruned++; }
+  }
+} else {
+  console.warn(
+    `[baidu-daily] 候选集 ${candidates.length} 条 < 历史 ${history.size} 条，疑似 sitemap 异常，本次跳过历史清理。`
+  );
 }
 mkdirSync(dirname(HISTORY), { recursive: true });
+// 写前备份：历史文件不入库且日志不记 URL，出错时靠 baidu-pushed.bak.json 兜底
+const BACKUP = HISTORY.replace(/\.json$/, '.bak.json');
+try {
+  if (existsSync(HISTORY)) copyFileSync(HISTORY, BACKUP);
+} catch { /* 备份失败不阻断主流程 */ }
 writeFileSync(
   HISTORY,
   `${JSON.stringify({ updatedAt: new Date().toISOString(), pushed: [...history].sort() }, null, 2)}\n`,
@@ -165,7 +188,14 @@ appendLog({ date: today(), attempted: batch.length, pushed: accepted.length, rem
 console.log(`[baidu-daily] 预计还需 ${Math.ceil((candidates.length - history.size) / MAX)} 天推完全部存量（按每天 ${MAX} 条）。`);
 
 function today() {
-  return new Date().toISOString().slice(0, 10);
+  // ⚠️ 必须用北京时间：本任务每天 00:25 跑，UTC 时间仍是「前一天 16:25」，
+  //    直接 toISOString().slice(0,10) 会把每天的推送记成前一天，日志全部错位。
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Shanghai',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).format(new Date());
 }
 function appendLog(rec) {
   try {

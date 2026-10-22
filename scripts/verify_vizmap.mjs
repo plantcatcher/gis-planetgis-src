@@ -140,7 +140,7 @@ const diag = await evalJs(`(function(){
     basemaps: document.querySelectorAll('input[name=basemap]').length,
     introCollapsed: !!(document.getElementById('intro') || {}).classList && document.getElementById('intro').classList.contains('is-collapsed')
   };
-  out.detailHidden = (document.getElementById('detail') || {}).hidden;
+  out.detailHidden = document.getElementById('detail') ? document.getElementById('detail').hidden : null;
   return out;
 })()`);
 console.log('DIAG ' + JSON.stringify(diag, null, 1));
@@ -164,7 +164,8 @@ if (CLICK || CLICK_AT) {
     return {
       fired: ${JSON.stringify(r)},
       point: [${cx}, ${cy}],
-      detailHidden: d.hidden,
+      detailHidden: d ? d.hidden : null,
+      popup: (document.querySelector('.maplibregl-popup-content h3') || {}).textContent || null,
       role: (document.getElementById('dtRole') || {}).textContent,
       name: (document.getElementById('dtName') || {}).textContent,
       metrics: Array.prototype.map.call(document.querySelectorAll('.dt-metrics em'), function(e){ return e.textContent }),

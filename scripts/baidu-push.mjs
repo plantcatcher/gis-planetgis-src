@@ -11,6 +11,8 @@
 //   node scripts/baidu-push.mjs --all          忽略历史，全量重推（谨慎：会瞬间吃光配额）
 //   node scripts/baidu-push.mjs --dry          只打印将要推的 URL，不真发请求
 //   node scripts/baidu-push.mjs /learn/xxx /works/yyy   只推指定路径（忽略历史）
+//      ⚠️ Git Bash 下请用 PowerShell 运行，或前置 MSYS_NO_PATHCONV=1，
+//         否则 /learn/xxx 会被 MSYS 转成 D:/... 的本地绝对路径。
 //
 // 配置（建议放在 CI Secrets / 本地 .env，勿提交）：
 //   BAIDU_SITE=https://planetgis.cn
@@ -21,7 +23,7 @@
 //
 // 未配置 token 时自动跳过，不影响构建；网络失败也只告警、不阻断构建。
 
-import { readFileSync, existsSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, existsSync, writeFileSync, mkdirSync, copyFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 
 const ROOT = process.cwd();
@@ -72,8 +74,27 @@ function loadHistory() {
 
 /* ---------- 收集候选 URL ---------- */
 let candidates = [];
+// completeSitemap = true 表示候选集是站点全部 URL，才允许用「候选集」为准做历史清理
+let completeSitemap = false;
 if (explicit.length) {
-  candidates = explicit.map((u) => (/^https?:\/\//i.test(u) ? u : `${SITE}/${u.replace(/^\/+/, '')}`));
+  const rejected = [];
+  candidates = explicit
+    .map((u) => (/^https?:\/\//i.test(u) ? u : `${SITE}/${u.replace(/^\/+/, '')}`))
+    .filter((u) => {
+      // ⚠️ Git Bash(MSYS) 会把 /maps/xxx 形式的参数转换成 Windows 绝对路径
+      //    （如 D:/App/.../maps/xxx），拼接后变成垃圾 URL，而百度不校验存在性照样 success。
+      //    这里拦掉含盘符或反斜杠的路径，避免静默吃掉配额。
+      const path = u.replace(/^https?:\/\/[^/]+\/?/i, '');
+      const valid = !/^[A-Za-z]:[\\/]/.test(path) && !path.includes('\\');
+      if (!valid) rejected.push(u);
+      return valid;
+    });
+  if (rejected.length) {
+    console.warn(
+      `[baidu-push] 忽略 ${rejected.length} 个非法路径参数（疑似 Git Bash 路径转换）：\n   ${rejected.join('\n   ')}\n` +
+        `   解决：用 PowerShell 运行，或在 Git Bash 里前置 MSYS_NO_PATHCONV=1。`,
+    );
+  }
 } else {
   const sitemapPath = join(DIST, 'sitemap.xml');
   if (!existsSync(sitemapPath)) {
@@ -83,6 +104,7 @@ if (explicit.length) {
   candidates = Array.from(
     readFileSync(sitemapPath, 'utf-8').matchAll(/<loc>([^<]+)<\/loc>/g),
   ).map((m) => m[1]);
+  completeSitemap = true;
 }
 
 if (candidates.length === 0) {
@@ -171,16 +193,30 @@ try {
 
   // 只有成功后才落历史，避免失败把 URL 永久标记为「已推」
   for (const u of pending) history.add(u);
-  // 顺手清理已不在 sitemap 里的历史条目，防止文件无限膨胀
-  const live = new Set(candidates);
+
+  // 顺手清理已不在 sitemap 里的历史条目，防止文件无限膨胀。
+  // ⚠️ 仅当候选集是**完整 sitemap**时才清理：显式传路径模式下候选集只有传入的那几条，
+  //    照此为准会把历史里其余成百上千条记录误删（2026-10-23 实测一次性删掉 15 条），
+  //    而该文件不入库且日志不记 URL —— 删除不可恢复，后续会被重复推送、白白吃掉配额。
   let pruned = 0;
-  for (const u of [...history]) {
-    if (!live.has(u)) {
-      history.delete(u);
-      pruned++;
+  if (completeSitemap) {
+    const live = new Set(candidates);
+    for (const u of [...history]) {
+      if (!live.has(u)) {
+        history.delete(u);
+        pruned++;
+      }
     }
+  } else if (history.size > pending.length) {
+    console.log('[baidu-push] 显式路径模式：跳过历史清理（避免误删已有记录）。');
   }
+
   mkdirSync(dirname(HISTORY), { recursive: true });
+  // 写前备份：出错时能从 baidu-pushed.bak.json 找回上一次的状态
+  const BACKUP = HISTORY.replace(/\.json$/, '.bak.json');
+  try {
+    if (existsSync(HISTORY)) copyFileSync(HISTORY, BACKUP);
+  } catch { /* 备份失败不阻断主流程 */ }
   writeFileSync(
     HISTORY,
     `${JSON.stringify(
