@@ -1,0 +1,235 @@
+:root {
+  --bg: #07060a;
+  --panel: rgba(16, 12, 20, 0.8);
+  --panel-solid: rgba(12, 9, 16, 0.95);
+  --line: rgba(230, 190, 160, 0.17);
+  --text: #f3ece4;
+  --muted: #c4b2a4;
+  --dim: #8f7d6f;
+  --accent: #f0a35e;
+  --accent-light: #ffd9b0;
+  --accent-dark: #b96a35;
+  --accent-soft: rgba(240, 163, 94, 0.15);
+  --radius: 12px;
+  --shadow: 0 12px 36px rgba(0, 0, 0, 0.55);
+  --intro-w: 356px;
+}
+
+#map {
+  background:
+    radial-gradient(circle at 50% 42%, rgba(70, 40, 28, 0.35), transparent 62%),
+    radial-gradient(circle at 50% 120%, rgba(255, 190, 140, 0.06), transparent 45%),
+    #07060a;
+}
+
+/* 3D 容器与 canvas */
+#map canvas { display: block; cursor: grab; }
+#map canvas:active { cursor: grabbing; }
+
+.legend em i { width: 10px; height: 3px; border-radius: 3px; }
+
+/* 共享主题不带的 chips / hint-n（regions.css 才有，这里按主题补一份） */
+.hint-n { font-size: 10.5px; color: var(--dim); font-weight: 400; font-variant-numeric: tabular-nums; }
+.chips { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; }
+.chips button {
+  font: inherit; font-size: 11.5px; color: var(--muted); cursor: pointer;
+  background: rgba(255,255,255,.04); border: 1px solid var(--line);
+  border-radius: 7px; padding: 5px 11px;
+  transition: background .16s, color .16s, border-color .16s;
+  font-variant-numeric: tabular-nums;
+}
+.chips button:hover { color: var(--text); }
+.chips button.active { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); font-weight: 600; }
+
+/* ── 时间模拟控件 ─────────────────────────────────────── */
+.trow { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.trow label { font-size: 11px; color: var(--muted); flex: 0 0 62px; }
+.trow output {
+  font-size: 11px; color: var(--accent); font-weight: 600;
+  font-variant-numeric: tabular-nums; flex: 0 0 46px; text-align: right;
+}
+.trow input[type="range"] {
+  flex: 1; min-width: 0; height: 18px;
+  appearance: none; -webkit-appearance: none;
+  background: transparent; cursor: pointer;
+}
+.trow input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px; border-radius: 2px;
+  background: linear-gradient(to right, rgba(240,163,94,.55), rgba(240,163,94,.18));
+}
+.trow input[type="range"]::-webkit-slider-thumb {
+  appearance: none; -webkit-appearance: none;
+  width: 12px; height: 12px; margin-top: -4px; border-radius: 50%;
+  background: var(--accent); border: 2px solid #1a1218;
+  box-shadow: 0 0 6px rgba(240,163,94,.6);
+}
+.trow input[type="range"]::-moz-range-track {
+  height: 4px; border-radius: 2px;
+  background: linear-gradient(to right, rgba(240,163,94,.55), rgba(240,163,94,.18));
+}
+.trow input[type="range"]::-moz-range-thumb {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--accent); border: 2px solid #1a1218;
+}
+.tm-readout {
+  font-size: 11px; line-height: 1.65; color: var(--muted);
+  background: rgba(240,163,94,.07); border: 1px solid rgba(240,163,94,.18);
+  border-radius: 8px; padding: 7px 10px; margin: 4px 0 8px;
+  font-variant-numeric: tabular-nums;
+}
+.tm-readout b { color: var(--accent-light); font-weight: 600; }
+
+/* 标注：随球体旋转的火面地名 / 任务点 */
+.moon-label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 6;
+  font-size: 11px;
+  line-height: 1.3;
+  color: #f3ece4;
+  padding: 3px 8px 3px 7px;
+  border-radius: 7px;
+  background: rgba(14, 10, 16, 0.82);
+  border: 1px solid rgba(240, 163, 94, 0.28);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  transition: color .16s, border-color .16s, background .16s, transform .16s;
+  white-space: nowrap;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.moon-label::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 2px;
+  height: 14px;
+  transform: translateX(-50%);
+  background: linear-gradient(to bottom, var(--rc, rgba(240, 163, 94, 0.45)), transparent);
+}
+.moon-label:hover, .moon-label.active {
+  color: #fff;
+  background: rgba(20, 14, 20, 0.96);
+  border-color: var(--rc, var(--accent));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--rc, #f0a35e) 26%, transparent), 0 6px 18px rgba(0, 0, 0, 0.5);
+}
+/* 桌面端悬停高亮（JS 加 class，命中球面地物锚点时） */
+.moon-label.hover {
+  color: #fff;
+  background: rgba(20, 14, 20, 0.96);
+  border-color: var(--rc, var(--accent));
+}
+.moon-label.is-hidden { display: none; }
+.moon-label .dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 4px;
+  border-radius: 50%;
+  background: var(--rc, var(--accent));
+  box-shadow: 0 0 8px var(--rc, var(--accent));
+  vertical-align: middle;
+}
+/* 按类型区分标注方式：图标形状 + 主题色 + 文字色，一眼可分五类
+   火山=三角(山峰) · 峡谷河道=方块(槽谷) · 平原盆地=圆点(面状) · 极区=圆环(冰盖) · 探测=发光星点(任务) */
+.moon-label.type-volcano { color: #ffd2a4; border-color: rgba(240, 163, 94, 0.4); }
+.moon-label.type-volcano .dot {
+  width: 0; height: 0; background: transparent;
+  border-left: 4.5px solid transparent;
+  border-right: 4.5px solid transparent;
+  border-bottom: 7px solid #f0a35e;
+  box-shadow: none; margin-right: 5px;
+}
+.moon-label.type-canyon { color: #ffb9a6; border-color: rgba(239, 111, 83, 0.4); }
+.moon-label.type-canyon .dot {
+  border-radius: 1.5px; background: #ef6f53; box-shadow: 0 0 7px #ef6f53;
+}
+.moon-label.type-plain { color: #f0e3c8; border-color: rgba(217, 200, 160, 0.34); }
+.moon-label.type-plain .dot {
+  background: #d9c8a0; box-shadow: 0 0 7px rgba(217, 200, 160, 0.8);
+}
+.moon-label.type-polar { color: #dff2ff; border-color: rgba(168, 220, 255, 0.42); }
+.moon-label.type-polar .dot {
+  width: 6px; height: 6px; background: transparent;
+  border: 1.8px solid #a8dcff; box-shadow: 0 0 7px rgba(168, 220, 255, 0.7);
+}
+.moon-label.type-mission {
+  --rc: #7dd3fc;
+  color: #eaf7ff;
+  border-color: rgba(125, 211, 252, 0.55);
+  background: rgba(10, 20, 30, 0.92);
+}
+.moon-label.type-mission .dot {
+  background: #7dd3fc;
+  box-shadow: 0 0 10px #7dd3fc, 0 0 4px #7dd3fc;
+}
+
+/* 悬停命中提示（跟随鼠标） */
+.ttip { z-index: 10; }
+
+/* 点击空白火面的临时坐标签 */
+.moon-pin {
+  position: absolute;
+  transform: translate(-50%, -165%);
+  pointer-events: none;
+  z-index: 7;
+  font-size: 11px;
+  color: #ffeedd;
+  background: rgba(16, 11, 16, 0.92);
+  border: 1px solid rgba(240, 163, 94, 0.5);
+  border-radius: 7px;
+  padding: 3px 9px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity .25s;
+}
+.moon-pin.is-on { opacity: 1; }
+.moon-pin i {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 7px;
+  height: 7px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: #f0a35e;
+  box-shadow: 0 0 8px #f0a35e;
+}
+
+/* 触屏 / 小屏适配走共享主题样式；额外保证火星占满 */
+@media (max-width: 900px) {
+  .moon-label { font-size: 10px; padding: 2px 6px 2px 5px; max-width: 132px; }
+  .moon-label::before { height: 10px; }
+  .trow label { flex: 0 0 56px; }
+}
+
+/* 图例图标：与五类标注形状/颜色一一对应 */
+.legend .lg {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 6px;
+  vertical-align: -1px;
+  border-radius: 50%;
+  background: #f0a35e;
+}
+.legend .lg-volcano {
+  width: 0; height: 0; border-radius: 0;
+  background: transparent;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 9px solid #f0a35e;
+}
+.legend .lg-canyon { border-radius: 2px; background: #ef6f53; }
+.legend .lg-plain { background: #d9c8a0; }
+.legend .lg-polar {
+  width: 7px; height: 7px; background: transparent;
+  border: 1.8px solid #a8dcff;
+}
+.legend .lg-mission { background: #7dd3fc; box-shadow: 0 0 6px #7dd3fc; }

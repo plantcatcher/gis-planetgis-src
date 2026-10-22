@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>火星模拟器 · 真实火面 3D 互动地图</title>
+  <meta name="description" content="可拖拽旋转的 3D 火星：自托管真实火面纹理打底，叠加火山、峡谷河道、平原盆地、极区冰冠与人类探测记录 50 条中文标注；内置季节与昼夜时间模拟，可调太阳黄经与火星日时刻，看见晨昏线扫过火面。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="labels" aria-hidden="true"></div>
+
+  <!-- ── 左：介绍 / 快速定位 / 时间模拟 ─────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 回到全景</button>
+    </div>
+
+    <div class="intro-bar" id="introBar">
+      <i class="ic-eq"></i>
+      <b>火星模拟器</b>
+      <span><em>收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> MARS SIMULATOR · 3D RED PLANET</small>
+      <h1><span>火星</span><b>三维模拟器</b></h1>
+      <p class="lead">拖拽旋转这颗 3D 火星，滚轮拉近看奥林匹斯火山与水手号峡谷。地图以真实火面纹理打底，叠加火山、峡谷河道、平原盆地、极区冰冠与人类探测记录五类中文标注——从祝融号着陆区到毅力号钻取的耶泽罗古湖三角洲。内置<b>季节与昼夜时间模拟</b>：拨动太阳黄经与火星日时刻，看晨昏线扫过整颗星球。</p>
+
+      <div class="facts">
+        <span><small>数据底图</small><b><span class="v">2K</span></b><i>火面等距圆柱纹理</i></span>
+        <span><small>中文标注</small><b><span class="v">50</span></b><i>五类地物与任务</i></span>
+        <span><small>自转轴倾角</small><b><span class="v">25.19°</span></b><i>季节比地球分明</i></span>
+      </div>
+
+      <section class="block">
+        <header><small>快速定位</small><small class="hint-n">拖拽 / 滚轮自由看</small></header>
+        <div class="chips" id="presetList"></div>
+        <p class="note">点预设镜头平滑转到对应区域。再拖拽即可自由旋转，滚轮放大看火山口与峡谷谷壁细节。</p>
+      </section>
+
+      <section class="block">
+        <header><small>时间模拟</small><small class="hint-n">季节 · 昼夜</small></header>
+        <div class="trow">
+          <label>季节 Ls</label>
+          <input type="range" id="rgLs" min="0" max="360" step="1" value="90" aria-label="太阳黄经 Ls" />
+          <output id="outLs">90°</output>
+        </div>
+        <div class="trow">
+          <label>火星时刻</label>
+          <input type="range" id="rgHour" min="0" max="24" step="0.25" value="12" aria-label="火星日时刻" />
+          <output id="outHour">12:00</output>
+        </div>
+        <div class="chips" id="seasonList"></div>
+        <p class="tm-readout" id="tmReadout">—</p>
+        <label class="row"><input type="checkbox" id="ckDaylight" /><span>真实昼夜（按季节与时刻打光）</span></label>
+        <p class="note">Ls 为太阳黄经：0° 北半球春分、90° 夏至、180° 秋分、270° 冬至。火星自转轴倾角 25.19°，季节幅度比地球更大；火星年长 686.98 个地球日（约 668.6 sol），一个 sol = 24 小时 39 分 35 秒。默认「浏览模式」太阳跟随镜头，打开真实昼夜后，夜半球自然压暗、晨昏线随时刻移动。</p>
+      </section>
+
+      <section class="block">
+        <header><small>怎么读这张图</small></header>
+        <p class="note">颜色来自火面反照率与矿物成分：氧化铁让大部分地表偏橙红，古老高地偏亮，玄武岩平原与尘埃覆盖区偏暗；南北两极的白色是水冰与干冰冰盖。暗区「大瑟提斯」在望远镜时代就被看见，一直是最醒目的地标。</p>
+      </section>
+
+      <section class="block">
+        <header><small>分类速查</small><small class="hint-n">点选切到该类别</small></header>
+        <div class="tabs" id="typeTabs" aria-label="按类别筛选标注"></div>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：火面影像来自 Solar System Scope 公开纹理（2K 等距圆柱贴图，版权见其许可）。地貌中心坐标与直径取 USGS / IAU Gazetteer of Planetary Nomenclature（planetocentric 纬度、东经 0–360°）；着陆器坐标取 NASA / ESA 官方公布值。标注坐标供探索参考，非勘界用途。引擎使用 three.js（MIT）自托管。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/maps" target="_top">全部地图</a>
+        <a href="/maps/mars-viewer" target="_top">图文详情</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── 右上：地物 / 任务详情卡 ─────────────────────────── -->
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">MARS FEATURE</small>
+      <div class="dt-actions">
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtSub">—</p>
+    <div class="dt-metrics">
+      <span><small id="dtLb1">坐标</small><b><em id="dtV1">—</em><i id="dtU1">火星经纬</i></b></span>
+      <span><small id="dtLb2">规模</small><b><em id="dtV2">—</em><i id="dtU2">km</i></b></span>
+      <span><small id="dtLb3">分类</small><b><em id="dtV3">—</em><i id="dtU3"></i></b></span>
+    </div>
+    <section class="dt-desc">
+      <small id="dtDescLb">图注</small>
+      <p id="dtDesc">—</p>
+    </section>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <!-- ── 右下：图例 ─────────────────────────────────────── -->
+  <div class="dock">
+    <div class="legend">
+      <span><small>标注图例</small></span>
+      <span><s class="lg lg-volcano"></s> 火山</span>
+      <span><s class="lg lg-canyon"></s> 峡谷与河道</span>
+      <span><s class="lg lg-plain"></s> 平原与盆地</span>
+      <span><s class="lg lg-polar"></s> 极区冰冠</span>
+      <span><s class="lg lg-mission"></s> 探测记录</span>
+    </div>
+  </div>
+
+  <!-- ── 左下：图层与显示 ───────────────────────────────── -->
+  <div class="panel" id="panel">
+    <div class="panel-head" id="panelHead">
+      <span>图层与显示</span>
+      <button type="button" id="panelToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckNames" checked /><span>火面地貌标注</span></label>
+      <label class="row"><input type="checkbox" id="ckMissions" checked /><span>人类探测记录</span></label>
+      <label class="row"><input type="checkbox" id="ckGrat" /><span>经纬网格</span></label>
+      <label class="row"><input type="checkbox" id="ckSpin" checked /><span>自动旋转</span></label>
+      <div class="divider"></div>
+      <button type="button" id="btnReset" class="panel-btn">回到全球全景</button>
+      <div class="divider"></div>
+      <p class="panel-note"><b>操作</b>：拖拽旋转 · 滚轮 / 双指缩放 · 双击火面飞近看点。点地物弹出详情；<b>点火面空白处可读出该点火星经纬</b>。时间模拟（季节 / 昼夜）见左侧「时间模拟」面板。</p>
+    </div>
+  </div>
+
+  <script src="js/three.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="data/features.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
