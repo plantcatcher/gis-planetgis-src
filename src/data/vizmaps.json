@@ -360,6 +360,41 @@
     ]
   },
   {
+    "slug": "world-currents",
+    "entry": "/maps/world-currents/index.html",
+    "bbox": [
+      -180.0,
+      -70.0,
+      180.0,
+      86.0
+    ],
+    "crs": "WGS84 / EPSG:4326（底图为 WGS84 / Web Mercator 球面墨卡托，无需坐标偏移；不叠加 GCJ-02 底图）",
+    "viewport": "桌面总览 bbox = [-180,-70,180,86]（上界 86°N 保穿极流北端，下界 -70°S 覆南极辐散带与极地东风漂流）；移动端另用 boundsMobile = [-70,-48,150,70]（大西洋暖流系统 + 印度洋季风区 + 太平洋西缘，全球约七成洋流条数）——MapLibre 在 renderWorldCopies:false 时强制「世界尺寸 ≥ 容器最长边」，390×844 竖屏把 zoom 顶死在 log2(844/512)=0.72，只能收窄取景对准内容重心",
+    "basemap": "Esri World Imagery 卫星影像（默认，按专题压暗）/ Esri World Shaded Relief 地形晕渲 / 深色纯专题；可叠加洋流名称标注与 20° 经纬网格。高德/百度/腾讯瓦片只覆盖中国，全球尺度下境外全空白，故本图不用（同 world-hydro）",
+    "source": "NOAA Ocean Service、Encyclopaedia Britannica「Ocean current」与通用海洋学教科书常用描述整理。口径：路径为示意性轴线（非实测流线），相邻点间距 1–3 个经纬度；输送量（Sv）与流速为文献常用约数，不同研究差异较大，仅作量级参考；流程 km 由 haversine 在 WGS84 椭球上累计。合规处理：全球海洋专题，不绘制国界线与行政边界，不涉及领土归属表达；上升流点位均为公海渔场区。渲染处理：跨反子午线洋流（黑潮尾部、南北赤道暖流、赤道逆流共 4 条）在 app.js 按 |Δlng| ≥ 180° 拆段重采样，否则 MapLibre 平面直连会画出横贯全图的横线",
+    "updated": "2026-10-22",
+    "data": [
+      {
+        "file": "maps/world-currents/data/currents.json",
+        "features": 32,
+        "unit": "条主要洋流",
+        "desc": "LineString 路径，属性：id / n 名称 / en 英文名 / type 暖寒（warm 19 · cold 13）/ ocean 大洋（太平 12 · 大西 12 · 印度 7 · 北冰洋 1 · 南大洋 2）/ flow 输送量约数 / speed 表层流速 / frm 起点 / to 终点 / desc 描述 / season 季节（all 29 · winter 1 · summer 2，季节流仅北印度洋）/ lenKm 流程 km。最长西风漂流 21923 km，其次赤道逆流 16037 km、极地东风漂流 15090 km"
+      },
+      {
+        "file": "maps/world-currents/data/upwelling.json",
+        "features": 6,
+        "unit": "处沿岸上升流区",
+        "desc": "Point 点位：秘鲁、加利福尼亚、本格拉、加那利、索马里（夏季）、南极辐散。属性：name / en / ocean / fishery 代表渔场 / desc 成因 / season（索马里为 summer，其余 all）/ lng / lat。详情卡脚注经 uwLink 映射回驱动洋流（如秘鲁上升流 → 秘鲁寒流）"
+      },
+      {
+        "file": "maps/world-currents/data/stats.json",
+        "features": 12,
+        "unit": "组统计口径",
+        "desc": "洋流总数与暖寒计数（32 = 暖 19 + 寒 13）、大洋分布、季节流条数与名称、上升流数量、流程长度前 5 名、updated 日期、sourceNote 数据口径与 complianceNote 合规说明（供介绍栏与详情卡复用）"
+      }
+    ]
+  },
+  {
     "slug": "world-nuclear",
     "entry": "/maps/world-nuclear/index.html",
     "bbox": [

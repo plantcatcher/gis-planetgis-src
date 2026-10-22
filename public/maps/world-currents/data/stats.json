@@ -1,0 +1,48 @@
+{
+ "nCurrents": 32,
+ "nWarm": 19,
+ "nCold": 13,
+ "byOcean": {
+  "pacific": 10,
+  "atlantic": 12,
+  "indian": 7,
+  "arctic": 1,
+  "southern": 2
+ },
+ "nSeasonal": 3,
+ "seasonalNames": [
+  "东北季风洋流",
+  "西南季风洋流",
+  "索马里寒流"
+ ],
+ "nUpwelling": 6,
+ "longest": {
+  "name": "西风漂流",
+  "lenKm": 21077
+ },
+ "top5Len": [
+  {
+   "name": "西风漂流",
+   "lenKm": 21077
+  },
+  {
+   "name": "极地东风漂流",
+   "lenKm": 15967
+  },
+  {
+   "name": "赤道逆流",
+   "lenKm": 14975
+  },
+  {
+   "name": "南赤道暖流",
+   "lenKm": 14182
+  },
+  {
+   "name": "北赤道暖流",
+   "lenKm": 10892
+  }
+ ],
+ "updated": "2026-10-22",
+ "sourceNote": "洋流路径与属性依据 NOAA Ocean Service、Encyclopaedia Britannica「Ocean current」及通用海洋学教科书的常用描述整理；路径为示意性轴线（非实测流线），输送量（Sv）与流速为文献常用约数，不同研究差异较大，仅作量级参考。",
+ "complianceNote": "本图为全球海洋专题，不绘制任何国界线与海岸线行政边界，不涉及领土归属表达；上升流点位均为公海渔场区。"
+}

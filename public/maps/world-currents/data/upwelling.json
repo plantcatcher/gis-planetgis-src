@@ -1,0 +1,119 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "uw-peru",
+    "name": "秘鲁上升流",
+    "en": "Peru Upwelling",
+    "ocean": "pacific",
+    "fishery": "秘鲁鳀鱼（曾占全球鱼粉产量约 1/4）",
+    "desc": "东南信风终年离岸吹拂，把表层暖水推离南美西岸，深层富营养盐水持续上涌。这里是全球生产力最高的上升流系统，也是厄尔尼诺现象的「震中」——增温年份上升流停摆，鳀鱼群消失、海鸟饿死。",
+    "season": "all"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -78,
+     -18
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "uw-california",
+    "name": "加利福尼亚上升流",
+    "en": "California Upwelling",
+    "ocean": "pacific",
+    "fishery": "沙丁鱼、鳀鱼、Dungeness 蟹",
+    "desc": "春夏季西北风沿北美西岸离岸吹送，形成季节性上升流。冷水上涌、营养盐充沛，支撑加州沿岸高产的海洋生态，也带来夏季海雾与海鲜产业。",
+    "season": "all"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -122,
+     36
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "uw-benguela",
+    "name": "本格拉上升流",
+    "en": "Benguela Upwelling",
+    "ocean": "atlantic",
+    "fishery": "纳米比亚沙丁鱼、鳕鱼",
+    "desc": "东南信风沿非洲西南岸常年离岸吹拂，深层冷水上涌不停。它是南大西洋东边界最强劲的上升流，把纳米比亚沿岸的沙漠海岸变成世界级渔场，低氧水团也周期性造成鱼类大量死亡。",
+    "season": "all"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     12,
+     -24
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "uw-canary",
+    "name": "加那利上升流",
+    "en": "Canary Upwelling",
+    "ocean": "atlantic",
+    "fishery": "沙丁鱼、金枪鱼",
+    "desc": "非洲西北岸的东北信风离岸分量驱动上升流，冷水沿海岸南下。它是加那利寒流的「引擎」，也给撒哈拉西岸带来渔业与海雾。",
+    "season": "all"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14,
+     24
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "uw-somali",
+    "name": "索马里上升流",
+    "en": "Somali Upwelling",
+    "ocean": "indian",
+    "fishery": "金枪鱼、沙丁鱼（季节性）",
+    "desc": "只在夏季（6–9 月）西南季风最强时出现：离岸风把表层水推向深海，沿岸出现寒流与低温带。它是北印度洋季节性最强的上升流，规模可与秘鲁系统相比。",
+    "season": "summer"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     49,
+     6
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "uw-antarctic",
+    "name": "南极辐散上升流",
+    "en": "Antarctic Divergence",
+    "ocean": "southern",
+    "fishery": "南极磷虾（约 3–5 亿吨存量）",
+    "desc": "南纬 60° 附近，极地东风驱动的东风漂流与西风驱动的西风漂流相互拉开，深层冷水沿辐散线大规模上涌。这里是南大洋生产力最高的区域，磷虾—鲸—海豹食物链的基础。",
+    "season": "all"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     100,
+     -63
+    ]
+   }
+  }
+ ]
+}
