@@ -2130,13 +2130,34 @@
     "bbox": [79.0, 18.0, 136.0, 54.5],
     "crs": "GCJ-02（火星坐标，与高德瓦片对齐）；平原边界由 WGS84 高程数据计算后转 GCJ-02",
     "basemap": "高德瓦片：卫星影像 style=6（纯影像无标注）/ 矢量路网 style=7 / 无底图；可叠加省级行政区边界",
-    "source": "边界全部由真实高程计算，非手画示意线：AWS Open Data「Terrain Tiles」terrarium 高程瓦片（z=8，约 600 米/像元）逐像素判据「海拔 ≤ 该平原上限 且 3×3 像元（约 2 km）高差 ≤ 起伏度阈值」，按各平原公开资料给出的分布范围做连通域圈定与种子点筛选；陆地掩膜用 _shared/china-provinces.json 剔除海域；面积口径为逐像元按纬度收缩的球面累计值，与教科书说法在弹窗中并列",
+    "source": "边界全部由真实高程计算，非手画示意线：AWS Open Data「Terrain Tiles」terrarium 高程瓦片（z=8，约 600 米/像元）逐像素判据「海拔 ≤ 该平原上限 且 3×3 像元（约 2 km）高差 ≤ 起伏度阈值」，按各平原公开资料给出的分布范围做连通域圈定与种子点筛选；陆地掩膜用 _shared/china-provinces.json 剔除海域；面积口径为逐像元按 Web Mercator 纬度收缩（cos² 纬度）的球面累计值，与教科书说法在弹窗中并列",
     "updated": "2026-10-23",
     "data": [
       {
         "file": "maps/cn-plains/data/plains.json",
         "features": 14,
         "desc": "平原边界多边形（真实高程计算，GCJ-02）：三大平原（东北 / 华北 / 长江中下游）+ 8 个区域平原（珠三角 / 成都 / 关中 / 河套 / 汾河 / 潮汕 / 汉中 / 台湾西部）+ 3 个特殊地貌带（河西走廊绿洲群 / 伊犁河谷 / 琼北台地），每个带名称 / 层级 / 面积（实测 + 常见说法）/ 位置 / 构成 / 海拔 / 土壤 / 特征 / 盘点亮点 / 配色 / 质心坐标；平均约 476 个顶点/平原"
+      },
+      {
+        "file": "maps/_shared/china-provinces.json",
+        "features": 35,
+        "desc": "省级行政区边界（_shared 跨地图复用）"
+      }
+    ]
+  },
+  {
+    "slug": "cn-plateaus",
+    "entry": "/maps/cn-plateaus/index.html",
+    "bbox": [73.0, 18.0, 136.0, 54.5],
+    "crs": "GCJ-02（火星坐标，与高德瓦片对齐）；高原边界由 WGS84 高程数据计算后转 GCJ-02",
+    "basemap": "高德瓦片：卫星影像 style=6（纯影像无标注）/ 矢量路网 style=7 / 无底图；可叠加省级行政区边界",
+    "source": "青藏高原采用张镱锂等（2002）《论青藏高原范围与面积》权威边界（经 Zenodo 6432940 分发，CC BY-SA 4.0），黄土高原采用 resdc「黄土高原空间范围」权威矢量（Krasovsky 1940 Albers 转 WGS84），两者均与中国省级行政区边界求交；其余 4 个高原由 AWS Open Data「Terrain Tiles」terrarium 高程瓦片（z=7，约 1.2 公里/像元）逐像素判据派生：「海拔带下限/上限 +（部分高原）3×3 像元高差 ≤ 起伏度阈值」，按各高原公开资料给出的分布范围做连通域圈定与种子点筛选，非手画示意线；陆地掩膜用 _shared/china-provinces.json 剔除境外与海域；面积口径为逐像元按 Web Mercator 纬度收缩（cos² 纬度）的球面累计值，与教科书口径在弹窗中并列",
+    "updated": "2026-10-23",
+    "data": [
+      {
+        "file": "maps/cn-plateaus/data/plateaus.json",
+        "features": 6,
+        "desc": "高原边界多边形（真实高程计算，GCJ-02）：四大高原（青藏 / 内蒙古 / 黄土 / 云贵）+ 2 个区域高原（鄂尔多斯 / 帕米尔中国境内），每个带名称 / 层级 / 面积（实测 + 狭义·广义口径）/ 位置 / 构成 / 海拔 / 地表覆盖 / 特征 / 盘点亮点 / 配色 / 质心坐标"
       },
       {
         "file": "maps/_shared/china-provinces.json",

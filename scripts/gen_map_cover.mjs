@@ -108,8 +108,12 @@ const fitInfo = await send('Runtime.evaluate', {
        注意：__app 只要有 map 就该用（有的地图只暴露 map，没有 fitAll），
        不能因为没有 fitAll 就丢弃，否则按城市筛选的新图封面会取不到地图实例。 */
     var app = window.__app;
-    if (!app || !app.map) app = (window.map && window.map.fitBounds) ? { map: window.map } : null;
-    if (!app || !app.map) return { ok:false, app:typeof window.__app, map:typeof window.map };
+    if (!app || !app.map) {
+      var g = (window.map && window.map.fitBounds) ? window.map
+            : (window.__map && window.__map.fitBounds) ? window.__map : null;
+      if (g) app = { map: g };
+    }
+    if (!app || !app.map) return { ok:false, app:typeof window.__app, map:typeof window.map, m:typeof window.__map };
     var m = app.map;
     /* 封面是 16:9 宽幅，整框往往需要比页面 minZoom 更小的级别，这里临时放开 */
     try { m.setMinZoom(0.8); } catch (e) {}
@@ -158,7 +162,8 @@ const extraHide = LEGACY_UI[slug] || '';
 
 const hideCss = `
   .intro, .detail, .dock, .panel, .maplibregl-ctrl-bottom-right, .timeline, .playbar,
-  .maplibregl-ctrl-top-right, .maplibregl-ctrl-top-left { display: none !important; }
+  .maplibregl-ctrl-top-right, .maplibregl-ctrl-top-left, .brand, #ctrlOpen, .ctrl-open
+  { display: none !important; }
   ${extraHide} { display: none !important; }
   ${keepLabels ? '' : '#labels { display: none !important; }'}
 `;

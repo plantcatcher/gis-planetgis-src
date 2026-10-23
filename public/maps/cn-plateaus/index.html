@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <script src="/shared/map-i18n.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我国主要高原分布图 · 互动地图</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+
+  <!-- 顶部栏：标题 -->
+  <div class="topbar">
+    <div class="brand">
+      <h1>我国主要高原分布图</h1>
+      <p class="sub">四大高原 + 2 个区域高原 · 边界由真实高程数据算出 · 点击高原查看详情</p>
+    </div>
+  </div>
+
+  <!-- 控制面板：图层开关 + 底图 + 高原盘点列表 -->
+  <div class="panel ctrl-panel" id="ctrlPanel">
+    <div class="ctrl-head">
+      <span>图层与高原盘点</span>
+      <button id="ctrlToggle" title="关闭面板" aria-label="关闭面板">×</button>
+    </div>
+    <div class="ctrl-body">
+      <label class="row"><input type="checkbox" id="chkPlateaus" checked />
+        <span class="swatch area"></span> 高原范围</label>
+      <label class="row"><input type="checkbox" id="chkLabel" checked />
+        <span class="swatch dot"></span> 高原名称标注</label>
+      <label class="row"><input type="checkbox" id="chkBorder" checked />
+        <span class="swatch dot2"></span> 省级行政区边界（叠加）</label>
+
+      <div class="divider"></div>
+
+      <div class="bm-title">底图（三选一）</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" checked /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>矢量路网</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" /><span>无底图</span></label>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="basin-group-title">四大高原</div>
+      <ul class="basin-list" id="listBig4"></ul>
+      <div class="basin-group-title">区域高原</div>
+      <ul class="basin-list" id="listMid"></ul>
+
+      <div class="divider"></div>
+
+      <div class="cnt-box" id="cnt"></div>
+
+      <div class="legend-note">
+        <b>关于边界</b>：高原没有行政区那样的权威划界。本图不手画示意线——边界由
+        <b>AWS Terrain Tiles 公开高程数据</b>（Mapzen 整理的 terrarium 瓦片）按
+        「海拔带下限/上限 +（部分）局部起伏度」逐像素计算，再对每个高原的公开范围做连通域圈定。
+        内蒙古高原用「起伏度」剔除了大兴安岭、阴山等山体，只剩坦荡的高原面；
+        黄土与云贵高原沟壑纵横，起伏度判据不适用，改用高程带 + 范围约束。
+        因此实测面积与教科书口径有出入，弹窗中同时给出计算值与常见说法。<br/><br/>
+        <b>四大高原</b>：青藏（世界屋脊）、内蒙古（北方草原）、黄土（全球最大黄土堆积区）、云贵（喀斯特王国）——中学地理的经典组合。<br/><br/>
+        <b>底图</b>：三选一 —— 卫星影像（默认，高德纯影像、免 key、无标注）/ 矢量路网 / 无底图（深色背景，只看高原，做课件很好用）。
+      </div>
+
+      <div class="divider"></div>
+      <!-- 站内导航：地图跑在主站的 iframe 里，用 target="_top" 跳出 iframe 整页跳转
+           （主站是 SSG 预渲染，直接访问 /maps/<slug> 为 200） -->
+      <div class="ctrl-nav">
+        <a href="/maps/cn-plateaus" target="_top">作品介绍</a>
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 面板关闭后出现的重新打开按钮 -->
+  <button id="ctrlOpen" class="ctrl-open" title="打开图层与高原盘点">图层与高原盘点</button>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -560,8 +560,9 @@ def main():
     print('[relief] 计算完成', flush=True)
 
     lon_g, lat_g = np.meshgrid(lons, lats)
-    # 像元实际面积随纬度收缩：赤道上 px_km²，高纬要乘 cos(lat)
-    cell_km2 = (px_km * px_km) * np.cos(np.radians(lat_g))
+    # Web Mercator 像元东西、南北两方向均按 sec(lat) 拉伸：真实面积 = px_km² · cos²(lat)
+    # （曾错写为 cos(lat)，导致所有像元面积系统性高估 1/cos(lat)，华北平原虚高 22%、东北 41%）
+    cell_km2 = (px_km * px_km) * (np.cos(np.radians(lat_g)) ** 2)
     min_px = max(8, int(args.min_area_km2 / (px_km * px_km)))
 
     feats = []

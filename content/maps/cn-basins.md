@@ -1,7 +1,7 @@
 ---
 slug: cn-basins
 title: 我国主要盆地分布图
-cover: https://blogphoto.planetgis.cn/PicGo/2026-10-22-vizmap-cn-basins-cover.jpg?v=2
+cover: https://blogphoto.planetgis.cn/PicGo/2026-10-23-vizmap-cn-basins-cover.jpg
 summary: 一张能点的中国盆地盘点图——塔里木、准噶尔、柴达木、四川四大盆地加吐鲁番—哈密、鄂尔多斯、松辽、华北、珠江口等 12 个主要盆地按真实地质边界着色，全部盆地直接标注名称（四大用徽章、其余用文字区分），点击弹出位置、类型、海拔、特征与盘点亮点，卫星影像 / 矢量路网 / 无底图一键切换。
 link: /maps/cn-basins/full
 order: 3
