@@ -8,6 +8,8 @@ import { recordDownload } from '@/services/learningService';
 import { trackResourceDownload } from '@/lib/analytics';
 import { renderMarkdown, extractFaq, type FaqEntry } from '@/lib/markdown';
 import { useJsonLd } from '@/lib/seo';
+import { useI18n } from '@/i18n/LocaleContext';
+import { HTML_LANG } from '@/i18n/config';
 import { useImageLightbox, ImageLightbox } from '@/components/common/ImageLightbox';
 import { useContentBody } from '@/hooks/useContentBody';
 import { PageViewCount } from '@/lib/busuanzi';
@@ -25,13 +27,14 @@ const WECHAT_OFFICIAL = '那山那海那座城';
 const WECHAT_QR = '/images/wechat-official-qr.jpg';
 
 // ── 版权声明：每个资料详情页底部统一展示（改这一处即可全局生效） ──────────────
-const COPYRIGHT_NOTICE =
-  '声明：本站收集的教材来源于网络，所有版权都归出版社所有。本站尊重并保护知识产权，根据《信息网络传播权保护条例》，如我们转载或引用的作品侵犯了您的权利,请在一个月内通知我们，我们会及时删除!';
+// 文案走词典 res.copyright（中英各一份）。
 
 const unlockKey = (slug: string) => `planetgis:unlock:${slug}`;
 
 // 资料的结构化数据：DataDownload，携带标题/描述/格式/大小/下载地址，利于搜索引擎理解。
 const ResourceJsonLd: React.FC<{ item: ContentItem }> = ({ item }) => {
+  const { t, lang } = useI18n();
+  const brand = t('brand.name');
   useJsonLd({
     '@context': 'https://schema.org',
     '@type': 'DataDownload',
@@ -44,8 +47,8 @@ const ResourceJsonLd: React.FC<{ item: ContentItem }> = ({ item }) => {
     ...(item.download && !isResourceGated(item) ? { contentUrl: item.download } : {}),
     ...(item.format ? { encodingFormat: item.format } : {}),
     ...(item.size ? { contentSize: item.size } : {}),
-    inLanguage: 'zh-CN',
-    publisher: { '@type': 'Organization', name: '星球小捕手' },
+    inLanguage: HTML_LANG[lang] || HTML_LANG.zh,
+    publisher: { '@type': 'Organization', name: brand },
   });
   return null;
 };
@@ -89,6 +92,8 @@ const ResourceDatasetSchema: React.FC<{ item: ContentItem; coverage: string }> =
   item,
   coverage,
 }) => {
+  const { t, lang } = useI18n();
+  const brand = t('brand.name');
   useJsonLd({
     '@context': 'https://schema.org',
     '@type': 'Dataset',
@@ -97,9 +102,9 @@ const ResourceDatasetSchema: React.FC<{ item: ContentItem; coverage: string }> =
     ...(coverage ? { spatialCoverage: { '@type': 'Place', name: coverage } } : {}),
     ...(item.dataFormat ? { encodingFormat: item.dataFormat } : {}),
     ...(item.date ? { datePublished: item.date, dateModified: item.date } : {}),
-    creator: { '@type': 'Organization', name: '星球小捕手' },
-    publisher: { '@type': 'Organization', name: '星球小捕手' },
-    inLanguage: 'zh-CN',
+    creator: { '@type': 'Organization', name: brand },
+    publisher: { '@type': 'Organization', name: brand },
+    inLanguage: HTML_LANG[lang] || HTML_LANG.zh,
     // 门禁资料同样不输出 distribution / 直链，与 DataDownload 的规则保持一致
     ...(item.download && !isResourceGated(item)
       ? {
@@ -128,6 +133,7 @@ const AltDownload: React.FC<{
   item: ContentItem;
   log: (url?: string, type?: string) => void;
 }> = ({ item, log }) => {
+  const { t } = useI18n();
   if (!item.downloadAlt) return null;
   const isPan =
     item.downloadAltType === 'baidu' ||
@@ -143,11 +149,11 @@ const AltDownload: React.FC<{
         className="inline-flex items-center gap-1.5 text-sm text-muted-foreground underline underline-offset-2 hover:text-foreground"
       >
         <Download className="w-3.5 h-3.5" />
-        {isPan ? '备用：百度网盘下载' : '备用下载'}
+        {isPan ? t('res.alt.pan') : t('res.alt.direct')}
       </a>
       {item.downloadAltCode && (
         <span className="text-xs text-muted-foreground">
-          提取码{' '}
+          {t('res.code')}{' '}
           <span className="font-mono font-semibold text-foreground select-all">{item.downloadAltCode}</span>
         </span>
       )}
@@ -163,29 +169,31 @@ const DownloadHint: React.FC<{
   item: ContentItem;
   mode: 'pan' | 'direct' | 'external' | 'view';
 }> = ({ item, mode }) => {
+  const { t, lang } = useI18n();
   const what =
     mode === 'view'
-      ? [item.format, item.pages].filter(Boolean).join('，')
-      : [item.format, item.size ? `约 ${item.size}` : null].filter(Boolean).join('，');
+      ? [item.format, item.pages].filter(Boolean).join(lang === 'zh' ? '，' : ', ')
+      : [item.format, item.size ? t('res.hint.about', { v: item.size }) : null].filter(Boolean).join(lang === 'zh' ? '，' : ', ');
   const how =
     mode === 'view'
-      ? '点击「在线观看全文」将跳转官方公开页面在线查看，内容由官方平台提供'
+      ? t('res.hint.view')
       : mode === 'external'
-        ? '点击「下载」按钮将跳转发布机构 / 主管部门的公开链接，文件由对方服务器提供'
+        ? t('res.hint.external')
         : mode === 'pan'
           ? item.panCode
-            ? '点击「下载资料」将跳转百度网盘，粘贴提取码后即可保存'
-            : '点击「下载资料」将跳转百度网盘，按页面提示保存'
-          : '点击「下载资料」即可直接下载到本机';
+            ? t('res.hint.pan.code')
+            : t('res.hint.pan.nocode')
+          : t('res.hint.direct');
   return (
     <p className="text-sm leading-relaxed text-muted-foreground">
       {how}
-      {what ? `：${what}。` : '。'}
+      {lang === 'zh' ? (what ? `：${what}。` : '。') : what ? ` (${what}).` : '.'}
     </p>
   );
 };
 
 const DownloadPanel: React.FC<{ item: ContentItem }> = ({ item }) => {
+  const { t } = useI18n();
   const isBaidu =
     item.downloadType === 'baidu' ||
     /(pan\.baidu\.com|yun\.baidu\.com)/.test(item.download || '');
@@ -241,7 +249,7 @@ const DownloadPanel: React.FC<{ item: ContentItem }> = ({ item }) => {
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary text-white font-semibold hover:opacity-90 transition-opacity"
           >
             <BookOpen className="w-5 h-5" />
-            在线观看全文
+            {t('res.btn.viewFull')}
           </a>
         ) : (
           <a
@@ -257,7 +265,7 @@ const DownloadPanel: React.FC<{ item: ContentItem }> = ({ item }) => {
           >
             <Download className="w-5 h-5" />
             {/* 外链按钮文案按分类区分：标准规范说「下载标准全文」，其他资料（如国土空间规划）用「下载资料」 */}
-            {isExternal ? (item.category === '标准规范' ? '下载标准全文' : '下载资料') : '下载资料'}
+            {isExternal ? (item.category === '标准规范' ? t('res.btn.downloadStd') : t('res.btn.download')) : t('res.btn.download')}
           </a>
         )}
 
@@ -271,13 +279,13 @@ const DownloadPanel: React.FC<{ item: ContentItem }> = ({ item }) => {
             className="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-primary/30 bg-primary/5 text-primary font-semibold hover:bg-primary/10 transition-colors"
           >
             <BookOpen className="w-5 h-5" />
-            在线观看原文
+            {t('res.btn.viewOriginal')}
           </a>
         )}
 
         {isBaidu && item.panCode && (
           <div className="flex items-baseline gap-2 rounded-lg bg-primary/10 px-3 py-1.5">
-            <span className="text-sm text-muted-foreground">提取码</span>
+            <span className="text-sm text-muted-foreground">{t('res.code')}</span>
             <span className="text-2xl font-bold font-mono tracking-widest text-primary select-all">{item.panCode}</span>
           </div>
         )}
@@ -288,7 +296,7 @@ const DownloadPanel: React.FC<{ item: ContentItem }> = ({ item }) => {
       {/* 官方入口兜底：外链长期可能失效时，给读者一个权威回源入口 */}
       {item.officialUrl && (
         <p className="text-xs leading-relaxed text-muted-foreground">
-          官方入口：{' '}
+          {t('res.official')}{' '}
           <a
             href={item.officialUrl}
             target="_blank"
@@ -308,6 +316,7 @@ const DownloadPanel: React.FC<{ item: ContentItem }> = ({ item }) => {
 
 const ResourceDetail: React.FC = () => {
   const { slug } = useParams();
+  const { t, lang } = useI18n();
   const [code, setCode] = useState('');
   const [unlocked, setUnlocked] = useState(false);
   const [error, setError] = useState(false);
@@ -357,8 +366,8 @@ const ResourceDetail: React.FC = () => {
     <>
       <Breadcrumb
         items={[
-          { label: '首页', path: '/' },
-          { label: '资料下载', path: '/downloads' },
+          { label: t('nav.home'), path: '/' },
+          { label: t('res.breadcrumb'), path: '/downloads' },
           { label: item.title },
         ]}
       />
@@ -368,7 +377,7 @@ const ResourceDetail: React.FC = () => {
         <ResourceFaqJsonLd item={item} />
         <ResourceDatasetJsonLd item={item} />
         <PageMeta
-          title={`${item.title} - 资料下载 - 星球小捕手`}
+          title={t('res.title', { title: item.title })}
           description={item.summary || item.title}
           canonical={`https://planetgis.cn/downloads/${item.slug}`}
           image={item.cover}
@@ -387,73 +396,73 @@ const ResourceDetail: React.FC = () => {
               />
             ) : (
               <div className="w-full aspect-[3/4] rounded-2xl bg-muted/50 border border-border/60 mb-5 flex items-center justify-center text-sm text-muted-foreground">
-                暂无封面
+                {t('res.noCover')}
               </div>
             )}
 
             {/* 资料信息卡 */}
             <div className="rounded-2xl border border-border/60 p-4 mb-5">
-              <p className="text-xs font-semibold mb-2.5">资料信息</p>
+              <p className="text-xs font-semibold mb-2.5">{t('res.infoTitle')}</p>
               <dl className="space-y-1.5 text-xs">
                 <div className="flex justify-between gap-3">
-                  <dt className="text-muted-foreground shrink-0">分类</dt>
-                  <dd className="text-right">{item.category || '资料下载'}</dd>
+                  <dt className="text-muted-foreground shrink-0">{t('res.field.category')}</dt>
+                  <dd className="text-right">{item.category || t('res.breadcrumb')}</dd>
                 </div>
                 <div className="flex justify-between gap-3">
-                  <dt className="text-muted-foreground shrink-0">来源</dt>
-                  <dd className="text-right">{item.source || '星球小捕手'}</dd>
+                  <dt className="text-muted-foreground shrink-0">{t('res.field.source')}</dt>
+                  <dd className="text-right">{item.source || t('brand.name')}</dd>
                 </div>
                 {item.standardNo && (
                   <div className="flex justify-between gap-3">
-                    <dt className="text-muted-foreground shrink-0">标准号</dt>
+                    <dt className="text-muted-foreground shrink-0">{t('res.field.standardNo')}</dt>
                     <dd className="text-right font-mono text-xs">{item.standardNo}</dd>
                   </div>
                 )}
                 {item.stdStatus && (
                   <div className="flex justify-between gap-3">
-                    <dt className="text-muted-foreground shrink-0">状态</dt>
+                    <dt className="text-muted-foreground shrink-0">{t('res.field.stdStatus')}</dt>
                     <dd className="text-right">{item.stdStatus}</dd>
                   </div>
                 )}
                 {item.stdDate && (
                   <div className="flex justify-between gap-3">
-                    <dt className="text-muted-foreground shrink-0">发布</dt>
+                    <dt className="text-muted-foreground shrink-0">{t('res.field.stdDate')}</dt>
                     <dd className="text-right">{item.stdDate}</dd>
                   </div>
                 )}
                 {item.pages && (
                   <div className="flex justify-between gap-3">
-                    <dt className="text-muted-foreground shrink-0">页数</dt>
+                    <dt className="text-muted-foreground shrink-0">{t('res.field.pages')}</dt>
                     <dd className="text-right">{item.pages}</dd>
                   </div>
                 )}
                 {item.author && (
                   <div className="flex justify-between gap-3">
-                    <dt className="text-muted-foreground shrink-0">作者</dt>
+                    <dt className="text-muted-foreground shrink-0">{t('res.field.author')}</dt>
                     <dd className="text-right">{item.author}</dd>
                   </div>
                 )}
                 {item.publisher && (
                   <div className="flex justify-between gap-3">
-                    <dt className="text-muted-foreground shrink-0">出版社</dt>
+                    <dt className="text-muted-foreground shrink-0">{t('res.field.publisher')}</dt>
                     <dd className="text-right">{item.publisher}</dd>
                   </div>
                 )}
                 {item.pubYear && (
                   <div className="flex justify-between gap-3">
-                    <dt className="text-muted-foreground shrink-0">出版年份</dt>
+                    <dt className="text-muted-foreground shrink-0">{t('res.field.pubYear')}</dt>
                     <dd className="text-right">{item.pubYear}</dd>
                   </div>
                 )}
                 {item.isbn && (
                   <div className="flex justify-between gap-3">
-                    <dt className="text-muted-foreground shrink-0">ISBN</dt>
+                    <dt className="text-muted-foreground shrink-0">{t('res.field.isbn')}</dt>
                     <dd className="text-right font-mono text-xs">{item.isbn}</dd>
                   </div>
                 )}
                 {item.date && (
                   <div className="flex justify-between gap-3">
-                    <dt className="text-muted-foreground shrink-0">更新</dt>
+                    <dt className="text-muted-foreground shrink-0">{t('res.field.updated')}</dt>
                     <dd className="text-right inline-flex items-center gap-1">
                       <Calendar className="w-3.5 h-3.5" />{item.date}
                     </dd>
@@ -461,14 +470,14 @@ const ResourceDetail: React.FC = () => {
                 )}
                 {item.format && (
                   <div className="flex justify-between gap-3">
-                    <dt className="text-muted-foreground shrink-0">格式</dt>
+                    <dt className="text-muted-foreground shrink-0">{t('res.field.format')}</dt>
                     <dd className="text-right">{item.format}</dd>
                   </div>
                 )}
                 {/* 仅在线阅读类不显示文件大小，避免让人误以为可以下载整本 */}
                 {item.size && !isResourceViewOnly(item) && (
                   <div className="flex justify-between gap-3">
-                    <dt className="text-muted-foreground shrink-0">大小</dt>
+                    <dt className="text-muted-foreground shrink-0">{t('res.field.size')}</dt>
                     <dd className="text-right">{item.size}</dd>
                   </div>
                 )}
@@ -499,7 +508,7 @@ const ResourceDetail: React.FC = () => {
           {/* ── 右栏：详情介绍 + 下载门禁 ── */}
           <main>
             <header className="mb-6">
-              <p className="kicker mb-3">{item.category || '资料下载'}</p>
+              <p className="kicker mb-3">{item.category || t('res.breadcrumb')}</p>
               <h1 className="text-2xl md:text-3xl font-bold mb-4 leading-tight tracking-tight">{item.title}</h1>
               <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
                 {item.date && (
@@ -549,29 +558,29 @@ const ResourceDetail: React.FC = () => {
                   <div>
                     <div className="flex items-center gap-2 mb-5 pb-3 border-b border-border/60">
                       <Lock className="w-5 h-5 text-primary" />
-                      <h2 className="text-lg font-bold">关注公众号，获取下载验证码</h2>
+                      <h2 className="text-lg font-bold">{t('res.gate.title')}</h2>
                     </div>
                     <div className="mb-5 flex flex-col sm:flex-row sm:items-start gap-5 sm:gap-6">
                       <ol className="text-sm text-muted-foreground leading-relaxed space-y-1 list-decimal list-inside flex-1 min-w-0">
-                        <li>微信搜索并关注公众号 <span className="font-semibold text-foreground">【{WECHAT_OFFICIAL}】</span></li>
-                        <li>向公众号后台发送以下任一关键词即可领取验证码（发送{' '}
+                        <li>{t('res.gate.step1')} <span className="font-semibold text-foreground">【{WECHAT_OFFICIAL}】</span></li>
+                        <li>{t('res.gate.step2a')}{' '}
                           {[...new Set([item.trigger || item.title, ...(item.keywordAliases || [])])].map((kw, i) => (
                             <span key={`${i}-${kw}`}>
-                              {i > 0 && ' 或 '}
+                              {i > 0 && t('res.gate.step2.or')}
                               <span className="font-semibold text-foreground">{kw}</span>
                             </span>
                           ))}
-                          {!item.trigger && <span className="text-muted-foreground">（即资料名）</span>}）</li>
-                        <li>你将收到本资料的下载验证码,填到下方即可解锁</li>
+                          {!item.trigger && <span className="text-muted-foreground">{t('res.gate.step2.fallback')}</span>}）</li>
+                        <li>{t('res.gate.step3')}</li>
                       </ol>
 
                       {WECHAT_QR && (
                         <div className="flex items-center gap-4 p-3 rounded-xl bg-white dark:bg-zinc-900 border border-border shrink-0 self-start">
                           <img src={WECHAT_QR} alt={`${WECHAT_OFFICIAL} 公众号二维码`} className="w-28 h-28 object-contain rounded-lg" />
                           <div className="text-xs text-muted-foreground">
-                            <p className="font-medium text-foreground mb-1">扫码关注</p>
+                            <p className="font-medium text-foreground mb-1">{t('res.gate.scan')}</p>
                             <p>{WECHAT_OFFICIAL}</p>
-                            <p className="mt-1 inline-flex items-center gap-1"><QrCode className="w-3.5 h-3.5" />长按可保存二维码</p>
+                            <p className="mt-1 inline-flex items-center gap-1"><QrCode className="w-3.5 h-3.5" />{t('res.gate.saveQr')}</p>
                           </div>
                         </div>
                       )}
@@ -581,26 +590,26 @@ const ResourceDetail: React.FC = () => {
                       <input
                         value={code}
                         onChange={(e) => { setCode(e.target.value); if (error) setError(false); }}
-                        placeholder="输入验证码，如 NSH-2026-001"
+                        placeholder={t('res.gate.input')}
                         className="w-full sm:flex-1 h-12 sm:h-11 rounded-xl border border-input bg-transparent px-4 text-base shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                        aria-label="验证码"
+                        aria-label={t('res.gate.inputAria')}
                       />
                       <button
                         type="submit"
                         className="w-full sm:w-auto h-12 sm:h-11 px-5 rounded-xl bg-primary text-white font-semibold hover:opacity-90 transition-opacity shrink-0"
                       >
-                        验证并解锁
+                        {t('res.gate.submit')}
                       </button>
                     </form>
                     {error && (
-                      <p className="mt-3 text-sm text-red-500">验证码不正确，请确认已向公众号发送本资料专属代码并复制正确的验证码。</p>
+                      <p className="mt-3 text-sm text-red-500">{t('res.gate.error')}</p>
                     )}
                   </div>
                 ) : (
                   <div className="space-y-4">
                     <div className="flex items-center gap-2 text-green-600 dark:text-green-400">
                       <CheckCircle2 className="w-5 h-5" />
-                      <span className="font-semibold">已解锁，资料下载方式如下</span>
+                      <span className="font-semibold">{t('res.unlocked')}</span>
                     </div>
                     {/* 各包一层块级容器：直链态 DownloadPanel 返回 inline-flex 的 <a>，
                         不包则下方「重新上锁」会被排到同一行、贴着下载按钮 */}
@@ -613,7 +622,7 @@ const ResourceDetail: React.FC = () => {
                         onClick={() => { setUnlocked(false); try { sessionStorage.removeItem(unlockKey(item.slug)); } catch {} }}
                         className="text-xs text-muted-foreground underline hover:text-foreground"
                       >
-                        重新上锁
+                        {t('res.relock')}
                       </button>
                     </div>
                   </div>
@@ -624,19 +633,19 @@ const ResourceDetail: React.FC = () => {
                   {isResourceViewOnly(item) ? (
                     <div className="flex items-center gap-2 mb-5 pb-3 border-b border-border/60">
                       <BookOpen className="w-5 h-5 text-primary" />
-                      <h2 className="text-lg font-bold">在线阅读</h2>
+                      <h2 className="text-lg font-bold">{t('res.readOnline')}</h2>
                       <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-sky-500/10 px-2.5 py-1 text-xs font-medium text-sky-600 dark:text-sky-400">
                         <ExternalLink className="w-3.5 h-3.5" />
-                        官方在线阅读页
+                        {t('res.readOnlineBadge')}
                       </span>
                     </div>
                   ) : (
                     <div className="flex items-center gap-2 mb-5 pb-3 border-b border-border/60">
                       <Download className="w-5 h-5 text-primary" />
-                      <h2 className="text-lg font-bold">下载资料</h2>
+                      <h2 className="text-lg font-bold">{t('res.downloadTitle')}</h2>
                       <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-green-500/10 px-2.5 py-1 text-xs font-medium text-green-600 dark:text-green-400">
                         <CheckCircle2 className="w-3.5 h-3.5" />
-                        无需验证码
+                        {t('res.noCodeBadge')}
                       </span>
                     </div>
                   )}
@@ -661,7 +670,7 @@ const ResourceDetail: React.FC = () => {
                             {item.source && (
                               <>
                                 <span className="opacity-50">·</span>
-                                <span>来源 {item.source}</span>
+                                <span>{t('res.sourceLabel', { v: item.source })}</span>
                               </>
                             )}
                           </p>
@@ -685,8 +694,8 @@ const ResourceDetail: React.FC = () => {
                       )}
                       <p className="text-xs leading-relaxed text-muted-foreground">
                         {isResourceViewOnly(item)
-                          ? `本页为该资料的官方在线阅读入口，官方平台仅提供在线浏览、不提供整本下载。需要更多地理资料与数据更新，长按或扫码关注【${WECHAT_OFFICIAL}】。`
-                          : `这份资料对你有帮助？长按或扫码关注【${WECHAT_OFFICIAL}】，获取更多地理资料与数据更新。`}
+                          ? t('res.follow.view', { name: WECHAT_OFFICIAL })
+                          : t('res.follow.download', { name: WECHAT_OFFICIAL })}
                       </p>
                     </div>
                   </div>
@@ -701,18 +710,18 @@ const ResourceDetail: React.FC = () => {
             <div className="flex items-end justify-between gap-4 mb-2 flex-wrap">
               <h2 className="text-xl font-bold flex items-center gap-2">
                 <ArrowRight className="w-5 h-5 text-primary" />
-                相关资料
+                {t('res.related')}
               </h2>
               <Link
                 to="/downloads"
                 className="text-sm text-primary font-medium hover:underline inline-flex items-center gap-1"
               >
-                查看全部资料
+                {t('res.relatedAll')}
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
             <p className="text-sm text-muted-foreground mb-6">
-              更多地理教材与学习资料，点击卡片即可查看详情并下载。
+              {t('res.relatedDesc')}
             </p>
             <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 sm:gap-3">
               {related.map((r) => (
@@ -743,7 +752,7 @@ const ResourceDetail: React.FC = () => {
                             : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300'
                       }`}
                     >
-                      {isResourceGated(r) ? '需验证码' : isResourceViewOnly(r) ? '在线观看' : '直接下载'}
+                      {isResourceGated(r) ? t('facet.access.gated') : isResourceViewOnly(r) ? t('facet.access.view') : t('facet.access.download')}
                     </span>
                   </div>
                   <div className="p-2 flex flex-col gap-0.5">
@@ -754,7 +763,7 @@ const ResourceDetail: React.FC = () => {
                       <span className="text-xs text-muted-foreground line-clamp-1">{r.author}</span>
                     )}
                     <span className="mt-0.5 text-xs text-primary font-medium inline-flex items-center gap-1">
-                      查看下载
+                      {t('res.view')}
                       <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                     </span>
                   </div>
@@ -766,8 +775,14 @@ const ResourceDetail: React.FC = () => {
 
         {/* ── 版权声明：资料页统一展示，新增资料无需逐个 md 手写 ── */}
         <p className="mt-10 pt-6 border-t border-border/50 text-xs leading-relaxed text-muted-foreground">
-          {COPYRIGHT_NOTICE}
+          {t('res.copyright')}
         </p>
+        {/* 英文站提示：正文与资料信息为中文内容层 */}
+        {lang === 'en' && (
+          <p className="mt-4 text-xs leading-relaxed text-muted-foreground italic">
+            {t('res.langNote')}
+          </p>
+        )}
       </div>
     </>
   );

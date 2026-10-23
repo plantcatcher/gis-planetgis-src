@@ -7,6 +7,8 @@ import Breadcrumb from '@/components/common/Breadcrumb';
 import FilterChips from '@/components/common/FilterChips';
 import Pagination from '@/components/common/Pagination';
 import { getGames, getWorkTopics, getWorkScopes, type ContentItem } from '@/lib/content';
+import { useI18n } from '@/i18n/LocaleContext';
+import { localizeLabel } from '@/i18n/labels';
 
 // 卡片入场动画：initial 保持 opacity:1，确保 SSG 静态 HTML 中文本天生可见（利于 SEO / AdSense）。
 const CardAnim: React.FC<{ children: React.ReactNode; delay?: number }> = ({ children, delay = 0 }) => (
@@ -37,6 +39,7 @@ const HeatTag: React.FC<{ heat?: number }> = ({ heat }) =>
 // 数据源就是 content/games 下的 md（文件夹即归属，不再需要 series 字段），
 // 每个 link 指向对应的游戏 iframe 页，SEO 正文在其 /games/<slug> 介绍页。
 const Games: React.FC = () => {
+  const { lang, t } = useI18n();
   const games = getGames();
 
   // 细分筛选：玩法主题（topics）+ 地域题材（scope），与 /maps 同一套组件与数据口径，
@@ -48,8 +51,10 @@ const Games: React.FC = () => {
   // 默认按热度（近 30 天 GA4 浏览量）降序，与资料下载页一致；可切回最新。
   const [sortMode, setSortMode] = useState<'latest' | 'heat'>('heat');
 
-  const hitTopic = (g: ContentItem, t: string) => t === '全部' || (g.topics || []).includes(t);
-  const hitScope = (g: ContentItem, s: string) => s === '全部' || g.scope === s;
+  // 形参不能叫 t —— 会遮蔽上面的翻译函数
+  const hitTopic = (g: ContentItem, topicValue: string) =>
+    topicValue === '全部' || (g.topics || []).includes(topicValue);
+  const hitScope = (g: ContentItem, scopeValue: string) => scopeValue === '全部' || g.scope === scopeValue;
   const filtered = games.filter((g) => hitTopic(g, topic) && hitScope(g, scope));
 
   // 排序：最新=上线日期倒序（date 写在 content/games/<slug>.md 的 frontmatter）；
@@ -86,8 +91,8 @@ const Games: React.FC = () => {
   return (
     <>
       <PageMeta
-        title="地理小游戏 - 星球小捕手"
-        description="把地理知识变成可以玩的交互——看卫星图猜城市、看轮廓猜国家、测出你的地球人格。"
+        title={`${t('games.title')} - ${t('brand.name')}`}
+        description={t('games.metaDescription')}
         canonical="https://planetgis.cn/games"
       />
       <Breadcrumb />
@@ -95,30 +100,31 @@ const Games: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
           <header className="mb-10">
             <div className="flex items-end gap-4">
-              <h1 className="text-2xl md:text-3xl font-bold tracking-tight">地理小游戏</h1>
+              <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{t('games.title')}</h1>
               <div className="flex-1 h-[2px] bg-gradient-to-r from-primary/50 to-transparent mb-2" />
             </div>
             <div className="mt-3 h-1 w-14 bg-primary rounded-full" />
             <p className="mt-4 text-base text-muted-foreground leading-relaxed max-w-2xl">
-              把地理知识变成可以玩的交互——看卫星图猜城市、看轮廓猜国家、测出你的地球人格。点开就能玩，无需下载。
+              {t('games.subtitle')}
             </p>
           </header>
 
           {/* ── 细分筛选：玩法 / 地域 ──────────────────────────────── */}
           <div className="space-y-3 mb-6">
-            <FilterChips label="玩法" items={topicChips} active={topic} onChange={setTopic} allCount={games.filter((g) => hitScope(g, scope)).length} />
-            <FilterChips label="地域" items={scopeChips} active={scope} onChange={setScope} allCount={games.filter((g) => hitTopic(g, topic)).length} />
+            <FilterChips label={t('games.topic')} items={topicChips} active={topic} onChange={setTopic} allCount={games.filter((g) => hitScope(g, scope)).length} />
+            <FilterChips label={t('maps.scope')} items={scopeChips} active={scope} onChange={setScope} allCount={games.filter((g) => hitTopic(g, topic)).length} />
           </div>
 
           <div className="flex items-center justify-between gap-4 mb-6">
             <p className="text-sm text-muted-foreground">
-              共 {filtered.length} 款游戏
+              {t('games.count', { n: filtered.length })}
               {narrowed && (
                 <>
                   <span className="mx-1.5 text-border">|</span>
                   <span>
-                    已筛选{scope !== '全部' && ` · ${scope}`}
-                    {topic !== '全部' && ` · ${topic}`}
+                    {t('maps.filtered')}
+                    {scope !== '全部' && ` · ${localizeLabel(scope, lang)}`}
+                    {topic !== '全部' && ` · ${localizeLabel(topic, lang)}`}
                   </span>
                   <button
                     type="button"
@@ -128,13 +134,13 @@ const Games: React.FC = () => {
                     }}
                     className="ml-3 text-primary hover:underline"
                   >
-                    清空筛选
+                    {t('maps.clearFilter')}
                   </button>
                 </>
               )}
             </p>
             <div className="flex items-center gap-1 rounded-lg border border-border p-0.5 shrink-0">
-              {([['latest', '最新'], ['heat', '热度']] as const).map(([key, label]) => (
+              {([['latest', t('list.latest')], ['heat', t('list.heat')]] as const).map(([key, label]) => (
                 <button
                   key={key}
                   type="button"
@@ -150,9 +156,9 @@ const Games: React.FC = () => {
           </div>
 
           {games.length === 0 ? (
-            <p className="text-muted-foreground">游戏正在路上，敬请期待。</p>
+            <p className="text-muted-foreground">{t('games.empty.all')}</p>
           ) : sorted.length === 0 ? (
-            <p className="text-muted-foreground">这个组合下暂时没有游戏，换个玩法或地域看看。</p>
+            <p className="text-muted-foreground">{t('games.empty.filter')}</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {pageItems.map((game, i) => {
@@ -165,18 +171,20 @@ const Games: React.FC = () => {
                         <div className="aspect-video overflow-hidden relative">
                           <img
                             src={game.cover}
-                            alt={`${game.title} - 星球小捕手地理小游戏`}
+                            alt={t('games.alt', { title: game.title })}
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                            <span className="w-full text-center text-sm font-medium text-white/90">开始游戏 →</span>
+                            <span className="w-full text-center text-sm font-medium text-white/90">{t('games.play')}</span>
                           </div>
                         </div>
                       </Link>
                       <div className="p-6">
                         <div className="flex items-center gap-2 mb-2 text-primary">
                           <Gamepad2 className="w-4 h-4" />
-                          <span className="text-xs font-medium tracking-wide uppercase">{game.category || '小游戏'}</span>
+                          <span className="text-xs font-medium tracking-wide uppercase">
+                            {localizeLabel(game.category || t('games.categoryDefault'), lang)}
+                          </span>
                         </div>
                         <h3 className="text-lg font-bold mb-2">
                           <Link to={playUrl} className="group-hover:text-primary transition-colors">
@@ -189,7 +197,7 @@ const Games: React.FC = () => {
                             to={`/games/${game.slug}`}
                             className="inline-flex items-center gap-1 text-sm font-medium text-primary"
                           >
-                            查看详情与解读 <ArrowRight className="w-3.5 h-3.5 group-hover:gap-2 transition-all" />
+                            {t('list.work.detail')} <ArrowRight className="w-3.5 h-3.5 group-hover:gap-2 transition-all" />
                           </Link>
                           <HeatTag heat={game.heat} />
                         </div>

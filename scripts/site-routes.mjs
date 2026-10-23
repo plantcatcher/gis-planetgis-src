@@ -64,6 +64,31 @@ export const staticRoutes = [
 ];
 
 /**
+ * 暂不出英文版的路由。
+ *
+ * - 四个游戏壳页：游戏本体是 public/games/<slug>/ 下的独立应用，界面文案仍是中文，
+ *   给它们挂英文壳只会让人点进去看到中文界面，反而更困惑。等游戏本体做了 i18n 再放开。
+ * - /wiki：GIS 资源导航收录的 172 个站点绝大多数是中文平台，英文用户用不上。
+ */
+const EN_EXCLUDE = new Set([
+  '/geoquiz',
+  '/geoshape',
+  '/geotype',
+  '/chinapuzzle',
+  '/wiki',
+]);
+
+/** 中文路由 -> 英文路由（加 /en 前缀；'/' 特殊处理成 '/en'） */
+export function toEnRoute(route) {
+  return route === '/' ? '/en' : `/en${route}`;
+}
+
+/** 由中文路由清单生成英文版路由清单 */
+export function enRoutes(routes) {
+  return routes.filter((r) => !EN_EXCLUDE.has(r)).map(toEnRoute);
+}
+
+/**
  * 汇总全部需要预渲染 / 进 sitemap 的路由（已去重）。
  * @param {import('vite').ViteDevServer} vite 用于 ssrLoadModule 读取内容层
  */
@@ -72,7 +97,10 @@ export async function collectRoutes(vite) {
   const { getAllDetailPaths, getAllTagPaths } = await vite.ssrLoadModule('/src/lib/content.ts');
   // 互动地图全屏壳页也需预渲染，否则直接访问 /maps/<slug> 会落到 404.html
   const { getVizMapPaths } = await vite.ssrLoadModule('/src/lib/vizmaps.ts');
-  const all = [...staticRoutes, ...getAllDetailPaths(), ...getAllTagPaths(), ...getVizMapPaths()];
+  const zhRoutes = [...staticRoutes, ...getAllDetailPaths(), ...getAllTagPaths(), ...getVizMapPaths()];
+  // 英文版目前只预渲染静态页与列表页：内容详情页的英文版要等 content/en/ 建好
+  // 才有实际内容，提前预渲染只会产出「英文外壳 + 中文正文」的重复页面。
+  const all = [...zhRoutes, ...enRoutes(staticRoutes)];
   return [...new Set(all)];
 }
 

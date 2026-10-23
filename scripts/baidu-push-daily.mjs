@@ -99,6 +99,16 @@ try {
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const xml = await res.text();
   candidates = Array.from(xml.matchAll(/<loc>([^<]+)<\/loc>/g), (m) => m[1]);
+  // 英文站（/en/**）不推百度：百度主要索引中文内容，日配额只有 10 条，
+  // 推英文会挤掉中文页面的名额。英文站交给 Google / Bing 自然发现。
+  const before = candidates.length;
+  candidates = candidates.filter((u) => {
+    const p = String(u).replace(/^https?:\/\/[^/]+/i, '');
+    return p !== '/en' && !p.startsWith('/en/');
+  });
+  if (before !== candidates.length) {
+    console.log(`[baidu-daily] 已剔除英文站 URL ${before - candidates.length} 条（不占百度日配额）。`);
+  }
 } catch (e) {
   console.error(`[baidu-daily] 拉取 ${SITEMAP_URL} 失败: ${e.message}，本次不推送（避免拉到残缺 sitemap 误清历史）。`);
   process.exit(0);

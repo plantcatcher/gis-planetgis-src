@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <script src="/shared/map-i18n.js"></script>
   <script src="/shared/ga-bridge.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,6 +28,8 @@
   <script src="/shared/cities.js"></script>
   <script src="data/cities.js"></script>
   <script src="data/content.js"></script>
+  <!-- 英文内容集：仅在 ?lang=en 时被 app.js 采用（中文站不生效，零影响） -->
+  <script src="data/content.en.js"></script>
   <!-- 天地图 JS API（浏览器端 Key，合规底图：含完整国界与南海诸岛） -->
   <script src="https://api.tianditu.gov.cn/api?v=4.0&tk=e92d8558a9a7eb0709e7f895801bdcc9"></script>
   <!-- Three.js（真 3D 地球自转；CDN 失败则由 app.js 降级为静态正射球图） -->

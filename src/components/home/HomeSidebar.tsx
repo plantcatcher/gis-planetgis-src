@@ -6,11 +6,14 @@ import { SubjectIcon } from '@/lib/subjectIcons';
 import { trackSearch } from '@/lib/analytics';
 import { recordSearch } from '@/services/learningService';
 import HotBadge from '@/components/common/HotBadge';
+import { useT } from '@/i18n/LocaleContext';
 
 export interface SidebarSubject {
   name: string;
   count: number;
   icon: string;
+  /** 用于查询参数的原值。英文站下 name 已本地化成英文，但 /learn?subject= 仍要传中文 */
+  value?: string;
 }
 
 export interface SidebarNavItem {
@@ -48,6 +51,7 @@ const HomeSidebar: React.FC<{
   updates: SidebarUpdate[];
 }> = ({ items, active, updates }) => {
   const navigate = useNavigate();
+  const t = useT();
   const [q, setQ] = useState('');
 
   const go = (id: string) => {
@@ -59,7 +63,7 @@ const HomeSidebar: React.FC<{
   const groups: { name: string; items: SidebarNavItem[] }[] = [];
   for (const it of items) {
     const last = groups[groups.length - 1];
-    const name = it.group || '本页目录';
+    const name = it.group || t('home.sidebar.toc');
     if (!last || last.name !== name) groups.push({ name, items: [it] });
     else last.items.push(it);
   }
@@ -85,9 +89,9 @@ const HomeSidebar: React.FC<{
         <Input
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="搜索地理知识点…"
+          placeholder={t('common.searchPlaceholder')}
           className="pl-9 rounded-full text-sm"
-          aria-label="搜索地理知识点"
+          aria-label={t('common.search')}
         />
       </form>
 
@@ -127,7 +131,7 @@ const HomeSidebar: React.FC<{
                         {it.subjects.map((s) => (
                           <li key={s.name}>
                             <Link
-                              to={`/learn?subject=${encodeURIComponent(s.name)}`}
+                              to={`/learn?subject=${encodeURIComponent(s.value || s.name)}`}
                               className="flex items-center justify-between gap-2 pl-7 pr-3 py-1 rounded-md text-[13px] text-muted-foreground/80 hover:bg-muted hover:text-foreground transition-colors"
                             >
                               <span className="inline-flex items-center gap-1.5 truncate">
@@ -144,7 +148,7 @@ const HomeSidebar: React.FC<{
                             className="flex items-center gap-1.5 pl-7 pr-3 py-1 rounded-md text-[13px] text-primary hover:bg-primary/10 transition-colors"
                           >
                             <BookOpen className="w-3.5 h-3.5" />
-                            全部条目
+                            {t('home.learn.allEntries')}
                             <ArrowRight className="w-3 h-3" />
                           </Link>
                         </li>
@@ -163,7 +167,7 @@ const HomeSidebar: React.FC<{
         <div className="mb-6">
           <div className="flex items-center gap-1.5 text-[11px] font-semibold tracking-widest text-muted-foreground/60 uppercase mb-2 px-3">
             <History className="w-3.5 h-3.5" />
-            最近更新
+            {t('home.updates.recent')}
           </div>
           <ul className="space-y-2 px-3">
             {updates.map((u) => (
@@ -181,7 +185,7 @@ const HomeSidebar: React.FC<{
             to="/changelog"
             className="flex items-center gap-1 px-3 mt-2 text-[13px] text-primary font-medium hover:gap-2 transition-all"
           >
-            查看完整日志 <ArrowRight className="w-3 h-3" />
+            {t('home.sidebar.fullLog')} <ArrowRight className="w-3 h-3" />
           </Link>
         </div>
       )}

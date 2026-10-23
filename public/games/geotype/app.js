@@ -3,8 +3,16 @@
   "use strict";
   var DIMS = ["ocean", "mountain", "forest", "desert", "river", "polar", "volcano", "cosmic"];
   var MAIN = DIMS;
-  var PER = window.PERSONAS, QS = window.QUESTIONS, INS = window.INSIGHTS,
-      REC = window.RECOMMEND, CLIM = window.CLIMATE_CN, CITIES = window.CITIES || [];
+  // 英文模式：主站 ?lang=en 时（map-i18n.js 置 window.__mapI18nOn）切到 data/content.en.js 的平行数据集。
+  // 数据源在此一次性切换，下面的渲染逻辑完全不用改。
+  var EN = window.__mapI18nOn === true;
+  var UI = window.UI_EN || {};
+  var PER = EN ? window.PERSONAS_EN : window.PERSONAS;
+  var QS = EN ? window.QUESTIONS_EN : window.QUESTIONS;
+  var INS = EN ? window.INSIGHTS_EN : window.INSIGHTS;
+  var REC = EN ? window.RECOMMEND_EN : window.RECOMMEND;
+  var CLIM = EN ? window.CLIMATE_EN : window.CLIMATE_CN;
+  var CITIES = window.CITIES || [];
   var app = document.getElementById("app");
   var state = { answers: {}, step: 0, place: null, lnglat: null, result: null };
   // 测验起点：用于结算时算出「本局用时」，随主站「我的学习」成绩一起上报。
@@ -94,12 +102,15 @@
   function getInsight(main, pref) {
     if (pref === main) return INS[main][main];
     if (INS[pref] && INS[pref][main]) return INS[pref][main];
+    if (EN) return "You are drawn to " + PER[pref].name + ", yet deep down you are " + PER[main].name +
+      " — you long for " + PER[pref].keywords + ", but you end up living as " + PER[main].keywords + ".";
     return "你被" + PER[pref].name + "吸引，骨子里却是" + PER[main].name +
       "——你向往" + PER[pref].keywords + "，最终却活成了" + PER[main].keywords + "。";
   }
   // 单一地点：生活时间最长的地方（出生 / 成长 / 工作 合成一个）
-  var PLACE_TITLE  = "生活地";
-  var PLACE_HINT   = "出生、成长、工作……把它们合成一个地方——那个你待得最久、最像「家」的城市。";
+  var PLACE_TITLE  = EN ? (UI.placeTitle || "Home Base") : "生活地";
+  var PLACE_HINT   = EN ? (UI.placeHint || "") :
+    "出生、成长、工作……把它们合成一个地方——那个你待得最久、最像「家」的城市。";
   function compositeGeo(c) {
     if (!c) { var s = {}; DIMS.forEach(function (d) { s[d] = 0; }); return s; }
     return geoScore(c);
@@ -238,10 +249,12 @@
     app.innerHTML =
       '<div class="home">' +
         earthGlobe() +
-        '<h1>发现你的地球人格</h1>' +
-        '<p class="sub">20 个问题，找到属于你的地球身份</p>' +
-        '<button class="cta" data-action="start">开始测试</button>' +
-        '<p class="tip">MBTI 探索你的性格，地理人格探索你与地球的关系。</p>' +
+        '<h1>' + (EN ? "Discover Your Geo Personality" : "发现你的地球人格") + '</h1>' +
+        '<p class="sub">' + (EN ? "20 questions to find the earth identity that is yours" : "20 个问题，找到属于你的地球身份") + '</p>' +
+        '<button class="cta" data-action="start">' + (EN ? "Start the Test" : "开始测试") + '</button>' +
+        '<p class="tip">' + (EN
+          ? "MBTI explores your personality; geo personality explores how you relate to the Earth."
+          : "MBTI 探索你的性格，地理人格探索你与地球的关系。") + '</p>' +
       '</div>';
     setTimeout(initEarth3D, 30);
   }
@@ -256,14 +269,18 @@
       return '<button class="opt" data-action="answer" data-qid="' + q.id + '" data-dim="' + o.dim + '">' +
         '<span class="num">' + (idx + 1) + '</span>' + o.text + '</button>';
     }).join("");
-    var tag = q.type === "prefer" ? "偏好题" : "本能题";
+    var tag = EN
+      ? (q.type === "prefer" ? (UI.preferTag || " · Preference question") : (UI.behaviorTag || " · Instinct question"))
+      : (q.type === "prefer" ? "偏好题" : "本能题");
     app.innerHTML =
       '<div class="quiz">' +
         '<div class="progress"><div class="bar" style="width:' + pct + '%"></div></div>' +
-        '<div class="meta">第 ' + (i + 1) + ' / ' + total + ' 题 · ' + tag + '</div>' +
+        (EN
+          ? '<div class="meta">' + (UI.questionMeta || "Question ") + (i + 1) + (UI.ofTotal || " of ") + total + tag + '</div>'
+          : '<div class="meta">第 ' + (i + 1) + ' / ' + total + ' 题 · ' + tag + '</div>') +
         '<h2 class="q">' + q.q + '</h2>' +
         '<div class="opts">' + opts + '</div>' +
-        (i > 0 ? '<button class="ghost" data-action="prev">上一题</button>' : '') +
+        (i > 0 ? '<button class="ghost" data-action="prev">' + (EN ? (UI.prevBtn || "Previous Question") : "上一题") + '</button>' : '') +
       '</div>';
   }
 
@@ -275,23 +292,27 @@
     var sel = state.place ? state.place.city : "";
     app.innerHTML =
       '<div class="city">' +
-        '<h2>你生活时间最长的地方是？</h2>' +
+        '<h2>' + (EN ? "Where have you lived the longest?" : "你生活时间最长的地方是？") + '</h2>' +
         '<p class="sub">' + PLACE_HINT + '</p>' +
         '<div class="map-wrap">' +
-          '<div class="map-tip">📍 在地图上点出 <b>' + PLACE_TITLE + '</b>，或直接在下方输入城市</div>' +
+          (EN
+            ? '<div class="map-tip">📍 ' + (UI.mapTipA || "Tap ") + '<b>' + PLACE_TITLE + '</b>' + (UI.mapTipB || " on the map, or type a city below") + '</div>'
+            : '<div class="map-tip">📍 在地图上点出 <b>' + PLACE_TITLE + '</b>，或直接在下方输入城市</div>') +
           '<div id="mapDiv"></div>' +
           '<div id="mapPop" class="map-pop"></div>' +
-          '<div id="pickStatus" class="pick-status">地图加载中…</div>' +
-          '<div class="geo-note">地图数据 © 天地图 GS(2023)1312号 · 含完整国界与南海诸岛</div>' +
+          '<div id="pickStatus" class="pick-status">' + (EN ? "Loading map…" : "地图加载中…") + '</div>' +
+          '<div class="geo-note">' + (EN
+            ? "Map data © Tianditu GS(2023)1312 — full national boundaries and South China Sea islands included"
+            : "地图数据 © 天地图 GS(2023)1312号 · 含完整国界与南海诸岛") + '</div>' +
         '</div>' +
         '<div class="rows">' +
           '<div class="prow active">' +
             '<label>' + PLACE_TITLE + '</label>' +
-            '<input id="city_life" list="cityList" value="' + sel + '" placeholder="点地图或输入，如 深圳 / 东京 / 拉萨" autocomplete="off">' +
+            '<input id="city_life" list="cityList" value="' + sel + '" placeholder="' + (EN ? "Tap the map or type, e.g. Shenzhen / Tokyo / Lhasa" : "点地图或输入，如 深圳 / 东京 / 拉萨") + '" autocomplete="off">' +
           '</div>' +
         '</div>' +
-        '<button class="cta" data-action="toResult">生成我的地球人格</button>' +
-        '<button class="ghost" data-action="prev">上一题</button>' +
+        '<button class="cta" data-action="toResult">' + (EN ? (UI.genBtn || "Generate My Geo Personality") : "生成我的地球人格") + '</button>' +
+        '<button class="ghost" data-action="prev">' + (EN ? (UI.prevBtn || "Previous Question") : "上一题") + '</button>' +
       '</div>' +
       '<datalist id="cityList">' + opts + '</datalist>';
     setTimeout(function () {
@@ -404,7 +425,8 @@
     var box = document.getElementById("mapDiv");
     if (!box) return;
     if (typeof T === "undefined" || !T.Map) {
-      updatePickStatus("地图组件加载失败，请在下方输入框手动选择城市", false);
+      updatePickStatus(EN ? "The map failed to load — pick a city in the input box below"
+                          : "地图组件加载失败，请在下方输入框手动选择城市", false);
       box.style.height = "0";
       return;
     }
@@ -414,7 +436,8 @@
       addTdtLayers(map); // 影像底图 + 影像注记（含城市名与官方审图号）
       hideTdtLogo(); setTimeout(hideTdtLogo, 500); // 移除左上角天地图品牌 logo
       if (state.lnglat) addMarker(map, "life", state.lnglat);
-      updatePickStatus("已加载，点击地图选择「" + PLACE_TITLE + "」", true);
+      updatePickStatus(EN ? "Map loaded — tap the map to choose your " + PLACE_TITLE
+                          : "已加载，点击地图选择「" + PLACE_TITLE + "」", true);
       map.addEventListener("click", function (e) {
         var ll = e.lnglat; if (!ll) return;
         var lng = (typeof ll.getLng === "function") ? ll.getLng() : ll.lng;
@@ -422,23 +445,33 @@
         if (!lng || !lat) return;
         state.lnglat = { lng: lng, lat: lat };
         addMarker(map, "life", { lng: lng, lat: lat });
-        updatePickStatus("正在识别位置…");
+        updatePickStatus(EN ? "Locating…" : "正在识别位置…");
         reverseGeo(lng, lat, function (g) {
-          if (!g) { updatePickStatus("无法识别该位置，请重试或手动输入", false); return; }
+          if (!g) {
+            updatePickStatus(EN ? "Could not identify this location — retry or type a city manually"
+                                : "无法识别该位置，请重试或手动输入", false);
+            return;
+          }
           var clean = cleanCityName(g.city || g.province);
           var match = findCity(clean);
           setPlaceChoice(match, { lng: lng, lat: lat });
           if (match) {
-            updatePickStatus("已选 " + PLACE_TITLE + "：" + match.city + " · 点击下方「生成我的地球人格」", true);
-            showMapPop("✅ " + PLACE_TITLE + " 已选：" + match.city +
-              "<br>点击下方按钮生成你的地球人格");
+            updatePickStatus(EN
+              ? "Selected " + PLACE_TITLE + ": " + match.city + " — tap “Generate My Geo Personality” below"
+              : "已选 " + PLACE_TITLE + "：" + match.city + " · 点击下方「生成我的地球人格」", true);
+            showMapPop("✅ " + PLACE_TITLE + (EN ? " selected: " : " 已选：") + match.city +
+              (EN ? "<br>Tap the button below to generate your geo personality"
+                   : "<br>点击下方按钮生成你的地球人格"));
           } else {
-            updatePickStatus("识别为「" + (g.city || g.addr) + "」暂未收录，已记录坐标，可手动输入近似城市", false);
+            updatePickStatus(EN
+              ? "“" + (g.city || g.addr) + "” is not in the list yet — coordinates saved, you can type a nearby city"
+              : "识别为「" + (g.city || g.addr) + "」暂未收录，已记录坐标，可手动输入近似城市", false);
           }
         });
       });
     } catch (e) {
-      updatePickStatus("地图初始化失败，请在下方输入框手动选择城市", false);
+      updatePickStatus(EN ? "The map failed to initialize — pick a city in the input box below"
+                          : "地图初始化失败，请在下方输入框手动选择城市", false);
       box.style.height = "0";
     }
   }
@@ -470,8 +503,9 @@
 
   // ---------- 渲染：结果 ----------
   function bestMatches(mt) {
+    var compat = EN ? window.COMPAT_EN : window.COMPAT;
     var dims = DIMS.filter(function (d) { return d !== mt; });
-    dims.sort(function (a, b) { return window.COMPAT(mt, b).score - window.COMPAT(mt, a).score; });
+    dims.sort(function (a, b) { return compat(mt, b).score - compat(mt, a).score; });
     return dims.slice(0, 3);
   }
   function renderResult() {
@@ -495,7 +529,8 @@
     var recObj = REC[r.mainType] || { similar: [], complement: [], travel: [] };
     function recList(arr) { return (arr || []).map(function (c) { return "<li>" + c + "</li>"; }).join(""); }
     var hiddenLine = (r.hidden !== r.mainType)
-      ? ('<div class="hidden-tag">隐藏标签：' + hidden.icon + ' ' + hidden.name + '（' + hidden.keywords + '）</div>')
+      ? ('<div class="hidden-tag">' + (EN ? "Hidden tag: " : "隐藏标签：") + hidden.icon + ' ' + hidden.name +
+         (EN ? " (" : "（") + hidden.keywords + (EN ? ")" : "）") + '</div>')
       : '';
     var triple = (function () {
       if (!(r.place && r.placeType)) return '';
@@ -510,13 +545,14 @@
     var geoLines = (r.place)
       ? ('<div class="geoline"><span class="glabel">' + PLACE_TITLE + '</span>' +
           r.place.city + " · " + (CLIM[r.place.climate] || r.place.climate) +
-          (r.place.coastal ? " · 海洋影响强" : "") + " · 城市化 " + r.place.urbanization + "%</div>")
-      : '<div class="geoline">未选择</div>';
+          (r.place.coastal ? (EN ? " · Strong marine influence" : " · 海洋影响强") : "") +
+          (EN ? " · Urbanization " : " · 城市化 ") + r.place.urbanization + "%</div>")
+      : '<div class="geoline">' + (EN ? "Not selected" : "未选择") + '</div>';
     var bm = bestMatches(r.mainType);
     var bmHtml = bm.map(function (d) {
-      var p = PER[d], c = window.COMPAT(r.mainType, d);
+      var p = PER[d], c = (EN ? window.COMPAT_EN : window.COMPAT)(r.mainType, d);
       return '<div class="match"><span class="micon" style="color:' + p.color + '">' + p.icon + '</span>' +
-        '<div class="minfo"><b>' + p.name + '</b><span class="mscore">契合 ' + c.score + '</span>' +
+        '<div class="minfo"><b>' + p.name + '</b><span class="mscore">' + (EN ? "Match " : "契合 ") + c.score + '</span>' +
         '<div class="mtext">' + c.text + '</div></div></div>';
     }).join("");
     var careerHtml = (m.career || []).map(function (x) { return "<li>" + x + "</li>"; }).join("");
@@ -524,46 +560,48 @@
       '<div class="result">' +
         '<div class="hero" style="border-color:' + m.color + '">' +
           '<div class="big-icon" style="color:' + m.color + '">' + m.icon + '</div>' +
-          '<div class="type">' + m.name + '城市居民</div>' +
+          '<div class="type">' + m.name + (EN ? " resident" : "城市居民") + '</div>' +
           '<div class="en">' + m.en + '</div>' +
         '</div>' +
         '<div class="insight">“' + r.insight + '”</div>' +
         hiddenLine +
-        '<div class="section-title">你的地理底色</div>' +
+        '<div class="section-title">' + (EN ? "Your Geographic Base" : "你的地理底色") + '</div>' +
         '<div class="triple">' + triple + '</div>' +
         trajLine +
         '<div class="trackwrap">' +
-          '<div class="section-title">你的生活地坐标</div>' +
+          '<div class="section-title">' + (EN ? "Your Home Base Coordinates" : "你的生活地坐标") + '</div>' +
           '<div id="trackMap" class="track-map"></div>' +
-          '<div id="trackNote" class="track-note" style="display:none">在上一页选择生活地，即可在此查看它的地理坐标。</div>' +
+          '<div id="trackNote" class="track-note" style="display:none">' +
+            (EN ? "Choose your home base on the previous page to see its coordinates here."
+                 : "在上一页选择生活地，即可在此查看它的地理坐标。") + '</div>' +
         '</div>' +
         '<div class="grid2">' +
           '<div class="card">' +
-            '<h3>我的属性</h3>' +
+            '<h3>' + (EN ? "My Attributes" : "我的属性") + '</h3>' +
             '<canvas id="radar" width="320" height="320"></canvas>' +
-            '<h3 style="margin-top:14px">地理人格 × 职业</h3>' +
+            '<h3 style="margin-top:14px">' + (EN ? "Geo Personality × Career" : "地理人格 × 职业") + '</h3>' +
             '<ul class="rec">' + careerHtml + '</ul>' +
           '</div>' +
           '<div class="card">' +
-            '<h3>地理档案</h3>' +
+            '<h3>' + (EN ? "Geographic Profile" : "地理档案") + '</h3>' +
             '<div class="geo">' + geoLines + '</div>' +
-            '<h3 style="margin-top:14px">人格描述</h3>' +
+            '<h3 style="margin-top:14px">' + (EN ? "Personality Description" : "人格描述") + '</h3>' +
             '<p class="desc">' + m.desc + '</p>' +
-            '<h3 style="margin-top:14px">地理人格 × 生活方式</h3>' +
+            '<h3 style="margin-top:14px">' + (EN ? "Geo Personality × Lifestyle" : "地理人格 × 生活方式") + '</h3>' +
             '<p class="desc">' + m.life + '</p>' +
           '</div>' +
         '</div>' +
-        '<div class="section-title">推荐城市</div>' +
+        '<div class="section-title">' + (EN ? "Recommended Cities" : "推荐城市") + '</div>' +
         '<div class="city-rec">' +
-          '<div class="cr"><h4>与你相似</h4><ul class="rec">' + recList(recObj.similar) + '</ul></div>' +
-          '<div class="cr"><h4>互补反差</h4><ul class="rec">' + recList(recObj.complement) + '</ul></div>' +
-          '<div class="cr"><h4>该去旅行</h4><ul class="rec">' + recList(recObj.travel) + '</ul></div>' +
+          '<div class="cr"><h4>' + (EN ? "Similar to you" : "与你相似") + '</h4><ul class="rec">' + recList(recObj.similar) + '</ul></div>' +
+          '<div class="cr"><h4>' + (EN ? "Complementary contrast" : "互补反差") + '</h4><ul class="rec">' + recList(recObj.complement) + '</ul></div>' +
+          '<div class="cr"><h4>' + (EN ? "Worth a trip" : "该去旅行") + '</h4><ul class="rec">' + recList(recObj.travel) + '</ul></div>' +
         '</div>' +
-        '<div class="section-title">你的最佳拍档</div>' +
+        '<div class="section-title">' + (EN ? "Your Best Matches" : "你的最佳拍档") + '</div>' +
         '<div class="matches">' + bmHtml + '</div>' +
         '<div class="actions">' +
-          '<button class="cta" data-action="genCard">生成地球人格卡</button>' +
-          '<button class="ghost" data-action="restart">重新测试</button>' +
+          '<button class="cta" data-action="genCard">' + (EN ? "Generate Personality Card" : "生成地球人格卡") + '</button>' +
+          '<button class="ghost" data-action="restart">' + (EN ? "Retake the Test" : "重新测试") + '</button>' +
         '</div>' +
         '<div id="cardWrap" class="card-wrap"></div>' +
       '</div>';
@@ -577,8 +615,10 @@
     var ctx = cv.getContext("2d");
     var W = cv.width, H = cv.height, cx = W / 2, cy = H / 2, R = 110;
     var axes = [
-      { k: "explore", label: "探索" }, { k: "connect", label: "连接" },
-      { k: "stable", label: "稳定" }, { k: "nature", label: "自然" }
+      { k: "explore", label: EN ? "Explore" : "探索" },
+      { k: "connect", label: EN ? "Connect" : "连接" },
+      { k: "stable", label: EN ? "Stable" : "稳定" },
+      { k: "nature", label: EN ? "Nature" : "自然" }
     ];
     ctx.clearRect(0, 0, W, H);
     // 网格
@@ -662,14 +702,20 @@
     })();
     // 标题
     c.fillStyle = "#9fd0ff"; c.font = "22px sans-serif"; c.textAlign = "center";
-    c.fillText("🌍 我的地球人格", 300, 70);
+    c.fillText(EN ? (UI.cardTitle || "🌍 My Geo Personality") : "🌍 我的地球人格", 300, 70);
     // 大图标 + 名称
     c.fillStyle = m.color; c.font = "90px sans-serif"; c.fillText(m.icon, 300, 200);
-    c.fillStyle = "#fff"; c.font = "bold 40px sans-serif"; c.fillText(m.name + "城市居民", 300, 270);
+    c.fillStyle = "#fff"; c.font = "bold 40px sans-serif";
+    c.fillText(m.name + (EN ? (UI.cityResident || " resident") : "城市居民"), 300, 270);
     c.fillStyle = "#8fa6c8"; c.font = "18px sans-serif"; c.fillText(m.en, 300, 305);
     // 属性条
     var base = m.base;
-    var bars = [["探索力", base.explore], ["连接力", base.connect], ["稳定力", base.stable], ["自然力", base.nature]];
+    var bars = [
+      [EN ? (UI.barExplore || "Exploration") : "探索力", base.explore],
+      [EN ? (UI.barConnect || "Connection") : "连接力", base.connect],
+      [EN ? (UI.barStable || "Stability") : "稳定力", base.stable],
+      [EN ? (UI.barNature || "Nature") : "自然力", base.nature]
+    ];
     var by = 360;
     bars.forEach(function (b) {
       c.fillStyle = "rgba(255,255,255,0.8)"; c.font = "16px sans-serif"; c.textAlign = "left";
@@ -687,15 +733,19 @@
     c.fillStyle = "#9fb6d8"; c.font = "15px sans-serif";
     c.fillText(tri, 300, 592);
     var bm = bestMatches(r.mainType);
-    var bmLine = "最佳拍档：" + bm.map(function (d) { return PER[d].name; }).join(" / ");
+    var bmLine = (EN ? (UI.bestMatch || "Best Match: ") : "最佳拍档：") +
+      bm.map(function (d) { return PER[d].name; }).join(" / ");
     c.fillText(bmLine, 300, 618);
     c.fillStyle = "#6f86a8"; c.font = "15px sans-serif";
-    c.fillText("你的是什么？ planetgis.cn/geotype", 300, 760);
+    c.fillText(EN ? (UI.whatsYours || "What's yours? planetgis.cn/geotype") : "你的是什么？ planetgis.cn/geotype", 300, 760);
     // 输出
     var wrap = document.getElementById("cardWrap");
     if (wrap) {
-      wrap.innerHTML = '<img class="card-img" src="' + cv.toDataURL("image/png") + '" alt="地球人格卡">' +
-        '<a class="cta" download="我的地球人格卡.png" href="' + cv.toDataURL("image/png") + '">下载卡片</a>';
+      wrap.innerHTML = '<img class="card-img" src="' + cv.toDataURL("image/png") + '" alt="' +
+        (EN ? (UI.cardAlt || "Geo personality card") : "地球人格卡") + '">' +
+        '<a class="cta" download="' + (EN ? "my-geo-personality-card.png" : "我的地球人格卡.png") +
+        '" href="' + cv.toDataURL("image/png") + '">' +
+        (EN ? (UI.downloadCard || "Download Card") : "下载卡片") + '</a>';
     }
     track("shares", { main_type: r.mainType, place_type: r.placeType || "" });
   }

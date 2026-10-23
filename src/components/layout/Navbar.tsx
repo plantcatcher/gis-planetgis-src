@@ -5,28 +5,33 @@ import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { Menu, X, User, ChevronDown } from 'lucide-react';
 import HotBadge from '@/components/common/HotBadge';
+import LanguageSwitcher from '@/components/common/LanguageSwitcher';
 import { useLearningData } from '@/hooks/useLearning';
 import { computeStreak } from '@/services/learningService';
-
-const navLinks: { name: string; path: string; hot?: boolean }[] = [
-  { name: '站点导览', path: '/' },
-  { name: '地理知识库', path: '/learn' },
-  { name: '精选作品', path: '/works' },
-  { name: '互动地图', path: '/maps' },
-  { name: '地理小游戏', path: '/games' },
-  { name: '地理小工具', path: '/tools' },
-  { name: '资料下载', path: '/downloads', hot: true },
-];
-
-// 收敛进「更多」下拉：子站导航 / 关于我们 / 动态与规划
-const moreLinks: { name: string; path: string }[] = [
-  { name: '子站导航', path: '/subdomains' },
-  { name: '关于我们', path: '/about' },
-  { name: '动态与规划', path: '/changelog' },
-];
+import { useT } from '@/i18n/LocaleContext';
 
 const Navbar = () => {
   const location = useLocation();
+  const t = useT();
+
+  // 导航文案随语言走，所以数组必须在组件内构造（不能在模块级写死中文）。
+  // 路径保持语言无关：英文站由 Router 的 /en basename 自动补前缀。
+  const navLinks: { name: string; path: string; hot?: boolean }[] = [
+    { name: t('nav.home'), path: '/' },
+    { name: t('nav.learn'), path: '/learn' },
+    { name: t('nav.works'), path: '/works' },
+    { name: t('nav.maps'), path: '/maps' },
+    { name: t('nav.games'), path: '/games' },
+    { name: t('nav.tools'), path: '/tools' },
+    { name: t('nav.downloads'), path: '/downloads', hot: true },
+  ];
+
+  // 收敛进「更多」下拉：子站导航 / 关于我们 / 动态与规划
+  const moreLinks: { name: string; path: string }[] = [
+    { name: t('nav.subdomains'), path: '/subdomains' },
+    { name: t('nav.about'), path: '/about' },
+    { name: t('nav.changelog'), path: '/changelog' },
+  ];
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
@@ -140,7 +145,7 @@ const Navbar = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
           >
-            星球小捕手
+            {t('brand.name')}
           </motion.span>
         </Link>
 
@@ -178,7 +183,7 @@ const Navbar = () => {
                 moreActive || moreOpen ? 'text-primary' : 'hover:text-primary'
               }`}
             >
-              更多
+              {t('nav.more')}
               <ChevronDown
                 className={`w-4 h-4 transition-transform duration-200 ${moreOpen ? 'rotate-180' : ''}`}
               />
@@ -212,14 +217,15 @@ const Navbar = () => {
           </div>
         </motion.div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
+          <LanguageSwitcher />
           <ThemeToggle />
           <Button
             asChild
             variant="ghost"
             size="icon"
             className={`relative rounded-full ${isActive('/my') ? 'text-primary bg-primary/10' : ''}`}
-            aria-label="我的学习"
+            aria-label={t('nav.myLearning')}
           >
             <Link to="/my">
               <User className="w-5 h-5" />
@@ -233,7 +239,7 @@ const Navbar = () => {
           <button
             className="md:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
+            aria-label={mobileMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -276,7 +282,7 @@ const Navbar = () => {
                   moreActive || mobileMoreOpen ? 'text-primary' : 'hover:text-primary'
                 }`}
               >
-                更多
+                {t('nav.more')}
                 <ChevronDown
                   className={`w-4 h-4 transition-transform duration-200 ${mobileMoreOpen ? 'rotate-180' : ''}`}
                 />

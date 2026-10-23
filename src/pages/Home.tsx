@@ -17,12 +17,17 @@ import {
   isResourceViewOnly,
 } from '@/lib/content';
 import HomeSidebar, { useScrollSpy } from '@/components/home/HomeSidebar';
-import subdomainsData from '@/data/subdomains.json';
+import subdomainsZh from '@/data/subdomains.json';
+import subdomainsEn from '@/data/subdomains.en.json';
 import PageMeta from '@/components/common/PageMeta';
 import AccessBadge from '@/components/common/AccessBadge';
 import { useJsonLd } from '@/lib/seo';
 import KnowledgeCard from '@/components/knowledge/KnowledgeCard';
 import SectionLabel from '@/components/knowledge/SectionLabel';
+import { useI18n } from '@/i18n/LocaleContext';
+import { HTML_LANG } from '@/i18n/config';
+import { GEO_FACTS } from '@/i18n/geoFacts';
+import { localizeLabel } from '@/i18n/labels';
 
 const iconMap: Record<string, any> = {
   Github,
@@ -127,30 +132,6 @@ const CardAnim: React.FC<{ children: React.ReactNode; delay?: number }> = ({ chi
   </motion.div>
 );
 
-/** 地理冷知识：首页知识门户的轻量互动态，强化"知识感" */
-const GEO_FACTS = [
-  { q: '地球赤道周长约 40,075 公里', a: '以高铁时速 300 公里计，绕赤道一圈约需 5.6 天。' },
-  { q: '珠穆朗玛峰每年仍在缓慢长高', a: '印度洋板块持续挤压欧亚板块，珠峰年均抬升约数毫米。' },
-  { q: '太平洋约占地球海洋面积的 46%', a: '它比地球上所有陆地面积加起来还要大。' },
-  { q: '北半球冬季，地球离太阳更近', a: '每年 1 月初过近日点——季节由地轴倾角决定，而非日地距离。' },
-  { q: '本初子午线不止穿过英国', a: '它还经过法国、西班牙、阿尔及利亚、马里、加纳等共 8 国。' },
-  { q: '大气层的厚度约为地球半径的 1.5%', a: '但正是这薄薄一层，守护着地表所有的生命与天气。' },
-  { q: '地球自转其实在变慢', a: '受月球引潮力制动，每过一百年，一天大约延长 1.7 毫秒。' },
-  { q: '死海是地球陆地最低点', a: '湖面海拔约 -430 米，盐度约 34%，浮力大得能躺着读书。' },
-  { q: '撒哈拉沙漠曾是一片绿洲', a: '约一万年前这里湖泊密布、草木繁茂，由地球轨道周期变化造成。' },
-  { q: '国际日期变更线并不笔直', a: '为避免一国跨两个日期，它在白令海峡和太平洋岛屿处刻意弯折。' },
-  { q: '南极比北极冷得多', a: '南极是冰雪覆盖的高原陆地，北极是海洋，海陆差异放大了温差。' },
-  { q: '地球并非完美球体', a: '自转离心力使赤道略鼓，赤道半径比极半径长约 21 公里。' },
-  { q: '闪电温度可达太阳表面的 5 倍', a: '一道闪电核心约 30,000℃，远超太阳表面约 5,500℃。' },
-  { q: '马里亚纳海沟比珠峰还深', a: '最深约 11,034 米，把珠峰放进去仍差两千多米才能填满。' },
-  { q: '格陵兰冰盖若全融，海平面约升 7 米', a: '南极冰盖若全融，则可使海平面上升约 60 米。' },
-  { q: '一天并非正好 24 小时', a: '相对恒星自转一周仅约 23 时 56 分 4 秒，多出的时间来自公转。' },
-  { q: '地球上最干旱处几乎无雨', a: '智利阿塔卡马沙漠部分区域，曾有数百年未见可测量的降雨。' },
-  { q: '经度 1° 的距离随纬度变化', a: '赤道约 111 公里、向两极趋近 0；纬度 1° 全球则近恒定约 111 公里。' },
-  { q: '喜马拉雅山曾是大海', a: '海相岩层与化石证明，这里数千万年前还是古地中海的一部分。' },
-  { q: '城市热岛让城区更暖', a: '混凝土吸热、植被稀少，大城市夜间可比郊区高 3–5℃。' },
-];
-
 /** Fisher-Yates 洗牌；可选 excludeLast，保证新牌堆首张不等于即将结束的旧末张，杜绝衔接处重复 */
 const shuffleDeck = (arr: number[], excludeLast?: number): number[] => {
   const next = [...arr];
@@ -164,11 +145,12 @@ const shuffleDeck = (arr: number[], excludeLast?: number): number[] => {
   return next;
 };
 
-const GeoFactCard = () => {
+/** 地理冷知识：首页知识门户的轻量互动态，强化"知识感"。内容按语言取，见 src/i18n/geoFacts.ts */
+const GeoFactCard = ({ facts, kicker, nextLabel }: { facts: { q: string; a: string }[]; kicker: string; nextLabel: string }) => {
   // 初始顺序固定为 [0..n]，保证 SSG 预渲染首条确定、不触发水合不一致；交互后再洗牌
-  const [order, setOrder] = useState<number[]>(() => GEO_FACTS.map((_, i) => i));
+  const [order, setOrder] = useState<number[]>(() => facts.map((_, i) => i));
   const [pos, setPos] = useState(0);
-  const fact = GEO_FACTS[order[pos]];
+  const fact = facts[order[pos]];
 
   // 推进到牌堆下一张；整副 20 张点完才重洗，故少量点击绝不重复
   const handleNext = () => {
@@ -183,7 +165,7 @@ const GeoFactCard = () => {
   return (
     <div className="mb-10 rounded-2xl border border-primary/40 bg-background p-6 flex items-start gap-4">
       <div className="flex-1 min-w-0">
-        <div className="text-xs font-semibold tracking-widest text-primary/80 uppercase mb-1">地理冷知识</div>
+        <div className="text-xs font-semibold tracking-widest text-primary/80 uppercase mb-1">{kicker}</div>
         <p className="font-serif text-base font-bold leading-snug">{fact.q}</p>
         <p className="text-xs text-muted-foreground mt-1">{fact.a}</p>
       </div>
@@ -192,32 +174,33 @@ const GeoFactCard = () => {
         onClick={handleNext}
         className="shrink-0 text-xs text-primary border border-primary/30 rounded-full px-3 py-1.5 hover:bg-primary/10 transition-colors"
       >
-        换一条
+        {nextLabel}
       </button>
     </div>
   );
 };
 
 const Home = () => {
-  const profile = {
-    id: '1',
-    name: '星球小捕手',
-    bio: '从海平面变迁到城市脉络——用技术让地理科学走出论文，走进每个人的日常。',
-    avatar: 'https://blogphoto.planetgis.cn/PicGo/2026-02-27-favicon-dec42c.png'
-  };
+  const { lang, t } = useI18n();
+  const facts = GEO_FACTS[lang];
+  const subdomains = (lang === 'en' ? subdomainsEn : subdomainsZh) as {
+    title: string;
+    description: string;
+    link: string;
+  }[];
 
-  const sections = [
-    { id: '1', key: 'profile', title: '关于我们', is_active: true },
-    { id: '9', key: 'learn', title: '地理知识库', is_active: true },
-    { id: '2', key: 'works', title: '地理可视化作品', is_active: true },
-    { id: '2b', key: 'maps', title: '互动地图', is_active: true },
-    { id: '2c', key: 'games', title: '地理小游戏', is_active: true },
-    { id: '7', key: 'downloads', title: '资料下载', is_active: true },
-    { id: '3', key: 'tools', title: '地理小工具', is_active: true },
-    { id: '4', key: 'subdomains', title: '子站导航', is_active: true },
-    { id: '5', key: 'social', title: '关注我们', is_active: true },
-    { id: '6', key: 'about', title: '关于星球小捕手', is_active: true },
-    { id: '8', key: 'updates', title: '动态与规划', is_active: true }
+  const sections: SectionConfig[] = [
+    { key: 'profile' },
+    { key: 'learn' },
+    { key: 'works' },
+    { key: 'maps' },
+    { key: 'games' },
+    { key: 'downloads' },
+    { key: 'tools' },
+    { key: 'subdomains' },
+    { key: 'social' },
+    { key: 'about' },
+    { key: 'updates' },
   ];
 
   const updateLog = getChangelogTimeline(6);
@@ -236,8 +219,15 @@ const Home = () => {
   const tools = getTools();
   const resources = getResources();
   const learns = getLearns();
-  const subdomains = subdomainsData as { title: string; description: string; link: string }[];
-  const subjects = getLearnSubjects();
+  // 学科方向名来自 md 的 subject 字段（中文），英文站下按映射表显示。
+  // 侧栏二级项与学科卡片共用这一份，保证两处口径一致。
+  // value 保留中文原名：侧栏学科项要拼 `/learn?subject=<中文>` 去筛选，
+  // 用英文显示名去查会一条都匹配不到。
+  const subjects = getLearnSubjects().map((s) => ({
+    ...s,
+    name: localizeLabel(s.name, lang),
+    value: s.name,
+  }));
 
   // 首页各卡片板块按热度（近 30 天 GA4 浏览量）降序取前 N，与列表页排序口径一致；
   // 热度图标不显示（learn 卡片 showDescription=false 已隐藏；其余板块本就不渲染热度标记）。
@@ -248,39 +238,39 @@ const Home = () => {
 
   // 关于/首页数据条：全部由内容库实时统计，确保两处一致且反映网站现状
   const siteStats = [
-    { value: String(learns.length), label: '科普文章' },
-    { value: String(maps.length), label: '互动地图' },
-    { value: String(tools.length), label: '在线工具' },
-    { value: String(works.length), label: '可视化作品' },
-    { value: String(resources.length), label: '资料下载' },
+    { value: String(learns.length), label: t('home.stats.articles') },
+    { value: String(maps.length), label: t('home.stats.maps') },
+    { value: String(tools.length), label: t('home.stats.tools') },
+    { value: String(works.length), label: t('home.stats.works') },
+    { value: String(resources.length), label: t('home.stats.downloads') },
   ];
 
   // 左栏目录（与右侧 section 一一对应，滚动高亮）。
   // group 用于在侧栏里分组，避免 11 项平铺成一条长龙。
   const navItems = [
-    { id: 'profile', label: '站点导览', group: '内容板块' },
+    { id: 'profile', label: t('nav.home'), group: t('home.sidebar.groupContent') },
     // 学科方向作为「地理知识库」的二级项出现，不再单列一段（顶部导航已有 /learn）
-    { id: 'learn', label: '地理知识库', meta: String(learns.length), group: '内容板块', subjects },
-    { id: 'works', label: '精选作品', meta: String(worksShown.length), group: '内容板块' },
-    { id: 'maps', label: '互动地图', meta: String(maps.length), group: '内容板块' },
-    { id: 'games', label: '地理小游戏', meta: String(games.length), group: '内容板块' },
-    { id: 'downloads', label: '资料下载', meta: String(resources.length), hot: true, group: '内容板块' },
-    { id: 'tools', label: '地理小工具', meta: String(tools.length), group: '内容板块' },
-    { id: 'subdomains', label: '子站导航', meta: String(subdomains.length), group: '关于与动态' },
-    { id: 'social', label: '关注我们', group: '关于与动态' },
-    { id: 'about', label: '关于星球小捕手', group: '关于与动态' },
-    { id: 'updates', label: '动态与规划', group: '关于与动态' },
+    { id: 'learn', label: t('nav.learn'), meta: String(learns.length), group: t('home.sidebar.groupContent'), subjects },
+    { id: 'works', label: t('nav.works'), meta: String(worksShown.length), group: t('home.sidebar.groupContent') },
+    { id: 'maps', label: t('nav.maps'), meta: String(maps.length), group: t('home.sidebar.groupContent') },
+    { id: 'games', label: t('nav.games'), meta: String(games.length), group: t('home.sidebar.groupContent') },
+    { id: 'downloads', label: t('nav.downloads'), meta: String(resources.length), hot: true, group: t('home.sidebar.groupContent') },
+    { id: 'tools', label: t('nav.tools'), meta: String(tools.length), group: t('home.sidebar.groupContent') },
+    { id: 'subdomains', label: t('nav.subdomains'), meta: String(subdomains.length), group: t('home.sidebar.groupAbout') },
+    { id: 'social', label: t('home.social.title'), group: t('home.sidebar.groupAbout') },
+    { id: 'about', label: t('home.about.title'), group: t('home.sidebar.groupAbout') },
+    { id: 'updates', label: t('home.updates.title'), group: t('home.sidebar.groupAbout') },
   ];
   const activeSection = useScrollSpy(navItems.map((n) => n.id));
 
   const socialLinks = [
-    { id: '1', platform: '微信', url: '星球小捕手', icon_name: 'MessageCircle' },
-    { id: '7', platform: '公众号', url: '#', icon_name: 'Newspaper' },
-    { id: '2', platform: '微博', url: 'https://weibo.com/u/5860040514', icon_name: 'Share2' },
-    { id: '3', platform: 'B站', url: 'https://space.bilibili.com/31959835', icon_name: 'Youtube' },
-    { id: '4', platform: '小红书', url: 'https://www.xiaohongshu.com/user/profile/5f91772d00000000010077da', icon_name: 'Instagram' },
-    { id: '5', platform: '博客', url: 'https://blog.planetgis.cn', icon_name: 'Globe' },
-    { id: '6', platform: 'YouTube', url: 'https://www.youtube.com/@ZaynHuang', icon_name: 'Youtube' }
+    { id: '1', platform: t('social.wechat'), url: '星球小捕手', icon_name: 'MessageCircle' },
+    { id: '7', platform: t('social.official'), url: '#', icon_name: 'Newspaper' },
+    { id: '2', platform: t('social.weibo'), url: 'https://weibo.com/u/5860040514', icon_name: 'Share2' },
+    { id: '3', platform: t('social.bilibili'), url: 'https://space.bilibili.com/31959835', icon_name: 'Youtube' },
+    { id: '4', platform: t('social.xiaohongshu'), url: 'https://www.xiaohongshu.com/user/profile/5f91772d00000000010077da', icon_name: 'Instagram' },
+    { id: '5', platform: t('social.blog'), url: 'https://blog.planetgis.cn', icon_name: 'Globe' },
+    { id: '6', platform: t('social.youtube'), url: 'https://www.youtube.com/@ZaynHuang', icon_name: 'Youtube' }
   ];
 
   // 站点级实体结构化数据：把"星球小捕手 = 地理科普品牌"立住，并把各平台 / 子站
@@ -294,18 +284,18 @@ const Home = () => {
   useJsonLd({
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: '星球小捕手',
+    name: t('brand.name'),
     url: 'https://planetgis.cn',
     logo: 'https://blogphoto.planetgis.cn/PicGo/2026-02-27-favicon-dec42c.png',
-    description: '专注地球科学的独立创作者品牌，用数据讲述地球变化，用地图发现世界的温度——涵盖自然地理、气候、人文 GIS 与地理可视化。',
+    description: t('brand.orgDesc'),
     sameAs,
   });
   useJsonLd({
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: '星球小捕手',
+    name: t('brand.name'),
     url: 'https://planetgis.cn',
-    inLanguage: 'zh-CN',
+    inLanguage: HTML_LANG[lang],
   });
 
   const [wechatOpen, setWechatOpen] = useState(false);
@@ -317,40 +307,39 @@ const Home = () => {
         return (
           <SectionWrapper id="profile">
             <div className="max-w-3xl">
-              <p className="kicker mb-3">地理知识志 · PLANETGIS REVIEW</p>
+              <p className="kicker mb-3">{t('home.profile.kicker')}</p>
               <h1 className="text-3xl md:text-4xl font-bold tracking-tight leading-snug">
-                一个自助探索的地理知识库
+                {t('home.profile.title')}
               </h1>
               <p className="mt-5 text-sm md:text-base text-muted-foreground leading-relaxed">
-                自然、人文、区域、GIS 四大方向，把讲不透的地理知识讲透、讲活——
-                词条随手可查，地图随时可玩，资料即下即用。
+                {t('home.profile.lead')}
               </p>
               <div className="byline mt-4 flex items-center gap-3">
-                <span>每日更新 · 自助阅读</span>
+                <span>{t('home.profile.byline1')}</span>
                 <span className="opacity-40">·</span>
-                <span>{new Date().getFullYear()} 年刊</span>
+                <span>{t('home.profile.byline2', { year: new Date().getFullYear() })}</span>
               </div>
             </div>
 
             {/* 啊哈时刻单一引导：与「地理冷知识」卡同宽（占满内容列，不局限 max-w-3xl） */}
             <div className="mt-8 flex flex-col gap-4 rounded-2xl border border-primary/30 bg-gradient-to-r from-primary/10 to-secondary/10 p-4 sm:flex-row sm:items-center">
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-semibold tracking-widest text-primary/80 uppercase">30 秒体验一下</p>
-                <p className="mt-1 text-base font-bold leading-snug">看一张卫星图，猜这是哪座城市</p>
-                <p className="mt-1 text-xs text-muted-foreground">无需注册，打开就能玩——你熟悉的那座城市，换个角度还认得出来吗？</p>
+                <p className="text-xs font-semibold tracking-widest text-primary/80 uppercase">{t('home.try.kicker')}</p>
+                <p className="mt-1 text-base font-bold leading-snug">{t('home.try.title')}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{t('home.try.desc')}</p>
               </div>
               <div className="flex shrink-0 gap-3">
                 <Link
                   to="/geoquiz"
                   className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-primary/25 transition-transform hover:scale-[1.03]"
                 >
-                  开始挑战 <ArrowRight className="w-4 h-4" />
+                  {t('home.try.cta')} <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
                   to="/maps/cn-rivers"
                   className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-xs font-medium transition-colors hover:border-primary/40"
                 >
-                  或查一条河
+                  {t('home.try.alt')}
                 </Link>
               </div>
             </div>
@@ -360,11 +349,11 @@ const Home = () => {
         return (
           <SectionWrapper
             id="works"
-            title="精选作品"
-            lead="精选的地理可视化作品，用数据讲述地球的尺度与变迁——从海平面模拟到更多交互实验。"
+            title={t('home.works.title')}
+            lead={t('home.works.lead')}
             action={
               <Link to="/works" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
-                浏览全部作品 <ArrowRight className="w-3.5 h-3.5" />
+                {t('home.works.all')} <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             }
             className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
@@ -386,11 +375,11 @@ const Home = () => {
                   <div className="aspect-video overflow-hidden relative">
                     <img
                       src={work.cover}
-                      alt={`${work.title} - 星球小捕手地理可视化作品`}
+                      alt={`${work.title} - ${t('brand.name')}`}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                      <span className="w-full text-center text-sm font-medium text-white/90">访问作品 →</span>
+                      <span className="w-full text-center text-sm font-medium text-white/90">{t('home.works.hover')}</span>
                     </div>
                   </div>
                   <div className="p-6">
@@ -406,11 +395,11 @@ const Home = () => {
         return (
           <SectionWrapper
             id="maps"
-            title="互动地图"
-            lead="把真实地理数据做成可以点、可以查的地图——从中国河网、省级行政区到全球水电与港口，点开图层就能读到背后的地理故事。"
+            title={t('home.maps.title')}
+            lead={t('home.maps.lead')}
             action={
               <Link to="/maps" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
-                进入地图系列 <ArrowRight className="w-3.5 h-3.5" />
+                {t('home.maps.all')} <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             }
             className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
@@ -425,11 +414,11 @@ const Home = () => {
                     <div className="aspect-video overflow-hidden relative">
                       <img
                         src={m.cover}
-                        alt={`${m.title} - 星球小捕手互动地图`}
+                        alt={`${m.title} - ${t('brand.name')}`}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                        <span className="w-full text-center text-sm font-medium text-white/90">打开地图 →</span>
+                        <span className="w-full text-center text-sm font-medium text-white/90">{t('home.maps.hover')}</span>
                       </div>
                     </div>
                     <div className="p-6">
@@ -446,11 +435,11 @@ const Home = () => {
         return (
           <SectionWrapper
             id="games"
-            title="地理小游戏"
-            lead="把地理知识变成可以玩的交互——看卫星图猜城市、看轮廓猜国家、测出你的地球人格。"
+            title={t('home.games.title')}
+            lead={t('home.games.lead')}
             action={
               <Link to="/games" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
-                进入游戏汇总页 <ArrowRight className="w-3.5 h-3.5" />
+                {t('home.games.all')} <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             }
             className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
@@ -465,11 +454,11 @@ const Home = () => {
                     <div className="aspect-video overflow-hidden relative">
                       <img
                         src={game.cover}
-                        alt={`${game.title} - 星球小捕手地理小游戏`}
+                        alt={`${game.title} - ${t('brand.name')}`}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                        <span className="w-full text-center text-sm font-medium text-white/90">开始游戏 →</span>
+                        <span className="w-full text-center text-sm font-medium text-white/90">{t('home.games.hover')}</span>
                       </div>
                     </div>
                     <div className="p-6">
@@ -486,11 +475,11 @@ const Home = () => {
         return (
           <SectionWrapper
             id="downloads"
-            title="资料下载"
-            lead="板牙整理的地图素材与数据集——地图类可直接下载，PDF / 压缩包等需关注公众号【那山那海那座城】后凭验证码解锁。"
+            title={t('home.downloads.title')}
+            lead={t('home.downloads.lead')}
             action={
               <Link to="/downloads" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
-                进入资料下载 <ArrowRight className="w-3.5 h-3.5" />
+                {t('home.downloads.all')} <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             }
             className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
@@ -506,7 +495,7 @@ const Home = () => {
                       <div className="relative w-20 sm:w-24 aspect-[3/4] overflow-hidden bg-muted rounded-lg shrink-0">
                         <img
                           src={r.cover}
-                          alt={`${r.title} - 星球小捕手资料下载`}
+                          alt={`${r.title} - ${t('brand.name')}`}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                         />
                       </div>
@@ -525,7 +514,7 @@ const Home = () => {
                       <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                         {r.category && (
                           <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-foreground/80 text-background">
-                            {r.category}
+                            {localizeLabel(r.category, lang)}
                           </span>
                         )}
                         {r.format && (
@@ -553,15 +542,15 @@ const Home = () => {
       case 'learn':
         return (
           <>
-            <GeoFactCard />
+            <GeoFactCard facts={facts} kicker={t('home.fact.kicker')} nextLabel={t('home.fact.next')} />
 
             <SectionWrapper
               id="learn"
-              title="按学科探索地理"
-              lead="从自然地理到 GIS 技术，按学科与专题组织成可检索的自助知识库——随时来翻、随手可读。"
+              title={t('home.learn.title')}
+              lead={t('home.learn.lead')}
               action={
                 <Link to="/learn" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
-                  进入完整知识库 <ArrowRight className="w-3.5 h-3.5" />
+                  {t('home.learn.all')} <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               }
               className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
@@ -580,11 +569,11 @@ const Home = () => {
         return (
           <SectionWrapper
             id="tools"
-            title="地理小工具"
-            lead="自研的在线地理工具，让经纬度查询、地形分析、格式转换不再有门槛。"
+            title={t('home.tools.title')}
+            lead={t('home.tools.lead')}
             action={
               <Link to="/tools" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
-                查看全部工具 <ArrowRight className="w-3.5 h-3.5" />
+                {t('home.tools.all')} <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             }
             className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
@@ -631,8 +620,8 @@ const Home = () => {
         return (
           <SectionWrapper
             id="subdomains"
-            title="子站导航"
-            lead="星球小捕手旗下各主题子站，覆盖科普、工具与社区等不同入口。"
+            title={t('home.subdomains.title')}
+            lead={t('home.subdomains.lead')}
             className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -652,7 +641,7 @@ const Home = () => {
                   <div className="w-full flex items-start justify-between gap-3">
                     <Globe className="w-8 h-8 text-primary shrink-0" />
                     <span className="shrink-0 pt-0.5 text-xs text-primary flex items-center gap-1">
-                      前往 <ExternalLink className="w-3 h-3" />
+                      {t('home.subdomains.go')} <ExternalLink className="w-3 h-3" />
                     </span>
                   </div>
                   <span className="font-bold text-base">{sub.title}</span>
@@ -666,14 +655,14 @@ const Home = () => {
         return (
           <SectionWrapper
             id="social"
-            title="关注我们"
-            lead="在各大平台追踪星球小捕手，第一时间获取新的地理科普与可视化作品。"
+            title={t('home.social.title')}
+            lead={t('home.social.lead')}
             className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
           >
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {socialLinks.map((link, index) => {
                 const Icon = iconMap[link.icon_name || 'Globe'] || Globe;
-                if (link.platform === '微信') {
+                if (link.platform === t('social.wechat')) {
                   return (
                     <motion.button
                       key={link.id}
@@ -684,7 +673,7 @@ const Home = () => {
                       viewport={{ once: true }}
                       whileHover={{ scale: 1.05, y: -5, transition: { duration: 0.2 } }}
                       className="flex flex-col items-center gap-3 p-5 rounded-2xl bg-primary/5 hover:bg-primary/10 border border-transparent hover:border-primary/20 transition-all group cursor-pointer"
-                      title={`点击查看${link.platform}二维码`}
+                      title={t('home.social.qrTitle', { platform: link.platform })}
                     >
                       <motion.div
                         whileHover={{ scale: 1.2, transition: { duration: 0.3 } }}
@@ -696,7 +685,7 @@ const Home = () => {
                     </motion.button>
                   );
                 }
-                if (link.platform === '公众号') {
+                if (link.platform === t('social.official')) {
                   return (
                     <motion.button
                       key={link.id}
@@ -707,7 +696,7 @@ const Home = () => {
                       viewport={{ once: true }}
                       whileHover={{ scale: 1.05, y: -5, transition: { duration: 0.2 } }}
                       className="flex flex-col items-center gap-3 p-5 rounded-2xl bg-primary/5 hover:bg-primary/10 border border-transparent hover:border-primary/20 transition-all group cursor-pointer"
-                      title={`点击查看${link.platform}二维码`}
+                      title={t('home.social.qrTitle', { platform: link.platform })}
                     >
                       <motion.div
                         whileHover={{ scale: 1.2, transition: { duration: 0.3 } }}
@@ -746,15 +735,15 @@ const Home = () => {
             <Dialog open={wechatOpen} onOpenChange={setWechatOpen}>
               <DialogContent className="sm:max-w-sm">
                 <DialogHeader>
-                  <DialogTitle className="text-center">扫码关注微信</DialogTitle>
+                  <DialogTitle className="text-center">{t('home.social.wechatDialogTitle')}</DialogTitle>
                   <DialogDescription className="text-center">
-                    打开微信「扫一扫」，关注「星球小捕手」获取最新地理科普与可视化作品。
+                    {t('home.social.wechatDialogDesc')}
                   </DialogDescription>
                 </DialogHeader>
                 <div className="flex justify-center py-2">
                   <img
                     src="/images/wechat-qr.png"
-                    alt="微信二维码：星球小捕手"
+                    alt={`${t('social.wechat')} - ${t('brand.name')}`}
                     className="w-60 h-60 rounded-lg border border-border object-cover"
                   />
                 </div>
@@ -763,15 +752,15 @@ const Home = () => {
             <Dialog open={officialOpen} onOpenChange={setOfficialOpen}>
               <DialogContent className="sm:max-w-sm">
                 <DialogHeader>
-                  <DialogTitle className="text-center">扫码关注公众号</DialogTitle>
+                  <DialogTitle className="text-center">{t('home.social.officialDialogTitle')}</DialogTitle>
                   <DialogDescription className="text-center">
-                    打开微信「扫一扫」，关注「那山那海那座城」，获取最新地理科普文章。
+                    {t('home.social.officialDialogDesc')}
                   </DialogDescription>
                 </DialogHeader>
                 <div className="flex justify-center py-2">
                   <img
                     src="/images/wechat-official-qr.jpg"
-                    alt="公众号二维码：那山那海那座城"
+                    alt={`${t('social.official')} - ${t('brand.officialAccount')}`}
                     className="w-60 h-60 rounded-lg border border-border object-cover"
                   />
                 </div>
@@ -783,14 +772,14 @@ const Home = () => {
         return (
           <SectionWrapper
             id="about"
-            title="关于星球小捕手"
+            title={t('home.about.title')}
             className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
           >
             <div className="space-y-12">
               <div className="flex flex-col md:flex-row items-center gap-8">
                 <motion.img
-                  src={profile.avatar}
-                  alt="星球小捕手 logo"
+                  src="https://blogphoto.planetgis.cn/PicGo/2026-02-27-favicon-dec42c.png"
+                  alt={`${t('brand.name')} logo`}
                   className="w-20 h-20 rounded-full shadow-xl border-4 border-primary/20"
                   initial={{ opacity: 1, scale: 1 }}
                   whileInView={{ opacity: 1, scale: 1 }}
@@ -800,7 +789,7 @@ const Home = () => {
                 />
                 <div className="text-center md:text-left flex-1">
                   <p className="text-muted-foreground text-base leading-relaxed">
-                    一个专注于地球科学的独立创作者品牌。我们用数据讲述地球变化，用地图发现世界的温度——从南极冰盖消融到城市交通脉络，从古代文明的水利智慧到未来海平面的模拟预测，致力于让专业的地理知识变得直观、有趣、触手可及。
+                    {t('home.about.bio')}
                   </p>
                 </div>
               </div>
@@ -809,24 +798,24 @@ const Home = () => {
                 {[
                   {
                     icon: Globe,
-                    title: '深度科普',
-                    desc: '博客累计发表近 200 篇原创文章，涵盖自然地理、气候环境、人文地理、GIS 技术等方向，用通俗的语言解读专业的地理现象。',
+                    title: t('home.about.p1.title'),
+                    desc: t('home.about.p1.desc'),
                     link: 'https://blog.planetgis.cn',
-                    label: '访问博客'
+                    label: t('home.about.p1.label')
                   },
                   {
                     icon: Compass,
-                    title: '交互工具',
-                    desc: '自研多款在线地理小工具——经纬度查询、地形分析、GeoJSON 格式转换等，让地理数据处理不再是专业人士的专利。',
+                    title: t('home.about.p2.title'),
+                    desc: t('home.about.p2.desc'),
                     link: '#tools',
-                    label: '查看工具'
+                    label: t('home.about.p2.label')
                   },
                   {
                     icon: Box,
-                    title: '可视化作品',
-                    desc: '打造海平面模拟实验室、3D 数据大屏、城市路网绘制等交互可视化项目，将复杂的地理数据转化为可感知、可交互的视觉体验。',
+                    title: t('home.about.p3.title'),
+                    desc: t('home.about.p3.desc'),
                     link: '#works',
-                    label: '浏览作品'
+                    label: t('home.about.p3.label')
                   }
                 ].map((pillar, index) => (
                   <motion.a
@@ -878,7 +867,7 @@ const Home = () => {
                   ))}
                 </div>
                 <p className="text-center text-muted-foreground mt-6 text-sm">
-                  内容同步至 B 站、YouTube、小红书、微博、微信公众号（星球小捕手）等平台
+                  {t('home.about.syncNote')}
                 </p>
               </motion.div>
             </div>
@@ -888,11 +877,11 @@ const Home = () => {
         return (
           <SectionWrapper
             id="updates"
-            title="动态与规划"
-            lead="站点近期更新与未来规划，记录每一次迭代与新的内容方向。"
+            title={t('home.updates.title')}
+            lead={t('home.updates.lead')}
             action={
               <Link to="/changelog" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
-                查看完整更新日志 <ArrowRight className="w-3.5 h-3.5" />
+                {t('home.updates.all')} <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             }
             className="rounded-3xl border border-border bg-card/40 px-5 md:px-8"
@@ -900,7 +889,7 @@ const Home = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
               <div>
                 <h3 className="text-lg font-bold mb-6 flex items-center gap-2">
-                  <Calendar className="w-5 h-5 text-primary" /> 最近更新
+                  <Calendar className="w-5 h-5 text-primary" /> {t('home.updates.recent')}
                 </h3>
                 <ol className="relative border-l border-border/60 ml-3 space-y-6">
                   {updateLog.map((item, index) => (
@@ -914,13 +903,13 @@ const Home = () => {
               </div>
               <div>
                 <h3 className="text-lg font-bold mb-6 flex items-center gap-2">
-                  <Compass className="w-5 h-5 text-secondary" /> 规划中
+                  <Compass className="w-5 h-5 text-secondary" /> {t('home.updates.planned')}
                 </h3>
                 <div className="space-y-4">
                   {plannedItems.map((item, index) => (
                     <div key={index} className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-border/50">
                       <div className="flex items-center gap-2 mb-2">
-                        <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-secondary/10 text-secondary">规划中</span>
+                        <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-secondary/10 text-secondary">{t('home.updates.planned')}</span>
                         <h4 className="font-bold">{item.title}</h4>
                       </div>
                       <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
@@ -939,8 +928,8 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <PageMeta
-        title="星球小捕手 - 地理科普与可视化实验室"
-        description="星球小捕手是一个专注于地球科学的独立创作者品牌。用数据讲述地球变化，用地图发现世界的温度——从海平面模拟到城市路网，致力于让专业地理知识变得直观、有趣、触手可及。"
+        title={t('brand.metaTitle')}
+        description={t('brand.metaDesc')}
       />
       {/* pt 用固定值：首页导航栏会随滚动收起，若这里跟着 --nav-h 变化，
           整页内容会在 4rem / 0 之间反复跳动。导航收起只影响导航自身。 */}
@@ -952,8 +941,8 @@ const Home = () => {
             updates={updateLog.slice(0, 3)}
           />
           <div className="min-w-0 lg:pl-10">
-            {sections.map(sec => (
-              <React.Fragment key={sec.id}>
+            {sections.map((sec) => (
+              <React.Fragment key={sec.key}>
                 {renderSection(sec)}
               </React.Fragment>
             ))}

@@ -10,6 +10,9 @@ import { Input } from '@/components/ui/input';
 import { useSearchTracking } from '@/hooks/use-search-tracking';
 import { getMaps, getWorkTopics, getWorkScopes, type ContentItem } from '@/lib/content';
 import { getVizMap, type VizMap } from '@/lib/vizmaps';
+import { useI18n } from '@/i18n/LocaleContext';
+import { localizeLabel, localizeUnit } from '@/i18n/labels';
+import type { DictKey } from '@/i18n/LocaleContext';
 
 // 卡片入场动画：initial 保持 opacity:1，确保 SSG 静态 HTML 中文本天生可见（利于 SEO / AdSense）。
 const CardAnim: React.FC<{ children: React.ReactNode; delay?: number }> = ({ children, delay = 0 }) => (
@@ -37,10 +40,15 @@ const HeatTag: React.FC<{ heat?: number }> = ({ heat }) =>
   ) : null;
 
 type ViewMode = 'simple' | 'detail' | 'list';
-const MODES: { id: ViewMode; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
-  { id: 'simple', label: '简单卡片', icon: Square },
-  { id: 'detail', label: '详细卡片', icon: LayoutGrid },
-  { id: 'list', label: '列表模式', icon: List },
+// 视图名随语言变，这里存词典 key，渲染时才取文案
+const MODES: {
+  id: ViewMode;
+  labelKey: DictKey;
+  icon: React.ComponentType<{ className?: string }>;
+}[] = [
+  { id: 'simple', labelKey: 'maps.mode.simple', icon: Square },
+  { id: 'detail', labelKey: 'maps.mode.detail', icon: LayoutGrid },
+  { id: 'list', labelKey: 'maps.mode.list', icon: List },
 ];
 
 /**
@@ -51,6 +59,7 @@ const MODES: { id: ViewMode; label: string; icon: React.ComponentType<{ classNam
  * 两者按 slug 关联，新增地图改这两处即可，本页不用动。
  */
 const Maps: React.FC = () => {
+  const { lang, t } = useI18n();
   const maps = getMaps().map((w: ContentItem) => ({
     work: w,
     asset: getVizMap(w.slug) as VizMap | undefined,
@@ -131,8 +140,8 @@ const Maps: React.FC = () => {
   return (
     <>
       <PageMeta
-        title="互动地图 - 星球小捕手"
-        description="可以点、可以搜、可以查的地理互动地图系列：把河流、卫星影像、省情、地势等真实地理数据做成可提问的地图，每张都公开数据源与坐标系。"
+        title={`${t('maps.title')} - ${t('brand.name')}`}
+        description={t('maps.metaDescription')}
         canonical="https://planetgis.cn/maps"
       />
       <Breadcrumb />
@@ -140,12 +149,12 @@ const Maps: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
           <header className="mb-8">
             <div className="flex items-end gap-4">
-              <h1 className="text-2xl md:text-3xl font-bold tracking-tight">互动地图</h1>
+              <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{t('maps.title')}</h1>
               <div className="flex-1 h-[2px] bg-gradient-to-r from-primary/50 to-transparent mb-2" />
             </div>
             <div className="mt-3 h-1 w-14 bg-primary rounded-full" />
             <p className="mt-4 text-base text-muted-foreground leading-relaxed max-w-2xl">
-              把真实的地理数据做成可以提问的地图——可点、可搜、可查，而不只是看图。每张地图都标注了数据源与坐标系，以静态文件托管，无需后端数据库。
+              {t('maps.subtitle')}
             </p>
           </header>
 
@@ -161,10 +170,10 @@ const Maps: React.FC = () => {
               >
                 <span className="inline-flex items-center gap-2">
                   <SlidersHorizontal className="w-4 h-4 text-muted-foreground" />
-                  筛选
+                  {t('list.filter')}
                   {narrowed && (
                     <span className="px-1.5 py-0.5 rounded-full bg-primary text-white text-[10px]">
-                      已筛选
+                      {t('maps.filtered')}
                     </span>
                   )}
                 </span>
@@ -180,15 +189,15 @@ const Maps: React.FC = () => {
                     <Input
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
-                      placeholder="搜索地图名称、主题或数据源…"
-                      aria-label="搜索互动地图"
+                      placeholder={t('maps.searchPlaceholder')}
+                      aria-label={t('maps.searchAria')}
                       className="pl-9 pr-9 rounded-full text-xs"
                     />
                     {search && (
                       <button
                         type="button"
                         onClick={() => setSearch('')}
-                        aria-label="清空搜索"
+                        aria-label={t('maps.clearSearch')}
                         className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                       >
                         <X className="w-4 h-4" />
@@ -199,7 +208,7 @@ const Maps: React.FC = () => {
 
                 {/* 主题 */}
                 <div>
-                  <SectionLabel className="mb-3 !text-[11px]">主题</SectionLabel>
+                  <SectionLabel className="mb-3 !text-[11px]">{t('maps.topic')}</SectionLabel>
                   <div className="flex flex-wrap gap-2">
                     <button
                       type="button"
@@ -209,7 +218,7 @@ const Maps: React.FC = () => {
                         topic === '全部' ? 'bg-primary text-white' : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
                       }`}
                     >
-                      全部
+                      {t('facet.all')}
                       <span className="ml-1 text-xs opacity-70">{maps.filter(({ work }) => hitScope(work, scope)).length}</span>
                     </button>
                     {topicChips.map(({ name, count }) => {
@@ -224,7 +233,7 @@ const Maps: React.FC = () => {
                             active ? 'bg-primary text-white' : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
                           }`}
                         >
-                          {name}
+                          {localizeLabel(name, lang)}
                           <span className="ml-1 text-[11px] opacity-70">{count}</span>
                         </button>
                       );
@@ -234,7 +243,7 @@ const Maps: React.FC = () => {
 
                 {/* 地域 */}
                 <div>
-                  <SectionLabel className="mb-3 !text-[11px]">地域</SectionLabel>
+                  <SectionLabel className="mb-3 !text-[11px]">{t('maps.scope')}</SectionLabel>
                   <div className="flex flex-wrap gap-2">
                     <button
                       type="button"
@@ -244,7 +253,7 @@ const Maps: React.FC = () => {
                         scope === '全部' ? 'bg-primary text-white' : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
                       }`}
                     >
-                      全部
+                      {t('facet.all')}
                       <span className="ml-1 text-xs opacity-70">{maps.filter(({ work }) => hitTopic(work, topic)).length}</span>
                     </button>
                     {scopeChips.map(({ name, count }) => {
@@ -259,7 +268,7 @@ const Maps: React.FC = () => {
                             active ? 'bg-primary text-white' : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
                           }`}
                         >
-                          {name}
+                          {localizeLabel(name, lang)}
                           <span className="ml-1 text-[11px] opacity-70">{count}</span>
                         </button>
                       );
@@ -279,7 +288,7 @@ const Maps: React.FC = () => {
                       }}
                       className="w-full px-3 py-2 rounded-lg text-xs font-medium text-muted-foreground border border-border hover:bg-muted hover:text-foreground transition-colors"
                     >
-                      清空全部筛选
+                      {t('list.clearAll')}
                     </button>
                   </div>
                 )}
@@ -291,14 +300,15 @@ const Maps: React.FC = () => {
               {/* 视图切换：仅图标，文字信息移到 title/aria-label（悬停即有提示，不占横向空间） */}
               <div className="flex items-center justify-between gap-4 mb-6">
                 <p className="text-sm text-muted-foreground">
-                  共 {filtered.length} 张地图
+                  {t('maps.count', { n: filtered.length })}
                   {narrowed && (
                     <>
                       <span className="mx-1.5 text-border">|</span>
                       <span>
-                        已筛选{search.trim() && ` · “${search.trim()}”`}
-                        {scope !== '全部' && ` · ${scope}`}
-                        {topic !== '全部' && ` · ${topic}`}
+                        {t('maps.filtered')}
+                        {search.trim() && ` · “${search.trim()}”`}
+                        {scope !== '全部' && ` · ${localizeLabel(scope, lang)}`}
+                        {topic !== '全部' && ` · ${localizeLabel(topic, lang)}`}
                       </span>
                       <button
                         type="button"
@@ -309,14 +319,14 @@ const Maps: React.FC = () => {
                         }}
                         className="ml-3 text-primary hover:underline"
                       >
-                        清空筛选
+                        {t('maps.clearFilter')}
                       </button>
                     </>
                   )}
                 </p>
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1 rounded-lg border border-border p-0.5">
-                    {([['latest', '最新'], ['heat', '热度']] as const).map(([key, label]) => (
+                    {([['latest', t('list.latest')], ['heat', t('list.heat')]] as const).map(([key, label]) => (
                       <button
                         key={key}
                         type="button"
@@ -331,17 +341,17 @@ const Maps: React.FC = () => {
                   </div>
                   <div
                     role="group"
-                    aria-label="切换展示方式"
+                    aria-label={t('maps.modeGroup')}
                     className="inline-flex rounded-lg border border-border bg-muted/40 p-1"
                   >
-                    {MODES.map(({ id, label, icon: Icon }) => (
+                    {MODES.map(({ id, labelKey, icon: Icon }) => (
                       <button
                         key={id}
                         type="button"
                         onClick={() => setMode(id)}
                         aria-pressed={mode === id}
-                        title={label}
-                        aria-label={label}
+                        title={t(labelKey)}
+                        aria-label={t(labelKey)}
                         className={`inline-flex items-center justify-center w-9 h-9 rounded-md transition-colors ${
                           mode === id
                             ? 'bg-primary text-primary-foreground'
@@ -356,19 +366,20 @@ const Maps: React.FC = () => {
               </div>
 
           {maps.length === 0 ? (
-            <p className="text-muted-foreground">地图正在路上，敬请期待。</p>
+            <p className="text-muted-foreground">{t('maps.empty.all')}</p>
           ) : filtered.length === 0 ? (
             <p className="text-muted-foreground">
               {search.trim()
-                ? `没有匹配“${search.trim()}”的地图，换个关键词或清空筛选试试。`
-                : '这个组合下暂时没有地图，换个主题或地域看看。'}
+                ? t('maps.empty.search', { q: search.trim() })
+                : t('maps.empty.filter')}
             </p>
           ) : mode === 'list' ? (
             /* 列表模式 */
             <div className="space-y-3">
               {pageItems.map(({ work: w, asset: m }, i) => {
                 const totalFeatures = m?.data.reduce((s, d) => s + d.features, 0) ?? 0;
-                const unit = m?.data[0]?.unit ?? '个要素';
+                const rawUnit = m?.data[0]?.unit;
+                const unit = rawUnit ? localizeUnit(rawUnit, lang) : t('maps.unit.default');
                 return (
                   <CardAnim key={w.slug} delay={i * 0.04}>
                     <div className="group flex gap-4 p-4 rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 transition-all duration-300">
@@ -379,7 +390,7 @@ const Maps: React.FC = () => {
                       >
                         <img
                           src={w.cover}
-                          alt={`${w.title} - 星球小捕手可视化互动地图`}
+                          alt={t('maps.alt', { title: w.title })}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       </Link>
@@ -387,7 +398,7 @@ const Maps: React.FC = () => {
                         <div className="flex items-center gap-2 mb-1 text-primary">
                           <MapIcon className="w-4 h-4" />
                           <span className="text-xs font-medium tracking-wide uppercase">
-                            {w.category || '互动地图'}
+                            {localizeLabel(w.category || t('maps.title'), lang)}
                           </span>
                         </div>
                         <h3 className="text-base font-bold">
@@ -401,7 +412,7 @@ const Maps: React.FC = () => {
                             to={`/maps/${w.slug}`}
                             className="inline-flex items-center gap-1 text-sm font-medium text-primary"
                           >
-                            查看详情与解读 <ArrowRight className="w-3.5 h-3.5" />
+                            {t('list.work.detail')} <ArrowRight className="w-3.5 h-3.5" />
                           </Link>
                           <HeatTag heat={w.heat} />
                           {m && (
@@ -421,7 +432,8 @@ const Maps: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {pageItems.map(({ work: w, asset: m }, i) => {
                 const totalFeatures = m?.data.reduce((s, d) => s + d.features, 0) ?? 0;
-                const unit = m?.data[0]?.unit ?? '个要素';
+                const rawUnit = m?.data[0]?.unit;
+                const unit = rawUnit ? localizeUnit(rawUnit, lang) : t('maps.unit.default');
                 return (
                   <CardAnim key={w.slug} delay={i * 0.08}>
                     <div className="group flex flex-col h-full overflow-hidden rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 hover:shadow-lg transition-all duration-300">
@@ -430,18 +442,20 @@ const Maps: React.FC = () => {
                         <div className="aspect-video overflow-hidden relative">
                           <img
                             src={w.cover}
-                            alt={`${w.title} - 星球小捕手可视化互动地图`}
+                            alt={t('maps.alt', { title: w.title })}
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                            <span className="w-full text-center text-sm font-medium text-white/90">打开地图 →</span>
+                            <span className="w-full text-center text-sm font-medium text-white/90">{t('maps.open')}</span>
                           </div>
                         </div>
                       </Link>
                       <div className="p-6 flex flex-col flex-grow">
                         <div className="flex items-center gap-2 mb-2 text-primary">
                           <MapIcon className="w-4 h-4" />
-                          <span className="text-xs font-medium tracking-wide uppercase">{w.category || '互动地图'}</span>
+                          <span className="text-xs font-medium tracking-wide uppercase">
+                            {localizeLabel(w.category || t('maps.title'), lang)}
+                          </span>
                         </div>
                         <h3 className="text-lg font-bold mb-2">
                           <Link to={`/maps/${w.slug}/full`} className="group-hover:text-primary transition-colors">
@@ -458,7 +472,7 @@ const Maps: React.FC = () => {
                             <div className="flex items-start gap-1.5">
                               <Layers className="w-3.5 h-3.5 mt-0.5 shrink-0" />
                               <dd>
-                                共 {totalFeatures.toLocaleString()} {unit}
+                                {t('maps.features', { n: totalFeatures.toLocaleString(), unit })}
                                 {m.data.length > 1 &&
                                   `（${m.data.map((d) => d.features.toLocaleString()).join(' + ')}）`}
                               </dd>
@@ -475,7 +489,7 @@ const Maps: React.FC = () => {
                             to={`/maps/${w.slug}`}
                             className="inline-flex items-center gap-1 text-sm font-medium text-primary"
                           >
-                            查看详情与解读 <ArrowRight className="w-3.5 h-3.5 group-hover:gap-2 transition-all" />
+                            {t('list.work.detail')} <ArrowRight className="w-3.5 h-3.5 group-hover:gap-2 transition-all" />
                           </Link>
                           <HeatTag heat={w.heat} />
                         </div>
@@ -497,11 +511,11 @@ const Maps: React.FC = () => {
           />
 
           <section className="mt-14 rounded-2xl border border-border bg-card/40 p-6 md:p-8">
-            <h2 className="text-xl font-bold mb-3">关于数据</h2>
+            <h2 className="text-xl font-bold mb-3">{t('maps.about')}</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              需要原始数据自己做分析？可前往
-              <Link to="/downloads" className="ml-1 text-primary hover:underline">资料下载</Link>
-              获取对应的矢量数据包。
+              {t('maps.aboutLead')}
+              <Link to="/downloads" className="ml-1 text-primary hover:underline">{t('maps.aboutLink')}</Link>
+              {t('maps.aboutTail')}
             </p>
           </section>
             </div>

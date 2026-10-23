@@ -86,29 +86,36 @@ try {
   const entries = [];
 
   for (const u of routes) {
+    // 英文站 URL 一律带 /en 前缀；下面的排除规则与优先级都按「去掉前缀的中文路径」判断，
+    // 这样中英两套 URL 共享同一套规则，不会出现「中文排除了、英文漏网」。
+    const bare = u === '/en' ? '/' : u.startsWith('/en/') ? u.slice(3) : u;
+    const isEn = bare !== u;
+
     // /my 是用户私有学习中心（数据存于本地 LocalStorage），全员返回的是空壳，
     // 不应被搜索引擎收录，故排除出 sitemap（但仍参与预渲染，保证直链可访问）。
-    if (u === '/my') continue;
+    if (bare === '/my') continue;
 
     // /maps/<slug>/full 是全屏 iframe 壳页，正文只有一张地图，收录价值低；
     // 真正给搜索引擎看的是 /maps/<slug> 详情页（地图介绍正文），此处只排除壳页。
     // ⚠️ 注意只排除 /full 这一层：/maps/<slug>/libraries/*.html 与 catalog.html
     // 是地图小网站自己的内容页（有实质正文），由 collectMapContentPages()单独收录。
-    if (/^\/maps\/[^/]+\/full$/.test(u)) continue;
+    if (/^\/maps\/[^/]+\/full$/.test(bare)) continue;
 
     // tag 聚合页已由 prerender 输出 noindex, follow（薄内容 + 与文章页高度重复，
     // 曾占全站 1207 条中的 858 条）。noindex 的页面绝不能再出现在 sitemap 里，
     // 否则是互相矛盾的信号；保留页面本身供站内导航使用。
-    if (u.startsWith('/tag/')) continue;
+    if (bare.startsWith('/tag/')) continue;
 
     const isDetail =
-      u.startsWith('/works/') ||
-      u.startsWith('/maps/') ||
-      u.startsWith('/games/') ||
-      u.startsWith('/tools/') ||
-      u.startsWith('/learn/');
-    const priority = isDetail ? 0.7 : (STATIC_PRIORITY[u] ?? 0.6);
-    const lastmod = lastmodMap[u] || today;
+      bare.startsWith('/works/') ||
+      bare.startsWith('/maps/') ||
+      bare.startsWith('/games/') ||
+      bare.startsWith('/tools/') ||
+      bare.startsWith('/learn/');
+    // 英文版内容尚在补全（详情页还没英文正文），整体压低一档权重，
+    // 让搜索引擎先抓中文站，英文站慢慢放量。
+    const priority = (isDetail ? 0.7 : (STATIC_PRIORITY[bare] ?? 0.6)) * (isEn ? 0.8 : 1);
+    const lastmod = lastmodMap[bare] || today;
     const changefreq = isDetail ? 'monthly' : 'weekly';
     entries.push(
       `  <url>\n    <loc>${SITE}${u}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority.toFixed(1)}</priority>\n  </url>`,

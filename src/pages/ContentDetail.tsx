@@ -10,7 +10,9 @@ import LearningTracker from '@/components/learning/LearningTracker';
 import FavoriteButton from '@/components/learning/FavoriteButton';
 import ShareButton from '@/components/common/ShareButton';
 import RewardCallout from '@/components/common/RewardCallout';
-import { useJsonLd } from '@/lib/seo';
+import { useJsonLd, localizeCanonical } from '@/lib/seo';
+import { useI18n, type LocaleValue } from '@/i18n/LocaleContext';
+import { HTML_LANG } from '@/i18n/config';
 import { useImageLightbox, ImageLightbox } from '@/components/common/ImageLightbox';
 import { useContentBody } from '@/hooks/useContentBody';
 import NotFound from './NotFound';
@@ -23,16 +25,6 @@ import { buildInfobox, getSeeAlso, getReadingTime, getWordCount, getRelatedInBoa
 interface Props {
   type: ContentType;
 }
-
-const typeLabel: Record<ContentType, string> = {
-  work: '精选作品',
-  map: '互动地图',
-  game: '地理小游戏',
-  tool: '地理小工具',
-  article: '文章',
-  learn: '地理知识库',
-  resource: '资料下载',
-};
 
 // 相关推荐卡片的分类图标，与【互动地图】【地理小游戏】卡片风格一致
 const REL_ICON: Record<ContentType, React.ComponentType<{ className?: string }>> = {
@@ -56,6 +48,7 @@ const LOGO = 'https://blogphoto.planetgis.cn/PicGo/2026-02-27-favicon-dec42c.png
 // 详情页底部「板块 footer」模块的文案配置：互动地图 / 地理小游戏 /
 // 模拟实验（type:work）/ 地理小工具（type:tool）各一份，
 // 板块名、按钮文案、入口路径按板块自适应。key 直接用 type，与文件夹一一对应。
+// 文案走词典（中英各一套），allPath 是语言无关的站内路径。
 interface SeriesFooterConfig {
   listTitle: string;
   ctaBadge: string;
@@ -67,48 +60,27 @@ interface SeriesFooterConfig {
   nextLabel: string;
 }
 
-const SERIES_FOOTER: Record<'map' | 'game' | 'work' | 'tool', SeriesFooterConfig> = {
-  map: {
-    listTitle: '相关地图',
-    ctaBadge: '在线互动',
-    ctaDesc: '浏览器打开即可探索，支持缩放、点选与图例切换，无需安装、无需登录。',
-    primaryLabel: '打开地图',
-    allLabel: '全部地图',
-    allPath: '/maps',
-    prevLabel: '上一幅',
-    nextLabel: '下一幅',
-  },
-  game: {
-    listTitle: '相关游戏',
-    ctaBadge: '打开即玩',
-    ctaDesc: '浏览器打开即玩，无需安装、无需登录，成绩数据留在本机。',
-    primaryLabel: '开始游戏',
-    allLabel: '全部游戏',
-    allPath: '/games',
-    prevLabel: '上一款',
-    nextLabel: '下一款',
-  },
-  work: {
-    listTitle: '相关实验',
-    ctaBadge: '在线体验',
-    ctaDesc: '浏览器打开即可模拟，支持交互调节与实时可视化，无需安装、无需登录。',
-    primaryLabel: '打开实验室',
-    allLabel: '全部实验',
-    allPath: '/works',
-    prevLabel: '上一个',
-    nextLabel: '下一个',
-  },
-  tool: {
-    listTitle: '相关工具',
-    ctaBadge: '在线使用',
-    ctaDesc: '浏览器打开即可使用，无需安装、无需登录，数据留在本机。',
-    primaryLabel: '打开工具',
-    allLabel: '全部工具',
-    allPath: '/tools',
-    prevLabel: '上一个',
-    nextLabel: '下一个',
-  },
+const SERIES_FOOTER: Record<'map' | 'game' | 'work' | 'tool', Omit<SeriesFooterConfig, 'listTitle' | 'ctaBadge' | 'ctaDesc' | 'primaryLabel' | 'allLabel' | 'prevLabel' | 'nextLabel'>> = {
+  map: { allPath: '/maps' },
+  game: { allPath: '/games' },
+  work: { allPath: '/works' },
+  tool: { allPath: '/tools' },
 };
+
+/** 按当前语言拼出板块 footer 配置（文案全部来自词典，纯函数便于测试） */
+function buildSeriesCfg(t: LocaleValue['t'], board: BoardType): SeriesFooterConfig {
+  const p = `detail.board.${board}` as 'detail.board.map';
+  return {
+    listTitle: t(`${p}.list` as 'detail.board.map.list'),
+    ctaBadge: t(`${p}.badge` as 'detail.board.map.badge'),
+    ctaDesc: t(`${p}.desc` as 'detail.board.map.desc'),
+    primaryLabel: t(`${p}.open` as 'detail.board.map.open'),
+    allLabel: t(`${p}.all` as 'detail.board.map.all'),
+    allPath: SERIES_FOOTER[board].allPath,
+    prevLabel: t(`${p}.prev` as 'detail.board.map.prev'),
+    nextLabel: t(`${p}.next` as 'detail.board.map.next'),
+  };
+}
 
 // 打开入口卡：标题 + 口号 + 主按钮（跳作品本体 link）/ 副按钮（跳系列汇总页）。
 // 详情页开头与底部复用同一份，确保「打开/全部」入口在首屏和文末都出现。
@@ -243,7 +215,9 @@ const SeriesFooterBlock: React.FC<{
 // 携带 headline / author / datePublished / image / keywords，并嵌入"地理"关键词，
 // 帮助百度 / Google 理解页面主题，争取富媒体展示。独立组件以遵守 hooks 调用规则。
 const ArticleJsonLd: React.FC<{ item: ContentItem; type: ContentType }> = ({ item, type }) => {
-  const canonical = `https://planetgis.cn/${basePath[type]}/${item.slug}`;
+  const { t, lang } = useI18n();
+  const brand = t('brand.name');
+  const canonical = localizeCanonical(`https://planetgis.cn/${basePath[type]}/${item.slug}`, lang);
   const schema = {
     '@context': 'https://schema.org',
     '@type': type === 'learn' ? 'Course' : 'BlogPosting',
@@ -251,15 +225,15 @@ const ArticleJsonLd: React.FC<{ item: ContentItem; type: ContentType }> = ({ ite
     ...(item.summary ? { description: item.summary } : {}),
     ...(item.cover ? { image: [item.cover] } : {}),
     ...(item.date ? { datePublished: item.date, dateModified: item.date } : {}),
-    author: { '@type': 'Organization', name: '星球小捕手' },
+    author: { '@type': 'Organization', name: brand },
     publisher: {
       '@type': 'Organization',
-      name: '星球小捕手',
+      name: brand,
       logo: { '@type': 'ImageObject', url: LOGO },
     },
     mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
-    keywords: [item.category, '地理', '地理科普'].filter(Boolean).join(', '),
-    inLanguage: 'zh-CN',
+    keywords: [item.category, lang === 'zh' ? '地理' : 'geography', lang === 'zh' ? '地理科普' : 'geography science'].filter(Boolean).join(', '),
+    inLanguage: HTML_LANG[lang] || HTML_LANG.zh,
   };
   useJsonLd(schema);
   return null;
@@ -325,6 +299,7 @@ const HowToJsonLd: React.FC<{ item: ContentItem; type: ContentType }> = ({ item,
 
 export default function ContentDetail({ type }: Props) {
   const { slug } = useParams();
+  const { t, lang } = useI18n();
   const { lightbox, onImageClick, closeLightbox, navLightbox } = useImageLightbox();
   const item = slug ? getItem(type, slug) : undefined;
   // 正文懒加载：首屏（hydration）前已由 main.tsx 预载，站内跳转时异步补载。
@@ -332,7 +307,7 @@ export default function ContentDetail({ type }: Props) {
 
   if (!item) return <NotFound />;
 
-  const label = typeLabel[type];
+  const label = t(`detail.type.${type}` as const);
   const contentKey = buildContentKey(type, item.slug);
   const related = getRelated(type, item.slug, 6);
   const toc = type === 'article' || type === 'learn' ? extractHeadings(body) : [];
@@ -344,7 +319,7 @@ export default function ContentDetail({ type }: Props) {
   // 板块 footer 适用范围：互动地图 / 地理小游戏 / 模拟实验 / 地理小工具。
   // 哪些 type 有 footer 由 BOARD_TYPES 决定，同板块数据与上一个/下一个按各自 order 排序。
   const boardKey = BOARD_TYPES.has(type) ? (type as BoardType) : null;
-  const boardCfg = boardKey ? SERIES_FOOTER[boardKey] : null;
+  const boardCfg = boardKey ? buildSeriesCfg(t, boardKey) : null;
   const boardSiblings = boardKey ? getByType(boardKey) : [];
   const boardIdx = boardKey ? boardSiblings.findIndex((s) => s.slug === item.slug) : -1;
   const boardPrev = boardIdx > 0 ? boardSiblings[boardIdx - 1] : undefined;
@@ -366,7 +341,7 @@ export default function ContentDetail({ type }: Props) {
           42rem 窄栏居中，从列表页点进详情时路径条会明显右移，看着像"跳位"。 */}
       <Breadcrumb
         items={[
-          { label: '首页', path: '/' },
+          { label: t('nav.home'), path: '/' },
           { label, path: `/${basePath[type]}` },
           { label: item.title },
         ]}
@@ -399,10 +374,10 @@ export default function ContentDetail({ type }: Props) {
         </p>
         <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight tracking-tight">{item.title}</h1>
         <div className="byline flex flex-wrap items-center gap-x-3 gap-y-1">
-          <span>星球小捕手</span>
+          <span>{t('brand.name')}</span>
           {item.date && (<><span className="opacity-40">·</span><span>{item.date}</span></>)}
           {(type === 'article' || type === 'learn') && (
-            <><span className="opacity-40">·</span><span>{readingTime} 分钟阅读</span><span className="opacity-40">·</span><span>{wordCount} 字</span></>
+            <><span className="opacity-40">·</span><span>{t('detail.minRead', { n: readingTime })}</span><span className="opacity-40">·</span><span>{t('card.chars', { n: wordCount })}</span></>
           )}
           <span className="opacity-40">·</span>
           <PageViewCount className="inline-flex items-center gap-1" />
@@ -417,6 +392,13 @@ export default function ContentDetail({ type }: Props) {
           />
         </div>
       </header>
+
+      {/* 英文站提示：正文为中文内容层，翻译未就绪前给出明确预期 */}
+      {lang === 'en' && (
+        <p className="mb-6 rounded-xl border border-border bg-muted/40 px-4 py-3 text-sm text-muted-foreground">
+          {t('detail.langNote')}
+        </p>
+      )}
 
       {item.cover && type !== 'learn' && (
         <img
@@ -488,7 +470,7 @@ export default function ContentDetail({ type }: Props) {
             className="group inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-primary/90 hover:shadow-md"
           >
             <ExternalLink className="w-4 h-4" />
-            访问在线版本 / 查看原文
+            {t('detail.visitOnline')}
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
           </a>
         </div>
@@ -514,7 +496,7 @@ export default function ContentDetail({ type }: Props) {
             <FactBox rows={infobox} />
             {toc.length > 1 && (
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">本文大纲</p>
+                <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">{t('detail.toc')}</p>
                 <nav className="space-y-2 text-sm">
                   {toc.map((h) => (
                     <a
@@ -542,13 +524,13 @@ export default function ContentDetail({ type }: Props) {
             <h2 className="text-xl font-bold flex items-center gap-2">
               <ArrowRight className="w-5 h-5 text-primary" />
               {/* 本区块仅在 type 为 article / learn 时渲染（见上方条件），故只需区分这两种 */}
-              {type === 'learn' ? '相关学习' : '相关文章'}
+              {type === 'learn' ? t('detail.relatedLearn') : t('detail.relatedArticle')}
             </h2>
             <Link
               to="/learn"
               className="group inline-flex shrink-0 items-center gap-1 text-sm font-medium text-primary hover:underline"
             >
-              浏览更多地理知识
+              {t('detail.moreKnowledge')}
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </div>
@@ -573,14 +555,14 @@ export default function ContentDetail({ type }: Props) {
                     <div className="flex items-center gap-1.5 mb-1.5 text-primary">
                       <RelIcon className="w-3 h-3" />
                       <span className="text-[11px] font-medium tracking-wide uppercase">
-                        {r.category || typeLabel[type]}
+                        {r.category || label}
                       </span>
                     </div>
                     <h3 className="text-[13px] font-semibold leading-snug line-clamp-2 group-hover:text-primary transition-colors">
                       {r.title}
                     </h3>
                     <div className="mt-2 flex items-center gap-1 text-[11px] font-medium text-primary">
-                      阅读
+                      {t('detail.read')}
                       <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
                     </div>
                   </div>

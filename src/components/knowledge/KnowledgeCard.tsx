@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, Clock, Type, Flame } from 'lucide-react';
 import CoverImage from '@/components/common/CoverImage';
@@ -6,6 +5,8 @@ import { SubjectIcon } from '@/lib/subjectIcons';
 import { SUBJECT_META } from '@/lib/content';
 import { getReadingTime, getWordCount, TYPE_BASE } from '@/lib/knowledge';
 import type { ContentItem } from '@/lib/content';
+import { useI18n } from '@/i18n/LocaleContext';
+import { localizeLabel } from '@/i18n/labels';
 
 // 浏览量格式化：1200 -> 1.2k（与资料下载页一致）
 const fmtHeat = (n: number) =>
@@ -32,6 +33,7 @@ const KnowledgeCard = ({
 }) => {
   const base = TYPE_BASE[item.type];
   const lead = leadOf(item);
+  const { lang, t } = useI18n();
   return (
     <Link
       to={`/${base}/${item.slug}`}
@@ -47,12 +49,12 @@ const KnowledgeCard = ({
         {showSubject && item.subject && (
           <span className="absolute top-2.5 left-2.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-white/90 dark:bg-zinc-800/90 text-primary backdrop-blur-sm">
             <SubjectIcon name={SUBJECT_META[item.subject]?.icon || 'Globe'} className="w-3 h-3" />
-            {item.subject}
+            {localizeLabel(item.subject, lang)}
           </span>
         )}
         {(item.level || item.category) && (
           <span className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full text-xs font-medium bg-foreground/80 text-background backdrop-blur-sm">
-            {item.level || item.category}
+            {localizeLabel(item.level || item.category, lang)}
           </span>
         )}
       </div>
@@ -77,7 +79,7 @@ const KnowledgeCard = ({
               </span>
               <span className="inline-flex items-center gap-1">
                 <Type className="w-3 h-3" />
-                {getWordCount(item)}字
+                {t('card.chars', { n: getWordCount(item) })}
               </span>
               {(item.heat || 0) > 0 && (
                 <span className="inline-flex items-center gap-1 text-orange-500 ml-auto">

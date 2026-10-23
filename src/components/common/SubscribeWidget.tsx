@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useI18n } from '@/i18n/LocaleContext';
 import { MessageCircle, X, QrCode, Sparkles } from 'lucide-react';
 
 /**
@@ -9,6 +10,7 @@ import { MessageCircle, X, QrCode, Sparkles } from 'lucide-react';
  * - 邮箱订阅为后续可扩展位：在 card 内接入表单服务（Formspree/Web3Forms 等）即可，不影响当前形态。
  */
 const SubscribeWidget: React.FC = () => {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
 
   return (
@@ -17,7 +19,7 @@ const SubscribeWidget: React.FC = () => {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        aria-label={open ? '收起关注卡片' : '关注公众号'}
+        aria-label={open ? t('subscribe.close') : t('subscribe.open')}
         className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/30 transition-transform hover:scale-105 active:scale-95"
       >
         {open ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
@@ -33,12 +35,12 @@ const SubscribeWidget: React.FC = () => {
         <div className="mb-3 flex items-start justify-between gap-2">
           <div className="flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-primary" />
-            <h3 className="text-base font-bold">追更星球小捕手</h3>
+            <h3 className="text-base font-bold">{t('subscribe.title')}</h3>
           </div>
           <button
             type="button"
             onClick={() => setOpen(false)}
-            aria-label="关闭"
+            aria-label={t('subscribe.dismiss')}
             className="rounded-full p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           >
             <X className="h-4 w-4" />
@@ -46,7 +48,7 @@ const SubscribeWidget: React.FC = () => {
         </div>
 
         <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
-          每周更新：互动地图 · 地理数据集 · 可视化实验。关注公众号，新内容第一时间到手。
+          {t('subscribe.desc')}
         </p>
 
         <div className="grid grid-cols-2 gap-3">
@@ -58,7 +60,7 @@ const SubscribeWidget: React.FC = () => {
                 className="h-full w-full object-cover"
               />
             </div>
-            <span className="text-center text-xs font-semibold">公众号</span>
+            <span className="text-center text-xs font-semibold">{t('subscribe.official')}</span>
             <span className="text-center text-[11px] leading-tight text-muted-foreground">
               那山那海那座城
             </span>
@@ -72,7 +74,7 @@ const SubscribeWidget: React.FC = () => {
                 className="h-full w-full object-cover"
               />
             </div>
-            <span className="text-center text-xs font-semibold">微信</span>
+            <span className="text-center text-xs font-semibold">{t('subscribe.wechat')}</span>
             <span className="text-center text-[11px] leading-tight text-muted-foreground">
               星球小捕手
             </span>
@@ -81,7 +83,7 @@ const SubscribeWidget: React.FC = () => {
 
         <p className="mt-3 flex items-center justify-center gap-1 text-[11px] text-muted-foreground">
           <QrCode className="h-3.5 w-3.5" />
-          长按或扫码即可关注
+          {t('subscribe.hint')}
         </p>
       </div>
     </>

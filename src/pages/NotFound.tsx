@@ -2,13 +2,15 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Home, Globe, Compass, Box } from "lucide-react";
 import PageMeta from "@/components/common/PageMeta";
+import { useI18n } from "@/i18n/LocaleContext";
 
 export default function NotFound() {
+  const { t } = useI18n();
   return (
     <>
       <PageMeta
-        title="页面未找到 - 404 | 星球小捕手"
-        description="您访问的页面不存在。请检查网址是否正确，或返回星球小捕手首页浏览地理科普内容、可视化作品和在线工具。"
+        title={t('notfound.title')}
+        description={t('notfound.metaDesc')}
       />
       <div className="relative flex flex-col items-center justify-center min-h-screen p-6 overflow-hidden z-1">
         <motion.div
@@ -25,10 +27,10 @@ export default function NotFound() {
           />
 
           <h1 className="mt-8 mb-3 text-2xl font-bold text-foreground">
-            页面未找到
+            {t('notfound.h1')}
           </h1>
           <p className="mb-8 text-muted-foreground">
-            您访问的页面可能已被删除或不存在，请检查网址是否正确。
+            {t('notfound.p')}
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
@@ -37,16 +39,16 @@ export default function NotFound() {
               className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-md hover:opacity-90 transition-opacity"
             >
               <Home className="w-4 h-4" />
-              返回首页
+              {t('notfound.backHome')}
             </Link>
           </div>
 
           {/* Quick nav suggestions */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
             {[
-              { icon: Globe, label: "科普博客", href: "https://blog.planetgis.cn", external: true },
-              { icon: Compass, label: "地理工具", href: "https://xyz.planetgis.cn", external: true },
-              { icon: Box, label: "可视化作品", href: "/#works", external: false },
+              { icon: Globe, label: t('notfound.nav.blog'), href: "https://blog.planetgis.cn", external: true },
+              { icon: Compass, label: t('notfound.nav.tools'), href: "https://xyz.planetgis.cn", external: true },
+              { icon: Box, label: t('notfound.nav.works'), href: "/#works", external: false },
             ].map((item) => (
               <Link
                 key={item.label}

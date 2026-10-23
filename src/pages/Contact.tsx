@@ -1,29 +1,33 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MessageCircle, Share2, Youtube, Instagram, Globe, ArrowRight, Newspaper, Mail } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
+import { useI18n } from '@/i18n/LocaleContext';
+
+type SocialId = 'wechat' | 'official' | 'weibo' | 'bilibili' | 'xiaohongshu' | 'youtube' | 'blog' | 'email';
 
 const Contact = () => {
+  const { t } = useI18n();
   const [wechatOpen, setWechatOpen] = useState(false);
   const [officialOpen, setOfficialOpen] = useState(false);
-  const socialLinks = [
-    { platform: '微信公众号', handle: '星球小捕手', desc: '搜索关注，获取最新地理科普推送', icon: MessageCircle, url: '#' },
-    { platform: '公众号', handle: '那山那海那座城', desc: '扫码关注，获取最新地理科普文章', icon: Newspaper, url: '#' },
-    { platform: '微博', handle: '@星球小捕手', desc: '关注我们，参与地理话题讨论', icon: Share2, url: 'https://weibo.com/u/5860040514' },
-    { platform: 'B站', handle: '星球小捕手', desc: '观看地理科普视频和可视化作品', icon: Youtube, url: 'https://space.bilibili.com/31959835' },
-    { platform: '小红书', handle: '星球小捕手', desc: '查看地理知识卡片和图文内容', icon: Instagram, url: 'https://www.xiaohongshu.com/user/profile/5f91772d00000000010077da' },
-    { platform: 'YouTube', handle: '@ZaynHuang', desc: 'Subscribe for geography content in English', icon: Youtube, url: 'https://www.youtube.com/@ZaynHuang' },
-    { platform: '博客', handle: 'blog.planetgis.cn', desc: '阅读深度地理科普文章', icon: Globe, url: 'https://blog.planetgis.cn' },
-    { platform: '邮箱', handle: 'planetcatcherr@gmail.com', desc: '业务合作与咨询，邮件联系作者 Zayn Huang', icon: Mail, url: 'mailto:planetcatcherr@gmail.com' },
+  const socialLinks: { id: SocialId; handle: string; icon: typeof Globe; url: string }[] = [
+    { id: 'wechat', handle: '星球小捕手', icon: MessageCircle, url: '#' },
+    { id: 'official', handle: '那山那海那座城', icon: Newspaper, url: '#' },
+    { id: 'weibo', handle: '@星球小捕手', icon: Share2, url: 'https://weibo.com/u/5860040514' },
+    { id: 'bilibili', handle: '星球小捕手', icon: Youtube, url: 'https://space.bilibili.com/31959835' },
+    { id: 'xiaohongshu', handle: '星球小捕手', icon: Instagram, url: 'https://www.xiaohongshu.com/user/profile/5f91772d00000000010077da' },
+    { id: 'youtube', handle: '@ZaynHuang', icon: Youtube, url: 'https://www.youtube.com/@ZaynHuang' },
+    { id: 'blog', handle: 'blog.planetgis.cn', icon: Globe, url: 'https://blog.planetgis.cn' },
+    { id: 'email', handle: 'planetcatcherr@gmail.com', icon: Mail, url: 'mailto:planetcatcherr@gmail.com' },
   ];
 
   return (
     <>
       <PageMeta
-        title="联系我们 - 星球小捕手 | PlanetGIS"
-        description="联系星球小捕手——通过微信、微博、B站、小红书、YouTube等渠道与我们取得联系。商业合作、内容建议、技术咨询均欢迎。"
+        title={t('contact.title')}
+        description={t('contact.metaDesc')}
       />
       <Breadcrumb />
     <div className="min-h-screen bg-background text-foreground">
@@ -33,18 +37,18 @@ const Contact = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">联系我们</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">{t('contact.h1')}</h1>
           <p className="text-lg text-muted-foreground mb-12 leading-relaxed">
-            有地理科普合作、内容建议或技术咨询需求？欢迎通过以下渠道与我们取得联系。
+            {t('contact.intro')}
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {socialLinks.map((link, index) => {
               const Icon = link.icon;
-              if (link.platform === '微信公众号') {
+              if (link.id === 'wechat') {
                 return (
                   <motion.button
-                    key={link.platform}
+                    key={link.id}
                     type="button"
                     onClick={() => setWechatOpen(true)}
                     initial={false}
@@ -57,17 +61,17 @@ const Contact = () => {
                       <Icon className="w-6 h-6" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-bold text-lg mb-1">{link.platform}</h3>
+                      <h3 className="font-bold text-lg mb-1">{t(`channel.${link.id}` as const)}</h3>
                       <p className="text-sm text-primary font-medium mb-1">{link.handle}</p>
-                      <p className="text-sm text-muted-foreground">{link.desc}</p>
+                      <p className="text-sm text-muted-foreground">{t(`channel.${link.id}.desc` as const)}</p>
                     </div>
-                </motion.button>
-              );
-            }
-            if (link.platform === '公众号') {
+                  </motion.button>
+                );
+              }
+            if (link.id === 'official') {
               return (
                 <motion.button
-                  key={link.platform}
+                  key={link.id}
                   type="button"
                   onClick={() => setOfficialOpen(true)}
                   initial={false}
@@ -80,16 +84,16 @@ const Contact = () => {
                     <Icon className="w-6 h-6" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-lg mb-1">{link.platform}</h3>
+                    <h3 className="font-bold text-lg mb-1">{t(`channel.${link.id}` as const)}</h3>
                     <p className="text-sm text-primary font-medium mb-1">{link.handle}</p>
-                    <p className="text-sm text-muted-foreground">{link.desc}</p>
+                    <p className="text-sm text-muted-foreground">{t(`channel.${link.id}.desc` as const)}</p>
                   </div>
                 </motion.button>
               );
             }
             return (
                 <motion.a
-                  key={link.platform}
+                  key={link.id}
                   href={link.url}
                   target={link.url !== '#' ? '_blank' : undefined}
                   rel="noreferrer"
@@ -103,9 +107,9 @@ const Contact = () => {
                     <Icon className="w-6 h-6" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-lg mb-1">{link.platform}</h3>
+                    <h3 className="font-bold text-lg mb-1">{t(`channel.${link.id}` as const)}</h3>
                     <p className="text-sm text-primary font-medium mb-1">{link.handle}</p>
-                    <p className="text-sm text-muted-foreground">{link.desc}</p>
+                    <p className="text-sm text-muted-foreground">{t(`channel.${link.id}.desc` as const)}</p>
                   </div>
                   {link.url !== '#' && (
                     <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors mt-2" />
@@ -118,9 +122,9 @@ const Contact = () => {
           <Dialog open={wechatOpen} onOpenChange={setWechatOpen}>
             <DialogContent className="sm:max-w-sm">
               <DialogHeader>
-                <DialogTitle className="text-center">扫码关注微信</DialogTitle>
+                <DialogTitle className="text-center">{t('channel.wechat.dialog.title')}</DialogTitle>
                 <DialogDescription className="text-center">
-                  打开微信「扫一扫」，关注「星球小捕手」获取最新地理科普与可视化作品。
+                  {t('channel.wechat.dialog.desc')}
                 </DialogDescription>
               </DialogHeader>
               <div className="flex justify-center py-2">
@@ -136,9 +140,9 @@ const Contact = () => {
           <Dialog open={officialOpen} onOpenChange={setOfficialOpen}>
             <DialogContent className="sm:max-w-sm">
               <DialogHeader>
-                <DialogTitle className="text-center">扫码关注公众号</DialogTitle>
+                <DialogTitle className="text-center">{t('channel.official.dialog.title')}</DialogTitle>
                 <DialogDescription className="text-center">
-                  打开微信「扫一扫」，关注「那山那海那座城」，获取最新地理科普文章。
+                  {t('channel.official.dialog.desc')}
                 </DialogDescription>
               </DialogHeader>
               <div className="flex justify-center py-2">
@@ -158,7 +162,7 @@ const Contact = () => {
             className="mt-12 p-8 rounded-2xl bg-gradient-to-r from-primary/5 to-primary/10 border border-primary/10 text-center"
           >
             <p className="text-muted-foreground leading-relaxed">
-              我们会尽快回复您的消息。对于商业合作，请在社交媒体上私信并注明"商业合作"。
+              {t('contact.replyNote')}
             </p>
           </motion.div>
         </motion.div>

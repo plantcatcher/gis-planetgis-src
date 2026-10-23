@@ -5,8 +5,12 @@
 // - 客户端：组件挂载/更新时通过 useEffect 直接写入 document.head。
 // - 服务端：渲染期间把 head 数据写入模块级单例；预渲染脚本在 renderToString 之后读取并注入静态 HTML。
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useI18n } from '@/i18n/LocaleContext';
+import { stripLang, withLang, HTML_LANG, OG_LOCALE } from '@/i18n/config';
+import { zh as dictZh } from '@/i18n/dict.zh';
+import { en as dictEn } from '@/i18n/dict.en';
 
 export interface HeadData {
   title?: string;
@@ -14,6 +18,17 @@ export interface HeadData {
   canonical?: string;
   image?: string;
   type?: string;
+}
+
+/** 品牌名按语言取：中文「星球小捕手」/ 英文「Planet Catcher」 */
+const BRAND: Record<string, string> = {
+  zh: dictZh['brand.name'],
+  en: dictEn['brand.name'],
+};
+
+export interface AlternateLink {
+  hreflang: string;
+  href: string;
 }
 
 /** 站点 baseURL：全站 canonical / OG / 结构化数据的唯一来源 */
@@ -40,16 +55,54 @@ export function buildCanonical(pathname: string): string {
 // 服务端渲染期间收集的 head 数据（每次路由渲染前需 reset）。
 let ssrHead: HeadData = {};
 let ssrJsonLd: object[] = [];
+let ssrAlternates: AlternateLink[] = [];
 
 export function resetSsrHead(): void {
   ssrHead = {};
   ssrJsonLd = [];
+  ssrAlternates = [];
 }
 export function getSsrHead(): HeadData {
   return ssrHead;
 }
 export function getSsrJsonLd(): object[] {
   return ssrJsonLd;
+}
+export function getSsrAlternates(): AlternateLink[] {
+  return ssrAlternates;
+}
+
+/**
+ * 给显式传入的 canonical 补上语言前缀。
+ *
+ * 站内多个页面直接写死 canonical（如 Listing 的 `https://planetgis.cn/${m.base}`、
+ * ContentDetail 的 `https://planetgis.cn/${basePath[type]}/${item.slug}`）。
+ * 英文站下这些常量会指回中文地址，既不是自引用，也与 hreflang 自相矛盾，
+ * check-seo 会直接判「canonical 不自引用」让构建失败。
+ * 与其逐个页面改，不如在这里统一按当前语言重写前缀——调用方照旧传无语言的地址。
+ *
+ * ⚠️ 只重写 path，不动 query / hash：canonical 里带它们本身也不规范。
+ */
+export function localizeCanonical(url: string, lang: 'zh' | 'en'): string {
+  const bare = url.replace(/^https?:\/\/[^/]+/i, '') || '/';
+  return SITE + withLang(stripLang(bare), lang);
+}
+
+/**
+ * 生成 hreflang 三件套：zh-CN / en / x-default。
+ *
+ * x-default 指向中文版——中文是默认语言，未匹配到任何语言的访问者应落在中文站。
+ * ⚠️ 三者的路径都基于「去掉语言前缀的同一路径」，保证互为对应版本；
+ *    若直接拿带 /en 前缀的 pathname 去算，英文页会声明自己的英文 URL 为 en 版、
+ *    中文版却变成 /en/en/... 的死链。
+ */
+export function buildAlternates(pathname: string): AlternateLink[] {
+  const base = stripLang(pathname);
+  return [
+    { hreflang: 'zh-CN', href: buildCanonical(base) },
+    { hreflang: 'en', href: buildCanonical(withLang(base, 'en')) },
+    { hreflang: 'x-default', href: buildCanonical(base) },
+  ];
 }
 
 interface PageMetaProps {
@@ -66,8 +119,17 @@ export function PageMeta({ title, description, canonical, image }: PageMetaProps
   // 旧实现是用页面标题拼 URL（`${SITE}/${title.split(' ')[0]}`），会产出
   // https://planetgis.cn/星球小捕手 这类根本不存在的地址，被搜索引擎判定为
   // 指向其它 URL —— 百度抓取诊断的「有跳转」标记即源于此，务必不要改回去。
+  //
+  // ⚠️ useLocation().pathname 不含 Router 的 basename（英文站下是 /learn 而非 /en/learn），
+  //    直接拿它算 canonical 会让英文页把中文 URL 声明成自己的规范地址。
+  //    必须先用 withLang 补回语言前缀。
   const { pathname } = useLocation();
-  const canonicalUrl = canonical || buildCanonical(pathname);
+  const { lang } = useI18n();
+  const canonicalUrl = canonical
+    ? localizeCanonical(canonical, lang)
+    : buildCanonical(withLang(pathname, lang));
+  const alternates = buildAlternates(pathname);
+  const brand = BRAND[lang] || BRAND.zh;
   // og:image / twitter:image 必须是绝对 URL——社交平台与结构化数据都不接受相对路径。
   // content/works 允许直接引用站内自托管封面（如 /maps/<slug>/cover.jpg），这里统一补全；
   // 已是绝对地址（blogphoto 图床等）原样透传。
@@ -86,23 +148,24 @@ export function PageMeta({ title, description, canonical, image }: PageMetaProps
     setMeta('og:url', canonicalUrl, 'property');
     setMeta('og:image', ogImage, 'property');
     setMeta('og:type', 'website', 'property');
-    setMeta('og:site_name', '星球小捕手', 'property');
-    setMeta('og:locale', 'zh_CN', 'property');
+    setMeta('og:site_name', brand, 'property');
+    setMeta('og:locale', OG_LOCALE[lang] || OG_LOCALE.zh, 'property');
     setMeta('twitter:card', 'summary_large_image');
     setMeta('twitter:title', title);
     setMeta('twitter:description', description);
     setMeta('twitter:image', ogImage);
     setCanonical(canonicalUrl);
+    setAlternates(alternates);
     setJsonLd({
       '@context': 'https://schema.org',
       '@type': 'WebPage',
       name: title,
       description,
       url: canonicalUrl,
-      inLanguage: 'zh-CN',
-      isPartOf: { '@type': 'WebSite', name: '星球小捕手', url: SITE },
+      inLanguage: HTML_LANG[lang] || HTML_LANG.zh,
+      isPartOf: { '@type': 'WebSite', name: brand, url: SITE },
     });
-  }, [title, description, canonicalUrl, ogImage]);
+  }, [title, description, canonicalUrl, ogImage, lang, brand]);
 
   // 服务端：收集到模块级单例
   if (typeof window === 'undefined') {
@@ -113,14 +176,15 @@ export function PageMeta({ title, description, canonical, image }: PageMetaProps
       image: ogImage,
       type: 'website',
     };
+    ssrAlternates = alternates;
     ssrJsonLd.push({
       '@context': 'https://schema.org',
       '@type': 'WebPage',
       name: title,
       description,
       url: canonicalUrl,
-      inLanguage: 'zh-CN',
-      isPartOf: { '@type': 'WebSite', name: '星球小捕手', url: SITE },
+      inLanguage: HTML_LANG[lang] || HTML_LANG.zh,
+      isPartOf: { '@type': 'WebSite', name: brand, url: SITE },
     });
   }
 
@@ -166,6 +230,22 @@ function setCanonical(href: string) {
     document.head.appendChild(el);
   }
   el.setAttribute('href', href);
+}
+
+/** 写入 hreflang 三件套。每次先清掉旧的，避免站内跳转后残留上一个语言版本的声明。 */
+function setAlternates(list: AlternateLink[]) {
+  if (typeof document === 'undefined') return;
+  document.head
+    .querySelectorAll<HTMLLinkElement>('link[rel="alternate"][data-hreflang]')
+    .forEach((el) => el.remove());
+  for (const a of list) {
+    const el = document.createElement('link');
+    el.setAttribute('rel', 'alternate');
+    el.setAttribute('hreflang', a.hreflang);
+    el.setAttribute('href', a.href);
+    el.setAttribute('data-hreflang', '1');
+    document.head.appendChild(el);
+  }
 }
 
 function setJsonLd(obj: object) {

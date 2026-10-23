@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { LayoutGrid } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
 import ShareButton from '@/components/common/ShareButton';
+import { useI18n } from '@/i18n/LocaleContext';
 
 type GameKey = 'geoquiz' | 'geoshape' | 'geotype' | 'chinapuzzle';
 
@@ -51,7 +52,11 @@ const GAME_INTRO: Record<GameKey, string> = {
  * - 游戏文件与主站同源（planetgis.cn），后续可直接读游戏 localStorage 做成绩打通。
  */
 const GameEmbed: React.FC<{ game: GameKey }> = ({ game }) => {
+  const { lang } = useI18n();
   const meta = META[game];
+  // 英文 locale：给独立游戏应用追加 ?lang=en，触发共享运行时英译层
+  // （public/shared/map-i18n.js）。中文站不加任何参数，零副作用。
+  const src = `/games/${game}/index.html${lang === 'en' ? '?lang=en' : ''}`;
   return (
     <div className="w-full bg-[#060912]" style={{ height: '100dvh' }}>
       {/* 壳页也要有 title / description：浏览器标签页、搜索引擎与 GA4 的
@@ -62,7 +67,7 @@ const GameEmbed: React.FC<{ game: GameKey }> = ({ game }) => {
         canonical={`https://planetgis.cn/${game}`}
       />
       <iframe
-        src={`/games/${game}/index.html`}
+        src={src}
         title={meta.title}
         loading="lazy"
         className="w-full h-full border-0 block"

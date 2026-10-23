@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useI18n } from '@/i18n/LocaleContext';
 import { Compass } from 'lucide-react';
 
 /**
@@ -26,13 +27,14 @@ interface CoverImageProps {
  * 父级需提供尺寸容器（如 aspect-[16/9] overflow-hidden）。
  */
 const CoverImage: React.FC<CoverImageProps> = ({ cover, title, className = '', lazy = false }) => {
+  const { t } = useI18n();
   const [imgFailed, setImgFailed] = useState(false);
 
   if (cover) {
     return (
       <img
         src={cover}
-        alt={`${title} - 封面图`}
+        alt={`${title} - ${t('cover.image')}`}
         loading={lazy ? 'lazy' : undefined}
         className={`w-full h-full object-cover ${className}`}
       />
@@ -44,7 +46,7 @@ const CoverImage: React.FC<CoverImageProps> = ({ cover, title, className = '', l
     return (
       <img
         src={DEFAULT_COVER}
-        alt={`${title} - 默认封面`}
+        alt={`${title} - ${t('cover.default')}`}
         loading={lazy ? 'lazy' : undefined}
         onError={() => setImgFailed(true)}
         className={`w-full h-full object-cover ${className}`}
@@ -55,12 +57,12 @@ const CoverImage: React.FC<CoverImageProps> = ({ cover, title, className = '', l
   return (
     <div
       className={`w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/85 via-primary/60 to-cyan-500/70 relative overflow-hidden ${className}`}
-      aria-label={`${title} - 封面占位图`}
+      aria-label={`${title} - ${t('cover.placeholder')}`}
     >
       {/* 背景纹理：大号半透明图标，增强品牌感 */}
       <Compass className="w-20 h-20 text-white/25" />
       <span className="absolute bottom-3 right-3 text-xs font-medium text-white/70 tracking-wide">
-        星球小捕手
+        {t('brand.name')}
       </span>
     </div>
   );

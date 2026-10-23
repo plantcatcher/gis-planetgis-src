@@ -1,14 +1,15 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
+import { useI18n } from '@/i18n/LocaleContext';
 
 const PrivacyPolicy = () => {
+  const { t } = useI18n();
   return (
     <>
       <PageMeta
-        title="隐私政策 - 星球小捕手 | PlanetGIS"
-        description="星球小捕手隐私政策——了解我们如何收集、使用和保护您的个人信息，包括Cookie使用、第三方服务（Google Analytics、AdSense）的数据处理方式。"
+        title={t('privacy.title')}
+        description={t('privacy.metaDesc')}
       />
       <Breadcrumb />
     <div className="min-h-screen bg-background text-foreground">
@@ -18,110 +19,124 @@ const PrivacyPolicy = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <h1 className="text-4xl font-bold mb-2">隐私政策</h1>
-          <p className="text-sm text-muted-foreground mb-12">最后更新日期：2026年10月13日</p>
+          <h1 className="text-4xl font-bold mb-2">{t('privacy.h1')}</h1>
+          <p className="text-sm text-muted-foreground mb-12">{t('privacy.updated')}</p>
 
           {/* 页面容器统一 7xl（与其它页面对齐），正文保留 3xl 阅读栏避免一行过长 */}
           <div className="prose prose-lg dark:prose-invert max-w-3xl space-y-6">
             <section>
-              <h2 className="text-2xl font-bold mb-3">1. 引言</h2>
+              <h2 className="text-2xl font-bold mb-3">{t('privacy.s1.h')}</h2>
               <p className="text-muted-foreground leading-relaxed">
-                星球小捕手（planetgis.cn）尊重并保护所有访问用户的个人隐私权。本隐私政策说明了我们在您访问本网站时收集、使用和保护个人信息的方式。请花时间仔细阅读本政策，以了解我们如何处理您的个人信息。
+                {t('privacy.s1.p')}
               </p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-bold mb-3">2. 信息收集</h2>
+              <h2 className="text-2xl font-bold mb-3">{t('privacy.s2.h')}</h2>
               <p className="text-muted-foreground leading-relaxed mb-3">
-                本网站可能收集以下类型的信息：
+                {t('privacy.s2.p')}
               </p>
               <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-                <li><strong>自动收集的信息：</strong>当您访问本网站时，我们可能通过 Google Analytics 等分析工具自动收集您的 IP 地址、浏览器类型、操作系统、访问时间、访问页面等非个人身份信息。</li>
-                <li><strong>广告与第三方 Cookie：</strong>本网站可能使用 Google AdSense 等第三方广告服务展示广告。当广告服务启用时，Google 及其合作伙伴会使用 Cookie（包括 DoubleClick DART Cookie）根据您过往的访问记录为您提供相关广告。您可以通过以下方式管理与退出个性化广告：<a href="https://www.google.com/settings/ads" target="_blank" rel="noreferrer" className="text-primary hover:underline">Google 广告设置</a>、<a href="https://optout.aboutads.info" target="_blank" rel="noreferrer" className="text-primary hover:underline">关于广告（About Ads）</a>，欧洲用户还可访问 <a href="https://www.youronlinechoices.com" target="_blank" rel="noreferrer" className="text-primary hover:underline">Your Online Choices</a>。</li>
-                <li><strong>您主动提供的信息：</strong>当您通过社交媒体链接或联系方式与我们互动时，您可能主动提供个人信息。</li>
+                <li><strong>{t('privacy.s2.li1.strong')}</strong>{t('privacy.s2.li1.text')}</li>
+                <li>
+                  <strong>{t('privacy.s2.li2.strong')}</strong>{t('privacy.s2.li2.text1')}
+                  <a href="https://www.google.com/settings/ads" target="_blank" rel="noreferrer" className="text-primary hover:underline">{t('privacy.s2.li2.link1')}</a>
+                  {t('privacy.s2.li2.sep')}
+                  <a href="https://optout.aboutads.info" target="_blank" rel="noreferrer" className="text-primary hover:underline">{t('privacy.s2.li2.link2')}</a>
+                  {t('privacy.s2.li2.text2')}
+                  <a href="https://www.youronlinechoices.com" target="_blank" rel="noreferrer" className="text-primary hover:underline">{t('privacy.s2.li2.link3')}</a>
+                  {t('privacy.s2.li2.text3')}
+                </li>
+                <li><strong>{t('privacy.s2.li3.strong')}</strong>{t('privacy.s2.li3.text')}</li>
               </ul>
             </section>
 
             <section>
-              <h2 className="text-2xl font-bold mb-3">3. 信息使用</h2>
+              <h2 className="text-2xl font-bold mb-3">{t('privacy.s3.h')}</h2>
               <p className="text-muted-foreground leading-relaxed mb-3">
-                我们收集的信息可能用于以下目的：
+                {t('privacy.s3.p')}
               </p>
               <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-                <li>分析和理解网站的使用情况，以改进网站内容和用户体验</li>
-                <li>展示与您兴趣更相关的广告内容</li>
-                <li>防止欺诈和滥用行为</li>
-                <li>回复您的咨询和反馈</li>
+                <li>{t('privacy.s3.li1')}</li>
+                <li>{t('privacy.s3.li2')}</li>
+                <li>{t('privacy.s3.li3')}</li>
+                <li>{t('privacy.s3.li4')}</li>
               </ul>
             </section>
 
             <section>
-              <h2 className="text-2xl font-bold mb-3">4. Cookie 使用</h2>
+              <h2 className="text-2xl font-bold mb-3">{t('privacy.s4.h')}</h2>
               <p className="text-muted-foreground leading-relaxed">
-                本网站使用 Cookie 来改善用户体验、分析网站流量，并在启用广告服务时投放相关广告。Cookie 是存储在您浏览器中的小型文本文件。您可以通过浏览器设置禁用 Cookie，但这可能影响网站的某些功能。
+                {t('privacy.s4.p1')}
               </p>
               <p className="text-muted-foreground leading-relaxed mt-3">
-                我们使用的 Cookie 大致分为三类：①<strong>必要 Cookie</strong>（维持站点基本功能，如主题外观偏好）；②<strong>分析 Cookie</strong>（Google Analytics 的 _ga、_gid 等，用于统计网站访问行为）；③<strong>广告 Cookie</strong>（当启用 Google AdSense 等第三方广告服务时，Google 会使用 __gads、__gpi、IDE 以及 DoubleClick DART Cookie 来投放与衡量广告）。第三方的 Cookie 受其各自的隐私政策约束，您可以随时在浏览器中清除或拒绝。
+                {t('privacy.s4.p2.a')}<strong>{t('privacy.s4.p2.necessary')}</strong>{t('privacy.s4.p2.b')}<strong>{t('privacy.s4.p2.analytics')}</strong>{t('privacy.s4.p2.c')}<strong>{t('privacy.s4.p2.ads')}</strong>{t('privacy.s4.p2.d')}
               </p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-bold mb-3">5. 第三方服务</h2>
+              <h2 className="text-2xl font-bold mb-3">{t('privacy.s5.h')}</h2>
               <p className="text-muted-foreground leading-relaxed mb-3">
-                本网站使用以下第三方服务，这些服务可能收集您的信息：
+                {t('privacy.s5.p')}
               </p>
               <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-                <li><strong>Google Analytics：</strong>用于分析网站流量和用户行为</li>
-                <li><strong>Google AdSense（如启用）：</strong>用于展示个性化广告</li>
+                <li><strong>{t('privacy.s5.li1.strong')}</strong>{t('privacy.s5.li1.text')}</li>
+                <li><strong>{t('privacy.s5.li2.strong')}</strong>{t('privacy.s5.li2.text')}</li>
               </ul>
               <p className="text-muted-foreground leading-relaxed mt-3">
-                这些第三方服务有其各自的隐私政策，我们建议您阅读它们以了解其数据处理方式。
+                {t('privacy.s5.tail')}
               </p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-bold mb-3">6. 儿童隐私</h2>
+              <h2 className="text-2xl font-bold mb-3">{t('privacy.s6.h')}</h2>
               <p className="text-muted-foreground leading-relaxed">
-                本网站不针对 13 岁以下的儿童，也不会有意收集儿童的个人信息。如果您是儿童的监护人，发现您的孩子向我们提供了个人信息，请与我们联系，我们将及时删除相关数据。
+                {t('privacy.s6.p')}
               </p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-bold mb-3">7. 数据安全</h2>
+              <h2 className="text-2xl font-bold mb-3">{t('privacy.s7.h')}</h2>
               <p className="text-muted-foreground leading-relaxed">
-                我们采取合理的技术和管理措施来保护您的个人信息不被未经授权的访问、使用或泄露。然而请注意，互联网上没有绝对安全的数据传输方式，我们不能保证 100% 的安全性。
+                {t('privacy.s7.p')}
               </p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-bold mb-3">8. 您的权利</h2>
+              <h2 className="text-2xl font-bold mb-3">{t('privacy.s8.h')}</h2>
               <p className="text-muted-foreground leading-relaxed mb-3">
-                您拥有以下权利：
+                {t('privacy.s8.p')}
               </p>
               <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-                <li>访问权：您有权了解我们收集了您的哪些个人信息</li>
-                <li>更正权：您有权要求更正不准确的个人信息</li>
-                <li>删除权：您有权要求删除您的个人信息</li>
-                <li>退订权：您可以随时通过浏览器设置禁用 Cookie；如需退出个性化广告，可通过 <a href="https://www.google.com/settings/ads" target="_blank" rel="noreferrer" className="text-primary hover:underline">Google 广告设置</a> 或 <a href="https://optout.aboutads.info" target="_blank" rel="noreferrer" className="text-primary hover:underline">About Ads</a> 进行管理</li>
+                <li>{t('privacy.s8.li1')}</li>
+                <li>{t('privacy.s8.li2')}</li>
+                <li>{t('privacy.s8.li3')}</li>
+                <li>
+                  {t('privacy.s8.li4.a')}
+                  <a href="https://www.google.com/settings/ads" target="_blank" rel="noreferrer" className="text-primary hover:underline">{t('privacy.s8.li4.link1')}</a>
+                  {t('privacy.s8.li4.b')}
+                  <a href="https://optout.aboutads.info" target="_blank" rel="noreferrer" className="text-primary hover:underline">{t('privacy.s8.li4.link2')}</a>
+                  {t('privacy.s8.li4.c')}
+                </li>
               </ul>
             </section>
 
             <section>
-              <h2 className="text-2xl font-bold mb-3">9. 政策更新</h2>
+              <h2 className="text-2xl font-bold mb-3">{t('privacy.s9.h')}</h2>
               <p className="text-muted-foreground leading-relaxed">
-                我们可能不时更新本隐私政策。更新后的政策将在本页面发布，并更新"最后更新日期"。建议您定期查阅本页面以了解任何变更。
+                {t('privacy.s9.p')}
               </p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-bold mb-3">10. 联系我们</h2>
+              <h2 className="text-2xl font-bold mb-3">{t('privacy.s10.h')}</h2>
               <p className="text-muted-foreground leading-relaxed">
-                如果您对本隐私政策有任何疑问或建议，请通过以下方式联系我们：
+                {t('privacy.s10.p')}
               </p>
               <ul className="list-disc pl-6 space-y-2 text-muted-foreground mt-3">
-                <li>微信公众号：星球小捕手</li>
-                <li>微博：<a href="https://weibo.com/u/5860040514" target="_blank" rel="noreferrer" className="text-primary hover:underline">@星球小捕手</a></li>
-                <li>B站：<a href="https://space.bilibili.com/31959835" target="_blank" rel="noreferrer" className="text-primary hover:underline">星球小捕手</a></li>
+                <li>{t('privacy.s10.li1')}</li>
+                <li>{t('privacy.s10.li2.a')}<a href="https://weibo.com/u/5860040514" target="_blank" rel="noreferrer" className="text-primary hover:underline">{t('privacy.s10.li2.b')}</a></li>
+                <li>{t('privacy.s10.li3.a')}<a href="https://space.bilibili.com/31959835" target="_blank" rel="noreferrer" className="text-primary hover:underline">{t('privacy.s10.li3.b')}</a></li>
               </ul>
             </section>
           </div>

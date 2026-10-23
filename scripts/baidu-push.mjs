@@ -43,6 +43,12 @@ if (!process.env.BAIDU_PUSH_TOKEN && existsSync('.env')) {
 
 // 与百度搜索资源平台生成的接口地址中的 site 参数保持一致（带协议）。
 const SITE = process.env.BAIDU_SITE || 'https://planetgis.cn';
+
+/** URL 是否属于英文站（https://planetgis.cn/en 或 /en/**） */
+const isEnUrl = (u) => {
+  const p = String(u).replace(/^https?:\/\/[^/]+/i, '');
+  return p === '/en' || p.startsWith('/en/');
+};
 const TOKEN = process.env.BAIDU_PUSH_TOKEN;
 
 const argv = process.argv.slice(2);
@@ -105,6 +111,15 @@ if (explicit.length) {
     readFileSync(sitemapPath, 'utf-8').matchAll(/<loc>([^<]+)<\/loc>/g),
   ).map((m) => m[1]);
   completeSitemap = true;
+}
+
+// 英文站（/en/**）不推百度：百度主要索引中文内容，英文页面收录价值低，
+// 而本站日配额实测只有 10 条，推英文会挤掉中文页面的名额。
+// 英文 URL 的收录交给 Google / Bing（走 hreflang + sitemap 自然发现）。
+const enCount = candidates.filter((u) => isEnUrl(u)).length;
+if (enCount) {
+  candidates = candidates.filter((u) => !isEnUrl(u));
+  console.log(`[baidu-push] 已剔除英文站 URL ${enCount} 条（不占百度日配额）。`);
 }
 
 if (candidates.length === 0) {

@@ -19,6 +19,14 @@ const I18n = {
       'citiesSeen': '遇过城市',
       'explored': '已探索',
       'accuracy': '正确率',
+      // 首页品牌副标 / 区块标题（落地页首屏）
+      'homeKicker': '🛰️ 太空地理挑战 · 看卫星图猜城市',
+      'homeWhyTitle': '为什么值得玩',
+      'homeWhySub': '真实卫星影像 × 100 座世界名城，边玩边涨地理知识',
+      'homeJourneyTitle': '你的探索征程',
+      'homeJourneySub': '已解锁的成就与各大洲探索进度',
+      // 无记录提示（首页常显区下方）
+      'journeyHint': '还没有挑战记录，点击「开始挑战」点亮你的征程 🚀',
       // 首页特性卡片
       'featSatTitle': '真实卫星图',
       'featSatDesc': 'Esri 高清卫星影像，无标注纯看图',
@@ -128,6 +136,14 @@ const I18n = {
       'citiesSeen': 'Cities Seen',
       'explored': 'Explored',
       'accuracy': 'Accuracy',
+      // 首页品牌副标 / 区块标题（落地页首屏）
+      'homeKicker': '🛰️ Space Geography Challenge · Guess the City from Satellite View',
+      'homeWhyTitle': 'Why It’s Worth Playing',
+      'homeWhySub': 'Real satellite imagery × 100 world cities — learn geography while playing',
+      'homeJourneyTitle': 'Your Exploration Journey',
+      'homeJourneySub': 'Unlocked achievements and progress across continents',
+      // 无记录提示（首页常显区下方）
+      'journeyHint': "No challenge records yet — click 'Start Challenge' to light up your journey 🚀",
       // 首页特性卡片
       'featSatTitle': 'Real Satellite',
       'featSatDesc': 'Esri HD satellite imagery, no labels, pure visual',
@@ -192,6 +208,7 @@ const I18n = {
       'settingRandom': 'Random Order',
       'settingRepeat': 'Allow Repeat',
       'settingSound': 'Sound',
+      'settingLang': 'Language',
       'closeBtn': 'Close',
       'hintOrder': 'Sequential order (Beijing→Shanghai→...)',
       'hintNoRepeat': 'Prefer {n} unseen cities',
@@ -222,6 +239,8 @@ const I18n = {
       // 设置提示
       'settingSoundOn': 'Sound on',
       'settingSoundOff': 'Sound off',
+      // 结算页区块标题
+      'reviewTitle': '📍 This Round’s Recap',
     }
   },
 
@@ -243,6 +262,10 @@ const I18n = {
   },
 
   detectLang() {
+    // 优先读 URL 参数 ?lang=en / ?lang=zh（主站英文 locale 的 GameEmbed 会传入），
+    // 让游戏随主站语言自动切换，不必进游戏内设置。
+    const urlLang = new URLSearchParams(window.location.search).get('lang');
+    if (urlLang === 'en' || urlLang === 'zh') return urlLang;
     const savedLang = Storage.getSettings().language;
     if (savedLang && this.translations[savedLang]) return savedLang;
     // 检测浏览器语言

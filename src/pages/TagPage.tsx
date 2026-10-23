@@ -5,6 +5,7 @@ import { Calendar, ArrowRight } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import CoverImage from '@/components/common/CoverImage';
+import { useI18n } from '@/i18n/LocaleContext';
 import { getItemsByTag, BASE_PATH, type ContentType } from '@/lib/content';
 
 const basePath: Record<ContentType, string> = { ...BASE_PATH };
@@ -21,6 +22,7 @@ const CardAnim: React.FC<{ children: React.ReactNode; delay?: number }> = ({ chi
 );
 
 const TagPage: React.FC = () => {
+  const { t, lang } = useI18n();
   const { tag } = useParams();
   const decoded = tag ? decodeURIComponent(tag) : '';
   const items = decoded ? getItemsByTag(decoded) : [];
@@ -28,25 +30,25 @@ const TagPage: React.FC = () => {
   return (
     <>
       <PageMeta
-        title={`${decoded} - 星球小捕手`}
-        description={`星球小捕手关于「${decoded}」的地理科普内容合集，涵盖文章、学习与可视化作品，用系统化的方式把知识点讲透、讲活。`}
+        title={`${decoded} - ${lang === 'zh' ? '星球小捕手' : 'Planet Catcher'}`}
+        description={t('tag.metaDesc', { tag: decoded })}
         canonical={`https://planetgis.cn/tag/${encodeURIComponent(decoded)}`}
       />
-      <Breadcrumb items={[{ label: '首页', path: '/' }, { label: `标签：${decoded}` }]} />
+      <Breadcrumb items={[{ label: t('nav.home'), path: '/' }, { label: t('tag.breadcrumb', { tag: decoded }) }]} />
       <div className="min-h-screen bg-background text-foreground">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
           <header className="mb-10">
             <div className="flex items-center gap-2 mb-3">
-              <span className="px-3 py-1 rounded-full text-sm font-medium bg-primary/10 text-primary">标签</span>
+              <span className="px-3 py-1 rounded-full text-sm font-medium bg-primary/10 text-primary">{t('tag.badge')}</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold mb-3"># {decoded}</h1>
             <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl">
-              与「{decoded}」相关的地理科普内容合集，共 {items.length} 篇。把分散的知识点聚到一起，方便系统学习。
+              {t('tag.intro', { tag: decoded, n: items.length })}
             </p>
           </header>
 
           {items.length === 0 ? (
-            <p className="text-muted-foreground">暂无相关内容。</p>
+            <p className="text-muted-foreground">{t('tag.empty')}</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {items.map((a, i) => (
@@ -84,7 +86,7 @@ const TagPage: React.FC = () => {
                         <p className="mt-2 text-xs text-muted-foreground line-clamp-2">{a.summary}</p>
                       )}
                       <span className="mt-3 text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
-                        查看内容 <ArrowRight className="w-3 h-3" />
+                        {t('tag.view')} <ArrowRight className="w-3 h-3" />
                       </span>
                     </div>
                   </Link>

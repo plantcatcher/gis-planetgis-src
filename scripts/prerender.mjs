@@ -97,7 +97,9 @@ if (!bodyChunkMap.size) {
 
 /** 详情页 URL -> <link rel="modulepreload">；非详情页或查不到映射时返回空串 */
 function modulePreloadTag(url) {
-  const m = /^\/(works|maps|games|tools|articles|learn|downloads)\/([^/]+?)\/?$/.exec(url);
+  // 英文详情页带 /en 前缀，先剥掉再匹配——正文 chunk 映射是按中文档案名建的，与语言无关
+  const bare = url === '/en' ? '/' : url.startsWith('/en/') ? url.slice(3) : url;
+  const m = /^\/(works|maps|games|tools|articles|learn|downloads)\/([^/]+?)\/?$/.exec(bare);
   if (!m) return '';
   let slug = m[2];
   try {
@@ -113,8 +115,20 @@ function modulePreloadTag(url) {
 }
 
 /** 用页面级 head 替换模板里的默认 SEO 标签，并把正文塞进 #root */
-function buildHtml(template, { html, head }, { noindex = false, preload = '' } = {}) {
+function buildHtml(template, { html, head, lang }, { noindex = false, preload = '' } = {}) {
   let out = template;
+
+  // 英文页必须把 <html lang> 与 <meta name="language"> 一起改成 en：
+  // 屏幕阅读器按 lang 选发音规则，浏览器也据此决定是否弹出「翻译此页」，
+  // 留着 zh-CN 会让英文正文被当成中文朗读。
+  if (lang === 'en') {
+    out = out.replace(/(<html\s+lang=")[^"]*(")/i, '$1en$2');
+    out = out.replace(
+      /(<meta\s+name="language"\s+content=")[^"]*(")/i,
+      '$1en$2',
+    );
+  }
+
   // 移除模板默认 SEO 标签，避免与页面级 head（PageMeta 注入）重复。
   out = out.replace(/<title>[\s\S]*?<\/title>/gi, '');
   out = out.replace(/<meta\s+name="(title|description)"[^>]*>/gi, '');

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Globe, Compass, Box, ArrowRight, MessageCircle, Share2, Youtube, Instagram, Newspaper, Mail } from 'lucide-react';
@@ -6,9 +6,14 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
+import { useI18n } from '@/i18n/LocaleContext';
 import { getTools, getMaps, getWorks, getLearns, getResources } from '@/lib/content';
 
+// 社交渠道的稳定 id：平台名与描述走词典（中英切换），id 用于二维码弹窗判定。
+type SocialId = 'wechat' | 'official' | 'weibo' | 'bilibili' | 'xiaohongshu' | 'youtube' | 'blog' | 'email';
+
 const About = () => {
+  const { t, lang } = useI18n();
   const [wechatOpen, setWechatOpen] = useState(false);
   const [officialOpen, setOfficialOpen] = useState(false);
   // 工具数量从 content/tools/*.md 实时统计，避免手工维护的数字过时
@@ -19,28 +24,28 @@ const About = () => {
   const resourceCount = getResources().length;
   // 数据条与首页完全一致：全部由内容库实时统计
   const siteStats = [
-    { value: String(learnCount), label: '科普文章' },
-    { value: String(mapCount), label: '互动地图' },
-    { value: String(toolCount), label: '在线工具' },
-    { value: String(workCount), label: '可视化作品' },
-    { value: String(resourceCount), label: '资料下载' },
+    { value: String(learnCount), label: t('about.stat.learn') },
+    { value: String(mapCount), label: t('about.stat.maps') },
+    { value: String(toolCount), label: t('about.stat.tools') },
+    { value: String(workCount), label: t('about.stat.works') },
+    { value: String(resourceCount), label: t('about.stat.resources') },
   ];
-  const socialLinks = [
-    { platform: '微信公众号', handle: '星球小捕手', desc: '搜索关注，获取最新地理科普推送', icon: MessageCircle, url: '#' },
-    { platform: '公众号', handle: '那山那海那座城', desc: '扫码关注，获取最新地理科普文章', icon: Newspaper, url: '#' },
-    { platform: '微博', handle: '@星球小捕手', desc: '关注我们，参与地理话题讨论', icon: Share2, url: 'https://weibo.com/u/5860040514' },
-    { platform: 'B站', handle: '星球小捕手', desc: '观看地理科普视频和可视化作品', icon: Youtube, url: 'https://space.bilibili.com/31959835' },
-    { platform: '小红书', handle: '星球小捕手', desc: '查看地理知识卡片和图文内容', icon: Instagram, url: 'https://www.xiaohongshu.com/user/profile/5f91772d00000000010077da' },
-    { platform: 'YouTube', handle: '@ZaynHuang', desc: 'Subscribe for geography content in English', icon: Youtube, url: 'https://www.youtube.com/@ZaynHuang' },
-    { platform: '博客', handle: 'blog.planetgis.cn', desc: '阅读深度地理科普文章', icon: Globe, url: 'https://blog.planetgis.cn' },
-    { platform: '邮箱', handle: 'planetcatcherr@gmail.com', desc: '业务合作与咨询，邮件联系作者 Zayn Huang', icon: Mail, url: 'mailto:planetcatcherr@gmail.com' },
+  const socialLinks: { id: SocialId; handle: string; icon: typeof Globe; url: string }[] = [
+    { id: 'wechat', handle: '星球小捕手', icon: MessageCircle, url: '#' },
+    { id: 'official', handle: '那山那海那座城', icon: Newspaper, url: '#' },
+    { id: 'weibo', handle: '@星球小捕手', icon: Share2, url: 'https://weibo.com/u/5860040514' },
+    { id: 'bilibili', handle: '星球小捕手', icon: Youtube, url: 'https://space.bilibili.com/31959835' },
+    { id: 'xiaohongshu', handle: '星球小捕手', icon: Instagram, url: 'https://www.xiaohongshu.com/user/profile/5f91772d00000000010077da' },
+    { id: 'youtube', handle: '@ZaynHuang', icon: Youtube, url: 'https://www.youtube.com/@ZaynHuang' },
+    { id: 'blog', handle: 'blog.planetgis.cn', icon: Globe, url: 'https://blog.planetgis.cn' },
+    { id: 'email', handle: 'planetcatcherr@gmail.com', icon: Mail, url: 'mailto:planetcatcherr@gmail.com' },
   ];
 
   return (
     <>
       <PageMeta
-        title="关于我们 - 星球小捕手 | PlanetGIS"
-        description={`星球小捕手是一个专注于地球科学的独立创作者品牌，用数据讲述地球变化，用地图发现世界的温度。${learnCount}篇科普文章、${toolCount}款在线工具、${mapCount}个互动地图、${workCount}个可视化作品、${resourceCount}份资料下载，覆盖B站、YouTube、小红书等多平台。`}
+        title={t('about.title')}
+        description={t('about.metaDesc')}
       />
       <Breadcrumb />
     <div className="min-h-screen bg-background text-foreground">
@@ -51,9 +56,9 @@ const About = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="max-w-4xl mx-auto"
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">关于星球小捕手</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">{t('about.h1')}</h1>
           <p className="text-base text-muted-foreground mb-12 leading-relaxed">
-            一个专注于地球科学的独立创作者品牌。我们用数据讲述地球变化，用地图发现世界的温度——从南极冰盖消融到城市交通脉络，从古代文明的水利智慧到未来海平面的模拟预测，致力于让专业的地理知识变得直观、有趣、触手可及。
+            {t('about.intro')}
           </p>
 
           {/* Three content pillars */}
@@ -61,18 +66,18 @@ const About = () => {
             {[
               {
                 icon: Globe,
-                title: '深度科普',
-                desc: '博客累计发表近 200 篇原创文章，涵盖自然地理、气候环境、人文地理、GIS 技术等方向，用通俗的语言解读专业的地理现象。',
+                title: t('about.pillar.science'),
+                desc: t('about.pillar.science.desc'),
               },
               {
                 icon: Compass,
-                title: '交互工具',
-                desc: '自研多款在线地理小工具——经纬度查询、地形分析、GeoJSON 格式转换等，让地理数据处理不再是专业人士的专利。',
+                title: t('about.pillar.tools'),
+                desc: t('about.pillar.tools.desc'),
               },
               {
                 icon: Box,
-                title: '可视化作品',
-                desc: '打造海平面模拟实验室、3D 数据大屏、城市路网绘制等交互可视化项目，将复杂的地理数据转化为可感知、可交互的视觉体验。',
+                title: t('about.pillar.viz'),
+                desc: t('about.pillar.viz.desc'),
               }
             ].map((pillar, index) => (
               <motion.div
@@ -107,24 +112,24 @@ const About = () => {
               ))}
             </div>
             <p className="text-center text-muted-foreground mt-6 text-sm">
-              内容同步至 B 站、YouTube、小红书、微博、微信公众号（星球小捕手）等平台
+              {t('about.statsTail')}
             </p>
           </div>
 
           {/* Our Mission */}
           <div className="space-y-6">
-            <h2 className="text-xl font-bold">我们的使命</h2>
+            <h2 className="text-xl font-bold">{t('about.mission.h2')}</h2>
             <p className="text-muted-foreground leading-relaxed">
-              地球科学不应该只存在于论文和实验室中。我们相信，每一个对世界充满好奇心的人，都有权利以直观、有趣的方式了解我们所居住的星球。无论是理解海平面上升对沿海城市的影响，还是探索城市道路网背后的规划逻辑，我们都致力于用技术让地理科学走出论文，走进每个人的日常。
+              {t('about.mission.p1')}
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              我们的团队虽然只有一个人加一群 AI Agent（我们称之为 OPC —— One Person Company），但我们用技术杠杆和创意热情，持续产出高质量的地理科普内容和交互工具。
+              {t('about.mission.p2')}
             </p>
           </div>
 
           {/* 关于作者 */}
           <div className="mt-12 space-y-6">
-            <h2 className="text-xl font-bold">关于作者</h2>
+            <h2 className="text-xl font-bold">{t('about.author.h2')}</h2>
             <div className="flex items-start gap-5">
               <div className="shrink-0 w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center text-primary text-2xl font-bold">
                 ZH
@@ -132,13 +137,13 @@ const About = () => {
               <div className="space-y-3">
                 <div>
                   <h3 className="text-lg font-bold">Zayn Huang</h3>
-                  <p className="text-sm text-primary font-medium">星球小捕手 创始人 · 地理科普创作者</p>
+                  <p className="text-sm text-primary font-medium">{t('about.author.role')}</p>
                 </div>
                 <p className="text-muted-foreground leading-relaxed">
-                  地理信息系统（GIS）专业背景，澳大利亚昆士兰大学（The University of Queensland）硕士。曾从事海洋调查、WebGIS 开发与地理教学工作，既有野外实测一线的经验，也有把地理数据做成可交互产品的工程能力，还懂得如何把专业地理知识讲给非专业读者听。
+                  {t('about.author.p1')}
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
-                  如今以一人公司（OPC，One Person Company）的形式运营「星球小捕手」：用数据讲述地球变化，用地图发现世界的温度，把海平面模拟、城市路网、星空观测与气候变化等课题，转化为直观、有趣、可交互的科普内容。合作与咨询请邮件联系 <a href="mailto:planetcatcherr@gmail.com" className="text-primary hover:underline">planetcatcherr@gmail.com</a>。
+                  {t('about.author.p2')} <a href="mailto:planetcatcherr@gmail.com" className="text-primary hover:underline">planetcatcherr@gmail.com</a>{lang === 'zh' ? '。' : '.'}
                 </p>
               </div>
             </div>
@@ -146,18 +151,18 @@ const About = () => {
 
           {/* Contact (merged with 关于我们 in top nav) */}
           <div className="mt-12 space-y-6">
-            <h2 className="text-xl font-bold">联系我们</h2>
+            <h2 className="text-xl font-bold">{t('about.contact.h2')}</h2>
             <p className="text-muted-foreground leading-relaxed">
-              有地理科普合作、内容建议或技术咨询需求？欢迎通过以下渠道与我们取得联系。
+              {t('about.contact.intro')}
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {socialLinks.map((link, index) => {
+              {socialLinks.map((link) => {
                 const Icon = link.icon;
-                if (link.platform === '微信公众号' || link.platform === '公众号') {
-                  const setOpen = link.platform === '微信公众号' ? setWechatOpen : setOfficialOpen;
+                if (link.id === 'wechat' || link.id === 'official') {
+                  const setOpen = link.id === 'wechat' ? setWechatOpen : setOfficialOpen;
                   return (
                     <button
-                      key={link.platform}
+                      key={link.id}
                       type="button"
                       onClick={() => setOpen(true)}
                       className="group flex items-start gap-4 p-6 rounded-2xl bg-muted/50 border border-border/50 hover:border-primary/30 hover:shadow-lg transition-all duration-300 text-left cursor-pointer"
@@ -166,16 +171,16 @@ const About = () => {
                         <Icon className="w-6 h-6" />
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-bold text-base mb-1">{link.platform}</h3>
+                        <h3 className="font-bold text-base mb-1">{t(`channel.${link.id}` as const)}</h3>
                         <p className="text-sm text-primary font-medium mb-1">{link.handle}</p>
-                        <p className="text-sm text-muted-foreground">{link.desc}</p>
+                        <p className="text-sm text-muted-foreground">{t(`channel.${link.id}.desc` as const)}</p>
                       </div>
                     </button>
                   );
                 }
                 return (
                   <a
-                    key={link.platform}
+                    key={link.id}
                     href={link.url}
                     target={link.url !== '#' ? '_blank' : undefined}
                     rel="noreferrer"
@@ -185,9 +190,9 @@ const About = () => {
                       <Icon className="w-6 h-6" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-bold text-base mb-1">{link.platform}</h3>
+                      <h3 className="font-bold text-base mb-1">{t(`channel.${link.id}` as const)}</h3>
                       <p className="text-sm text-primary font-medium mb-1">{link.handle}</p>
-                      <p className="text-sm text-muted-foreground">{link.desc}</p>
+                      <p className="text-sm text-muted-foreground">{t(`channel.${link.id}.desc` as const)}</p>
                     </div>
                     {link.url !== '#' && (
                       <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors mt-2" />
@@ -200,9 +205,9 @@ const About = () => {
             <Dialog open={wechatOpen} onOpenChange={setWechatOpen}>
               <DialogContent className="sm:max-w-sm">
                 <DialogHeader>
-                  <DialogTitle className="text-center">扫码关注微信</DialogTitle>
+                  <DialogTitle className="text-center">{t('channel.wechat.dialog.title')}</DialogTitle>
                   <DialogDescription className="text-center">
-                    打开微信「扫一扫」，关注「星球小捕手」获取最新地理科普与可视化作品。
+                    {t('channel.wechat.dialog.desc')}
                   </DialogDescription>
                 </DialogHeader>
                 <div className="flex justify-center py-2">
@@ -218,9 +223,9 @@ const About = () => {
             <Dialog open={officialOpen} onOpenChange={setOfficialOpen}>
               <DialogContent className="sm:max-w-sm">
                 <DialogHeader>
-                  <DialogTitle className="text-center">扫码关注公众号</DialogTitle>
+                  <DialogTitle className="text-center">{t('channel.official.dialog.title')}</DialogTitle>
                   <DialogDescription className="text-center">
-                    打开微信「扫一扫」，关注「那山那海那座城」，获取最新地理科普文章。
+                    {t('channel.official.dialog.desc')}
                   </DialogDescription>
                 </DialogHeader>
                 <div className="flex justify-center py-2">
@@ -234,7 +239,7 @@ const About = () => {
             </Dialog>
 
             <p className="text-center text-sm text-muted-foreground">
-              对于商业合作，请在社交媒体上私信并注明"商业合作"，我们会尽快回复。
+              {t('about.businessNote')}
             </p>
           </div>
 
@@ -245,7 +250,7 @@ const About = () => {
                 location 赋值代码识别成「客户端跳转」。 */}
             <Button asChild size="lg" className="rounded-full px-8">
               <Link to="/">
-                返回首页 <ArrowRight className="ml-2 w-4 h-4" />
+                {t('about.backHome')} <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
             </Button>
           </div>

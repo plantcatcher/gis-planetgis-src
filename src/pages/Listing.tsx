@@ -45,7 +45,10 @@ import { useSearchTracking } from '@/hooks/use-search-tracking';
 import { SubjectIcon } from '@/lib/subjectIcons';
 import KnowledgeCard from '@/components/knowledge/KnowledgeCard';
 import SectionLabel from '@/components/knowledge/SectionLabel';
-import subdomainsData from '@/data/subdomains.json';
+import subdomainsZh from '@/data/subdomains.json';
+import subdomainsEn from '@/data/subdomains.en.json';
+import { useI18n } from '@/i18n/LocaleContext';
+import { localizeLabel, facetLabel, FACET_ALL } from '@/i18n/labels';
 
 type ListingType = 'work' | 'tool' | 'subdomain' | 'learn' | 'resource';
 
@@ -62,35 +65,30 @@ const HeatTag: React.FC<{ heat?: number }> = ({ heat }) =>
     </span>
   ) : null;
 
-const meta: Record<ListingType, { title: string; subtitle: string; base: string }> = {
-  work: {
-    title: '精选作品',
-    subtitle: '从海平面模拟到河流分布，用交互可视化把复杂的地理数据变成可感知的体验——地理与数据的直观对话。',
-    base: 'works',
-  },
-  tool: {
-    title: '地理小工具',
-    subtitle:
-      '带完整说明的在线工具：每条都有独立介绍页（功能特点、使用教程、常见问题），先看清能干什么，再点开前往。',
-    base: 'tools',
-  },
-  subdomain: {
-    title: '子站导航',
-    subtitle:
-      '星球小捕手旗下各主题子站入口，只做跳转、不设介绍页（需要详细说明的工具请见「地理小工具」）——按需前往。',
-    base: 'subdomains',
-  },
-  learn: {
-    title: '地理知识库',
-    subtitle:
-      '按自然地理、人文地理、区域地理、地理信息技术分科组织的自助知识库——支持正文检索，随时来翻、随手可读。',
-    base: 'learn',
-  },
-  resource: {
-    title: '资料下载',
-    subtitle: '板牙整理的地理论文、数据集、地图素材与工具包——按更新时间排序，支持标签检索；关注公众号【那山那海那座城】后可解锁下载。',
-    base: 'downloads',
-  },
+/**
+ * 板块头信息（标题 / 副标题 / URL 基名）。
+ *
+ * 写成 Hook 而不是模块级常量表：标题文案随语言变，只能在组件里用 t() 取。
+ * base 保持语言无关——canonical 的前缀由 seo.tsx 的 localizeCanonical 统一补。
+ */
+const useMeta = (type: ListingType) => {
+  const { t } = useI18n();
+  const map: Record<ListingType, { title: string; subtitle: string; base: string }> = {
+    work: { title: t('meta.work.title'), subtitle: t('meta.work.subtitle'), base: 'works' },
+    tool: { title: t('meta.tool.title'), subtitle: t('meta.tool.subtitle'), base: 'tools' },
+    subdomain: {
+      title: t('meta.subdomain.title'),
+      subtitle: t('meta.subdomain.subtitle'),
+      base: 'subdomains',
+    },
+    learn: { title: t('meta.learn.title'), subtitle: t('meta.learn.subtitle'), base: 'learn' },
+    resource: {
+      title: t('meta.resource.title'),
+      subtitle: t('meta.resource.subtitle'),
+      base: 'downloads',
+    },
+  };
+  return map[type];
 };
 
 // 卡片入场动画：initial 保持 opacity:1，确保 SSG 静态 HTML 中文本天生可见。
@@ -108,12 +106,13 @@ const CardAnim: React.FC<{ children: React.ReactNode; delay?: number }> = ({ chi
 // 精选作品总页：content/works 下只剩模拟实验类（海平面模拟实验室、地形分析器），
 // 互动地图与小游戏已迁到 /maps、/games 各自独立的汇总页。
 const WorkGrid = () => {
+  const { lang, t } = useI18n();
   const all = getWorks();
   const categories = useMemo(() => getWorkCategories(), []);
-  const [active, setActive] = useState('全部');
+  const [active, setActive] = useState(FACET_ALL);
   // 默认按热度（近 30 天 GA4 浏览量）降序，与资料下载页一致；可切回最新。
   const [sortMode, setSortMode] = useState<'latest' | 'heat'>('heat');
-  const list = active === '全部' ? all : all.filter((w) => (w.category || '未分类') === active);
+  const list = active === FACET_ALL ? all : all.filter((w) => (w.category || '未分类') === active);
 
   // 排序：最新=上线日期倒序；热度=近 30 天 GA4 浏览量降序。两者以日期做并列回退。
   const sorted = [...list].sort((a, b) =>
@@ -138,8 +137,8 @@ const WorkGrid = () => {
     <>
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <div className="flex flex-wrap gap-2">
-          {['全部', ...categories.map((c) => c.name)].map((name) => {
-            const count = name === '全部' ? all.length : categories.find((c) => c.name === name)?.count ?? 0;
+          {[FACET_ALL, ...categories.map((c) => c.name)].map((name) => {
+            const count = name === FACET_ALL ? all.length : categories.find((c) => c.name === name)?.count ?? 0;
             return (
               <button
                 key={name}
@@ -151,13 +150,13 @@ const WorkGrid = () => {
                     : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
                 }`}
               >
-                {name} <span className="ml-1 text-xs opacity-70">{count}</span>
+                {facetLabel(name, lang)} <span className="ml-1 text-xs opacity-70">{count}</span>
               </button>
             );
           })}
         </div>
         <div className="flex items-center gap-1 rounded-lg border border-border p-0.5 shrink-0">
-          {([['latest', '最新'], ['heat', '热度']] as const).map(([key, label]) => (
+          {([['latest', t('list.latest')], ['heat', t('list.heat')]] as const).map(([key, label]) => (
             <button
               key={key}
               type="button"
@@ -181,16 +180,16 @@ const WorkGrid = () => {
                 <div className="aspect-video overflow-hidden relative">
                   <img
                     src={w.cover}
-                    alt={`${w.title} - 星球小捕手地理可视化作品`}
+                    alt={`${w.title} - ${t('brand.name')}`}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
                   {w.category && (
                     <span className="absolute top-3 left-3 px-2 py-0.5 rounded-full text-xs font-medium bg-black/55 text-white backdrop-blur-sm">
-                      {w.category}
+                      {localizeLabel(w.category, lang)}
                     </span>
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                    <span className="w-full text-center text-sm font-medium text-white/90">访问作品 →</span>
+                    <span className="w-full text-center text-sm font-medium text-white/90">{t('list.work.visit')}</span>
                   </div>
                 </div>
               </a>
@@ -206,7 +205,7 @@ const WorkGrid = () => {
                     to={`/works/${w.slug}`}
                     className="inline-flex items-center gap-1 text-sm font-medium text-primary"
                   >
-                    查看详情与解读 <ArrowRight className="w-3.5 h-3.5 group-hover:gap-2 transition-all" />
+                    {t('list.work.detail')} <ArrowRight className="w-3.5 h-3.5 group-hover:gap-2 transition-all" />
                   </Link>
                   {(w.heat || 0) > 0 && (
                     <span className="flex items-center gap-1 text-xs text-orange-500">
@@ -233,6 +232,7 @@ const WorkGrid = () => {
 };
 
 const ToolGrid = () => {
+  const { t } = useI18n();
   // 默认按热度（近 30 天 GA4 浏览量）降序，与资料下载页、其它列表页一致；可切回手动序。
   const [sortMode, setSortMode] = useState<'latest' | 'heat'>('heat');
   const sorted = [...getTools()].sort((a, b) =>
@@ -242,10 +242,10 @@ const ToolGrid = () => {
     <>
       <div className="flex items-center justify-between gap-3 mb-6">
         <p className="text-sm text-muted-foreground">
-          共 <span className="font-semibold text-foreground">{sorted.length}</span> 个小工具
+          {t('list.toolCount', { n: sorted.length })}
         </p>
         <div className="flex items-center gap-1 rounded-lg border border-border p-0.5 shrink-0">
-          {([['heat', '热度'], ['latest', '最新']] as const).map(([key, label]) => (
+          {([['heat', t('list.heat')], ['latest', t('list.latest')]] as const).map(([key, label]) => (
             <button
               key={key}
               type="button"
@@ -260,10 +260,11 @@ const ToolGrid = () => {
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {sorted.map((t, i) => (
-          <CardAnim key={t.slug} delay={i * 0.08}>
+        {/* 注意：map 形参不能叫 t —— 会遮蔽上面的翻译函数 t()，导致卡片内取不到词典 */}
+        {sorted.map((item, i) => (
+          <CardAnim key={item.slug} delay={i * 0.08}>
             <Link
-              to={`/tools/${t.slug}`}
+              to={`/tools/${item.slug}`}
               className="group flex gap-6 p-6 rounded-2xl bg-white dark:bg-zinc-900 border border-border/50 hover:border-secondary/50 hover:shadow-xl hover:shadow-secondary/10 transition-all duration-300"
             >
               <div className="shrink-0 w-16 h-16 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-white transition-colors">
@@ -271,13 +272,13 @@ const ToolGrid = () => {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-3 mb-1.5">
-                  <h3 className="text-lg font-bold leading-snug">{t.title}</h3>
+                  <h3 className="text-lg font-bold leading-snug">{item.title}</h3>
                   <div className="flex items-center gap-2 shrink-0 pt-1">
-                    <HeatTag heat={t.heat} />
+                    <HeatTag heat={item.heat} />
                     <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
                   </div>
                 </div>
-                <p className="text-sm text-muted-foreground">{t.summary}</p>
+                <p className="text-sm text-muted-foreground">{item.summary}</p>
               </div>
             </Link>
           </CardAnim>
@@ -288,7 +289,13 @@ const ToolGrid = () => {
 };
 
 const SubdomainGrid = () => {
-  const subs = subdomainsData as { title: string; description: string; link: string }[];
+  // 子站标题与简介是数据而非界面文案，随语言整份换表（英文版见 subdomains.en.json）
+  const { lang, t } = useI18n();
+  const subs = (lang === 'en' ? subdomainsEn : subdomainsZh) as {
+    title: string;
+    description: string;
+    link: string;
+  }[];
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       {subs.map((s, i) => (
@@ -302,7 +309,7 @@ const SubdomainGrid = () => {
             <div className="w-full flex items-start justify-between gap-3">
               <Globe className="w-8 h-8 text-primary shrink-0" />
               <span className="shrink-0 pt-0.5 text-xs text-primary flex items-center gap-1">
-                前往 <ExternalLink className="w-3 h-3" />
+                {t('list.visit')} <ExternalLink className="w-3 h-3" />
               </span>
             </div>
             <span className="font-bold text-base">{s.title}</span>
@@ -315,6 +322,7 @@ const SubdomainGrid = () => {
 };
 
 const LearnGrid = () => {
+  const { lang, t } = useI18n();
   const [searchParams, setSearchParams] = useSearchParams();
   const all = getLearns();
   const subjects = getLearnSubjects();
@@ -453,8 +461,10 @@ const LearnGrid = () => {
           <section key={`${curSubj}-${groupedNodes.length}`}>
             <div className="flex items-center gap-3 mb-4">
               <SubjectIcon name={SUBJECT_META[curSubj]?.icon || 'Globe'} className="w-5 h-5 text-primary" />
-              <h2 className="font-serif text-lg font-bold">{curSubj}</h2>
-              <span className="text-xs text-muted-foreground">{subjectCount[curSubj]} 篇</span>
+              <h2 className="font-serif text-lg font-bold">{localizeLabel(curSubj, lang)}</h2>
+              <span className="text-xs text-muted-foreground">
+                {t('list.entries', { n: subjectCount[curSubj] })}
+              </span>
               <div className="flex-1 h-px bg-border" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
@@ -490,13 +500,13 @@ const LearnGrid = () => {
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="知识点 / 正文关键词…"
+              placeholder={t('list.searchKnowledge')}
               className="pl-9 rounded-full text-xs"
             />
           </div>
         </div>
         <div>
-          <SectionLabel className="mb-3 !text-[11px]">学科方向</SectionLabel>
+          <SectionLabel className="mb-3 !text-[11px]">{t('facet.subject')}</SectionLabel>
           <div className="space-y-1">
             {['全部', ...subjects.map((s) => s.name)].map((name) => {
               const count = name === '全部' ? all.length : subjects.find((s) => s.name === name)?.count ?? 0;
@@ -511,10 +521,10 @@ const LearnGrid = () => {
                   }`}
                 >
                   <span className="inline-flex items-center gap-2">
-                    {name !== '全部' && (
+                    {name !== FACET_ALL && (
                       <SubjectIcon name={subjects.find((s) => s.name === name)?.icon || 'Globe'} className="w-3.5 h-3.5" />
                     )}
-                    {name}
+                    {facetLabel(name, lang)}
                   </span>
                   <span className="text-[11px] opacity-70">{count}</span>
                 </button>
@@ -523,7 +533,7 @@ const LearnGrid = () => {
           </div>
         </div>
         <div>
-          <SectionLabel className="mb-3 !text-[11px]">专题</SectionLabel>
+          <SectionLabel className="mb-3 !text-[11px]">{t('facet.topic')}</SectionLabel>
           <div className="space-y-1">
             {['全部', ...categories].map((name) => {
               const count = name === '全部' ? all.length : all.filter((i) => i.category === name).length;
@@ -537,7 +547,7 @@ const LearnGrid = () => {
                     active ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-muted text-muted-foreground'
                   }`}
                 >
-                  <span>{name}</span>
+                  <span>{facetLabel(name, lang)}</span>
                   <span className="text-[11px] opacity-70">{count}</span>
                 </button>
               );
@@ -546,7 +556,7 @@ const LearnGrid = () => {
         </div>
         {levels.length > 0 && (
           <div>
-            <SectionLabel className="mb-3 !text-[11px]">学段</SectionLabel>
+            <SectionLabel className="mb-3 !text-[11px]">{t('facet.level')}</SectionLabel>
             <div className="space-y-1">
               {['全部', ...levels].map((name) => {
                 const count = name === '全部' ? all.filter((i) => i.level).length : all.filter((i) => i.level === name).length;
@@ -560,7 +570,7 @@ const LearnGrid = () => {
                       active ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-muted text-muted-foreground'
                     }`}
                   >
-                    <span>{name}</span>
+                    <span>{facetLabel(name, lang)}</span>
                     <span className="text-[11px] opacity-70">{count}</span>
                   </button>
                 );
@@ -574,15 +584,15 @@ const LearnGrid = () => {
       <div>
         {activeTags.length > 0 && (
           <div className="flex flex-wrap items-center gap-2 mb-4">
-            <span className="text-xs text-muted-foreground">已选标签：</span>
-            {activeTags.map((t) => (
+            <span className="text-xs text-muted-foreground">{t('list.selectedTags')}</span>
+            {activeTags.map((tag) => (
               <button
-                key={t}
+                key={tag}
                 type="button"
-                onClick={() => toggleTag(t)}
+                onClick={() => toggleTag(tag)}
                 className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary"
               >
-                #{t} ✕
+                #{tag} ✕
               </button>
             ))}
             <button
@@ -590,21 +600,21 @@ const LearnGrid = () => {
               onClick={() => setActiveTags([])}
               className="text-xs text-muted-foreground underline hover:text-foreground"
             >
-              清除
+              {t('list.clear')}
             </button>
           </div>
         )}
 
         <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
           <p className="text-sm text-muted-foreground">
-            共 <span className="font-semibold text-foreground">{searched.length}</span> 篇
-            {activeSubject !== '全部' && ` · ${activeSubject}`}
-            {activeCategory !== '全部' && ` · ${activeCategory}`}
-            {activeLevel !== '全部' && ` · ${activeLevel}`}
-            {q && ` · 含“${q}”`}
+            {t('list.entries', { n: searched.length })}
+            {activeSubject !== FACET_ALL && ` · ${localizeLabel(activeSubject, lang)}`}
+            {activeCategory !== FACET_ALL && ` · ${localizeLabel(activeCategory, lang)}`}
+            {activeLevel !== FACET_ALL && ` · ${localizeLabel(activeLevel, lang)}`}
+            {q && ` · ${t('list.contains', { q })}`}
           </p>
           <div className="flex items-center gap-1 rounded-lg border border-border p-0.5 shrink-0">
-            {([['latest', '最新'], ['heat', '热度']] as const).map(([key, label]) => (
+            {([['latest', t('list.latest')], ['heat', t('list.heat')]] as const).map(([key, label]) => (
               <button
                 key={key}
                 type="button"
@@ -620,7 +630,7 @@ const LearnGrid = () => {
         </div>
 
         {searched.length === 0 ? (
-          <p className="text-muted-foreground">该筛选下还没有内容，敬请期待。</p>
+          <p className="text-muted-foreground">{t('list.empty.learn')}</p>
         ) : sortMode === 'heat' ? (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
             {pageItems.map(({ item }) => (
@@ -635,16 +645,16 @@ const LearnGrid = () => {
 
         {allTags.length > 0 && activeTags.length === 0 && (
           <div className="mt-10 pt-6 border-t border-border/60">
-            <SectionLabel className="mb-3">按标签浏览</SectionLabel>
+            <SectionLabel className="mb-3">{t('list.browseByTag')}</SectionLabel>
             <div className="flex flex-wrap gap-2">
-              {allTags.map((t) => (
+              {allTags.map((tag) => (
                 <button
-                  key={t.tag}
+                  key={tag.tag}
                   type="button"
-                  onClick={() => toggleTag(t.tag)}
+                  onClick={() => toggleTag(tag.tag)}
                   className="px-3 py-1.5 rounded-full text-sm bg-muted/60 text-muted-foreground hover:bg-primary/10 hover:text-primary transition-colors"
                 >
-                  #{t.tag} <span className="ml-1 text-xs opacity-70">{t.count}</span>
+                  #{tag.tag} <span className="ml-1 text-xs opacity-70">{tag.count}</span>
                 </button>
               ))}
             </div>
@@ -684,25 +694,28 @@ const ResourceCover: React.FC<{ item: ContentItem; className?: string }> = ({ it
 const Badges: React.FC<{ item: ContentItem; hideFormatOnMobile?: boolean }> = ({
   item,
   hideFormatOnMobile = false,
-}) => (
-  <>
-    {item.category && (
-      <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-foreground/80 text-background">
-        {item.category}
-      </span>
-    )}
-    {item.format && (
-      <span
-        className={`px-2 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary ${
-          hideFormatOnMobile ? 'hidden sm:inline-block' : ''
-        }`}
-      >
-        {item.format}
-      </span>
-    )}
-    <AccessBadge item={item} />
-  </>
-);
+}) => {
+  const { lang } = useI18n();
+  return (
+    <>
+      {item.category && (
+        <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-foreground/80 text-background">
+          {localizeLabel(item.category, lang)}
+        </span>
+      )}
+      {item.format && (
+        <span
+          className={`px-2 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary ${
+            hideFormatOnMobile ? 'hidden sm:inline-block' : ''
+          }`}
+        >
+          {item.format}
+        </span>
+      )}
+      <AccessBadge item={item} />
+    </>
+  );
+};
 
 const FacChip: React.FC<{ label: string; count?: number; active: boolean; onClick: () => void }> = ({
   label,
@@ -723,6 +736,7 @@ const FacChip: React.FC<{ label: string; count?: number; active: boolean; onClic
 );
 
 const ResourceGrid = () => {
+  const { lang, t } = useI18n();
   const all = getResources();
   const [searchParams, setSearchParams] = useSearchParams();
   // 与知识库页一致：支持从 URL ?q= 进入（「我的学习」的搜索历史点回来能直接带出关键词）
@@ -739,46 +753,47 @@ const ResourceGrid = () => {
     if (pv) return `P:${pv}`;
     const tg = sp.get('tag');
     if (tg && isProvinceTag(tg)) return `P:${tg}`;
-    return '全部';
+    return FACET_ALL;
   };
 
   const [activeGroup, setActiveGroup] = useState<string>(() => {
     const g = searchParams.get('group');
-    return g && (DL_GROUP_ORDER as readonly string[]).includes(g) ? g : '全部';
+    return g && (DL_GROUP_ORDER as readonly string[]).includes(g) ? g : FACET_ALL;
   });
+  // 局部变量不能叫 t —— 会遮蔽上面的翻译函数 t()
   const [activeType, setActiveType] = useState<string>(() => {
-    const t = searchParams.get('type');
-    return t && (DL_DOC_TYPES as readonly string[]).includes(t) ? t : '全部';
+    const ty = searchParams.get('type');
+    return ty && (DL_DOC_TYPES as readonly string[]).includes(ty) ? ty : FACET_ALL;
   });
-  const [activeSubject, setActiveSubject] = useState<string>(() => searchParams.get('subject') || '全部');
-  const [activeStdLevel, setActiveStdLevel] = useState<string>(() => searchParams.get('stdLevel') || '全部');
-  const [activePlanLevel, setActivePlanLevel] = useState<string>(() => searchParams.get('planLevel') || '全部');
-  const [activeFormat, setActiveFormat] = useState<string>(() => searchParams.get('format') || '全部');
+  const [activeSubject, setActiveSubject] = useState<string>(() => searchParams.get('subject') || FACET_ALL);
+  const [activeStdLevel, setActiveStdLevel] = useState<string>(() => searchParams.get('stdLevel') || FACET_ALL);
+  const [activePlanLevel, setActivePlanLevel] = useState<string>(() => searchParams.get('planLevel') || FACET_ALL);
+  const [activeFormat, setActiveFormat] = useState<string>(() => searchParams.get('format') || FACET_ALL);
   const [activeArea, setActiveArea] = useState<string>(() => readArea(searchParams));
   const [activeAccess, setActiveAccess] = useState<'all' | 'download' | 'view' | 'gated'>(() => {
     const a = searchParams.get('access');
     return a === 'download' || a === 'view' || a === 'gated' ? a : 'all';
   });
   const [activeTag, setActiveTag] = useState<string | null>(() => {
-    const t = searchParams.get('tag');
-    return t && !isProvinceTag(t) ? t : null;
+    const tg = searchParams.get('tag');
+    return tg && !isProvinceTag(tg) ? tg : null;
   });
 
   // 从 URL 同步（支持从资料详情页点标签/区域跳转过来自动过滤，以及浏览器前进后退）
   useEffect(() => {
     const g = searchParams.get('group');
-    setActiveGroup(g && (DL_GROUP_ORDER as readonly string[]).includes(g) ? g : '全部');
+    setActiveGroup(g && (DL_GROUP_ORDER as readonly string[]).includes(g) ? g : FACET_ALL);
     const ty = searchParams.get('type');
-    setActiveType(ty && (DL_DOC_TYPES as readonly string[]).includes(ty) ? ty : '全部');
-    setActiveSubject(searchParams.get('subject') || '全部');
-    setActiveStdLevel(searchParams.get('stdLevel') || '全部');
-    setActivePlanLevel(searchParams.get('planLevel') || '全部');
-    setActiveFormat(searchParams.get('format') || '全部');
+    setActiveType(ty && (DL_DOC_TYPES as readonly string[]).includes(ty) ? ty : FACET_ALL);
+    setActiveSubject(searchParams.get('subject') || FACET_ALL);
+    setActiveStdLevel(searchParams.get('stdLevel') || FACET_ALL);
+    setActivePlanLevel(searchParams.get('planLevel') || FACET_ALL);
+    setActiveFormat(searchParams.get('format') || FACET_ALL);
     setActiveArea(readArea(searchParams));
     const a = searchParams.get('access');
     setActiveAccess(a === 'download' || a === 'view' || a === 'gated' ? a : 'all');
-    const t = searchParams.get('tag');
-    setActiveTag(t && !isProvinceTag(t) ? t : null);
+    const tg = searchParams.get('tag');
+    setActiveTag(tg && !isProvinceTag(tg) ? tg : null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
@@ -996,21 +1011,23 @@ const ResourceGrid = () => {
   };
 
   // 已选条件摘要（可视化展示当前生效的筛选，供一眼核对/清空）
+  // 这里拼的是**显示文案**，元数据值一律过 localizeLabel；状态本身仍存中文原值。
+  const L = (v: string) => localizeLabel(v, lang);
   const activeFilters: string[] = [];
-  if (activeGroup !== '全部') activeFilters.push(activeGroup);
-  if (activeType !== '全部') activeFilters.push(activeType);
-  if (activeSubject !== '全部') activeFilters.push(`学科=${activeSubject}`);
-  if (activeStdLevel !== '全部') activeFilters.push(`级别=${activeStdLevel}`);
-  if (activePlanLevel !== '全部') activeFilters.push(`层级=${activePlanLevel}`);
-  if (activeFormat !== '全部') activeFilters.push(`格式=${activeFormat}`);
-  if (activeArea !== '全部') {
-    activeFilters.push(`区域=${areaLabel(activeArea)}`);
+  if (activeGroup !== FACET_ALL) activeFilters.push(L(activeGroup));
+  if (activeType !== FACET_ALL) activeFilters.push(L(activeType));
+  if (activeSubject !== FACET_ALL) activeFilters.push(t('facet.prefix.subject', { v: L(activeSubject) }));
+  if (activeStdLevel !== FACET_ALL) activeFilters.push(t('facet.prefix.level', { v: L(activeStdLevel) }));
+  if (activePlanLevel !== FACET_ALL) activeFilters.push(t('facet.prefix.tier', { v: L(activePlanLevel) }));
+  if (activeFormat !== FACET_ALL) activeFilters.push(t('facet.prefix.format', { v: activeFormat }));
+  if (activeArea !== FACET_ALL) {
+    activeFilters.push(t('facet.prefix.area', { v: L(areaLabel(activeArea)) }));
   }
-  if (activeAccess === 'download') activeFilters.push('直接下载');
-  if (activeAccess === 'view') activeFilters.push('在线观看');
-  if (activeAccess === 'gated') activeFilters.push('需验证码');
+  if (activeAccess === 'download') activeFilters.push(t('facet.access.download'));
+  if (activeAccess === 'view') activeFilters.push(t('facet.access.view'));
+  if (activeAccess === 'gated') activeFilters.push(t('facet.access.gated'));
   if (activeTag) activeFilters.push(`#${activeTag}`);
-  if (q) activeFilters.push(`含“${q}”`);
+  if (q) activeFilters.push(t('list.contains', { q }));
 
   // 空态指引：有任一筛选/搜索生效时才提示「清空全部筛选」。
   // 仅做通用引导：各分类都可能有 region/省份标签（如历史地理类带省志标签），
@@ -1018,9 +1035,9 @@ const ResourceGrid = () => {
   const hasAnyFilter = activeFilters.length > 0;
   const emptyHint = hasAnyFilter
     ? q
-      ? `没有匹配「${q}」的资料，换个关键词或清空筛选试试。`
-      : '这个筛选组合下暂无资料，试试清空部分条件或换个分类。'
-    : '该分类下暂无资料，稍后再来看看。';
+      ? t('list.empty.bySearch', { q })
+      : t('list.empty.byFilter')
+    : t('list.empty.byCategory');
 
   // 各轴选择器：切换上一层时清掉下层的残留选择，避免 chips 显示为选中却不生效。
   // 区域/标签是横切轴，换主分类或资料类型后原文可能整体不存在（如图书教材没有省份），
@@ -1064,7 +1081,7 @@ const ResourceGrid = () => {
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="资料名称 / 说明 / 标签…"
+              placeholder={t('list.searchResource')}
               className="pl-9 rounded-full text-xs"
             />
           </div>
@@ -1078,7 +1095,7 @@ const ResourceGrid = () => {
         >
           <span className="inline-flex items-center gap-2">
             <SlidersHorizontal className="w-4 h-4 text-muted-foreground" />
-            筛选{activeFilters.length > 0 && (
+            {t('list.filter')}{activeFilters.length > 0 && (
               <span className="px-1.5 py-0.5 rounded-full bg-primary text-white text-[10px]">{activeFilters.length}</span>
             )}
           </span>
@@ -1089,10 +1106,10 @@ const ResourceGrid = () => {
         <div className={`space-y-6 ${filtersOpen ? 'block' : 'hidden'} lg:block`}>
         {/* 主分类：顶层互斥切换（共性层，按文件形态分），用分段控件强视觉 */}
         <div>
-          <SectionLabel className="mb-3">主分类</SectionLabel>
+          <SectionLabel className="mb-3">{t('facet.mainCategory')}</SectionLabel>
           <div className="flex rounded-lg border border-border bg-muted/40 p-0.5">
-            {['全部', DL_GROUP_LITERATURE, DL_GROUP_DATA].map((name) => {
-              const count = name === '全部' ? all.length : groupCounts[name] ?? 0;
+            {[FACET_ALL, DL_GROUP_LITERATURE, DL_GROUP_DATA].map((name) => {
+              const count = name === FACET_ALL ? all.length : groupCounts[name] ?? 0;
               const active = activeGroup === name;
               return (
                 <button
@@ -1103,7 +1120,7 @@ const ResourceGrid = () => {
                     active ? 'bg-primary text-white font-medium' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
-                  {name}
+                  {facetLabel(name, lang)}
                   <span className={`ml-1 text-[10px] ${active ? 'opacity-80' : 'opacity-60'}`}>{count}</span>
                 </button>
               );
@@ -1113,17 +1130,17 @@ const ResourceGrid = () => {
 
         {/* 第二层 + 第三层：文献资料先按「资料性质」细分，选定后再挂该类自己的维度
             （图书教材→学科 / 标准规范→级别 / 规划文本→层级）；地理数据只挂格式。 */}
-        {activeGroup !== '全部' && (
+        {activeGroup !== FACET_ALL && (
           <div className="border-t border-border/60 pt-3 space-y-4">
-            <p className="text-[11px] text-muted-foreground/70">子维度 · 随主分类变化</p>
+            <p className="text-[11px] text-muted-foreground/70">{t('facet.subNote')}</p>
 
             {activeGroup === DL_GROUP_LITERATURE && (
               <div>
-                <SectionLabel className="mb-3">资料类型</SectionLabel>
+                <SectionLabel className="mb-3">{t('facet.docType')}</SectionLabel>
                 <div className="flex flex-wrap gap-2">
-                  <FacChip label="全部" active={activeType === '全部'} onClick={() => pickType('全部')} count={lit.length} />
+                  <FacChip label={facetLabel(FACET_ALL, lang)} active={activeType === FACET_ALL} onClick={() => pickType(FACET_ALL)} count={lit.length} />
                   {docTypeCounts.map((c) => (
-                    <FacChip key={c.name} label={c.name} active={activeType === c.name} onClick={() => pickType(c.name)} count={c.count} />
+                    <FacChip key={c.name} label={facetLabel(c.name, lang)} active={activeType === c.name} onClick={() => pickType(c.name)} count={c.count} />
                   ))}
                 </div>
               </div>
@@ -1131,11 +1148,11 @@ const ResourceGrid = () => {
 
             {activeType === '图书教材' && (
               <div>
-                <SectionLabel className="mb-3">学科</SectionLabel>
+                <SectionLabel className="mb-3">{t('facet.subject2')}</SectionLabel>
                 <div className="flex flex-wrap gap-2">
-                  <FacChip label="全部" active={activeSubject === '全部'} onClick={() => pickSubject('全部')} count={subjectCounts.reduce((s, c) => s + c.count, 0)} />
+                  <FacChip label={facetLabel(FACET_ALL, lang)} active={activeSubject === FACET_ALL} onClick={() => pickSubject(FACET_ALL)} count={subjectCounts.reduce((s, c) => s + c.count, 0)} />
                   {subjectCounts.map((c) => (
-                    <FacChip key={c.name} label={c.name} active={activeSubject === c.name} onClick={() => pickSubject(c.name)} count={c.count} />
+                    <FacChip key={c.name} label={facetLabel(c.name, lang)} active={activeSubject === c.name} onClick={() => pickSubject(c.name)} count={c.count} />
                   ))}
                 </div>
               </div>
@@ -1143,11 +1160,11 @@ const ResourceGrid = () => {
 
             {activeType === '标准规范' && (
               <div>
-                <SectionLabel className="mb-3">级别</SectionLabel>
+                <SectionLabel className="mb-3">{t('facet.stdLevel')}</SectionLabel>
                 <div className="flex flex-wrap gap-2">
-                  <FacChip label="全部" active={activeStdLevel === '全部'} onClick={() => pickStdLevel('全部')} count={stdLevelCounts.reduce((s, c) => s + c.count, 0)} />
+                  <FacChip label={facetLabel(FACET_ALL, lang)} active={activeStdLevel === FACET_ALL} onClick={() => pickStdLevel(FACET_ALL)} count={stdLevelCounts.reduce((s, c) => s + c.count, 0)} />
                   {stdLevelCounts.map((c) => (
-                    <FacChip key={c.name} label={c.name} active={activeStdLevel === c.name} onClick={() => pickStdLevel(c.name)} count={c.count} />
+                    <FacChip key={c.name} label={facetLabel(c.name, lang)} active={activeStdLevel === c.name} onClick={() => pickStdLevel(c.name)} count={c.count} />
                   ))}
                 </div>
               </div>
@@ -1155,11 +1172,11 @@ const ResourceGrid = () => {
 
             {activeType === '规划文本' && (
               <div>
-                <SectionLabel className="mb-3">层级</SectionLabel>
+                <SectionLabel className="mb-3">{t('facet.planLevel')}</SectionLabel>
                 <div className="flex flex-wrap gap-2">
-                  <FacChip label="全部" active={activePlanLevel === '全部'} onClick={() => pickPlanLevel('全部')} count={planLevelCounts.reduce((s, c) => s + c.count, 0)} />
+                  <FacChip label={facetLabel(FACET_ALL, lang)} active={activePlanLevel === FACET_ALL} onClick={() => pickPlanLevel(FACET_ALL)} count={planLevelCounts.reduce((s, c) => s + c.count, 0)} />
                   {planLevelCounts.map((c) => (
-                    <FacChip key={c.name} label={c.name} active={activePlanLevel === c.name} onClick={() => pickPlanLevel(c.name)} count={c.count} />
+                    <FacChip key={c.name} label={facetLabel(c.name, lang)} active={activePlanLevel === c.name} onClick={() => pickPlanLevel(c.name)} count={c.count} />
                   ))}
                 </div>
               </div>
@@ -1167,11 +1184,11 @@ const ResourceGrid = () => {
 
             {activeGroup === DL_GROUP_DATA && (
               <div>
-                <SectionLabel className="mb-3">格式</SectionLabel>
+                <SectionLabel className="mb-3">{t('facet.format')}</SectionLabel>
                 <div className="flex flex-wrap gap-2">
-                  <FacChip label="全部" active={activeFormat === '全部'} onClick={() => pickFormat('全部')} count={formatCounts.reduce((s, c) => s + c.count, 0)} />
+                  <FacChip label={facetLabel(FACET_ALL, lang)} active={activeFormat === FACET_ALL} onClick={() => pickFormat(FACET_ALL)} count={formatCounts.reduce((s, c) => s + c.count, 0)} />
                   {formatCounts.map((c) => (
-                    <FacChip key={c.name} label={c.name} active={activeFormat === c.name} onClick={() => pickFormat(c.name)} count={c.count} />
+                    <FacChip key={c.name} label={facetLabel(c.name, lang)} active={activeFormat === c.name} onClick={() => pickFormat(c.name)} count={c.count} />
                   ))}
                 </div>
               </div>
@@ -1185,14 +1202,14 @@ const ResourceGrid = () => {
         {areas.length > 0 && (
           <div className="border-t border-border/60 pt-3">
             <div className="flex items-center justify-between mb-3">
-              <SectionLabel>区域</SectionLabel>
-              {activeArea !== '全部' && (
+              <SectionLabel>{t('facet.area')}</SectionLabel>
+              {activeArea !== FACET_ALL && (
                 <button
                   type="button"
-                  onClick={() => pickArea('全部')}
+                  onClick={() => pickArea(FACET_ALL)}
                   className="text-[11px] text-muted-foreground underline hover:text-foreground"
                 >
-                  清除
+                  {t('list.clear')}
                 </button>
               )}
             </div>
@@ -1200,9 +1217,11 @@ const ResourceGrid = () => {
               {(['世界', '中国'] as const).map((g) => {
                 const items = areas.filter((a) => a.group === g);
                 if (!items.length) return null;
+                // 分组名是数据值（用于过滤），显示走词典
+                const gLabel = g === '世界' ? t('facet.area.world') : t('facet.area.china');
                 return (
                   <div key={g} className="space-y-1.5">
-                    <p className="text-[10px] font-medium tracking-wide text-muted-foreground/70">{g}</p>
+                    <p className="text-[10px] font-medium tracking-wide text-muted-foreground/70">{gLabel}</p>
                     <div className="flex flex-wrap gap-1.5">
                       {items.map((a) => {
                         const active = activeArea === a.value;
@@ -1211,14 +1230,14 @@ const ResourceGrid = () => {
                             key={a.value}
                             type="button"
                             onClick={() => pickArea(a.value)}
-                            title={`${a.name} · ${a.count} 份资料`}
+                            title={t('facet.files', { name: L(a.name), n: a.count })}
                             className={`px-2 py-1 rounded-full text-[11px] font-medium transition-colors ${
                               active
                                 ? 'bg-primary text-white'
                                 : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
                             }`}
                           >
-                            {a.name}
+                            {L(a.name)}
                             <span className={`ml-1 text-[10px] ${active ? 'opacity-80' : 'opacity-60'}`}>{a.count}</span>
                           </button>
                         );
@@ -1233,9 +1252,14 @@ const ResourceGrid = () => {
 
         {/* 全局筛选：不依赖主分类的横向维度 */}
         <div className="border-t border-border/60 pt-3">
-          <SectionLabel className="mb-3">访问方式</SectionLabel>
+          <SectionLabel className="mb-3">{t('facet.access')}</SectionLabel>
           <div className="flex flex-wrap gap-2">
-            {([['all', '全部'], ['download', '直接下载'], ['view', '在线观看'], ['gated', '需验证码']] as const).map(([key, label]) => (
+            {([
+              ['all', t('facet.access.all')],
+              ['download', t('facet.access.download')],
+              ['view', t('facet.access.view')],
+              ['gated', t('facet.access.gated')],
+            ] as const).map(([key, label]) => (
               <FacChip key={key} label={label} active={activeAccess === key} onClick={() => setActiveAccess(key)} />
             ))}
           </div>
@@ -1243,7 +1267,7 @@ const ResourceGrid = () => {
 
         {/* 标签：全局横向维度 */}
         <div className="border-t border-border/60 pt-3">
-          <SectionLabel className="mb-3">标签</SectionLabel>
+          <SectionLabel className="mb-3">{t('facet.tag')}</SectionLabel>
           <div className="flex flex-wrap gap-2">
             <button
               type="button"
@@ -1254,20 +1278,20 @@ const ResourceGrid = () => {
                   : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
               }`}
             >
-              全部
+              {t('facet.all')}
             </button>
-            {tags.map((t) => (
+            {tags.map((tag) => (
               <button
-                key={t.tag}
+                key={tag.tag}
                 type="button"
-                onClick={() => { setActiveTag(t.tag); syncUrl({ tag: t.tag }); }}
+                onClick={() => { setActiveTag(tag.tag); syncUrl({ tag: tag.tag }); }}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                  activeTag === t.tag
+                  activeTag === tag.tag
                     ? 'bg-primary text-white'
                     : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground'
                 }`}
               >
-                #{t.tag} <span className="ml-1 text-xs opacity-70">{t.count}</span>
+                #{tag.tag} <span className="ml-1 text-xs opacity-70">{tag.count}</span>
               </button>
             ))}
           </div>
@@ -1280,7 +1304,7 @@ const ResourceGrid = () => {
             onClick={clearAll}
             className="w-full px-3 py-2 rounded-lg text-xs font-medium text-muted-foreground border border-border hover:bg-muted hover:text-foreground transition-colors"
           >
-            清空全部筛选
+            {t('list.clearAll')}
           </button>
         </div>
         </div>
@@ -1292,16 +1316,16 @@ const ResourceGrid = () => {
 
         <div className="flex items-center justify-between gap-3 mb-5">
           <p className="text-xs text-muted-foreground">
-            共 <span className="font-semibold text-foreground">{list.length}</span> 份资料
+            {t('list.resourceCount', { n: list.length })}
             {sortMode === 'heat' && (
               <span className="hidden sm:inline-block ml-2 text-muted-foreground/60">
-                · 按近 30 天热度排序，新资料可切「最新」查看
+                {t('list.heatHint')}
               </span>
             )}
           </p>
           <div className="flex items-center gap-2 shrink-0">
             <div className="flex items-center gap-1 rounded-lg border border-border p-0.5">
-              {([['heat', '热度'], ['date', '最新']] as const).map(([key, label]) => (
+              {([['heat', t('list.heat')], ['date', t('list.latest')]] as const).map(([key, label]) => (
                 <button
                   key={key}
                   type="button"
@@ -1318,7 +1342,7 @@ const ResourceGrid = () => {
               <button
                 type="button"
                 onClick={() => setView('grid')}
-                aria-label="网格视图"
+                aria-label={t('list.viewGrid')}
                 className={`p-1.5 rounded-md transition-colors ${view === 'grid' ? 'bg-primary text-white' : 'text-muted-foreground hover:bg-muted'}`}
               >
                 <LayoutGrid className="w-4 h-4" />
@@ -1326,7 +1350,7 @@ const ResourceGrid = () => {
               <button
                 type="button"
                 onClick={() => setView('list')}
-                aria-label="列表视图"
+                aria-label={t('list.viewList')}
                 className={`p-1.5 rounded-md transition-colors ${view === 'list' ? 'bg-primary text-white' : 'text-muted-foreground hover:bg-muted'}`}
               >
                 <List className="w-4 h-4" />
@@ -1337,7 +1361,7 @@ const ResourceGrid = () => {
 
         {activeFilters.length > 0 && (
           <div className="flex flex-wrap items-center gap-1.5 mb-5">
-            <span className="text-[11px] text-muted-foreground/70">已选</span>
+            <span className="text-[11px] text-muted-foreground/70">{t('list.selected')}</span>
             {activeFilters.map((f) => (
               <span key={f} className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] bg-primary/10 text-primary">
                 {f}
@@ -1348,7 +1372,7 @@ const ResourceGrid = () => {
               onClick={clearAll}
               className="text-[11px] text-muted-foreground underline hover:text-foreground ml-1"
             >
-              清空
+              {t('list.clear')}
             </button>
           </div>
         )}
@@ -1362,7 +1386,7 @@ const ResourceGrid = () => {
                 onClick={clearAll}
                 className="px-4 py-2 rounded-lg text-xs font-medium text-primary border border-primary/30 bg-primary/5 hover:bg-primary/10 transition-colors"
               >
-                清空全部筛选
+                {t('list.clearAll')}
               </button>
             )}
           </div>
@@ -1437,11 +1461,12 @@ const ResourceGrid = () => {
 };
 
 const Listing: React.FC<{ type: ListingType }> = ({ type }) => {
-  const m = meta[type];
+  const m = useMeta(type);
+  const { t } = useI18n();
   return (
     <>
       <PageMeta
-        title={`${m.title} - 星球小捕手`}
+        title={`${m.title} - ${t('brand.name')}`}
         description={m.subtitle}
         canonical={`https://planetgis.cn/${m.base}`}
       />

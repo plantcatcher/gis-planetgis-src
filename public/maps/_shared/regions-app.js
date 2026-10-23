@@ -14,7 +14,10 @@
    交互要点：
    ① 主层是面要素，queryRenderedFeatures 直接命中；子层线图层命中。
    ② 选中用「feature-state 透明填充 + sel 源发光描边」双保险。
-   ③ 三种着色：人口 / 面积（log 分级）与分组（分类色）。 */
+   ③ 三种着色：人口 / 面积（log 分级）与分组（分类色）。
+
+  国际化：URL 带 ?lang=en 时（主站英文站由 map-i18n.js 统一注入），
+  数字格式与图例文案切英文；其余静态文案由 /shared/map-i18n.js 词典替换。 */
 (function () {
   'use strict';
 
@@ -22,6 +25,17 @@
   if (!CFG) { console.error('[regions-app] window.MAP_CONFIG 未定义'); return; }
   var fmt = Thematic.fmt, esc = Thematic.esc;
   var T = CFG.TEXT;
+
+  /* ?lang=en 时 window.__mapI18nOn 由 /shared/map-i18n.js 置位；
+     该脚本在 DOMContentLoaded 才执行，而 boot() 在数据 fetch 之后，
+     读取时机必然晚于置位，直接查即可。 */
+  function isEN() { return window.__mapI18nOn === true; }
+  var EN_LABEL = {
+    '人口': 'Population', '面积': 'Area', '类型': 'Type',
+    '区域': 'Region', '地方': 'Region', '圈域': 'Region',
+    '自然区域': 'Natural Region', '方位': 'Cardinal Region'
+  };
+  function enLabel(zh) { return EN_LABEL[zh] || zh; }
 
   var DATA = {
     main: CFG.DATA.main,
@@ -162,14 +176,16 @@
 
   /* ── 图例 ── */
   function renderLegend() {
+    var EN = isEN();
     if (S.metric === 'group') {
       var rows = '';
       Object.keys(CFG.GROUP_COLORS).forEach(function (gz) {
         rows += '<span class="lg-row"><i style="background:' + CFG.GROUP_COLORS[gz] + '"></i>' + esc(gz) + '</span>';
       });
-      el.legend.innerHTML =
-        '<div class="lg-cap">按' + esc(CFG.METRICS.group.label) + '着色</div>' + rows +
-        '<div class="lg-note">' + esc(CFG.METRICS.group.hint) + '</div>';
+      el.legend.innerHTML = EN
+        ? '<div class="lg-cap">By ' + esc(enLabel(CFG.METRICS.group.label)) + '</div>' + rows
+        : '<div class="lg-cap">按' + esc(CFG.METRICS.group.label) + '着色</div>' + rows +
+          '<div class="lg-note">' + esc(CFG.METRICS.group.hint) + '</div>';
       return;
     }
     var m = CFG.METRICS[S.metric];
@@ -183,9 +199,14 @@
       var lab = t === 0 ? '≤ ' + fmt(lo, 0) : (t === 1 ? '≥ ' + fmt(hi, 0) : fmt(v, 0));
       rows2 += '<span class="lg-row"><i style="background:' + CFG.RAMP[i] + '"></i>' + esc(lab) + '</span>';
     }
-    el.legend.innerHTML =
-      '<div class="lg-cap">按' + esc(m.label) + '着色 · ' + esc(m.unit) + '</div>' + rows2 +
-      '<div class="lg-note">' + esc(m.hint) + '；颜色越深数值越大（log 尺度）。</div>';
+    el.legend.innerHTML = EN
+      ? '<div class="lg-cap">By ' + esc(enLabel(m.label)) + ' · ' + esc(enUnit(m.unit)) + '</div>' + rows2 +
+        '<div class="lg-note">Darker means a higher value (log scale).</div>'
+      : '<div class="lg-cap">按' + esc(m.label) + '着色 · ' + esc(m.unit) + '</div>' + rows2 +
+        '<div class="lg-note">' + esc(m.hint) + '；颜色越深数值越大（log 尺度）。</div>';
+  }
+  function enUnit(u) {
+    return u === '人' ? 'people' : u === '万km²' ? '10k km²' : u;
   }
 
   /* ── 选中主层 ── */
@@ -215,10 +236,11 @@
     el.dtDescLb.textContent = '看点';
     el.dtDesc.textContent = p.blurb || '——';
 
-    var bits = ['<span>' + (T.groupSuffix || '') + '：' + esc(p.groupZh) + '</span>'];
-    if (p.nameLocal) bits.push('<span>原名：' + esc(p.nameLocal) + '</span>');
-    bits.push('<span>类型：' + esc(p.type) + '</span>');
-    bits.push('<span>GID：' + esc(p.gid || '—') + '</span>');
+    var EN = isEN(), sep = EN ? ':' : '：';
+    var bits = ['<span>' + (T.groupSuffix || '') + sep + esc(p.groupZh) + '</span>'];
+    if (p.nameLocal) bits.push('<span>' + (EN ? 'Original name' : '原名') + sep + esc(p.nameLocal) + '</span>');
+    bits.push('<span>' + (EN ? 'Type' : '类型') + sep + esc(p.type) + '</span>');
+    bits.push('<span>GID' + sep + esc(p.gid || '—') + '</span>');
     el.dtFooter.innerHTML = bits.join('');
 
     setLabels();
@@ -238,7 +260,9 @@
     el.detail.style.setProperty('--rc', '#38bdf8');
     el.dtRole.textContent = T.subRole;
     el.dtName.textContent = p.name2 || '—';
-    el.dtSub.textContent = [p.engtype2 || p.type2, '属 ' + (p.provZh || '')].filter(Boolean).join(' · ');
+    el.dtSub.textContent = isEN()
+      ? [p.engtype2 || p.type2, p.provZh].filter(Boolean).join(' · ')
+      : [p.engtype2 || p.type2, '属 ' + (p.provZh || '')].filter(Boolean).join(' · ');
 
     el.dtLb1.textContent = '所属'; el.dtV1.textContent = p.provZh || '—'; el.dtU1.textContent = T.mainLabel || '';
     el.dtLb2.textContent = '类型'; el.dtV2.textContent = p.engtype2 || p.type2 || '—'; el.dtU2.textContent = '';
@@ -247,7 +271,7 @@
     el.dtDescLb.textContent = '说明';
     el.dtDesc.textContent = T.subDesc || '';
 
-    el.dtFooter.innerHTML = '<span>GID：' + esc(p.gid || '—') + '</span>';
+    el.dtFooter.innerHTML = '<span>GID' + (isEN() ? ':' : '：') + esc(p.gid || '—') + '</span>';
     setLabels();
   }
 
@@ -271,10 +295,11 @@
       if (f) {
         var p = f.properties, m = CFG.METRICS[S.metric];
         app.map.getCanvas().style.cursor = 'pointer';
-        var val = S.metric === 'group' ? p.groupZh : (p[m.key] ? fmt(p[m.key], 0) + ' ' + m.unit : '—');
+        var val = S.metric === 'group' ? p.groupZh : (p[m.key] ? fmt(p[m.key], 0) + ' ' + (isEN() ? enUnit(m.unit) : m.unit) : '—');
+        var sep = isEN() ? ':' : '：';
         app.tooltip('<b>' + esc(p.name) + '</b><br><span style="color:#9fb4cd">' +
-          esc(m.label) + '：' + esc(val) + '</span>' +
-          '<br><span style="color:#9fb4cd">' + esc(T.capitalLabel || '首府') + '：' + esc(p.capital || '—') + '</span>',
+          esc(isEN() ? enLabel(m.label) : m.label) + sep + esc(val) + '</span>' +
+          '<br><span style="color:#9fb4cd">' + esc(isEN() ? enLabel(T.capitalLabel || '首府') : (T.capitalLabel || '首府')) + sep + esc(p.capital || '—') + '</span>',
           e.point.x, e.point.y);
         return;
       }
@@ -358,10 +383,23 @@
   /* ── 启动 ── */
   function fmtPop(v) {
     /* 单位由独立的 fPopU 元素承担，返回值不再带单位（避免「2.03 亿亿」式重复） */
+    if (isEN()) {
+      if (el.fPopU) el.fPopU.textContent = '';
+      if (v >= 1e9) return (v / 1e9).toFixed(2) + 'B';
+      if (v >= 1e6) return (v / 1e6).toFixed(1) + 'M';
+      if (v >= 1e3) return (v / 1e3).toFixed(0) + 'k';
+      return String(v);
+    }
     if (v >= 1e8) { if (el.fPopU) el.fPopU.textContent = '亿'; return (v / 1e8).toFixed(2); }
     if (el.fPopU) el.fPopU.textContent = '万'; return (v / 1e4).toFixed(0);
   }
   function fmtArea(v) {
+    if (isEN()) {
+      if (el.fAreaU) el.fAreaU.textContent = '';
+      if (v >= 1e6) return (v / 1e6).toFixed(2) + 'M km²';
+      if (v >= 1e3) return (v / 1e3).toFixed(0) + 'k km²';
+      return fmt(v, 0) + ' km²';
+    }
     if (el.fAreaU) el.fAreaU.textContent = '万km²'; return (v / 1e4).toFixed(1);
   }
 

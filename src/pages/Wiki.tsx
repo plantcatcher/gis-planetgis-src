@@ -2,11 +2,13 @@ import React, { useMemo, useState } from 'react';
 import { ExternalLink, Search } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
+import { useI18n } from '@/i18n/LocaleContext';
 import { wikiCategories, wikiResources } from '@/data/wiki';
 
 // 轻量化移植自 D:/MyWebs/wiki（GIS 资源导航聚合站）：只搬「数据 + 列表 UI」，
 // 不搬原站的 React 框架 / lucide 图标 / simple-icons CDN，复用主站现有组件与样式。
 const Wiki: React.FC = () => {
+  const { t, lang } = useI18n();
   const [activeCat, setActiveCat] = useState('全部');
   const [query, setQuery] = useState('');
 
@@ -14,10 +16,11 @@ const Wiki: React.FC = () => {
     const counts = new Map<string, number>();
     for (const r of wikiResources) counts.set(r.categoryId, (counts.get(r.categoryId) || 0) + 1);
     return [
-      { id: '全部', nameZh: '全部', count: wikiResources.length },
+      { id: '全部', nameZh: t('facet.all'), count: wikiResources.length },
       ...wikiCategories.map((c) => ({ id: c.id, nameZh: c.nameZh, count: counts.get(c.id) || 0 })),
     ];
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lang]);
 
   const list = useMemo(() => {
     let base =
@@ -32,8 +35,8 @@ const Wiki: React.FC = () => {
   return (
     <>
       <PageMeta
-        title="GIS 资源导航 - 星球小捕手"
-        description={`精选 ${wikiResources.length} 个地理空间相关网站与工具，覆盖开源书籍、GIS 软件、遥感、三维、前端框架、空间数据库、国内平台等 ${wikiCategories.length} 个分类，为 GIS 开发者与爱好者提供一站式资源入口。`}
+        title={t('wiki.title')}
+        description={t('wiki.metaDesc', { n: wikiResources.length, c: wikiCategories.length })}
         canonical="https://planetgis.cn/wiki"
       />
       <Breadcrumb />
@@ -41,14 +44,12 @@ const Wiki: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
           <header className="mb-10">
             <div className="flex items-end gap-4">
-              <h1 className="text-2xl md:text-3xl font-bold tracking-tight">GIS 资源导航</h1>
+              <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{t('wiki.h1')}</h1>
               <div className="flex-1 h-[2px] bg-gradient-to-r from-primary/50 to-transparent mb-2" />
             </div>
             <div className="mt-3 h-1 w-14 bg-primary rounded-full" />
             <p className="mt-4 text-sm text-muted-foreground leading-relaxed max-w-2xl">
-              精选 {wikiResources.length} 个地理空间相关网站与工具，覆盖 {wikiCategories.length}{' '}
-              个分类——从开源书籍、GIS 软件、遥感、三维、前端框架到空间数据库、国内平台与学习资源，为
-              GIS 开发者与爱好者提供一站式入口。
+              {t('wiki.intro', { n: wikiResources.length, c: wikiCategories.length })}
             </p>
           </header>
 
@@ -58,7 +59,8 @@ const Wiki: React.FC = () => {
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="搜索资源名称或简介…"
+              placeholder={t('wiki.search')}
+              aria-label={t('wiki.search')}
               className="w-full pl-9 pr-3 py-2 rounded-full border border-border bg-background text-sm focus:outline-none focus:border-primary transition-colors"
             />
           </div>
@@ -82,13 +84,13 @@ const Wiki: React.FC = () => {
           </div>
 
           <p className="text-sm text-muted-foreground mb-5">
-            共 <span className="font-semibold text-foreground">{list.length}</span> 个资源
+            {t('wiki.count', { n: list.length })}
             {activeCat !== '全部' && ` · ${activeName}`}
-            {query.trim() && ` · 含“${query.trim()}”`}
+            {query.trim() && ` · ${t('wiki.contains', { q: query.trim() })}`}
           </p>
 
           {list.length === 0 ? (
-            <p className="text-muted-foreground">没有匹配的资源，换个关键词试试。</p>
+            <p className="text-muted-foreground">{t('wiki.empty')}</p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {list.map((r) => {
@@ -118,6 +120,10 @@ const Wiki: React.FC = () => {
                 );
               })}
             </div>
+          )}
+          {/* 英文站的资源条目仍是中文源数据，加一行说明管理预期 */}
+          {lang === 'en' && (
+            <p className="mt-8 text-sm text-muted-foreground italic">{t('wiki.langNote')}</p>
           )}
         </div>
       </div>

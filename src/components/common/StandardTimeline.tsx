@@ -1,4 +1,5 @@
 import React from 'react';
+import { useI18n } from '@/i18n/LocaleContext';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, History } from 'lucide-react';
 
@@ -79,6 +80,7 @@ const TIMELINES: Record<string, { label: string; nodes: TimelineNode[] }> = {
 };
 
 const StandardTimeline: React.FC<{ timeline: string; current: string }> = ({ timeline, current }) => {
+  const { t: tr } = useI18n();
   const t = TIMELINES[timeline];
   if (!t) return null;
 
@@ -126,7 +128,7 @@ const StandardTimeline: React.FC<{ timeline: string; current: string }> = ({ tim
                   </span>
                   {isCurrent && (
                     <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
-                      当前页
+                      {tr('timeline.current')}
                     </span>
                   )}
                 </div>
@@ -142,7 +144,7 @@ const StandardTimeline: React.FC<{ timeline: string; current: string }> = ({ tim
                     to={`/downloads/${n.slug}`}
                     className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
                   >
-                    查看该标准详情页
+                    {tr('timeline.view')}
                     <ArrowUpRight className="h-4 w-4" />
                   </Link>
                 )}
