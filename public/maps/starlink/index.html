@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <script src="/shared/map-i18n.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>星链环绕地球 · 3D 实时星座互动地图</title>
+  <meta name="description" content="可拖拽旋转的 3D 地球：数千颗星链（Starlink）卫星按真实壳层（53° / 70° / 97.6° 极轨）组织成 Walker 星座网格，正在低地球轨道上运行。内置 2019→2026 发射累积时间轴，看巨型星座如何逐年长成；并解释为何需要这么多卫星、光污染与太空垃圾争议。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+
+  <!-- ── 左：介绍 / 时间轴 / 快速定位 ─────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 回到全景</button>
+    </div>
+
+    <div class="intro-bar" id="introBar">
+      <i class="ic-eq"></i>
+      <b>星链环绕地球</b>
+      <span><em>收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> STARLINK · 3D 环绕星座</small>
+      <h1><span>Starlink</span><b>环绕地球</b></h1>
+      <p class="lead">拖拽旋转这颗 3D 地球，数千颗星链卫星正以真实轨道参数在低地球轨道上运行。它们按 53°、70°、97.6° 三个壳层排成标志性的网格——这就是你在夜空看到的「卫星列车」的来源。拨动下方时间轴，看这个人类史上最大的卫星星座如何从 2019 年的几十颗，长成如今遮天蔽日的巨网。</p>
+
+      <div class="facts">
+        <span><small>在轨（模型）</small><b><em id="tmCount">—</em><i>颗 · 2019–2026</i></b></span>
+        <span><small>主壳层</small><b><em>3</em><i>个倾角族</i></b></span>
+        <span><small>轨道高度</small><b><em>≈550</em><i>km · LEO</i></b></span>
+      </div>
+
+      <section class="block">
+        <header><small>快速定位</small><small class="hint-n">拖拽 / 滚轮自由看</small></header>
+        <div class="chips" id="presetList"></div>
+        <p class="note">点预设镜头平滑转到对应区域。再拖拽即可自由旋转，滚轮 / 双指放大看卫星网格细节。</p>
+      </section>
+
+      <section class="block">
+        <header><small>发射时间轴</small><small class="hint-n">2019 → 2026</small></header>
+        <p class="tm-readout" id="tmReadout">当前：<b id="tmYear">2026</b> 年 · 在轨 <b id="tmCount2">—</b> 颗</p>
+        <div class="tm-range">
+          <input type="range" id="rgTime" min="0" max="1" step="0.001" value="1" aria-label="发射时间轴" />
+        </div>
+        <div class="tm-actions">
+          <button type="button" id="btnPlay" class="panel-btn">▶ 播放部署</button>
+        </div>
+        <p class="note">滑块揭示按年份累积部署的卫星（模型在轨数，按 S 形增长曲线近似真实节奏）。点「播放部署」可看星座 9 秒内长成。轨道高度相对地球半径做了 2× 放大，仅为便于观察，并非真实比例。</p>
+      </section>
+
+      <section class="block">
+        <header><small>怎么读这张图</small></header>
+        <p class="note">颜色区分壳层：<s class="lg" style="background:#7dd3fc"></s>53° 主力（低中纬宽带覆盖）、<s class="lg" style="background:#a78bfa"></s>70° 增强（高纬补盲）、<s class="lg" style="background:#f0abfc"></s>97.6° 极轨（极地太阳同步）。每壳层由若干「轨道面」组成，卫星在面内等距排布、面间错相位——即 Walker 星座，形成格子状网格。点任意卫星可看其壳层、高度、倾角、周期与速度。</p>
+      </section>
+
+      <section class="block">
+        <header><small>为什么这么多</small></header>
+        <p class="note">低轨（550km）离地近，信号往返延迟低、单星造价与功耗可控，但单星覆盖面积小——要全球无缝宽带，必须铺几千颗。代价也显而易见：<b>天文光污染</b>（亮卫星划过望远镜视场）、<b>频谱与轨道拥挤</b>，以及最被担心的 <b>凯斯勒级联</b>——碰撞碎片引发更多碰撞，最终让近地轨道不再可用。星链目前约占人类现役卫星总数的一半以上。</p>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：壳层参数（倾角 / 高度 / 面数）取自公开 Starlink 部署资料（FCC 文件、Jonathan McDowell 卫星数据库）。卫星位置为 <b>Walker 星座模型</b>（非真实 TLE，纯静态、零网络请求），用于呈现结构而非精确定轨。地球昼面贴图来自 NASA / Solar System Scope（自托管）。引擎使用 three.js（MIT）自托管。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/maps" target="_top">全部地图</a>
+        <a href="/maps/starlink" target="_top">图文详情</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── 右上：卫星详情卡 ─────────────────────────────── -->
+  <aside class="detail" id="satcard" hidden>
+    <header>
+      <small id="scRole">STARLINK SATELLITE</small>
+      <div class="dt-actions">
+        <button type="button" id="scClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="scShell">—</h2>
+    <p>单颗卫星 · 轨道参数（该壳层近似）</p>
+    <div class="dt-metrics">
+      <span><small>真实高度</small><b><em id="scAlt">—</em><i>km</i></b></span>
+      <span><small>轨道倾角</small><b><em id="scInc">—</em><i>°</i></b></span>
+      <span><small>所属轨道面</small><b><em id="scPlane">—</em><i></i></b></span>
+      <span><small>轨道周期</small><b><em id="scPeriod">—</em><i>分钟</i></b></span>
+      <span><small>轨道速度</small><b><em id="scVel">—</em><i>km/s</i></b></span>
+      <span><small>轨道高度比</small><b><em>≈8.6%</em><i>相对地球半径</i></b></span>
+    </div>
+    <footer>模型示意 · 非真实定轨数据</footer>
+  </aside>
+
+  <!-- ── 右下：图例 ─────────────────────────────────────── -->
+  <div class="dock">
+    <div class="legend" id="legend">
+      <span><s class="lg" style="background:#7dd3fc"></s> 53° 主力壳层</span>
+      <span><s class="lg" style="background:#a78bfa"></s> 70° 增强壳层</span>
+      <span><s class="lg" style="background:#f0abfc"></s> 97.6° 极轨壳层</span>
+    </div>
+  </div>
+
+  <!-- ── 左下：图层与显示 ───────────────────────────────── -->
+  <div class="panel" id="panel">
+    <div class="panel-head" id="panelHead">
+      <span>图层与显示</span>
+      <button type="button" id="panelToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <div id="shellList"></div>
+      <div id="shellStats" class="shell-stats"></div>
+      <div class="divider"></div>
+      <label class="row"><input type="checkbox" id="ckGrat" /><span>经纬网格</span></label>
+      <label class="row"><input type="checkbox" id="ckEarth" checked /><span>地球自转</span></label>
+      <label class="row"><input type="checkbox" id="ckSpin" checked /><span>自动旋转</span></label>
+      <div class="divider"></div>
+      <label class="row row-sel"><span>轨道速度</span>
+        <select id="selSpeed">
+          <option value="0.5">慢 0.5×</option>
+          <option value="1" selected>标准 1×</option>
+          <option value="2">快 2×</option>
+          <option value="4">极快 4×</option>
+        </select>
+      </label>
+      <div class="divider"></div>
+      <button type="button" id="btnReset" class="panel-btn">回到全球全景</button>
+      <p class="panel-note"><b>操作</b>：拖拽旋转 · 滚轮 / 双指缩放 · 双击地球飞近。点卫星弹出轨道参数。<b>时间轴</b>见左侧「发射时间轴」面板。</p>
+    </div>
+  </div>
+
+  <script src="js/three.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="data/shells.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

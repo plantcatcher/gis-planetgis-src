@@ -2165,6 +2165,33 @@
         "desc": "省级行政区边界（_shared 跨地图复用）"
       }
     ]
+  },
+  {
+    "slug": "starlink",
+    "entry": "/maps/starlink/index.html",
+    "bbox": [-180.0, -90.0, 180.0, 90.0],
+    "crs": "地球固连参考系（地球半径 = 1 场景单位；轨道高度相对地球半径做 2× 放大，非真实比例）",
+    "basemap": "真实地球昼面贴图（NASA / Solar System Scope，自托管）；固定太阳方向形成昼夜终结线；可选经纬网格",
+    "source": "壳层参数（倾角 / 高度 / 轨道面数）取自公开 Starlink 部署资料（FCC 文件、Jonathan McDowell 卫星数据库）；卫星位置为 Walker 星座模型（非真实 TLE，纯静态零网络）",
+    "updated": "2026-10-24",
+    "data": [
+      {
+        "file": "maps/starlink/data/shells.js",
+        "features": 3048,
+        "unit": "颗卫星（模型）",
+        "desc": "Walker 星座：53° 主力壳层 1728 颗（72 面 × 24）+ 70° 增强壳层 792 颗（36 × 22）+ 97.6° 极轨壳层 528 颗（24 × 22）；每颗带轨道根数与 2019–2026 部署进度"
+      },
+      {
+        "file": "maps/starlink/textures/earth-2k.jpg",
+        "features": 1,
+        "desc": "地球昼面 2K 等距圆柱贴图（自托管）"
+      },
+      {
+        "file": "maps/starlink/js/three.min.js",
+        "features": 1,
+        "desc": "three.js 自托管运行库（r150+，MIT）"
+      }
+    ]
   }
 ]
 }

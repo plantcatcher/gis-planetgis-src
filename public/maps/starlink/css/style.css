@@ -1,0 +1,69 @@
+/* 星链环绕地球 · 本地样式（浮层基类来自 _shared/thematic/thematic.css） */
+:root { --accent: #58c4ff; --accent-light: #a9e2ff; --accent-dark: #2b8fd6; --accent-soft: rgba(88,196,255,.16); }
+
+/* 壳层 / 统计小色点 */
+.lg { width: 9px; height: 9px; border-radius: 50%; display: inline-block; text-decoration: none; vertical-align: middle; flex: 0 0 auto; }
+
+/* 快速定位 chips */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  font: inherit; font-size: 11.5px; color: var(--muted); cursor: pointer;
+  background: rgba(255,255,255,.05); border: 1px solid var(--line);
+  border-radius: 999px; padding: 5px 12px; white-space: nowrap;
+  transition: color .16s, border-color .16s, background .16s;
+}
+.chip:hover { color: var(--text); border-color: rgba(148,178,214,.42); background: rgba(255,255,255,.08); }
+
+.hint-n { font-size: 10.5px; color: var(--dim); }
+
+/* 时间轴读数 + 滑块 */
+.tm-readout { margin: 0 0 10px; font-size: 12.5px; color: var(--muted); }
+.tm-readout b { color: #fff; font-weight: 700; font-variant-numeric: tabular-nums; }
+.tm-range { margin: 2px 0 10px; }
+.tm-range input[type="range"] { width: 100%; }
+.tm-actions { display: flex; }
+.tm-actions .panel-btn { flex: 1; }
+
+input[type="range"] {
+  -webkit-appearance: none; appearance: none; height: 4px; border-radius: 999px;
+  background: rgba(255,255,255,.14); outline: none; cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: 16px; height: 16px; border-radius: 50%;
+  background: var(--accent); border: 2px solid #0a1422; box-shadow: 0 0 10px rgba(88,196,255,.6);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 16px; height: 16px; border-radius: 50%; background: var(--accent);
+  border: 2px solid #0a1422; box-shadow: 0 0 10px rgba(88,196,255,.6);
+}
+
+/* 面板按钮（回到全景 / 播放部署） */
+.panel-btn {
+  font: inherit; font-size: 12.5px; font-weight: 600; color: #cfe0f5; cursor: pointer;
+  background: rgba(255,255,255,.05); border: 1px solid var(--line);
+  border-radius: 8px; padding: 8px 12px; width: 100%;
+  transition: color .16s, border-color .16s, background .16s;
+}
+.panel-btn:hover { color: #fff; border-color: var(--accent); background: rgba(88,196,255,.1); }
+
+/* 速度选择行 */
+.row-sel { justify-content: space-between; }
+.row-sel select {
+  font: inherit; font-size: 12px; color: var(--text);
+  background: rgba(255,255,255,.06); border: 1px solid var(--line);
+  border-radius: 7px; padding: 4px 8px; cursor: pointer;
+}
+.row-sel select:focus { outline: none; border-color: var(--accent); }
+
+/* 图例壳层文字与色点对齐 */
+.legend s.lg { margin-right: 2px; }
+
+/* 卫星详情卡：缩窄一点，避免压住图例 */
+#satcard { width: 300px; }
+
+/* 图层面板：壳层实时计数 */
+.shell-stats { display: flex; flex-direction: column; gap: 4px; margin: 8px 0 2px; }
+.shell-stats > span { display: flex; align-items: center; gap: 7px; font-size: 11.5px; color: var(--muted); }
+.shell-stats > span s.lg { margin: 0; }
+.shell-stats > span b { margin-left: auto; color: #fff; font-variant-numeric: tabular-nums; font-weight: 700; }
+#satcard > p { font-size: 11.5px; color: var(--dim); margin: 0 0 11px; }

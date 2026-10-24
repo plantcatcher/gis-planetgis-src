@@ -709,6 +709,78 @@ APPS = {
         "墨卡托放大": "Mercator Inflation",
         "说明": "Notes",
     },
+    "starlink": {
+        # ── 页面标题 / 介绍栏 ──
+        "星链环绕地球 · 3D 实时星座互动地图": "Starlink Swarm · 3D Live Constellation Map",
+        "回到全景": "◉ Overview",
+        "星链环绕地球": "Starlink Around Earth",
+        "STARLINK · 3D 环绕星座": "STARLINK · 3D ORBITAL CONSTELLATION",
+        "环绕地球": " Around Earth",
+        "拖拽旋转这颗 3D 地球，数千颗星链卫星正以真实轨道参数在低地球轨道上运行。它们按 53°、70°、97.6° 三个壳层排成标志性的网格——这就是你在夜空看到的「卫星列车」的来源。拨动下方时间轴，看这个人类史上最大的卫星星座如何从 2019 年的几十颗，长成如今遮天蔽日的巨网。":
+            "Drag to spin this 3D Earth. Thousands of Starlink satellites orbit in low Earth orbit on real orbital parameters. They form the signature grid across three shells — 53°, 70° and 97.6° — and that grid is where the 'satellite train' you see in the night sky comes from. Move the timeline below to watch the largest satellite constellation in human history grow from a few dozen in 2019 into the vast web that now veils the sky.",
+        # ── 数据条 ──
+        "在轨（模型）": "In Orbit (model)",
+        "颗 · 2019–2026": "satellites · 2019–2026",
+        "主壳层": "Main Shells",
+        "个倾角族": "inclination families",
+        "轨道高度": "Orbit Altitude",
+        # ── 快速定位 ──
+        "拖拽 / 滚轮自由看": "drag / scroll to explore",
+        "点预设镜头平滑转到对应区域。再拖拽即可自由旋转，滚轮 / 双指放大看卫星网格细节。":
+            "Click a preset to glide to that region. Then drag to spin freely, and scroll or pinch to zoom into the satellite grid.",
+        # ── 预设镜头名（config.js 动态注入）──
+        "全球全景": "Global View",
+        "北美": "North America",
+        "欧洲": "Europe",
+        "赤道侧视": "Equatorial Side View",
+        "极地俯视": "Polar Top-Down",
+        # ── 时间轴 ──
+        "发射时间轴": "Deployment Timeline",
+        "当前：": "Now: ",
+        "年 · 在轨": " · in orbit ",
+        "颗": " satellites",
+        "当前：2026 年 · 在轨 — 颗": "Now: 2026 · in orbit — satellites",
+        "▶ 播放部署": "▶ Play Deployment",
+        "滑块揭示按年份累积部署的卫星（模型在轨数，按 S 形增长曲线近似真实节奏）。点「播放部署」可看星座 9 秒内长成。轨道高度相对地球半径做了 2× 放大，仅为便于观察，并非真实比例。":
+            "The slider reveals satellites by cumulative yearly deployment (model in-orbit count, following an S-curve to approximate the real cadence). Click 'Play Deployment' to watch the constellation assemble in 9 seconds. Orbital altitude is exaggerated 2× relative to Earth's radius purely for visibility — not to true scale.",
+        # ── 怎么读 / 为什么这么多 ──
+        "颜色区分壳层：53° 主力（低中纬宽带覆盖）、70° 增强（高纬补盲）、97.6° 极轨（极地太阳同步）。每壳层由若干「轨道面」组成，卫星在面内等距排布、面间错相位——即 Walker 星座，形成格子状网格。点任意卫星可看其壳层、高度、倾角、周期与速度。":
+            "Colour separates the shells: the 53° main shell (low/mid-latitude broadband), the 70° enhanced shell (high-latitude fill), and the 97.6° polar shell (polar sun-synchronous). Each shell is made of several orbital planes, with satellites spaced evenly within a plane and phase-offset between planes — a Walker constellation, producing the grid-like pattern. Click any satellite to see its shell, altitude, inclination, period and speed.",
+        "为什么这么多": "Why So Many",
+        "低轨（550km）离地近，信号往返延迟低、单星造价与功耗可控，但单星覆盖面积小——要全球无缝宽带，必须铺几千颗。代价也显而易见：<b>天文光污染</b>（亮卫星划过望远镜视场）、<b>频谱与轨道拥挤</b>，以及最被担心的 <b>凯斯勒级联</b>——碰撞碎片引发更多碰撞，最终让近地轨道不再可用。星链目前约占人类现役卫星总数的一半以上。":
+            "Low orbit (550 km) is close to the ground: round-trip signal delay is low and each satellite's cost and power stay manageable — but a single satellite covers only a small area. Seamless global broadband therefore requires thousands of them. The costs are plain to see: <b>astronomical light pollution</b> (bright satellites streaking across telescope fields), <b>spectrum and orbital congestion</b>, and the most feared of all, the <b>Kessler cascade</b> — collision debris triggering more collisions until low Earth orbit becomes unusable. Starlink alone now accounts for more than half of all active satellites in service.",
+        # ── 数据来源 ──
+        "<b>数据来源</b>：壳层参数（倾角 / 高度 / 面数）取自公开 Starlink 部署资料（FCC 文件、Jonathan McDowell 卫星数据库）。卫星位置为 <b>Walker 星座模型</b>（非真实 TLE，纯静态、零网络请求），用于呈现结构而非精确定轨。地球昼面贴图来自 NASA / Solar System Scope（自托管）。引擎使用 three.js（MIT）自托管。":
+            "<b>Data sources</b>: shell parameters (inclination / altitude / plane count) come from public Starlink deployment data (FCC filings, Jonathan McDowell's satellite database). Satellites are placed by a <b>Walker constellation model</b> (not real TLEs — fully static, zero network requests) to show structure rather than precise orbit determination. The Earth day-side texture is from NASA / Solar System Scope (self-hosted). The engine uses three.js (MIT), self-hosted.",
+        # ── 页脚导航 ──
+        "图文详情": "Article",
+        # ── 卫星详情卡 ──
+        "单颗卫星 · 轨道参数（该壳层近似）": "Single satellite · orbital parameters (shell approximation)",
+        "真实高度": "True Altitude",
+        "轨道倾角": "Inclination",
+        "所属轨道面": "Orbital Plane",
+        "轨道周期": "Orbital Period",
+        "轨道速度": "Orbital Speed",
+        "分钟": " min",
+        "轨道高度比": "Altitude Ratio",
+        "相对地球半径": "of Earth's radius",
+        "模型示意 · 非真实定轨数据": "Model illustration · not real orbit-determination data",
+        # ── 壳层名与副标题（图例 / 开关 / 详情卡动态复用）──
+        "53° 主力壳层": "53° Main Shell",
+        "70° 增强壳层": "70° Enhanced Shell",
+        "97.6° 极轨壳层": "97.6° Polar Shell",
+        "· 低中纬宽带覆盖": " · low/mid-latitude broadband",
+        "· 高纬度增强": " · high-latitude boost",
+        "· 极地太阳同步": " · polar sun-synchronous",
+        # ── 图层面板 ──
+        "地球自转": "Earth Rotation",
+        "慢 0.5×": "Slow 0.5×",
+        "标准 1×": "Standard 1×",
+        "快 2×": "Fast 2×",
+        "极快 4×": "Very Fast 4×",
+        "<b>操作</b>：拖拽旋转 · 滚轮 / 双指缩放 · 双击地球飞近。点卫星弹出轨道参数。<b>时间轴</b>见左侧「发射时间轴」面板。":
+            "<b>Controls</b>: drag to spin · scroll / pinch to zoom · double-click the globe to fly in. Click a satellite for its orbital parameters. See the <b>timeline</b> in the 'Deployment Timeline' panel on the left.",
+    },
 }
 
 
