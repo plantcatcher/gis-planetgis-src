@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <script src="/shared/map-i18n.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>中国汉语方言分布互动地图 · 十大方言区 · 县级</title>
+  <meta name="description" content="按《中国语言地图集》把中国 2800 多个县市按十大汉语方言区着色：官话、晋语、吴语、徽语、赣语、湘语、闽语、客家话、粤语、平话与土话。点任意县看它的大区、次方言区与方言片。含台湾、港澳与南海诸岛。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <!-- ── 左：介绍栏 ─────────────────────────────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 全网总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-eq"></i>
+      <b>汉语方言</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> DIALECTS OF CHINA</small>
+      <h1><span>中国汉语方言</span><b>十大区地图</b></h1>
+      <p class="lead">十里不同音。汉语在几千年迁徙与山川阻隔里裂成 <b>十大方言区</b>——官话、晋语、吴语、徽语、赣语、湘语、闽语、客家话、粤语、平话与土话。这张图按县市级主分区上色，点开任意一个县，看它究竟归在哪一片。</p>
+
+      <div class="facts">
+        <span><small>县级单元</small><b><span class="v"><em id="fCounties">—</em></span><i>个</i></b></span>
+        <span><small>有方言记录</small><b><span class="v"><em id="fHan">—</em></span><i>个</i></b></span>
+        <span><small>官话县占比</small><b><span class="v"><em id="fGuan">—</em></span></b></span>
+      </div>
+
+      <section class="block warn">
+        <header><small>先看清一件事：这是「汉语方言」图</small></header>
+        <p class="note">本图只画<b>汉语</b>的方言分区，<b>不包含少数民族语言</b>。图上整片标成「官话」的新疆、云南、贵州，指的是当地<b>汉族居民</b>说的汉语（新疆多兰银官话、中原官话；云南贵州多西南官话），并不意味着当地主要通行汉语——<b>维吾尔语、哈萨克语、藏语、彝语、白语、傣语、苗语、壮语、蒙古语、朝鲜语等，都不在本图范围内</b>。</p>
+        <p class="note">所以看图请配合这个背景：<b>新疆汉族占 42.2%、西藏 12.2%、青海 50.5%，云南 66.9%、贵州 63.6%、广西 62.5%</b>（七普）。色块越淡，说明该省汉族人口基数越小，图上的颜色只覆盖当地一部分人。左下角可以关掉「按汉族人口占比调淡」，看纯方言分区。</p>
+        <p class="note">另外，<b>「官话」是语言学分类名，不是「普通话」</b>。四川话、重庆话、云南话、湖北话都属于西南官话——它们是官话的分支，不是官话之外的东西。</p>
+      </section>
+
+      <section class="block">
+        <header><small>怎么读这张图</small></header>
+        <p class="note">颜色 = 该县的<b>主方言大区</b>。占绝对主导的是<b>官话</b>（橙红）：它沿着平原、顺着官道铺开，从东北、华北一路压到西南，覆盖了中国约三分之二的县。东南丘陵则被切成一块块硬边界——<b>吴语</b>（蓝）在长三角，<b>闽语</b>（黄）在福建与台湾，<b>粤语</b>（青绿）在珠三角与粤西，<b>客家话</b>（绿）散落在粤闽赣的山区与台湾。深黑的粗线是图集原图的<b>方言区界线</b>。</p>
+        <p class="note">图上直接标了名字：<b>看全图时标十大区</b>，放大后自动换成<b>次方言区</b>（如西南官话、太湖片），再放大显示<b>方言片</b>。色块是半透明的，切到卫星影像就能看出方言边界如何贴着山脉与水系走。</p>
+      </section>
+
+      <section class="block">
+        <header><small>为什么南方碎、北方整？</small></header>
+        <p class="note">北方是连片的平原与高原，方言在平地上缓慢磨平、彼此靠拢，于是合成一个巨大的官话区。南方是丘陵与水系切割的碎地形，一山一水就可能隔出互不相通的口音——所以吴、闽、粤、客家、赣、湘各自成片、边界陡峭。方言地图，本质上是一张<b>地形与迁徙的地图</b>。</p>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：县级方言分类取自《中国语言地图集（第2版）·汉语方言卷》（中国社会科学院语言研究所等编，商务印书馆，2012）的数字化整理；县界为 WGS84 干净县级多边形（含台湾 20 县、港澳 19 县），底图为天地图；各省汉族人口占比取自<b>第七次全国人口普查（2020）</b>。着色为<b>县级主分区</b>，每条记录表示「该县存在此方言」，<b>不代表人口占比或县内优势方言</b>；少数县图集未单列，按所在省主区补全或留灰。斜纹与调淡用的是<b>省级</b>汉族人口占比，不是县级。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/maps/china-dialects/full" target="_top" style="display:none">全屏</a>
+        <a href="/learn">地理学习</a>
+        <a href="/downloads">资料下载</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── 右上：详情卡 ────────────────────────────────────── -->
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">COUNTY</small>
+      <div class="dt-actions">
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtSub">—</p>
+    <p class="dt-han" id="dtHan" hidden>—</p>
+    <div class="dt-metrics">
+      <span><small id="dtLb1">大区</small><b><em id="dtV1">—</em><i id="dtU1"></i></b></span>
+      <span><small id="dtLb2">次方言区</small><b><em id="dtV2">—</em><i id="dtU2"></i></b></span>
+      <span><small id="dtLb3">方言片</small><b><em id="dtV3">—</em><i id="dtU3"></i></b></span>
+    </div>
+    <section class="dt-desc">
+      <small id="dtDescLb">完整方言归属</small>
+      <p id="dtDesc">—</p>
+    </section>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <!-- ── 右下：图例 ─────────────────────────────────────────── -->
+  <div class="dock"><div class="legend" id="legend"></div></div>
+
+  <!-- ── 左下：图层与底图 ───────────────────────────────────── -->
+  <div class="panel" id="panel">
+    <div class="panel-head" id="panelHead">
+      <span>图层与底图</span>
+      <button type="button" id="panelToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" data-toggle-layer="boundary-lines" checked /><span>方言区界线（图集原图）</span></label>
+      <label class="row"><input type="checkbox" data-toggle-layer="county-line" checked /><span>县级行政界线</span></label>
+      <label class="row"><input type="checkbox" data-toggle-layer="dialect-fill" checked /><span>方言填色（半透明）</span></label>
+      <label class="row"><input type="checkbox" id="ckDialectLabel" checked /><span>方言区名称标注</span></label>
+      <label class="row"><input type="checkbox" id="ckHanShare" checked /><span>按汉族人口占比调淡</span></label>
+      <label class="row"><input type="checkbox" id="ckGraticule" /><span>经纬网格</span></label>
+      <div class="divider"></div>
+      <div class="bm-title">底图</div>
+      <div class="bm-seg">
+        <label class="bm-opt active"><input type="radio" name="basemap" value="none" checked /><span>深色</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>矢量路网</span></label>
+      </div>
+      <div class="divider"></div>
+      <p class="panel-note">默认<b>深色</b>：十大方言色块最清晰。切到<b>卫星影像</b>可看方言边界如何贴着山脉与水系走——这是理解南方「碎」、北方「整」的关键（填色半透明，地形一直透得出来）。</p>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="/maps/_shared/thematic/thematic.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

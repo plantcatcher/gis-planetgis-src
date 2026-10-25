@@ -1,0 +1,111 @@
+/* 中国汉语方言分布 · 局部样式（图例/微调；其余沿用 thematic.css） */
+
+.legend {
+  gap: 5px 14px;
+  max-width: 268px;
+  max-height: 46vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.legend .lg-cap {
+  width: 100%; font-size: 10px; color: var(--dim);
+  letter-spacing: .04em; margin-bottom: 2px;
+}
+.legend .lg-row {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11.5px; color: var(--muted);
+  cursor: pointer; border-radius: 5px; padding: 1px 4px; margin: 0 -4px;
+  transition: background .15s, color .15s;
+}
+.legend .lg-row:hover { background: rgba(255,255,255,.06); color: #fff; }
+.legend .lg-row.is-on { background: rgba(255,255,255,.14); color: #fff; }
+.legend .lg-row i {
+  width: 12px; height: 12px; border-radius: 3px; display: block; flex: 0 0 auto;
+  box-shadow: 0 0 6px rgba(0,0,0,.4);
+}
+.legend .lg-row em {
+  font-style: normal; font-size: 10px; color: var(--dim);
+  font-variant-numeric: tabular-nums;
+}
+.legend .lg-note {
+  width: 100%; margin-top: 6px; font-size: 10.5px; line-height: 1.5; color: var(--dim);
+}
+.legend .lg-note b { color: var(--muted); font-weight: 700; }
+
+/* 详情卡顶部色条 */
+.detail { border-top: 3px solid var(--rc, var(--accent)); }
+.detail #dtDesc b { color: var(--rc, #fff); }
+
+@media (max-width: 900px) {
+  .legend { display: none; }
+}
+
+/* ── 分级方言标注（HTML 叠加，不依赖地图字形服务） ──────────────
+   大区：色点 + 半透明胶囊，看全图时一眼对上图例。
+   次方言区／方言片：纯文字 + 暗描边，不抢色块的视觉重量。 */
+.dl-lb {
+  position: absolute; left: 0; top: 0; transform: translate(-50%, -50%);
+  white-space: nowrap; pointer-events: none; color: #fff; line-height: 1.12;
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, sans-serif;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, .95), 0 0 3px rgba(0, 0, 0, .82);
+  transition: opacity .18s linear;
+  will-change: left, top;
+}
+.dl-lb.is-g {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 8px; border-radius: 999px;
+  font-weight: 700; letter-spacing: .05em;
+  background: rgba(6, 11, 20, .62);
+  border: 1px solid rgba(255, 255, 255, .15);
+  box-shadow: 0 3px 14px rgba(0, 0, 0, .46);
+  -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);
+}
+.dl-lb.is-g::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%; flex: 0 0 auto;
+  background: var(--c, #fff); box-shadow: 0 0 8px var(--c, #fff);
+}
+.dl-lb.is-d { letter-spacing: .045em; }
+.dl-lb.is-s { color: #e9f1fc; letter-spacing: .02em; opacity: .96; }
+.dl-lb.is-c { color: #cfdcee; letter-spacing: 0; opacity: .9; }
+.dl-lb.is-dim { opacity: .15; }
+
+
+/* ── 「这是汉语方言图」提示块 ──────────────────────────── */
+.block.warn {
+  margin: 2px 0 20px;
+  padding: 11px 12px 12px;
+  border-radius: 9px;
+  background: rgba(240, 180, 41, .075);
+  border: 1px solid rgba(240, 180, 41, .28);
+  border-left: 3px solid rgba(240, 180, 41, .72);
+}
+.block.warn > header { margin-bottom: 7px; }
+.block.warn > header > small { color: #f0c05a !important; }
+.block.warn .note { color: #cfdcea; margin-top: 7px; }
+.block.warn .note:first-of-type { margin-top: 0; }
+.block.warn .note b { color: #f6dc9c; }
+
+/* ── 详情卡：汉语人口基数提示 ──────────────────────────── */
+.detail .dt-han {
+  margin: 9px 0 0;
+  padding: 7px 9px;
+  border-radius: 7px;
+  font-size: 11px;
+  line-height: 1.55;
+  color: #ffd9a8;
+  background: rgba(240, 180, 41, .12);
+  border-left: 2px solid rgba(240, 180, 41, .6);
+}
+.detail .dt-han b { color: #ffe9c4; font-weight: 700; }
+
+/* 图例里的斜纹说明：左侧一块斜纹示意，文字整体成段 */
+.legend .lg-note.lg-hatch {
+  margin-top: 7px; padding-top: 7px;
+  border-top: 1px solid rgba(255, 255, 255, .08);
+}
+.legend .lg-note.lg-hatch > s {
+  display: inline-block; width: 15px; height: 10px; border-radius: 2px;
+  margin-right: 5px; vertical-align: -1px; text-decoration: none;
+  background: repeating-linear-gradient(45deg, rgba(255,255,255,.6) 0 1px, transparent 1px 4px), #e8613c;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.18);
+}

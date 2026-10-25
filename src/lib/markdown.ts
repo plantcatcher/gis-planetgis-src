@@ -55,6 +55,19 @@ function inline(text: string): string {
   return text;
 }
 
+/**
+ * 原生 HTML 块（`<details>` / `<div>`）只做粗体转换。
+ *
+ * 这些块整体原样输出、不走 inline()，是为了不破坏作者手写的 HTML 结构
+ * （链接、图片、属性）。但站内 FAQ 统一写成 `<details>` + markdown 正文，
+ * 其中的 `**强调**` 若一并跳过，页面上会漏出字面星号——全站 82 篇、253 处。
+ * 故只单独处理粗体：details 内既无代码块也无单星号斜体（已核查），
+ * 不会误伤。
+ */
+function strongOnly(text: string): string {
+  return text.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>');
+}
+
 export function renderMarkdown(md: string): string {
   const lines = md.replace(/\r\n/g, '\n').split('\n');
   const html: string[] = [];
@@ -103,7 +116,7 @@ export function renderMarkdown(md: string): string {
       }
       if (i < lines.length) buf.push(lines[i]); // 包含闭合标签
       i++;
-      html.push(buf.join('\n'));
+      html.push(strongOnly(buf.join('\n')));
       continue;
     }
 

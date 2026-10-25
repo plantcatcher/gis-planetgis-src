@@ -218,6 +218,11 @@ h1, h2, h3, .font-serif {
   max-width: 100%;
   cursor: zoom-in; /* 详情页正文图片可点击放大（ImageLightbox） */
 }
+/* FAQ（details）内的配图：与下方的居中图注对齐 */
+.md-body details img {
+  display: block;
+  margin: 1.1rem auto 0;
+}
 /* 灯箱图片切换淡入 */
 @keyframes lightboxFadeIn {
   from {
