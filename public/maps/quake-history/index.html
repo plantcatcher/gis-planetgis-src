@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <script src="/shared/map-i18n.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>全球历史地震地图 · 1900–2026 年 M6 以上地震目录</title>
+  <meta name="description" content="把 1900 年以来全球 14542 次 M6.0 以上地震一次画在地图上，数据来自美国地质调查局 ANSS 综合地震目录（USGS ComCat）。拖动年份时间轴看地震一年年累积，叠上 PB2002 板块边界就能看清环太平洋火山地震带与地中海—喜马拉雅带。可切换震级门槛、查看 108 场 M8 以上巨震档案与每次地震的震级、深度、时间。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <!-- ── 左：介绍栏 ─────────────────────────────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 全球总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-qh"></i>
+      <b>全球历史地震地图</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-qh"></i> SEISMIC CATALOG · 1900–2026</small>
+      <h1><span>全球历史</span><b>地震地图</b></h1>
+      <p class="lead">这不是实时震情，而是<b>一百二十六年档案</b>。图上是 <b>1900 年以来全球 14542 次 M6.0 以上地震</b>的震中，数据来自<b>美国地质调查局 ANSS 综合地震目录（USGS ComCat）</b>。拖动下方<b>年份时间轴</b>，看这些点一年年长出来；叠上<b>板块边界</b>，你会发现它们几乎从不落在板块内部。</p>
+
+      <div class="facts">
+        <span><small>当前显示</small><b><span class="v"><em id="fCount">—</em></span><i>次</i></b></span>
+        <span><small>最大震级</small><b><span class="v"><em id="fMax">—</em></span><i>M</i></b></span>
+        <span><small>累计总数</small><b><span class="v"><em id="fTotal">—</em></span><i>次</i></b></span>
+      </div>
+
+      <!-- 时间轴 -->
+      <section class="block tl-block">
+        <header><small>年份时间轴</small><small id="tlYear" class="hint-n">2026</small></header>
+        <div class="tl" id="tl">
+          <svg id="tlBars" viewBox="0 0 1270 100" preserveAspectRatio="none" aria-hidden="true"></svg>
+          <div class="tl-cursor" id="tlCursor"></div>
+          <input type="range" id="tlRange" min="1900" max="2026" step="1" value="2026" aria-label="年份" />
+        </div>
+        <div class="tl-axis"><span>1900</span><span>1950</span><span>2000</span><span>2026</span></div>
+        <div class="tl-foot">
+          <button type="button" class="btn-play" id="btnPlay"><i>▶</i><span>播放</span></button>
+          <div class="seg seg-mode" id="segMode">
+            <button type="button" data-v="cum" class="active">累计</button>
+            <button type="button" data-v="year">当年</button>
+          </div>
+        </div>
+        <p class="note" id="tlNote">柱高＝该年被记录的 M6+ 地震次数。<b>累计</b>看历史堆叠，<b>当年</b>只看一年。</p>
+      </section>
+
+      <!-- 震级门槛 -->
+      <section class="block">
+        <header><small>震级门槛</small><small id="magLb" class="hint-n">≥6.0</small></header>
+        <div class="chips" id="chipMag">
+          <button type="button" data-v="6" class="active">≥6.0</button>
+          <button type="button" data-v="6.5">≥6.5</button>
+          <button type="button" data-v="7">≥7.0</button>
+          <button type="button" data-v="8">≥8.0</button>
+        </div>
+        <p class="note">M6 以上每年约 120 次；拉到 <b>≥8.0</b>，一百二十六年里只剩 108 场。</p>
+      </section>
+
+      <!-- 巨震档案 -->
+      <section class="block">
+        <header><small>巨震档案</small><small id="bigN" class="hint-n">M8+</small></header>
+        <div class="qlist" id="bigList"></div>
+        <p class="note">按震级排序，点任意一条飞向震中。</p>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：美国地质调查局 <b>ANSS 综合地震目录（ComCat）</b>，检索条件 <b>1900-01-01 至 2026-10-26、M≥6.0</b>，共 <b>14542</b> 条，构建期一次性落成本地静态矢量，页面不再请求 USGS。<b>板块边界</b>：PB2002（Peter Bird, 2003），经 fraxen/tectonicplates 发布。<b>陆地轮廓</b>：Natural Earth 1:110m land，只含海陆分界。<b>合规处理</b>：不绘制任何国界；坐标为目录原始 WGS84，不与 GCJ-02 底图混用。<b>口径提示</b>：1964 年以前的记录主要来自历史文献回溯测定，数量与定位精度都明显低于现代台网。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── 右上：震中详情卡 ───────────────────────────────────── -->
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">QUAKE</small>
+      <div class="dt-actions">
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtSub">—</p>
+    <div class="dt-metrics">
+      <span><small id="dtLb1">震级</small><b><em id="dtV1">—</em><i id="dtU1">级</i></b></span>
+      <span><small id="dtLb2">深度</small><b><em id="dtV2">—</em><i id="dtU2">km</i></b></span>
+      <span><small id="dtLb3">年度序位</small><b><em id="dtV3">—</em><i id="dtU3"></i></b></span>
+    </div>
+    <section class="dt-desc">
+      <small id="dtDescLb">震中与坐标</small>
+      <p id="dtDesc">—</p>
+    </section>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <!-- ── 右下：图例 ─────────────────────────────────────────── -->
+  <div class="dock">
+    <div class="legend" id="legend"></div>
+  </div>
+
+  <!-- ── 左下：图层与底图 ───────────────────────────────────── -->
+  <div class="panel" id="panel">
+    <div class="panel-head" id="panelHead">
+      <span>图层与底图</span>
+      <button type="button" id="panelToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckPlates" checked /><span>板块边界（PB2002）</span></label>
+      <label class="row"><input type="checkbox" id="ckGlow" checked /><span>震中光晕</span></label>
+      <label class="row"><input type="checkbox" id="ckNow" checked /><span>高亮当年新增</span></label>
+      <label class="row"><input type="checkbox" id="ckGraticule" /><span>经纬网格</span></label>
+      <div class="divider"></div>
+      <div class="bm-title">底图</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" checked /><span>深色</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>地形晕渲</span></label>
+      </div>
+      <div class="divider"></div>
+      <p class="panel-note" id="panelNote">圆点<b>颜色按震级</b>分级：<span style="color:#4fc3f7">蓝</span> M6 → <span style="color:#ffd54f">黄</span> M7 → <span style="color:#ff8a4c">橙</span> M8 → <span style="color:#ef4444">红</span> M9+。灰色细线是<b>板块边界</b>，不是国界。</p>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="/maps/_shared/thematic/thematic.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

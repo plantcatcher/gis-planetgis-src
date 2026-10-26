@@ -1935,6 +1935,46 @@
   ]
 },
 {
+  "slug": "quake-history",
+  "entry": "/maps/quake-history/index.html",
+  "bbox": [
+    -180.0,
+    -85.0,
+    180.0,
+    85.0
+  ],
+  "crs": "WGS84 / EPSG:4326（USGS 目录原始坐标，与 Esri 全球底图直接对齐，无偏移；不叠加 GCJ-02 底图）",
+  "basemap": "深色无底图（默认，叠 Natural Earth 陆地轮廓）/ Esri World Imagery 卫星影像 / Esri World Shaded Relief 地形晕渲；全球尺度，高德瓦片境外空白故不用",
+  "source": "美国地质调查局 ANSS 综合地震目录（USGS ComCat，公共领域），检索 1900-01-01 至 2026-10-26、M≥6.0，按十年分段拉全量后合并去重，共 14542 条，构建期一次性落成本地静态矢量，运行时不请求 USGS。板块边界为 PB2002（Peter Bird, 2003，经 fraxen/tectonicplates 以 MIT 发布）；陆地轮廓为 Natural Earth 1:110m land（公共领域，只含海陆分界）。交互：年份时间轴（含逐年播放与年度直方图）、累计 / 当年双口径、震级门槛四档、108 场 M8+ 巨震档案、当年新增高亮、逐点详情（震级 / 深度 / UTC 时间 / 年度序位 / USGS 事件页）。本图不绘制任何国界。",
+  "updated": "2026-10-27",
+  "data": [
+    {
+      "file": "maps/quake-history/data/catalog.json",
+      "features": 14542,
+      "unit": "次地震（1900-01-01 至 2026-10-26，M≥6.0）",
+      "desc": "紧凑数组格式：lon / lat / mag / time(ms) / depth(km,-1=未知) / placeIdx / tsunami / usgsId，地点串字典化去重（11155 个唯一地名），另含逐年计数（127 年）、年度最大震级、M8+ 索引"
+    },
+    {
+      "file": "maps/quake-history/data/plates.json",
+      "features": 241,
+      "unit": "条板块边界线",
+      "desc": "PB2002 全球板块边界（Bird 2003），坐标简化为 2 位小数；地质界线，非国界"
+    },
+    {
+      "file": "maps/quake-history/data/land.json",
+      "features": 127,
+      "unit": "个陆地多边形",
+      "desc": "Natural Earth 1:110m 陆地轮廓，只含海陆分界，不含任何国界或行政区划；深色底图下作为地理参照"
+    },
+    {
+      "file": "maps/quake-history/index.html",
+      "features": 1,
+      "unit": "个互动页面",
+      "desc": "MapLibre 查看器：年份时间轴 + 播放（1900→2026 累计生长）、累计 / 当年双口径、震级门槛 ≥6 / ≥6.5 / ≥7 / ≥8、当年新增白边高亮、M8+ 巨震档案联动跳年、逐点详情卡、PB2002 板块边界开关、深色 / 卫星 / 地形三底图"
+    }
+  ]
+},
+{
   "slug": "truesize",
   "entry": "/maps/truesize/index.html",
   "bbox": [
