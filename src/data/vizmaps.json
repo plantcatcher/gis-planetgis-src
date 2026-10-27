@@ -2,6 +2,46 @@
   "_comment": "可视化互动地图 · 数据资产登记册。职责单一：只记录每张地图的『数据与技术信息』（入口、坐标系、数据源、数据文件清单、要素数）。标题 / 封面 / 摘要 / 介绍页一律来自 content/works/<slug>.md，此处不再重复维护，避免两处不同步。新增地图 = public/maps/<slug>/ 放源码 + 这里加一条 + content/works/<slug>.md（series: map）写介绍页。data[].file 为 public/ 下的相对路径，便于审计体积与共享情况。",
   "maps": [
     {
+      "slug": "cn-gdp-peers",
+      "entry": "/maps/cn-gdp-peers/index.html",
+      "bbox": [
+        73.0,
+        17.5,
+        135.5,
+        54.5
+      ],
+      "crs": "WGS84 / EPSG:4326（省界与底图对齐；天地图为 CGCS2000 Web 墨卡托，视觉无偏移）",
+      "basemap": "天地图：卫星影像 img_w / 矢量路网 vec_w（tk 与全站共用）/ 深色无底图；世界对照视图因天地图无境外数据，自动切深色",
+      "source": "省级 GDP 为 2025 年各省统计公报（人民币亿元，部分按公布值取整到百亿）；全国美元值取世界银行 WDI 2025 年现价美元 194980 亿美元，内陆 31 省按占全国人民币 GDP 比重折算（隐含汇率 7.147），故 31 省美元值之和等于全国；台湾省 9201 亿美元（IMF WEO），香港 4273 亿 / 澳门 521 亿美元（世行 2025）；世界各国 GDP 与人口取世界银行 WDI 2025 现价美元（186 个经济体）。省界为 _shared/china-provinces.json（含台湾、港澳与南海诸岛）；世界国界与 world-nightlight 同源（Natural Earth）。",
+      "updated": "2026-10-27",
+      "data": [
+        {
+          "file": "maps/cn-gdp-peers/data/provinces.geojson",
+          "features": 35,
+          "unit": "个省级单元",
+          "desc": "34 个省级行政区（含台湾、香港、澳门）+ 九段线；属性含全称 / 简称 / GDP 人民币亿元 / 美元亿 / 全球位次 / 标注锚点 / 数据来源标记"
+        },
+        {
+          "file": "maps/cn-gdp-peers/data/countries.json",
+          "features": 186,
+          "unit": "个经济体",
+          "desc": "世界银行 2025 现价美元 GDP 降序：ISO3 / 中文名 / 英文名 / 亿美元 / 人口 / 地区"
+        },
+        {
+          "file": "maps/cn-gdp-peers/data/world.geojson",
+          "features": 289,
+          "unit": "个国界面",
+          "desc": "世界国界（Natural Earth），注入中文名 / ISO3 / GDP 亿美元 / 全球位次，用于世界对照视图"
+        },
+        {
+          "file": "maps/cn-gdp-peers/data/meta.json",
+          "features": 0,
+          "unit": "份元数据",
+          "desc": "口径、隐含汇率、省级 GDP 表，以及每省上 3 / 下 3 对标国家与全球位次的预计算结果"
+        }
+      ]
+    },
+    {
       "slug": "cn-rivers",
       "entry": "/maps/cn-rivers/index.html",
       "bbox": [

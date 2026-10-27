@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <script src="/shared/map-i18n.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>中国各省 GDP 全球对标地图 · 一省敌一国 · 2025</title>
+  <meta name="description" content="把中国 34 个省级行政区放进全球 186 个经济体的 GDP 排行榜：广东≈西班牙、江苏≈西班牙、山东≈印尼、四川≈波兰、西藏≈冰岛。点任意省看它与哪些国家体量相当，并可切到世界地图看这些国家在哪。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <!-- ── 左：介绍栏 ─────────────────────────────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 全网总览</button>
+    </div>
+
+    <div class="vseg" id="vseg">
+      <button type="button" class="is-on" data-view="cn">中国地图</button>
+      <button type="button" data-view="world">世界对照</button>
+      <button type="button" data-view="ladder">全球阶梯</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-eq"></i>
+      <b>GDP 对标</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> GDP PEERS OF CHINA</small>
+      <h1><span>中国各省 GDP</span><b>全球对标地图</b></h1>
+      <p class="lead">广东一个省，经济体量比西班牙还大；江苏紧随其后；山东和印度尼西亚几乎一样。把中国 <b>34 个省级行政区</b> 塞进全球 <b>186 个经济体</b> 的 GDP 排行榜里——谁和谁站在一起？点开任意一个省，看它旁边站着哪些国家。</p>
+
+      <div class="facts">
+        <span><small>省级单元</small><b><span class="v"><em id="fProv">—</em></span><i>个</i></b></span>
+        <span><small>对标经济体</small><b><span class="v"><em id="fCountry">—</em></span><i>个</i></b></span>
+        <span><small>数据年份</small><b><span class="v"><em id="fYear">—</em></span></b></span>
+      </div>
+
+      <section class="block">
+        <header><small>怎么读这张图</small></header>
+        <p class="note">颜色是 <b>2025 年 GDP 总量</b>（现价美元），按量级分 6 档：<b>越红越大</b>。点任意一个省，右侧卡片给出它的 <b>人民币值、美元值、全球位次</b>，以及体量最接近的 <b>6 个国家</b>——比它大的 3 个在上面，比它小的 3 个在下面。</p>
+        <p class="note">点卡里的 <b>「在世界上看这 6 个国家」</b>，或顶栏切到 <b>「世界对照」</b>：地图换成世界版，这 6 个国家被高亮出来，你能直接看见它们在哪儿。顶栏的 <b>「全球阶梯」</b> 则把 34 个省和 186 个国家放进同一条降序榜单——省用红条，国家用蓝条。</p>
+      </section>
+
+      <section class="block warn">
+        <header><small>先说清口径：比的是「总量」，不是「富裕程度」</small></header>
+        <p class="note">这张图只比 <b>GDP 总量</b>。广东总量≈西班牙，但广东有 1.27 亿人、西班牙只有 4900 万人——<b>人均差 2 倍以上</b>。江苏≈西班牙、山东≈印尼同理：体量相当，发展阶段未必相当。看「富不富」请比人均，本图不做。</p>
+      </section>
+
+      <section class="block">
+        <header><small>几个让人意外的对照</small></header>
+        <p class="note"><b>广东 ≈ 西班牙 + 韩国之间</b>：20407 亿美元，比西班牙（19064）高 7%、比巴西（22799）低 10%。一省之力，压过 G20 里的中等发达国家。</p>
+        <p class="note"><b>山东 ≈ 印度尼西亚</b>：14439 亿对 14456 亿，差 0.1%——一个中国省份，跟一个 2.8 亿人口的群岛国家体量重合。</p>
+        <p class="note"><b>西藏 ≈ 冰岛</b>：387 亿对 386 亿。全世界最小的发达经济体之一，和中国面积最大的省级区站在一起。</p>
+        <p class="note"><b>澳门 ≈ 柬埔寨</b>、<b>香港 ≈ 罗马尼亚</b>、<b>重庆 ≈ 马来西亚</b>、<b>甘肃 ≈ 摩洛哥</b>。把 34 个省全排进世界榜单，中国一个国家的内部，就横跨了从「冰岛级」到「巴西级」的完整光谱。</p>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：内陆 31 省 GDP 为 <b>2025 年各省统计公报</b>值（人民币亿元）；全国 GDP 美元值取 <b>世界银行 WDI 2025 年现价美元</b>（194980 亿美元），各省按占全国人民币 GDP 的比重折算美元，故 31 省美元值之和等于全国。<b>台湾省</b>取 IMF WEO 口径 <b>9201 亿美元</b>，<b>香港、澳门</b>取世界银行 2025 年现价美元（4273 亿 / 521 亿），按同一汇率反算人民币值。世界各国 GDP 与人口来自 <b>世界银行 WDI（2025 年，现价美元，186 个经济体）</b>；对标匹配排除中国内地及港澳台本身。省界为 WGS84 省级面（含台湾、香港、澳门与南海诸岛），底图为天地图。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/maps/cn-gdp-peers/full" target="_top" style="display:none">全屏</a>
+        <a href="/learn">地理学习</a>
+        <a href="/downloads">资料下载</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── 右上：详情卡 ────────────────────────────────────── -->
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">PROVINCE</small>
+      <div class="dt-actions">
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtSub">—</p>
+    <div class="dt-metrics">
+      <span><small id="dtLb1">GDP</small><b><em id="dtV1">—</em><i id="dtU1"></i></b></span>
+      <span><small id="dtLb2">折合美元</small><b><em id="dtV2">—</em><i id="dtU2"></i></b></span>
+      <span><small id="dtLb3">全球位次</small><b><em id="dtV3">—</em><i id="dtU3"></i></b></span>
+    </div>
+    <section class="dt-desc">
+      <small id="dtDescLb">占全国 GDP</small>
+      <p id="dtDesc">—</p>
+    </section>
+
+    <div class="peers" id="peers">
+      <div class="peers-cap">经济体量接近的国家　<em>上：比它大　下：比它小</em></div>
+      <div class="peers-list" id="peersList"></div>
+      <button type="button" class="btn-world" id="btnWorld">在世界上看这 6 个国家 →</button>
+    </div>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <!-- ── 右下：图例 ─────────────────────────────────────────── -->
+  <div class="dock"><div class="legend" id="legend"></div></div>
+
+  <!-- ── 左下：图层与底图 ───────────────────────────────────── -->
+  <div class="panel" id="panel">
+    <div class="panel-head" id="panelHead">
+      <span>图层与底图</span>
+      <button type="button" id="panelToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckLabel" checked /><span>省名 / 国名标注</span></label>
+      <label class="row"><input type="checkbox" id="ckGraticule" /><span>经纬网格</span></label>
+      <div class="divider"></div>
+      <div class="bm-title">底图</div>
+      <div class="bm-seg">
+        <label class="bm-opt active"><input type="radio" name="basemap" value="none" checked /><span>深色</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>矢量路网</span></label>
+      </div>
+      <div class="divider"></div>
+      <p class="panel-note">默认<b>深色</b>：GDP 色带最清楚。切到<b>卫星影像</b>可看经济总量与地形、水系的对应关系。世界对照视图下天地图无境外数据，自动回到<b>深色</b>。</p>
+    </div>
+  </div>
+
+  <!-- ── 全屏：全球 GDP 阶梯 ────────────────────────────────── -->
+  <div class="ladder" id="ladder" hidden>
+    <div class="ld-head">
+      <div class="ld-title">
+        <small>GLOBAL GDP LADDER · 2025</small>
+        <h2>全球 GDP 阶梯：34 个省 × 186 个经济体</h2>
+      </div>
+      <div class="ld-tools">
+        <input type="search" id="ldSearch" placeholder="搜索国家或省份，如「西班牙」「四川」" />
+        <button type="button" class="ld-close" id="ldClose">返回地图 ✕</button>
+      </div>
+    </div>
+    <div class="ld-legend">
+      <span class="lg-p"><i></i>中国省级行政区</span>
+      <span class="lg-c"><i></i>国家 / 经济体</span>
+      <span class="lg-note">条形长度按 GDP 对数绘制（否则小国看不见）；点省份跳回地图并选中，点国家看它对应哪个省。</span>
+    </div>
+    <div class="ld-body" id="ldBody"></div>
+    <div class="ld-toast" id="ldToast" hidden></div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="/maps/_shared/thematic/thematic.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
