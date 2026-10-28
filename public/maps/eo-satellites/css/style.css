@@ -1,0 +1,124 @@
+/* 遥感卫星在轨全景 · 本地样式（浮层基类来自 _shared/thematic/thematic.css） */
+:root {
+  --accent: #4fd6c0;
+  --accent-light: #a5f0e4;
+  --accent-soft: rgba(79, 214, 192, .16);
+  --c-sso: #4fd6c0;
+  --c-geo: #ffb648;
+  --c-tilt: #a78bfa;
+}
+
+.lead b { font-weight: 600; }
+.c-sso { color: var(--c-sso); }
+.c-geo { color: var(--c-geo); }
+.c-tilt { color: var(--c-tilt); }
+
+.lg { width: 9px; height: 9px; border-radius: 50%; display: inline-block; vertical-align: middle; flex: 0 0 auto; }
+
+/* 快速定位 */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  font: inherit; font-size: 11.5px; color: var(--muted); cursor: pointer;
+  background: rgba(255, 255, 255, .05); border: 1px solid var(--line);
+  border-radius: 999px; padding: 5px 12px; white-space: nowrap;
+  transition: color .16s, border-color .16s, background .16s;
+}
+.chip:hover { color: var(--text); border-color: rgba(148, 178, 214, .42); background: rgba(255, 255, 255, .08); }
+.hint-n { font-size: 10.5px; color: var(--dim); }
+
+/* 三支队伍开关 */
+.grp-list { display: flex; flex-direction: column; gap: 6px; }
+.grp-row {
+  display: flex; align-items: center; gap: 8px; cursor: pointer;
+  font-size: 12px; color: var(--muted); padding: 3px 0;
+}
+.grp-row input { accent-color: var(--accent); cursor: pointer; margin: 0; }
+.grp-row s.lg { margin: 0; }
+.grp-row b { color: var(--text); font-weight: 600; }
+.grp-row i { font-style: normal; color: var(--dim); font-size: 10.5px; }
+.grp-row em { margin-left: auto; font-style: normal; color: var(--dim); font-variant-numeric: tabular-nums; }
+
+/* 时间 */
+.tm-readout { margin: 0 0 9px; font-size: 12.5px; color: var(--muted); }
+.tm-readout b { color: #fff; font-weight: 700; font-variant-numeric: tabular-nums; }
+.tm-actions { display: flex; gap: 6px; }
+.tm-actions .panel-btn { flex: 1; }
+.spd-row { display: flex; gap: 5px; margin-top: 8px; }
+.spd-row button {
+  flex: 1; font: inherit; font-size: 11.5px; color: var(--muted); cursor: pointer;
+  background: rgba(255, 255, 255, .04); border: 1px solid var(--line);
+  border-radius: 7px; padding: 5px 0; transition: color .16s, border-color .16s, background .16s;
+}
+.spd-row button:hover { color: var(--text); background: rgba(255, 255, 255, .08); }
+.spd-row button.on { color: #06221f; background: var(--accent); border-color: var(--accent); font-weight: 600; }
+
+.panel-btn {
+  font: inherit; font-size: 12.5px; font-weight: 600; color: #cfe0f5; cursor: pointer;
+  background: rgba(255, 255, 255, .05); border: 1px solid var(--line);
+  border-radius: 8px; padding: 8px 12px; width: 100%;
+  transition: color .16s, border-color .16s, background .16s;
+}
+.panel-btn:hover { color: #fff; border-color: var(--accent); background: rgba(79, 214, 192, .1); }
+.panel-btn.on { color: #06221f; background: var(--accent); border-color: var(--accent); }
+
+/* 卫星名单 */
+.sat-list { display: flex; flex-direction: column; gap: 1px; max-height: 260px; overflow-y: auto; margin: 0 -4px; }
+.sat-grp {
+  font-size: 10.5px; color: var(--dim); padding: 7px 4px 3px;
+  display: flex; align-items: center; gap: 6px; letter-spacing: .04em;
+}
+.sat-grp s.lg { margin: 0; }
+.sat-item {
+  display: flex; align-items: baseline; gap: 7px; width: 100%; text-align: left;
+  font: inherit; font-size: 12px; color: var(--muted); cursor: pointer;
+  background: none; border: 0; border-left: 2px solid transparent;
+  padding: 4px 6px; border-radius: 5px; transition: color .14s, background .14s;
+}
+.sat-item:hover { color: var(--text); background: rgba(255, 255, 255, .05); }
+.sat-item.on { color: #fff; background: rgba(79, 214, 192, .12); border-left-color: var(--accent); }
+.sat-item u { text-decoration: none; font-size: 10.5px; color: var(--dim); margin-left: auto; font-variant-numeric: tabular-nums; }
+
+/* 说明列表 */
+.bullets { margin: 0; padding-left: 16px; display: flex; flex-direction: column; gap: 6px; }
+.bullets li { font-size: 11.5px; color: var(--muted); line-height: 1.62; }
+.bullets b { color: var(--text); font-weight: 600; }
+
+/* 详情卡：.panel 自带 display:flex，会把 hidden 属性覆盖，必须显式关掉 */
+#satcard { width: 306px; max-height: calc(100vh - 120px); }
+#satcard[hidden] { display: none; }
+.sc-sub { margin: 0 0 10px; font-size: 11.5px; color: var(--dim); }
+.sc-sub span + span::before { content: ' · '; }
+.sc-note {
+  margin: 10px 0 11px; font-size: 11.5px; line-height: 1.65; color: var(--muted);
+  padding-left: 9px; border-left: 2px solid var(--accent-soft);
+}
+.dt-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 7px 10px; margin: 0 0 11px; }
+.dt-metrics > span { display: flex; flex-direction: column; gap: 1px; }
+.dt-metrics small { font-size: 10px; color: var(--dim); }
+.dt-metrics b { font-size: 12px; color: #fff; font-weight: 600; font-variant-numeric: tabular-nums; }
+.dt-metrics > span.wide { grid-column: 1 / -1; }
+
+/* 刈幅比例尺 */
+.sw-row { margin: 0 0 4px; }
+.sw-row small { display: block; font-size: 10.5px; color: var(--dim); }
+.sw-row small b { color: #fff; font-variant-numeric: tabular-nums; }
+.sw-bar {
+  height: 7px; border-radius: 999px; background: rgba(255, 255, 255, .1);
+  margin: 5px 0 4px; overflow: hidden;
+}
+.sw-bar s {
+  display: block; height: 100%; min-width: 2px; border-radius: 999px;
+  background: var(--accent); text-decoration: none; transition: width .3s;
+}
+.sw-hint { font-size: 10px; }
+.dt-actions { display: flex; gap: 6px; }
+.dt-actions .panel-btn { flex: 1; font-size: 12px; padding: 7px 6px; white-space: nowrap; }
+
+/* 场景内卫星名标签 */
+.sat-label {
+  position: absolute; pointer-events: none; z-index: 6;
+  font-size: 11.5px; font-weight: 600; color: #fff; white-space: nowrap;
+  background: rgba(6, 14, 24, .78); border: 1px solid rgba(148, 178, 214, .3);
+  border-radius: 6px; padding: 3px 8px; transform: translate(-50%, -140%);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .6);
+}

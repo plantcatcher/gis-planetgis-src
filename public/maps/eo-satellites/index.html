@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <script src="/shared/map-i18n.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>遥感卫星在轨全景 · 3D 轨道互动地图</title>
+  <meta name="description" content="可拖拽旋转的 3D 地球：29 颗对地观测卫星按真实轨道根数运行。太阳同步轨道一圈圈扫过全球、地球静止轨道钉在赤道上空定点凝视、倾斜轨道专盯降水与海面。点开任意卫星可看它的真实高度、倾角、刈幅、分辨率与重访周期，并可让它扫一天看覆盖范围。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="satLabel" class="sat-label" hidden></div>
+
+  <!-- ── 左：介绍 / 时间 / 卫星名单 ─────────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 回到全景</button>
+    </div>
+
+    <div class="intro-bar" id="introBar">
+      <i class="ic-eq"></i>
+      <b>遥感卫星在轨全景</b>
+      <span><em>收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> EARTH OBSERVATION · 3D 轨道沙盘</small>
+      <h1><span>遥感卫星</span><b>在轨全景</b></h1>
+      <p class="lead">这颗 3D 地球上的每一个点，都是一颗正在工作的对地观测卫星，位置由真实轨道根数算出。它们分成三支队伍：<b class="c-sso">太阳同步轨道</b>的卫星斜着绕过两极，每天把地球扫一遍；<b class="c-geo">地球静止轨道</b>的卫星钉在赤道上空 3.6 万公里处一动不动，盯着固定的一整片大陆；还有<b class="c-tilt">倾斜轨道</b>的专班，只盯降水与海面。点开任意一颗，看它究竟飞多高、看多宽、多久回头再看一次。</p>
+
+      <div class="facts">
+        <span><small>在轨卫星</small><b><em id="fCount">—</em><i>颗</i></b></span>
+        <span><small>轨道类型</small><b><em>3</em><i>类</i></b></span>
+        <span><small>轨道根数</small><b><em id="fEpoch">—</em><i>TLE</i></b></span>
+      </div>
+
+      <section class="block">
+        <header><small>快速定位</small><small class="hint-n">拖拽 / 滚轮自由看</small></header>
+        <div class="chips" id="presetList"></div>
+      </section>
+
+      <section class="block">
+        <header><small>三支队伍</small><small class="hint-n">点色点开关</small></header>
+        <div class="grp-list" id="grpList"></div>
+        <p class="note">太阳同步轨道的倾角都在 98° 上下——略大于 90° 的「逆行」轨道，正好让轨道面每天向东转 0.99°，跟住太阳。这就是它每天同一地方时过境的原因。</p>
+      </section>
+
+      <section class="block">
+        <header><small>时间</small><small class="hint-n">加速看轨道怎么扫</small></header>
+        <p class="tm-readout">UTC <b id="tmClock">—</b></p>
+        <div class="tm-actions">
+          <button type="button" id="btnPlay" class="panel-btn">▶ 播放</button>
+          <button type="button" id="btnNow" class="panel-btn">⟲ 回到此刻</button>
+        </div>
+        <div class="spd-row" id="spdRow"></div>
+        <p class="note">默认按 60 倍速前进。调到 3600 倍，一分钟就能看完一整天的轨道扫描；配合下方的「扫一天」，可以直接看出这颗星一天能覆盖多少地球。</p>
+      </section>
+
+      <section class="block">
+        <header><small>卫星名单</small><small class="hint-n">点一颗看详情</small></header>
+        <div class="sat-list" id="satList"></div>
+      </section>
+
+      <section class="block">
+        <header><small>怎么读这张图</small></header>
+        <ul class="bullets">
+          <li><b>轨道线</b>是这颗星飞行的闭合路径。极轨卫星的轨道近乎南北走向，静止卫星的轨道退化成赤道面上的一个点。</li>
+          <li><b>刈幅带</b>是卫星一次成像扫过的地面宽度。MODIS 一次扫 2330 公里，WorldView-3 只有 13 公里——看得清，就必然看得窄。</li>
+          <li><b>扫一天</b>把这一天的刈幅全部叠起来。极轨卫星会织出一张覆盖全球的条纹网，静止卫星始终只有同一个圆盘。</li>
+          <li>轨道高度做了非线性压缩：极轨层之间保留了相对高低，静止轨道被拉到 1.9 倍地球半径，否则它会在画面外。真实比例下它离地心 6.6 个地球半径。</li>
+        </ul>
+      </section>
+
+      <section class="block">
+        <header><small>数据说明</small></header>
+        <p class="note">轨道根数取自 CelesTrak 公开发布的 TLE（两行根数），由平均运动反算轨道高度与周期，静止轨道的定点经度由历元相位反算。卫星位置按圆轨道开普勒运动叠加 J2 项升交点进动实时推算，不含完整 SGP4 摄动，属科普精度。分辨率、刈幅、重访为公开资料标称值，实际成像受侧摆、云覆盖与任务编排影响。构建期一次性抓取，运行时不请求任何外部接口。本页面不绘制国界，地球贴图为公开昼面影像。</p>
+      </section>
+    </div>
+  </aside>
+
+  <!-- ── 右下：卫星详情卡 ──────────────────────────────── -->
+  <div class="panel" id="satcard" hidden>
+    <div class="panel-head" id="scHead">
+      <span class="ph-t" id="scName">—</span>
+      <button type="button" id="scClose" class="ph-x" aria-label="关闭">×</button>
+    </div>
+    <div class="panel-body" id="scBody">
+      <p class="sc-sub"><span id="scCode">—</span></p>
+      <div class="dt-metrics" id="scMetrics"></div>
+      <div class="sw-row">
+        <small>刈幅：一次成像扫过 <b id="scSwathNum">—</b> 公里</small>
+        <div class="sw-bar"><s id="scSwathBar"></s></div>
+        <small class="sw-hint">满格 = 地球周长 40075 公里</small>
+      </div>
+      <p class="sc-note" id="scNote">—</p>
+      <div class="dt-actions">
+        <button type="button" id="btnSwath" class="panel-btn">显示刈幅带</button>
+        <button type="button" id="btnDay" class="panel-btn">扫一天</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/three.min.js"></script>
+  <script src="data/satellites.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
