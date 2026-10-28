@@ -1,0 +1,416 @@
+/* 玄奘西行 · 真实的取经路 —— 古羊皮卷 / 古舆图皮肤
+   ─────────────────────────────────────────────────────────────
+   设计口径：把这张图当成一张「铺在桌上的古地图」来画。
+   · 纸：偏暖的米黄，带纤维噪点、水渍斑与四周暗角（做旧）
+   · 海：赭黄；陆：留白的纸 —— 陆地比海亮，靠墨线海岸立住
+   · 墨：褐墨做轮廓 / 经纬网 / 省界；朱砂去程、靛青回程压在纸面上
+   · 字：宋体（serif），方角边框，去掉一切毛玻璃与圆角
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  /* 纸张三阶：纸白 / 纸本 / 纸沉 */
+  --paper-hi: #f4ecd6;
+  --paper: #ece0c4;
+  --paper-mid: #e4d5b2;
+  --paper-lo: #d9c9a1;
+
+  /* 墨三阶：浓墨 / 中墨 / 淡墨 */
+  --ink: #3a2a18;
+  --ink-2: #5c4529;
+  --ink-3: #8a7350;
+
+  /* 两味颜料 */
+  --seal: #a3382a;
+  --seal-hi: #c25a45;
+  --seal-lo: #7d2418;
+  --indigo: #34506e;
+
+  --serif: "Songti SC", "STSong", "SimSun", "Noto Serif CJK SC",
+           "Source Han Serif SC", "Times New Roman", serif;
+
+  /* 覆写共享引擎的深色变量 */
+  --bg: var(--paper-mid);
+  --panel: rgba(242, 233, 210, 0.94);
+  --panel-solid: rgba(238, 228, 202, 0.98);
+  --line: rgba(92, 69, 41, 0.3);
+  --text: var(--ink);
+  --muted: #6b5638;
+  --dim: #6f5a3c;
+  --accent: var(--seal);
+  --accent-light: var(--seal-hi);
+  --accent-dark: var(--seal-lo);
+  --accent-soft: rgba(163, 56, 42, 0.12);
+  --radius: 3px;                                   /* 古图要方角 */
+  --shadow: 0 4px 18px rgba(70, 48, 24, 0.2), inset 0 0 0 1px rgba(255, 252, 240, 0.5);
+}
+
+/* ── 纸：字体换成宋体，整体转暖 ── */
+html, body {
+  font-family: var(--serif);
+  background: var(--paper-mid);
+  color: var(--ink);
+  letter-spacing: .2px;
+}
+
+/* 纸纤维 + 水渍 + 暗角。压在 canvas 之上（z-index 2）、标注之下（5）、UI 之下（12），
+   pointer-events:none 保证不挡任何交互。 */
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 2; pointer-events: none;
+  /* 纤维噪点：SVG feTurbulence 生成的灰噪声，multiply 混进纸里 */
+  background-image:
+    url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  background-size: 260px 260px;
+  mix-blend-mode: multiply;
+  opacity: 0.22;
+}
+/* 受光不均的纸斑 + 暗角，单独一层 */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 2; pointer-events: none;
+  background:
+    radial-gradient(ellipse 42% 34% at 30% 20%, rgba(255, 252, 236, 0.26) 0%, rgba(255, 252, 236, 0) 82%),
+    radial-gradient(ellipse 34% 26% at 78% 64%, rgba(255, 250, 232, 0.2) 0%, rgba(255, 250, 232, 0) 80%),
+    radial-gradient(ellipse 30% 24% at 46% 92%, rgba(255, 248, 226, 0.18) 0%, rgba(255, 248, 226, 0) 82%),
+    radial-gradient(ellipse 128% 118% at 50% 48%, rgba(120, 88, 46, 0) 50%, rgba(112, 80, 40, 0.22) 88%, rgba(96, 66, 30, 0.36) 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(92, 69, 41, 0.22),
+    inset 0 0 0 7px rgba(236, 224, 196, 0.5),
+    inset 0 0 0 8px rgba(92, 69, 41, 0.34),
+    inset 0 0 0 16px rgba(236, 224, 196, 0.28),
+    inset 0 0 0 17px rgba(92, 69, 41, 0.14);
+}
+
+/* ── 浮层：一律纸片＋墨线＋方角，去毛玻璃 ── */
+.intro, .detail, .panel, .legend, .strip, .glass {
+  background:
+    linear-gradient(178deg, rgba(246, 238, 219, 0.97) 0%, rgba(233, 222, 194, 0.96) 46%, rgba(226, 213, 184, 0.96) 100%);
+  border: 1px solid rgba(92, 69, 41, 0.36);
+  border-radius: 2px;
+  box-shadow:
+    0 5px 20px rgba(66, 44, 20, 0.22),
+    0 1px 0 rgba(255, 252, 240, 0.7) inset,
+    inset 0 0 0 3px rgba(246, 238, 219, 0.4);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  color: var(--ink);
+}
+.detail { backdrop-filter: none; }
+
+/* 标题排版：eyebrow 用朱砂小字，主标题宋体加粗 */
+.eyebrow {
+  color: var(--seal);
+  letter-spacing: 1.1px;
+  font-size: 10.5px;
+}
+.eyebrow i { opacity: .8; }
+.intro h1 { font-family: var(--serif); letter-spacing: .5px; }
+.intro h1 b { color: var(--seal); }
+.lead { color: #4a3823; }
+.lead b, .note b, .src b { color: var(--ink); }
+
+/* 数据来源块：古图上的「题跋」感，用细墨线隔开 */
+.block.src {
+  border-top: 1px solid rgba(92, 69, 41, 0.22);
+  padding-top: 10px;
+}
+.block.src p { color: var(--ink-2); font-size: 11.5px; line-height: 1.72; }
+
+/* 统计数字：朱砂＋宋体大字号 */
+.facts { border-top: 1px solid rgba(92, 69, 41, 0.22); border-bottom: 1px solid rgba(92, 69, 41, 0.22); }
+.facts > span small { color: var(--ink-3); }
+.facts .v, .facts em { color: var(--seal); font-family: var(--serif); }
+.facts i { color: var(--ink-3); }
+
+/* 按钮：细墨边框，按下有「盖章」的实心感 */
+.btn-back, .btn-overview {
+  background: rgba(255, 251, 238, 0.6);
+  border: 1px solid rgba(92, 69, 41, 0.34);
+  border-radius: 2px;
+  color: var(--ink-2);
+}
+.btn-back:hover, .btn-overview:hover {
+  background: rgba(255, 251, 238, 0.92);
+  border-color: rgba(92, 69, 41, 0.55);
+  color: var(--ink);
+}
+.btn-overview { color: var(--seal); border-color: rgba(163, 56, 42, 0.34); background: rgba(163, 56, 42, 0.08); }
+.btn-overview:hover { color: #fff; background: var(--seal); border-color: var(--seal); }
+
+/* 路线章节：序号圈用线色，选中后实心 → 像在图上做标记 */
+.chapters button {
+  background: rgba(255, 251, 238, 0.5);
+  border: 1px solid rgba(92, 69, 41, 0.22);
+  border-radius: 2px;
+}
+.chapters button:hover { background: rgba(255, 251, 238, 0.85); border-color: rgba(92, 69, 41, 0.42); }
+.chapters button.active {
+  background: rgba(163, 56, 42, 0.07);
+  border-color: rgba(163, 56, 42, 0.45);
+}
+.chapters .nm, .chapters b { color: var(--ink); }
+.chapters .sub, .chapters small { color: var(--ink-3); }
+.chapters button[data-id="go"] .no { color: var(--seal); border-color: rgba(163, 56, 42, .5); }
+.chapters button[data-id="back"] .no { color: var(--indigo); border-color: rgba(52, 80, 110, .5); }
+.chapters button[data-id="go"].active .no { background: var(--seal); border-color: var(--seal); color: #fdf6e6; }
+.chapters button[data-id="back"].active .no { background: var(--indigo); border-color: var(--indigo); color: #fdf6e6; }
+
+/* 详情卡 */
+.detail header small { color: var(--seal); letter-spacing: 1.2px; }
+.detail h2 { font-family: var(--serif); color: var(--ink); }
+#dtTagline { color: var(--ink-2); }
+.dt-metrics { border-top: 1px solid rgba(92, 69, 41, 0.2); border-bottom: 1px solid rgba(92, 69, 41, 0.2); }
+.dt-metrics small { color: var(--ink-3); }
+.dt-metrics em { color: var(--ink); }
+.dt-desc small { color: var(--seal); }
+.dt-desc p { color: var(--ink-2); }
+.detail footer { color: var(--dim); border-top: 1px solid rgba(92, 69, 41, 0.2); font-size: 11.5px; line-height: 1.6; }
+.detail > footer b { color: var(--ink); }
+.dt-actions button {
+  background: rgba(255, 251, 238, 0.7);
+  border: 1px solid rgba(92, 69, 41, 0.3);
+  border-radius: 2px; color: var(--ink-2);
+}
+.dt-actions button:hover { background: var(--seal); border-color: var(--seal); color: #fdf6e6; }
+
+/* 《西游记》关联段：朱砂题签 —— 像古书上的眉批 */
+#dtXyjiBox {
+  border-left: 3px solid var(--seal);
+  background: rgba(163, 56, 42, 0.07);
+  border-radius: 0 2px 2px 0;
+  padding: 10px 12px;
+  margin-top: 4px;
+}
+#dtXyjiBox small { color: var(--seal); }
+#dtXyjiBox p { color: #513020; }
+
+/* 图例 / 导航条 */
+.legend { border-radius: 2px; }
+.legend > span { color: var(--ink-2); }
+.legend > span > i { box-shadow: 0 0 0 1px rgba(92, 69, 41, .45); }
+.legend s { box-shadow: 0 0 0 1px rgba(92, 69, 41, .45); }
+.strip button {
+  background: rgba(255, 251, 238, 0.55);
+  border: 1px solid rgba(92, 69, 41, 0.26);
+  border-radius: 2px;
+}
+.strip button.active { background: rgba(163, 56, 42, 0.1); border-color: rgba(163, 56, 42, 0.5); }
+.strip b, .strip .nm { color: var(--ink); }
+.strip small { color: var(--ink-3); }
+
+/* 图层面板 */
+.panel-head { border-bottom: 1px solid rgba(92, 69, 41, 0.22); }
+.panel-head span { color: var(--ink); font-family: var(--serif); }
+.panel-head button {
+  background: rgba(255, 251, 238, 0.7);
+  border: 1px solid rgba(92, 69, 41, 0.3);
+  border-radius: 2px; color: var(--ink-2);
+}
+.panel .row { color: var(--ink-2); }
+.panel .row:hover { background: rgba(163, 56, 42, 0.06); }
+.panel .divider { background: rgba(92, 69, 41, 0.2); }
+.bm-title { color: var(--ink-3); letter-spacing: 1px; }
+.bm-seg { border: 1px solid rgba(92, 69, 41, 0.3); border-radius: 2px; }
+.bm-opt span { color: var(--ink-2); }
+.bm-opt input:checked + span { background: var(--seal); color: #fdf6e6; }
+.panel-note { color: var(--ink-3); }
+.panel-note b { color: var(--ink-2); }
+.panel-note em { color: var(--seal); font-style: normal; }
+
+/* ── 地图标注：宋体＋纸片底，去掉发光 ── */
+.tlabel {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: .6px;
+  color: var(--ink);
+  background: rgba(247, 240, 222, 0.9);
+  border: 1px solid rgba(92, 69, 41, 0.4);
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgba(80, 54, 26, 0.2);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  text-shadow: none;
+  padding: 2px 8px 2px 6px;
+}
+.tlabel::before {
+  width: 6px; height: 6px;
+  box-shadow: 0 0 0 1.5px rgba(250, 244, 226, 0.9);
+}
+.tlabel.is-tag {
+  color: #6b3a24;
+  background: rgba(163, 56, 42, 0.1);
+  border-color: rgba(163, 56, 42, 0.45);
+  font-style: normal;
+  letter-spacing: 1px;
+}
+.tlabel.is-active {
+  color: #fdf6e6;
+  background: var(--seal);
+  border-color: var(--seal-lo);
+  box-shadow: 0 2px 8px rgba(120, 40, 26, 0.35);
+}
+.tlabel.is-active::before { box-shadow: 0 0 0 1.5px rgba(253, 246, 230, 0.85); }
+
+/* 悬停提示：小纸条 */
+.ttip {
+  font-family: var(--serif);
+  color: var(--ink);
+  background: rgba(247, 240, 222, 0.97);
+  border: 1px solid rgba(92, 69, 41, 0.45);
+  border-radius: 2px;
+  box-shadow: 0 4px 14px rgba(80, 54, 26, 0.28);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* 滚动条也跟着做旧 */
+body::-webkit-scrollbar-thumb,
+.intro-body::-webkit-scrollbar-thumb { background: rgba(92, 69, 41, .3); border-radius: 2px; }
+
+/* 共享引擎里还有一批硬编码的浅蓝文字色（原为深色底设计），
+   在米黄纸上全部看不见 —— 这里逐条改写成墨色系。 */
+.intro h1 span { color: #7a6242; }
+.block > header > small { color: var(--seal); letter-spacing: .12em; }
+.chapters .tx b { color: var(--ink); }
+.chapters button.active .tx b { color: var(--seal-lo); }
+.strip button { color: var(--ink-2); }
+.strip button:hover { color: var(--ink); }
+.strip button.active {
+  color: #fdf6e6;
+  background: var(--seal);
+  border-color: var(--seal-lo);
+  box-shadow: 0 3px 10px rgba(120, 40, 26, .3);
+}
+.strip button.active .nm, .strip button.active b, .strip button.active small { color: #fdf6e6; }
+.dt-metrics em { color: var(--ink); }
+.dt-desc small { color: var(--seal); }
+.detail h2 { color: var(--ink); }
+.detail header small { color: var(--seal); }
+.chapters button.active .no { color: #fdf6e6; }
+
+/* 两条线排成一行 */
+.strip { grid-template-rows: auto; }
+
+/* 面板说明窄栏时允许换行 */
+.panel-note { word-break: break-word; }
+
+/* 移动端抽屉把手：共享主题用白色，压在米黄纸上等于隐形 —— 改墨色 */
+@media (max-width: 900px) {
+  .intro-bar::before { background: rgba(92, 69, 41, 0.34) !important; }
+  .intro-bar:active::before { background: rgba(92, 69, 41, 0.56) !important; }
+  .intro-bar { border-color: rgba(92, 69, 41, 0.26); }
+}
+
+/* ── 图题框（cartouche）：仿古舆图卷首题签 ─────────────────────
+   单独贴上去的一张签条：比周围纸更亮、双线边框、四角 L 形花饰、
+   右下角压一枚朱印。纯装饰，不接管任何交互。 */
+.cartouche {
+  position: fixed;
+  left: calc(var(--intro-w) + 32px);
+  top: 26px;
+  z-index: 6;
+  width: 326px;
+  padding: 13px 20px 15px;
+  pointer-events: none;
+  text-align: center;
+  color: var(--ink);
+  background:
+    linear-gradient(176deg, rgba(250, 244, 228, 0.97) 0%, rgba(242, 232, 209, 0.96) 56%, rgba(232, 219, 191, 0.96) 100%);
+  border: 1px solid rgba(92, 69, 41, 0.52);
+  border-radius: 2px;
+  box-shadow:
+    0 6px 22px rgba(66, 44, 20, 0.24),
+    inset 0 0 0 3px rgba(250, 244, 228, 0.8),
+    inset 0 0 0 4px rgba(92, 69, 41, 0.32),
+    inset 0 0 16px rgba(120, 88, 46, 0.1);
+}
+/* 四角 L 形花饰 */
+.ct-corner {
+  position: absolute; width: 12px; height: 12px;
+  border: 1.4px solid var(--ink-2);
+  opacity: .78;
+}
+.ct-corner.tl { left: 5px;  top: 5px;    border-right: 0; border-bottom: 0; }
+.ct-corner.tr { right: 5px; top: 5px;    border-left: 0;  border-bottom: 0; }
+.ct-corner.bl { left: 5px;  bottom: 5px; border-right: 0; border-top: 0; }
+.ct-corner.br { right: 5px; bottom: 5px; border-left: 0;  border-top: 0; }
+
+.ct-eyebrow {
+  font-family: var(--serif);
+  font-size: 9.5px; letter-spacing: .2em;
+  color: var(--seal); opacity: .92;
+}
+.ct-title {
+  margin: 7px 0 0;
+  font-family: var(--serif);
+  font-size: 20px; font-weight: 700; line-height: 1.34;
+  letter-spacing: .26em; text-indent: .26em;   /* 补末字后的字距，视觉仍居中 */
+  color: var(--ink);
+}
+/* 分隔：两侧渐隐墨线夹一个朱砂小菱 */
+.ct-rule {
+  display: flex; align-items: center; justify-content: center;
+  gap: 9px; margin: 9px 0 7px;
+}
+.ct-rule s {
+  flex: 1; height: 1px; text-decoration: none;
+  background: linear-gradient(to right, rgba(92, 69, 41, 0), rgba(92, 69, 41, .48), rgba(92, 69, 41, 0));
+}
+.ct-rule b {
+  width: 5px; height: 5px; flex: 0 0 auto;
+  background: var(--seal);
+  transform: rotate(45deg);
+  opacity: .8;
+}
+.ct-sub {
+  font-family: var(--serif);
+  font-size: 10.5px; letter-spacing: .1em;
+  color: var(--ink-3);
+}
+
+/* 朱印：竖排白文，微微歪一点，像随手盖上去的（盖在纸签右下角内侧） */
+.ct-seal {
+  position: absolute; right: 14px; bottom: 8px;
+  padding: 4px 3px;
+  font-family: var(--serif);
+  font-size: 10px; line-height: 1.2; letter-spacing: .04em;
+  writing-mode: vertical-rl;
+  color: #fdf6e6;
+  background: var(--seal);
+  border-radius: 1px;
+  transform: rotate(-4deg);
+  opacity: .87;
+  box-shadow:
+    0 1px 6px rgba(120, 40, 26, 0.28),
+    inset 0 0 0 1.4px rgba(253, 246, 230, 0.55);
+}
+
+/* 地图区不够宽时藏起来（左栏 352 + 签条 326，留不出余量就没意义） */
+@media (max-width: 1080px) { .cartouche { display: none; } }
+
+/* ── 装饰：罗盘玫瑰 ＋ 比例尺做旧 ── */
+.compass {
+  position: fixed; right: 22px; top: 42%; z-index: 6;
+  width: 88px; height: 88px; pointer-events: none;
+  opacity: 0.34; mix-blend-mode: multiply;
+}
+@media (max-width: 900px) { .compass { display: none; } }
+
+/* MapLibre 自带控件改成墨色纸片 */
+.maplibregl-ctrl-group {
+  background: rgba(247, 240, 222, 0.94) !important;
+  border: 1px solid rgba(92, 69, 41, 0.36) !important;
+  border-radius: 2px !important;
+  box-shadow: 0 3px 10px rgba(80, 54, 26, 0.2) !important;
+}
+.maplibregl-ctrl-group button + button { border-top: 1px solid rgba(92, 69, 41, 0.24) !important; }
+.maplibregl-ctrl-group button span { filter: sepia(1) saturate(2.4) hue-rotate(-12deg) brightness(0.55); }
+.maplibregl-ctrl-scale {
+  background: rgba(247, 240, 222, 0.86) !important;
+  border: 1px solid rgba(92, 69, 41, 0.5) !important;
+  border-top: none !important;
+  color: var(--ink-2) !important;
+  font-family: var(--serif) !important;
+  font-size: 10.5px !important;
+}

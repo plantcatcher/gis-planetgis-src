@@ -2,6 +2,34 @@
   "_comment": "可视化互动地图 · 数据资产登记册。职责单一：只记录每张地图的『数据与技术信息』（入口、坐标系、数据源、数据文件清单、要素数）。标题 / 封面 / 摘要 / 介绍页一律来自 content/works/<slug>.md，此处不再重复维护，避免两处不同步。新增地图 = public/maps/<slug>/ 放源码 + 这里加一条 + content/works/<slug>.md（series: map）写介绍页。data[].file 为 public/ 下的相对路径，便于审计体积与共享情况。",
   "maps": [
     {
+      "slug": "xuanzang-route",
+      "entry": "/maps/xuanzang-route/index.html",
+      "bbox": [
+        70.0,
+        22.0,
+        110.0,
+        46.0
+      ],
+      "crs": "WGS84 / EPSG:4326（底图天地图 _w 与陆地衬底均 WGS84，不混 GCJ-02）",
+      "basemap": "古羊皮卷（默认：仿古舆图皮肤，WGS84 世界陆地衬底 + 墨线海岸 + 纸纤维暗角）/ 天地图全球矢量 img/vec（WGS84 球面墨卡托，境外含基础地理）/ 可叠加 5° 经纬网格",
+      "source": "节点取《大唐西域记》《大慈恩寺三藏法师传》研究的现代地理对应点（WGS84，量级 0.01°）；线路为「途经地依次连线」的地理示意，不表达实测道路，里程为连线 haversine 累加值，仅供两条线横向比较；古代山口（凌山／铁门／葱岭）为近似位置。中国境内节点（陕西、甘肃、新疆等）均为中国领土；克什米尔按通行地名称谓，不作政治归属判定。",
+      "updated": "2026-10-29",
+      "data": [
+        {
+          "file": "maps/xuanzang-route/data/routes.json",
+          "features": 2,
+          "unit": "条路线",
+          "desc": "西行去程（长安 → 那烂陀，7,474 km，33 处途经地）/ 东归回程（那烂陀 → 长安，6,037 km，13 处），共 46 个坐标点"
+        },
+        {
+          "file": "maps/xuanzang-route/data/nodes.json",
+          "features": 46,
+          "unit": "处途经地（去重 39）",
+          "desc": "出发 2 / 途经 35 / 关隘 4 / 枢纽 3 / 抵达 2（去程 33 + 回程 13，共享节点各存一份，页面自动合并标签）；每处带今址、今属、玄奘经历与《西游记》关联"
+        }
+      ]
+    },
+    {
       "slug": "eo-satellites",
       "entry": "/maps/eo-satellites/index.html",
       "bbox": [

@@ -162,37 +162,49 @@ const extraHide = LEGACY_UI[slug] || '';
 
 const hideCss = `
   .intro, .detail, .dock, .panel, .maplibregl-ctrl-bottom-right, .timeline, .playbar,
-  .maplibregl-ctrl-top-right, .maplibregl-ctrl-top-left, .brand, #ctrlOpen, .ctrl-open
+  .maplibregl-ctrl-top-right, .maplibregl-ctrl-top-left, .brand, #ctrlOpen, .ctrl-open,
+  .cartouche
   { display: none !important; }
   ${extraHide} { display: none !important; }
   ${keepLabels ? '' : '#labels { display: none !important; }'}
 `;
 /* 详情页封面用 <img object-cover> 展示，四周按容器比例裁切：
    - 桌面横容器裁上下、手机竖容器裁左右 —— 唯一任何裁切都保得住的位置是正中央。
-   - TITLE_CENTER=1 时标题放画面正中 + 径向暗色晕影，专供 downloads 详情页。 */
+   - TITLE_CENTER=1 时标题放画面正中 + 径向暗色晕影，专供 downloads 详情页。
+   - COVER_LIGHT=1 时切换成浅底方案（古羊皮卷 / 纸本类专题）：墨色字 + 纸色晕影，
+     否则白字压在米黄纸上完全看不见。默认仍是深底白字，不影响既有封面。 */
 const TITLE_CENTER = !!process.env.TITLE_CENTER;
+const LIGHT = !!process.env.COVER_LIGHT;
+const C_TITLE = LIGHT ? '#33240f' : '#fff';
+const C_SUB = LIGHT ? '#6b5638' : '#a8bcd4';
+const C_SHADOW = LIGHT ? 'none' : '0 2px 18px rgba(0,0,0,.85)';
+const FONT_STACK = LIGHT
+  ? '"Songti SC","STSong","SimSun","Noto Serif CJK SC",serif'
+  : '"PingFang SC","Microsoft YaHei",system-ui,sans-serif';
+/* 浅底用「纸色到透明」的晕影，深底用「墨色到透明」 */
+const shade = (a) => LIGHT ? `rgba(236,224,196,${a})` : `rgba(6,11,20,${a})`;
 const titleHtml =
   `${eyebrow ? `<div style="font-size:12px;font-weight:700;letter-spacing:.22em;color:${accent};margin-bottom:12px">${eyebrow}</div>` : ''}` +
-  `<div style="font-size:${TITLE_CENTER ? (title.length > 12 ? 34 : 42) : (title.length > 12 ? 38 : 46)}px;font-weight:800;color:#fff;letter-spacing:.02em;line-height:1.15">${title}</div>` +
-  `${sub ? `<div style="font-size:15px;color:#a8bcd4;margin-top:12px;letter-spacing:.02em">${sub}</div>` : ''}`;
+  `<div style="font-size:${TITLE_CENTER ? (title.length > 12 ? 34 : 42) : (title.length > 12 ? 38 : 46)}px;font-weight:800;color:${C_TITLE};letter-spacing:.02em;line-height:1.15">${title}</div>` +
+  `${sub ? `<div style="font-size:15px;color:${C_SUB};margin-top:12px;letter-spacing:.02em">${sub}</div>` : ''}`;
 const overlay = title ? (TITLE_CENTER ? `
   var g = document.createElement('div');
   g.style.cssText = 'position:fixed;left:0;right:0;top:0;bottom:0;z-index:2147483646;pointer-events:none;' +
-    'background:radial-gradient(ellipse 72% 58% at center, rgba(6,11,20,.88) 0%, rgba(6,11,20,.62) 46%, rgba(6,11,20,0) 100%)';
+    'background:radial-gradient(ellipse 72% 58% at center, ${shade(0.88)} 0%, ${shade(0.62)} 46%, ${shade(0)} 100%)';
   document.body.appendChild(g);
   var d = document.createElement('div');
   d.style.cssText = 'position:fixed;left:6%;right:6%;top:50%;transform:translateY(-50%);z-index:2147483647;pointer-events:none;text-align:center;' +
-    'text-shadow:0 2px 18px rgba(0,0,0,.85);font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif';
+    'text-shadow:${C_SHADOW};font-family:${FONT_STACK}';
   d.innerHTML = ${JSON.stringify(titleHtml)};
   document.body.appendChild(d);
 ` : `
   var g = document.createElement('div');
   g.style.cssText = 'position:fixed;left:0;right:0;bottom:0;height:46%;z-index:2147483646;pointer-events:none;' +
-    'background:linear-gradient(to top, rgba(6,11,20,.94) 0%, rgba(6,11,20,.72) 34%, rgba(6,11,20,0) 100%)';
+    'background:linear-gradient(to top, ${shade(0.94)} 0%, ${shade(0.72)} 34%, ${shade(0)} 100%)';
   document.body.appendChild(g);
   var d = document.createElement('div');
   d.style.cssText = 'position:fixed;left:52px;bottom:44px;z-index:2147483647;pointer-events:none;' +
-    'text-shadow:0 2px 18px rgba(0,0,0,.85);font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif';
+    'text-shadow:${C_SHADOW};font-family:${FONT_STACK}';
   d.innerHTML = ${JSON.stringify(titleHtml)};
   document.body.appendChild(d);
 `) : '';

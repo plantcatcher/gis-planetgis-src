@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <script src="/shared/map-i18n.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>玄奘西行 · 真实的取经路</title>
+  <meta name="description" content="公元 629–645 年，玄奘私自西行五万里求法：西行去程经河西走廊、西域北道、天山凌山、中亚撒马尔罕，东归回程翻帕米尔南道、走西域南道。两条路线 39 处途经地一次画在地图上，点任意一地看玄奘在此的经历，以及它与《西游记》的真实与虚构。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <!-- ── 左：介绍栏 ─────────────────────────────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 全球总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-xz"></i>
+      <b>玄奘西行</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-xz"></i> XUANZANG'S PILGRIMAGE · 629–645 AD</small>
+      <h1><span>真实的</span><b>取经路</b></h1>
+      <p class="lead">小说里的唐僧有悟空护送、一路打怪；真实的玄奘是<b>一个人、一匹马</b>，私自出境、偷渡玉门关、独闯八百里沙漠，<b>十七年走完约五万里</b>，往返走的是<b>两条不同的路</b>。</p>
+
+      <div class="facts">
+        <span><small>路线</small><b><span class="v"><em>2</em></span><i>条</i></b></span>
+        <span><small>途经地</small><b><span class="v"><em id="fNode">39</em></span><i>处</i></b></span>
+        <span><small>历时</small><b><span class="v">约 <em>17</em></span><i>年</i></b></span>
+      </div>
+
+      <section class="block">
+        <header><small>两条路线</small></header>
+        <div class="chapters" id="routeList"></div>
+        <p class="note">点任意一条，地图会飞向它，并让一道亮线<b>从起点走到终点</b>。朱砂红是西行去程，靛蓝是东归回程。</p>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：节点取《大唐西域记》《大慈恩寺三藏法师传》研究的<b>现代地理对应点</b>（含台湾、港澳及中国西域诸地为中国领土；克什米尔按通行地名称谓）。坐标是 <b>WGS84</b>，与天地图全球瓦片、陆地衬底、经纬网一致，<b>不混用 GCJ-02</b>。<b>线路不是实测道路</b>——它是「途经地依次连线」的地理示意，里程为连线累加值，仅供两条线横向比较；古代山口（凌山／铁门／葱岭）为近似位置。它<b>不作道路、遗址边界或勘界依据</b>。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/works" target="_top">作品介绍</a>
+        <a href="/downloads" target="_top">资料下载</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── 右上：详情卡（线路 / 途经地共用） ────────────────────── -->
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">ROUTE</small>
+      <div class="dt-actions">
+        <button type="button" id="dtReplay" title="重播动画">↻</button>
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtTagline">—</p>
+    <div class="dt-metrics">
+      <span><small id="dtM1Label">起点</small><b><em id="dtM1">—</em></b></span>
+      <span><small id="dtM2Label">终点</small><b><em id="dtM2">—</em></b></span>
+      <span><small id="dtM3Label">途经</small><b><em id="dtM3">—</em></b></span>
+    </div>
+    <section class="dt-desc">
+      <small id="dtDescLabel">线路概述</small>
+      <p id="dtDesc">—</p>
+    </section>
+    <section class="dt-desc" id="dtXyjiBox" hidden>
+      <small>《西游记》里的它</small>
+      <p id="dtXyji">—</p>
+    </section>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <!-- ── 右下：图例 + 导航条 ───────────────────────────── -->
+  <div class="dock">
+    <div class="legend" id="legend"></div>
+    <nav class="strip" id="strip" aria-label="两条路线导航"></nav>
+  </div>
+
+  <!-- ── 左下：图层与底图 ───────────────────────────────────── -->
+  <div class="panel" id="panel">
+    <div class="panel-head" id="panelHead">
+      <span>图层与底图</span>
+      <button type="button" id="panelToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckLabel" checked /><span>地名与路线名称</span></label>
+      <label class="row"><input type="checkbox" id="ckNodes" checked data-toggle-layer="node-dot,node-halo" /><span>途经地点位</span></label>
+      <label class="row"><input type="checkbox" id="ckLand" checked data-toggle-layer="land-fill,land-halo,land-line" /><span>世界陆地衬底</span></label>
+      <label class="row"><input type="checkbox" id="ckBorder" checked /><span>中国省界</span></label>
+      <label class="row"><input type="checkbox" id="ckGraticule" /><span>经纬网格</span></label>
+      <div class="divider"></div>
+      <div class="bm-title">底图</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" checked /><span>羊皮卷</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>矢量地形</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" /><span>卫星影像</span></label>
+      </div>
+      <div class="divider"></div>
+      <p class="panel-note">
+        默认<b>羊皮卷</b>：仿古舆图配色，陆地留白如纸、海面染赭、海岸走墨线，两条线像画在纸上。
+        切到<b>矢量地形</b>或<b>卫星影像</b>（天地图全球服务）能看清塔里木盆地、帕米尔、兴都库什与恒河平原——
+        玄奘翻的山、渡的河、穿的沙漠，都在上面。
+      </p>
+    </div>
+  </div>
+
+  <!-- 图题框（cartouche）：仿古舆图卷首题签，纯装饰，pointer-events 由 CSS 关掉 -->
+  <div class="cartouche" aria-hidden="true">
+    <i class="ct-corner tl"></i><i class="ct-corner tr"></i>
+    <i class="ct-corner bl"></i><i class="ct-corner br"></i>
+    <div class="ct-body">
+      <div class="ct-eyebrow">大唐西域记 · 贞观三年—十九年</div>
+      <h2 class="ct-title">玄奘西行取经路程图</h2>
+      <div class="ct-rule"><s></s><b></b><s></s></div>
+      <div class="ct-sub">自长安至那烂陀 · 往返五万里</div>
+    </div>
+    <span class="ct-seal">玄奘</span>
+  </div>
+
+  <!-- 罗盘玫瑰：纯装饰，pointer-events 由 CSS 关掉 -->
+  <svg class="compass" viewBox="0 0 100 100" aria-hidden="true">
+    <circle cx="50" cy="50" r="47" fill="none" stroke="#5c4529" stroke-width="1.1" opacity="0.85"/>
+    <circle cx="50" cy="50" r="42.5" fill="none" stroke="#5c4529" stroke-width="0.5" stroke-dasharray="1.6 3.2" opacity="0.7"/>
+    <g stroke="#5c4529" stroke-width="0.7" opacity="0.55">
+      <path d="M50 50 L28.5 28.5 M50 50 L71.5 28.5 M50 50 L71.5 71.5 M50 50 L28.5 71.5"/>
+    </g>
+    <path d="M50 7.5 L55.4 50 L50 92.5 L44.6 50 Z" fill="#a8382a" opacity="0.9"/>
+    <path d="M7.5 50 L50 44.6 L92.5 50 L50 55.4 Z" fill="#5c4529" opacity="0.75"/>
+    <path d="M50 7.5 L50 44.6 L44.6 50 Z" fill="#f4ecd6" opacity="0.55"/>
+    <path d="M50 92.5 L50 55.4 L55.4 50 Z" fill="#f4ecd6" opacity="0.35"/>
+    <circle cx="50" cy="50" r="2.6" fill="#f4ecd6" stroke="#5c4529" stroke-width="0.9"/>
+    <text x="50" y="4.6" text-anchor="middle" font-size="8.5" fill="#5c4529" font-family="serif" letter-spacing="0">N</text>
+  </svg>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="/maps/_shared/thematic/thematic.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
