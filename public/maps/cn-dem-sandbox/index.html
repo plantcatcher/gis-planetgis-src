@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <script src="/shared/map-i18n.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>中国三维 DEM 沙盘 · 真实高程 3D 互动地图</title>
+  <meta name="description" content="一张可以旋转、缩放、调垂直夸张的中国真实高程 3D 沙盘：基于 WGS84 DEM 还原青藏高原、四大盆地、三级阶梯与海岸线，叠加著名山峰与盆地标注，点任意位置读出经纬度与海拔。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="labels" aria-hidden="true"></div>
+  <div id="loading"><div class="spin"></div><span>正在加载地形数据…</span></div>
+
+  <!-- ── 左：介绍 / 快速定位 ───────────────────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 回到全景</button>
+    </div>
+
+    <div class="intro-bar" id="introBar">
+      <i class="ic-eq"></i>
+      <b>中国三维 DEM 沙盘</b>
+      <span><em>收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> CHINA 3D TERRAIN · REAL ELEVATION</small>
+      <h1><span>中国</span><b>三维 DEM 沙盘</b></h1>
+      <p class="lead">拖拽旋转、中键平移、滚轮缩放，看真实高程堆出来的中国：青藏高原隆起、四大盆地凹陷、海岸线蜿蜒。可在左上「配色主题」里切换经典晕渲、分层设色、棕调地形、灰度高程，或直接叠加天地图卫星影像。</p>
+
+      <div class="facts">
+        <span><small>数据底图</small><b><span class="v">WGS84</span></b><i>真实高程 DEM</i></span>
+        <span><small>分辨率</small><b><span class="v">≈370</span></b><i>米 / 像元</i></span>
+        <span><small>最高峰</small><b><span class="v">8849</span></b><i>米 · 珠峰</i></span>
+      </div>
+
+      <section class="block">
+        <header><small>快速定位</small><small class="hint-n">拖拽 / 滚轮自由看</small></header>
+        <div class="chips" id="presetList"></div>
+        <p class="note">点预设镜头平滑转到对应地形区。再拖拽即可自由旋转，滚轮放大看山脉细节。</p>
+      </section>
+
+      <section class="block">
+        <header><small>怎么读这张图</small></header>
+        <p class="note">颜色按海拔高度（高程晕渲）：蓝绿为平原与低地，黄橙为丘陵山地，棕红为高山，灰白为极高山冰雪带。受屏幕比例所限，<b>垂直方向已做夸张</b>（默认约 16 倍），调小夸张可贴近真实起伏比例。</p>
+      </section>
+
+      <section class="block layers">
+        <header><small>图层与显示</small></header>
+        <label class="row col">
+          <span>配色主题</span>
+          <select id="themeSel" class="sel"></select>
+        </label>
+        <label class="row col">
+          <span>垂直夸张 <b id="exaggVal">16×</b></span>
+          <input type="range" id="exagg" min="1" max="45" step="1" value="16" />
+        </label>
+        <label class="row"><input type="checkbox" id="ckBoundary" checked /><span>国界轮廓</span></label>
+        <label class="row"><input type="checkbox" id="ckLabels" checked /><span>山峰 / 盆地标注</span></label>
+        <label class="row"><input type="checkbox" id="ckSpin" /><span>自动旋转</span></label>
+        <button type="button" id="btnReset" class="panel-btn">重置视角</button>
+        <p class="panel-note"><b>操作</b>：左键拖拽旋转 · <b>中键拖拽平移</b> · 滚轮 / 双指缩放 · 点击地形读出经纬度与海拔。点任意标注查看山峰 / 盆地详情。</p>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：地形高程取自本地 WGS84 经纬度 DEM（约 370 米/像元，覆盖中国陆地、台湾岛与海南岛）。国界参照公开行政区划数据绘制；山峰 / 盆地坐标为公开地理资料整理，标注高程由 DEM 采样回填，仅供科普浏览，不作勘界用途。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/maps" target="_top">全部地图</a>
+        <a href="/maps/cn-dem-sandbox" target="_top">图文详情</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── 右上：地物 / 点击详情卡 ───────────────────────────── -->
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">TERRAIN</small>
+      <div class="dt-actions">
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtSub">—</p>
+    <div class="dt-metrics">
+      <span><small id="dtLb1">经度</small><b><em id="dtV1">—</em><i id="dtU1">°E</i></b></span>
+      <span><small id="dtLb2">纬度</small><b><em id="dtV2">—</em><i id="dtU2">°N</i></b></span>
+      <span><small id="dtLb3">海拔</small><b><em id="dtV3">—</em><i id="dtU3">m</i></b></span>
+    </div>
+    <section class="dt-desc">
+      <small id="dtDescLb">图注</small>
+      <p id="dtDesc">—</p>
+    </section>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <!-- ── 右下：高程图例 ─────────────────────────────────── -->
+  <div class="dock-col">
+    <div class="dock">
+      <div class="legend">
+        <span><small>高程晕渲</small></span>
+        <span class="ramp"></span>
+        <span class="ramp-labels"><i>0</i><i>2k</i><i>4k</i><i>6k</i><i>8k m</i></span>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/three.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="data/boundary.js"></script>
+  <script src="data/markers.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
