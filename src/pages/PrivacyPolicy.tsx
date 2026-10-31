@@ -82,6 +82,11 @@ const PrivacyPolicy = () => {
               <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
                 <li><strong>{t('privacy.s5.li1.strong')}</strong>{t('privacy.s5.li1.text')}</li>
                 <li><strong>{t('privacy.s5.li2.strong')}</strong>{t('privacy.s5.li2.text')}</li>
+                <li>
+                  <strong>{t('privacy.s5.li3.strong')}</strong>
+                  {t('privacy.s5.li3.text')}
+                  <a href="https://tawk.to/privacy-policy" target="_blank" rel="noreferrer" className="text-primary hover:underline">{t('privacy.s5.li3.link')}</a>{t('privacy.s5.li3.suffix')}
+                </li>
               </ul>
               <p className="text-muted-foreground leading-relaxed mt-3">
                 {t('privacy.s5.tail')}
