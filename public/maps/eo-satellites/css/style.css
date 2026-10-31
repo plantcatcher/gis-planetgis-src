@@ -86,6 +86,10 @@
 /* 详情卡：.panel 自带 display:flex，会把 hidden 属性覆盖，必须显式关掉 */
 #satcard { width: 306px; max-height: calc(100vh - 120px); }
 #satcard[hidden] { display: none; }
+/* 桌面端详情卡放右上角（左上被介绍栏占据，底部留空给地球） */
+@media (min-width: 901px) {
+  #satcard { left: auto; right: 22px; top: 22px; bottom: auto; }
+}
 .sc-sub { margin: 0 0 10px; font-size: 11.5px; color: var(--dim); }
 .sc-sub span + span::before { content: ' · '; }
 .sc-note {

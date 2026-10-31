@@ -262,8 +262,13 @@
   }
 
   /* ── 刈幅带 / 一天覆盖 ───────────────────────────────── */
+  /* 关键：地球贴图按 GMST 自转（earth.rotation.y = gmst），卫星场景坐标也在惯性系。
+     刈幅带/视场按地固经度构建，必须放进一个每帧按 GMST 旋转的组，
+     否则会整体偏转一个自转角，不落在卫星正下方。 */
+  var swathGroup = new THREE.Group();
+  scene.add(swathGroup);
   var swathMesh = null, swathDayMesh = null, geoDisc = null;
-  function clearMesh(m) { if (m) { scene.remove(m); m.geometry.dispose(); m.material.dispose(); } }
+  function clearMesh(m) { if (m) { if (m.parent) m.parent.remove(m); m.geometry.dispose(); m.material.dispose(); } }
 
   var _vA = new THREE.Vector3(), _vB = new THREE.Vector3(), _vT = new THREE.Vector3(), _vBn = new THREE.Vector3();
 
@@ -344,9 +349,9 @@
       geoDisc = new THREE.Mesh(dd.fill, new THREE.MeshBasicMaterial({
         color: col, transparent: true, opacity: 0.26, side: THREE.DoubleSide, depthWrite: false
       }));
-      scene.add(geoDisc);
+      swathGroup.add(geoDisc);
       var rim = new THREE.Line(dd.rim, new THREE.LineBasicMaterial({ color: col, transparent: true, opacity: 0.95 }));
-      scene.add(rim);
+      swathGroup.add(rim);
       swathMesh = rim;
       return;
     }
@@ -358,15 +363,15 @@
         swathDayMesh = new THREE.Mesh(gd, new THREE.MeshBasicMaterial({
           color: col, transparent: true, opacity: 0.19, side: THREE.DoubleSide, depthWrite: false
         }));
-        scene.add(swathDayMesh);
+        swathGroup.add(swathDayMesh);
       }
     } else if (showSwath) {
       var gs = swathGeometry(s, tNow - span, tNow + span, 110);
       if (gs) {
-        swathMesh = new THREE.Mesh(gs, new THREE.MeshBasicMaterial({
-          color: col, transparent: true, opacity: 0.3, side: THREE.DoubleSide, depthWrite: false
-        }));
-        scene.add(swathMesh);
+      swathMesh = new THREE.Mesh(gs, new THREE.MeshBasicMaterial({
+        color: col, transparent: true, opacity: 0.3, side: THREE.DoubleSide, depthWrite: false
+      }));
+      swathGroup.add(swathMesh);
       }
     }
   }
@@ -377,6 +382,8 @@
   var speed = CFG.defaultSpeed != null ? CFG.defaultSpeed : 60;
   var playing = true;
   var selected = -1;
+  var followMode = false;   /* 名单点选后镜头持续跟随卫星星下点 */
+  var followR = 2.6;        /* 跟随时的目标相机半径（滚轮可改） */
   var frameNo = 0;
 
   /* ── 相机（球面坐标 + 自写拖拽缩放） ─────────────────── */
@@ -452,6 +459,7 @@
   function onDown(e) {
     pointers[e.pointerId] = { x: e.clientX, y: e.clientY };
     lastP = { x: e.clientX, y: e.clientY }; moving = false; easing = false; dragging = true; stopSpin();
+    followMode = false;
     if (pointersCount() === 2) pinchDist = pointerDist();
     if (renderer.domElement.setPointerCapture) { try { renderer.domElement.setPointerCapture(e.pointerId); } catch (e2) { /* noop */ } }
   }
@@ -479,7 +487,7 @@
   function onWheel(e) {
     e.preventDefault();
     cur.radius = clamp(cur.radius * (e.deltaY > 0 ? 1.09 : 0.92), minR, maxR);
-    goal.radius = cur.radius; stopSpin();
+    goal.radius = cur.radius; followR = cur.radius; stopSpin();
   }
 
   var _p = new THREE.Vector3();
@@ -505,7 +513,7 @@
     if (moving) return;
     var rect = renderer.domElement.getBoundingClientRect();
     var hit = findNearest(e.clientX - rect.left, e.clientY - rect.top);
-    if (hit >= 0) selectSat(hit); else deselect();
+    if (hit >= 0) { followMode = false; selectSat(hit); } else deselect();
   });
 
   /* ── 选中与详情卡 ────────────────────────────────────── */
@@ -518,14 +526,16 @@
     /* 选中即给看头：极轨亮刈幅带，静止亮视场圆盘 */
     showDay = false;
     showSwath = sats[i].grp !== 'geo' && !!sats[i].swath;
-    /* 静止卫星转过去看它的视场圆盘，否则多半在地球背面 */
-    if (sats[i].grp === 'geo') flyTo({ lon: sats[i].lon, lat: 8, radius: 4.2 });
+    /* 静止卫星转过去看它的视场圆盘，否则多半在地球背面。
+       相机经度也要加上 GMST：地固经度 s.lon 在场景中出现在 s.lon + GMST 处 */
+    if (sats[i].grp === 'geo') flyTo({ lon: sats[i].lon + gmstRad(tNow) * RAD, lat: 8, radius: 4.2 });
     rebuildSwath();
     openCard(i);
     syncList();
   }
   function deselect() {
     selected = -1;
+    followMode = false;
     clearMesh(swathMesh); swathMesh = null;
     clearMesh(swathDayMesh); swathDayMesh = null;
     clearMesh(geoDisc); geoDisc = null;
@@ -636,6 +646,11 @@
         b.innerHTML = esc(s.cn) + '<u>' + fmt(s.alt, 0) + ' km</u>';
         b.addEventListener('click', function () {
           selectSat(i);
+          /* 名单点选：飞到卫星星下点并持续跟随（静止卫星由 selectSat 内的 flyTo 处理） */
+          if (sats[i].grp !== 'geo') {
+            followMode = true;
+            followR = Math.min(cur.radius, 2.6);
+          }
           if (hasMenu()) setIntroCollapsed(true);
         });
         host.appendChild(b);
@@ -703,6 +718,19 @@
         cur.lon = goal.lon; cur.lat = goal.lat; cur.radius = goal.radius; easing = false;
       }
     }
+    /* 名单跟随：镜头持续对准选中卫星的星下点（拖拽即解除）。
+       不走 flyTo——它的目标点会冻结，追不上 60 倍速下移动的卫星 */
+    if (followMode && selected >= 0 && !dragging && !easing) {
+      var fsp = subPoint(sats[selected], tNow);
+      var fLon = fsp.lon + gmstRad(tNow) * RAD;
+      var dLon = ((fLon - cur.lon + 180) % 360 + 360) % 360 - 180;   /* 取最短经度差，防反子午线甩镜头 */
+      cur.lon += dLon * 0.12;
+      cur.lat += (clamp(fsp.lat, -58, 58) - cur.lat) * 0.12;
+      cur.radius += (followR - cur.radius) * 0.08;
+      goal.lon = cur.lon; goal.lat = cur.lat; goal.radius = cur.radius;
+    }
+    /* 地固系刈幅带 / 视场随地球自转角旋转，保持落在卫星正下方 */
+    swathGroup.rotation.y = gmstRad(tNow);
     snapCamera();
     updateSun();
     earth.rotation.y = gmstRad(tNow);
@@ -794,7 +822,8 @@
   }
   if (pendingFollow && selected >= 0 && sats[selected].grp !== 'geo') {
     var g0 = subPoint(sats[selected], tNow);
-    cur.lon = goal.lon = g0.lon;
+    /* 相机对准的是场景经度（地固经度 + GMST），与刈幅带同一坐标系 */
+    cur.lon = goal.lon = g0.lon + gmstRad(tNow) * RAD;
     cur.lat = goal.lat = clamp(g0.lat, -55, 55);
     if (!pendingView) cur.radius = goal.radius = 3.2;
     snapCamera();
@@ -813,5 +842,30 @@
     },
     mapReady: true
   };
+  /* 数值探针（?debug=1）：headless 验证用 */
+  if (new URLSearchParams(global.location.search).get('debug') === '1') {
+    global.__eoState = function () {
+      var out = { t: tNow, gmstDeg: gmstRad(tNow) * RAD, cam: { lon: cur.lon, lat: cur.lat, radius: cur.radius }, selected: selected, follow: followMode, easing: easing, goal: { lon: goal.lon, lat: goal.lat, radius: goal.radius } };
+      if (selected >= 0) {
+        var s = sats[selected];
+        satScene(s, tNow, _p);
+        out.sat = { sub: subPoint(s, tNow), scene: [_p.x, _p.y, _p.z] };
+        var msh = swathMesh && swathMesh.geometry ? swathMesh : (swathDayMesh && swathDayMesh.geometry ? swathDayMesh : null);
+        if (msh) {
+          var arr = msh.geometry.attributes.position.array;
+          var mv = new THREE.Vector3();
+          var best = 180;
+          for (var k = 0; k < arr.length; k += 3) {
+            mv.set(arr[k], arr[k + 1], arr[k + 2]).applyMatrix4(msh.matrixWorld).normalize();
+            var dot = clamp(mv.dot(_p) / _p.length(), -1, 1);
+            var ang = Math.acos(dot) * RAD;
+            if (ang < best) best = ang;
+          }
+          out.swathNearestDeg = best;
+        }
+      }
+      return out;
+    };
+  }
   global.__eoReady = true;
 })(window);
