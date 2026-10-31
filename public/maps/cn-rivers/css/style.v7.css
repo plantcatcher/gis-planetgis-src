@@ -1,0 +1,370 @@
+/* 我国主要河流分布图 · 样式（目录卡片/弹卡动效参照 us-rivers 体系） */
+:root {
+  --panel-bg: rgba(13, 27, 42, 0.88);
+  --bg-3: rgba(255, 255, 255, 0.07);
+  --bg-2: rgba(255, 255, 255, 0.04);
+  --border: rgba(255, 255, 255, 0.12);
+  --text: #d7e3f0;
+  --text-strong: #f4f8fc;
+  --text-muted: #8fa3b8;
+  --accent: #38bdf8;
+  --shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+  --motion-fast: 0.16s;
+  --motion-base: 0.28s;
+  --ease-out: cubic-bezier(0.22, 0.9, 0.3, 1);
+  --l1: #ef4444;   /* 一级 红 */
+  --l2: #38bdf8;   /* 二级 蓝 */
+  --l3: #fbbf24;   /* 三级 橙 */
+  --l4: #34d399;   /* 四级 绿 */
+  --l5: #9ca3af;   /* 五级 灰 */
+  --l9: #c084fc;   /* 运河 紫 */
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, sans-serif;
+  color: var(--text);
+  background: #0b1220;
+}
+#map { position: absolute; inset: 0; background: #0b1220; }
+.maplibregl-ctrl-group { background: var(--panel-bg) !important; border: 1px solid var(--border) !important; }
+.maplibregl-ctrl-attrib { background: rgba(13, 27, 42, 0.7) !important; color: var(--text-muted) !important; font-size: 10px; }
+.maplibregl-ctrl-attrib a { color: var(--text-muted) !important; }
+
+/* ---------- 顶部标题：地图顶部居中 ---------- */
+.topbar {
+  position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+  z-index: 2; text-align: center;
+  pointer-events: none;
+}
+.topbar h1 {
+  font-size: 17px; font-weight: 600; color: var(--text-strong);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+}
+.topbar .sub {
+  font-size: 11px; color: var(--text-muted); margin-top: 2px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* ---------- 左侧河流目录 ---------- */
+.side-panel {
+  position: absolute; top: 12px; left: 12px; bottom: 12px;
+  width: 300px;
+  display: flex; flex-direction: column;
+  background: var(--panel-bg);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  z-index: 6;
+  transition: transform 0.25s ease;
+}
+.side-panel.collapsed { transform: translateX(calc(-100% - 16px)); }
+.panel-head { display: flex; align-items: center; justify-content: space-between; padding: 13px 14px 9px; }
+.panel-head h2 { font-size: 15px; color: var(--text-strong); font-weight: 600; }
+.panel-close {
+  background: none; border: none; color: var(--text-muted);
+  font-size: 20px; cursor: pointer; line-height: 1; padding: 2px 6px;
+}
+.panel-close:hover { color: var(--text-strong); }
+
+.panel-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+  padding: 0 14px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.panel-stats > div {
+  display: flex; flex-direction: column; align-items: center;
+  background: var(--bg-3); border-radius: 9px; padding: 7px 4px;
+}
+.panel-stats b { font-size: 14px; font-weight: 600; color: var(--accent); font-variant-numeric: tabular-nums; }
+.panel-stats span { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+
+/* 右上角：搜索框（带外框）+ 底图/叠加设置图标 */
+.top-right {
+  position: absolute; top: 12px; right: 12px; z-index: 7;
+  display: flex; align-items: flex-start; gap: 8px;
+}
+.top-search {
+  position: relative;
+  width: 250px;
+  padding: 3px;
+  background: rgba(2, 6, 23, 0.45);
+  border: 1.5px solid rgba(148, 197, 235, 0.55);
+  border-radius: 11px;
+  backdrop-filter: blur(14px);
+}
+.top-search input {
+  width: 100%;
+  background: var(--bg-2);
+  border: none; border-radius: 8px;
+  padding: 7px 10px; color: var(--text); font-size: 13px; outline: none;
+}
+.top-search input:focus { background: rgba(56, 189, 248, 0.1); }
+.top-search input::placeholder { color: var(--text-muted); }
+/* 设置图标（齿轮）：点击在下方展开弹层 */
+.map-opts-btn {
+  flex: none; width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--panel-bg); backdrop-filter: blur(14px);
+  border: 1.5px solid rgba(148, 197, 235, 0.55); box-shadow: var(--shadow);
+  color: var(--accent); font-size: 17px; cursor: pointer; line-height: 1;
+  transition: color var(--motion-fast) ease, border-color var(--motion-fast) ease, transform var(--motion-fast) var(--ease-out);
+}
+.map-opts-btn:hover { color: var(--text-strong); border-color: var(--accent); }
+.map-opts-btn[aria-expanded="true"] { transform: rotate(30deg); border-color: var(--accent); }
+/* 弹层：锚定图标下方，不遮搜索框 */
+.map-opts {
+  display: none; position: absolute; top: calc(100% + 8px); right: 0;
+  width: 280px; flex-direction: column; gap: 10px;
+  background: var(--panel-bg); backdrop-filter: blur(14px);
+  border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow);
+  padding: 12px; z-index: 8;
+}
+.map-opts.open { display: flex; }
+.mo-group { display: flex; flex-direction: column; gap: 6px; }
+.mo-label { font-size: 11px; color: var(--text-muted); letter-spacing: 0.4px; }
+.mo-row { display: flex; gap: 6px; flex-wrap: wrap; }
+#searchResult {
+  list-style: none; position: absolute; left: 0; right: 0; top: 100%;
+  margin-top: 6px; padding: 4px; max-height: 300px; overflow: auto;
+  background: var(--panel-bg); backdrop-filter: blur(14px);
+  border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow);
+  z-index: 8; display: none;
+}
+#searchResult.has-hits { display: block; }
+#searchResult li {
+  padding: 7px 10px; border-radius: 8px; cursor: pointer; font-size: 13px; color: var(--text);
+  display: flex; justify-content: space-between; align-items: center;
+}
+#searchResult li > span:first-child { color: #f8fafc; font-weight: 600; }
+#searchResult li:hover { background: rgba(56,189,248,0.15); }
+#searchResult li .tag { font-size: 10px; padding: 1px 6px; border-radius: 999px; }
+#searchResult li .alias { color: var(--text-muted); font-size: 11px; margin-left: 6px; }
+#searchResult li .tag.l1 { background: rgba(239,68,68,0.2); color: #fecaca; }
+#searchResult li .tag.l2 { background: rgba(56,189,248,0.2); color: #bae6fd; }
+#searchResult li .tag.l3 { background: rgba(251,191,36,0.2); color: #fde68a; }
+#searchResult li .tag.l4 { background: rgba(52,211,153,0.2); color: #bbf7d0; }
+#searchResult li .tag.l5 { background: rgba(156,163,175,0.22); color: #e5e7eb; }
+#searchResult li .tag.l9 { background: rgba(192,132,252,0.22); color: #f3e8ff; }
+#searchResult .empty { color: var(--text-muted); cursor: default; }
+
+/* 等级筛选 chips（一~五级 + 运河，带色点与实时条数；已并入图例卡内） */
+.level-filter {
+  display: flex; flex-wrap: wrap; gap: 5px 12px;
+}
+.lv-check {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; color: var(--text-muted);
+  cursor: pointer; user-select: none;
+  transition: opacity var(--motion-fast) ease;
+}
+.lv-check.off { opacity: 0.4; }
+.lv-check input { accent-color: var(--accent); width: 13px; height: 13px; cursor: pointer; }
+.lv-check .dot { width: 9px; height: 9px; border-radius: 50%; }
+.lv-check .dot.dash { background: repeating-linear-gradient(90deg, var(--l9) 0 3px, transparent 3px 5px); border-radius: 2px; height: 6px; }
+.lv-check .lv-count { font-variant-numeric: tabular-nums; font-size: 10px; opacity: 0.7; }
+.lv-check.water-static { cursor: default; }
+
+/* 河流目录卡片：左缘等级色条 + 等级徽章 + 元信息 */
+.river-list {
+  flex: 1; overflow-y: auto;
+  padding: 10px;
+  scrollbar-width: thin; scrollbar-color: var(--bg-3) transparent;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.river-item {
+  position: relative; isolation: isolate;
+  display: block; width: 100%; text-align: left;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--c, var(--accent));
+  border-radius: 10px;
+  padding: 9px 11px;
+  cursor: pointer; color: var(--text); font-family: inherit;
+  transition: transform var(--motion-fast) var(--ease-out),
+              border-color var(--motion-fast) var(--ease-out),
+              background-color var(--motion-fast) var(--ease-out);
+}
+.river-item::after {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  border-radius: inherit;
+  box-shadow: 0 7px 18px rgba(0, 0, 0, 0.35);
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--motion-fast) var(--ease-out);
+}
+.river-item:hover, .river-item:focus-visible, .river-item.is-selected {
+  background: var(--bg-3);
+  border-color: var(--c, var(--accent));
+  transform: translateX(2px);
+}
+.river-item:hover::after, .river-item:focus-visible::after, .river-item.is-selected::after { opacity: 1; }
+.river-item.is-selected { outline: 1px solid color-mix(in srgb, var(--c) 70%, transparent); outline-offset: -1px; }
+.ri-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.ri-name {
+  font-size: 13.5px; font-weight: 500; color: var(--text-strong);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.ri-level {
+  flex: none; font-size: 10.5px; color: var(--c);
+  border: 1px solid var(--c); border-radius: 6px; padding: 1px 6px;
+}
+.ri-meta { margin-top: 3px; font-size: 11.5px; color: var(--text-muted); }
+.list-empty { padding: 24px 12px; text-align: center; color: var(--text-muted); font-size: 13px; }
+.list-count {
+  padding: 9px 14px 0; border-top: 1px solid var(--border);
+  font-size: 11px; color: var(--text-muted); font-variant-numeric: tabular-nums;
+}
+/* 面板底部：站内导航 + 下载链接 */
+.panel-foot { padding: 9px 14px 12px; }
+.ctrl-nav { display: flex; gap: 8px; margin: 0 0 6px; }
+.ctrl-nav a {
+  flex: 1 1 0; display: flex; align-items: center; justify-content: center;
+  padding: 6px 8px; border-radius: 8px; text-decoration: none;
+  font-size: 12.5px; font-weight: 600; color: var(--text);
+  background: var(--bg-2); border: 1px solid var(--border);
+  transition: color .15s, border-color .15s, background .15s;
+}
+.ctrl-nav a:hover { color: var(--accent); border-color: var(--accent); background: rgba(8,145,178,0.16); }
+.dl-link {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: var(--accent); text-decoration: none; font-weight: 600;
+}
+.dl-link:hover { text-decoration: underline; }
+
+.panel-open {
+  position: absolute; top: 12px; left: 12px; z-index: 2;
+  background: var(--panel-bg); backdrop-filter: blur(14px);
+  border: 1px solid var(--border); border-radius: 9px;
+  color: var(--text); font-size: 13px; padding: 8px 14px; cursor: pointer;
+  display: none;
+}
+.side-panel.collapsed + .panel-open { display: block; }
+
+/* ---------- 目录内：显示设置 · 图例（置于河流列表上方，卡片化融入面板） ---------- */
+.panel-tools {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.pt-group {
+  display: flex; flex-direction: column; gap: 7px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 9px 10px;
+}
+.pt-label { font-size: 10.5px; color: var(--text-muted); letter-spacing: 0.4px; }
+/* 移动端底部抽屉抓手条（桌面隐藏，手机端点按收展抽屉） */
+.drawer-handle { display: none; }
+.tool-btn {
+  background: var(--bg-3); border: 1px solid var(--border); border-radius: 8px;
+  color: var(--text-muted); font-size: 12px; padding: 7px 9px; cursor: pointer; white-space: nowrap;
+  font-family: inherit;
+  transition: color var(--motion-fast) ease, border-color var(--motion-fast) ease, opacity var(--motion-fast) ease;
+}
+.tool-btn:hover { color: var(--text-strong); border-color: var(--accent); }
+.tool-btn[aria-pressed="false"] { opacity: 0.5; }
+/* 底图三选一（分段控件，样式沿用原 bm-opt） */
+.bm-seg { display: flex; gap: 5px; }
+.bm-opt {
+  flex: 1 1 auto; white-space: nowrap;
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+  padding: 6px 5px; font-size: 11.5px; cursor: pointer; color: var(--text-muted);
+  background: var(--bg-2); border: 1px solid var(--border); border-radius: 8px;
+}
+.bm-opt input { accent-color: var(--accent); margin: 0; }
+.bm-opt.active { color: var(--text); border-color: var(--accent); background: rgba(8,145,178,0.16); }
+/* 图例（目录卡内；等级勾选 chips 由 JS 渲染进 #level-filter） */
+
+/* ---------- 河流名称标注（原版底片样式不变） ---------- */
+#labels { position: absolute; inset: 0; pointer-events: none; z-index: 5; overflow: hidden; }
+.lbl {
+  position: absolute; transform: translate(-50%, -50%);
+  font-size: 13px; line-height: 1; white-space: nowrap;
+  padding: 2px 6px; border-radius: 4px; pointer-events: none;
+  background: rgba(2, 6, 23, 0.55); color: #fff; font-weight: 600;
+  text-shadow: 0 1px 2px #000; will-change: transform;
+}
+.lbl.l1 { color: #fecaca; }
+.lbl.l2 { color: #bae6fd; }
+.lbl.l3 { color: #fde68a; }
+.lbl.l4 { color: #bbf7d0; font-size: 12px; font-weight: 500; }
+.lbl.l5 { color: #e5e7eb; font-size: 11.5px; font-weight: 400; }
+.lbl.l9 { color: #f3e8ff; font-size: 12px; font-weight: 600; letter-spacing: .3px; }
+
+/* ---------- 悬停/点击详情卡（内容不变；玻璃质感 + 入场动效 + 左缘等级色条） ---------- */
+.maplibregl-popup { z-index: 30 !important; }   /* 必须高于 #labels(5)，避免被河流名称遮挡 */
+.river-popup .maplibregl-popup-content {
+  background: var(--panel-bg);
+  backdrop-filter: blur(10px);
+  border: none; border-radius: 12px; padding: 0; overflow: hidden;
+  color: var(--text);
+  box-shadow: var(--shadow);
+  font-size: 13px; min-width: 196px;
+  transform-origin: center bottom;
+  animation: river-popup-in var(--motion-base) var(--ease-out) both;
+}
+@keyframes river-popup-in {
+  from { opacity: 0; transform: translate3d(0, 5px, 0) scale(0.97); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+.river-popup .maplibregl-popup-close-button { color: var(--text-muted); font-size: 17px; padding: 5px 9px; z-index: 2; }
+.river-popup .maplibregl-popup-close-button:hover { color: var(--text-strong); }
+.river-popup .maplibregl-popup-tip { display: none !important; }
+.pop { padding: 12px 14px; border-left: 3px solid var(--c, var(--accent)); }
+.pop h3 { margin: 0 0 6px; font-size: 15px; color: var(--text-strong); padding-right: 16px; line-height: 1.35; }
+.pop .lv { font-size: 11px; padding: 1px 7px; border-radius: 999px; margin-left: 6px; white-space: nowrap; }
+.pop .lv.l1 { background: rgba(239,68,68,0.25); color: #fecaca; }
+.pop .lv.l2 { background: rgba(56,189,248,0.25); color: #bae6fd; }
+.pop .lv.l3 { background: rgba(251,191,36,0.25); color: #fde68a; }
+.pop .lv.l4 { background: rgba(52,211,153,0.25); color: #bbf7d0; }
+.pop .lv.l5 { background: rgba(156,163,175,0.28); color: #e5e7eb; }
+.pop .lv.l9 { background: rgba(192,132,252,0.28); color: #f3e8ff; }
+.pop .lv.lw { background: rgba(59,130,246,0.28); color: #bfdbfe; }
+.pop table { border-collapse: collapse; margin-top: 4px; }
+.pop td { padding: 2px 0; vertical-align: top; }
+.pop td.k { color: var(--text-muted); padding-right: 10px; white-space: nowrap; }
+/* 键值两列：键左对齐，数字等宽便于纵向比对；别名可能很长，允许换行 */
+.pop table.kv { width: 100%; }
+.pop table.kv td.k { text-align: left; font-variant-numeric: tabular-nums; }
+.pop table.kv td:not(.k) { font-variant-numeric: tabular-nums; max-width: 190px; word-break: break-word; }
+.pop .note { margin-top: 8px; color: var(--text-muted); font-size: 12px; line-height: 1.6; }
+@media (prefers-reduced-motion: reduce) {
+  .river-popup .maplibregl-popup-content { animation: none; }
+}
+
+/* 图例色样（swatch）：水域面等已并入图例卡勾选行，此组保留备用 */
+.swatch { width: 18px; height: 4px; border-radius: 2px; display: inline-block; flex: 0 0 auto; }
+.swatch.water { background: rgba(59,130,246,0.55); border: 1px solid #60a5fa; width: 14px; height: 10px; border-radius: 2px; }
+
+/* ---------- 移动端：标题居中 / 搜索通栏 / 目录为底部抽屉（抓手条收展） ---------- */
+@media (max-width: 760px) {
+  .topbar { top: 10px; }
+  .topbar h1 { font-size: 15px; }
+  .topbar .sub { display: none; }
+  /* 搜索框 + 设置图标通栏占据地图上部 */
+  .top-right { top: 42px; left: 12px; right: 12px; }
+  .top-search { flex: 1 1 auto; width: auto; }
+  .map-opts { left: 0; right: 0; width: auto; }
+  /* 左上角「目录」按钮不再显示（连同桌面收起态的选择器一起压掉） */
+  .panel-open,
+  .side-panel.collapsed + .panel-open { display: none; }
+  /* 河流目录：底部抽屉，收起时只露抓手条，点抓手条展开/收回 */
+  .side-panel {
+    top: auto; left: 12px; right: 12px; bottom: 12px;
+    width: auto; max-width: none; max-height: 72vh;
+  }
+  .side-panel.collapsed { transform: translateY(calc(100% - 28px)); }
+  .drawer-handle {
+    display: flex; align-items: center; justify-content: center;
+    width: 100%; height: 26px; flex: none;
+    background: none; border: none; cursor: pointer; padding: 0;
+  }
+  .drawer-handle i {
+    width: 44px; height: 4px; border-radius: 999px;
+    background: rgba(255, 255, 255, 0.28);
+  }
+  .drawer-handle:hover i { background: rgba(255, 255, 255, 0.45); }
+  .maplibregl-ctrl-bottom-right { bottom: 16px; }
+}

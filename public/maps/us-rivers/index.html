@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <script src="/shared/map-i18n.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>美国主要河流分布图 · 互动地图</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="css/style.v2.css" />
+</head>
+<body>
+  <div id="map"></div>
+
+  <!-- 顶部标题 -->
+  <div class="topbar">
+    <h1>美国主要河流分布图</h1>
+    <p class="sub">Natural Earth 10m 水系 · 六级分级 · 点击河流查看详情</p>
+  </div>
+
+  <!-- 左侧河流目录面板 -->
+  <aside class="side-panel" id="side-panel" aria-labelledby="side-panel-title">
+    <div class="panel-head">
+      <h2 id="side-panel-title">河流目录</h2>
+      <button class="panel-close" id="panel-close" aria-label="收起目录">×</button>
+    </div>
+    <div class="panel-stats">
+      <div><b id="stat-rivers">–</b><span>河流</span></div>
+      <div><b id="stat-segs">–</b><span>线段</span></div>
+      <div><b id="stat-len">–</b><span>总长km</span></div>
+      <div><b id="stat-lv">–</b><span>分级</span></div>
+    </div>
+    <div class="panel-search">
+      <input type="search" id="search" placeholder="搜索河流名，如：密西西比 / Platte" autocomplete="off" />
+    </div>
+    <div class="level-filter" id="level-filter"><!-- JS 渲染 --></div>
+    <div class="river-list" id="river-list"><!-- JS 渲染 --></div>
+    <div class="list-count" id="list-count"></div>
+  </aside>
+  <button class="panel-open" id="panel-open" type="button" aria-label="展开河流目录" aria-expanded="true">目录</button>
+
+  <!-- 右上角：显示设置 · 图例 -->
+  <button class="mp-trigger" id="mp-trigger" type="button" aria-label="显示设置与图例" aria-expanded="false" title="显示设置与图例">≡</button>
+  <div class="map-panel collapsed" id="map-panel" role="dialog" aria-labelledby="map-panel-title">
+    <div class="mp-head">
+      <span class="mp-title" id="map-panel-title">显示设置 · 图例</span>
+      <button class="mp-close" id="mp-close" type="button" aria-label="收起面板">×</button>
+    </div>
+    <div class="mp-body">
+      <div class="mp-group">
+        <div class="mp-label">底图</div>
+        <div class="base-grid">
+          <button class="tool-btn active" data-base="img">卫星</button>
+          <button class="tool-btn" data-base="vec">地形</button>
+          <button class="tool-btn" data-base="none">深色</button>
+        </div>
+      </div>
+      <div class="mp-group">
+        <div class="mp-label">叠加</div>
+        <div class="mp-row">
+          <button class="tool-btn" id="toggle-states" aria-pressed="true">州界（半透明）</button>
+          <button class="tool-btn" id="toggle-labels" aria-pressed="true">河流名称</button>
+        </div>
+      </div>
+      <div class="mp-group mp-legend">
+        <div class="mp-label">图例 · 河流等级</div>
+        <div class="legend-row"><span class="lk lk1"></span>一级 · 主干河流（默认显示）</div>
+        <div class="legend-row"><span class="lk lk2"></span>二级 · 主要支流（默认显示）</div>
+        <div class="legend-row"><span class="lk lk3"></span>三级 · 较大支流（默认显示）</div>
+        <div class="legend-row"><span class="lk lk4"></span>四级 · 支流（默认显示）</div>
+        <div class="legend-row"><span class="lk lk5"></span>五级 · 细支流（放大可见）</div>
+        <div class="legend-row"><span class="lk lk6"></span>六级 · 溪流（放大可见）</div>
+      </div>
+      <div class="mp-note">
+        数据源 Natural Earth 10m，按河名 + 空间邻近合并河段；五/六级来自北美区域版，放大到 zoom 6 以上河网全显。
+      </div>
+      <div class="mp-nav">
+        <a href="/works/us-rivers" target="_top">作品介绍</a>
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="js/app.v2.js"></script>
+</body>
+</html>

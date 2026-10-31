@@ -135,6 +135,32 @@
       ]
     },
     {
+      "slug": "us-rivers",
+      "entry": "/maps/us-rivers/index.html",
+      "bbox": [
+        -125.0,
+        24.0,
+        -66.0,
+        50.0
+      ],
+      "crs": "WGS84 / EPSG:4326（与 Esri 全球影像底图对齐）",
+      "basemap": "Esri 全球影像：卫星影像 World Imagery（默认，压暗）/ 地形晕渲 World Shaded Relief / 深色无底图",
+      "source": "Natural Earth 10m 双源全本地（10m_physical 目录）：全球版 ne_10m_rivers_lake_centerlines 管一~四级（scalerank 映射 + 知名河人工校正 LEVEL_OVERRIDE），北美区域版 ne_10m_rivers_north_america 做五/六级（按 min_zoom 定级，自带 name_zh）；同名河按 bbox 邻近跨源合并去重、细支流道格拉斯-普克简化；州界来自 GADM 4.1（与 usa-regions 同源）。中文河名与所属水系为人工整理，覆盖主要河流。",
+      "updated": "2026-11-01",
+      "data": [
+        {
+          "file": "maps/us-rivers/data/rivers.json",
+          "features": 943,
+          "desc": "河流线：一级 7 / 二级 39 / 三级 55 / 四级 15 / 五级 259 / 六级 568（一~五级默认开，同名河已跨源合并）"
+        },
+        {
+          "file": "maps/us-rivers/data/states.geojson",
+          "features": 51,
+          "desc": "州界叠加层（GADM 4.1，复用 usa-regions）"
+        }
+      ]
+    },
+    {
       "slug": "hist-imagery",
       "entry": "/maps/hist-imagery/index.html",
       "bbox": [

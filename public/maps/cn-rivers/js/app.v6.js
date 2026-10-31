@@ -1,4 +1,7 @@
-/* 我国主要河流分布图 · 互动逻辑（一级 / 二级 / 三级 / 四级 / 五级） */
+/* 我国主要河流分布图 · 互动逻辑（一级 / 二级 / 三级 / 四级 / 五级）
+   UI 体系与 us-rivers 对齐：左侧河流目录（统计/等级筛选并入图例/河流卡片）+
+   右上搜索框 + 底图/叠加设置图标弹层 + 玻璃质感弹卡（入场动效/左缘等级色条/Escape 关闭）。
+   弹卡与图例说明的内容字段与原版一致；移动端目录为底部抽屉。 */
 (function () {
   "use strict";
 
@@ -8,6 +11,9 @@
   var L4_COLOR = "#34d399";   // 四级 绿
   var L5_COLOR = "#9ca3af";   // 五级 灰
   var L9_COLOR = "#c084fc";   // 运河 紫（人工河道，不参与 1~5 级分级）
+  var LEVEL_COLOR = { 1: L1_COLOR, 2: L2_COLOR, 3: L3_COLOR, 4: L4_COLOR, 5: L5_COLOR, 9: L9_COLOR };
+  var LEVEL_ORDER = [1, 2, 3, 4, 5, 9];
+  var LEVEL_NAME = { 1: "一级", 2: "二级", 3: "三级", 4: "四级", 5: "五级", 9: "运河" };
 
   // 高德免 key 瓦片（GCJ-02，带 CORS），subdomain 01~04 负载均衡
   function amapTiles(styleId) {
@@ -146,10 +152,24 @@
   labelsEl.id = "labels";
   map.getContainer().appendChild(labelsEl);
 
+  // ---------- 目录面板状态 ----------
+  var allRivers = [];
+  var searchKw = "";
+  var visibleLevels = {};
+  LEVEL_ORDER.forEach(function (lv) { visibleLevels[lv] = true; }); // 一~五级 + 运河 默认开
+
   // ---------- 标注层（HTML 叠加，规避中文字形依赖）----------
   var labelOn = true;
   var labelData = []; // {fid, name, level, lng, lat, line, lenDeg, bbox}
   var rafPending = false;
+
+  function geoLines(geom) {
+    if (!geom) return [];
+    var c = geom.coordinates;
+    if (!c || !c.length) return [];
+    // LineString: c[0] 是 [lon,lat]（数字）；MultiLineString: c[0] 是线（数组的数组）
+    return (typeof c[0][0] === "number") ? [c] : c;
+  }
 
   function buildLabelData(features) {
     labelData = features.map(function (f) {
@@ -201,10 +221,10 @@
     if (!labelOn) { labelsEl.innerHTML = ""; return; }
     var z = map.getZoom();
     // 3/4/5 级名称仅在对应图层开启且缩放到达阈值后显示
-    var showL3 = z >= ZOOM_L3 && document.getElementById("chkL3").checked;
-    var showL4 = z >= ZOOM_L4 && document.getElementById("chkL4").checked;
-    var showL5 = z >= ZOOM_L5 && document.getElementById("chkL5").checked;
-    var showL9 = z >= ZOOM_L9 && document.getElementById("chkL9").checked;
+    var showL3 = z >= ZOOM_L3 && visibleLevels[3];
+    var showL4 = z >= ZOOM_L4 && visibleLevels[4];
+    var showL5 = z >= ZOOM_L5 && visibleLevels[5];
+    var showL9 = z >= ZOOM_L9 && visibleLevels[9];
 
     var w = map.getCanvas().clientWidth, h = map.getCanvas().clientHeight;
     // 视野经纬度范围：先按包围盒剔除，避免对全部要素逐锚点投影
@@ -303,7 +323,7 @@
     requestAnimationFrame(function () { rafPending = false; updateLabels(); });
   }
 
-  // ---------- 信息弹窗（悬停/点击共用，单一实例）----------
+  // ---------- 信息弹窗（悬停/点击共用，单一实例；玻璃质感+入场动效，内容字段不变） ----------
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
@@ -344,8 +364,8 @@
     rows += row("干流跨度", num(p.spanKm, "km"));
     rows += row("河段数", p.segCount ? (Number(p.segCount) + " 段") : "");
     rows += row("级　别", p.levelText || lv);
-    rows += row("拼　音", p.pinyin ? esc(p.pinyin) : "");
-    return '<div class="pop">' +
+    var c = LEVEL_COLOR[p.level] || "#38bdf8";
+    return '<div class="pop" style="--c:' + c + '">' +
       "<h3>" + esc(p.name) + '<span class="lv l' + p.level + '">' + esc(lv) + "</span></h3>" +
       '<table class="kv">' + rows + "</table>" +
       "</div>";
@@ -359,7 +379,7 @@
     rows += row("面　积", num(p.areaKm2, "km²"));
     rows += row("水面片数", p.partCount ? (Number(p.partCount) + " 片") : "");
     rows += row("名　称", unnamed ? "无名（本图未收录名称）" : esc(p.name));
-    return '<div class="pop">' +
+    return '<div class="pop" style="--c:#3b82f6">' +
       "<h3>" + esc(unnamed ? "无名水域" : p.name) + '<span class="lv lw">水域面</span></h3>' +
       '<table class="kv">' + rows + "</table>" +
       "</div>";
@@ -367,7 +387,10 @@
 
   var popup = null, popupFid = null, pinned = false;
   function validLngLat(v) {
-    return v && isFinite(v.lng) && isFinite(v.lat) ? v : null;
+    if (!v) return null;
+    // 同时接受 [lng, lat] 数组与 {lng, lat} 对象（目录卡片定位传数组）
+    if (Array.isArray(v) && v.length >= 2 && isFinite(v[0]) && isFinite(v[1])) return { lng: v[0], lat: v[1] };
+    return (isFinite(v.lng) && isFinite(v.lat)) ? v : null;
   }
   function showPopup(props, lngLat, html) {
     // 兜底：事件对象缺 lngLat 时（如自动化脚本 fire('click', {point})）退回要素自身坐标，
@@ -379,7 +402,7 @@
     }
     if (popup && popupFid === props.fid) { popup.setLngLat(ll); return; }
     if (popup) popup.remove();
-    popup = new maplibregl.Popup({ offset: 12, closeButton: true, closeOnClick: false })
+    popup = new maplibregl.Popup({ offset: 12, closeButton: true, closeOnClick: false, className: "river-popup", maxWidth: "300px" })
       .setLngLat(ll)
       .setHTML(html || popupHTML(props))
       .addTo(map);
@@ -388,17 +411,15 @@
   }
   function removePopup() { if (popup) popup.remove(); popup = null; popupFid = null; pinned = false; }
 
+  // Escape 关闭钉住的弹卡（同 us-rivers）
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && popup && pinned) removePopup();
+  });
+
   // ---------- 吸附拾取（半径查询 + 最近要素）----------
   var HOVER_RADIUS = 16;       // 像素：鼠标附近多少范围内都能“吸附”到河流
   var RIVER_LAYERS = ["rivers-l1", "rivers-l2", "rivers-l3", "rivers-l4", "rivers-l5", "rivers-l9"];
 
-  function geoLines(geom) {
-    if (!geom) return [];
-    var c = geom.coordinates;
-    if (!c || !c.length) return [];
-    // LineString: c[0] 是 [lon,lat]（数字）；MultiLineString: c[0] 是线（数组的数组）
-    return (typeof c[0][0] === "number") ? [c] : c;
-  }
   // 点到线段距离（像素空间）
   function ptSegDist(px, py, ax, ay, bx, by) {
     var dx = bx - ax, dy = by - ay;
@@ -445,8 +466,6 @@
   }
 
   // ---------- 交互：点击 / 悬停 ----------
-  var allRivers = [];
-
   function bindRiverEvents() {
     var hovered = null;
 
@@ -499,11 +518,11 @@
     });
   }
 
-  // ---------- 搜索 ----------
+  // ---------- 搜索（下拉结果 + 目录列表联动过滤） ----------
   var searchInput = document.getElementById("search");
   var searchResult = document.getElementById("searchResult");
   function renderSearch(q) {
-    if (!q) { searchResult.innerHTML = ""; return; }
+    if (!q) { searchResult.innerHTML = ""; searchResult.classList.remove("has-hits"); return; }
     var ql = q.toLowerCase();
     var hits = allRivers.filter(function (r) {
       var p = r.properties;
@@ -512,42 +531,152 @@
              (p.alias && p.alias.indexOf(q) >= 0) ||
              (p.pinyin && p.pinyin.toLowerCase().indexOf(ql) >= 0);
     }).slice(0, 30);
-    if (!hits.length) { searchResult.innerHTML = '<li class="empty">无匹配河流</li>'; return; }
+    if (!hits.length) { searchResult.innerHTML = '<li class="empty">无匹配河流</li>'; searchResult.classList.add("has-hits"); return; }
     searchResult.innerHTML = hits.map(function (r) {
       var p = r.properties;
       var sub = p.alias ? '<span class="alias">' + esc(p.alias) + "</span>" : "";
       return '<li data-fid="' + p.fid + '"><span>' + esc(p.name) + sub + "</span>" +
              '<span class="tag l' + p.level + '">' + (p.levelText || p.level) + "</span></li>";
     }).join("");
+    searchResult.classList.add("has-hits");
   }
-  searchInput.addEventListener("input", function () { renderSearch(this.value.trim()); });
+  searchInput.addEventListener("input", function () {
+    searchKw = this.value.trim();
+    renderSearch(searchKw);
+    buildRiverList();
+  });
   searchResult.addEventListener("click", function (e) {
     var li = e.target.closest("li"); if (!li || !li.dataset.fid) return;
-    var fid = li.dataset.fid;
-    var river = allRivers.find(function (r) { return r.properties.fid === fid; });
-    var feat = labelData.find(function (d) { return d.fid === fid; });
-    if (river && feat) {
-      map.flyTo({ center: [feat.lng, feat.lat], zoom: 6.5, speed: 1.2 });
-      map.once("moveend", function () { showPopup(river.properties, [feat.lng, feat.lat]); pinned = true; });
-    }
+    focusRiver(li.dataset.fid, null);
   });
+
+  // ---------- 目录：统计 + 等级筛选 + 河流卡片 ----------
+  function updateStats() {
+    var segs = 0, len = 0, lvSet = {};
+    for (var i = 0; i < allRivers.length; i++) {
+      var p = allRivers[i].properties;
+      segs += Number(p.segCount) || 1;
+      len += Number(p.lengthKm) || 0;
+      lvSet[p.level] = true;
+    }
+    document.getElementById("stat-rivers").textContent = allRivers.length.toLocaleString();
+    document.getElementById("stat-segs").textContent = segs.toLocaleString();
+    document.getElementById("stat-len").textContent = len >= 10000
+      ? Math.round(len / 10000) + "万" : Math.round(len).toLocaleString();
+    document.getElementById("stat-lv").textContent = Object.keys(lvSet).length;
+  }
+
+  function buildLevelFilter() {
+    var el = document.getElementById("level-filter");
+    var html = "";
+    for (var i = 0; i < LEVEL_ORDER.length; i++) {
+      var lv = LEVEL_ORDER[i];
+      var cnt = 0;
+      for (var j = 0; j < allRivers.length; j++) {
+        if (allRivers[j].properties.level === lv) cnt++;
+      }
+      if (!cnt) continue;
+      var dotCls = lv === 9 ? "dot dash" : "dot";
+      html += '<label class="lv-check' + (visibleLevels[lv] ? "" : " off") + '">' +
+        '<input type="checkbox" data-lv="' + lv + '"' + (visibleLevels[lv] ? " checked" : "") + '>' +
+        '<span class="' + dotCls + '" style="background:' + (lv === 9 ? "" : LEVEL_COLOR[lv]) + '"></span>' +
+        '<span>' + LEVEL_NAME[lv] + '</span>' +
+        '<span class="lv-count">' + cnt + "</span></label>";
+    }
+    // 水域面：静态图例项（不可点），与运河同一行流式排布
+    html += '<span class="lv-check water-static"><span class="dot" style="background:rgba(59,130,246,0.65)"></span><span>水域面</span></span>';
+    el.innerHTML = html;
+    var inputs = el.querySelectorAll("input");
+    for (var k = 0; k < inputs.length; k++) {
+      inputs[k].addEventListener("change", function () {
+        var lv = Number(this.dataset.lv);
+        visibleLevels[lv] = this.checked;
+        this.parentNode.classList.toggle("off", !this.checked);
+        setVis("rivers-l" + lv, this.checked);
+        requestLabelUpdate();
+        buildRiverList();
+      });
+    }
+  }
+
+  function buildRiverList() {
+    var list = document.getElementById("river-list");
+    var kw = searchKw.toLowerCase();
+    var rivers = allRivers.filter(function (r) {
+      if (!visibleLevels[r.properties.level]) return false;
+      if (!kw) return true;
+      var p = r.properties;
+      return (p.name && p.name.indexOf(searchKw) >= 0) ||
+             (p.alias && p.alias.indexOf(searchKw) >= 0) ||
+             (p.pinyin && p.pinyin.toLowerCase().indexOf(kw) >= 0);
+    });
+    rivers = rivers.slice().sort(function (a, b) {
+      var la = a.properties.level === 9 ? 90 : a.properties.level;
+      var lb = b.properties.level === 9 ? 90 : b.properties.level;
+      return la - lb || b.properties.lengthKm - a.properties.lengthKm;
+    });
+    var shown = rivers.slice(0, 300);
+    var html = "";
+    if (!shown.length) {
+      html = '<div class="list-empty">没有匹配的河流</div>';
+    }
+    for (var i = 0; i < shown.length; i++) {
+      var p = shown[i].properties;
+      var c = LEVEL_COLOR[p.level] || "#38bdf8";
+      var meta = (p.basin ? p.basin + " · " : "") + (Number(p.lengthKm) > 0 ? Math.round(Number(p.lengthKm)).toLocaleString() + " km" : "—");
+      html += '<button class="river-item" data-fid="' + p.fid + '" style="--c:' + c + '">' +
+        '<div class="ri-top"><span class="ri-name">' + esc(p.name) + "</span>" +
+        '<span class="ri-level">' + (p.levelText || LEVEL_NAME[p.level]) + "</span></div>" +
+        '<div class="ri-meta">' + esc(meta) + "</div></button>";
+    }
+    list.innerHTML = html;
+    document.getElementById("list-count").textContent = rivers.length > shown.length
+      ? "显示 " + shown.length + " / " + rivers.length + " 条（输入关键词可精确查找）"
+      : "共 " + rivers.length + " 条";
+
+    var btns = list.querySelectorAll(".river-item");
+    for (var j2 = 0; j2 < btns.length; j2++) {
+      btns[j2].addEventListener("click", function () { focusRiver(this.dataset.fid, this); });
+    }
+  }
+
+  function focusRiver(fid, btn) {
+    var river = null, feat = null;
+    for (var i = 0; i < allRivers.length; i++) {
+      if (allRivers[i].properties.fid === fid) { river = allRivers[i]; break; }
+    }
+    for (var j = 0; j < labelData.length; j++) {
+      if (labelData[j].fid === fid) { feat = labelData[j]; break; }
+    }
+    if (!river || !feat) return;
+    // 移动端抽屉：选中河流后自动收起目录，把画面让给地图
+    if (window.matchMedia("(max-width: 760px)").matches) {
+      sidePanel.classList.add("collapsed");
+      document.getElementById("panel-open").setAttribute("aria-expanded", "false");
+    }
+    if (btn) {
+      var old = document.querySelectorAll(".river-item.is-selected");
+      for (var k = 0; k < old.length; k++) old[k].classList.remove("is-selected");
+      btn.classList.add("is-selected");
+    }
+    map.flyTo({ center: [feat.lng, feat.lat], zoom: 6.5, speed: 1.2 });
+    map.once("moveend", function () { showPopup(river.properties, [feat.lng, feat.lat]); pinned = true; });
+  }
 
   // ---------- 图层开关 ----------
   function setVis(id, on) { if (map.getLayer(id)) map.setLayoutProperty(id, "visibility", on ? "visible" : "none"); }
-  document.getElementById("chkL1").addEventListener("change", function () { setVis("rivers-l1", this.checked); requestLabelUpdate(); updateCount(); });
-  document.getElementById("chkL2").addEventListener("change", function () { setVis("rivers-l2", this.checked); requestLabelUpdate(); updateCount(); });
-  document.getElementById("chkL3").addEventListener("change", function () { setVis("rivers-l3", this.checked); requestLabelUpdate(); updateCount(); });
-  document.getElementById("chkL4").addEventListener("change", function () { setVis("rivers-l4", this.checked); requestLabelUpdate(); updateCount(); });
-  document.getElementById("chkL5").addEventListener("change", function () { setVis("rivers-l5", this.checked); requestLabelUpdate(); updateCount(); });
-  document.getElementById("chkL9").addEventListener("change", function () { setVis("rivers-l9", this.checked); requestLabelUpdate(); updateCount(); });
-  document.getElementById("chkWater").addEventListener("change", function () {
-    setVis("water-fill", this.checked);
-    setVis("water-line", this.checked);
-  });
-  document.getElementById("chkBorder").addEventListener("change", function () {
-    setVis("province-fill", this.checked); setVis("province-line", this.checked);
-  });
-  document.getElementById("chkLabel").addEventListener("change", function () { labelOn = this.checked; requestLabelUpdate(); });
+
+  function bindToggle(id, fn) {
+    var btn = document.getElementById(id);
+    btn.addEventListener("click", function () {
+      var on = this.getAttribute("aria-pressed") !== "true";
+      this.setAttribute("aria-pressed", String(on));
+      fn(on);
+    });
+  }
+  bindToggle("toggleWater", function (on) { setVis("water-fill", on); setVis("water-line", on); });
+  bindToggle("toggleLabel", function (on) { labelOn = on; requestLabelUpdate(); });
+  bindToggle("toggleBorder", function (on) { setVis("province-fill", on); setVis("province-line", on); });
 
   // 底图三选一：卫星影像(img) / 矢量路网(vec) / 无底图(none)（均免 key）
   function setBasemap(mode) {
@@ -566,72 +695,50 @@
   var bmChecked = document.querySelector('input[name="basemap"]:checked');
   setBasemap(bmChecked ? bmChecked.value : "img");
 
-  // ---------- 折叠 / 移动端底部抽屉 ----------
-  var ctrlPanel = document.getElementById("ctrlPanel");
-  var ctrlBody = ctrlPanel.querySelector(".ctrl-body");
-  var ctrlToggle = document.getElementById("ctrlToggle");
-  var ctrlHead = ctrlPanel.querySelector(".ctrl-head");
-
-  // 桌面端：折叠/展开 主体
-  ctrlToggle.addEventListener("click", function (e) {
+  // ---------- 右上角：底图/叠加设置（图标点击，弹层在图标下方展开） ----------
+  var optsBtn = document.getElementById("map-opts-btn");
+  var optsPanel = document.getElementById("map-opts");
+  function setOptsOpen(open) {
+    optsPanel.classList.toggle("open", open);
+    optsBtn.setAttribute("aria-expanded", String(open));
+  }
+  optsBtn.addEventListener("click", function (e) {
     e.stopPropagation();
-    var collapsed = ctrlBody.classList.toggle("collapsed");
-    this.textContent = collapsed ? "＋" : "－";
+    setOptsOpen(!optsPanel.classList.contains("open"));
+  });
+  document.addEventListener("click", function (e) {
+    // 点弹层与图标以外的区域收起
+    if (optsPanel.classList.contains("open") && !optsPanel.contains(e.target)) setOptsOpen(false);
   });
 
-  // 移动端：底部抽屉（点击把手切换；上拉展开、下拉收起）
-  var isMobile = function () { return window.innerWidth <= 720; };
-  var sheetOpen = false;
-  function setSheet(open) {
-    sheetOpen = open;
-    ctrlPanel.classList.toggle("open", open);
+  // ---------- 左侧目录 开合（移动端为底部抽屉，抓手条收展） ----------
+  var sidePanel = document.getElementById("side-panel");
+  var drawerHandle = document.getElementById("drawer-handle");
+  if (window.matchMedia("(max-width: 760px)").matches) {
+    sidePanel.classList.add("collapsed");
+    drawerHandle.setAttribute("aria-expanded", "false");
   }
-  var suppressClick = false;
-  ctrlHead.addEventListener("click", function (e) {
-    if (!isMobile()) return;
-    if (e.target === ctrlToggle) return;
-    if (suppressClick) return;
-    setSheet(!sheetOpen);
+  drawerHandle.addEventListener("click", function () {
+    var collapsed = sidePanel.classList.toggle("collapsed");
+    this.setAttribute("aria-expanded", String(!collapsed));
   });
-  var dragStartY = null, dragDy = 0, dragMoved = false;
-  ctrlHead.addEventListener("touchstart", function (e) {
-    if (!isMobile()) return;
-    dragStartY = e.touches[0].clientY; dragDy = 0; dragMoved = false;
-  }, { passive: true });
-  ctrlHead.addEventListener("touchmove", function (e) {
-    if (dragStartY === null) return;
-    dragDy = e.touches[0].clientY - dragStartY;
-    if (Math.abs(dragDy) > 6) dragMoved = true;
-  }, { passive: true });
-  ctrlHead.addEventListener("touchend", function () {
-    if (dragStartY === null) return;
-    if (dragMoved) {
-      setSheet(dragDy < 0);   // 上拉展开，下拉收起
-      suppressClick = true;
-      setTimeout(function () { suppressClick = false; }, 350);
-    }
-    dragStartY = null; dragDy = 0; dragMoved = false;
+  document.getElementById("panel-close").addEventListener("click", function () {
+    sidePanel.classList.add("collapsed");
+    document.getElementById("panel-open").setAttribute("aria-expanded", "false");
   });
-
-  // 计数（位于“图层与显示”面板内）
-  function updateCount() {
-    function cnt(lv) { return allRivers.filter(function (r) { return r.properties.level === lv; }).length; }
-    var n1 = document.getElementById("chkL1").checked ? cnt(1) : 0;
-    var n2 = document.getElementById("chkL2").checked ? cnt(2) : 0;
-    var n3 = document.getElementById("chkL3").checked ? cnt(3) : 0;
-    var n4 = document.getElementById("chkL4").checked ? cnt(4) : 0;
-    var n5 = document.getElementById("chkL5").checked ? cnt(5) : 0;
-    var n9 = document.getElementById("chkL9").checked ? cnt(9) : 0;
-    document.getElementById("cnt").textContent = "当前显示 " + (n1 + n2 + n3 + n4 + n5 + n9) +
-      " 条（一级 " + n1 + " / 二级 " + n2 + " / 三级 " + n3 + " / 四级 " + n4 + " / 五级 " + n5 + " / 运河 " + n9 + "）";
-  }
+  document.getElementById("panel-open").addEventListener("click", function () {
+    sidePanel.classList.remove("collapsed");
+    this.setAttribute("aria-expanded", "true");
+  });
 
   // ---------- 启动 ----------
   function refreshRiverUI() {
     if (allRivers && allRivers.length) {
       buildLabelData(allRivers);
+      updateStats();
+      buildLevelFilter();
+      buildRiverList();
       updateLabels();
-      updateCount();
     }
   }
   map.on("load", function () {
