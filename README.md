@@ -65,11 +65,24 @@ npm run build
 
 - **Build command**：`npm run build`
 - **Build output directory**：`dist`
-- **环境变量**（可选）：`NODE_VERSION=22`；`BAIDU_SITE` / `BAIDU_PUSH_TOKEN`（启用百度主动推送，不填则构建时跳过）
+- **环境变量**（可选）：`NODE_VERSION=22`；`BAIDU_SITE` / `BAIDU_PUSH_TOKEN`（启用百度主动推送，不填则构建时跳过）；`VITE_TAWK_PROPERTY_ID` / `VITE_TAWK_WIDGET_ID`（覆盖内置的 Tawk.to 客服 ID，不填则使用仓库内置 ID）
 
 绑定自定义域名 `planetgis.cn` 后，Cloudflare 自动签发 SSL（建议 Full strict）。
 
 > 旧的 `.github/workflows/deploy.yml`（GitHub Pages）已废弃，迁移 Cloudflare 后可删除。
+
+## 在线客服（Tawk.to）
+
+右下角在线客服由 **Tawk.to** 提供，站点内置了当前账号的公开 Property / Widget ID，无需额外配置即可加载。如需换号，到 Tawk.to 后台复制 Widget Code，取其中 `https://embed.tawk.to/<PROPERTY_ID>/<WIDGET_ID>` 两段 ID，通过构建环境变量覆盖：
+
+```bash
+VITE_TAWK_PROPERTY_ID=你的propertyId
+VITE_TAWK_WIDGET_ID=你的widgetId
+```
+
+本地可写入 `.env`（已被 git 忽略），线上在 Cloudflare Pages 的环境变量中配置后重新部署。Vite 的环境变量在**构建期**注入，修改后必须重新构建。
+
+客服脚本只在实际渲染页面时异步加载；全屏地图 `/maps/<slug>/full` 和游戏页会自动隐藏。ID 格式不正确时组件静默禁用，不会出现打不开的客服按钮。Tawk.to 在中国大陆的可达性不稳定；如果客服没有加载出来，可通过 [联系我们](https://planetgis.cn/contact) 页的邮箱联系。
 
 ## 发布 / 更新内容
 

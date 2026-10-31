@@ -60,7 +60,7 @@ const LangBanner: React.FC = () => {
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:max-w-sm z-[60]">
+    <div className="fixed bottom-24 left-4 right-4 sm:bottom-4 sm:left-auto sm:right-24 sm:max-w-sm z-[60]">
       <div className="flex items-start gap-3 rounded-xl border border-border bg-background/95 backdrop-blur-md shadow-lg p-4">
         <Languages className="w-5 h-5 text-primary shrink-0 mt-0.5" />
         <div className="flex-1 min-w-0">
