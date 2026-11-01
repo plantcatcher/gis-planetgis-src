@@ -37,7 +37,7 @@ const CLICK = arg('click', '');                 // "x,y"
 const CLICK_AT = arg('clickAt', '');            // "lng,lat" —— 投影像素后点击
 const OUT = arg('out', `_shots/${slug}`);
 const PROF = `_g/prof_verify_${slug}`;
-const URL_ = `${BASE}/maps/${slug}/index.html`;
+const URL_ = `${BASE}/maps/${slug}/index.html?_cb=${Date.now()}`;
 
 if (!process.env.KEEP_PROFILE) { try { fs.rmSync(PROF, { recursive: true, force: true }); } catch (_) {} }
 fs.mkdirSync(OUT, { recursive: true });

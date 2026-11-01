@@ -161,6 +161,32 @@
       ]
     },
     {
+      "slug": "japan-rivers",
+      "entry": "/maps/japan-rivers/index.html",
+      "bbox": [
+        122.6,
+        24.0,
+        146.2,
+        46.0
+      ],
+      "crs": "WGS84 / EPSG:4326（源数据 JGD2011 经纬度，与 WGS84 差异亚米级，与 Esri 全球影像底图对齐）",
+      "basemap": "Esri 全球影像：卫星影像 World Imagery（默认，压暗）/ 地形晕渲 World Shaded Relief / 深色无底图",
+      "source": "日本国土交通省 国土数値情報 W05 河川（JPGIS2.1 Shapefile，47 都道府县全本地，cp932 编码）：按河川コード聚合（全国唯一编码，跨县同码自然连通），同名跨县异码仅在同水系（水系コード前 6 位一致）且包围盒邻近（0.05°）时合并（合并链上限 380km）；两档表达不套中国式分级——主要河川（知名河川人工精选表，含知名支流）、大河（≥60km），其余不输出；bbox 对角跨度 < 河长 25% 的湿原网状水道组剔除；码组命名置信度 <50% 的杂牌汇总码桶（一个コード混装上百条不同名小溪）剔除；每条河仅保留端点连通的最大分量（主干），非名册河主干跨度比 <0.3 的碎杠堆剔除；道格拉斯-普克简化 + 行级端点去重控体积；人工水道（濠/池/湖/运河/用水/水路）与未命名组剔除。都道府县界复用 jp-regions（GADM 4.1）。中文河名与所属水系为人工整理，地图标注统一简体。",
+      "updated": "2026-11-01",
+      "data": [
+        {
+          "file": "maps/japan-rivers/data/rivers.json",
+          "features": 202,
+          "desc": "河流线：主要河川 97（知名河川人工精选）/ 大河 120（≥60km），两档默认全开；每条河仅保留连通主干，杂牌码桶与孤立碎线已剔除"
+        },
+        {
+          "file": "maps/japan-rivers/data/pref.geojson",
+          "features": 47,
+          "desc": "都道府县界叠加层（GADM 4.1，复用 jp-regions）"
+        }
+      ]
+    },
+    {
       "slug": "hist-imagery",
       "entry": "/maps/hist-imagery/index.html",
       "bbox": [
