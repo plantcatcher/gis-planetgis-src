@@ -15,8 +15,13 @@ import { localizeLabel, localizeUnit } from '@/i18n/labels';
 import type { DictKey } from '@/i18n/LocaleContext';
 
 // 卡片入场动画：initial 保持 opacity:1，确保 SSG 静态 HTML 中文本天生可见（利于 SEO / AdSense）。
-const CardAnim: React.FC<{ children: React.ReactNode; delay?: number }> = ({ children, delay = 0 }) => (
+const CardAnim: React.FC<{ children: React.ReactNode; delay?: number; className?: string }> = ({
+  children,
+  delay = 0,
+  className,
+}) => (
   <motion.div
+    className={className}
     initial={{ opacity: 1, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5, delay, ease: 'easeOut' }}
@@ -135,8 +140,6 @@ const Maps: React.FC = () => {
   }));
   const narrowed = topic !== '全部' || scope !== '全部' || search.trim() !== '';
 
-  const compact = mode === 'simple';
-
   return (
     <>
       <PageMeta
@@ -159,7 +162,7 @@ const Maps: React.FC = () => {
           </header>
 
           {/* ── 双栏：左侧轻量筛选栏 + 右侧地图主区 ── */}
-          <div className="lg:grid lg:grid-cols-[236px_1fr] lg:gap-8">
+          <div className="lg:grid lg:grid-cols-[236px_minmax(0,1fr)] lg:gap-8">
             {/* 左侧筛选栏：搜索 + 主题 + 地域。移动端默认收起、桌面端常显（复用 /downloads 折叠模式） */}
             <aside className="lg:sticky lg:top-24 self-start space-y-6 mb-8 lg:mb-0">
               {/* 移动端：筛选区折叠开关（桌面端隐藏，侧栏常显） */}
@@ -296,10 +299,10 @@ const Maps: React.FC = () => {
             </aside>
 
             {/* 右侧主区：结果摘要 + 排序/视图（这两个是「浏览工具」，留在顶部顺手） */}
-            <div>
+            <div className="min-w-0">
               {/* 视图切换：仅图标，文字信息移到 title/aria-label（悬停即有提示，不占横向空间） */}
-              <div className="flex items-center justify-between gap-4 mb-6">
-                <p className="text-sm text-muted-foreground">
+              <div className="mb-6 flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
+                <p className="min-w-0 flex-1 text-sm leading-6 text-muted-foreground">
                   {t('maps.count', { n: filtered.length })}
                   {narrowed && (
                     <>
@@ -324,15 +327,18 @@ const Maps: React.FC = () => {
                     </>
                   )}
                 </p>
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-1 rounded-lg border border-border p-0.5">
+                <div className="ml-auto flex shrink-0 items-center gap-2">
+                  <div className="inline-flex h-10 items-center gap-0.5 rounded-lg border border-border bg-muted/40 p-1">
                     {([['latest', t('list.latest')], ['heat', t('list.heat')]] as const).map(([key, label]) => (
                       <button
                         key={key}
                         type="button"
                         onClick={() => setSortMode(key)}
-                        className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
-                          sortMode === key ? 'bg-primary text-white' : 'text-muted-foreground hover:text-foreground'
+                        aria-pressed={sortMode === key}
+                        className={`h-8 rounded-md px-3 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
+                          sortMode === key
+                            ? 'bg-primary text-primary-foreground shadow-sm'
+                            : 'text-muted-foreground hover:bg-background/70 hover:text-foreground'
                         }`}
                       >
                         {label}
@@ -342,7 +348,7 @@ const Maps: React.FC = () => {
                   <div
                     role="group"
                     aria-label={t('maps.modeGroup')}
-                    className="inline-flex rounded-lg border border-border bg-muted/40 p-1"
+                    className="inline-flex h-10 items-center gap-0.5 rounded-lg border border-border bg-muted/40 p-1"
                   >
                     {MODES.map(({ id, labelKey, icon: Icon }) => (
                       <button
@@ -352,10 +358,10 @@ const Maps: React.FC = () => {
                         aria-pressed={mode === id}
                         title={t(labelKey)}
                         aria-label={t(labelKey)}
-                        className={`inline-flex items-center justify-center w-9 h-9 rounded-md transition-colors ${
+                        className={`inline-flex h-8 w-9 items-center justify-center rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
                           mode === id
-                            ? 'bg-primary text-primary-foreground'
-                            : 'text-muted-foreground hover:text-foreground'
+                            ? 'bg-primary text-primary-foreground shadow-sm'
+                            : 'text-muted-foreground hover:bg-background/70 hover:text-foreground'
                         }`}
                       >
                         <Icon className="w-4 h-4" />
@@ -382,11 +388,11 @@ const Maps: React.FC = () => {
                 const unit = rawUnit ? localizeUnit(rawUnit, lang) : t('maps.unit.default');
                 return (
                   <CardAnim key={w.slug} delay={i * 0.04}>
-                    <div className="group flex gap-4 p-4 rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 transition-all duration-300">
+                    <div className="group flex min-w-0 gap-4 rounded-xl border border-transparent bg-muted/50 p-4 transition-all duration-300 hover:border-primary/30 hover:bg-muted">
                       {/* 封面进地图本体（全屏壳页），下方「查看详情与解读」进 /maps/<slug> 介绍页 */}
                       <Link
                         to={`/maps/${w.slug}/full`}
-                        className="shrink-0 w-44 sm:w-56 aspect-video rounded-lg overflow-hidden"
+                        className="w-32 shrink-0 self-center overflow-hidden rounded-lg aspect-video sm:w-56"
                       >
                         <img
                           src={w.cover}
@@ -395,18 +401,18 @@ const Maps: React.FC = () => {
                         />
                       </Link>
                       <div className="flex-1 min-w-0 flex flex-col">
-                        <div className="flex items-center gap-2 mb-1 text-primary">
+                        <div className="mb-1 flex h-5 items-center gap-2 text-primary">
                           <MapIcon className="w-4 h-4" />
-                          <span className="text-xs font-medium tracking-wide uppercase">
+                          <span className="truncate text-xs font-medium tracking-wide uppercase">
                             {localizeLabel(w.category || t('maps.title'), lang)}
                           </span>
                         </div>
-                        <h3 className="text-base font-bold">
+                        <h3 className="min-h-[3rem] line-clamp-2 text-base font-bold leading-6">
                           <Link to={`/maps/${w.slug}/full`} className="group-hover:text-primary transition-colors">
                             {w.title}
                           </Link>
                         </h3>
-                        <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{w.summary}</p>
+                        <p className="mt-1 min-h-[2.5rem] text-sm text-muted-foreground line-clamp-2">{w.summary}</p>
                         <div className="mt-auto pt-3 flex items-center gap-4">
                           <Link
                             to={`/maps/${w.slug}`}
@@ -416,7 +422,7 @@ const Maps: React.FC = () => {
                           </Link>
                           <HeatTag heat={w.heat} />
                           {m && (
-                            <span className="ml-auto text-xs text-muted-foreground hidden sm:inline">
+                            <span className="ml-auto hidden max-w-[45%] truncate text-xs text-muted-foreground sm:inline">
                               {totalFeatures.toLocaleString()} {unit} · {m.source}
                             </span>
                           )}
@@ -429,13 +435,13 @@ const Maps: React.FC = () => {
             </div>
           ) : (
             /* 卡片模式（simple / detail） */
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 items-stretch gap-8 md:grid-cols-2 lg:grid-cols-3">
               {pageItems.map(({ work: w, asset: m }, i) => {
                 const totalFeatures = m?.data.reduce((s, d) => s + d.features, 0) ?? 0;
                 const rawUnit = m?.data[0]?.unit;
                 const unit = rawUnit ? localizeUnit(rawUnit, lang) : t('maps.unit.default');
                 return (
-                  <CardAnim key={w.slug} delay={i * 0.08}>
+                  <CardAnim key={w.slug} delay={i * 0.08} className="h-full">
                     <div className="group flex flex-col h-full overflow-hidden rounded-xl bg-muted/50 hover:bg-muted border border-transparent hover:border-primary/30 hover:shadow-lg transition-all duration-300">
                       {/* 同上：封面与标题 → 地图本体（全屏），底部链接 → /maps/<slug> 介绍页 */}
                       <Link to={`/maps/${w.slug}/full`} className="block">
@@ -450,41 +456,47 @@ const Maps: React.FC = () => {
                           </div>
                         </div>
                       </Link>
-                      <div className="p-6 flex flex-col flex-grow">
-                        <div className="flex items-center gap-2 mb-2 text-primary">
+                      <div className="flex flex-1 flex-col p-6">
+                        <div className="mb-2 flex h-5 items-center gap-2 text-primary">
                           <MapIcon className="w-4 h-4" />
-                          <span className="text-xs font-medium tracking-wide uppercase">
+                          <span className="truncate text-xs font-medium tracking-wide uppercase">
                             {localizeLabel(w.category || t('maps.title'), lang)}
                           </span>
                         </div>
-                        <h3 className="text-lg font-bold mb-2">
+                        <h3 className="mb-2 min-h-[3.5rem] line-clamp-2 text-lg font-bold leading-7">
                           <Link to={`/maps/${w.slug}/full`} className="group-hover:text-primary transition-colors">
                             {w.title}
                           </Link>
                         </h3>
-                        <p className={`text-sm text-muted-foreground ${compact ? 'line-clamp-2' : 'line-clamp-3'}`}>
+                        <p className="min-h-[2.5rem] text-sm leading-5 text-muted-foreground line-clamp-2">
                           {w.summary}
                         </p>
 
                         {/* 详细卡片才展示数据源明细 */}
-                        {!compact && m && (
-                          <dl className="mt-4 space-y-1.5 text-xs text-muted-foreground">
-                            <div className="flex items-start gap-1.5">
-                              <Layers className="w-3.5 h-3.5 mt-0.5 shrink-0" />
-                              <dd>
-                                {t('maps.features', { n: totalFeatures.toLocaleString(), unit })}
-                                {m.data.length > 1 &&
-                                  `（${m.data.map((d) => d.features.toLocaleString()).join(' + ')}）`}
-                              </dd>
-                            </div>
-                            <div className="flex items-start gap-1.5">
-                              <Database className="w-3.5 h-3.5 mt-0.5 shrink-0" />
-                              <dd>{m.source}</dd>
-                            </div>
+                        {mode === 'detail' && (
+                          <dl className="mt-4 h-[4.5rem] space-y-1.5 overflow-hidden text-xs text-muted-foreground">
+                            {m && (
+                              <>
+                                <div className="flex items-start gap-1.5">
+                                  <Layers className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                                  <dd className="line-clamp-2 min-w-0">
+                                    {t('maps.features', { n: totalFeatures.toLocaleString(), unit })}
+                                    {m.data.length > 1 &&
+                                      `（${m.data.map((d) => d.features.toLocaleString()).join(' + ')}）`}
+                                  </dd>
+                                </div>
+                                <div className="flex items-start gap-1.5">
+                                  <Database className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                                  <dd className="line-clamp-2 min-w-0" title={m.source}>
+                                    {m.source}
+                                  </dd>
+                                </div>
+                              </>
+                            )}
                           </dl>
                         )}
 
-                        <div className="mt-4 pt-4 border-t border-border/60 flex items-center gap-4">
+                        <div className="mt-auto flex items-center gap-4 border-t border-border/60 pt-4">
                           <Link
                             to={`/maps/${w.slug}`}
                             className="inline-flex items-center gap-1 text-sm font-medium text-primary"

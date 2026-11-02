@@ -92,8 +92,13 @@ const useMeta = (type: ListingType) => {
 };
 
 // 卡片入场动画：initial 保持 opacity:1，确保 SSG 静态 HTML 中文本天生可见。
-const CardAnim: React.FC<{ children: React.ReactNode; delay?: number }> = ({ children, delay = 0 }) => (
+const CardAnim: React.FC<{ children: React.ReactNode; delay?: number; className?: string }> = ({
+  children,
+  delay = 0,
+  className,
+}) => (
   <motion.div
+    className={className}
     initial={{ opacity: 1, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5, delay, ease: 'easeOut' }}
@@ -691,28 +696,31 @@ const ResourceCover: React.FC<{ item: ContentItem; className?: string }> = ({ it
   );
 };
 
-const Badges: React.FC<{ item: ContentItem; hideFormatOnMobile?: boolean }> = ({
+const Badges: React.FC<{ item: ContentItem; hideFormatOnMobile?: boolean; compact?: boolean }> = ({
   item,
   hideFormatOnMobile = false,
+  compact = false,
 }) => {
   const { lang } = useI18n();
+  const formatLabel = compact ? item.format?.split(/[\s(（]/)[0] : item.format;
   return (
     <>
       {item.category && (
-        <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-foreground/80 text-background">
+        <span className="shrink-0 whitespace-nowrap rounded-full bg-foreground/80 px-2 py-0.5 text-xs font-medium text-background">
           {localizeLabel(item.category, lang)}
         </span>
       )}
+      <AccessBadge item={item} />
       {item.format && (
         <span
-          className={`px-2 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary ${
+          title={item.format}
+          className={`shrink-0 whitespace-nowrap rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary ${
             hideFormatOnMobile ? 'hidden sm:inline-block' : ''
           }`}
         >
-          {item.format}
+          {formatLabel}
         </span>
       )}
-      <AccessBadge item={item} />
     </>
   );
 };
@@ -1069,7 +1077,7 @@ const ResourceGrid = () => {
   const pickArea = (value: string) => { setActiveArea(value); syncUrl({ area: value }); };
 
   return (
-    <div className="lg:grid lg:grid-cols-[1fr_236px] lg:gap-8">
+    <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_236px] lg:gap-8">
       {/* 右侧筛选栏：按资料类型。桌面端限高一屏并自身滚动——
           鼠标悬停在筛选栏时只滚筛选栏（overscroll-contain 阻止滚动穿透带动整页），
           悬停在左侧列表时正常滚动页面；避免筛选栏高于视口时下半部分永远看不到。 */}
@@ -1311,11 +1319,11 @@ const ResourceGrid = () => {
       </aside>
 
       {/* 主区 */}
-      <div className="lg:order-1">
+      <div className="min-w-0 lg:order-1">
         {/* 访问方式筛选已移至右侧「全局筛选」；排序/视图作为结果操作留在主区顶部 */}
 
-        <div className="flex items-center justify-between gap-3 mb-5">
-          <p className="text-xs text-muted-foreground">
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
+          <p className="min-w-0 flex-1 text-xs leading-5 text-muted-foreground">
             {t('list.resourceCount', { n: list.length })}
             {sortMode === 'heat' && (
               <span className="hidden sm:inline-block ml-2 text-muted-foreground/60">
@@ -1323,27 +1331,36 @@ const ResourceGrid = () => {
               </span>
             )}
           </p>
-          <div className="flex items-center gap-2 shrink-0">
-            <div className="flex items-center gap-1 rounded-lg border border-border p-0.5">
+          <div className="ml-auto flex shrink-0 items-center gap-2">
+            <div className="inline-flex h-10 items-center gap-0.5 rounded-lg border border-border bg-muted/40 p-1">
               {([['heat', t('list.heat')], ['date', t('list.latest')]] as const).map(([key, label]) => (
                 <button
                   key={key}
                   type="button"
                   onClick={() => setSortMode(key)}
-                  className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
-                    sortMode === key ? 'bg-primary text-white' : 'text-muted-foreground hover:text-foreground'
+                  aria-pressed={sortMode === key}
+                  className={`h-8 rounded-md px-3 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
+                    sortMode === key
+                      ? 'bg-primary text-primary-foreground shadow-sm'
+                      : 'text-muted-foreground hover:bg-background/70 hover:text-foreground'
                   }`}
                 >
                   {label}
                 </button>
               ))}
             </div>
-            <div className="flex items-center gap-1 rounded-lg border border-border p-0.5">
+            <div className="inline-flex h-10 items-center gap-0.5 rounded-lg border border-border bg-muted/40 p-1">
               <button
                 type="button"
                 onClick={() => setView('grid')}
                 aria-label={t('list.viewGrid')}
-                className={`p-1.5 rounded-md transition-colors ${view === 'grid' ? 'bg-primary text-white' : 'text-muted-foreground hover:bg-muted'}`}
+                aria-pressed={view === 'grid'}
+                title={t('list.viewGrid')}
+                className={`inline-flex h-8 w-9 items-center justify-center rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
+                  view === 'grid'
+                    ? 'bg-primary text-primary-foreground shadow-sm'
+                    : 'text-muted-foreground hover:bg-background/70 hover:text-foreground'
+                }`}
               >
                 <LayoutGrid className="w-4 h-4" />
               </button>
@@ -1351,7 +1368,13 @@ const ResourceGrid = () => {
                 type="button"
                 onClick={() => setView('list')}
                 aria-label={t('list.viewList')}
-                className={`p-1.5 rounded-md transition-colors ${view === 'list' ? 'bg-primary text-white' : 'text-muted-foreground hover:bg-muted'}`}
+                aria-pressed={view === 'list'}
+                title={t('list.viewList')}
+                className={`inline-flex h-8 w-9 items-center justify-center rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
+                  view === 'list'
+                    ? 'bg-primary text-primary-foreground shadow-sm'
+                    : 'text-muted-foreground hover:bg-background/70 hover:text-foreground'
+                }`}
               >
                 <List className="w-4 h-4" />
               </button>
@@ -1391,28 +1414,28 @@ const ResourceGrid = () => {
             )}
           </div>
         ) : view === 'grid' ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {pageItems.map((r, i) => (
-              <CardAnim key={r.slug} delay={i * 0.05}>
+              <CardAnim key={r.slug} delay={i * 0.05} className="h-full">
                 <Link
                   to={`/downloads/${r.slug}`}
                   className="group flex flex-col overflow-hidden rounded-xl bg-background border border-border hover:border-primary/40 hover:shadow-lg transition-all duration-300 h-full"
                 >
                   <ResourceCover item={r} className="aspect-[3/4]" />
                   <div className="flex flex-col flex-1 p-4">
-                    <div className="flex items-center gap-2 mb-2 flex-wrap">
-                      <Badges item={r} />
+                    <div className="mb-2 flex min-h-[1.375rem] flex-nowrap items-center gap-2 overflow-hidden">
+                      <Badges item={r} compact />
                     </div>
-                    <h3 className="font-serif text-base font-semibold leading-snug line-clamp-2 group-hover:text-primary transition-colors">
+                    <h3 className="min-h-[2.75rem] font-serif text-base font-semibold leading-snug line-clamp-2 group-hover:text-primary transition-colors">
                       {r.title}
                     </h3>
                     <div className="mt-2 h-px w-8 bg-primary/40 group-hover:w-14 transition-all" />
-                    <p className="mt-2 text-sm text-muted-foreground line-clamp-2 leading-relaxed">{r.summary}</p>
+                    <p className="mt-2 min-h-[2.5rem] text-sm text-muted-foreground line-clamp-2 leading-relaxed">{r.summary}</p>
                     <div className="mt-auto pt-3 flex items-center gap-3 text-xs text-muted-foreground">
-                      {r.date && <span className="inline-flex items-center gap-1"><Calendar className="w-3.5 h-3.5" />{r.date}</span>}
-                      {r.size && <span>· {r.size}</span>}
+                      {r.date && <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap"><Calendar className="w-3.5 h-3.5" />{r.date}</span>}
+                      {r.size && <span className="shrink-0 whitespace-nowrap">· {r.size}</span>}
                       {(r.heat || 0) > 0 && (
-                        <span className="inline-flex items-center gap-1 text-orange-500 ml-auto">
+                        <span className="ml-auto inline-flex shrink-0 items-center gap-1 whitespace-nowrap text-orange-500">
                           <Flame className="w-3.5 h-3.5" />{fmtHeat(r.heat!)}
                         </span>
                       )}
@@ -1432,18 +1455,18 @@ const ResourceGrid = () => {
                 >
                   <ResourceCover item={r} className="w-20 sm:w-28 aspect-[3/4] rounded-lg shrink-0" />
                   <div className="flex flex-col flex-1 min-w-0 py-0.5">
-                    <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                    <div className="mb-1.5 flex min-h-[1.375rem] flex-wrap items-center gap-2">
                       <Badges item={r} hideFormatOnMobile />
                     </div>
-                    <h3 className="font-serif text-sm font-semibold leading-snug line-clamp-2 group-hover:text-primary transition-colors">
+                    <h3 className="min-h-[2.5rem] font-serif text-sm font-semibold leading-snug line-clamp-2 group-hover:text-primary transition-colors">
                       {r.title}
                     </h3>
-                    <p className="mt-1.5 text-sm text-muted-foreground line-clamp-2 leading-relaxed">{r.summary}</p>
+                    <p className="mt-1.5 min-h-[2.5rem] text-sm text-muted-foreground line-clamp-2 leading-relaxed">{r.summary}</p>
                     <div className="mt-auto pt-2 flex items-center gap-3 text-xs text-muted-foreground">
-                      {r.date && <span className="inline-flex items-center gap-1"><Calendar className="w-3.5 h-3.5" />{r.date}</span>}
-                      {r.size && <span>· {r.size}</span>}
+                      {r.date && <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap"><Calendar className="w-3.5 h-3.5" />{r.date}</span>}
+                      {r.size && <span className="shrink-0 whitespace-nowrap">· {r.size}</span>}
                       {(r.heat || 0) > 0 && (
-                        <span className="inline-flex items-center gap-1 text-orange-500 ml-auto">
+                        <span className="ml-auto inline-flex shrink-0 items-center gap-1 whitespace-nowrap text-orange-500">
                           <Flame className="w-3.5 h-3.5" />{fmtHeat(r.heat!)}
                         </span>
                       )}
