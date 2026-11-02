@@ -1,0 +1,347 @@
+{
+ "cities": [
+  {
+   "city": "上海",
+   "province": "上海",
+   "provinceAdcode": 310000,
+   "lng": 121.449498,
+   "lat": 31.242945,
+   "count": 7,
+   "firstYear": 2010
+  },
+  {
+   "city": "北京",
+   "province": "北京",
+   "provinceAdcode": 110000,
+   "lng": 116.357461,
+   "lat": 39.919118,
+   "count": 6,
+   "firstYear": 2003
+  },
+  {
+   "city": "深圳",
+   "province": "广东",
+   "provinceAdcode": 440000,
+   "lng": 113.999354,
+   "lat": 22.625912,
+   "count": 5,
+   "firstYear": 1996
+  },
+  {
+   "city": "武汉",
+   "province": "湖北",
+   "provinceAdcode": 420000,
+   "lng": 114.290498,
+   "lat": 30.557026,
+   "count": 4,
+   "firstYear": 2014
+  },
+  {
+   "city": "苏州",
+   "province": "江苏",
+   "provinceAdcode": 320000,
+   "lng": 120.694814,
+   "lat": 31.448546,
+   "count": 4,
+   "firstYear": 2013
+  },
+  {
+   "city": "广州",
+   "province": "广东",
+   "provinceAdcode": 440000,
+   "lng": 113.326612,
+   "lat": 23.049258,
+   "count": 3,
+   "firstYear": 2009
+  },
+  {
+   "city": "成都",
+   "province": "四川",
+   "provinceAdcode": 510000,
+   "lng": 104.032875,
+   "lat": 30.608188,
+   "count": 3,
+   "firstYear": 2018
+  },
+  {
+   "city": "无锡",
+   "province": "江苏",
+   "provinceAdcode": 320000,
+   "lng": 120.297773,
+   "lat": 31.68557,
+   "count": 3,
+   "firstYear": 2021
+  },
+  {
+   "city": "杭州",
+   "province": "浙江",
+   "provinceAdcode": 330000,
+   "lng": 120.169809,
+   "lat": 30.273552,
+   "count": 3,
+   "firstYear": 2013
+  },
+  {
+   "city": "南京",
+   "province": "江苏",
+   "provinceAdcode": 320000,
+   "lng": 118.714436,
+   "lat": 32.024598,
+   "count": 2,
+   "firstYear": 2017
+  },
+  {
+   "city": "宁波",
+   "province": "浙江",
+   "provinceAdcode": 330000,
+   "lng": 121.539642,
+   "lat": 29.860584,
+   "count": 2,
+   "firstYear": 2019
+  },
+  {
+   "city": "福州",
+   "province": "福建",
+   "provinceAdcode": 350000,
+   "lng": 119.327925,
+   "lat": 26.041652,
+   "count": 2,
+   "firstYear": 2001
+  },
+  {
+   "city": "重庆",
+   "province": "重庆",
+   "provinceAdcode": 500000,
+   "lng": 106.488506,
+   "lat": 29.587521,
+   "count": 2,
+   "firstYear": 2020
+  },
+  {
+   "city": "长沙",
+   "province": "湖南",
+   "provinceAdcode": 430000,
+   "lng": 113.003265,
+   "lat": 28.189377,
+   "count": 2,
+   "firstYear": 2017
+  },
+  {
+   "city": "东莞",
+   "province": "广东",
+   "provinceAdcode": 440000,
+   "lng": 113.847555,
+   "lat": 22.996705,
+   "count": 1,
+   "firstYear": 2020
+  },
+  {
+   "city": "中山",
+   "province": "广东",
+   "provinceAdcode": 440000,
+   "lng": 113.382056,
+   "lat": 22.553481,
+   "count": 1,
+   "firstYear": 2025
+  },
+  {
+   "city": "佛山",
+   "province": "广东",
+   "provinceAdcode": 440000,
+   "lng": 113.297731,
+   "lat": 22.824387,
+   "count": 1,
+   "firstYear": 2026
+  },
+  {
+   "city": "南宁",
+   "province": "广西",
+   "provinceAdcode": 450000,
+   "lng": 108.427444,
+   "lat": 22.820051,
+   "count": 1,
+   "firstYear": 2019
+  },
+  {
+   "city": "南昌",
+   "province": "江西",
+   "provinceAdcode": 360000,
+   "lng": 115.838637,
+   "lat": 28.665617,
+   "count": 1,
+   "firstYear": 2017
+  },
+  {
+   "city": "南通",
+   "province": "江苏",
+   "provinceAdcode": 320000,
+   "lng": 120.831336,
+   "lat": 32.038647,
+   "count": 1,
+   "firstYear": 2018
+  },
+  {
+   "city": "厦门",
+   "province": "福建",
+   "provinceAdcode": 350000,
+   "lng": 118.091647,
+   "lat": 24.507807,
+   "count": 1,
+   "firstYear": 2016
+  },
+  {
+   "city": "合肥",
+   "province": "安徽",
+   "provinceAdcode": 340000,
+   "lng": 117.240742,
+   "lat": 31.776247,
+   "count": 1,
+   "firstYear": 2025
+  },
+  {
+   "city": "嘉兴",
+   "province": "浙江",
+   "provinceAdcode": 330000,
+   "lng": 120.784578,
+   "lat": 30.710775,
+   "count": 1,
+   "firstYear": 2025
+  },
+  {
+   "city": "大连",
+   "province": "辽宁",
+   "provinceAdcode": 210000,
+   "lng": 121.605965,
+   "lat": 38.933185,
+   "count": 1,
+   "firstYear": 2012
+  },
+  {
+   "city": "天津",
+   "province": "天津",
+   "provinceAdcode": 120000,
+   "lng": 117.214113,
+   "lat": 39.036856,
+   "count": 1,
+   "firstYear": 2016
+  },
+  {
+   "city": "常州",
+   "province": "江苏",
+   "provinceAdcode": 320000,
+   "lng": 119.955353,
+   "lat": 31.787672,
+   "count": 1,
+   "firstYear": 2015
+  },
+  {
+   "city": "惠州",
+   "province": "广东",
+   "provinceAdcode": 440000,
+   "lng": 114.439841,
+   "lat": 23.039205,
+   "count": 1,
+   "firstYear": 2021
+  },
+  {
+   "city": "扬州",
+   "province": "江苏",
+   "provinceAdcode": 320000,
+   "lng": 119.379979,
+   "lat": 32.388371,
+   "count": 1,
+   "firstYear": 2025
+  },
+  {
+   "city": "沈阳",
+   "province": "辽宁",
+   "provinceAdcode": 210000,
+   "lng": 123.409549,
+   "lat": 41.729821,
+   "count": 1,
+   "firstYear": 2018
+  },
+  {
+   "city": "泉州",
+   "province": "福建",
+   "provinceAdcode": 350000,
+   "lng": 118.59298,
+   "lat": 24.846212,
+   "count": 1,
+   "firstYear": 2023
+  },
+  {
+   "city": "济南",
+   "province": "山东",
+   "provinceAdcode": 370000,
+   "lng": 117.146673,
+   "lat": 36.699222,
+   "count": 1,
+   "firstYear": 2026
+  },
+  {
+   "city": "温州",
+   "province": "浙江",
+   "provinceAdcode": 330000,
+   "lng": 120.644318,
+   "lat": 27.998969,
+   "count": 1,
+   "firstYear": 2022
+  },
+  {
+   "city": "珠海",
+   "province": "广东",
+   "provinceAdcode": 440000,
+   "lng": 113.50899,
+   "lat": 22.275931,
+   "count": 1,
+   "firstYear": 2016
+  },
+  {
+   "city": "石家庄",
+   "province": "河北",
+   "provinceAdcode": 130000,
+   "lng": 114.520283,
+   "lat": 37.987521,
+   "count": 1,
+   "firstYear": 2026
+  },
+  {
+   "city": "绍兴",
+   "province": "浙江",
+   "provinceAdcode": 330000,
+   "lng": 120.530311,
+   "lat": 30.078727,
+   "count": 1,
+   "firstYear": 2021
+  },
+  {
+   "city": "青岛",
+   "province": "山东",
+   "provinceAdcode": 370000,
+   "lng": 120.347027,
+   "lat": 36.141006,
+   "count": 1,
+   "firstYear": 2026
+  }
+ ],
+ "provinceCount": {
+  "440000": 13,
+  "310000": 7,
+  "110000": 6,
+  "320000": 12,
+  "330000": 8,
+  "350000": 4,
+  "420000": 4,
+  "510000": 3,
+  "430000": 2,
+  "370000": 2,
+  "130000": 1,
+  "120000": 1,
+  "500000": 2,
+  "210000": 2,
+  "360000": 1,
+  "450000": 1,
+  "340000": 1
+ }
+}

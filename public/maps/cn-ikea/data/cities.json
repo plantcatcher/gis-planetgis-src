@@ -1,0 +1,258 @@
+{
+ "cities": [
+  {
+   "city": "北京",
+   "province": "北京",
+   "provinceAdcode": 110000,
+   "lng": 116.450415,
+   "lat": 39.925271,
+   "count": 6,
+   "firstYear": 2006
+  },
+  {
+   "city": "上海",
+   "province": "上海",
+   "provinceAdcode": 310000,
+   "lng": 121.451131,
+   "lat": 31.186206,
+   "count": 3,
+   "firstYear": 1998
+  },
+  {
+   "city": "深圳",
+   "province": "广东",
+   "provinceAdcode": 440000,
+   "lng": 113.98267,
+   "lat": 22.562267,
+   "count": 3,
+   "firstYear": 2008
+  },
+  {
+   "city": "成都",
+   "province": "四川",
+   "provinceAdcode": 510000,
+   "lng": 104.083656,
+   "lat": 30.660434,
+   "count": 2,
+   "firstYear": 2006
+  },
+  {
+   "city": "西安",
+   "province": "陕西",
+   "provinceAdcode": 610000,
+   "lng": 108.865336,
+   "lat": 34.230933,
+   "count": 2,
+   "firstYear": 2015
+  },
+  {
+   "city": "广州",
+   "province": "广东",
+   "provinceAdcode": 440000,
+   "lng": 113.416461,
+   "lat": 23.104763,
+   "count": 1,
+   "firstYear": 2005
+  },
+  {
+   "city": "南京",
+   "province": "江苏",
+   "provinceAdcode": 320000,
+   "lng": 118.79737,
+   "lat": 31.993703,
+   "count": 1,
+   "firstYear": 2008
+  },
+  {
+   "city": "大连",
+   "province": "辽宁",
+   "provinceAdcode": 210000,
+   "lng": 121.606042,
+   "lat": 38.928066,
+   "count": 1,
+   "firstYear": 2009
+  },
+  {
+   "city": "沈阳",
+   "province": "辽宁",
+   "provinceAdcode": 210000,
+   "lng": 123.378936,
+   "lat": 41.807764,
+   "count": 1,
+   "firstYear": 2010
+  },
+  {
+   "city": "天津",
+   "province": "天津",
+   "provinceAdcode": 120000,
+   "lng": 117.362825,
+   "lat": 39.079565,
+   "count": 1,
+   "firstYear": 2012
+  },
+  {
+   "city": "无锡",
+   "province": "江苏",
+   "provinceAdcode": 320000,
+   "lng": 120.395404,
+   "lat": 31.584304,
+   "count": 1,
+   "firstYear": 2012
+  },
+  {
+   "city": "重庆",
+   "province": "重庆",
+   "provinceAdcode": 500000,
+   "lng": 106.567384,
+   "lat": 29.631216,
+   "count": 1,
+   "firstYear": 2014
+  },
+  {
+   "city": "武汉",
+   "province": "湖北",
+   "provinceAdcode": 420000,
+   "lng": 114.167506,
+   "lat": 30.618279,
+   "count": 1,
+   "firstYear": 2014
+  },
+  {
+   "city": "杭州",
+   "province": "浙江",
+   "provinceAdcode": 330000,
+   "lng": 120.284554,
+   "lat": 30.343463,
+   "count": 1,
+   "firstYear": 2015
+  },
+  {
+   "city": "温州",
+   "province": "浙江",
+   "provinceAdcode": 330000,
+   "lng": 120.683562,
+   "lat": 27.918518,
+   "count": 1,
+   "firstYear": 2016
+  },
+  {
+   "city": "苏州",
+   "province": "江苏",
+   "provinceAdcode": 320000,
+   "lng": 120.53313,
+   "lat": 31.366843,
+   "count": 1,
+   "firstYear": 2016
+  },
+  {
+   "city": "佛山",
+   "province": "广东",
+   "provinceAdcode": 440000,
+   "lng": 113.156501,
+   "lat": 23.057387,
+   "count": 1,
+   "firstYear": 2016
+  },
+  {
+   "city": "济南",
+   "province": "山东",
+   "provinceAdcode": 370000,
+   "lng": 116.93283,
+   "lat": 36.664539,
+   "count": 1,
+   "firstYear": 2017
+  },
+  {
+   "city": "郑州",
+   "province": "河南",
+   "provinceAdcode": 410000,
+   "lng": 113.627827,
+   "lat": 34.815443,
+   "count": 1,
+   "firstYear": 2019
+  },
+  {
+   "city": "长沙",
+   "province": "湖南",
+   "provinceAdcode": 430000,
+   "lng": 112.937588,
+   "lat": 28.117679,
+   "count": 1,
+   "firstYear": 2019
+  },
+  {
+   "city": "青岛",
+   "province": "山东",
+   "provinceAdcode": 370000,
+   "lng": 120.449081,
+   "lat": 36.120605,
+   "count": 1,
+   "firstYear": 2020
+  },
+  {
+   "city": "福州",
+   "province": "福建",
+   "provinceAdcode": 350000,
+   "lng": 119.367055,
+   "lat": 26.064849,
+   "count": 1,
+   "firstYear": 2020
+  },
+  {
+   "city": "南宁",
+   "province": "广西",
+   "provinceAdcode": 450000,
+   "lng": 108.378158,
+   "lat": 22.755108,
+   "count": 1,
+   "firstYear": 2021
+  },
+  {
+   "city": "昆明",
+   "province": "云南",
+   "provinceAdcode": 530000,
+   "lng": 102.665822,
+   "lat": 25.087432,
+   "count": 1,
+   "firstYear": 2021
+  },
+  {
+   "city": "合肥",
+   "province": "安徽",
+   "provinceAdcode": 340000,
+   "lng": 117.277,
+   "lat": 31.887454,
+   "count": 1,
+   "firstYear": 2022
+  },
+  {
+   "city": "东莞",
+   "province": "广东",
+   "provinceAdcode": 440000,
+   "lng": 113.755032,
+   "lat": 23.007218,
+   "count": 1,
+   "firstYear": 2026
+  }
+ ],
+ "provinceCount": {
+  "310000": 3,
+  "440000": 6,
+  "110000": 6,
+  "510000": 2,
+  "320000": 3,
+  "210000": 2,
+  "120000": 1,
+  "500000": 1,
+  "420000": 1,
+  "330000": 2,
+  "610000": 2,
+  "370000": 2,
+  "410000": 1,
+  "430000": 1,
+  "350000": 1,
+  "450000": 1,
+  "530000": 1,
+  "340000": 1
+ }
+}

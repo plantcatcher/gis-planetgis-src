@@ -1,0 +1,937 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 1,
+    "name": "上海徐汇商场",
+    "city": "上海",
+    "province": "上海",
+    "provinceAdcode": 310000,
+    "address": "徐汇区漕溪路126号",
+    "openDate": "1998",
+    "openYear": 1998,
+    "yearExact": true,
+    "era": "pioneer",
+    "type": "标准商场",
+    "seq": 1,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.434238,
+     31.178013
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 2,
+    "name": "广州天河商场",
+    "city": "广州",
+    "province": "广东",
+    "provinceAdcode": 440000,
+    "address": "天河区黄埔大道东663号美林天地",
+    "openDate": "2005-10-12",
+    "openYear": 2005,
+    "yearExact": true,
+    "era": "pioneer",
+    "type": "标准商场",
+    "seq": 2,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.416461,
+     23.104763
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 3,
+    "name": "北京四元桥商场",
+    "city": "北京",
+    "province": "北京",
+    "provinceAdcode": 110000,
+    "address": "朝阳区阜通东大街59号",
+    "openDate": "2006-04-10",
+    "openYear": 2006,
+    "yearExact": true,
+    "era": "pioneer",
+    "type": "标准商场",
+    "seq": 3,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.463558,
+     39.977661
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 4,
+    "name": "成都高新商场",
+    "city": "成都",
+    "province": "四川",
+    "provinceAdcode": 510000,
+    "address": "高新区益州大道北段9号",
+    "openDate": "2006-11-29",
+    "openYear": 2006,
+    "yearExact": true,
+    "era": "pioneer",
+    "type": "标准商场",
+    "seq": 4,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     104.062562,
+     30.599662
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 5,
+    "name": "深圳商场",
+    "city": "深圳",
+    "province": "广东",
+    "provinceAdcode": 440000,
+    "address": "南山区沙河东路欧洲城内",
+    "openDate": "2008-04-16",
+    "openYear": 2008,
+    "yearExact": true,
+    "era": "pioneer",
+    "type": "标准商场",
+    "seq": 5,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.965453,
+     22.555154
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 6,
+    "name": "南京商场",
+    "city": "南京",
+    "province": "江苏",
+    "provinceAdcode": 320000,
+    "address": "秦淮区明匙路99号",
+    "openDate": "2008-08-28",
+    "openYear": 2008,
+    "yearExact": true,
+    "era": "pioneer",
+    "type": "标准商场",
+    "seq": 6,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     118.79737,
+     31.993703
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 7,
+    "name": "大连商场",
+    "city": "大连",
+    "province": "辽宁",
+    "provinceAdcode": 210000,
+    "address": "西岗区海达南街51号",
+    "openDate": "2009-02-19",
+    "openYear": 2009,
+    "yearExact": true,
+    "era": "expansion",
+    "type": "标准商场",
+    "seq": 7,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.606042,
+     38.928066
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 8,
+    "name": "沈阳商场",
+    "city": "沈阳",
+    "province": "辽宁",
+    "provinceAdcode": 210000,
+    "address": "铁西区兴华北街20号",
+    "openDate": "2010-05-20",
+    "openYear": 2010,
+    "yearExact": true,
+    "era": "expansion",
+    "type": "标准商场",
+    "seq": 8,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     123.378936,
+     41.807764
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 9,
+    "name": "上海北蔡商场",
+    "city": "上海",
+    "province": "上海",
+    "provinceAdcode": 310000,
+    "address": "浦东新区临御路550号",
+    "openDate": "2011-06-23",
+    "openYear": 2011,
+    "yearExact": true,
+    "era": "expansion",
+    "type": "标准商场",
+    "seq": 9,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.561544,
+     31.159469
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 10,
+    "name": "天津东丽商场",
+    "city": "天津",
+    "province": "天津",
+    "provinceAdcode": 120000,
+    "address": "东丽区津塘公路433号",
+    "openDate": "2012-02-10",
+    "openYear": 2012,
+    "yearExact": true,
+    "era": "expansion",
+    "type": "标准商场",
+    "seq": 10,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     117.362825,
+     39.079565
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 11,
+    "name": "无锡商场",
+    "city": "无锡",
+    "province": "江苏",
+    "provinceAdcode": 320000,
+    "address": "锡山区团结中路3号荟聚二楼",
+    "openDate": "2012-06-06",
+    "openYear": 2012,
+    "yearExact": true,
+    "era": "expansion",
+    "type": "标准商场",
+    "seq": 11,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.395404,
+     31.584304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 12,
+    "name": "北京西红门商场",
+    "city": "北京",
+    "province": "北京",
+    "provinceAdcode": 110000,
+    "address": "大兴区欣宁街15号院2号楼",
+    "openDate": "2013-11-07",
+    "openYear": 2013,
+    "yearExact": true,
+    "era": "expansion",
+    "type": "标准商场",
+    "seq": 12,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.32459,
+     39.789099
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 13,
+    "name": "重庆商场",
+    "city": "重庆",
+    "province": "重庆",
+    "provinceAdcode": 500000,
+    "address": "渝北区汇流路2号",
+    "openDate": "2014-03-27",
+    "openYear": 2014,
+    "yearExact": true,
+    "era": "expansion",
+    "type": "标准商场",
+    "seq": 13,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     106.567384,
+     29.631216
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 14,
+    "name": "武汉商场",
+    "city": "武汉",
+    "province": "湖北",
+    "provinceAdcode": 420000,
+    "address": "硚口区张毕湖路2号",
+    "openDate": "2014-09-17",
+    "openYear": 2014,
+    "yearExact": true,
+    "era": "expansion",
+    "type": "标准商场",
+    "seq": 14,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     114.167506,
+     30.618279
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 15,
+    "name": "杭州商场",
+    "city": "杭州",
+    "province": "浙江",
+    "provinceAdcode": 330000,
+    "address": "临平区乔司街道乔莫西路5号",
+    "openDate": "2015-06-25",
+    "openYear": 2015,
+    "yearExact": true,
+    "era": "expansion",
+    "type": "标准商场",
+    "seq": 15,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.284554,
+     30.343463
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 16,
+    "name": "西安未央商场",
+    "city": "西安",
+    "province": "陕西",
+    "provinceAdcode": 610000,
+    "address": "未央区沣东新城三桥路866号",
+    "openDate": "2015-08-27",
+    "openYear": 2015,
+    "yearExact": true,
+    "era": "expansion",
+    "type": "标准商场",
+    "seq": 16,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     108.831502,
+     34.289397
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 17,
+    "name": "成都成华商场",
+    "city": "成都",
+    "province": "四川",
+    "provinceAdcode": 510000,
+    "address": "成华区蓉都大道将军碑路9号",
+    "openDate": "2016-03-24",
+    "openYear": 2016,
+    "yearExact": true,
+    "era": "expansion",
+    "type": "标准商场",
+    "seq": 17,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     104.10475,
+     30.721206
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 18,
+    "name": "温州商场",
+    "city": "温州",
+    "province": "浙江",
+    "provinceAdcode": 330000,
+    "address": "瓯海区瓯越大道1999号万象城1层",
+    "openDate": "2016-05-25",
+    "openYear": 2016,
+    "yearExact": true,
+    "era": "expansion",
+    "type": "小型商场",
+    "seq": 18,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.683562,
+     27.918518
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 19,
+    "name": "苏州商场",
+    "city": "苏州",
+    "province": "江苏",
+    "provinceAdcode": 320000,
+    "address": "高新区浒墅关镇城际路17号",
+    "openDate": "2016-06-29",
+    "openYear": 2016,
+    "yearExact": true,
+    "era": "expansion",
+    "type": "标准商场",
+    "seq": 19,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.53313,
+     31.366843
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 20,
+    "name": "佛山商场",
+    "city": "佛山",
+    "province": "广东",
+    "provinceAdcode": 440000,
+    "address": "南海区桂城街道桂澜北路18号",
+    "openDate": "2016-08-25",
+    "openYear": 2016,
+    "yearExact": true,
+    "era": "expansion",
+    "type": "标准商场",
+    "seq": 20,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.156501,
+     23.057387
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 21,
+    "name": "北京五棵松商场",
+    "city": "北京",
+    "province": "北京",
+    "provinceAdcode": 110000,
+    "address": "海淀区复兴路69-1号华熙LIVE",
+    "openDate": "2017-03-23",
+    "openYear": 2017,
+    "yearExact": true,
+    "era": "acceleration",
+    "type": "小型商场",
+    "seq": 21,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.276607,
+     39.910854
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 22,
+    "name": "济南商场",
+    "city": "济南",
+    "province": "山东",
+    "provinceAdcode": 370000,
+    "address": "槐荫区烟台路121号",
+    "openDate": "2017-08-21",
+    "openYear": 2017,
+    "yearExact": true,
+    "era": "acceleration",
+    "type": "标准商场",
+    "seq": 22,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.93283,
+     36.664539
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 23,
+    "name": "郑州商场",
+    "city": "郑州",
+    "province": "河南",
+    "provinceAdcode": 410000,
+    "address": "惠济区北三环长兴路2号",
+    "openDate": "2019-08-29",
+    "openYear": 2019,
+    "yearExact": true,
+    "era": "acceleration",
+    "type": "标准商场",
+    "seq": 23,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.627827,
+     34.815443
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 24,
+    "name": "长沙商场",
+    "city": "长沙",
+    "province": "湖南",
+    "provinceAdcode": 430000,
+    "address": "岳麓区洋湖路253号长沙荟聚",
+    "openDate": "2019-11-28",
+    "openYear": 2019,
+    "yearExact": true,
+    "era": "acceleration",
+    "type": "标准商场",
+    "seq": 24,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     112.937588,
+     28.117679
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 25,
+    "name": "青岛商场",
+    "city": "青岛",
+    "province": "山东",
+    "provinceAdcode": 370000,
+    "address": "崂山区深圳路100号",
+    "openDate": "2020-08-13",
+    "openYear": 2020,
+    "yearExact": true,
+    "era": "acceleration",
+    "type": "标准商场",
+    "seq": 25,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.449081,
+     36.120605
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 26,
+    "name": "福州商场",
+    "city": "福州",
+    "province": "福建",
+    "provinceAdcode": 350000,
+    "address": "晋安区福马路788号",
+    "openDate": "2020-12-17",
+    "openYear": 2020,
+    "yearExact": true,
+    "era": "acceleration",
+    "type": "标准商场",
+    "seq": 26,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     119.367055,
+     26.064849
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 27,
+    "name": "南宁商场",
+    "city": "南宁",
+    "province": "广西",
+    "provinceAdcode": 450000,
+    "address": "良庆区平乐大道12号",
+    "openDate": "2021-08-26",
+    "openYear": 2021,
+    "yearExact": true,
+    "era": "acceleration",
+    "type": "标准商场",
+    "seq": 27,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     108.378158,
+     22.755108
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 28,
+    "name": "昆明商场",
+    "city": "昆明",
+    "province": "云南",
+    "provinceAdcode": 530000,
+    "address": "五华区王筇路168号",
+    "openDate": "2021-10-28",
+    "openYear": 2021,
+    "yearExact": true,
+    "era": "acceleration",
+    "type": "标准商场",
+    "seq": 28,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     102.665822,
+     25.087432
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 29,
+    "name": "合肥商场",
+    "city": "合肥",
+    "province": "安徽",
+    "provinceAdcode": 340000,
+    "address": "庐阳区蒙城北路129号合肥荟聚",
+    "openDate": "2022-12-15",
+    "openYear": 2022,
+    "yearExact": true,
+    "era": "acceleration",
+    "type": "标准商场",
+    "seq": 29,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     117.277,
+     31.887454
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 30,
+    "name": "西安雁塔商场",
+    "city": "西安",
+    "province": "陕西",
+    "provinceAdcode": 610000,
+    "address": "雁塔区沈家桥一路与西部大道交汇处西安荟聚",
+    "openDate": "2024-04-18",
+    "openYear": 2024,
+    "yearExact": true,
+    "era": "surge",
+    "type": "标准商场",
+    "seq": 30,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     108.899171,
+     34.172469
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 31,
+    "name": "深圳罗湖设计订购中心",
+    "city": "深圳",
+    "province": "广东",
+    "provinceAdcode": 440000,
+    "address": "罗湖区梅园路71号万象食家",
+    "openDate": "2024-05-26",
+    "openYear": 2024,
+    "yearExact": true,
+    "era": "surge",
+    "type": "设计订购中心",
+    "seq": 31,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     114.11051,
+     22.562502
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 32,
+    "name": "上海临空商场",
+    "city": "上海",
+    "province": "上海",
+    "provinceAdcode": 310000,
+    "address": "长宁区金钟路788号上海荟聚",
+    "openDate": "2024-09-26",
+    "openYear": 2024,
+    "yearExact": true,
+    "era": "surge",
+    "type": "标准商场",
+    "seq": 32,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.35761,
+     31.221135
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 33,
+    "name": "深圳宝安商场",
+    "city": "深圳",
+    "province": "广东",
+    "provinceAdcode": 440000,
+    "address": "宝安区海城路3号大仟里购物中心",
+    "openDate": "2025-06-19",
+    "openYear": 2025,
+    "yearExact": true,
+    "era": "surge",
+    "type": "小型商场",
+    "seq": 33,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.872047,
+     22.569144
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 34,
+    "name": "北京昌平设计订购中心",
+    "city": "北京",
+    "province": "北京",
+    "provinceAdcode": 110000,
+    "address": "昌平区东小口镇龙锦一街37号院小站公园购物中心",
+    "openDate": "2025-10-19",
+    "openYear": 2025,
+    "yearExact": true,
+    "era": "surge",
+    "type": "设计订购中心",
+    "seq": 34,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.351083,
+     40.090031
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 35,
+    "name": "东莞商场",
+    "city": "东莞",
+    "province": "广东",
+    "provinceAdcode": 440000,
+    "address": "南城区海德汇一城三区二楼",
+    "openDate": "2026-02-05",
+    "openYear": 2026,
+    "yearExact": true,
+    "era": "surge",
+    "type": "小型商场",
+    "seq": 35,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.755032,
+     23.007218
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 36,
+    "name": "北京通州商场",
+    "city": "北京",
+    "province": "北京",
+    "provinceAdcode": 110000,
+    "address": "通州区颐瑞东路66号院湾里王府井购物中心",
+    "openDate": "2026-04-30",
+    "openYear": 2026,
+    "yearExact": true,
+    "era": "surge",
+    "type": "小型商场",
+    "seq": 36,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.690741,
+     39.858884
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 37,
+    "name": "北京常营商场",
+    "city": "北京",
+    "province": "北京",
+    "provinceAdcode": 110000,
+    "address": "朝阳区常通路1号龙湖长楹天街",
+    "openDate": "2026-08-13",
+    "openYear": 2026,
+    "yearExact": true,
+    "era": "surge",
+    "type": "小型商场",
+    "seq": 37,
+    "coordLevel": "geocoded"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.59591,
+     39.925099
+    ]
+   }
+  }
+ ],
+ "_meta": {
+  "count": 37,
+  "asOf": "2026-10",
+  "coordLevel": "geocoded",
+  "coordSrc": "高德地理编码（GCJ-02，与高德卫星底图同源）",
+  "note": "宜家在中国大陆 37 家在营门店（35 间商场 + 2 间设计订购中心），截至 2026-10。坐标由高德地理编码按真实地址逐店解析（GCJ-02，与底图同源）。2026-02-02 已停业 7 店未计入。"
+ }
+}

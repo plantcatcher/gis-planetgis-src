@@ -1,0 +1,1762 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 1,
+    "name": "深圳福田店",
+    "city": "深圳",
+    "province": "广东",
+    "provinceAdcode": 440000,
+    "address": "福田区农林路69号（深国投商业中心）",
+    "openDate": "1996-08-12",
+    "openYear": 1996,
+    "yearExact": true,
+    "era": "pioneer",
+    "seq": 1,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     114.011523,
+     22.544653
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 6,
+    "name": "深圳龙岗店",
+    "city": "深圳",
+    "province": "广东",
+    "provinceAdcode": 440000,
+    "address": "龙岗区黄阁南路1号星河时代购物公园",
+    "openDate": null,
+    "openYear": 2011,
+    "yearExact": false,
+    "era": "expansion",
+    "seq": 6,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     114.226336,
+     22.691396
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 33,
+    "name": "深圳龙华店",
+    "city": "深圳",
+    "province": "广东",
+    "provinceAdcode": 440000,
+    "address": "龙华区壹成中心壹方天地E区梅龙路1111号",
+    "openDate": null,
+    "openYear": 2020,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 33,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     114.035053,
+     22.644964
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 32,
+    "name": "深圳前海店",
+    "city": "深圳",
+    "province": "广东",
+    "provinceAdcode": 440000,
+    "address": "南山区桂湾三路1号",
+    "openDate": null,
+    "openYear": 2020,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 32,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.902188,
+     22.535127
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 59,
+    "name": "深圳宝安店",
+    "city": "深圳",
+    "province": "广东",
+    "provinceAdcode": 440000,
+    "address": "宝安区万丰海岸城购物中心",
+    "openDate": "2025-10-31",
+    "openYear": 2025,
+    "yearExact": true,
+    "era": "surge",
+    "seq": 59,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.82167,
+     22.713418
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 4,
+    "name": "广州番禺店",
+    "city": "广州",
+    "province": "广东",
+    "provinceAdcode": 440000,
+    "address": "番禺区南村镇迎宾路海印又一城",
+    "openDate": "2009-10-01",
+    "openYear": 2009,
+    "yearExact": false,
+    "era": "pioneer",
+    "seq": 4,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.349172,
+     22.998902
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 10,
+    "name": "广州东店",
+    "city": "广州",
+    "province": "广东",
+    "provinceAdcode": 440000,
+    "address": "天河区黄埔大道东657-661号",
+    "openDate": null,
+    "openYear": 2013,
+    "yearExact": false,
+    "era": "expansion",
+    "seq": 10,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.415053,
+     23.10517
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 63,
+    "name": "广州荔湾店",
+    "city": "广州",
+    "province": "广东",
+    "provinceAdcode": 440000,
+    "address": "荔湾区岭南V谷·广州国际智能科技园",
+    "openDate": "2025-12-22",
+    "openYear": 2025,
+    "yearExact": true,
+    "era": "surge",
+    "seq": 63,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.215612,
+     23.043703
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 13,
+    "name": "珠海香洲店",
+    "city": "珠海",
+    "province": "广东",
+    "provinceAdcode": 440000,
+    "address": "香洲区明珠北路338号珠海印象城",
+    "openDate": "2016-04-01",
+    "openYear": 2016,
+    "yearExact": false,
+    "era": "expansion",
+    "seq": 13,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.50899,
+     22.275931
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 40,
+    "name": "惠州店",
+    "city": "惠州",
+    "province": "广东",
+    "provinceAdcode": 440000,
+    "address": "惠城区金山大道13号印力广场",
+    "openDate": null,
+    "openYear": 2021,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 40,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     114.439841,
+     23.039205
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 27,
+    "name": "东莞店",
+    "city": "东莞",
+    "province": "广东",
+    "provinceAdcode": 440000,
+    "address": "寮步镇金富路178号（东莞篮球中心北侧）",
+    "openDate": null,
+    "openYear": 2020,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 27,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.847555,
+     22.996705
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 57,
+    "name": "中山店",
+    "city": "中山",
+    "province": "广东",
+    "provinceAdcode": 440000,
+    "address": "石岐街道民科西路15号",
+    "openDate": "2025-09-10",
+    "openYear": 2025,
+    "yearExact": true,
+    "era": "surge",
+    "seq": 57,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.382056,
+     22.553481
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 65,
+    "name": "佛山顺德店",
+    "city": "佛山",
+    "province": "广东",
+    "provinceAdcode": 440000,
+    "address": "顺德区大良街道碧南立交新逢沙大道",
+    "openDate": "2026-04-25",
+    "openYear": 2026,
+    "yearExact": true,
+    "era": "surge",
+    "seq": 65,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.297731,
+     22.824387
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 5,
+    "name": "上海浦东店",
+    "city": "上海",
+    "province": "上海",
+    "provinceAdcode": 310000,
+    "address": "浦东新区高科西路2110号",
+    "openDate": "2010-12-01",
+    "openYear": 2010,
+    "yearExact": false,
+    "era": "pioneer",
+    "seq": 5,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.535362,
+     31.186407
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 48,
+    "name": "上海外高桥店",
+    "city": "上海",
+    "province": "上海",
+    "provinceAdcode": 310000,
+    "address": "浦东新区万安街599号（旗舰店）",
+    "openDate": null,
+    "openYear": 2022,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 48,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.616697,
+     31.296786
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 62,
+    "name": "上海浦东东店",
+    "city": "上海",
+    "province": "上海",
+    "provinceAdcode": 310000,
+    "address": "浦东新区利川路228号",
+    "openDate": "2025-12-16",
+    "openYear": 2025,
+    "yearExact": true,
+    "era": "surge",
+    "seq": 62,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德POI"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.680806,
+     31.207646
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 49,
+    "name": "上海青浦店",
+    "city": "上海",
+    "province": "上海",
+    "provinceAdcode": 310000,
+    "address": "青浦区赵巷镇业锦路483弄",
+    "openDate": null,
+    "openYear": 2022,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 49,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.227083,
+     31.12671
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 24,
+    "name": "上海宝山店",
+    "city": "上海",
+    "province": "上海",
+    "provinceAdcode": 310000,
+    "address": "宝山区聚丰园路165号",
+    "openDate": null,
+    "openYear": 2019,
+    "yearExact": false,
+    "era": "expansion",
+    "seq": 24,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.383182,
+     31.315214
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 26,
+    "name": "上海嘉定店",
+    "city": "上海",
+    "province": "上海",
+    "provinceAdcode": 310000,
+    "address": "嘉定区南翔镇惠亚路117号",
+    "openDate": null,
+    "openYear": 2020,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 26,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.292785,
+     31.299575
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 37,
+    "name": "上海真如店",
+    "city": "上海",
+    "province": "上海",
+    "provinceAdcode": 310000,
+    "address": "普陀区真华南路335号",
+    "openDate": null,
+    "openYear": 2021,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 37,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.410574,
+     31.26828
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 3,
+    "name": "北京石景山店",
+    "city": "北京",
+    "province": "北京",
+    "provinceAdcode": 110000,
+    "address": "石景山区阜石路158号",
+    "openDate": "2003-01-01",
+    "openYear": 2003,
+    "yearExact": false,
+    "era": "pioneer",
+    "seq": 3,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.203345,
+     39.922354
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 28,
+    "name": "北京亦庄店",
+    "city": "北京",
+    "province": "北京",
+    "provinceAdcode": 110000,
+    "address": "大兴区经济技术开发区文化园东路6号",
+    "openDate": null,
+    "openYear": 2020,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 28,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.503582,
+     39.810632
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 38,
+    "name": "北京顺义店",
+    "city": "北京",
+    "province": "北京",
+    "provinceAdcode": 110000,
+    "address": "顺义区后沙峪镇安平街5号院",
+    "openDate": null,
+    "openYear": 2021,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 38,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.520409,
+     40.114676
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 29,
+    "name": "北京大兴店",
+    "city": "北京",
+    "province": "北京",
+    "provinceAdcode": 110000,
+    "address": "大兴区西红门镇欣雅街16号院",
+    "openDate": null,
+    "openYear": 2020,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 29,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.328045,
+     39.783267
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 61,
+    "name": "北京昌平店",
+    "city": "北京",
+    "province": "北京",
+    "provinceAdcode": 110000,
+    "address": "昌平区北七家镇东北路199号院",
+    "openDate": "2025-11-21",
+    "openYear": 2025,
+    "yearExact": true,
+    "era": "surge",
+    "seq": 61,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.40187,
+     40.126797
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 69,
+    "name": "北京房山店",
+    "city": "北京",
+    "province": "北京",
+    "provinceAdcode": 110000,
+    "address": "房山区长阳镇长于北大街",
+    "openDate": "2026-08-31",
+    "openYear": 2026,
+    "yearExact": true,
+    "era": "surge",
+    "seq": 69,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.187516,
+     39.75698
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 16,
+    "name": "南京雨花台店",
+    "city": "南京",
+    "province": "江苏",
+    "provinceAdcode": 320000,
+    "address": "雨花台区软件大道109号",
+    "openDate": "2017-08-01",
+    "openYear": 2017,
+    "yearExact": false,
+    "era": "expansion",
+    "seq": 16,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     118.764772,
+     31.978893
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 30,
+    "name": "南京江北店",
+    "city": "南京",
+    "province": "江苏",
+    "provinceAdcode": 320000,
+    "address": "浦口区顶山街道江北兴隆路21号",
+    "openDate": null,
+    "openYear": 2020,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 30,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     118.6641,
+     32.070304
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 9,
+    "name": "苏州金鸡湖店",
+    "city": "苏州",
+    "province": "江苏",
+    "provinceAdcode": 320000,
+    "address": "工业园区西华林街88号",
+    "openDate": "2013-06-01",
+    "openYear": 2013,
+    "yearExact": false,
+    "era": "expansion",
+    "seq": 9,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.719065,
+     31.296679
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 46,
+    "name": "苏州木渎店",
+    "city": "苏州",
+    "province": "江苏",
+    "provinceAdcode": 320000,
+    "address": "吴中区长江路18号",
+    "openDate": null,
+    "openYear": 2021,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 46,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.552735,
+     31.259679
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 45,
+    "name": "苏州昆山店",
+    "city": "苏州",
+    "province": "江苏",
+    "provinceAdcode": 320000,
+    "address": "昆山市中华园路与珑庭路交界处",
+    "openDate": null,
+    "openYear": 2021,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 45,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.950644,
+     31.359771
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 58,
+    "name": "苏州张家港店",
+    "city": "苏州",
+    "province": "江苏",
+    "provinceAdcode": 320000,
+    "address": "张家港市杨舍镇长泾路88号",
+    "openDate": "2025-10-20",
+    "openYear": 2025,
+    "yearExact": true,
+    "era": "surge",
+    "seq": 58,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.556812,
+     31.878053
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 42,
+    "name": "无锡经开店",
+    "city": "无锡",
+    "province": "江苏",
+    "provinceAdcode": 320000,
+    "address": "滨湖区观山路与贡湖大道交叉口东北角",
+    "openDate": null,
+    "openYear": 2021,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 42,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.318818,
+     31.493321
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 64,
+    "name": "无锡惠山店",
+    "city": "无锡",
+    "province": "江苏",
+    "provinceAdcode": 320000,
+    "address": "惠山区金惠路108号",
+    "openDate": "2026-04-09",
+    "openYear": 2026,
+    "yearExact": true,
+    "era": "surge",
+    "seq": 64,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.303274,
+     31.669207
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 70,
+    "name": "无锡江阴店",
+    "city": "无锡",
+    "province": "江苏",
+    "provinceAdcode": 320000,
+    "address": "江阴市澄江街道虹桥南路西、花北路南侧",
+    "openDate": "2026-10-13",
+    "openYear": 2026,
+    "yearExact": true,
+    "era": "surge",
+    "seq": 70,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.271227,
+     31.894181
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 12,
+    "name": "常州新北店",
+    "city": "常州",
+    "province": "江苏",
+    "provinceAdcode": 320000,
+    "address": "新北区通江中路588-589号",
+    "openDate": "2015-05-01",
+    "openYear": 2015,
+    "yearExact": false,
+    "era": "expansion",
+    "seq": 12,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     119.955353,
+     31.787672
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 21,
+    "name": "南通崇川店",
+    "city": "南通",
+    "province": "江苏",
+    "provinceAdcode": 320000,
+    "address": "港闸区深南路69号",
+    "openDate": "2018-12-01",
+    "openYear": 2018,
+    "yearExact": false,
+    "era": "expansion",
+    "seq": 21,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.831336,
+     32.038647
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 60,
+    "name": "扬州邗江店",
+    "city": "扬州",
+    "province": "江苏",
+    "provinceAdcode": 320000,
+    "address": "邗江区新盛街道国展路88号",
+    "openDate": "2025-11-12",
+    "openYear": 2025,
+    "yearExact": true,
+    "era": "surge",
+    "seq": 60,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     119.379979,
+     32.388371
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 8,
+    "name": "杭州西溪店",
+    "city": "杭州",
+    "province": "浙江",
+    "provinceAdcode": 330000,
+    "address": "余杭区五常大道1号",
+    "openDate": "2013-04-01",
+    "openYear": 2013,
+    "yearExact": false,
+    "era": "expansion",
+    "seq": 8,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.04991,
+     30.24753
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 31,
+    "name": "杭州北店",
+    "city": "杭州",
+    "province": "浙江",
+    "provinceAdcode": 330000,
+    "address": "上城区大农港路1238号",
+    "openDate": null,
+    "openYear": 2020,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 31,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.206657,
+     30.349662
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 43,
+    "name": "杭州萧山店",
+    "city": "杭州",
+    "province": "浙江",
+    "provinceAdcode": 330000,
+    "address": "萧山区盈丰街道飞虹路1408号",
+    "openDate": null,
+    "openYear": 2021,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 43,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.252861,
+     30.223465
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 23,
+    "name": "宁波江北店",
+    "city": "宁波",
+    "province": "浙江",
+    "provinceAdcode": 330000,
+    "address": "江北区清河路269号",
+    "openDate": "2019-05-01",
+    "openYear": 2019,
+    "yearExact": false,
+    "era": "expansion",
+    "seq": 23,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.554262,
+     29.898077
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 39,
+    "name": "宁波鄞州店",
+    "city": "宁波",
+    "province": "浙江",
+    "provinceAdcode": 330000,
+    "address": "鄞州区钟公庙街道欢乐海岸路17号",
+    "openDate": null,
+    "openYear": 2021,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 39,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.525022,
+     29.823091
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 44,
+    "name": "绍兴越城店",
+    "city": "绍兴",
+    "province": "浙江",
+    "provinceAdcode": 330000,
+    "address": "越城区大越路与兴越路交汇处西北侧",
+    "openDate": null,
+    "openYear": 2021,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 44,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.530311,
+     30.078727
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 51,
+    "name": "温州鹿城店",
+    "city": "温州",
+    "province": "浙江",
+    "provinceAdcode": 330000,
+    "address": "鹿城区过境路222号",
+    "openDate": null,
+    "openYear": 2022,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 51,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.644318,
+     27.998969
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 54,
+    "name": "嘉兴店",
+    "city": "嘉兴",
+    "province": "浙江",
+    "provinceAdcode": 330000,
+    "address": "南湖区经济技术开发区槜李路2889号",
+    "openDate": "2025-03-20",
+    "openYear": 2025,
+    "yearExact": true,
+    "era": "surge",
+    "seq": 54,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.784578,
+     30.710775
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 2,
+    "name": "福州鼓楼店",
+    "city": "福州",
+    "province": "福建",
+    "provinceAdcode": 350000,
+    "address": "鼓楼区杨桥西路128号",
+    "openDate": "2001-06-01",
+    "openYear": 2001,
+    "yearExact": false,
+    "era": "pioneer",
+    "seq": 2,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     119.263302,
+     26.076658
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 22,
+    "name": "福州仓山店",
+    "city": "福州",
+    "province": "福建",
+    "provinceAdcode": 350000,
+    "address": "仓山区城门镇万仁路6号",
+    "openDate": null,
+    "openYear": 2018,
+    "yearExact": false,
+    "era": "expansion",
+    "seq": 22,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     119.392549,
+     26.006646
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 15,
+    "name": "厦门自贸区店",
+    "city": "厦门",
+    "province": "福建",
+    "provinceAdcode": 350000,
+    "address": "湖里区自贸试验区虎屿北路9号",
+    "openDate": "2016-12-01",
+    "openYear": 2016,
+    "yearExact": false,
+    "era": "expansion",
+    "seq": 15,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     118.091647,
+     24.507807
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 53,
+    "name": "泉州晋江店",
+    "city": "泉州",
+    "province": "福建",
+    "provinceAdcode": 350000,
+    "address": "晋江市池店镇钱塘街1-1号",
+    "openDate": null,
+    "openYear": 2023,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 53,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     118.59298,
+     24.846212
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 11,
+    "name": "武汉汉口店",
+    "city": "武汉",
+    "province": "湖北",
+    "provinceAdcode": 420000,
+    "address": "硚口区解放大道387号南国西汇城市广场二期",
+    "openDate": "2014-12-01",
+    "openYear": 2014,
+    "yearExact": false,
+    "era": "expansion",
+    "seq": 11,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     114.2228,
+     30.585039
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 36,
+    "name": "武汉光谷店",
+    "city": "武汉",
+    "province": "湖北",
+    "provinceAdcode": 420000,
+    "address": "东湖高新区高新大道456号",
+    "openDate": "2021-10-01",
+    "openYear": 2021,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 36,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     114.446063,
+     30.485142
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 52,
+    "name": "武汉汉阳店",
+    "city": "武汉",
+    "province": "湖北",
+    "provinceAdcode": 420000,
+    "address": "汉阳区连通港路88号",
+    "openDate": "2023-11-01",
+    "openYear": 2023,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 52,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     114.229946,
+     30.515272
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 56,
+    "name": "武汉江岸店",
+    "city": "武汉",
+    "province": "湖北",
+    "provinceAdcode": 420000,
+    "address": "江岸区春兰街88号",
+    "openDate": "2025-05-28",
+    "openYear": 2025,
+    "yearExact": true,
+    "era": "surge",
+    "seq": 56,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     114.263185,
+     30.642651
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 19,
+    "name": "成都金牛店",
+    "city": "成都",
+    "province": "四川",
+    "provinceAdcode": 510000,
+    "address": "金牛区北三环路一段223号（华侨城）",
+    "openDate": "2018-05-01",
+    "openYear": 2018,
+    "yearExact": false,
+    "era": "expansion",
+    "seq": 19,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     104.03705,
+     30.71899
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 41,
+    "name": "成都天府新区店",
+    "city": "成都",
+    "province": "四川",
+    "provinceAdcode": 510000,
+    "address": "双流区麓山大道二段199号",
+    "openDate": null,
+    "openYear": 2021,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 41,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     104.085278,
+     30.486505
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 50,
+    "name": "成都武侯店",
+    "city": "成都",
+    "province": "四川",
+    "provinceAdcode": 510000,
+    "address": "武侯区智远大道与武兴路交叉口西南",
+    "openDate": null,
+    "openYear": 2022,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 50,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     103.976297,
+     30.619069
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 17,
+    "name": "长沙雨花店",
+    "city": "长沙",
+    "province": "湖南",
+    "provinceAdcode": 430000,
+    "address": "雨花区劳动东路268号",
+    "openDate": "2017-09-01",
+    "openYear": 2017,
+    "yearExact": false,
+    "era": "expansion",
+    "seq": 17,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.046555,
+     28.156454
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 35,
+    "name": "长沙岳麓店",
+    "city": "长沙",
+    "province": "湖南",
+    "provinceAdcode": 430000,
+    "address": "岳麓区银盆岭路228号保利西海岸",
+    "openDate": null,
+    "openYear": 2020,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 35,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     112.959975,
+     28.222301
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 66,
+    "name": "济南高新店",
+    "city": "济南",
+    "province": "山东",
+    "provinceAdcode": 370000,
+    "address": "历下区（高新区）凤凰北路5788号",
+    "openDate": "2026-05-15",
+    "openYear": 2026,
+    "yearExact": true,
+    "era": "surge",
+    "seq": 66,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     117.146673,
+     36.699222
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 67,
+    "name": "青岛店",
+    "city": "青岛",
+    "province": "山东",
+    "provinceAdcode": 370000,
+    "address": "市北区欢乐滨海城昌汇路1号",
+    "openDate": "2026-05-15",
+    "openYear": 2026,
+    "yearExact": true,
+    "era": "surge",
+    "seq": 67,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.347027,
+     36.141006
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 68,
+    "name": "石家庄店",
+    "city": "石家庄",
+    "province": "河北",
+    "provinceAdcode": 130000,
+    "address": "裕华区仓盛路29号",
+    "openDate": "2026-08-21",
+    "openYear": 2026,
+    "yearExact": true,
+    "era": "surge",
+    "seq": 68,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     114.520283,
+     37.987521
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 14,
+    "name": "天津梅江店",
+    "city": "天津",
+    "province": "天津",
+    "provinceAdcode": 120000,
+    "address": "西青区汇川路221号一层",
+    "openDate": "2016-09-01",
+    "openYear": 2016,
+    "yearExact": false,
+    "era": "expansion",
+    "seq": 14,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     117.214113,
+     39.036856
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 34,
+    "name": "重庆两江新区店",
+    "city": "重庆",
+    "province": "重庆",
+    "provinceAdcode": 500000,
+    "address": "渝北区礼慈路15号龙湖礼嘉天街B馆",
+    "openDate": null,
+    "openYear": 2020,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 34,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     106.491233,
+     29.671039
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 47,
+    "name": "重庆九龙坡店",
+    "city": "重庆",
+    "province": "重庆",
+    "provinceAdcode": 500000,
+    "address": "九龙坡区翼龙路10号",
+    "openDate": null,
+    "openYear": 2021,
+    "yearExact": false,
+    "era": "acceleration",
+    "seq": 47,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     106.485779,
+     29.504003
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 20,
+    "name": "沈阳和平店",
+    "city": "沈阳",
+    "province": "辽宁",
+    "provinceAdcode": 210000,
+    "address": "和平区长白南路279号",
+    "openDate": "2018-09-01",
+    "openYear": 2018,
+    "yearExact": false,
+    "era": "expansion",
+    "seq": 20,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     123.409549,
+     41.729821
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 7,
+    "name": "大连香炉礁店",
+    "city": "大连",
+    "province": "辽宁",
+    "provinceAdcode": 210000,
+    "address": "西岗区香炉礁街道海达北街42号",
+    "openDate": "2012-06-01",
+    "openYear": 2012,
+    "yearExact": false,
+    "era": "expansion",
+    "seq": 7,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.605965,
+     38.933185
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 18,
+    "name": "南昌红谷滩店",
+    "city": "南昌",
+    "province": "江西",
+    "provinceAdcode": 360000,
+    "address": "红谷滩区丰和南大道1955号",
+    "openDate": "2017-10-01",
+    "openYear": 2017,
+    "yearExact": false,
+    "era": "expansion",
+    "seq": 18,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     115.838637,
+     28.665617
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 25,
+    "name": "南宁店",
+    "city": "南宁",
+    "province": "广西",
+    "provinceAdcode": 450000,
+    "address": "青秀区高坡岭路12号",
+    "openDate": null,
+    "openYear": 2019,
+    "yearExact": false,
+    "era": "expansion",
+    "seq": 25,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     108.427444,
+     22.820051
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": 55,
+    "name": "合肥店",
+    "city": "合肥",
+    "province": "安徽",
+    "provinceAdcode": 340000,
+    "address": "经开区天都路与繁华大道交口西北角",
+    "openDate": "2025-04-15",
+    "openYear": 2025,
+    "yearExact": true,
+    "era": "surge",
+    "seq": 55,
+    "coordLevel": "geocoded",
+    "coordSrc": "高德地理编码"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     117.240742,
+     31.776247
+    ]
+   }
+  }
+ ],
+ "_meta": {
+  "count": 70,
+  "asOf": "2026-10-13",
+  "coordLevel": "geocoded",
+  "coordSrc": "高德地理编码（GCJ-02，与高德卫星底图同源）",
+  "note": "门店坐标由高德地理编码按真实地址逐店解析（GCJ-02 基准，与高德卫星底图同源，无需转换），精度到门址/兴趣点级，70 家全部编码成功。约 30 家开业年份为估算值，依据公开历年累计开店曲线推算；精确开业日期以官方公告为准。"
+ }
+}

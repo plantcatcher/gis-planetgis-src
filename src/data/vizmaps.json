@@ -2463,6 +2463,99 @@
         "desc": "自托管 Three.js 非模块版运行时，避免外网 CDN，保证部署下始终可用"
       }
     ]
+  },
+  {
+    "slug": "cn-sams",
+    "entry": "/maps/cn-sams/index.html",
+    "bbox": [
+      73.0,
+      17.5,
+      135.5,
+      54.5
+    ],
+    "crs": "GCJ-02（火星坐标；门店点由 WGS84 城市质心经 wgs84_to_gcj02 转换，与高德瓦片对齐）",
+    "basemap": "高德瓦片：卫星影像 style=6（纯影像无标注）/ 矢量路网 style=7 / 无底图；叠加 DataV 省级边界（GCJ-02）做门店数 choropleth",
+    "source": "门店清单整理自山姆会员商店官方开业公告与公开报道，截至 2026-10-13（江阴店，全国第 70 家）；共 70 家门店、36 城、17 省。城市坐标取 WGS84 城市质心，经 WGS84→GCJ-02 转换后叠加于高德影像（同城多店做螺旋微偏移避免重合）。约 30 家开业年份为公开资料估算值，弹卡已标注「估算」。不含尚未开业的规划门店与云仓 / 前置仓。",
+    "updated": "2026-11-03",
+    "data": [
+      {
+        "file": "maps/cn-sams/data/stores.geojson",
+        "features": 70,
+        "desc": "门店点（GCJ-02）：含 id / 名称 / 城市 / 省份 / 省份 adcode / 地址 / 开业日期 / 开业年份 / 是否精确 / 阶段（pioneer≤2010 / expansion≤2019 / acceleration≤2023 / surge>2023）/ 同城序号；同城多店做螺旋微偏移"
+      },
+      {
+        "file": "maps/cn-sams/data/cities.json",
+        "features": 36,
+        "desc": "城市聚合：36 城（键为 adcode），含每城门店数与省份 adcode，驱动左侧城市目录与省份下拉"
+      },
+      {
+        "file": "maps/_shared/china-provinces.json",
+        "features": 35,
+        "desc": "省级行政区边界（_shared 跨地图复用），按门店数 interpolate 着色"
+      }
+    ]
+  },
+  {
+    "slug": "cn-ikea",
+    "entry": "/maps/cn-ikea/index.html",
+    "bbox": [
+      73.0,
+      17.5,
+      135.5,
+      54.5
+    ],
+    "crs": "GCJ-02（火星坐标；门店点由高德地理编码直接返回 GCJ-02，与高德瓦片同源、无需转换）",
+    "basemap": "高德瓦片：卫星影像 style=6 / 矢量路网 style=7 / 无底图；叠加 DataV 省级边界（GCJ-02）做门店数 choropleth",
+    "source": "门店清单以宜家中国官网门店页为准，并对照维基百科《宜家家居》中国大陆门店年表交叉核对，截至 2026-10 共 37 家在营门店（35 间商场 + 2 间设计订购中心）、26 城、18 省。2026-02-02 集中停业的 7 店（上海宝山 / 广州番禺 / 天津中北 / 南通 / 徐州 / 宁波 / 哈尔滨）未收录。坐标由高德地理编码按真实地址逐店解析（GCJ-02）。",
+    "updated": "2026-11-03",
+    "data": [
+      {
+        "file": "maps/cn-ikea/data/stores.geojson",
+        "features": 37,
+        "desc": "门店点（GCJ-02）：含 id / 名称 / 城市 / 省份 / 省份 adcode / 地址 / 开业日期 / 开业年份 / 阶段（pioneer≤2008 / expansion≤2016 / acceleration≤2022 / surge>2022）/ 业态（标准商场 / 小型商场 / 设计订购中心）"
+      },
+      {
+        "file": "maps/cn-ikea/data/cities.json",
+        "features": 26,
+        "desc": "城市聚合：26 城（键为 adcode），含每城门店数与省份 adcode，驱动左侧城市目录与省份下拉"
+      },
+      {
+        "file": "maps/_shared/china-provinces.json",
+        "features": 35,
+        "desc": "省级行政区边界（_shared 跨地图复用），按门店数 interpolate 着色"
+      }
+    ]
+  },
+  {
+    "slug": "cn-apple",
+    "entry": "/maps/cn-apple/index.html",
+    "bbox": [
+      73.0,
+      17.5,
+      135.5,
+      54.5
+    ],
+    "crs": "GCJ-02（火星坐标；Apple Maps 中国区数据源为高德，接口直接返回 GCJ-02，与高德瓦片同源、无需转换）",
+    "basemap": "高德瓦片：卫星影像 style=6 / 矢量路网 style=7 / 无底图；叠加 DataV 省级边界（GCJ-02）做门店数 choropleth",
+    "source": "Apple 官方「查找地点」服务（locate.apple.com，中国大陆 sales 频道）逐点抓取，截至 2026-11-03 共 9535 家官方收录门店、450 城、33 省：Apple Store 直营店 49 家、优质经销商 APR 78 家、授权经销商 9408 家。已剔除 2025-08-09 闭店的大连百年城直营店；直营店数量与苹果官网「完整零售店列表」核对一致。",
+    "updated": "2026-11-03",
+    "data": [
+      {
+        "file": "maps/cn-apple/data/stores.geojson",
+        "features": 9535,
+        "desc": "门店点（GCJ-02）：含 id / 名称 / 层级（store 直营 / apr 优质经销商 / auth 授权经销商）/ 城市 / 省份 / 区县 / 地址 / 电话"
+      },
+      {
+        "file": "maps/cn-apple/data/cities.json",
+        "features": 450,
+        "desc": "城市聚合：450 城，含每城门店总数与直营 / 优质 / 授权分层计数、省份 adcode，驱动左侧城市目录、层级筛选与省份下拉"
+      },
+      {
+        "file": "maps/_shared/china-provinces.json",
+        "features": 35,
+        "desc": "省级行政区边界（_shared 跨地图复用），按门店总数 interpolate 着色"
+      }
+    ]
   }
 ]
 }
