@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <script src="/shared/map-i18n.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>粤港澳大湾区城市图鉴 · 11 城基础介绍与数据地图</title>
+  <meta name="description" content="点击地图上的广州、深圳、香港、澳门等 11 座城市，看各自的面积、常住人口、GDP、人均 GDP、规划定位与城市速写。可在 GDP / 人口 / 人均 GDP / 面积 / 城市角色之间切换着色，数据取《广州统计年鉴 2025》统一口径的 2024 年指标。" />
+  <meta name="keywords" content="粤港澳大湾区,大湾区,GBA,城市介绍,广州,深圳,香港,澳门,东莞,佛山,GDP,人口,互动地图" />
+  <meta name="author" content="PlanetGIS" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="/maps/_shared/regions.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>&#8249;</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>&#9673;</i> 湾区总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-eq"></i>
+      <b>大湾区城市图鉴</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> GREATER BAY AREA · 11 CITIES</small>
+      <h1><span>粤港澳大湾区</span><b>城市图鉴</b></h1>
+      <p class="lead">9 座内地城市 + 香港、澳门两个特别行政区。<b>点一下地图上的任意一座城市</b>，右侧就是它的名片：面积、人口、GDP、人均 GDP、规划定位与一段城市速写。数据统一取 2024 年，可直接横向比较。</p>
+
+      <div class="facts">
+        <span><small>城市</small><b><span class="v"><em id="fMain">11</em></span><i>座</i></b></span>
+        <span><small>陆域面积</small><b><span class="v"><em id="fArea">—</em></span><i>万km²</i></b></span>
+        <span><small>常住人口</small><b><span class="v"><em id="fPop">—</em></span><i>万人</i></b></span>
+        <span><small>经济总量</small><b><span class="v"><em id="fGdp">—</em></span><i>万亿元</i></b></span>
+      </div>
+
+      <section class="block">
+        <header><small>着色指标</small><small class="hint-n">换一个维度看湾区</small></header>
+        <div class="chips" id="metricSeg">
+          <button type="button" data-metric="gdp" class="active">GDP</button>
+          <button type="button" data-metric="pop">人口</button>
+          <button type="button" data-metric="gdpPc">人均 GDP</button>
+          <button type="button" data-metric="area">面积</button>
+          <button type="button" data-metric="group">城市角色</button>
+        </div>
+        <p class="note" id="metricNote"></p>
+      </section>
+
+      <section class="block">
+        <header><small>11 城目录</small><small class="hint-n" id="listHint">按 GDP 排序 · 点击定位</small></header>
+        <div class="city-list" id="cityList"></div>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：11 市指标取广州市统计局《广州统计年鉴 2025》<b>附录 5「粤港澳大湾区主要经济指标（2024 年）」</b>，面积、GDP、人均 GDP、年末人口、港口集装箱与进出口为同一张表、同一口径。香港、澳门的「本地生产总值」已折算为人民币亿元，人口为年中人口，与内地年末常住人口口径不同。行政边界来自 <b>DataV.GeoAtlas</b>（440000_full / 810000 / 820000，CGCS2000 ≈ WGS84）。底图为高德影像 / 路网（GCJ-02），与行政边界存在约 500 m 系统偏移；正式用途请以自然资源部标准地图为准。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/maps/gba-cities" target="_top">作品介绍</a>
+        <a href="/maps/cn-provinces" target="_top">中国省情</a>
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </aside>
+
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">—</small>
+      <div class="dt-actions"><button type="button" id="dtClose" title="关闭">✕</button></div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtSub">—</p>
+
+    <div class="dt-metrics">
+      <span><small>地区生产总值</small><b><em id="dtGdp">—</em><i>亿元</i></b></span>
+      <span><small>常住人口</small><b><em id="dtPop">—</em><i>万人</i></b></span>
+      <span><small>陆域面积</small><b><em id="dtArea">—</em><i>km²</i></b></span>
+    </div>
+    <div class="dt-metrics dt-metrics-2">
+      <span><small>人均 GDP</small><b><em id="dtPc">—</em><i>万元</i></b></span>
+      <span><small>GDP 实际增长</small><b><em id="dtIdx">—</em><i>%</i></b></span>
+      <span><small>港口集装箱</small><b><em id="dtPort">—</em><i>万 TEU</i></b></span>
+    </div>
+
+    <section class="dt-desc">
+      <small>城市速写</small>
+      <p id="dtBlurb">—</p>
+    </section>
+
+    <div class="dt-kv">
+      <div><span>规划定位</span><b id="dtTitle">—</b></div>
+      <div><span>进出口总额</span><b id="dtTrade">—</b></div>
+      <div><span>11 城中的位次</span><b id="dtRank">—</b></div>
+    </div>
+
+    <div class="dt-tags" id="dtTags"></div>
+
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <div class="dock"><div class="legend" id="legend"></div></div>
+
+  <div class="panel" id="panel">
+    <div class="panel-head" id="panelHead">
+      <span>图层与底图</span>
+      <button type="button" id="panelToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckLabel" checked /><span>城市名标注</span></label>
+      <label class="row"><input type="checkbox" id="ckGraticule" /><span>1° 经纬网格</span></label>
+      <div class="divider"></div>
+      <div class="bm-title">底图</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" checked /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>矢量路网</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" /><span>深色</span></label>
+      </div>
+      <div class="divider"></div>
+      <p class="panel-note">色块按<b>所选指标</b>对数分级（越亮数值越大）；「城市角色」按《规划纲要》的中心城市 / 节点城市与两个特别行政区分类。选中城市后色块变透明、用色环勾边，地址栏带 <b>#c/代码</b> 可直接分享。</p>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="/maps/_shared/thematic/thematic.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

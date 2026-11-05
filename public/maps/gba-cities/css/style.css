@@ -1,0 +1,89 @@
+/* 粤港澳大湾区城市图鉴 · 专题皮肤
+   基于 _shared/thematic/thematic.css + _shared/regions.css，本文件只做覆盖与新增。 */
+
+:root {
+  --accent: #f0b429;
+  --accent-light: #ffd166;
+  --accent-dark: #c47f12;
+  --accent-soft: rgba(240, 180, 41, 0.14);
+  --panel-solid: rgba(8, 15, 26, 0.95);
+}
+html, body, #map { background: #060d18; }
+
+.intro h1 b {
+  background: linear-gradient(96deg, #ffe6a4 0%, #f0b429 46%, #d98a12 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+.note {
+  margin: 8px 0 0; padding: 8px 10px;
+  font-size: 11px; line-height: 1.68; color: var(--muted);
+  background: rgba(255, 255, 255, .035);
+  border-left: 2px solid var(--accent); border-radius: 0 7px 7px 0;
+}
+.note b { color: var(--accent-light); font-weight: 600; }
+
+/* ── 11 城目录 ─────────────────────────────────────────── */
+.city-list { display: flex; flex-direction: column; gap: 3px; }
+.city-row {
+  display: grid; grid-template-columns: 21px 46px 1fr auto;
+  align-items: center; gap: 8px; width: 100%;
+  padding: 6px 8px; border: 1px solid transparent; border-radius: 7px;
+  background: rgba(255, 255, 255, .025); cursor: pointer;
+  font: inherit; text-align: left; color: var(--muted);
+  transition: background .16s, border-color .16s, color .16s;
+}
+.city-row:hover { background: rgba(255, 255, 255, .07); color: var(--text); }
+.city-row.active { border-color: var(--accent); background: var(--accent-soft); color: #fff; }
+.city-row .rk {
+  font-size: 10px; font-variant-numeric: tabular-nums; color: var(--dim);
+  text-align: center;
+}
+.city-row.active .rk { color: var(--accent-light); }
+.city-row .nm { font-size: 12.5px; font-weight: 700; color: #dce7f5; white-space: nowrap; }
+.city-row.sar .nm::after {
+  content: '特'; font-size: 9px; font-weight: 600; margin-left: 3px;
+  color: #fb7185; vertical-align: 1px;
+}
+.city-row .bar { height: 5px; border-radius: 3px; background: rgba(148, 178, 214, .13); overflow: hidden; }
+.city-row .bar i {
+  display: block; height: 100%; border-radius: 3px;
+  background: linear-gradient(90deg, #1f7fa8, #f0b429);
+}
+.city-row .vl {
+  font-size: 10.5px; font-variant-numeric: tabular-nums; color: #9fb4cd;
+  white-space: nowrap;
+}
+.city-row.active .vl { color: var(--accent-light); }
+
+/* ── 详情卡：两行指标 + 速写 + 位次 ─────────────────────── */
+.detail {
+  width: 366px;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 178, 214, .3) transparent;
+}
+.detail::-webkit-scrollbar { width: 7px; }
+.detail::-webkit-scrollbar-thumb { background: rgba(148, 178, 214, .28); border-radius: 4px; }
+.dt-metrics-2 { border-top: 0; padding-top: 11px; border-bottom: 1px solid var(--line); }
+.dt-kv { padding: 10px 0 2px; display: flex; flex-direction: column; gap: 7px; }
+.dt-kv > div { display: grid; grid-template-columns: 82px 1fr; gap: 8px; align-items: start; }
+.dt-kv span { font-size: 10.5px; color: var(--dim); padding-top: 2px; }
+.dt-kv b { font-size: 11.5px; line-height: 1.6; color: #cdd9e8; font-weight: 600; }
+.dt-tags { display: flex; flex-wrap: wrap; gap: 5px; padding: 10px 0 2px; }
+.dt-tags i {
+  font-style: normal; font-size: 10.5px; color: #cfe0f5;
+  padding: 3px 8px; border: 1px solid var(--line);
+  background: rgba(255, 255, 255, .045); border-radius: 999px;
+}
+
+/* ── 图例 ───────────────────────────────────────────────── */
+.legend { max-width: 330px; }
+.legend .lg-cap { color: var(--accent-light); }
+
+@media (max-width: 900px) {
+  .detail { max-height: 58vh; max-height: 58dvh; }
+  .city-row { grid-template-columns: 21px 46px 1fr auto; }
+  .legend { display: none; }
+}
