@@ -1,0 +1,180 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 1,
+        "name": "上海闵行店",
+        "city": "上海",
+        "province": "上海",
+        "provinceAdcode": 310000,
+        "address": "闵行区朱建路235号（华漕镇，近国家会展中心）",
+        "openDate": "2019-08-27",
+        "openYear": 2019,
+        "yearExact": true,
+        "era": "pioneer",
+        "seq": 1,
+        "coordLevel": "approx",
+        "coordSrc": "商圈级估算（WGS84→GCJ-02）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.323118,
+          31.182733
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 2,
+        "name": "苏州店",
+        "city": "苏州",
+        "province": "江苏",
+        "provinceAdcode": 320000,
+        "address": "高新区城际路9号（近苏州新区站）",
+        "openDate": null,
+        "openYear": 2021,
+        "yearExact": false,
+        "era": "expansion",
+        "seq": 2,
+        "coordLevel": "approx",
+        "coordSrc": "商圈级估算（WGS84→GCJ-02）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.567214,
+          31.329851
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 3,
+        "name": "上海浦东店",
+        "city": "上海",
+        "province": "上海",
+        "provinceAdcode": 310000,
+        "address": "浦东新区康桥/御桥片区",
+        "openDate": "2023-03-10",
+        "openYear": 2023,
+        "yearExact": true,
+        "era": "expansion",
+        "seq": 3,
+        "coordLevel": "approx",
+        "coordSrc": "商圈级估算（WGS84→GCJ-02）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.5892,
+          31.132753
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 4,
+        "name": "宁波店",
+        "city": "宁波",
+        "province": "浙江",
+        "provinceAdcode": 330000,
+        "address": "鄞州区首南片区",
+        "openDate": null,
+        "openYear": 2023,
+        "yearExact": false,
+        "era": "expansion",
+        "seq": 4,
+        "coordLevel": "approx",
+        "coordSrc": "商圈级估算（WGS84→GCJ-02）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.564131,
+          29.812394
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 5,
+        "name": "杭州店",
+        "city": "杭州",
+        "province": "浙江",
+        "provinceAdcode": 330000,
+        "address": "萧山区鸿达路片区（近杭州大会展中心）",
+        "openDate": null,
+        "openYear": 2023,
+        "yearExact": false,
+        "era": "expansion",
+        "seq": 5,
+        "coordLevel": "approx",
+        "coordSrc": "商圈级估算（WGS84→GCJ-02）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.274463,
+          30.182549
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 6,
+        "name": "深圳龙华店",
+        "city": "深圳",
+        "province": "广东",
+        "provinceAdcode": 440000,
+        "address": "龙华区民治街道民繁南路（近深圳北站）",
+        "openDate": "2024-01-12",
+        "openYear": 2024,
+        "yearExact": true,
+        "era": "acceleration",
+        "seq": 6,
+        "coordLevel": "approx",
+        "coordSrc": "商圈级估算（WGS84→GCJ-02）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          114.040081,
+          22.607241
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 7,
+        "name": "南京江宁店",
+        "city": "南京",
+        "province": "江苏",
+        "provinceAdcode": 320000,
+        "address": "江宁区吉印大道片区（含大陆首座会员加油站）",
+        "openDate": null,
+        "openYear": 2024,
+        "yearExact": false,
+        "era": "acceleration",
+        "seq": 7,
+        "coordLevel": "approx",
+        "coordSrc": "商圈级估算（WGS84→GCJ-02）"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          118.840094,
+          31.917888
+        ]
+      }
+    }
+  ]
+}

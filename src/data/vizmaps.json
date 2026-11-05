@@ -2578,6 +2578,99 @@
         "desc": "省级行政区边界（_shared 跨地图复用），按门店总数 interpolate 着色"
       }
     ]
+  },
+  {
+    "slug": "cn-costco",
+    "entry": "/maps/cn-costco/index.html",
+    "bbox": [
+      73.0,
+      17.5,
+      135.5,
+      54.5
+    ],
+    "crs": "GCJ-02（火星坐标；门店点由 WGS84 商圈级估算经 wgs84_to_gcj02 转换，与高德瓦片对齐）",
+    "basemap": "高德瓦片：卫星影像 style=6 / 矢量路网 style=7 / 无底图；叠加 DataV 省级边界（GCJ-02）做门店数 choropleth",
+    "source": "门店清单整理自开市客中国官网、公开开业报道与行业媒体（赢商网、南方+、广州日报等），截至 2026 年 9 月（最新公开报道仍为 7 家在营；第 8 家泉州拟建、未开业）。共 7 家门店、6 城、4 省：上海 2（闵行 2019 / 浦东 2023）、江苏 2（苏州 2021 / 南京 2024）、浙江 2（宁波 2023 / 杭州 2023）、广东 1（深圳龙华 2024）。坐标取城市/商圈级估算（WGS84 → GCJ-02），非门址级；闵行、浦东、深圳龙华开业日期已核实，其余仅精确到年份（弹卡标注「估算」）。不含台湾/港澳门店（与站内山姆、宜家、苹果品牌图口径一致，仅中国大陆）。",
+    "updated": "2026-11-05",
+    "data": [
+      {
+        "file": "maps/cn-costco/data/stores.geojson",
+        "features": 7,
+        "desc": "门店点（GCJ-02）：含 id / 名称 / 城市 / 省份 / 省份 adcode / 地址 / 开业日期 / 开业年份 / 是否精确 / 阶段（pioneer=2019 / expansion=2021–2023 / acceleration=2024 / surge=待开业）/ 全国序号；坐标为商圈级估算"
+      },
+      {
+        "file": "maps/cn-costco/data/cities.json",
+        "features": 6,
+        "desc": "城市聚合：6 城（键为 adcode），含每城门店数与省份 adcode，驱动左侧城市目录与省份下拉"
+      },
+      {
+        "file": "maps/_shared/china-provinces.json",
+        "features": 35,
+        "desc": "省级行政区边界（_shared 跨地图复用），按门店数 interpolate 着色"
+      }
+    ]
+  },
+  {
+    "slug": "cn-starbucks",
+    "entry": "/maps/cn-starbucks/index.html",
+    "bbox": [
+      73.0,
+      17.5,
+      135.5,
+      54.5
+    ],
+    "crs": "GCJ-02（火星坐标；城市质心由 WGS84 经 wgs84_to_gcj02 转换，与高德瓦片对齐）",
+    "basemap": "高德瓦片：卫星影像 style=6 / 矢量路网 style=7 / 无底图；叠加 DataV 省级边界（GCJ-02）按门店数 choropleth",
+    "source": "城市门店数整理自星巴克历年财报（截至 2025 财年末中国大陆 8011 家在营门店）与第三方城市门店统计（窄门餐眼、极海品牌监测等），覆盖约 102 个主要城市；对缺乏逐店坐标的中小城市按公开报道与财报增速合理估算（弹卡标注「估算」），非逐店核对。省级密度由城市数据求和派生，与城市口径自洽。坐标取城市质心级估算（WGS84 → GCJ-02），非门址级。不含港澳台。",
+    "updated": "2026-11-06",
+    "data": [
+      {
+        "file": "maps/cn-starbucks/data/stores.geojson",
+        "features": 102,
+        "desc": "城市气泡点（GCJ-02）：含 id / 城市 / 省份 / 省份 adcode / 门店数 count / 进入年份 enterYear / 是否估算 est；半径与颜色由 count 驱动"
+      },
+      {
+        "file": "maps/cn-starbucks/data/cities.json",
+        "features": 102,
+        "desc": "城市聚合：102 城（含每城门店数、省份 adcode、进入年份、经纬度），驱动左侧城市目录与省份下拉；另含 provinceCount 省级汇总"
+      },
+      {
+        "file": "maps/_shared/china-provinces.json",
+        "features": 35,
+        "desc": "省级行政区边界（_shared 跨地图复用），运行时注入 sbCount 按门店数 interpolate 着色"
+      }
+    ]
+  },
+  {
+    "slug": "cn-tesla",
+    "entry": "/maps/cn-tesla/index.html",
+    "bbox": [
+      73.0,
+      17.5,
+      135.5,
+      54.5
+    ],
+    "crs": "GCJ-02（火星坐标；城市质心由 WGS84 经 wgs84_to_gcj02 转换，与高德瓦片对齐）",
+    "basemap": "高德瓦片：卫星影像 style=6 / 矢量路网 style=7 / 无底图；叠加 DataV 省级边界（GCJ-02）按超充站数 choropleth",
+    "source": "城市超充站数整理自特斯拉官方历次披露（截至 2025 年中国内地 2300+ 座超级充电站、覆盖 350+ 城市、100% 省会+直辖市覆盖）与第三方充电网络聚合（充换电头条、各地媒体公开报道），覆盖约 115 个主要城市；对缺乏逐站坐标的中小城市按公开报道与官方总量合理估算（弹卡标注「估算」），非逐站核对。省级密度由城市数据求和派生，与城市口径自洽。坐标取城市质心级估算（WGS84 → GCJ-02），非门址级。不含港澳台。",
+    "updated": "2026-11-06",
+    "data": [
+      {
+        "file": "maps/cn-tesla/data/stores.geojson",
+        "features": 115,
+        "desc": "城市气泡点（GCJ-02）：含 id / 城市 / 省份 / 省份 adcode / 超充站数 count / 首站年份 enterYear / 是否估算 est；半径与颜色由 count 驱动"
+      },
+      {
+        "file": "maps/cn-tesla/data/cities.json",
+        "features": 115,
+        "desc": "城市聚合：115 城（含每城超充站数、省份 adcode、首站年份、经纬度），驱动左侧城市目录与省份下拉；另含 provinceCount 省级汇总"
+      },
+      {
+        "file": "maps/_shared/china-provinces.json",
+        "features": 35,
+        "desc": "省级行政区边界（_shared 跨地图复用），运行时注入 teslaCount 按超充站数 interpolate 着色"
+      }
+    ]
   }
 ]
 }

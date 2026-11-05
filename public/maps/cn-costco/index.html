@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <script src="/shared/map-i18n.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>全国开市客 Costco 门店分布图 · 互动地图</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="css/style.v1.css" />
+</head>
+<body>
+  <div id="map"></div>
+
+  <div class="topbar">
+    <h1>全国开市客 Costco 门店分布图</h1>
+    <p class="sub">美国会员制仓储超市 Costco 开市客 · 截至 2026 年 9 月中国大陆 7 家在营门店 · 按拓店阶段着色</p>
+  </div>
+
+  <!-- 左侧城市目录（移动端为底部抽屉） -->
+  <aside class="side-panel" id="side-panel">
+    <button class="drawer-handle" id="drawer-handle" type="button" aria-label="展开或收起目录" aria-expanded="true"><i></i></button>
+    <div class="panel-head">
+      <h2>城市目录</h2>
+      <button class="panel-close" id="panel-close" aria-label="收起目录">×</button>
+    </div>
+    <div class="panel-stats">
+      <div><b id="stat-stores">–</b><span>门店</span></div>
+      <div><b id="stat-cities">–</b><span>城市</span></div>
+      <div><b id="stat-provs">–</b><span>省份</span></div>
+      <div><b>2026</b><span>截至年</span></div>
+    </div>
+    <div class="panel-tools">
+      <div class="pt-group">
+        <span class="pt-label">拓店阶段（点名称可开关对应门店）</span>
+        <div class="era-filter" id="era-filter"><!-- JS 渲染 --></div>
+      </div>
+      <div class="pt-group">
+        <span class="pt-label">省份筛选</span>
+        <select class="prov-select" id="prov-select"><!-- JS 渲染 --></select>
+      </div>
+    </div>
+    <div class="city-list" id="city-list"><!-- JS 渲染 --></div>
+    <div class="list-count" id="list-count"></div>
+    <div class="panel-foot">
+      <div class="ctrl-nav">
+        <a href="/maps/cn-costco" target="_top">作品介绍</a>
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </aside>
+  <button class="panel-open" id="panel-open" type="button" aria-label="展开城市目录" aria-expanded="true">目录</button>
+
+  <!-- 右上角：搜索框 + 底图/叠加设置 -->
+  <div class="top-right">
+    <div class="top-search">
+      <input type="text" id="search" placeholder="搜索门店 / 城市 / 省份" autocomplete="off" />
+      <ul id="searchResult"></ul>
+    </div>
+    <button class="map-opts-btn" id="map-opts-btn" type="button" aria-label="底图与叠加设置" aria-expanded="false" title="底图与叠加设置">⚙</button>
+    <div class="map-opts" id="map-opts" role="dialog" aria-label="底图与叠加设置">
+      <div class="mo-group">
+        <span class="mo-label">底图（三选一）</span>
+        <div class="bm-seg">
+          <label class="bm-opt"><input type="radio" name="basemap" value="img" checked /><span>卫星影像</span></label>
+          <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>矢量路网</span></label>
+          <label class="bm-opt"><input type="radio" name="basemap" value="none" /><span>无底图</span></label>
+        </div>
+      </div>
+      <div class="mo-group">
+        <span class="mo-label">叠加</span>
+        <div class="mo-row">
+          <button class="tool-btn" id="toggleProv" aria-pressed="true">省级密度</button>
+          <button class="tool-btn" id="toggleLabel" aria-pressed="true">门店标注</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部拓店时间轴 -->
+  <div class="timeline">
+    <button class="tl-play" id="tl-play" type="button" aria-label="播放拓店时间轴">▶</button>
+    <div class="tl-slider-wrap">
+      <div class="tl-top"><span class="tl-year" id="tl-year">2026 年</span><span class="tl-cum" id="tl-cum">累计 <b>7</b> 家</span></div>
+      <input type="range" class="tl-slider" id="tl-slider" min="2019" max="2026" step="1" value="2026" />
+      <div class="tl-scale"><span>2019</span><span>2021</span><span>2023</span><span>2024</span><span>2026</span></div>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="js/app.v1.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+{
+  "cities": [
+    {
+      "city": "上海",
+      "province": "上海",
+      "provinceAdcode": 310000,
+      "lng": 121.478223,
+      "lat": 31.228458,
+      "count": 2,
+      "firstYear": 2019
+    },
+    {
+      "city": "苏州",
+      "province": "江苏",
+      "provinceAdcode": 320000,
+      "lng": 120.589477,
+      "lat": 31.296715,
+      "count": 1,
+      "firstYear": 2021
+    },
+    {
+      "city": "宁波",
+      "province": "浙江",
+      "provinceAdcode": 330000,
+      "lng": 121.554158,
+      "lat": 29.872417,
+      "count": 1,
+      "firstYear": 2023
+    },
+    {
+      "city": "杭州",
+      "province": "浙江",
+      "provinceAdcode": 330000,
+      "lng": 120.159794,
+      "lat": 30.271771,
+      "count": 1,
+      "firstYear": 2023
+    },
+    {
+      "city": "深圳",
+      "province": "广东",
+      "provinceAdcode": 440000,
+      "lng": 114.063014,
+      "lat": 22.540383,
+      "count": 1,
+      "firstYear": 2024
+    },
+    {
+      "city": "南京",
+      "province": "江苏",
+      "provinceAdcode": 320000,
+      "lng": 118.802583,
+      "lat": 32.058224,
+      "count": 1,
+      "firstYear": 2024
+    }
+  ],
+  "provinceCount": {
+    "310000": 2,
+    "320000": 2,
+    "330000": 2,
+    "440000": 1
+  }
+}

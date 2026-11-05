@@ -151,6 +151,9 @@ await sleep(Number(process.env.WAIT2 || 1200));
    新增老图封面时把它的顶层 UI class 追加到对应分组即可。*/
 const LEGACY_UI = {
   'cn-provinces': '.topbar, .card-panel, .legend, .map-nav, .catalog, .brand, .src-note',
+  'cn-costco': '.topbar, .side-panel, .top-right, .panel-open',
+  'cn-starbucks': '.topbar, .side-panel, .top-right, .panel-open',
+  'cn-tesla': '.topbar, .side-panel, .top-right, .panel-open',
   'cn-rivers': '.topbar, .panel, .legend, .hint, .brand',
   'cn-yangtze': '.topbar, .panel, .legend, .intro, .brand',
   'hist-imagery': '.topbar, .panel, .legend, .timeline, .brand',
