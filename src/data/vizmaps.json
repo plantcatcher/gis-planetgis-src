@@ -2704,6 +2704,37 @@
     ]
   },
   {
+    "slug": "cn-mixue",
+    "entry": "/maps/cn-mixue/index.html",
+    "bbox": [
+      73.0,
+      17.5,
+      135.5,
+      54.5
+    ],
+    "crs": "GCJ-02（火星坐标；297 城复用站内 Apple 中国「查找地点」接口城市质心，27 个自治州 / 兵团城市补州府 WGS84 坐标并经标准 GCJ-02 偏移换算，与高德瓦片对齐）",
+    "basemap": "高德瓦片：卫星影像 style=6 / 矢量路网 style=7 / 无底图；叠加 DataV 省级边界（GCJ-02，含台湾省与港澳）按门店数 choropleth",
+    "source": "总量取极海品牌监测 API 2026-10（model ingredient.catering_coffee_tea_mixuebc，exists / available / real_store 三重过滤）：「蜜雪冰城」单品牌中国大陆 31 省 46,812 家在营实体门店，覆盖 2,796 / 2,850 个县级行政区（98.1%）。省级 Top10 为极海同期公开精确值（河南 3891 / 广东 3657 / 山东 3187 / 江苏 3172 / 浙江 2817 / 河北 2585 / 安徽 2423 / 四川 2221 / 湖北 1796 / 陕西 1755，合计 27,504）。其余 21 省按县级行政区数量与县域渗透密度代理分摊剩余 19,308 家。城市级取盟享加公开页 31 省逐城市门店清单（324 个城市级单元）的省内相对分布形状（raw^0.82），按省级总量归一化；郑州 800（澎湃 2026-02 河南 18 地市）、上海 651（壹览商业 2026-07）为公开锚点，重庆 680 由太平洋证券「2.14 家/十万人」换算，除郑州、上海外弹卡标注「估算」，非逐店核对。对照口径不参与计算：蜜雪集团 2026 中期业绩公告（2026-06-30）中国内地 59,609 家含「蜜雪冰城」「幸运咖」「鲜啤福鹿家」三品牌、海外 4,378 家、全球 63,987 家；内地按城市线级一线 2906 / 新一线 10696 / 二线 11417 / 三线及以下 34590（58.0%）；GeoQ Data 2026-10 底蜜雪冰城约 47,648 家 / 34 省 / 371 城（含中国台湾 2 家）。城市首店年份：1997 郑州「寒流刨冰」为公开史实，其余按 1999 品牌启用 → 2007 开放加盟 → 由中原向外扩散 → 2018 后县域加密的扩张波估算，最晚 2026。省级密度面由城市数据求和派生，与气泡自洽。坐标取城市质心级，非门址级；不含港澳台与海外门店。",
+    "updated": "2026-11-07",
+    "data": [
+      {
+        "file": "maps/cn-mixue/data/stores.geojson",
+        "features": 324,
+        "desc": "城市气泡点（GCJ-02）：含 id / 城市 / 省份 / 门店数 count / 首店年份 enterYear / 是否估算 est；半径与颜色由 count 驱动"
+      },
+      {
+        "file": "maps/cn-mixue/data/cities.json",
+        "features": 324,
+        "desc": "城市聚合：324 个城市级单元（含每城门店数、省份、首店年份、经纬度），驱动左侧城市目录与省份下拉；另含 provinceCount 省级汇总"
+      },
+      {
+        "file": "maps/_shared/china-provinces.json",
+        "features": 35,
+        "desc": "省级行政区边界（_shared 跨地图复用），运行时注入 mixueCount 按门店数 interpolate 着色"
+      }
+    ]
+  },
+  {
     "slug": "cn-lawson",
     "entry": "/maps/cn-lawson/index.html",
     "bbox": [
@@ -2857,6 +2888,102 @@
         "file": "maps/world-walmart/data/country-fills.geojson",
         "features": 176,
         "desc": "Natural Earth 110m 国界面（含 name_zh，台湾已并入中国）：构建期注入 storeCount 与 mktIso，按国家零售单元数 choropleth；运行时按时间轴年份重算 storeCount 后 setData。跨反子午线要素已切割"
+      }
+    ]
+  },
+  {
+    "slug": "world-ikea",
+    "entry": "/maps/world-ikea/index.html",
+    "bbox": [
+      -180.0,
+      -60.0,
+      180.0,
+      80.0
+    ],
+    "crs": "WGS84 / EPSG:4326（按市场统计门店数，坐标为市场代表点：Natural Earth 110m 国界几何中心或手工指定，非门址；与 Esri 全球底图直接对齐，无偏移。国界数据已将台湾并入中国）",
+    "basemap": "深色无底图（默认，叠 Natural Earth 国界 choropleth）/ Esri World Imagery 卫星影像 / Esri World Shaded Relief 地形晕渲；全球尺度不用高德瓦片（境外空白）",
+    "source": "官方总量取 IKEA Global《How we work》页面（Updated 05 November 2026）：525 IKEA stores in 64 markets，并给出官方 7 区汇总：非洲 4 / 亚洲 84 / 欧洲 312 / 中东 25 / 北美洲 84 / 大洋洲 11 / 南美洲 5。另 FY26 Year in Review 记载截至 2026-08-31 共 780+ 个 conceptualised IKEA retail sales locations（含大店、小店、设计订购点），与 525 家「IKEA stores」不是同一口径，本图采用 525 家作为官方对照值。逐市场门店数取 BizLocationDB《List of all IKEA Locations Worldwide》（Last Updated 2026-08-12）逐国页面：51 国合计 502 家，由 _g/_fetch_ikea_biz.py 抓取页面内的门店计数。该目录未收录、但公开整理表确认在营的 8 个市场（波多黎各 3、多米尼加 4、保加利亚 6、塞浦路斯 1、希腊 8、冰岛 1、印度尼西亚 7、土耳其 7）沿用 Brilliant Maps《Map of All Countries With IKEA Stores》（2024-10-01）整理值，逐条标 dataSrc=compiled2024。新西兰取宜家官方 FY26 Year in Review 确认的新市场，1 家、2025 年奥克兰首店。合规：公开整理表把中国大陆 38、中国台湾 8、中国香港 4、中国澳门 1 分列，本图按一个中国原则合并为「中国」= 2026-08 大陆 33 + 港澳台 2024 快照 13 = 46 家，首店年份沿大陆口径 1998 年上海徐汇，备注说明中国香港 1975 年已有门店；国界数据沿用台湾已并入中国的统一底图。俄罗斯 2000 年莫斯科近郊首店、2022 年退出（退出前约 18 家），标为空心点且不计入总数。逐市场求和 553 家，比官方 525 家多 28 家（5.3%）：官方按 IKEA stores 自有口径统计，第三方门店目录按 IKEA 顾客触点计数（含小型店与设计订购点），且快照时点不同；本图不缩放任何逐市场数值，UI 与正文同时列出官方口径，详情卡逐条标注数据来源。交叉校验：本图非洲 4、大洋洲 11、南美洲 5 与官方区域汇总完全一致。首店年份取公开编年表，瑞典 1958 年阿姆霍特首店取宜家官网史料；时间轴累计值为已进驻市场按逐市场快照门店数求和，不是当年真实门店数。坐标仅作市场代表点。",
+    "updated": "2026-11-07",
+    "viewport": "沿用 world-mcdonalds / world-walmart 全球取景：renderWorldCopies=true 跨 180° 日界线，桌面 minZoom=1.5 / zoom=1.5；竖屏地图库把最小缩放锁在约 0.72（=log2(844/512)），390px 屏一次只能看到约 166° 经度。桌面初始 center 往西偏到 [-28,25]，让美国最大气泡躲开 304px 左侧目录栏；宜家 59.5% 门店在欧洲、11% 在美国，两者跨度约 108°，故移动端初始 center=[-40,12] 对准大西洋两岸，并把纬度压低到 12°N 以避免下半屏只剩南极洲与海洋，左右拖动可看东亚。国界面由 truesize/countries.geojson 注入 storeCount 与 mktIso 后用 _g/cut_antimeridian.py 的 cut_geometry 处理跨反子午线要素（本批 1 个）。巴林、新加坡在 Natural Earth 110m 未单列，仅出气泡不出密度面。",
+    "data": [
+      {
+        "file": "maps/world-ikea/data/stores.geojson",
+        "features": 61,
+        "desc": "市场气泡点（WGS84）：含 id / 中文名 / 英文名 / 官方区域 continent / 门店数 count / 首店年份 enterYear / 首店地点 entered / 年份来源 yearSrc / 数据来源 dataSrc / 全球占比 share / 是否已退出 exited；半径与颜色由 count 驱动，60 个在营市场 + 1 个已退出市场"
+      },
+      {
+        "file": "maps/world-ikea/data/markets.json",
+        "features": 61,
+        "desc": "市场聚合目录：61 个市场（中文名、英文名、ISO、官方区域、门店数、首店年份、首店地点、数据来源、经纬度、备注），驱动左侧排行、区域筛选、搜索与时间轴；另含 regionCount / continentCount 七区汇总、officialRegions 官方区域对照与 meta（逐市场总量 553、官方总量 525、官方市场 64、在营市场 60、区域 7）"
+      },
+      {
+        "file": "maps/world-ikea/data/country-fills.geojson",
+        "features": 176,
+        "desc": "Natural Earth 110m 国界面（含 name_zh，台湾已并入中国）：构建期注入 storeCount 与 mktIso，按市场门店数 choropleth；运行时按时间轴年份重算 storeCount 后 setData。跨反子午线要素已切割"
+      }
+    ]
+  },
+  {
+    "slug": "world-mixue",
+    "entry": "/maps/world-mixue/index.html",
+    "bbox": [
+      -180.0,
+      -60.0,
+      180.0,
+      80.0
+    ],
+    "crs": "WGS84 / EPSG:4326（按市场统计门店数，坐标为市场代表点：首都或地理中心，非门址；与 Esri 全球底图直接对齐，无偏移。国界数据已将台湾并入中国）",
+    "basemap": "深色无底图（默认，叠 Natural Earth 国界 choropleth）/ Esri World Imagery 卫星影像 / Esri World Shaded Relief 地形晕渲；全球尺度不用高德瓦片（境外空白）",
+    "source": "蜜雪冰城单品牌全球门店（不含幸运咖 / 鲜啤福鹿家）：中国内地 46,812 家取极海品牌监测 2026-10（与站内「全国蜜雪冰城分布图」同源）；海外 11 国取 2025 年初公开分国明细合计 4,786 家（印尼 2,667 / 越南 1,304 / 马来 337 / 泰国 272 / 菲律宾 98 / 柬埔寨 40 / 老挝 22 / 新加坡 22 / 澳 12 / 韩 7 / 日 5）；2025–2026 新进入 8 个市场计 14 家（美国 4 / 哈萨克斯坦 / 墨西哥 / 巴西 / 吉尔吉斯斯坦 3 / 蒙古国 / 乌兹别克斯坦 2 / 缅甸）。逐市场求和 51,612 家、20 个市场、4 大洲（亚洲 / 北美洲 / 南美洲 / 大洋洲）。蜜雪集团 2026 年中全球约 6.4 万家、海外 4,378 家为含多品牌口径，本图不混算，仅作对照。海外 2025 年主动调改后净减 428 家，本图按快照呈现、不缩放逐市场数值，详情卡逐条标注 dataSrc。合规：数据不含独立港澳台条目，国界数据沿用台湾已并入中国的统一底图。坐标为市场代表点。",
+    "updated": "2026-11-07",
+    "viewport": "沿用 world-mcdonalds / world-walmart / world-ikea 全球取景：renderWorldCopies=true 跨 180° 日界线，桌面 minZoom=1.5 / zoom=1.5；竖屏地图库把最小缩放锁在约 0.72（=log2(844/512)），390px 屏一次只能看到约 166° 经度。蜜雪冰城约 99% 门店在亚洲（中国 46,812 + 东南亚），故桌面初始 center=[110,28]、移动端 center=[100,22] 都聚焦东亚与东南亚，左侧 304px 目录栏压住的太平洋留白；左右拖动可看美洲新市场。国界面由 truesize/countries.geojson 注入 storeCount 与 mktIso，新加坡、蒙古国在 Natural Earth 110m 未单列、仅出气泡不出密度面。时间轴累计值为已进驻市场按当前门店数求和，非当年真实门店数。",
+    "data": [
+      {
+        "file": "maps/world-mixue/data/stores.geojson",
+        "features": 20,
+        "desc": "市场气泡点（WGS84）：含 id / 中文名 / 英文名 / 大洲 continent / 门店数 count / 首店年份 enterYear / 首店地点 entered / 年份来源 yearSrc / 数据来源 dataSrc / 全球占比 share / 是否已退出 exited；半径与颜色由 count 驱动，20 个在营市场（无已退出）"
+      },
+      {
+        "file": "maps/world-mixue/data/markets.json",
+        "features": 20,
+        "desc": "市场聚合目录：20 个市场（中文名、英文名、ISO、大洲、门店数、首店年份、首店地点、数据来源、经纬度、备注），驱动左侧排行、大洲筛选、搜索与时间轴；另含 regionCount / continentCount 四大洲汇总与 meta（逐市场总量 51,612、在营市场 20、大洲 4、年份 1997—2026）"
+      },
+      {
+        "file": "maps/world-mixue/data/country-fills.geojson",
+        "features": 176,
+        "desc": "Natural Earth 110m 国界面（含 name_zh，台湾已并入中国）：构建期注入 storeCount 与 mktIso，按市场门店数 choropleth；运行时按时间轴年份重算 storeCount 后 setData。跨反子午线要素已切割"
+      }
+    ]
+  },
+  {
+    "slug": "world-711",
+    "entry": "/maps/world-711/index.html",
+    "bbox": [
+      -180.0,
+      -60.0,
+      180.0,
+      80.0
+    ],
+    "crs": "WGS84 / EPSG:4326（按市场统计门店数，坐标为市场代表点：首都或地理中心，非门址；与 Esri 全球底图直接对齐，无偏移。国界数据已将台湾并入中国）",
+    "basemap": "深色无底图（默认，叠 Natural Earth 国界 choropleth）/ Esri World Imagery 卫星影像 / Esri World Shaded Relief 地形晕渲；全球尺度不用高德瓦片（境外空白）",
+    "source": "7-Eleven 全球门店：逐市场综合 Seven & i FY2025/2026 年报与各市场运营商 2025—2026 年披露，按一个中国原则将大陆/台湾/香港/澳门合并为「中国」13,711 家（大陆 5,565 + 台湾约 7,100 + 香港约 1,000 + 澳门 46）。日本 21,600 / 泰国 15,945 / 美国 12,500 / 韩国 11,170 / 菲律宾 4,491 / 马来西亚 2,678 / 墨西哥 2,100 / 加拿大 700 / 澳大利亚 700 / 新加坡 455 / 越南 148 / 丹麦 175 / 挪威 115 / 瑞典 78；柬埔寨 50 / 老挝 30 / 阿联酋 50 为估算值（目录标 *）。逐市场求和约 86,696 家、18 个市场、4 大洲（亚洲 / 北美洲 / 欧洲 / 大洋洲），与 Seven & i 披露全球约 8.6—8.7 万家吻合。已退出市场（印尼 2017、印度、以色列 2024 等）未计入。合规：数据不含独立港澳台条目，国界数据沿用台湾已并入中国的统一底图。坐标为市场代表点。",
+    "updated": "2026-11-07",
+    "viewport": "沿用 world-mcdonalds / world-walmart / world-ikea 全球取景：renderWorldCopies=true 跨 180° 日界线，桌面 minZoom=1.5 / zoom=1.5；竖屏地图库把最小缩放锁在约 0.72（=log2(844/512)），390px 屏一次只能看到约 166° 经度。7-Eleven 约 81% 门店在亚洲（日本 / 中国 / 泰国 / 韩国 / 东南亚），故桌面初始 center=[100,22]、移动端 center=[100,15] 聚焦东亚与东南亚，左侧 304px 目录栏压住太平洋留白；左右拖动可看美洲与欧洲。国界面由 truesize/countries.geojson 注入 storeCount 与 mktIso，新加坡、阿联酋在 Natural Earth 110m 未单列、仅出气泡不出密度面。时间轴累计值为已进驻市场按当前门店数求和，非当年真实门店数。",
+    "data": [
+      {
+        "file": "maps/world-711/data/stores.geojson",
+        "features": 18,
+        "desc": "市场气泡点（WGS84）：含 id / 中文名 / 英文名 / 大洲 continent / 门店数 count / 首店年份 enterYear / 首店地点 entered / 年份来源 yearSrc / 数据来源 dataSrc / 全球占比 share / 是否已退出 exited；半径与颜色由 count 驱动，18 个在营市场（无已退出）"
+      },
+      {
+        "file": "maps/world-711/data/markets.json",
+        "features": 18,
+        "desc": "市场聚合目录：18 个市场（中文名、英文名、ISO、大洲、门店数、首店年份、首店地点、数据来源、经纬度、备注），驱动左侧排行、大洲筛选、搜索与时间轴；另含 regionCount / continentCount 四大洲汇总与 meta（逐市场总量 86,696、在营市场 18、大洲 4、年份 1927—2026）"
+      },
+      {
+        "file": "maps/world-711/data/country-fills.geojson",
+        "features": 176,
+        "desc": "Natural Earth 110m 国界面（含 name_zh，台湾已并入中国）：构建期注入 storeCount 与 mktIso，按市场门店数 choropleth；运行时按时间轴年份重算 storeCount 后 setData。跨反子午线要素已切割"
       }
     ]
   }
