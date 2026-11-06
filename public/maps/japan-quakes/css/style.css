@@ -1,0 +1,217 @@
+/* 日本周边历史地震地图 · 专题样式
+   基于 _shared/thematic/thematic.css。
+   配色取「深海底 + 朱色」调：墨蓝底 + 朱红 accent；震级用蓝→黄→橙→红的独立色阶，两者不打架。 */
+
+:root {
+  --accent: #e8563f;
+  --accent-light: #ff8a6e;
+  --accent-dark: #b93c28;
+  --accent-soft: rgba(232, 86, 63, 0.15);
+  --panel-solid: rgba(9, 14, 24, 0.95);
+}
+
+html, body, #map { background: #05080f; }
+
+/* 地震波图标：同心圆 + 十字震中 */
+.ic-jq {
+  width: 12px; height: 12px; flex: 0 0 auto; border-radius: 50%;
+  border: 1.6px solid currentColor; opacity: .9;
+  background: radial-gradient(circle, currentColor 0 22%, transparent 24%);
+}
+
+.hint-n { font-size: 10.5px; color: var(--dim); font-weight: 400; font-variant-numeric: tabular-nums; }
+
+/* 3 项统计 */
+.facts { grid-template-columns: repeat(3, 1fr); }
+.facts .v { font-size: 12px; }
+.facts em { font-size: 16px; }
+.facts small { font-size: 10.5px; }
+
+/* ── 时间轴 ─────────────────────────────────────────────── */
+.tl-block { margin-bottom: 18px; }
+.tl {
+  position: relative; height: 72px; border-radius: 9px;
+  background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+  border: 1px solid var(--line); overflow: hidden; cursor: ew-resize;
+}
+#tlBars { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+#tlBars .tbar { fill: rgba(148, 178, 214, 0.42); transition: fill .12s; }
+#tlBars .tbar.is-cur { fill: var(--accent); }
+#tlBars .tbar:hover { fill: rgba(206, 224, 245, .85); }
+
+.tl-cursor {
+  position: absolute; top: 0; bottom: 0; width: 1px; left: 100%;
+  background: var(--accent); box-shadow: 0 0 9px 1px rgba(232, 86, 63, .7);
+  pointer-events: none; transition: left .08s linear;
+}
+.tl-cursor::after {
+  content: ''; position: absolute; top: 0; left: -3px;
+  border-left: 3.5px solid transparent; border-right: 3.5px solid transparent;
+  border-top: 5px solid var(--accent);
+}
+
+#tlRange {
+  position: absolute; inset: 0; width: 100%; height: 100%; margin: 0;
+  opacity: 0; cursor: ew-resize; -webkit-appearance: none; appearance: none;
+  background: transparent;
+}
+#tlRange::-webkit-slider-thumb { -webkit-appearance: none; width: 2px; height: 100%; }
+
+.tl-axis {
+  display: flex; justify-content: space-between;
+  font-size: 10px; color: var(--dim); margin: 4px 0 9px;
+  font-variant-numeric: tabular-nums;
+}
+
+.tl-foot { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+
+.btn-play {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: inherit; font-size: 11.5px; font-weight: 600; cursor: pointer;
+  color: #2a0d07; background: var(--accent); border: 0; border-radius: 7px;
+  padding: 6px 12px; transition: background .16s, transform .12s;
+  white-space: nowrap;
+}
+.btn-play:hover { background: var(--accent-light); }
+.btn-play:active { transform: scale(.97); }
+.btn-play i { font-style: normal; font-size: 10px; letter-spacing: .06em; }
+.btn-play.is-playing { background: var(--accent-soft); color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+
+.seg-mode { flex: 1 1 auto; display: flex; gap: 3px; padding: 2px; border-radius: 7px; background: rgba(255,255,255,.05); }
+.seg-mode button, .seg-color button {
+  flex: 1 1 0; font: inherit; font-size: 11.5px; color: var(--muted); cursor: pointer;
+  background: transparent; border: 0; border-radius: 5px; padding: 5px 4px;
+  transition: background .16s, color .16s;
+}
+.seg-mode button:hover, .seg-color button:hover { color: var(--text); }
+.seg-mode button.active, .seg-color button.active { background: var(--accent); color: #2a0d07; font-weight: 700; }
+
+.seg-color { display: flex; gap: 3px; padding: 2px; border-radius: 7px; background: rgba(255,255,255,.05); margin-bottom: 8px; }
+
+/* ── 震级门槛 chips ─────────────────────────────────────── */
+.chips { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
+.chips button {
+  flex: 1 1 0; font: inherit; font-size: 11.5px; color: var(--muted); cursor: pointer;
+  background: rgba(255,255,255,.04); border: 1px solid var(--line);
+  border-radius: 7px; padding: 5px 6px;
+  transition: background .16s, color .16s, border-color .16s;
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.chips button:hover { color: var(--text); }
+.chips button.active { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); font-weight: 600; }
+
+/* ── 地震带筛选 ─────────────────────────────────────────── */
+.bands { display: flex; flex-direction: column; gap: 1px; margin-bottom: 7px; }
+.bandrow {
+  display: flex; align-items: center; gap: 8px; width: 100%;
+  font: inherit; font-size: 12px; text-align: left; color: var(--muted); cursor: pointer;
+  background: transparent; border: 1px solid transparent; border-radius: 7px;
+  padding: 5px 7px; transition: background .14s, color .14s, opacity .14s;
+}
+.bandrow:hover { background: rgba(255,255,255,.05); color: var(--text); }
+.bandrow i {
+  width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto;
+  box-shadow: 0 0 8px -1px currentColor; transition: opacity .14s, transform .14s;
+}
+.bandrow .bn { flex: 1 1 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bandrow em { font-style: normal; font-size: 10.5px; color: var(--dim); font-variant-numeric: tabular-nums; }
+.bandrow:not(.is-on) { opacity: .34; }
+.bandrow:not(.is-on) i { transform: scale(.55); box-shadow: none; }
+.bandrow.is-on { color: var(--text); }
+
+.band-ops { display: flex; gap: 5px; }
+.mini {
+  font: inherit; font-size: 10.5px; color: var(--muted); cursor: pointer;
+  background: rgba(255,255,255,.04); border: 1px solid var(--line);
+  border-radius: 6px; padding: 3px 9px; transition: color .14s, border-color .14s;
+}
+.mini:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ── 必看事件列表 ───────────────────────────────────────── */
+.qlist { display: flex; flex-direction: column; gap: 2px; max-height: 268px; overflow-y: auto; margin-bottom: 6px; }
+.qrow {
+  display: flex; align-items: center; gap: 9px; width: 100%;
+  font: inherit; text-align: left; color: inherit; cursor: pointer;
+  background: transparent; border: 1px solid transparent; border-radius: 8px;
+  padding: 5px 7px; transition: background .16s, border-color .16s;
+}
+.qrow:hover { background: rgba(255,255,255,.05); }
+.qrow:hover .mbadge { transform: scale(1.06); }
+.mbadge {
+  flex: 0 0 auto; min-width: 30px; height: 21px; padding: 0 5px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 6px; font-size: 11.5px; font-weight: 700; color: #170905;
+  font-variant-numeric: tabular-nums; box-shadow: 0 0 10px -2px currentColor;
+  transition: transform .16s;
+}
+.qmeta { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.qplace { font-size: 12.5px; color: #dbe6f3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.qtime { font-size: 10.5px; color: var(--dim); font-variant-numeric: tabular-nums; }
+
+/* 详情卡顶部色条随选中震中切换 */
+.detail { border-top: 3px solid var(--rc, var(--accent)); }
+.detail > header small { color: var(--rc, var(--accent)); }
+.detail > footer a { color: var(--accent-light); text-decoration: none; border-bottom: 1px dotted rgba(255,138,110,.5); }
+.en-orig { color: var(--dim); font-size: 11px; }
+
+/* 带名标签：比默认 tag 更醒目 */
+.tlabel.is-tag { font-weight: 600; letter-spacing: .02em; }
+
+/* 移动端 */
+@media (max-width: 900px) {
+  .facts em { font-size: 14px; }
+  .tl { height: 58px; }
+  .panel .row { padding: 9px 0; }
+  .qlist { max-height: 200px; }
+  .bandrow { padding: 6px 7px; }
+}
+
+/* ── 图层与底图：齿轮按钮 + 收起卡片（参考 gba-cities 的卡片风格与动效） ── */
+.panel-gear {
+  position: absolute;
+  left: calc(var(--intro-w) + 32px); bottom: var(--dock-b); z-index: 12;
+  width: 42px; height: 42px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 12px;
+  background: var(--panel-solid); border: 1px solid var(--line);
+  color: var(--accent-light); box-shadow: var(--shadow);
+  backdrop-filter: blur(14px); cursor: pointer;
+  transition: border-color .16s, color .16s, transform .16s;
+}
+.panel-gear:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+.panel-gear:active { transform: translateY(0); }
+.panel-gear svg { width: 20px; height: 20px; }
+
+/* 默认关闭：整张卡片隐藏，仅显示齿轮按钮；展开用透明度 + 位移平滑过渡 */
+#panel {
+  transform-origin: left bottom;
+  transition: opacity .2s ease, transform .2s ease, visibility 0s linear 0s;
+}
+#panel.closed {
+  opacity: 0;
+  transform: translateY(10px) scale(.96);
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity .18s ease, transform .18s ease, visibility 0s linear .18s;
+}
+.panel-gear[hidden] { display: none; }
+
+/* 详情卡打开时框架会强制隐藏 .panel；允许本面板点击齿轮后仍可展开 */
+body.has-detail #panel:not(.closed) { display: flex; }
+
+/* 面板右上角收起按钮（绝对定位，不占标题栏） */
+.panel-close {
+  position: absolute; top: 8px; right: 8px; z-index: 2;
+  font: inherit; font-size: 14px; line-height: 1; cursor: pointer;
+  color: var(--muted); background: transparent; border: 1px solid var(--line);
+  border-radius: 6px; width: 22px; height: 22px;
+}
+.panel-close:hover { color: #fff; border-color: var(--accent); }
+
+/* 去掉标题栏后，给正文顶部留白 */
+#panel .panel-body { padding-top: 8px; }
+
+@media (max-width: 900px) {
+  .panel-gear { left: 10px; top: 10px; bottom: auto; }
+  #panel { left: 10px; top: 10px; bottom: auto; }
+}
