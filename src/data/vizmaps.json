@@ -2795,6 +2795,70 @@
         "desc": "省级行政区边界（_shared 跨地图复用），运行时注入 sevenCount 按门店数 interpolate 着色"
       }
     ]
+  },
+  {
+    "slug": "world-mcdonalds",
+    "entry": "/maps/world-mcdonalds/index.html",
+    "bbox": [
+      -180.0,
+      -60.0,
+      180.0,
+      80.0
+    ],
+    "crs": "WGS84 / EPSG:4326（官方年报按市场统计，坐标为市场代表点：首都或地理中心，非门址；与 Esri 全球底图直接对齐，无偏移。国界数据已将台湾并入中国）",
+    "basemap": "深色无底图（默认，叠 Natural Earth 国界 choropleth）/ Esri World Imagery 卫星影像 / Esri World Shaded Relief 地形晕渲；全球尺度不用高德瓦片（境外空白）",
+    "source": "门店数取 McDonald's 官方年报《Restaurant Count by Market – 2025》年末口径：全球 45,356 家（2024 年末 43,477 家），按 97 个市场逐条列出。逐市场转录后求和仍为 45,356 家，与年报总数一致，故气泡数值为官方披露值而非估算。官方把中国内地 7,740、中国香港 266、中国澳门 41、中国台湾 430 分列，本站按一个中国原则合并为「中国」8,477 家；波多黎各、阿鲁巴、库拉索、荷属圣马丁、法属圭亚那、瓜德罗普、马提尼克、留尼汪、美属维尔京群岛等属地按年报原样保留为独立市场，故「市场」不等于「主权国家」。年报中另有 6 个市场记为 0 家（白俄罗斯、波黑、哈萨克斯坦、俄罗斯、北马其顿、斯里兰卡），以空心灰点标注「年报记为 0 家」，不断言退出原因（俄罗斯 1990 年莫斯科首店、2022 年退出为公开事实）。首店年份取 Wikipedia《List of countries with McDonald's franchises》编年表（2007 快照，逐条给出开店日期，如 1967-06-01 加拿大里士满、1971-07-20 日本银座、1990-10-08 中国深圳、1996-10-13 印度），2010 年后新市场（越南 2014、哈萨克斯坦 2016、波黑 2011）由公开资料补齐并标 yearSrc=compiled。首店年份仅用于时间轴回放市场进入顺序，不参与门店数计算；时间轴累计值为已进驻市场按 2025 年门店数求和，不是当年真实门店数，UI 已写明「已进驻市场门店 X 家」。坐标取市场代表点而非门店位置；年报未公开逐店坐标。",
+    "updated": "2026-11-07",
+    "viewport": "全球取景：renderWorldCopies=true（关掉时 center 经度被锁在 ±34°、跨 180° 看不到日界线另一侧），桌面 minZoom=1.5 防止宽屏并排出现多个地球副本、初始 center=[-8,25] zoom=1.5；竖屏地图库把最小缩放锁在约 0.72（=log2(844/512)），390px 屏一次只能看到约 166° 经度，故移动端 minZoom=0、初始 center=[20,25]，收窄取景对准欧洲到东亚的内容重心，左右拖动可跨世界副本看美洲。国界面由 truesize/countries.geojson 注入 mcdCount 后用 _g/cut_antimeridian.py 的 cut_geometry 处理跨反子午线要素（本批 1 个），避免横贯全图的连接线。",
+    "data": [
+      {
+        "file": "maps/world-mcdonalds/data/stores.geojson",
+        "features": 100,
+        "desc": "市场气泡点（WGS84）：含 id / 中文名 / 英文名 / 大洲 / 门店数 count / 首店年份 enterYear / 年份来源 yearSrc / 全球占比 share / 是否年报 0 家 exited；半径与颜色由 count 驱动，94 个在营市场 + 6 个 0 家市场"
+      },
+      {
+        "file": "maps/world-mcdonalds/data/markets.json",
+        "features": 100,
+        "desc": "市场聚合目录：100 个市场（中文名、英文名、ISO/年报代码、大洲、门店数、首店年份、经纬度、备注），驱动左侧排行、大洲筛选、搜索与时间轴；另含 continentCount 六大洲汇总与 meta 总量 45,356"
+      },
+      {
+        "file": "maps/world-mcdonalds/data/country-fills.geojson",
+        "features": 176,
+        "desc": "Natural Earth 110m 国界面（含 name_zh，台湾已并入中国）：构建期注入 mcdCount 与 mcdIso，按国家门店数 choropleth；运行时按时间轴年份重算 mcdCount 后 setData。跨反子午线要素已切割"
+      }
+    ]
+  },
+  {
+    "slug": "world-walmart",
+    "entry": "/maps/world-walmart/index.html",
+    "bbox": [
+      -180.0,
+      -60.0,
+      180.0,
+      80.0
+    ],
+    "crs": "WGS84 / EPSG:4326（官方财报按国家统计零售单元，坐标为市场代表点：首都或地理中心，非门址；与 Esri 全球底图直接对齐，无偏移。国界数据已将台湾并入中国）",
+    "basemap": "深色无底图（默认，叠 Natural Earth 国界 choropleth）/ Esri World Imagery 卫星影像 / Esri World Shaded Relief 地形晕渲；全球尺度不用高德瓦片（境外空白）",
+    "source": "零售单元数取 Walmart 官方《Unit Counts and Square Footage (FY27 Q2)》PDF 的 Unit counts by country 表，报告期截至 2026-07-31：Worldwide Total 11,000（Total U.S. 5,217 + International 5,783），覆盖 19 个国家。逐国转录求和为 11,000，与官方总数一致，故气泡数值为官方披露值而非估算。官方称 retail units / locations，含 Walmart 超级中心 3,569、折扣店 351、社区店 674、小型业态 21、Sam's Club U.S. 602，以及海外本地品牌（墨西哥 Bodega Aurrera 系列 2,733、智利 Lider、南非 Game / Makro / Builders、中美洲 Pali 与 Despensa Familiar 等），不是单一招牌门店数。官方表在多数国家名后标注 Entered <Month Year>（墨西哥 1991-11、加拿大 1994-11、中国 1996-08、中美洲五国 2005-09、智利 2009-01、印度 2009-05、南非及七个非洲国家 2011-06），本图直接取作首店年份并标 yearSrc=official；美国 1962 年阿肯色州罗杰斯首店取品牌史料并标 yearSrc=brand。官方现表已无的 7 个市场（德国 1997/2006 退出、韩国 1998/2006 退出、印尼 1996/1997 退出、英国 1999/2021 出售 ASDA、日本 2002/2021 出售西友、巴西 1995/2018 出售八成股权、阿根廷 1995/2020 出售）按 SEC 10-K 处置披露与公司公开史料补为空心点，count=0、yearSrc=compiled，不计入 11,000 总数。官方中国市场指中国大陆 345 个单元（超级中心 278 + 山姆 67），港澳台无实体零售单元且官方未分列，故本图不做合并计算；国界数据仍沿用含台湾并入中国的统一底图。时间轴累计值为已进驻市场按 2026-07-31 单元数求和，不是当年真实门店数，UI 已写明「已进驻市场单元 X 个」。财报未公开逐店坐标，坐标仅作市场代表点。",
+    "updated": "2026-11-07",
+    "viewport": "沿用 world-mcdonalds 全球取景：renderWorldCopies=true 跨 180° 日界线，桌面 minZoom=1.5 / 初始 center=[-8,25] zoom=1.5；竖屏地图库把最小缩放锁在约 0.72（=log2(844/512)），390px 屏一次只能看到约 166° 经度。沃尔玛 90.2% 单元集中在北美洲，故移动端初始 center 改为 [-80,28] 对准美洲内容重心，左右拖动可看欧亚非。国界面由 truesize/countries.geojson 注入 storeCount 与 mktIso 后用 _g/cut_antimeridian.py 的 cut_geometry 处理跨反子午线要素（本批 1 个）。埃斯瓦蒂尼（原斯威士兰）在 Natural Earth 110m 未单列，仅出气泡不出密度面。",
+    "data": [
+      {
+        "file": "maps/world-walmart/data/stores.geojson",
+        "features": 26,
+        "desc": "市场气泡点（WGS84）：含 id / 中文名 / 英文名 / 大洲 / 零售单元数 count / 进入年份 enterYear / 官方进入年月 entered / 年份来源 yearSrc / 全球占比 share / 是否已退出 exited；半径与颜色由 count 驱动，19 个在营市场 + 7 个已退出市场"
+      },
+      {
+        "file": "maps/world-walmart/data/markets.json",
+        "features": 26,
+        "desc": "市场聚合目录：26 个市场（中文名、英文名、ISO、大洲、零售单元数、进入年份、官方进入年月、经纬度、业态备注），驱动左侧排行、大洲筛选、搜索与时间轴；另含 continentCount 五大洲汇总（在营四大洲）与 meta 总量 11,000"
+      },
+      {
+        "file": "maps/world-walmart/data/country-fills.geojson",
+        "features": 176,
+        "desc": "Natural Earth 110m 国界面（含 name_zh，台湾已并入中国）：构建期注入 storeCount 与 mktIso，按国家零售单元数 choropleth；运行时按时间轴年份重算 storeCount 后 setData。跨反子午线要素已切割"
+      }
+    ]
   }
 ]
 }
