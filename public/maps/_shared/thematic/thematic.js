@@ -468,15 +468,6 @@
         this.textContent = c ? '＋' : '－';
       });
     }
-    var panelHead = document.getElementById('panelHead');
-    if (panelHead) {
-      panelHead.addEventListener('click', function (e) {
-        if (!isMobile()) return;
-        if (e.target.id === 'panelToggle') return;
-        var c = el.panelBody.classList.toggle('collapsed');
-        if (el.panelToggle) el.panelToggle.textContent = c ? '＋' : '－';
-      });
-    }
 
     if (el.introBar) {
       el.introBar.addEventListener('click', function () {

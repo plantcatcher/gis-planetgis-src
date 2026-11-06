@@ -1,9 +1,12 @@
 /* 全球实时地震地图 · 表现层配置
    数据：USGS 实时地震目录 GeoJSON Feed（浏览器端每 60 秒拉取，无静态矢量文件）。
    底图：Esri World Imagery（全球覆盖）+ World_Shaded_Relief + 深色无底图。
-   全球尺度，不用高德（境外空白）；坐标系 WGS84，不叠加 GCJ-02 底图，故无偏移。 */
+   全球尺度，不用高德（境外空白）；坐标系 WGS84，不叠加 GCJ-02 底图，故无偏移。
+
+   2026-11-06 改动：renderWorldCopies 由 false 改为 true，开启左右循环拖拽；
+   minZoom 由 0 提到 1.5，避免低缩放下出现"三地球"重复副本（记忆口径：跨 180° 须开 true、minZoom≈1.5 防三地球）。 */
 window.EQ_CONFIG = {
-  view: { center: [10, 20], zoom: 1.5, minZoom: 0, maxZoom: 11, renderWorldCopies: false },
+  view: { center: [10, 20], zoom: 1.5, minZoom: 1.5, maxZoom: 11, renderWorldCopies: true },
   bounds: [-180, -85, 180, 85],
   extent: [-180, -90, 180, 90],
   graticuleStep: 30,

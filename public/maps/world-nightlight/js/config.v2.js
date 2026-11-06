@@ -12,7 +12,7 @@ window.NL_CONFIG = {
   gibsTile: 'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_CityLights_2012/default/2012-01-01/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpg',
   gibsAttr: 'NASA Black Marble / VIIRS City Lights (GIBS, NASA EOSDIS) · CC BY 4.0',
 
-  view: { center: [12, 18], zoom: 1.5, minZoom: 0.4, maxZoom: 8 },
+  view: { center: [12, 18], zoom: 1.5, minZoom: 1.5, maxZoom: 8 },
   graticuleStep: 20,
   nightOpacity: 1,
   gratOn: true,

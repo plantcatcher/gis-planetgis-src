@@ -279,6 +279,24 @@ UI = {
     '开始游戏': 'Start Game',
     '点击进入 · 先选地图与模式': 'Click to enter — pick a map and a mode first',
     '我的成绩': 'My Scores',
+    # ── 开始界面 v2（宽版双栏）──
+    '星球小捕手': 'Planet Catcher',
+    '中国地理 · 交互拼图': 'CHINA GEOGRAPHY · INTERACTIVE PUZZLE',
+    '把 34 个省级行政区拖回中国版图。':
+        'Drag 34 provincial-level divisions back onto the map of China.',
+    '在反复试错里，把每一寸山河的位置记进脑子。':
+        'Trial by trial, the shape of the country settles into memory.',
+    '省级行政区': 'Provincial-level divisions',
+    '游戏模式': 'Game modes',
+    '下载与注册': 'Downloads & sign-up',
+    '无需登录 · 成绩自动保存': 'No sign-up · scores saved automatically',
+    '拖拽归位 · 自动吸附 · 实时计时': 'Drag to place · auto snap · live timer',
+    '练习模式：显示省名、不计时': 'Practice: names shown, untimed',
+    '挑战模式：隐藏提示、记录最佳': 'Challenge: hints hidden, best score recorded',
+    '成绩保存在本机 · 自动同步「我的学习」':
+        'Scores stay on this device · synced to My Learning',
+    '显示名称 · 不计时': 'Names shown · untimed',
+    '隐藏提示 · 计成绩': 'Hints hidden · scored',
     '选择地图与模式': 'Choose a Map and Mode',
     '选择地图': 'Choose a Map',
     '选择模式': 'Choose a Mode',
@@ -291,7 +309,7 @@ UI = {
     '🔊 音效': '🔊 Sound Effects',
     '🎵 背景音乐': '🎵 Background Music',
     # ── 主界面动态统计 ──
-    '累计拼完': 'Pieces completed',
+    '累计拼完': 'Pieces completed: ',
     '已解锁': 'Unlocked',
     '关零失误': ' levels cleared with no mistakes',
     '最少失误': 'Fewest Mistakes',

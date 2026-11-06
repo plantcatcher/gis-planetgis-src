@@ -7,10 +7,12 @@
 
   var fmt = Thematic.fmt, esc = Thematic.esc;
 
-  var RAMP = ['#153a5c', '#1a5b85', '#1c7ea6', '#22a3ae', '#48bd9a', '#9bd07f', '#f0b429'];
+  /* 数值色阶：绿（低）→ 黄 → 红（高）标准色带，9 段。低值绿、高值红，红绿对比在暗底清晰。 */
+  var RAMP = ['#1a9850', '#66bd63', '#a6d96a', '#d9ef8b', '#fee08b', '#fdae61', '#f46d43', '#d73027', '#a50026'];
+  /* 城市角色：三色相差异大（紫/青/粉）；中心城市不用红，避免与数值色阶高值红撞色。 */
   var GROUP_COLORS = {
-    '中心城市（内地）': '#f0b429',
-    '重要节点城市': '#38bdf8',
+    '中心城市（内地）': '#8b5cf6',
+    '重要节点城市': '#14b8a6',
     '特别行政区': '#fb7185'
   };
   var ROLE_ORDER = { '中心城市（内地）': 0, '特别行政区': 1, '重要节点城市': 2 };
@@ -55,7 +57,6 @@
     metricNote: document.getElementById('metricNote'),
     listHint: document.getElementById('listHint'),
     cityList: document.getElementById('cityList'),
-    legend: document.getElementById('legend'),
     fMain: document.getElementById('fMain'),
     fArea: document.getElementById('fArea'),
     fPop: document.getElementById('fPop'),
@@ -94,10 +95,14 @@
     var vs = S.main.map(function (f) { return val(f.properties, key); }).filter(function (v) { return v > 0; });
     return { lo: Math.log10(Math.min.apply(null, vs.length ? vs : [1])), hi: Math.log10(Math.max.apply(null, vs.length ? vs : [1])), min: Math.min.apply(null, vs), max: Math.max.apply(null, vs) };
   }
+  /* 按城市在该指标下的排序名次映射到色阶档（同值同名次），保证相邻名次不同颜色。 */
   function rampColor(key, value) {
-    var d = domain(key);
-    var t = (Math.log10(Math.max(value, 0.01)) - d.lo) / (d.hi - d.lo || 1);
-    t = Math.max(0, Math.min(1, t));
+    var vs = S.main.map(function (f) { return val(f.properties, key); }).filter(function (v) { return v > 0; });
+    var sorted = vs.slice().sort(function (a, b) { return a - b; });
+    var uniq = sorted.filter(function (v, i) { return sorted.indexOf(v) === i; });
+    var pos = uniq.indexOf(value);
+    if (pos < 0) pos = 0;
+    var t = uniq.length <= 1 ? 0 : pos / (uniq.length - 1);
     return RAMP[Math.round(t * (RAMP.length - 1))];
   }
   function rank(p, key) {
@@ -106,7 +111,7 @@
     return i < 0 ? '—' : String(i + 1);
   }
 
-  /* ── 着色 / 图例 ── */
+  /* ── 着色 ── */
   function recolor() {
     S.main.forEach(function (f) {
       var p = f.properties;
@@ -119,28 +124,6 @@
     if (S.sel) {
       try { app.map.setFeatureState({ source: 'main', id: S.sel.properties.gid }, { selected: true }); } catch (_) {}
     }
-  }
-  function renderLegend() {
-    if (S.metric === 'group') {
-      var rows = Object.keys(GROUP_COLORS).map(function (g) {
-        return '<span class="lg-row"><i style="background:' + GROUP_COLORS[g] + '"></i>' + esc(g) + '</span>';
-      }).join('');
-      el.legend.innerHTML = '<div class="lg-cap">按城市角色着色</div>' + rows +
-        '<div class="lg-note">' + esc(METRICS.group.hint) + '</div>';
-      return;
-    }
-    var m = METRICS[S.metric], d = domain(S.metric), cells = '';
-    for (var i = 0; i < RAMP.length; i++) {
-      var t = i / (RAMP.length - 1);
-      var v = Math.pow(10, d.lo + t * (d.hi - d.lo));
-      var lab = t === 0 ? '≤ ' + shortVal({ gdp: d.min, pop: d.min, area: d.min, gdpPc: d.min }, S.metric)
-        : (t === 1 ? '≥ ' + shortVal({ gdp: d.max, pop: d.max, area: d.max, gdpPc: d.max }, S.metric)
-          : (S.metric === 'gdpPc' ? (v / 1e4).toFixed(1)
-            : fmt(v, S.metric === 'area' && v < 100 ? 1 : 0)));
-      cells += '<span class="lg-row"><i style="background:' + RAMP[i] + '"></i>' + esc(lab) + '</span>';
-    }
-    el.legend.innerHTML = '<div class="lg-cap">按' + esc(m.label) + '着色 · ' + esc(m.unit || '分类') + '</div>' + cells +
-      '<div class="lg-note">' + esc(m.hint) + '；颜色越亮数值越大（对数分级）。</div>';
   }
 
   /* ── 标注（HTML 叠层，不依赖地图字体服务） ── */
@@ -206,7 +189,7 @@
     app.setVisible('city-halo', true);
     app.setVisible('city-sel', true);
 
-    var col = GROUP_COLORS[p.groupZh] || '#f0b429';
+    var col = GROUP_COLORS[p.groupZh] || '#8b5cf6';
     app.setDetailOpen(true);
     el.detail.hidden = false;
     el.detail.style.setProperty('--rc', col);
@@ -256,6 +239,25 @@
   /* ── 交互 ── */
   var HIT_LAYERS = ['city-fill', 'city-dot', 'city-dot-halo'];
 
+  /* ── 图层与底图：默认收起为齿轮按钮，点击齿轮展开、✕ 收起 ── */
+  function bindPanel() {
+    var gear = document.getElementById('panelGear');
+    var panel = document.getElementById('panel');
+    var close = document.getElementById('panelClose');
+    if (gear && panel) {
+      gear.addEventListener('click', function () {
+        panel.classList.remove('closed');
+        gear.hidden = true;
+      });
+    }
+    if (close && panel && gear) {
+      close.addEventListener('click', function () {
+        panel.classList.add('closed');
+        gear.hidden = false;
+      });
+    }
+  }
+
   function bind() {
     var map = app.map;
     map.on('mousemove', function (e) {
@@ -283,7 +285,7 @@
       var b = e.target.closest('button'); if (!b) return;
       S.metric = b.dataset.metric;
       Array.prototype.forEach.call(el.metricSeg.children, function (x) { x.classList.toggle('active', x === b); });
-      recolor(); renderLegend(); updateNote(); setLabels(); renderList();
+      recolor(); updateNote(); setLabels(); renderList();
     });
     el.cityList.addEventListener('click', function (e) {
       var b = e.target.closest('.city-row'); if (!b) return;
@@ -319,8 +321,8 @@
     layers: [
       { id: 'city-fill', type: 'fill', source: 'main',
         paint: {
-          'fill-color': ['coalesce', ['get', 'fill'], '#1a5b85'],
-          'fill-opacity': ['case', ['boolean', ['feature-state', 'selected'], false], 0.20, 0.66]
+          'fill-color': ['coalesce', ['get', 'fill'], '#1a9850'],
+          'fill-opacity': ['case', ['boolean', ['feature-state', 'selected'], false], 0.22, 0.72]
         } },
       { id: 'city-line', type: 'line', source: 'main',
         paint: { 'line-color': '#ffffff', 'line-width': 1, 'line-opacity': 0.5 } },
@@ -348,7 +350,7 @@
       var dots = S.main.filter(function (f) { return val(f.properties, 'area') < 100; }).map(function (f) {
         var p = f.properties, b = p.bbox;
         var props = Object.assign({}, p);
-        props.dotColor = GROUP_COLORS[p.groupZh] || '#f0b429';
+        props.dotColor = GROUP_COLORS[p.groupZh] || '#8b5cf6';
         return { type: 'Feature', properties: props,
                  geometry: { type: 'Point', coordinates: [(b[0] + b[2]) / 2, (b[1] + b[3]) / 2] } };
       });
@@ -359,7 +361,7 @@
       el.fPop.textContent = fmt(S.main.reduce(function (a, f) { return a + val(f.properties, 'pop'); }, 0), 0);
       el.fGdp.textContent = (S.main.reduce(function (a, f) { return a + val(f.properties, 'gdp'); }, 0) / 1e4).toFixed(2);
 
-      recolor(); renderLegend(); updateNote(); renderList(); bind();
+      recolor(); updateNote(); renderList(); bind(); bindPanel();
       app.fitAll({ animate: false });
       setLabels();
       window.__app = app;

@@ -102,8 +102,17 @@ export const en: Record<keyof Dict, string> = {
   'games.empty.all': 'Games are on the way. Stay tuned.',
   'games.empty.filter': 'No games for this combination. Try another gameplay or region.',
   'games.play': 'Play now →',
+  'games.playNow': 'Play now',
   'games.categoryDefault': 'Game',
   'games.alt': '{title} - geography game by Planet Catcher',
+  'games.kicker': 'Learn geography by playing',
+  'games.heroStats': '{n} games · {m} game modes · play instantly',
+  'games.browse': 'Browse all',
+  'games.featured': 'Most played',
+  'games.sectionKicker': 'CHOOSE A CHALLENGE',
+  'games.sectionTitle': 'Pick your challenge',
+  'games.progressHint': 'Every score is saved to My Learning. No sign-up, and progress stays on this device.',
+  'games.myScores': 'My scores',
 
   // ===== 页脚 =====
   'footer.slogan':

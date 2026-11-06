@@ -48,7 +48,7 @@ html, body, #map { background: #060d18; }
 .city-row .bar { height: 5px; border-radius: 3px; background: rgba(148, 178, 214, .13); overflow: hidden; }
 .city-row .bar i {
   display: block; height: 100%; border-radius: 3px;
-  background: linear-gradient(90deg, #1f7fa8, #f0b429);
+  background: linear-gradient(90deg, #1a9850, #a50026);
 }
 .city-row .vl {
   font-size: 10.5px; font-variant-numeric: tabular-nums; color: #9fb4cd;
@@ -78,12 +78,57 @@ html, body, #map { background: #060d18; }
   background: rgba(255, 255, 255, .045); border-radius: 999px;
 }
 
-/* ── 图例 ───────────────────────────────────────────────── */
-.legend { max-width: 330px; }
-.legend .lg-cap { color: var(--accent-light); }
-
 @media (max-width: 900px) {
   .detail { max-height: 58vh; max-height: 58dvh; }
   .city-row { grid-template-columns: 21px 46px 1fr auto; }
-  .legend { display: none; }
+}
+
+/* ── 图层与底图：默认收起为齿轮设置按钮 ─────────────────── */
+.panel-gear {
+  position: absolute;
+  left: calc(var(--intro-w) + 32px); bottom: var(--dock-b); z-index: 12;
+  width: 42px; height: 42px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 12px;
+  background: var(--panel-solid); border: 1px solid var(--line);
+  color: var(--accent-light); box-shadow: var(--shadow);
+  backdrop-filter: blur(14px); cursor: pointer;
+  transition: border-color .16s, color .16s, transform .16s;
+}
+.panel-gear:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+.panel-gear:active { transform: translateY(0); }
+.panel-gear svg { width: 20px; height: 20px; }
+
+/* 默认关闭：整张卡片隐藏，仅显示齿轮按钮；展开用透明度+位移平滑过渡 */
+#panel {
+  transform-origin: left bottom;
+  transition: opacity .2s ease, transform .2s ease, visibility 0s linear 0s;
+}
+#panel.closed {
+  opacity: 0;
+  transform: translateY(10px) scale(.96);
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity .18s ease, transform .18s ease, visibility 0s linear .18s;
+}
+.panel-gear[hidden] { display: none; }
+
+/* 详情卡打开时框架会强制隐藏 .panel；允许本面板点击齿轮后仍可展开 */
+body.has-detail #panel:not(.closed) { display: flex; }
+
+/* 面板右上角收起按钮（绝对定位，不占标题栏） */
+.panel-close {
+  position: absolute; top: 8px; right: 8px; z-index: 2;
+  font: inherit; font-size: 14px; line-height: 1; cursor: pointer;
+  color: var(--muted); background: transparent; border: 1px solid var(--line);
+  border-radius: 6px; width: 22px; height: 22px;
+}
+.panel-close:hover { color: #fff; border-color: var(--accent); }
+
+/* 去掉标题栏后，给正文顶部留白 */
+#panel .panel-body { padding-top: 8px; }
+
+@media (max-width: 900px) {
+  .panel-gear { left: 10px; top: 10px; bottom: auto; }
+  #panel { left: 10px; top: 10px; bottom: auto; }
 }

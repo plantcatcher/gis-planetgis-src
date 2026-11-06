@@ -1,0 +1,436 @@
+/* ============================================================
+   拼图中国 · 开始界面 v2
+   - 宽版双栏：左文案 / 右中国轮廓主视觉，去掉窄列居中与 emoji 卡片
+   - 只作用于 #homeScreen 与 #startModal，不碰游戏进行中的任何样式
+   - 独立文件名：避免浏览器 / CDN 缓存旧版开始界面
+   ============================================================ */
+
+/* ---------- 背景层 ---------- */
+.home-screen {
+  padding: 0;
+  background:
+    radial-gradient(58% 52% at 78% 16%, rgba(56, 189, 248, 0.13), transparent 70%),
+    radial-gradient(46% 46% at 10% 88%, rgba(167, 139, 250, 0.10), transparent 72%),
+    linear-gradient(180deg, #080f1d 0%, #070c17 100%);
+}
+.home-screen.hidden { display: none; }
+.home-screen::before {
+  top: -32%;
+  left: auto;
+  right: -12%;
+  width: 62vmax;
+  height: 62vmax;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.10), transparent 62%);
+  animation: none;
+}
+.home-screen::after {
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.035) 1px, transparent 1px);
+  background-size: 40px 40px;
+  -webkit-mask-image: radial-gradient(90% 72% at 50% 32%, #000 8%, transparent 86%);
+  mask-image: radial-gradient(90% 72% at 50% 32%, #000 8%, transparent 86%);
+}
+
+/* ---------- 容器 ---------- */
+.hs-shell {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1180px;
+  margin: auto;
+  padding: 28px 36px 36px;
+}
+.hs-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 38px;
+}
+.hs-brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.hs-mark {
+  flex: none;
+  width: 32px; height: 32px;
+  display: grid; place-items: center;
+  border-radius: 9px;
+  color: #7dd3fc;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  background: rgba(56, 189, 248, 0.08);
+}
+.hs-mark svg { width: 18px; height: 18px; }
+.hs-brand-text {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: rgba(234, 241, 255, 0.62);
+  white-space: nowrap;
+}
+.hs-brand-text em { font-style: normal; margin: 0 8px; color: rgba(148, 163, 184, 0.42); }
+.hs-set {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 15px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(234, 241, 255, 0.68);
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.18s, color 0.18s, background 0.18s;
+}
+.hs-set svg { width: 15px; height: 15px; }
+.hs-set:hover {
+  border-color: rgba(56, 189, 248, 0.55);
+  color: #eaf1ff;
+  background: rgba(56, 189, 248, 0.08);
+}
+
+/* ---------- 双栏 ---------- */
+.hs-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: 62px;
+  align-items: center;
+}
+.hs-copy { min-width: 0; animation: hsIn 0.6s both; }
+.hs-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #7dd3fc;
+}
+.hs-kicker span { width: 24px; height: 1px; background: linear-gradient(90deg, #38bdf8, transparent); }
+.hs-title {
+  margin: 20px 0 0;
+  font-size: clamp(48px, 5.2vw, 76px);
+  line-height: 1.06;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  background: linear-gradient(112deg, #eaf6ff 0%, #7dd3fc 42%, #c4b5fd 78%, #eaf6ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 6px 28px rgba(56, 189, 248, 0.26));
+}
+.hs-en {
+  margin: 10px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  color: rgba(148, 166, 200, 0.75);
+}
+.hs-lead {
+  margin: 26px 0 0;
+  font-size: 15px;
+  line-height: 1.95;
+  color: rgba(226, 236, 252, 0.78);
+}
+.hs-facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 32px;
+  border-top: 1px solid rgba(148, 163, 184, 0.16);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+}
+.hs-fact { padding: 18px 0 16px; display: flex; flex-direction: column; gap: 5px; }
+.hs-fact + .hs-fact { border-left: 1px solid rgba(148, 163, 184, 0.14); padding-left: 20px; }
+.hs-fact b {
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: #eaf1ff;
+}
+.hs-fact span { font-size: 11px; color: rgba(148, 166, 200, 0.8); letter-spacing: 0.04em; }
+.hs-start {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: min(100%, 300px);
+  margin-top: 32px;
+  padding: 17px 28px;
+  border: 0;
+  border-radius: 14px;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #06121f;
+  background: linear-gradient(115deg, #7dd3fc, #38bdf8 55%, #a78bfa);
+  box-shadow: 0 14px 36px rgba(56, 189, 248, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.42);
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.12s, box-shadow 0.2s, filter 0.2s;
+}
+.hs-start::after { content: '→'; font-size: 19px; font-weight: 700; }
+.hs-start:hover { transform: translateY(-2px); box-shadow: 0 18px 44px rgba(56, 189, 248, 0.45); filter: brightness(1.05); }
+.hs-start:active { transform: scale(0.98); }
+.hs-hint { margin: 14px 0 0; font-size: 12px; color: rgba(148, 166, 200, 0.68); }
+.hs-note { margin: 6px 0 0; font-size: 11px; color: rgba(148, 166, 200, 0.46); }
+
+/* ---------- 地图主视觉 ---------- */
+.hs-visual { min-width: 0; animation: hsIn 0.65s 0.1s both; }
+.hs-frame {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(56, 189, 248, 0.24);
+  background: linear-gradient(180deg, rgba(19, 30, 50, 0.9), rgba(10, 17, 31, 0.94));
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(125, 211, 252, 0.16);
+}
+.hs-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(125, 211, 252, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(125, 211, 252, 0.05) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+.hs-frame-head {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+}
+.hs-frame-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; color: rgba(125, 211, 252, 0.86); }
+.hs-frame-dots { display: flex; gap: 6px; }
+.hs-frame-dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(148, 163, 184, 0.32); }
+.hs-frame-dots i:first-child { background: rgba(56, 189, 248, 0.78); }
+.hs-mapbox { position: relative; aspect-ratio: 1000 / 785; overflow: hidden; }
+.hs-map {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0.94;
+  filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.3));
+  animation: hsBreath 7s ease-in-out infinite;
+}
+.hs-glow {
+  position: absolute;
+  top: 38%; left: 50%;
+  width: 70%; height: 70%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.20), transparent 68%);
+  filter: blur(24px);
+  pointer-events: none;
+}
+.hs-scan {
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(125, 211, 252, 0.75), transparent);
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.5);
+  opacity: 0.7;
+  pointer-events: none;
+  animation: hsScan 5.5s linear infinite;
+}
+.hs-maplabel {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 44px 20px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  background: linear-gradient(180deg, transparent, rgba(7, 12, 23, 0.93));
+}
+.hs-maplabel-badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #7dd3fc;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  background: rgba(8, 16, 30, 0.6);
+  padding: 6px 14px;
+  border-radius: 999px;
+}
+.hs-maplabel-foot { font-size: 11px; letter-spacing: 0.06em; color: rgba(226, 236, 252, 0.72); }
+.hs-frame-foot {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  padding: 13px 18px;
+  border-top: 1px solid rgba(148, 163, 184, 0.14);
+  font-size: 11px;
+  color: rgba(148, 166, 200, 0.8);
+}
+.hs-frame-foot span { display: inline-flex; align-items: center; gap: 7px; }
+.hs-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; flex: none; }
+.hs-dot.cyan { background: #38bdf8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.8); }
+.hs-dot.violet { background: #a78bfa; box-shadow: 0 0 8px rgba(167, 139, 250, 0.8); }
+
+/* ---------- 我的成绩 ---------- */
+.hs-score {
+  margin-top: 42px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(148, 163, 184, 0.14);
+  animation: hsIn 0.6s 0.18s both;
+}
+.hs-score-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.hs-section-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #eaf1ff;
+}
+.hs-section-title::before {
+  content: '';
+  width: 3px; height: 14px;
+  border-radius: 2px;
+  background: linear-gradient(#38bdf8, #a78bfa);
+}
+.hs-score-note { font-size: 11px; color: rgba(148, 166, 200, 0.6); }
+.hs-stats .stat-grid { gap: 14px; }
+.hs-stats .stat-cell {
+  background: linear-gradient(180deg, rgba(24, 35, 58, 0.8), rgba(14, 22, 38, 0.8));
+  border-color: rgba(148, 163, 184, 0.16);
+  border-radius: 14px;
+  padding: 16px 10px 14px;
+}
+.hs-stats .stat-cell::before { opacity: 0.42; }
+.hs-stats .home-cum { margin-top: 12px; text-align: center; font-size: 12px; color: rgba(148, 166, 200, 0.75); }
+.hs-stats .home-recent { margin-top: 6px; text-align: center; font-size: 11px; color: rgba(148, 166, 200, 0.6); }
+
+/* ---------- 选择地图与模式弹层 ---------- */
+.start-panel {
+  max-width: 620px;
+  border-radius: 20px;
+  border-color: rgba(56, 189, 248, 0.22);
+  background: linear-gradient(180deg, #121d31, #0b1424);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(125, 211, 252, 0.14);
+}
+.start-head { padding: 22px 26px 18px; align-items: center; }
+.start-head h2 { font-size: 22px; letter-spacing: 0.04em; }
+.sp-kicker {
+  margin-bottom: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #7dd3fc;
+}
+.start-close { width: 32px; height: 32px; border-radius: 9px; }
+.start-scroll { padding: 6px 26px 4px; }
+.start-panel .home-section { margin-top: 22px; }
+.start-panel .home-section:first-child { margin-top: 14px; }
+.start-panel .home-section-title { font-size: 12px; letter-spacing: 0.14em; }
+.start-panel .home-levels { gap: 12px; }
+.start-panel .home-level-card { border-radius: 14px; padding: 16px 14px 20px; }
+.mode-seg { gap: 12px; }
+.mode-seg-btn { min-height: 104px; padding: 16px; gap: 6px; border-radius: 14px; }
+.mode-seg-btn::after { display: none; }
+.mode-seg-btn .ms-icon {
+  display: grid;
+  place-items: center;
+  width: 34px; height: 34px;
+  margin-bottom: 4px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  background: rgba(56, 189, 248, 0.07);
+  color: #7dd3fc;
+}
+.mode-seg-btn .ms-icon svg { width: 18px; height: 18px; }
+.mode-seg-btn .ms-text { font-size: 17px; letter-spacing: 0.04em; }
+.mode-seg-btn .ms-desc { font-size: 11px; font-weight: 500; letter-spacing: 0.02em; opacity: 0.74; }
+.mode-seg-btn.active { background: linear-gradient(120deg, #38bdf8, #a78bfa); color: #06121f; }
+.mode-seg-btn.active .ms-icon {
+  background: rgba(6, 18, 31, 0.16);
+  border-color: rgba(6, 18, 31, 0.24);
+  color: #06121f;
+}
+.start-panel .home-mode-desc { margin-top: 12px; border-radius: 10px; }
+.start-panel .home-picked { margin: 16px 26px 2px; font-size: 12px; }
+.start-panel #startConfirm {
+  width: calc(100% - 52px);
+  margin: 16px 26px 24px;
+  border-radius: 13px;
+}
+
+/* ---------- 动画 ---------- */
+@keyframes hsIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes hsBreath { 0%, 100% { opacity: 0.82; } 50% { opacity: 1; } }
+@keyframes hsScan {
+  0% { top: 2%; opacity: 0; }
+  12% { opacity: 0.8; }
+  88% { opacity: 0.8; }
+  100% { top: 98%; opacity: 0; }
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 980px) {
+  .hs-shell { max-width: 640px; padding: 24px 24px 32px; }
+  .hs-grid { grid-template-columns: 1fr; gap: 34px; }
+  .hs-topbar { margin-bottom: 28px; }
+  .hs-copy { max-width: 560px; }
+}
+@media (max-width: 600px) {
+  .hs-shell { padding: 20px 18px 28px; }
+  .hs-topbar { margin-bottom: 24px; }
+  .hs-brand-text { font-size: 10px; letter-spacing: 0.1em; }
+  .hs-set { padding: 8px 12px; font-size: 11px; }
+  .hs-title { font-size: 46px; letter-spacing: 0.04em; }
+  .hs-en { font-size: 10px; letter-spacing: 0.28em; }
+  .hs-lead { margin-top: 20px; font-size: 13px; line-height: 1.85; }
+  .hs-facts { margin-top: 24px; }
+  .hs-fact b { font-size: 23px; }
+  .hs-fact + .hs-fact { padding-left: 14px; }
+  .hs-start { width: 100%; margin-top: 26px; padding: 15px 22px; font-size: 16px; }
+  .hs-mapbox { aspect-ratio: 1000 / 820; }
+  .hs-frame-foot { flex-direction: column; gap: 6px; }
+  .hs-score { margin-top: 30px; }
+  .hs-stats .stat-grid { gap: 8px; }
+  .hs-stats .stat-cell { padding: 14px 6px 12px; }
+  .start-panel { max-width: 100%; }
+  .start-head { padding: 18px 18px 14px; }
+  .start-scroll { padding: 6px 18px 4px; }
+  .start-panel .home-levels { grid-template-columns: 1fr; gap: 8px; }
+  /* 窄屏把关卡卡改成横向行式：三列并排会把「中国省级行政区」折成三行 */
+  .start-panel .home-level-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    column-gap: 10px;
+    row-gap: 2px;
+    padding: 12px 14px;
+  }
+  .start-panel .home-level-card .hl-tag { grid-column: 1; grid-row: 1; margin: 0; }
+  .start-panel .home-level-card .hl-title { grid-column: 2; grid-row: 1; font-size: 14px; }
+  .start-panel .home-level-card .hl-sub { grid-column: 1 / -1; grid-row: 2; margin: 0; text-align: left; }
+  .start-panel .home-level-card::after { display: none; }
+  .start-panel .home-picked { margin: 14px 18px 2px; }
+  .start-panel #startConfirm { width: calc(100% - 36px); margin: 14px 18px 18px; }
+  .mode-seg-btn { min-height: 92px; padding: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hs-copy, .hs-visual, .hs-score, .hs-map { animation: none; }
+  .hs-scan { display: none; }
+}

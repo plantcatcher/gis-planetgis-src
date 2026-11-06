@@ -111,7 +111,12 @@
     }
     if (node.nodeType !== 1) return;                 // 仅元素节点
     var tag = node.tagName;
-    if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'NOSCRIPT') return;
+    // HEAD 必须整棵跳过：<head> 的 textContent 主要是 <title> 文案，一旦命中
+    // 下方「整段精确匹配」就会执行 node.innerHTML = 译文，把 <link rel=stylesheet>、
+    // <meta>、<script> 全部抹掉，整页变成无样式的裸文档（?lang=en 专有故障）。
+    // <title> 的翻译由 boot() 里的 document.title 分支单独完成，不依赖这里下沉。
+    if (tag === 'HEAD' || tag === 'LINK' || tag === 'META' ||
+        tag === 'SCRIPT' || tag === 'STYLE' || tag === 'NOSCRIPT') return;
     if (node.hasAttribute && node.hasAttribute('data-i18n-skip')) return;
 
     // 属性

@@ -96,8 +96,17 @@ export const zh = {
   'games.empty.all': '游戏正在路上，敬请期待。',
   'games.empty.filter': '这个组合下暂时没有游戏，换个玩法或地域看看。',
   'games.play': '开始游戏 →',
+  'games.playNow': '开始游戏',
   'games.categoryDefault': '小游戏',
   'games.alt': '{title} - 星球小捕手地理小游戏',
+  'games.kicker': '玩着学地理',
+  'games.heroStats': '{n} 款游戏 · {m} 种玩法 · 打开即玩',
+  'games.browse': '浏览全部',
+  'games.featured': '人气推荐',
+  'games.sectionKicker': 'CHOOSE A CHALLENGE',
+  'games.sectionTitle': '选择你的挑战',
+  'games.progressHint': '每一局成绩自动记入「我的学习」，无需登录，进度保存在本地。',
+  'games.myScores': '查看我的战绩',
 
   // ===== 页脚 =====
   'footer.slogan':

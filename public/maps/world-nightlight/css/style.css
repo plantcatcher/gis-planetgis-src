@@ -69,3 +69,13 @@ html, body, #map { background: var(--bg); }
   .facts em { font-size: 16px; }
   .legend { display: none; }
 }
+
+/* 桌面端：介绍栏可收起 + 地图避让左侧卡片（防止美洲等区域被遮挡）
+   共享样式里 .intro-bar 桌面端被 display:none，导致介绍栏无法收起，地图左 368px 永远被压住。
+   这里恢复收起栏，并让地图绘制区从卡片右缘开始，确保任意视角都不被卡片遮挡。 */
+@media (min-width: 901px) {
+  .intro-bar { display: flex; }
+  .intro { transition: transform .3s cubic-bezier(.2,.8,.3,1); }
+  body:not(.intro-collapsed) #map { left: calc(var(--intro-w) + 32px); }
+  body.intro-collapsed .intro { transform: translateX(-130%); pointer-events: none; }
+}

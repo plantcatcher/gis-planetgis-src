@@ -1,12 +1,34 @@
 /* 全球实时地震地图 · 运行时
    依赖：/maps/_shared/thematic/thematic.js（MapLibre 引擎封装）
-   逻辑：USGS GeoJSON Feed → 过滤 / 按时间排序 → 更新点源 + 列表 + 统计；每 60s 自动刷新。 */
+   逻辑：USGS GeoJSON Feed → 过滤 / 按时间排序 → 更新点源 + 列表 + 统计；每 60s 自动刷新。
+
+   2026-11-06 改动：
+   - 去掉震源点的黑色描边（原 circle-stroke-color: rgba(10,14,22,.9)），核心点改为柔光实心点；
+   - 新增 quake-ripple-a / quake-ripple-b 两道错相位、不断外扩的光波环，替代原"光晕"点感；
+   - 光晕开关（ckGlow）同时控制柔光底晕与光波动效。 */
 (function () {
   'use strict';
 
   var C = window.EQ_CONFIG;
   var app = null;
   var state = { win: 'day', floor: 0, auto: true, glow: true, feats: [], raw: [], timer: null, updTime: 0 };
+
+  /* 震级 → 颜色 / 半径 表达式（多处复用，保证核心点、光波环、列表徽标一致） */
+  var MAG_COLOR_EXPR = ['interpolate', ['linear'], ['get', 'mag'],
+    0, '#7dd3fc', 2.5, '#fde047', 4.5, '#fb923c', 6, '#ef4444'];
+  var MAG_R_EXPR = ['interpolate', ['linear'], ['get', 'mag'],
+    0, 3, 2, 5, 4, 9, 6, 15, 8, 26];
+  /* zoom 必须是顶层 interpolate 输入（MapLibre 限制）；mag 的插值嵌进每个 zoom 停靠点。
+     mult 为外扩倍率：1 = 与核心点同径，随光波动画增大。 */
+  function radiusExpr(mult) {
+    return ['interpolate', ['linear'], ['zoom'],
+      0,  ['*', mult * 0.8, MAG_R_EXPR],
+      3,  ['*', mult * 1.1, MAG_R_EXPR],
+      6,  ['*', mult * 1.6, MAG_R_EXPR],
+      10, ['*', mult * 2.4, MAG_R_EXPR]];
+  }
+  var RIPPLE_STROKE_W = ['interpolate', ['linear'], ['get', 'mag'],
+    0, 1, 2.5, 1.3, 4.5, 1.8, 6, 2.6];
 
   /* ── 工具 ───────────────────────────────────────────────── */
   function magColor(m) {
@@ -146,6 +168,48 @@
       '<span class="lg-row"><i style="background:#ef4444"></i>≥ 6 大震</span>';
   }
 
+  /* ── 光波外扩动画 ──────────────────────────────────────── */
+  var RIPPLE_DUR = 2600;          // 单道波完整外扩周期（ms）
+  var RIPPLE_RAF = 0, RIPPLE_TOKEN = 0, RIPPLE_LAST = 0;
+  function rippleSet(id, phase) {
+    var grow = 1 + phase * 3.4;                       // 由 1× 扩到 ~4.4×
+    var op = Math.pow(1 - phase, 1.15) * 0.62;        // 由强到淡，越外越淡
+    try {
+      app.map.setPaintProperty(id, 'circle-radius', radiusExpr(grow));
+      app.map.setPaintProperty(id, 'circle-stroke-opacity', op);
+    } catch (e) {}
+  }
+  function rippleFrame(now, token) {
+    if (token !== RIPPLE_TOKEN) return;
+    if (now - RIPPLE_LAST >= 38) {                    // ~26fps，省渲染开销
+      RIPPLE_LAST = now;
+      var p = (now % RIPPLE_DUR) / RIPPLE_DUR;
+      rippleSet('quake-ripple-a', p);
+      rippleSet('quake-ripple-b', (p + 0.5) % 1);     // 错半周，呈连续波列
+    }
+    RIPPLE_RAF = requestAnimationFrame(function (t) { rippleFrame(t, token); });
+  }
+  function startRipple() {
+    stopRipple();
+    if (app && app.map) {
+      try { app.map.setLayoutProperty('quake-ripple-a', 'visibility', 'visible'); } catch (e) {}
+      try { app.map.setLayoutProperty('quake-ripple-b', 'visibility', 'visible'); } catch (e) {}
+    }
+    RIPPLE_TOKEN++;
+    var token = RIPPLE_TOKEN;
+    RIPPLE_LAST = 0;
+    RIPPLE_RAF = requestAnimationFrame(function (t) { rippleFrame(t, token); });
+  }
+  function stopRipple() {
+    RIPPLE_TOKEN++;
+    if (RIPPLE_RAF) cancelAnimationFrame(RIPPLE_RAF);
+    RIPPLE_RAF = 0;
+    if (app && app.map) {
+      try { app.map.setLayoutProperty('quake-ripple-a', 'visibility', 'none'); } catch (e) {}
+      try { app.map.setLayoutProperty('quake-ripple-b', 'visibility', 'none'); } catch (e) {}
+    }
+  }
+
   /* ── 自动刷新 ──────────────────────────────────────────── */
   function startAuto() { stopAuto(); state.timer = setInterval(load, C.refreshMs); }
   function stopAuto() { if (state.timer) { clearInterval(state.timer); state.timer = null; } }
@@ -172,7 +236,9 @@
       state.auto = this.checked; if (state.auto) startAuto(); else stopAuto();
     });
     document.getElementById('ckGlow').addEventListener('change', function () {
-      state.glow = this.checked; app.setVisible('quake-glow', this.checked);
+      state.glow = this.checked;
+      app.setVisible('quake-glow', this.checked);
+      if (this.checked) startRipple(); else stopRipple();
     });
   }
 
@@ -183,6 +249,7 @@
     bindUI();
     load();
     startAuto();
+    if (state.glow) startRipple();
 
     a.map.on('click', 'quake-pt', function (e) {
       if (e.features && e.features[0]) openFeature(e.features[0]);
@@ -204,29 +271,53 @@
       imgPaint: C.imgPaint,
       sources: { quakes: { type: 'geojson', data: { type: 'FeatureCollection', features: [] } } },
       layers: [
+        /* 柔光底晕：仅做氛围，默认开启，可被"震源光晕"开关关掉 */
         {
           id: 'quake-glow', type: 'circle', source: 'quakes',
           paint: {
-            /* zoom 必须是顶层 interpolate 输入（MapLibre 限制）；mag 的插值嵌进每个 zoom 停靠点 */
             'circle-radius': ['interpolate', ['linear'], ['zoom'],
-              0,  ['*', 0.7, ['interpolate', ['linear'], ['get', 'mag'], 0, 8, 2, 13, 4, 24, 6, 40, 8, 64]],
-              3,  ['*', 1.0, ['interpolate', ['linear'], ['get', 'mag'], 0, 8, 2, 13, 4, 24, 6, 40, 8, 64]],
-              6,  ['*', 1.5, ['interpolate', ['linear'], ['get', 'mag'], 0, 8, 2, 13, 4, 24, 6, 40, 8, 64]],
-              10, ['*', 2.2, ['interpolate', ['linear'], ['get', 'mag'], 0, 8, 2, 13, 4, 24, 6, 40, 8, 64]]],
-            'circle-color': ['interpolate', ['linear'], ['get', 'mag'], 0, '#7dd3fc', 2.5, '#fde047', 4.5, '#fb923c', 6, '#ef4444'],
-            'circle-blur': 1, 'circle-opacity': 0.32
+              0,  ['*', 0.7, MAG_R_EXPR],
+              3,  ['*', 1.0, MAG_R_EXPR],
+              6,  ['*', 1.5, MAG_R_EXPR],
+              10, ['*', 2.2, MAG_R_EXPR]],
+            'circle-color': MAG_COLOR_EXPR,
+            'circle-blur': 1, 'circle-opacity': 0.20
           }
         },
+        /* 光波环 a / b：空心、随震级着色、半径与透明度由 rippleFrame 实时驱动外扩 */
+        {
+          id: 'quake-ripple-a', type: 'circle', source: 'quakes',
+          paint: {
+            'circle-radius': radiusExpr(1),
+            'circle-color': MAG_COLOR_EXPR, 'circle-opacity': 0,
+            'circle-blur': 0,
+            'circle-stroke-color': MAG_COLOR_EXPR,
+            'circle-stroke-width': RIPPLE_STROKE_W,
+            'circle-stroke-opacity': 0.5
+          }
+        },
+        {
+          id: 'quake-ripple-b', type: 'circle', source: 'quakes',
+          paint: {
+            'circle-radius': radiusExpr(1),
+            'circle-color': MAG_COLOR_EXPR, 'circle-opacity': 0,
+            'circle-blur': 0,
+            'circle-stroke-color': MAG_COLOR_EXPR,
+            'circle-stroke-width': RIPPLE_STROKE_W,
+            'circle-stroke-opacity': 0.5
+          }
+        },
+        /* 核心点：柔光实心、无黑边 */
         {
           id: 'quake-pt', type: 'circle', source: 'quakes',
           paint: {
             'circle-radius': ['interpolate', ['linear'], ['zoom'],
-              0,  ['*', 0.8, ['interpolate', ['linear'], ['get', 'mag'], 0, 3, 2, 5, 4, 9, 6, 15, 8, 26]],
-              3,  ['*', 1.1, ['interpolate', ['linear'], ['get', 'mag'], 0, 3, 2, 5, 4, 9, 6, 15, 8, 26]],
-              6,  ['*', 1.6, ['interpolate', ['linear'], ['get', 'mag'], 0, 3, 2, 5, 4, 9, 6, 15, 8, 26]],
-              10, ['*', 2.4, ['interpolate', ['linear'], ['get', 'mag'], 0, 3, 2, 5, 4, 9, 6, 15, 8, 26]]],
-            'circle-color': ['interpolate', ['linear'], ['get', 'mag'], 0, '#7dd3fc', 2.5, '#fde047', 4.5, '#fb923c', 6, '#ef4444'],
-            'circle-stroke-color': 'rgba(10,14,22,.9)', 'circle-stroke-width': 0.8, 'circle-opacity': 0.94
+              0,  ['*', 0.8, MAG_R_EXPR],
+              3,  ['*', 1.1, MAG_R_EXPR],
+              6,  ['*', 1.6, MAG_R_EXPR],
+              10, ['*', 2.4, MAG_R_EXPR]],
+            'circle-color': MAG_COLOR_EXPR,
+            'circle-blur': 0.35, 'circle-opacity': 0.98
           }
         }
       ],

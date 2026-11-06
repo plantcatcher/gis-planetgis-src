@@ -83,6 +83,33 @@
     return { type: 'FeatureCollection', features: f };
   }
 
+  function toggleIntro() {
+    var collapsed = el.intro.classList.toggle('is-collapsed');
+    document.body.classList.toggle('intro-collapsed', collapsed);
+    if (map) { map.resize(); setTimeout(function () { map.resize(); }, 340); }
+  }
+
+  /* 海洋掩膜：用陆地多边形构造「全球矩形 − 陆地」的反相填充，盖住海洋区域的灯光 */
+  function ringArea(r) {
+    var a = 0;
+    for (var i = 0; i < r.length - 1; i++) a += r[i][0] * r[i + 1][1] - r[i + 1][0] * r[i][1];
+    return a / 2;
+  }
+  function buildOceanMask(landGj) {
+    var holes = [];
+    landGj.features.forEach(function (f) {
+      var g = f.geometry; if (!g) return;
+      var polys = g.type === 'Polygon' ? [g.coordinates] : (g.type === 'MultiPolygon' ? g.coordinates : []);
+      polys.forEach(function (poly) {
+        var outer = poly[0];
+        if (ringArea(outer) > 0) outer = outer.slice().reverse(); /* 统一顺时针，作为外框的洞 */
+        holes.push(outer);
+      });
+    });
+    var frame = [[-180, -85], [180, -85], [180, 85], [-180, 85], [-180, -85]];
+    return { type: 'Feature', properties: {}, geometry: { type: 'Polygon', coordinates: [frame].concat(holes) } };
+  }
+
   function init() {
     map = new maplibregl.Map({
       container: 'map',
@@ -92,7 +119,7 @@
       minZoom: CFG.view.minZoom,
       maxZoom: CFG.view.maxZoom,
       attributionControl: false,
-      renderWorldCopies: false,
+      renderWorldCopies: true,
       dragRotate: false,
       pitchWithRotate: false
     });
@@ -109,6 +136,14 @@
       id: 'night', type: 'raster', source: 'night',
       paint: { 'raster-opacity': CFG.nightOpacity, 'raster-saturation': 0, 'raster-contrast': 0, 'raster-brightness-max': 1, 'raster-brightness-min': 0 }
     });
+
+    /* 海陆掩膜：把灯光裁剪到陆地——海洋区域填回背景同色，去除 VIIRS 在海面的误检灯光
+       （渔船船队、海上油气火炬、大气辉光等真实但非城市的检测）。海洋不显示为纯黑方块，
+        而是与背景 #04060d 同色，视觉上只是「灯光只落在陆地上」。 */
+    fetch('data/land-50m.geojson').then(function (r) { return r.json(); }).then(function (land) {
+      map.addSource('ocean', { type: 'geojson', data: buildOceanMask(land) });
+      map.addLayer({ id: 'ocean', type: 'fill', source: 'ocean', paint: { 'fill-color': '#04060d', 'fill-opacity': 1 } });
+    }).catch(function (e) { console.warn('[night] land mask load failed', e); });
 
     /* 经纬网格 */
     map.addSource('grat', { type: 'geojson', data: graticule(CFG.graticuleStep) });
@@ -154,7 +189,7 @@
 
   function bind() {
     el.panelToggle.addEventListener('click', function () { el.panelBody.classList.toggle('collapsed'); });
-    if (el.introBar) el.introBar.addEventListener('click', function () { el.intro.classList.toggle('is-collapsed'); });
+    if (el.introBar) el.introBar.addEventListener('click', toggleIntro);
     el.btnOverview.addEventListener('click', function () {
       map.flyTo({ center: CFG.view.center, zoom: CFG.view.zoom, duration: 900 });
       clearDetail();
