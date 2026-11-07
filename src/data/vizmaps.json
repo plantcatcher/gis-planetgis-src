@@ -2892,6 +2892,38 @@
     ]
   },
   {
+    "slug": "world-semiconductor",
+    "entry": "/maps/world-semiconductor/index.html",
+    "bbox": [
+      -180.0,
+      -60.0,
+      180.0,
+      80.0
+    ],
+    "crs": "WGS84 / EPSG:4326（晶圆厂坐标为厂区代表点：城市或园区中心，非门址；与 Esri 全球底图直接对齐，无偏移。国界数据已将台湾并入中国）",
+    "basemap": "深色无底图（默认，叠 Natural Earth 国界 choropleth）/ Esri World Imagery 卫星影像 / Esri World Shaded Relief 地形晕渲；全球尺度不用高德瓦片（境外空白）",
+    "source": "全球 49 座主要 300mm 晶圆厂（12 吋产线为主，统一折算 300mm 等效），月产能合计约 382.1 万片；覆盖 3 大洲 10 个国家，投产年份 1969—2026。台积电、英特尔、格芯、中芯国际、联电等有公开产能披露，三星、SK 海力士、美光及部分特色厂用行业估算值并标记 est=true（界面标注 *）。代表企业含台积电、三星、SK 海力士、美光、英特尔、格芯、联电、中芯国际、华虹、铠侠、长江存储、高塔、德州仪器、英飞凌、意法半导体、博世、Wolfspeed、安森美、瑞萨。台湾厂区 countryIso 记为 CN，与国界数据一致。产能为公开披露或行业估算，非审计数；坐标为厂区代表点。",
+    "updated": "2026-11-07",
+    "viewport": "全球取景：renderWorldCopies=true 跨 180° 日界线，桌面 minZoom=1.5 / 初始 center=[-30,25] zoom=1.5（使东亚、北美、欧洲三大集群同时入屏）；竖屏由地图库把最小缩放锁在约 0.72（=log2(844/512)），故移动端初始 center=[150,25]，对准东亚—亚太密集集群，左右拖动可跨世界副本看美洲与欧洲。国界面由 truesize/countries.geojson 注入 semiCount 与 semiIso 后按国家产能 choropleth；运行时按时间轴年份重算 semiCount 后 setData。跨反子午线要素已切割。",
+    "data": [
+      {
+        "file": "maps/world-semiconductor/data/stores.geojson",
+        "features": 49,
+        "desc": "晶圆厂气泡点（WGS84）：含 id / 中文名 / 英文名 / 所属公司 company / 大洲 / 月产能 count（千片，300mm 等效）/ 投产年份 enterYear / 年份来源 yearSrc / 国家 ISO countryIso / 类型 type / 制程产品 products / 是否估算 est；半径与颜色由 count 驱动"
+      },
+      {
+        "file": "maps/world-semiconductor/data/markets.json",
+        "features": 49,
+        "desc": "晶圆厂聚合目录：49 座工厂（中文名、英文名、ISO、大洲、产能、投产年份、经纬度、类型、产品、备注、是否估算），驱动左侧排行、大洲筛选、搜索与时间轴；另含 continentCount 三大洲汇总（亚洲 34 / 北美洲 10 / 欧洲 5）与 meta 总量（约 382.1 万片月产能、49 座在营晶圆厂、1969—2026）"
+      },
+      {
+        "file": "maps/world-semiconductor/data/country-fills.geojson",
+        "features": 176,
+        "desc": "Natural Earth 110m 国界面（含 name_zh，台湾已并入中国）：构建期注入 semiCount 与 semiIso，按国家晶圆厂产能 choropleth；运行时按时间轴年份重算 semiCount 后 setData。跨反子午线要素已切割"
+      }
+    ]
+  },
+  {
     "slug": "world-walmart",
     "entry": "/maps/world-walmart/index.html",
     "bbox": [
