@@ -2860,6 +2860,38 @@
     ]
   },
   {
+    "slug": "tesla-gigafactory",
+    "entry": "/maps/tesla-gigafactory/index.html",
+    "bbox": [
+      -180.0,
+      -60.0,
+      180.0,
+      80.0
+    ],
+    "crs": "WGS84 / EPSG:4326（工厂坐标为厂区代表点：城市或园区中心，非门址；与 Esri 全球底图直接对齐，无偏移。国界数据已将台湾并入中国）",
+    "basemap": "深色无底图（默认，叠 Natural Earth 国界 choropleth）/ Esri World Imagery 卫星影像 / Esri World Shaded Relief 地形晕渲；全球尺度不用高德瓦片（境外空白）",
+    "source": "工厂员工数与投产年份取特斯拉公开披露与各厂 Wikipedia 条目整理（截至 2026 年）：弗里蒙特 2010（约 2.2 万员工）、内华达 2016（约 7 千）、纽约 2017（约 1.5 千）、上海整车 2019（约 2 万）、柏林 2022（约 1.2 万）、得州整车 2022（约 2 万）、拉思罗普储能 2022（约 1 千）、上海储能 2025（约 650）、得州储能 2026（约 1.5 千）、罗布斯顿锂精炼 2024（约 250），10 座在营工厂合计约 8.59 万员工；蒙特雷（墨西哥）2023 宣布、2024 暂停、预计 2027 投产，以空心灰点标注「规划中」，不计入员工总数。气泡半径与颜色由员工规模驱动；国家密度面按各国工厂员工合计 choropleth。员工数为公开披露值而非精确审计数，坐标为代表点；特斯拉未公开逐厂精确门址。",
+    "updated": "2026-11-07",
+    "viewport": "全球取景：renderWorldCopies=true 跨 180° 日界线，桌面 minZoom=1.5 / 初始 center=[-30,25] zoom=1.5（西移使北美工厂群避开左 304px 目录栏、同时中国/德国仍在屏内）；竖屏地图库把最小缩放锁在约 0.72（=log2(844/512)），390px 屏一次只能看到约 166° 经度，故移动端 minZoom=0、初始 center=[-40,28]，收窄取景对准美洲—东亚内容重心，左右拖动可跨世界副本看欧洲与太平洋。国界面由 truesize/countries.geojson 注入 tslaCount 与 tslaIso 后按国家员工数 choropleth；运行时按时间轴年份重算 tslaCount 后 setData。跨反子午线要素已切割。",
+    "data": [
+      {
+        "file": "maps/tesla-gigafactory/data/stores.geojson",
+        "features": 11,
+        "desc": "工厂气泡点（WGS84）：含 id / 中文名 / 英文名 / 大洲 / 员工数 count / 投产年份 enterYear / 年份来源 yearSrc / 国家 ISO countryIso / 类型 type / 主要产品 products / 建筑面积 area / 是否规划中 exited；半径与颜色由 count 驱动，10 座在营工厂 + 1 座规划中（墨西哥）"
+      },
+      {
+        "file": "maps/tesla-gigafactory/data/markets.json",
+        "features": 11,
+        "desc": "工厂聚合目录：11 座工厂（中文名、英文名、ISO、大洲、员工数、投产年份、经纬度、类型、产品、面积、备注），驱动左侧排行、大洲筛选、搜索与时间轴；另含 continentCount 三大洲汇总（在营）与 meta 总量（约 8.59 万员工、10 座在营工厂）"
+      },
+      {
+        "file": "maps/tesla-gigafactory/data/country-fills.geojson",
+        "features": 176,
+        "desc": "Natural Earth 110m 国界面（含 name_zh，台湾已并入中国）：构建期注入 tslaCount 与 tslaIso，按国家工厂员工数 choropleth；运行时按时间轴年份重算 tslaCount 后 setData。跨反子午线要素已切割"
+      }
+    ]
+  },
+  {
     "slug": "world-walmart",
     "entry": "/maps/world-walmart/index.html",
     "bbox": [
