@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <script src="/shared/map-i18n.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>美国周边历史地震地图 · 1900–2026 年 M5 以上地震动态图</title>
+  <meta name="description" content="把 1900 年以来美国及周边 8 032 次 M5.0 以上地震画在一张图上，数据来自美国地质调查局 ANSS 综合地震目录（USGS ComCat）。拖动年份时间轴看地震一年年累积，按圣安德烈亚斯断裂带、卡斯卡迪亚俯冲带、阿留申俯冲带、新马德里、波多黎各海沟等分带筛选，可切换按震级或按震源深度着色，查看 1906 旧金山、1964 阿拉斯加、1989 洛马·普里埃塔、1994 北岭等 9 场标志性地震。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css?v=20261107u" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <!-- ── 左：介绍栏 ─────────────────────────────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 美国总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-jq"></i>
+      <b>美国周边地震地图</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-jq"></i> U.S. SEISMICITY · 1900–2026</small>
+      <h1><span>美国周边</span><b>地震地图</b></h1>
+      <p class="lead">图上画的是 <b>1900 年以来美国及周边 8 032 次 M5.0 以上地震</b>的震中，数据来自<b>美国地质调查局 ANSS 综合地震目录</b>。拖动下方<b>年份时间轴</b>，看这些点一年年长出来；勾上<b>断层 / 俯冲带轴线</b>，你会看到地震几乎只沿着几条窄线走——那不是画上去的，是板块边界自己长出来的形状。</p>
+
+      <div class="facts">
+        <span><small>当前显示</small><b><span class="v"><em id="fCount">—</em></span><i>次</i></b></span>
+        <span><small>最大震级</small><b><span class="v"><em id="fMax">—</em></span><i>M</i></b></span>
+        <span><small>全部记录</small><b><span class="v"><em id="fTotal">—</em></span><i>次</i></b></span>
+      </div>
+
+      <!-- 时间轴 -->
+      <section class="block tl-block">
+        <header><small>年份时间轴</small><small id="tlYear" class="hint-n">2026</small></header>
+        <div class="tl" id="tl">
+          <svg id="tlBars" viewBox="0 0 1270 100" preserveAspectRatio="none" aria-hidden="true"></svg>
+          <div class="tl-cursor" id="tlCursor"></div>
+          <input type="range" id="tlRange" min="1900" max="2026" step="1" value="2026" aria-label="年份" />
+        </div>
+        <div class="tl-axis"><span>1900</span><span>1930</span><span>1960</span><span>1990</span><span>2026</span></div>
+        <div class="tl-foot">
+          <button type="button" class="btn-play" id="btnPlay"><i>▶</i><span>播放</span></button>
+          <div class="seg seg-mode" id="segMode">
+            <button type="button" data-v="cum" class="active">累计</button>
+            <button type="button" data-v="year">当年</button>
+          </div>
+        </div>
+        <p class="note" id="tlNote">柱高＝该年被记录的 M5+ 地震次数。<b>1900–1950 年柱子极矮，不是那时地震少，是那时没有台网。</b></p>
+      </section>
+
+      <!-- 震级门槛 -->
+      <section class="block">
+        <header><small>震级门槛</small><small id="magLb" class="hint-n">≥5.0</small></header>
+        <div class="chips" id="chipMag">
+          <button type="button" data-v="5" class="active">≥5.0</button>
+          <button type="button" data-v="5.5">≥5.5</button>
+          <button type="button" data-v="6">≥6.0</button>
+          <button type="button" data-v="7">≥7.0</button>
+        </div>
+        <p class="note">M5 以上一百二十六年共 <b>8 032</b> 次（年均约 64 次）；拉到 <b>≥7.0</b>，只剩 <b>181</b> 场。</p>
+      </section>
+
+      <!-- 地震带 -->
+      <section class="block">
+        <header><small>地震带</small><small class="hint-n" id="bandHint">全部</small></header>
+        <div class="bands" id="bandList"></div>
+        <div class="band-ops">
+          <button type="button" class="mini" id="bandAll">全选</button>
+          <button type="button" class="mini" id="bandNone">只看边界带</button>
+        </div>
+      </section>
+
+      <!-- 必看事件 -->
+      <section class="block">
+        <header><small>必看事件</small><small id="markN" class="hint-n">9 场</small></header>
+        <div class="qlist" id="markList"></div>
+        <p class="note">点任意一条，年份自动跳到那一年并飞向震中。</p>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：美国地质调查局 <b>ANSS 综合地震目录（ComCat）</b>，检索 <b>1900-01-01 至 2026-11-07、M≥5.0、西经 180–58°、北纬 14–72°</b>（美国本土 + 阿拉斯加 + 夏威夷 + 波多黎各 + 相邻太平洋 / 大西洋 / 墨西哥 / 加拿大），共 <b>8 032</b> 条，构建期一次性落成本地静态矢量。<b>陆地轮廓</b>：Natural Earth 1:50m land。<b>板块边界</b>：PB2002（Peter Bird, 2003）近似（沙箱无法访问原文件，已用美国及周边主要边界手绘）。<b>合规处理</b>：本图不绘制任何国界与行政区划，只画海陆分界、断层 / 俯冲带轴线和震中；坐标为目录原始 WGS84，不与 GCJ-02 底图混用。<b>口径提示</b>：地震带归属按震中位置与断层轴线距离的近似判据，非官方分区；1964 年以前的记录多来自历史文献回溯测定，定位与震级精度低于现代台网。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── 右上：震中详情卡 ───────────────────────────────────── -->
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">QUAKE</small>
+      <div class="dt-actions">
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtSub">—</p>
+    <div class="dt-metrics">
+      <span><small id="dtLb1">震级</small><b><em id="dtV1">—</em><i id="dtU1">级</i></b></span>
+      <span><small id="dtLb2">深度</small><b><em id="dtV2">—</em><i id="dtU2">km</i></b></span>
+      <span><small id="dtLb3">年内序位</small><b><em id="dtV3">—</em><i id="dtU3"></i></b></span>
+    </div>
+    <section class="dt-desc">
+      <small id="dtDescLb">震中与坐标</small>
+      <p id="dtDesc">—</p>
+    </section>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <!-- ── 左下：图层与底图（齿轮按钮 + 收起卡片，参考 gba-cities） ── -->
+  <button class="panel-gear" id="panelGear" type="button" title="图层与底图设置" aria-label="图层与底图设置">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="3"></circle>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+    </svg>
+  </button>
+
+  <div class="panel closed" id="panel">
+    <button type="button" id="panelClose" class="panel-close" title="收起">✕</button>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckAxis" checked /><span>断层 / 俯冲带轴线</span></label>
+      <label class="row"><input type="checkbox" id="ckPlates" /><span>板块边界（近似）</span></label>
+      <label class="row"><input type="checkbox" id="ckCity" checked /><span>主要城市</span></label>
+      <label class="row"><input type="checkbox" id="ckGlow" checked /><span>震中光晕与脉冲</span></label>
+      <label class="row"><input type="checkbox" id="ckNow" checked /><span>高亮当年新增</span></label>
+      <label class="row"><input type="checkbox" id="ckGraticule" /><span>经纬网格</span></label>
+      <div class="divider"></div>
+      <div class="bm-title">着色</div>
+      <div class="seg seg-color" id="segColor">
+        <button type="button" data-v="mag" class="active">按震级</button>
+        <button type="button" data-v="depth">按深度</button>
+      </div>
+      <div class="divider"></div>
+      <div class="bm-title">底图</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" checked /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>地形晕渲</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" /><span>深色</span></label>
+      </div>
+      <div class="divider"></div>
+      <p class="panel-note" id="panelNote">虚线是<b>断层 / 俯冲带轴线</b>，不是国界。震级越大点越大、越红。<b>M8 以上巨震持续向外脉冲</b>；点「播放」后，其余震中会随年份一圈圈炸开（小震绿环）。</p>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="/maps/_shared/thematic/thematic.js"></script>
+  <script src="js/config.js?v=20261107u"></script>
+  <script src="js/app.js?v=20261107u"></script>
+</body>
+</html>
