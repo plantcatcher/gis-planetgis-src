@@ -28,6 +28,10 @@
 
   // flyTo 缓动
   var easing = false, easeT = 0, easeDur = 700, easeFrom = null, easeTo = null;
+
+  // 系统「减少动态效果」偏好：相机飞行是大幅空间位移，命中时直接落到终点
+  var RMQ = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+  function reducedMotion() { return !!(RMQ && RMQ.matches); }
   var needExagg = false;
 
   // 卫星瓦片网格（UV 与贴图共用同一套瓦片坐标，避免整体偏移）
@@ -443,6 +447,12 @@
       radius: (p.radius != null) ? p.radius : radius,
       tx: tx, ty: ty, tz: tz
     };
+    if (reducedMotion()) {
+      azimuth = to.azimuth; polar = to.polar; radius = to.radius;
+      target.set(to.tx, to.ty, to.tz);
+      easing = false;
+      return;
+    }
     easeFrom = {
       azimuth: azimuth, polar: polar, radius: radius,
       tx: target.x, ty: target.y, tz: target.z

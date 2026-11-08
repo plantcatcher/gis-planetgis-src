@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""导出 82 个地图应用的静态中文文案（元素级 textContent），供英译词典使用。
+"""导出 113 个地图应用的静态中文文案（元素级 textContent），供英译词典使用。
 只读不写，产出 output/_i18n_html_strings.json。
 """
 import json

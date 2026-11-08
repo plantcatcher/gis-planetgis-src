@@ -712,6 +712,13 @@
       : { type: "FeatureCollection", features: [] });
     if (selRAF) { cancelAnimationFrame(selRAF); selRAF = null; }
     if (!geom) return;
+    // 系统「减少动态效果」偏好：不跑呼吸光晕，直接停在静态高亮
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      map.setPaintProperty("green-sel-glow", "line-width", 12);
+      map.setPaintProperty("green-sel-glow", "line-opacity", 0.4);
+      map.setPaintProperty("green-sel-line", "line-width", 2.2);
+      return;
+    }
     selT0 = performance.now();
     selRAF = requestAnimationFrame(function pulse(ts) {
       var p = (Math.sin((ts - selT0) / 520) + 1) / 2;          // 0..1 呼吸相位

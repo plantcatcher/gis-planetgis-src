@@ -713,3 +713,11 @@ svg.donut { width: 120px; height: 120px; display: block; margin: 0 auto 6px; }
   .p-hero h1 { font-size: 25px; }
   .catalog { max-height: 82vh; }
 }
+/* ── 减少动态效果（prefers-reduced-motion）──
+   侧边卡片 / 目录抽屉改为瞬切，网格卡的悬停上浮取消；
+   选中省份的呼吸光圈在 app.js 的 startGlow() 里同步降级为常亮。 */
+@media (prefers-reduced-motion: reduce) {
+  .card-panel, .catalog { transition: none; }
+  .pcell { transition: border-color .15s, background .15s; }
+  .pcell:hover { transform: none; }
+}

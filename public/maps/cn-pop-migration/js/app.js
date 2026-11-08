@@ -372,8 +372,24 @@
     var n = 26;
     var slices = coordsList.map(function (c) { return _buildSlices(c, n); });
     var token = app._fx.token;
-    var t0 = performance.now();
     var dur = (opts && opts.duration) || 2200;
+
+    // 系统「减少动态效果」偏好：不逐段揭示，直接铺完整条线，停留片刻后收起
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      src.setData({
+        type: 'FeatureCollection',
+        features: coordsList.map(function (c) {
+          return { type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: c } };
+        })
+      });
+      app.setVisible('route-walk', true);
+      setTimeout(function () {
+        if (token === app._fx.token) { src.setData(Thematic.EMPTY); app.setVisible('route-walk', false); }
+      }, (opts && opts.fade) || 460);
+      return;
+    }
+
+    var t0 = performance.now();
     function frame(now) {
       if (token !== app._fx.token) return;
       var p = Math.min((now - t0) / dur, 1);
@@ -395,6 +411,12 @@
   function pulseNode() {
     if (!map.getLayer('node-halo')) return;
     map.setLayoutProperty('node-halo', 'visibility', 'visible');
+    // 系统「减少动态效果」偏好：呼吸圈停在中等尺寸的静态高亮
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      map.setPaintProperty('node-halo', 'circle-radius', 14);
+      map.setPaintProperty('node-halo', 'circle-opacity', 0.6);
+      return;
+    }
     var t0 = performance.now(), DUR = 1500;
     (function step(now) {
       var p = Math.min((now - t0) / DUR, 1);
@@ -422,6 +444,8 @@
     if (!map.getLayer('route-flow')) return;
     var ck = document.getElementById('ckArrows');
     if (ck && !ck.checked) return;   // 尊重「流向箭头」开关：关掉则只显示静态线
+    // 系统「减少动态效果」偏好：不做循环流动的虚线，只保留静态线 + 箭头
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     map.setLayoutProperty('route-flow', 'visibility', 'visible');
     var seq = [
       [0, 4, 3], [0.5, 4, 2.5], [1, 4, 2], [1.5, 4, 1.5], [2, 4, 1], [2.5, 4, 0.5],

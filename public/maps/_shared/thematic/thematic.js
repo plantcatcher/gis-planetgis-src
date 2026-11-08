@@ -37,6 +37,13 @@
   function isMobile() { return global.innerWidth <= 900; }
   function isShort() { return isMobile() && global.innerHeight <= 520; }
 
+  /* 系统「减少动态效果」偏好：前庭功能敏感用户会因此不适。
+     命中时所有自绘动画（脉冲发光 / 线条揭示 / 相机飞行）都降级为瞬切，
+     信息一样看得到，只是不再动。CSS 侧的降级见 thematic.css 末尾同名媒体查询。 */
+  function reducedMotion() {
+    return !!(global.matchMedia && global.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }
+
   function fmt(n, d) {
     var v = Number(n);
     if (!isFinite(v)) return '—';
@@ -526,6 +533,17 @@
     var wBase = o.baseWidth || 12;
     var maxExtra = o.maxExtra == null ? 8 : o.maxExtra;
     var dur = o.duration || 1700;
+    /* 减少动态效果：直接落到动画终点状态（发光常亮），不做呼吸式脉冲 */
+    if (reducedMotion()) {
+      if (glowId && map.getLayer(glowId)) {
+        try {
+          map.setPaintProperty(glowId, 'line-width', wBase + 2.6);
+          map.setPaintProperty(glowId, 'line-opacity', o.restOpacity == null ? 0.32 : o.restOpacity);
+        } catch (_) {}
+      }
+      if (o.then) o.then();
+      return;
+    }
     var t0 = performance.now();
     (function step(now) {
       if (token !== fx.token) return;
@@ -559,6 +577,19 @@
     fx.slices = buildSlices(o.coords, n);
     fx.idx = -1;
     if (map.getLayer(o.layerId)) map.setLayoutProperty(o.layerId, 'visibility', 'visible');
+    /* 减少动态效果：不逐段揭示，直接铺完整条线，停留 fade 后按原逻辑收起 */
+    if (reducedMotion()) {
+      src.setData({ type: 'FeatureCollection', features: [{
+        type: 'Feature', properties: o.props || {}, geometry: { type: 'LineString', coordinates: o.coords } }] });
+      if (o.onDone) o.onDone();
+      var restToken = fx.token;
+      setTimeout(function () {
+        if (restToken !== fx.token) return;
+        src.setData(EMPTY);
+        if (map.getLayer(o.layerId)) map.setLayoutProperty(o.layerId, 'visibility', 'none');
+      }, o.fade || 420);
+      return;
+    }
     var t0 = performance.now();
     var token = fx.token;
     var dur = o.duration || 1600;

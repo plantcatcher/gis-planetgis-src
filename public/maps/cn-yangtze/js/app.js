@@ -411,12 +411,22 @@
   function pulse(f, playFlow) {
     stopFx();
     var token = FX.token;
+    var wBase = f.properties.role === 'mainstream' ? 15 : 11.4;
+
+    // 系统「减少动态效果」偏好：不做呼吸脉冲与水流描边，直接落到静态高亮。
+    // 信息（选中哪条河、线宽层级）完全一致，只是不再动。
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      map.getSource('flow').setData({ type: 'FeatureCollection', features: [] });
+      map.setLayoutProperty('river-flow', 'visibility', 'none');
+      setGlow(f, wBase + 2.6, 0.32);
+      return;
+    }
+
     setGlow(f, 12, 0);
     map.getSource('flow').setData({ type: 'FeatureCollection', features: [] });
     map.setLayoutProperty('river-flow', 'visibility', 'none');
 
     var t0 = performance.now(), DUR = 1700;
-    var wBase = f.properties.role === 'mainstream' ? 15 : 11.4;
     (function step(now) {
       if (token !== FX.token) return;
       var p = Math.min((now - t0) / DUR, 1);

@@ -18,7 +18,7 @@
  *   ⑥ <html lang> 与 document.title 同步切换（title 命中词典才换）。
  *   ⑦ 应用作用域词典——按当前路径（/maps/<slug>/ 或 /games/<slug>/）载入该应用
  *      专属词典，优先级高于全局词典。用于游戏数据层（国名 / 省名 / 题库）：
- *      这些词只在对应游戏里译成英文，绝不污染 82 个地图应用的中文地名。
+ *      这些词只在对应游戏里译成英文，绝不污染 113 个地图应用的中文地名。
  *
  * 词典源：scripts/i18n-maps-src/*.json（chrome / regions / apps / games 全局）
  *       + scripts/i18n-maps-src/apps/<slug>.json（应用作用域）。

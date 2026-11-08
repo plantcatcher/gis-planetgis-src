@@ -1,4 +1,4 @@
-// 临时：回归验证——82 个地图应用 + 3 个游戏 + 中文站对照
+// 临时：回归验证——113 个地图应用 + 3 个游戏 + 中文站对照
 import { createRequire } from 'node:module';
 import http from 'node:http';
 import fs from 'node:fs';

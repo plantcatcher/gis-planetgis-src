@@ -41,6 +41,12 @@
     });
   }
   function fmt(n, d) { return Number(n).toFixed(d == null ? 1 : d); }
+  /* 系统「减少动态效果」偏好：地球自动旋转是持续空间动效，命中时默认关闭。
+     URL 显式 ?spin=1 仍可开启（封面录制等场景）。 */
+  function spinAllowed() {
+    if (!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches) return true;
+    try { return new URLSearchParams(global.location.search).get('spin') === '1'; } catch (_) { return false; }
+  }
 
   /* ── 轨道预计算 ──────────────────────────────────────── */
   /* 高度 → 显示半径（地球半径 = 1）。极轨段线性铺开，1000 km 以上对数压缩，
@@ -445,6 +451,7 @@
       }
     }
   } catch (e) { /* 忽略 */ }
+  if (!spinAllowed()) spinOK = false;
   var spinning = spinOK;
   function stopSpin() { spinning = false; }
 

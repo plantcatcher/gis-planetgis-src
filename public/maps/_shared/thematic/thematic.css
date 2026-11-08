@@ -511,3 +511,25 @@ body::-webkit-scrollbar-thumb, .intro-body::-webkit-scrollbar-thumb { background
   .dock { right: 8px; }
   .maplibregl-ctrl-bottom-right { left: 8px; right: auto; }
 }
+
+/* ── 减少动态效果（prefers-reduced-motion）───────────────────
+   系统级无障碍偏好：前庭功能敏感用户会因动效不适。
+   这里只关掉「位移 / 缩放 / 无限循环」类动效，颜色与边框的短过渡保留
+   （它们传达状态变化，不产生空间运动感）。
+   JS 侧（thematic.js 的 pulse / reveal、MapLibre 的 easeTo / flyTo）
+   已在 reducedMotion() 分支里同步降级为瞬切，两端一致。 */
+@media (prefers-reduced-motion: reduce) {
+  /* 详情卡入场 */
+  .detail { animation: none; }
+  /* 简介卡折叠 / 展开 */
+  .intro { transition: none; }
+  .intro-bar .caret { transition: none; }
+  /* 条形图生长 */
+  .chart-row .bar i { transition: none; }
+  /* 底部速览条的悬停上浮 */
+  .strip button { transition: color .16s, border-color .16s, background .16s; }
+  .strip button:hover { transform: none; }
+  /* MapLibre 自带控件 */
+  .maplibregl-ctrl button:not(:disabled):hover { transform: none; }
+  .maplibregl-ctrl-group button .maplibregl-ctrl-icon { transition: none; }
+}

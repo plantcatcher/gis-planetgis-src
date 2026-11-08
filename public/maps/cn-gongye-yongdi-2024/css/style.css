@@ -190,3 +190,11 @@ html, body {
   .info-card { display: block; overflow-y: auto; }
   .info-card.open { display: block; }
 }
+/* ── 减少动态效果（prefers-reduced-motion）──
+   移动端卡片改为淡入淡出（不再位移 + 缩放），箭头旋转瞬切，按钮悬停不再上浮；
+   选中要素的呼吸光晕在 app.js 的 setSelected() 里同步降级为静态高亮。 */
+@media (prefers-reduced-motion: reduce) {
+  .cta-btn:hover { transform: none; }
+  .control-card, .info-card { transition: opacity .28s, visibility .28s; }
+  .info-toggle i { transition: none; }
+}

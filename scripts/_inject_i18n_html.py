@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""幂等地把 <script src="/shared/map-i18n.js"></script> 注入 82 个地图 + 3 个游戏的 index.html。
+"""幂等地把 <script src="/shared/map-i18n.js"></script> 注入 113 个地图 + 3 个游戏的 index.html。
 
 放在 <head> 之后、首个 <script> 之前（若存在 ga-bridge.js 则紧跟其后），
 保证 window.__mapI18nOn 在应用 JS 读取前已置位。

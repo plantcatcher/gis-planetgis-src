@@ -206,8 +206,15 @@ window.onProvinceGeo(function (GEO) {
     glowRAF = requestAnimationFrame(glowFrame);
   }
 
+  // 系统「减少动态效果」偏好：呼吸光圈是持续缩放动画，命中时不启动，
+  // 直接停在静态高亮（GLOW_EXPR 的默认值本身就是常亮描边，信息不丢）。
+  function reducedMotion() {
+    return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }
+
   function startGlow() {
     if (glowRAF) return;
+    if (reducedMotion()) return;
     glowT0 = performance.now();
     glowRAF = requestAnimationFrame(glowFrame);
   }

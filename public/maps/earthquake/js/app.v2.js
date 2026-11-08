@@ -195,7 +195,13 @@
       try { app.map.setLayoutProperty('quake-ripple-a', 'visibility', 'visible'); } catch (e) {}
       try { app.map.setLayoutProperty('quake-ripple-b', 'visibility', 'visible'); } catch (e) {}
     }
-    RIPPLE_TOKEN++;
+    /* 减少动态效果：不跑无限外扩波列，只留一道静态光波环。
+       半径按震级分级（radiusExpr），震级信息不丢，只是不再外扩。 */
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      rippleSet('quake-ripple-a', 0.3);
+      try { app.map.setLayoutProperty('quake-ripple-b', 'visibility', 'none'); } catch (e) {}
+      return;
+    }    RIPPLE_TOKEN++;
     var token = RIPPLE_TOKEN;
     RIPPLE_LAST = 0;
     RIPPLE_RAF = requestAnimationFrame(function (t) { rippleFrame(t, token); });

@@ -49,7 +49,7 @@ const DICT = { exact, sub: subs };
 
 // ── 应用作用域词典：scripts/i18n-maps-src/apps/<slug>.json ──
 // 用途：游戏数据层（国名 / 省名 / 题库）只在对应游戏内译成英文，
-//       绝不污染 82 个地图应用的中文地名。
+//       绝不污染 113 个地图应用的中文地名。
 const APP_DIR = join(SRC, 'apps');
 const apps = {};
 let nApp = 0;

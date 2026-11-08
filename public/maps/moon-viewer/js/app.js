@@ -28,6 +28,12 @@
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
   }
+  /* 系统「减少动态效果」偏好：月面自动旋转是持续空间动效，命中时默认关闭。
+     URL 显式 ?spin=1 仍可开启（封面录制等场景）。 */
+  function spinAllowed() {
+    if (!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches) return true;
+    try { return new URLSearchParams(global.location.search).get('spin') === '1'; } catch (_) { return false; }
+  }
 
   /* IAU 月球经纬（东经为正，北纬为正）→ 单位球世界坐标。
      lon=0, lat=0 落于 +X，配合相机默认从正面看，屏幕右方即东。 */
@@ -510,6 +516,7 @@
   /* ── 自动旋转 ─────────────────────────────────────────── */
   var spinOK = true;
   try { spinOK = new URLSearchParams(global.location.search).get('spin') !== '0'; } catch (_) {}
+  if (!spinAllowed()) spinOK = false;
   var spinning = spinOK;
   function stopSpin() {
     spinning = false;

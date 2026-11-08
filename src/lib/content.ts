@@ -320,7 +320,7 @@ export const getByType = (type: ContentType): ContentItem[] =>
     .filter((i) => i.type === type)
     .sort((a, b) => a.order - b.order);
 
-/** 互动地图：content/maps（63 条），本体在 /maps/<slug>/full */
+/** 互动地图：content/maps（113 条），本体在 /maps/<slug>/full */
 export const getMaps = (): ContentItem[] => getByType('map');
 
 /** 地理小游戏：content/games，本体是站内 GameEmbed 路由 */

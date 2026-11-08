@@ -25,6 +25,10 @@
   function r1(n) { return Math.round(n * 10) / 10; }
   function nf(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
   function setTxt(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; }
+  /* 系统「减少动态效果」偏好：持续外扩的冲击波对前庭敏感用户不友好 */
+  function reducedMotion() {
+    return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }
 
   function yStart(y) { return Date.UTC(y, 0, 1); }
   function yEnd(y) { return Date.UTC(y + 1, 0, 1) - 1; }
@@ -634,6 +638,13 @@
     _pulseRAF = requestAnimationFrame(pulseFrame);
   }
   function startPulse() {
+    /* 减少动态效果：不跑无限外扩循环，只留一圈静态冲击波。
+       半径仍按震级分级（PULSE_R_BASE），震级信息不丢，只是不再动。 */
+    if (reducedMotion()) {
+      if (_pulseRAF !== null) { cancelAnimationFrame(_pulseRAF); _pulseRAF = null; }
+      if (app && app.map && app.map.getLayer('quake-pulse')) paintPulse('quake-pulse', 0.35);
+      return;
+    }
     if (_pulseRAF === null) _pulseRAF = requestAnimationFrame(pulseFrame);
   }
   function stopPulse() {

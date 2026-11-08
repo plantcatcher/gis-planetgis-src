@@ -565,6 +565,12 @@
       : { type: "FeatureCollection", features: [] });
     if (selRAF) { cancelAnimationFrame(selRAF); selRAF = null; }
     if (!coords) return;
+    // 系统「减少动态效果」偏好：不跑呼吸光晕，直接停在静态高亮
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      map.setPaintProperty("dep-sel", "circle-radius", 16);
+      map.setPaintProperty("dep-sel", "circle-opacity", 0.3);
+      return;
+    }
     selT0 = performance.now();
     selRAF = requestAnimationFrame(function pulse(ts) {
       var p = (Math.sin((ts - selT0) / 520) + 1) / 2;

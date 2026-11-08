@@ -110,8 +110,18 @@
   }
   function clampMpp(m) { return Math.min(CFG.mppMax, Math.max(CFG.mppMin, m)); }
 
+  /* 系统「减少动态效果」偏好：相机飞行是大幅空间位移，命中时直接跳到终点 */
+  var RMQ = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+  function reducedMotion() { return !!(RMQ && RMQ.matches); }
+
   /* ══ 相机动画 ═════════════════════════════════════════════ */
   function easeTo(target, dur) {
+    if (reducedMotion()) {
+      anim = null;
+      cam.cx = target.cx; cam.cy = target.cy; cam.mpp = clampMpp(target.mpp);
+      dirty = true;
+      return;
+    }
     anim = {
       t0: performance.now(), dur: dur || 650,
       from: { cx: cam.cx, cy: cam.cy, mpp: cam.mpp },
@@ -422,10 +432,16 @@
     if (S.selSite) {
       var ss = screenPos.get(String(S.selSite.properties.id));
       if (ss) {
-        var t = (performance.now() % 1500) / 1500;
-        var rr = siteR(S.selSite.properties) + 4 + t * 12;
-        g.beginPath(); g.arc(ss.x, ss.y, rr, 0, Math.PI * 2);
-        g.strokeStyle = 'rgba(255,255,255,' + (0.85 * (1 - t)) + ')'; g.lineWidth = 2; g.stroke();
+        /* 减少动态效果：不画不断外扩的呼吸圈，只留一圈静态白环 */
+        if (reducedMotion()) {
+          g.beginPath(); g.arc(ss.x, ss.y, siteR(S.selSite.properties) + 7, 0, Math.PI * 2);
+          g.strokeStyle = 'rgba(255,255,255,.55)'; g.lineWidth = 2; g.stroke();
+        } else {
+          var t = (performance.now() % 1500) / 1500;
+          var rr = siteR(S.selSite.properties) + 4 + t * 12;
+          g.beginPath(); g.arc(ss.x, ss.y, rr, 0, Math.PI * 2);
+          g.strokeStyle = 'rgba(255,255,255,' + (0.85 * (1 - t)) + ')'; g.lineWidth = 2; g.stroke();
+        }
         g.beginPath(); g.arc(ss.x, ss.y, siteR(S.selSite.properties) + 3.5, 0, Math.PI * 2);
         g.strokeStyle = '#fff'; g.lineWidth = 2; g.stroke();
       }
@@ -499,7 +515,8 @@
 
   function loop(now) {
     var moved = tickAnim(now);
-    if (dirty || moved || S.selSite) { dirty = false; draw(); }
+    /* 选中光环是唯一需要逐帧重绘的内容；减少动态效果时它是静态的，不必再跑帧 */
+    if (dirty || moved || (S.selSite && !reducedMotion())) { dirty = false; draw(); }
     requestAnimationFrame(loop);
   }
 

@@ -51,3 +51,10 @@
   .legend { max-width: none; }
   .panel .row { padding: 9px 0; }
 }
+
+/* ── 减少动态效果 ───────────────────────────────────────────
+   与 thematic.css 末尾同源（regions.css 依赖它，此处只是保证
+   单独加载 regions.css 时也有降级）。 */
+@media (prefers-reduced-motion: reduce) {
+  .chips button { transition: color .16s, background .16s, border-color .16s; }
+}

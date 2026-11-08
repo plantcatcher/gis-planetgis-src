@@ -423,3 +423,14 @@ body::-webkit-scrollbar-thumb, .intro-body::-webkit-scrollbar-thumb { background
   /* 右侧让给详情卡，地图控件改停左下 */
   .maplibregl-ctrl-bottom-right { left: 8px; right: auto; }
 }
+/* ── 减少动态效果（prefers-reduced-motion）──
+   详情卡入场、箭头旋转、条形图生长、简介卡折叠都改为瞬切；
+   选中河流的脉冲 / 水流描边在 app.js 的 pulse() 里同步降级为静态高亮。 */
+@media (prefers-reduced-motion: reduce) {
+  .detail { animation: none; }
+  .intro { transition: none; }
+  .intro-bar .caret { transition: none; }
+  .chart-row .bar i { transition: none; }
+  .strip button { transition: color .16s, border-color .16s, background .16s; }
+  .strip button:hover { transform: none; }
+}

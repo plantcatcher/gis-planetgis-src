@@ -267,6 +267,45 @@ const FaqJsonLd: React.FC<{ item: ContentItem }> = ({ item }) => {
   return <FaqSchema faqs={faqs} />;
 };
 
+// 互动地图的结构化数据：地图本体是 iframe 里跑的独立 Web 应用，
+// 详情页只是它的介绍页。用 WebApplication 描述「这张图是什么、能做什么」，
+// url 指向本体 /maps/<slug>/full，并声明免费、无需安装——
+// 搜索引擎才会把它当可交互工具收录，而不是一篇普通图文。
+// 与 ArticleJsonLd 一样，注入器单独成组件、无条件调用 useJsonLd（Hooks 规则）。
+const MapJsonLd: React.FC<{ item: ContentItem; type: ContentType }> = ({ item, type }) => {
+  const { t, lang } = useI18n();
+  const brand = t('brand.name');
+  const pageUrl = localizeCanonical(`https://planetgis.cn/${basePath[type]}/${item.slug}`, lang);
+  const appUrl = localizeCanonical(`https://planetgis.cn/${basePath[type]}/${item.slug}/full`, lang);
+  useJsonLd({
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: item.title,
+    ...(item.summary ? { description: item.summary } : {}),
+    ...(item.cover ? { image: [item.cover] } : {}),
+    url: appUrl,
+    applicationCategory: 'EducationalApplication',
+    operatingSystem: 'Any',
+    browserRequirements: 'Requires JavaScript and WebGL',
+    isAccessibleForFree: true,
+    offers: { '@type': 'Offer', price: 0, priceCurrency: 'CNY' },
+    ...(item.date ? { datePublished: item.date, dateModified: item.date } : {}),
+    author: { '@type': 'Organization', name: brand },
+    publisher: {
+      '@type': 'Organization',
+      name: brand,
+      logo: { '@type': 'ImageObject', url: LOGO },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
+    // tags 里通常已含「互动地图」等分类词，与 scope / category 去重后再拼
+    keywords: Array.from(
+      new Set([...(item.tags || []), item.scope, item.category, lang === 'zh' ? '地理' : 'geography'].filter(Boolean)),
+    ).join(', '),
+    inLanguage: HTML_LANG[lang] || HTML_LANG.zh,
+  });
+  return null;
+};
+
 // HowTo 结构化数据（GEO）：工具页的「使用教程」有序列表 → HowTo.step。
 // 生成式引擎回答「怎么用 X 工具做 Y」时会优先引用带 Step 的页面。
 const HowToSchema: React.FC<{ item: ContentItem; steps: string[] }> = ({ item, steps }) => {
@@ -361,6 +400,9 @@ export default function ContentDetail({ type }: Props) {
       {type === 'article' || type === 'learn' ? (
         <ArticleJsonLd item={item} type={type} />
       ) : null}
+
+      {/* 互动地图详情页：WebApplication 描述本体应用，指向 /full 交互入口 */}
+      {type === 'map' ? <MapJsonLd item={item} type={type} /> : null}
 
       {/* 互动地图 / 小工具等带有 FAQ 章节的页面，输出 FAQPage 结构化数据 */}
       <FaqJsonLd item={item} />

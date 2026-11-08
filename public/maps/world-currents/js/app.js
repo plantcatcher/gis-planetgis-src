@@ -17,6 +17,12 @@
   var CFG = window.CURRENTS_CONFIG;
   var fmt = Thematic.fmt, esc = Thematic.esc;
 
+  /* 系统「减少动态效果」偏好：粒子流是持续平移动效，默认停在「暂停」档。
+     方向箭头（cur-arrow）仍在，洋流走向信息不丢；用户可手动点「常速」恢复。 */
+  function reducedMotion() {
+    return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }
+
   var DATA = {
     currents: 'data/currents.json',
     upwelling: 'data/upwelling.json',
@@ -32,7 +38,7 @@
     type: 'all',      // all | warm | cold
     ocean: 'all',     // all | pacific | atlantic | indian | arctic | southern
     season: 'winter', // winter | summer（北印度洋）
-    speed: 1,         // 0 暂停 / 0.5 慢 / 1 常速 / 2 快
+    speed: reducedMotion() ? 0 : 1,   // 0 暂停 / 0.5 慢 / 1 常速 / 2 快
     view: [],         // 当前可见的逻辑洋流
     selCur: null,     // 选中的逻辑洋流 properties
     selUw: null,

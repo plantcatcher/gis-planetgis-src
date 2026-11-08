@@ -194,3 +194,8 @@ html, body { margin: 0; height: 100%; font-family: "PingFang SC", "Microsoft YaH
   .lbl { font-size: 11.5px; }
   .lbl.small-basin { font-size: 10px; }
 }
+/* ── 减少动态效果（prefers-reduced-motion）──
+   移动端抽屉的滑入滑出改为瞬切；颜色类短过渡保留（传达状态，无空间运动）。 */
+@media (prefers-reduced-motion: reduce) {
+  .ctrl-panel { transition: none; }
+}
