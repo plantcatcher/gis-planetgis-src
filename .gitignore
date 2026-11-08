@@ -60,8 +60,11 @@ src/data/content-index.json
 /verify_games.txt
 # dist-check/ 是构建产物的临时快照目录（dist 已在上面忽略，这里补上同源目录）
 /dist-check/
-# Windows 快捷方式，误落仓库根目录时不应进版本库
+# Windows 快捷方式 / 资源管理器缓存文件，误落仓库时不应进版本库
 *.lnk
+Thumbs.db
+ehthumbs.db
+desktop.ini
 scripts/_cache/
 
 # ImageGen 生成的原图（封面已上传 R2 图床，原图不入库）
