@@ -8,7 +8,7 @@ order: 95
 date: 2026-11-01
 category: 互动地图
 topics: 水系与地形
-scope: 美国
+scope: 世界
 tags: 美国,河流,水系,水文,USA,互动地图,Natural Earth
 ---
 

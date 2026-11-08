@@ -1,0 +1,9 @@
+{
+ "exact": {
+  "天文光污染": "Astronomical Light Pollution",
+  "频谱与轨道拥挤": "Spectrum & Orbital Congestion",
+  "凯斯勒级联": "Kessler Cascade",
+  "Walker 星座模型": "Walker Constellation Model"
+ },
+ "sub": {}
+}

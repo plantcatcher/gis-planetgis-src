@@ -1,0 +1,14 @@
+{
+ "exact": {
+  "全球夜间灯光地图 · NASA Black Marble 夜间地球": "Global Night Lights · NASA Black Marble",
+  "点任意视角飞向该区域；再拖拽或滚轮缩放，看灯光如何沿海岸、河谷与工业带聚集。": "Click anywhere to fly there; drag or scroll to zoom, and watch lights gather along coasts, river valleys and industrial belts.",
+  "亮度 ∝ 该像元的夜间平均辐射（nW·cm⁻²·sr⁻¹）。黄色越亮，人类夜间活动越密集。但 DNB 不只记城市灯光：天然气燃火、渔船灯光、野火也会被录进去；高纬度夏季的「白夜」在合成中被抑制，所以极区偏暗并非没有人类——只是算法压掉了余光。它反映「夜间被点亮的程度」，不能直接当人口或 GDP 地图读。": "Brightness ∝ the pixel's average nighttime radiance (nW·cm⁻²·sr⁻¹). The brighter the yellow, the denser human activity at night. But DNB does not record only city lights: gas flares, fishing fleets and wildfires show up too, and high-latitude summer twilight is suppressed in the composite — so a dark polar region is not empty of people, just of residual light the algorithm has removed. It measures how lit a place is at night, and should not be read as a population or GDP map.",
+  "注：DNB 同时记录城市灯光、天然气燃火、渔船与野火，非纯「人口密度」。": "Note: DNB also captures gas flares, fishing boats and wildfires — it is not a pure population-density map.",
+  "夜间灯光（NASA）": "Night lights (NASA)",
+  "国界线": "National boundaries",
+  "灯光增强（提高对比）": "Light boost (higher contrast)",
+  "灯光不透明度": "Light opacity",
+  "：NASA Black Marble / VIIRS DNB（GIBS，CC BY 4.0）。底图本身即夜间灯光影像，国界细线为自托管矢量（176 国，已反子午线切割）。点国界看中文国名，点金色热点看区域解读。": ": NASA Black Marble / VIIRS DNB (GIBS, CC BY 4.0). The basemap itself is the nighttime imagery; the thin national boundaries are a self-hosted vector layer (176 countries, split at the antimeridian). Click a boundary for the Chinese country name, or a golden hotspot for a regional reading."
+ },
+ "sub": {}
+}

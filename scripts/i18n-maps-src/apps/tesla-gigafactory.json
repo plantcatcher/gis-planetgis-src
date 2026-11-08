@@ -1,0 +1,15 @@
+{
+ "exact": {
+  "特斯拉超级工厂全球分布图 · 互动地图": "Tesla Gigafactories Worldwide · Interactive Map",
+  "特斯拉超级工厂全球分布图": "Tesla Gigafactories Worldwide",
+  "10 座在营工厂 · 约 8.6 万员工 · 按员工规模着色 · 2010—2026 投产回放": "10 operating factories · ~86,000 employees · shaded by workforce · 2010–2026 opening replay",
+  "工厂目录": "Factory Directory",
+  "员工": "Employees",
+  "在营工厂": "Operating factories",
+  "工厂员工规模（颜色越暖员工越多）": "Factory workforce (warmer = more employees)",
+  "2026 年 · 累计投产 10 座工厂": "2026 · 10 factories opened in total",
+  "搜索工厂 / 国家 / 英文名": "Search factory / country / English name",
+  "回放数值 = 已投产工厂按员工数求和，不是当年真实员工数": "Replay figure = employees summed across factories already opened, not the actual headcount that year"
+ },
+ "sub": {}
+}

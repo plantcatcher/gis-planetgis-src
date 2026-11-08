@@ -1,0 +1,14 @@
+{
+ "exact": {
+  "日本河流分布图 · 互动地图": "Rivers of Japan · Interactive Map",
+  "日本河流分布图": "Rivers of Japan",
+  "国土数値情報 W05 河川 · 主要河川 / 大河两档 · 点击河流查看详情": "MLIT National Land Numerical Information W05 rivers · major / great rivers · click a river for details",
+  "都道府县界（半透明）": "Prefecture boundaries (semi-transparent)",
+  "主要河川 · 知名大河（默认显示）": "Major rivers · well-known great rivers (shown by default)",
+  "大河 · ≥60km（默认显示）": "Great rivers · ≥60 km (shown by default)",
+  "数据源日本国交省国土数値情報 W05 河川（47 都道府县，全本地），按河川コード与同名邻近合并跨县河段。日本《河川法》分一级/二级/普通河川，属管理体制而非规模分级，故不套用；本图按知名度与河长分两档，60km 以下非知名河流不作展示以保持画面清爽。地图标注统一使用简体中文译名（无译名的显示日文原名）。": "Source: MLIT National Land Numerical Information W05 rivers (all 47 prefectures, fully local), with cross-prefecture segments merged by river code and adjacent same-name stretches. Japan's River Act classifies rivers as Class A / Class B / ordinary — an administrative system rather than a size ranking, so it is not used here. This map instead uses two tiers by prominence and length, and hides unnamed rivers under 60 km to keep the view clean. Labels use simplified Chinese transliterations where they exist, otherwise the original Japanese name.",
+  "地图介绍": "About this map",
+  "搜索河流名，如：信濃川 / 利根川": "Search a river, e.g. Shinano / Tone"
+ },
+ "sub": {}
+}

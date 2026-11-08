@@ -4,9 +4,8 @@ title: 地球不是正球体，它是个被压扁的"梨"
 summary: 地球并不是正球体，也不是规则的椭球——受自转离心力和南北半球质量分布差异影响，它被压扁成一个北凸南凹的"梨形"。本文用实测数据解释地球形状是如何被甩出来的，以及这种不规则对高程基准与卫星定位意味着什么。
 date: 2026-08-10
 category: 地理基础
-level: 初中
 subject: 自然地理
-tags: 地理, 初中地理
+tags: 地理
 cover: https://blogphoto.planetgis.cn/PicGo/2026-08-10-ec43856db3f9792529e6fbb0aabb6163-sz_324369.png
 ---
 

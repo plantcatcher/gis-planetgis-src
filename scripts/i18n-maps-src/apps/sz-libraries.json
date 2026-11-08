@@ -1,0 +1,10 @@
+{
+ "exact": {
+  "深圳图书馆分布地图 · 15 座公共图书馆总馆的空间格局": "Libraries in Shenzhen · Spatial Pattern of 15 Main Public Libraries",
+  "总馆点位": "Main library markers",
+  "总馆名称": "Main library names",
+  "辖区色块": "District fills",
+  "辖区边界": "District boundaries"
+ },
+ "sub": {}
+}

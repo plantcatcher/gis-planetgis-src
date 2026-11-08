@@ -7,8 +7,8 @@ link: /maps/starlink/full
 order: 18
 date: 2026-10-24
 category: 互动地图
-topics: 航天与卫星, 天文与行星
-scope: 近地轨道
+topics: 天文与航天
+scope: 太空
 tags: 星链, Starlink, 卫星, 低轨, 3D, 互动地图, 太空垃圾, 凯斯勒综合征, 光污染, 轨道, 数据可视化
 ---
 

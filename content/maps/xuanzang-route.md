@@ -7,8 +7,8 @@ link: /maps/xuanzang-route/full
 order: 78
 date: 2026-10-29
 category: 互动地图
-topics: 历史地理, 玄奘, 丝绸之路
-scope: 亚洲
+topics: 历史地理
+scope: 世界
 tags: 地理, 地理可视化, 互动地图, 玄奘, 西游记, 历史地理, 丝绸之路, 取经, 那烂陀
 ---
 

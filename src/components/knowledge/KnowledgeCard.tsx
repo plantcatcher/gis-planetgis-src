@@ -52,9 +52,9 @@ const KnowledgeCard = ({
             {localizeLabel(item.subject, lang)}
           </span>
         )}
-        {(item.level || item.category) && (
+        {item.category && (
           <span className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full text-xs font-medium bg-foreground/80 text-background backdrop-blur-sm">
-            {localizeLabel(item.level || item.category, lang)}
+            {localizeLabel(item.category, lang)}
           </span>
         )}
       </div>

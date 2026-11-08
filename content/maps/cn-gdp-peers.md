@@ -7,7 +7,7 @@ link: /maps/cn-gdp-peers/full
 order: 7
 date: 2026-10-27
 category: 互动地图
-topics: 经济地理
+topics: 城市与经济
 scope: 中国
 tags: GDP,中国经济,省级行政区,经济地理,国家对标,世界银行,广东,江苏,山东,互动地图
 ---

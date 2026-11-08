@@ -4,9 +4,8 @@ title: 人类花了两千年，才确认脚下是个球
 summary: 从亚里士多德靠月食阴影推断地圆，到埃拉托色尼用日影差量出地球周长，再到麦哲伦环球航行与阿波罗 8 号拍下地出照片，人类用了两千多年才从"猜对"走到"看见"。本文按时间线梳理地圆说从哲学推理到实证确认的全过程。
 date: 2026-08-08
 category: 地理基础
-level: 初中
 subject: 自然地理
-tags: 地理, 初中地理
+tags: 地理
 cover: https://blogphoto.planetgis.cn/PicGo/2026-08-08-73b58795ae9aac452a20a75c1bc6a98b-sz_323468.jpeg
 ---
 

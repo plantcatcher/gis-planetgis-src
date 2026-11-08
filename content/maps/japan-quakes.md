@@ -8,7 +8,7 @@ order: 106
 date: 2026-11-07
 category: 互动地图
 topics: 地质灾害
-scope: 日本
+scope: 世界
 tags: 地震,日本,海沟,俯冲带,南海海槽,互动地图,USGS,数据可视化,地质灾害
 ---
 

@@ -36,6 +36,18 @@ function createIdMaker() {
 }
 
 function inline(text: string): string {
+  // 行内代码最先处理，且整体转义后暂存为占位符。
+  //
+  // 两件事必须在这里做完：① 代码里的 `<slug>`、`<details>` 是字面量，不转义就会被
+  // 浏览器当成标签吃掉（`/maps/<slug>/full` 会显示成 `/maps//full`）；② 代码里的
+  // `**加粗**`、`[x](y)` 也是字面量，若等后面的规则跑完再替换，会被当成 Markdown 解析。
+  // 占位符用 \u0000 包裹——正文不可能出现这个字符。
+  const codes: string[] = [];
+  text = text.replace(/`([^`]+)`/g, (_m, code) => {
+    codes.push(`<code>${escapeHtml(code)}</code>`);
+    return `\u0000${codes.length - 1}\u0000`;
+  });
+
   // 图片 ![alt](url)
   text = text.replace(
     /!\[([^\]]*)\]\(([^)\s]+)\)/g,
@@ -50,22 +62,42 @@ function inline(text: string): string {
   text = text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
   // 斜体 *x*
   text = text.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
-  // 行内代码 `x`
-  text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+  // 还原行内代码占位符
+  text = text.replace(/\u0000(\d+)\u0000/g, (_m, n) => codes[Number(n)]);
   return text;
 }
 
 /**
- * 原生 HTML 块（`<details>` / `<div>`）只做粗体转换。
+ * 原生 HTML 块（`<details>` / `<div>`）的正文：处理站内 FAQ 实际用到的 Markdown
+ * 子集——粗体、行内代码、链接与无序列表——同时原样保留作者手写的 HTML
+ * （`<a href>`、`<font>`、`<img>`）。
  *
- * 这些块整体原样输出、不走 inline()，是为了不破坏作者手写的 HTML 结构
- * （链接、图片、属性）。但站内 FAQ 统一写成 `<details>` + markdown 正文，
- * 其中的 `**强调**` 若一并跳过，页面上会漏出字面星号——全站 82 篇、253 处。
- * 故只单独处理粗体：details 内既无代码块也无单星号斜体（已核查），
- * 不会误伤。
+ * 为什么不整块交给 inline()：块里 Markdown 与 HTML 混写，列表还需要成块输出。
+ * 但逐行交给 inline() 是安全的——inline() 只做正则替换、不转义 HTML 本身。
+ * 之前这里只做粗体，于是全站 18 个页面的 FAQ 里反引号原样露出、3 处 Markdown
+ * 链接显示成字面 `[文本](url)`、2 处列表显示成字面 `- `。
  */
-function strongOnly(text: string): string {
-  return text.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>');
+function detailsBody(text: string): string {
+  const out: string[] = [];
+  let inList = false;
+  for (const line of text.split('\n')) {
+    const li = line.match(/^\s*[-*]\s+(.*)$/);
+    if (li) {
+      if (!inList) {
+        out.push('<ul>');
+        inList = true;
+      }
+      out.push(`<li>${inline(li[1])}</li>`);
+      continue;
+    }
+    if (inList) {
+      out.push('</ul>');
+      inList = false;
+    }
+    out.push(inline(line));
+  }
+  if (inList) out.push('</ul>');
+  return out.join('\n');
 }
 
 export function renderMarkdown(md: string): string {
@@ -106,7 +138,8 @@ export function renderMarkdown(md: string): string {
       continue;
     }
 
-    // 原生 <details> 块：整段原样输出（含内部 markdown 不二次解析，内容由作者控制）
+    // 原生 <details> 块：HTML 结构原样保留，块内正文按站内 FAQ 实际用到的
+    // Markdown 子集渲染（见 detailsBody）。
     if (/^\s*<details>/.test(line)) {
       closeList();
       const buf: string[] = [];
@@ -116,7 +149,7 @@ export function renderMarkdown(md: string): string {
       }
       if (i < lines.length) buf.push(lines[i]); // 包含闭合标签
       i++;
-      html.push(strongOnly(buf.join('\n')));
+      html.push(detailsBody(buf.join('\n')));
       continue;
     }
 

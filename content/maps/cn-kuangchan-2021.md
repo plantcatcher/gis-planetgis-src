@@ -7,7 +7,7 @@ link: /maps/cn-kuangchan-2021/full
 order: 32
 date: 2026-10-17
 category: 互动地图
-topics: 矿产资源
+topics: 能源与工业
 scope: 中国
 tags: 矿产分布, 矿产资源, 矿产地, 煤炭, 铁矿, 有色金属, 贵金属, 稀土, 矿业地图, 互动地图, 地理可视化, SHP数据
 ---

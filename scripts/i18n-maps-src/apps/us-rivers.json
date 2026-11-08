@@ -1,0 +1,17 @@
+{
+ "exact": {
+  "美国主要河流分布图 · 互动地图": "Major Rivers of the United States · Interactive Map",
+  "美国主要河流分布图": "Major Rivers of the United States",
+  "Natural Earth 10m 水系 · 六级分级 · 点击河流查看详情": "Natural Earth 10m hydrography · six-tier hierarchy · click a river for details",
+  "州界（半透明）": "State boundaries (semi-transparent)",
+  "一级 · 主干河流（默认显示）": "Tier 1 · trunk rivers (shown by default)",
+  "二级 · 主要支流（默认显示）": "Tier 2 · major tributaries (shown by default)",
+  "三级 · 较大支流（默认显示）": "Tier 3 · larger tributaries (shown by default)",
+  "四级 · 支流（默认显示）": "Tier 4 · tributaries (shown by default)",
+  "五级 · 细支流（放大可见）": "Tier 5 · minor tributaries (visible when zoomed in)",
+  "六级 · 溪流（放大可见）": "Tier 6 · streams (visible when zoomed in)",
+  "数据源 Natural Earth 10m，按河名 + 空间邻近合并河段；五/六级来自北美区域版，放大到 zoom 6 以上河网全显。": "Source: Natural Earth 10m, with river segments merged by name and spatial adjacency. Tiers 5–6 come from the North America regional set; zoom past level 6 to see the full network.",
+  "搜索河流名，如：密西西比 / Platte": "Search a river, e.g. Mississippi / Platte"
+ },
+ "sub": {}
+}

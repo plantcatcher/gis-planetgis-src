@@ -1,0 +1,12 @@
+{
+ "exact": {
+  "全球沃尔玛分布图 · 互动地图": "Walmart Worldwide · Interactive Map",
+  "全球沃尔玛分布图": "Walmart Worldwide",
+  "2026-07-31 共 11,000 个零售单元 · 19 个在营市场 · 按市场零售单元数着色 · 1962—2026 全球化回放": "11,000 retail units as of 2026-07-31 · 19 operating markets · shaded by units per market · 1962–2026 globalisation replay",
+  "零售单元": "Retail units",
+  "市场零售单元数（颜色越暖单元越多）": "Retail units per market (warmer = more units)",
+  "2026 年 · 累计进入 26 个市场": "2026 · 26 markets entered in total",
+  "回放数值 = 已进驻市场按 2026-07-31 零售单元数求和，不是当年真实门店数": "Replay figure = units summed across markets already entered, using 2026-07-31 counts, not the actual store count that year"
+ },
+ "sub": {}
+}

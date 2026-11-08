@@ -17,18 +17,39 @@ const SUBJECT: Record<string, string> = {
   地理信息技术: 'GIS & Remote Sensing',
 };
 
-/** 学段（content/learn 的 level 字段） */
-const LEVEL: Record<string, string> = {
-  初中: 'Middle School',
-  高中: 'High School',
-  大学: 'University',
-};
-
-/** 互动地图 / 游戏的地域范围（scope 字段） */
+/** 互动地图 / 游戏的地域范围（scope 字段，受控词表） */
 const SCOPE: Record<string, string> = {
   中国: 'China',
   世界: 'World',
+  太空: 'Space',
   通用: 'General',
+};
+
+/**
+ * 互动地图 / 游戏的专题（topics 字段，受控词表）。
+ *
+ * 与 scope 正交：scope 答「画的是哪儿」，topics 答「画的是什么」。
+ * 只收录受控词表里的值——更细的粒度先并进这些桶，不要新增只含一两条的孤岛，
+ * 否则 /maps 的筛选 chip 会退化成一排单例。
+ */
+const TOPIC: Record<string, string> = {
+  行政区划: 'Administrative Divisions',
+  商业地理: 'Commercial Geography',
+  水系与地形: 'Rivers & Terrain',
+  城市与经济: 'Cities & Economy',
+  能源与工业: 'Energy & Industry',
+  人口与社会: 'Population & Society',
+  历史地理: 'Historical Geography',
+  地质灾害: 'Geohazards',
+  天文与航天: 'Astronomy & Spaceflight',
+  遥感与影像: 'Remote Sensing',
+  人文地理: 'Human Geography',
+  交通与贸易: 'Transport & Trade',
+  极地与科考: 'Polar Research',
+  地图投影: 'Map Projections',
+  看图竞猜: 'Map Quiz',
+  拼图挑战: 'Jigsaw Challenge',
+  趣味测试: 'Trivia',
 };
 
 /** 知识库专题栏目（content/learn 的 category 字段） */
@@ -45,13 +66,23 @@ const RESOURCE_CATEGORY: Record<string, string> = {
   标准规范: 'Standards',
   国土空间规划: 'Spatial Planning',
   图书教材: 'Books & Textbooks',
+  'GIS与遥感': 'GIS & Remote Sensing',
+  人文地理: 'Human Geography',
+  自然地理: 'Physical Geography',
+  城市与区域: 'Cities & Regions',
+  计算机与编程: 'Computing & Programming',
+  测绘与地球科学: 'Surveying & Earth Science',
+  高中地理: 'High-School Geography',
 };
 
-/** 精品作品的子类（content/works 的 category 字段） */
+/** 作品 / 游戏 / 工具的 category 字段（三者共用一张表，取值互不重叠） */
 const WORK_CATEGORY: Record<string, string> = {
   互动地图: 'Interactive Maps',
   地理小游戏: 'Geo Games',
+  地理游戏: 'Geography Games',
+  地理小工具: 'Geography Tools',
   模拟实验: 'Simulations',
+  地形分析: 'Terrain Analysis',
   趣味测试: 'Quizzes',
 };
 
@@ -87,6 +118,8 @@ const REGION: Record<string, string> = {
   国外: 'Outside China',
   国内: 'Nationwide',
   全国: 'Nationwide',
+  月球: 'The Moon',
+  火星: 'Mars',
 };
 
 /** 34 个省级行政区：英文站显示拼音 / 惯用英文名，否则「广东」对外国读者毫无意义。
@@ -102,10 +135,49 @@ const PROVINCE: Record<string, string> = {
   台湾: 'Taiwan', 香港: 'Hong Kong', 澳门: 'Macao',
 };
 
+/**
+ * 互动地图的坐标系（vizmaps.json 的 crs 字段，取首个分句后的取值）。
+ *
+ * 纯拉丁串（WGS84 / EPSG:4326、GCJ-02、CGCS2000…）中外一致，不入表，查不到时
+ * localizeLabel 会原样返回；这里只收含中文、英文站必须改写的那几条。
+ */
+const VIZ_CRS: Record<string, string> = {
+  'WGS84 生成后转为 GCJ-02': 'WGS84, converted to GCJ-02',
+  'IAU 月面经纬': 'IAU lunar selenographic coordinates',
+  'IAU 火星约定：planetocentric 纬度': 'IAU Mars convention: planetocentric latitude',
+  地球固连参考系: 'Earth-fixed reference frame',
+};
+
+/** 互动地图的底图（vizmaps.json 的 basemap 字段，取首个分句后的取值） */
+const VIZ_BASEMAP: Record<string, string> = {
+  'Esri World Imagery 卫星影像': 'Esri World Imagery satellite imagery',
+  'Esri 全球影像：卫星影像 World Imagery': 'Esri World Imagery satellite imagery',
+  'Esri「Polar / Antarctic Imagery」卫星影像': 'Esri Polar / Antarctic Imagery satellite imagery',
+  'Esri World Imagery Wayback 存档影像': 'Esri World Imagery Wayback archive',
+  '高德瓦片：卫星影像 style=6': 'AMap tiles: satellite imagery (style=6)',
+  '高德瓦片：矢量路网 style=7': 'AMap tiles: vector road network (style=7)',
+  '高德瓦片：白底': 'AMap tiles: white background',
+  '高德瓦片：深色无底图': 'AMap tiles: dark, no basemap',
+  '天地图：卫星影像 img_w': 'Tianditu: satellite imagery (img_w)',
+  卫星影像: 'Satellite imagery',
+  深色无底图: 'Dark, no basemap',
+  深色: 'Dark',
+  古羊皮卷: 'Antique parchment',
+  'NASA Black Marble': 'NASA Black Marble',
+  '自托管 3D 地球：NASA': 'Self-hosted 3D globe: NASA',
+  '自托管 3D 球体 + Solar System Scope 2K 月面纹理':
+    'Self-hosted 3D sphere + Solar System Scope 2K lunar texture',
+  '自托管 3D 球体 + Solar System Scope 2K 火面纹理':
+    'Self-hosted 3D sphere + Solar System Scope 2K Martian texture',
+  真实地球昼面贴图: 'True-colour Earth day-side texture',
+  '自托管 Three.js 平面网格 + 真实 WGS84 DEM 顶点色高程晕渲':
+    'Self-hosted Three.js planar mesh + true-elevation WGS84 DEM vertex-colour hillshade',
+};
+
 const TABLES: Record<string, string>[] = [
   SUBJECT,
-  LEVEL,
   SCOPE,
+  TOPIC,
   LEARN_CATEGORY,
   RESOURCE_CATEGORY,
   WORK_CATEGORY,
@@ -115,6 +187,8 @@ const TABLES: Record<string, string>[] = [
   PLAN_LEVEL,
   REGION,
   PROVINCE,
+  VIZ_CRS,
+  VIZ_BASEMAP,
 ];
 
 /**
@@ -146,13 +220,52 @@ const UNIT: Record<string, string> = {
   '次迁徙事件': 'migration events',
   '期存档影像': 'archived scenes',
   '所精英院校': 'institutions',
+  // 各国行政区划类
+  '个州 / 联邦区': 'states / federal districts',
+  '个省级单元': 'provincial-level units',
+  '个构成国': 'constituent countries',
+  '个都道府县': 'prefectures',
+  '个自治区': 'autonomous communities',
+  '个道市级单位': 'provincial-level units',
+  '个省市级单位': 'provincial-level units',
+  '个州级单位': 'state-level units',
+  '个省 / 地区': 'provinces / territories',
+  '个联邦州': 'federal states',
+  '个大区 / 群岛 / 领地': 'regions / archipelagos / territories',
+  '个联邦主体': 'federal subjects',
+  县级多边形: 'county polygons',
+  // 要素计数类
+  座城市: 'cities',
+  条路线: 'routes',
+  条代表路线: 'representative routes',
+  处总馆馆舍: 'library buildings',
+  个主要港口: 'major ports',
+  颗卫星: 'satellites',
+  '颗在轨卫星': 'satellites in orbit',
+  粒人口点: 'population dots',
+  次地震: 'earthquakes',
+  级阶梯: 'terrain steps',
+  个月份索引: 'monthly indices',
+  个较大绿地面: 'large green-space polygons',
+  个工业用地面: 'industrial land polygons',
+  处矿产地: 'mineral deposits',
+  '个国家/地区国界线': 'country boundaries',
+  个已登记月面要素: 'catalogued lunar features',
+  个已登记火星要素: 'catalogued Martian features',
+  个高程像元: 'elevation cells',
 };
 
-/** 计量单位本地化：英文站查不到映射就回退 items（数量本身仍然正确） */
+/**
+ * 计量单位本地化：英文站查不到映射就回退 items（数量本身仍然正确）。
+ *
+ * 作者常把统计口径塞在单位后面（`次地震（1900-01-01 至 2026-10-26，M≥6.0）`），
+ * 所以整串查不到时再拿第一个分句查一次；分句规则与 knowledge.ts 的 firstClause 一致。
+ */
 export function localizeUnit(unit: string | undefined, lang: Lang): string {
   if (!unit) return '';
   if (lang !== 'en') return unit;
-  return UNIT[unit] ?? 'items';
+  const head = unit.split(/[（(；;，]/)[0].trim();
+  return UNIT[unit] ?? UNIT[head] ?? 'items';
 }
 
 /**

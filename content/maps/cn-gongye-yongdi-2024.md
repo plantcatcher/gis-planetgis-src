@@ -7,7 +7,7 @@ link: /maps/cn-gongye-yongdi-2024/full
 order: 31
 date: 2026-10-16
 category: 互动地图
-topics: 工业用地
+topics: 能源与工业
 scope: 中国
 tags: 中国工业用地, 工业用地分布, 工业用地数据, OSM工业用地, 土地利用, 产业用地, 互动地图, 地理可视化, 国土空间
 ---

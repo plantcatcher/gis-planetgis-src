@@ -4,9 +4,8 @@ title: 人类给地球套上的那张网，是史上最伟大的发明之一
 summary: 手机地图、航线规划、外卖定位都依赖一张覆盖全球、精确到米的坐标网格，而这张网几乎全部由人类人为设定，只有地轴与两极是真实的。本文从地轴讲起，拆解经纬度、大地基准与投影，说明人类是如何给地球"套网"的。
 date: 2026-08-10
 category: 地理基础
-level: 初中
 subject: 自然地理
-tags: 地理, 初中地理
+tags: 地理
 cover: https://blogphoto.planetgis.cn/PicGo/2026-08-10-ab08bb4d6e6b7eaaa32385819b8bcbad-sz_263611.png
 ---
 

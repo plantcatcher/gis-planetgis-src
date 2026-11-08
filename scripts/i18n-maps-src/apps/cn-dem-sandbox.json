@@ -1,0 +1,27 @@
+{
+ "exact": {
+  "中国三维 DEM 沙盘 · 真实高程 3D 互动地图": "China 3D DEM Sandbox · True-Elevation 3D Map",
+  "正在加载地形数据…": "Loading terrain data…",
+  "中国三维 DEM 沙盘": "China 3D DEM Sandbox",
+  "三维 DEM 沙盘": "3D DEM Sandbox",
+  "拖拽旋转、中键平移、滚轮缩放，看真实高程堆出来的中国：青藏高原隆起、四大盆地凹陷、海岸线蜿蜒。可在左上「配色主题」里切换经典晕渲、分层设色、棕调地形、灰度高程，或直接叠加天地图卫星影像。": "Drag to rotate, middle-drag to pan, scroll to zoom, and watch China rise from real elevation data: the Tibetan Plateau bulging, the four great basins sinking, the coastline winding. Use the “Colour theme” menu at top left to switch between classic hillshade, hypsometric tints, brown terrain and greyscale elevation, or overlay Tianditu satellite imagery.",
+  "真实高程 DEM": "True-elevation DEM",
+  "米 / 像元": "m / pixel",
+  "最高峰": "Highest peak",
+  "米 · 珠峰": "m · Everest",
+  "点预设镜头平滑转到对应地形区。再拖拽即可自由旋转，滚轮放大看山脉细节。": "Click a preset camera to glide to that landform region. Then drag to rotate freely and scroll to zoom into mountain detail.",
+  "垂直方向已做夸张": "Vertical scale exaggerated",
+  "配色主题": "Colour theme",
+  "垂直夸张": "Vertical exaggeration",
+  "国界轮廓": "National outline",
+  "山峰 / 盆地标注": "Peak / basin labels",
+  "重置视角": "Reset view",
+  "中键拖拽平移": "Middle-drag to pan",
+  "：地形高程取自本地 WGS84 经纬度 DEM（约 370 米/像元，覆盖中国陆地、台湾岛与海南岛）。国界参照公开行政区划数据绘制；山峰 / 盆地坐标为公开地理资料整理，标注高程由 DEM 采样回填，仅供科普浏览，不作勘界用途。": ": Terrain elevation comes from a local WGS84 lat/lon DEM (~370 m per pixel, covering mainland China, Taiwan Island and Hainan Island). The national outline follows public administrative boundary data; peak and basin coordinates are compiled from public geographic references and their labelled elevations sampled from the DEM. For popular-science browsing only — not for delimitation.",
+  "经度": "Longitude",
+  "纬度": "Latitude",
+  "高程晕渲": "Elevation hillshade",
+  "中国": "China"
+ },
+ "sub": {}
+}

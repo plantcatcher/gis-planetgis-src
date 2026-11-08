@@ -8,7 +8,7 @@ order: 107
 date: 2026-11-07
 category: 互动地图
 topics: 地质灾害
-scope: 美国
+scope: 世界
 tags: 地震,美国,圣安德烈亚斯,俯冲带,阿拉斯加,互动地图,USGS,数据可视化,地质灾害
 ---
 

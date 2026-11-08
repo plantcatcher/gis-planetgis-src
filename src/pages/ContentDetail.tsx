@@ -350,7 +350,7 @@ export default function ContentDetail({ type }: Props) {
   const contentKey = buildContentKey(type, item.slug);
   const related = getRelated(type, item.slug, 6);
   const toc = type === 'article' || type === 'learn' ? extractHeadings(body) : [];
-  const infobox = buildInfobox(item);
+  const infobox = buildInfobox(item, t, lang);
   const seeAlso = getSeeAlso(item, 5);
   const readingTime = type === 'article' || type === 'learn' ? getReadingTime(item) : 0;
   const wordCount = type === 'article' || type === 'learn' ? getWordCount(item) : 0;
@@ -535,7 +535,7 @@ export default function ContentDetail({ type }: Props) {
         </article>
         <aside className="hidden lg:block">
           <div className="sticky top-24 space-y-6">
-            <FactBox rows={infobox} />
+            <FactBox title={t('detail.info.title')} rows={infobox} />
             {toc.length > 1 && (
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">{t('detail.toc')}</p>

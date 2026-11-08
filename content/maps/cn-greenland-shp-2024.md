@@ -7,7 +7,7 @@ link: /maps/cn-greenland-shp-2024/full
 order: 30
 date: 2026-10-16
 category: 互动地图
-topics: 绿地分布
+topics: 城市与经济
 scope: 中国
 tags: 中国绿地, 公园分布, OSM绿地, 休闲用地, 绿地数据, 互动地图, 地理可视化, 城市绿地
 ---

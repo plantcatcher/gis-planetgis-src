@@ -4,9 +4,8 @@ title: 为什么中国横跨五个时区，却只用一个北京时间
 summary: 中国最东端与最西端日出相差 4 小时，横跨五个时区却只用北京时间。从地球自转讲到时区制度的由来，讲清一个统一时间的国家如何在辽阔疆域上"对表"。
 date: 2026-08-12
 category: 地理基础
-level: 初中
 subject: 自然地理
-tags: 地理, 初中地理
+tags: 地理
 cover: https://blogphoto.planetgis.cn/PicGo/2026-08-12-e1b3ea123122d2a224a079c0103514dc-sz_523453.jpeg
 ---
 

@@ -7,8 +7,8 @@ link: /maps/mars-viewer/full
 order: 14
 date: 2026-10-22
 category: 互动地图
-topics: 遥感与影像, 天文与行星
-scope: 火星
+topics: 遥感与影像, 天文与航天
+scope: 太空
 tags: 火星, 3D, 奥林帕斯山, 水手号峡谷, 火山, 峡谷, 极冠, 祝融号, 毅力号, 天问一号, 天文, 互动地图, 数据可视化
 ---
 

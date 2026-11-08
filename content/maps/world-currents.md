@@ -7,7 +7,7 @@ link: /maps/world-currents/full
 order: 11
 date: 2026-10-22
 category: 互动地图
-topics: 海洋与气候
+topics: 水系与地形
 scope: 世界
 tags: 地理, 地理可视化, 互动地图, 洋流, 暖流, 寒流, 海洋, 季风, 上升流, 秘鲁寒流, 湾流, 黑潮, 世界地理, 数据可视化
 ---

@@ -7,8 +7,8 @@ link: /maps/china-dialects/full
 order: 9
 date: 2026-10-25
 category: 互动地图
-topics: 人文地理, 语言地理
-scope: 中国（含台湾、港澳）
+topics: 人文地理
+scope: 中国
 tags: 地理, 方言, 汉语方言, 语言地图, 互动地图, 官话, 吴语, 闽语, 粤语, 客家话, 晋语, 中国语言地图集
 ---
 

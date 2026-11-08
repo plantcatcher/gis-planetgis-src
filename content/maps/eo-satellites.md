@@ -7,8 +7,8 @@ link: /maps/eo-satellites/full
 order: 77
 date: 2026-10-29
 category: 互动地图
-topics: 航天与卫星
-scope: 全球（400 km 至 36000 km 轨道空间）
+topics: 天文与航天
+scope: 太空
 tags: 遥感卫星, 高分系列, 风云系列, Landsat, Sentinel, 太阳同步轨道, 地球静止轨道, 刈幅, 重访周期, TLE, 轨道根数, SAR, 3D, 互动地图
 ---
 

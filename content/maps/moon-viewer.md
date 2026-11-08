@@ -7,8 +7,8 @@ link: /maps/moon-viewer/full
 order: 14
 date: 2026-10-20
 category: 互动地图
-topics: 遥感与影像, 天文与行星
-scope: 月球
+topics: 遥感与影像, 天文与航天
+scope: 太空
 tags: 月球, 3D, 月海, 环形山, 嫦娥, 阿波罗, 天文, 互动地图, 数据可视化
 ---
 

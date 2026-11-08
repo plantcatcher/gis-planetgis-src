@@ -4,9 +4,8 @@ title: 纬度是地球上唯一诚实的坐标
 summary: 本初子午线靠国家博弈才定在伦敦，纬度却无人能争——它直接挂钩地球自转轴，赤道 0°、两极 90°，天然对称且不可更改。本文讲清纬度的定义、五带划分，以及纬度如何决定一个地方的作物、气候与昼夜长度。
 date: 2026-08-12
 category: 地理基础
-level: 初中
 subject: 自然地理
-tags: 地理, 初中地理
+tags: 地理
 cover: https://blogphoto.planetgis.cn/PicGo/2026-08-12-057bdcff6edcab417b1357d6c30ba560-sz_1007720.png
 ---
 

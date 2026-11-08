@@ -4,6 +4,10 @@
 
 import type { ContentItem, ContentType } from './content';
 import { getWorks, getMaps, getGames, getTools, getArticles, getLearns, BASE_PATH, LEARN_SUBJECTS, SUBJECT_META } from './content';
+import { getVizMap } from './vizmaps';
+import { localizeLabel, localizeUnit } from '@/i18n/labels';
+import type { Lang } from '@/i18n/config';
+import type { LocaleValue } from '@/i18n/LocaleContext';
 
 /** 所有内容（跨地图/游戏/作品/工具/文章/学习），供搜索与交叉引用使用 */
 export const getAllItems = (): ContentItem[] => [
@@ -138,6 +142,8 @@ const regionOf = (item: ContentItem): string | undefined => {
  * 同板块内（互动地图 / 地理小游戏 / 实验室 / 工具）的「相关推荐」排序。
  * 相关度 = 主题(topics) ×6 + 地理分区(同区域国家/同为中国) ×4 + 地域范围(scope) ×3
  *          + 标签(tags) ×2（过于通用的标签按语料频率剔除）+ 标题词面重合（≤3 分，同样按频率剔除）。
+ * scope 只有 4 个受控值，「世界」一项就覆盖了近七成地图，命中它几乎不构成相关证据——
+ * 因此与标签同样按语料频率打折：某个 scope 在本池里占比超过 0.6 时不计分。
  * 分数相同时回退到 order，保证结果稳定可复现（SSG 构建期即定稿）。
  */
 export const getRelatedInBoard = (item: ContentItem, pool: ContentItem[], limit = 4): ContentItem[] => {
@@ -154,6 +160,8 @@ export const getRelatedInBoard = (item: ContentItem, pool: ContentItem[], limit 
   for (const i of others) for (const t of new Set(i.tags || [])) tagDf.set(t, (tagDf.get(t) || 0) + 1);
   const gramDf = new Map<string, number>();
   for (const i of others) for (const g of titleGrams(i.title)) gramDf.set(g, (gramDf.get(g) || 0) + 1);
+  const scopeDf = new Map<string, number>();
+  for (const i of others) if (i.scope) scopeDf.set(i.scope, (scopeDf.get(i.scope) || 0) + 1);
 
   const scored = others.map((i) => {
     let score = 0;
@@ -163,7 +171,7 @@ export const getRelatedInBoard = (item: ContentItem, pool: ContentItem[], limit 
       if (rb === regionA) score += 4;
       else if (rb && REGION_GROUP[rb] === REGION_GROUP[regionA]) score += 2;
     }
-    if (item.scope && i.scope === item.scope) score += 3;
+    if (item.scope && i.scope === item.scope && (scopeDf.get(item.scope) || 0) / n <= 0.6) score += 3;
     for (const t of new Set(i.tags || [])) {
       if (!tagsA.has(t)) continue;
       if ((tagDf.get(t) || 0) / n > 0.6) continue; // 太通用，不算相关
@@ -190,34 +198,125 @@ export interface InfoboxRow {
 }
 
 /**
+ * 取 vizmaps 里长描述字段的首个分句。
+ *
+ * crs / basemap 是作者手写的自由文本，完整串最长 237 字，塞进侧栏会占掉半屏。
+ * 约定俗成第一个分句就是「主」取值（如 `Esri World Imagery 卫星影像（…补充说明…）`），
+ * 分句分隔符是中文顿号外的四种：全角/半角括号、分号、逗号。
+ */
+const firstClause = (s: string | undefined): string =>
+  (s || '').split(/[（(；;，]/)[0].trim();
+
+/**
+ * 底图还有一层「A / B / C」的多底图写法（如「高德瓦片：卫星影像 style=6 / 矢量路网 style=7」），
+ * 只留第一个。但不能无脑按 `/` 切——`Esri「Polar / Antarctic Imagery」卫星影像` 里的斜杠
+ * 属于产品名，所以只在「」括号配对时才算分隔符。
+ */
+const firstBasemap = (s: string | undefined): string => {
+  const head = firstClause(s);
+  let depth = 0;
+  let out = '';
+  for (let i = 0; i < head.length; i += 1) {
+    const ch = head[i];
+    if (ch === '「' || ch === '『') depth += 1;
+    else if (ch === '」' || ch === '』') depth -= 1;
+    if (depth === 0 && head.startsWith(' / ', i)) return out.trim();
+    out += ch;
+  }
+  return head;
+};
+
+/**
+ * 地图的「数据规模」：取登记册里该图**首个自有数据文件**的要素数。
+ *
+ * 为什么不求和：113 张图里 80 张的数据文件单位不统一（`个州 / 联邦区` + `个县`、
+ * `个省级单元` + `个国界面`），相加得到的数没有任何含义——usa-regions 相加是 3199，
+ * 既不是州数也不是县数。所以只报 data 清单里排第一的那个文件，它才是这张图的
+ * 主数据集（排序即作者声明的优先级）。
+ *
+ * 排除两类文件：`maps/_shared/` 是跨图复用的底图边界，不算这张图的数据；
+ * `个互动页面` 是入口页自身，不是数据。
+ * 运行时拉数据的地图（earthquake / truesize）没有静态数据文件，返回 null。
+ */
+const getDataVolume = (slug: string): { n: number; unit: string } | null => {
+  const viz = getVizMap(slug);
+  if (!viz) return null;
+  const primary = viz.data.find(
+    (d) => d.features > 0 && !d.file.startsWith('maps/_shared/') && d.unit !== '个互动页面',
+  );
+  return primary ? { n: primary.features, unit: primary.unit ?? '' } : null;
+};
+
+/**
  * 信息盒（infobox）数据：把条目的结构化元信息整理成"标签—值"对，
  * 用于详情页右侧 Wikipedia 式事实面板。
+ *
+ * 互动地图额外补三行技术信息（坐标系 / 底图 / 数据规模）——它们来自
+ * src/data/vizmaps.json，是这类条目区别于文章的核心属性。互动地图的 category
+ * 恒为「互动地图」，放在信息盒里毫无信息量，故改用 topics / scope 两行。
  */
-export const buildInfobox = (item: ContentItem): InfoboxRow[] => {
+export const buildInfobox = (
+  item: ContentItem,
+  t: LocaleValue['t'],
+  lang: Lang,
+): InfoboxRow[] => {
   const rows: InfoboxRow[] = [];
   if (item.subject) {
-    rows.push({ label: '学科方向', value: item.subject, href: `/learn?subject=${encodeURIComponent(item.subject)}` });
-  }
-  if (item.category) {
     rows.push({
-      label: '专题',
-      value: item.category,
+      label: t('detail.info.subject'),
+      value: localizeLabel(item.subject, lang),
+      href: `/learn?subject=${encodeURIComponent(item.subject)}`,
+    });
+  }
+
+  if (item.type === 'map' || item.type === 'game') {
+    if (item.topics && item.topics.length) {
+      rows.push({
+        // 地图叫「主题」、游戏叫「玩法」，与各自列表页的筛选器保持一致
+        label: item.type === 'game' ? t('games.topic') : t('maps.topic'),
+        value: item.topics.map((v) => localizeLabel(v, lang)).join(lang === 'en' ? ', ' : '、'),
+      });
+    }
+    if (item.scope) {
+      rows.push({ label: t('maps.scope'), value: localizeLabel(item.scope, lang) });
+    }
+  } else if (item.category) {
+    rows.push({
+      label: t('detail.info.category'),
+      value: localizeLabel(item.category, lang),
       // 只有知识库条目才有对应的专题筛选页
       ...(item.type === 'learn' ? { href: `/learn?category=${encodeURIComponent(item.category)}` } : {}),
     });
   }
-  if (item.level) {
-    rows.push({ label: '学段', value: item.level, href: `/learn?level=${encodeURIComponent(item.level)}` });
+
+  if (item.type === 'map') {
+    const viz = getVizMap(item.slug);
+    if (viz) {
+      rows.push({ label: t('detail.info.crs'), value: localizeLabel(firstClause(viz.crs), lang) });
+      rows.push({ label: t('detail.info.basemap'), value: localizeLabel(firstBasemap(viz.basemap), lang) });
+      const volume = getDataVolume(item.slug);
+      if (volume) {
+        const unit = localizeUnit(volume.unit, lang) || t('maps.unit.default');
+        rows.push({ label: t('detail.info.features'), value: `${volume.n.toLocaleString()} ${unit}` });
+      }
+    }
   }
+
   if (item.date) {
-    rows.push({ label: '发布时间', value: item.date });
+    rows.push({ label: t('detail.info.published'), value: item.date });
   }
-  rows.push({ label: '阅读时长', value: `${getReadingTime(item)} 分钟` });
-  rows.push({ label: '篇幅', value: `${getWordCount(item)} 字` });
+  // 更新时间只在真与发布日不同时才有意义（113 张图里只有 6 张）
+  const updated = item.type === 'map' ? getVizMap(item.slug)?.updated : undefined;
+  if (updated && updated !== item.date) {
+    rows.push({ label: t('detail.info.updated'), value: updated });
+  }
+
+  rows.push({ label: t('detail.info.readTime'), value: t('detail.info.readTimeValue', { n: getReadingTime(item) }) });
+  rows.push({ label: t('detail.info.length'), value: t('detail.info.lengthValue', { n: getWordCount(item) }) });
   if (item.tags && item.tags.length) {
     rows.push({
-      label: '标签',
-      value: item.tags.join('、'),
+      label: t('detail.info.tags'),
+      value: item.tags.join(lang === 'en' ? ', ' : '、'),
     });
   }
   return rows;
@@ -253,17 +352,6 @@ export const getSubjectStats = (): SubjectStat[] => {
       subtopics,
     };
   });
-};
-
-/** 内容类型的中文名映射，供卡片/面包屑统一显示 */
-export const TYPE_LABEL: Record<ContentType, string> = {
-  work: '模拟实验',
-  map: '互动地图',
-  game: '地理小游戏',
-  tool: '地理工具',
-  article: '科普文章',
-  learn: '地理知识库',
-  resource: '资料下载',
 };
 
 /** 路由 base 映射 */

@@ -1,0 +1,10 @@
+{
+ "exact": {
+  "月球查看器 · 真实月面 3D 互动地图": "Moon Viewer · True-Surface 3D Map",
+  "月面地名": "Lunar place names",
+  "点预设镜头平滑转到对应区域。再拖拽即可自由旋转，滚轮放大看环形山细节。": "Click a preset camera to glide to that region. Then drag to rotate freely and scroll to zoom into crater detail.",
+  "颜色来自月面反射率（反照率）：亮色多为古老高地与年轻环形山的辐射纹，暗色为后期玄武岩熔岩充填的月海。月海大多集中在正面，背面高地遍布撞击坑——这种「正背不对称」本身就是月球故事的一部分。": "Colour comes from surface reflectance (albedo): bright areas are mostly ancient highlands and the ray systems of young craters, dark areas are maria flooded by later basaltic lava. The maria cluster on the near side while the far side is cratered highland — that near–far asymmetry is itself part of the Moon's story.",
+  "：月面影像来自 Solar System Scope 公开纹理（2K 等距圆柱贴图，版权见其许可）。月海 / 环形山 / 山脉 / 探测器坐标为 IAU 月面命名及 NASA LRO / 中国探月工程公开任务坐标整理，标注坐标供探索参考，非勘界用途。引擎使用 three.js（MIT）自托管。": ": Surface imagery uses public Solar System Scope textures (2K equirectangular map; see their licence). Maria, craters, mountain ranges and probe coordinates are compiled from IAU lunar nomenclature and public NASA LRO / China Lunar Exploration Program mission coordinates; coordinates are for exploration only, not for boundary purposes. The engine is self-hosted three.js (MIT)."
+ },
+ "sub": {}
+}

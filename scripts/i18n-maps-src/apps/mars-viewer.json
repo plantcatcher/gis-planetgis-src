@@ -1,0 +1,12 @@
+{
+ "exact": {
+  "火星模拟器 · 真实火面 3D 互动地图": "Mars Simulator · True-Surface 3D Map",
+  "点预设镜头平滑转到对应区域。再拖拽即可自由旋转，滚轮放大看火山口与峡谷谷壁细节。": "Click a preset camera to glide to that region. Then drag to rotate freely and scroll to zoom into crater and canyon-wall detail.",
+  "真实昼夜（按季节与时刻打光）": "Real daylight (lit by season and time of day)",
+  "Ls 为太阳黄经：0° 北半球春分、90° 夏至、180° 秋分、270° 冬至。火星自转轴倾角 25.19°，季节幅度比地球更大；火星年长 686.98 个地球日（约 668.6 sol），一个 sol = 24 小时 39 分 35 秒。默认「浏览模式」太阳跟随镜头，打开真实昼夜后，夜半球自然压暗、晨昏线随时刻移动。": "Ls is solar longitude: 0° is the northern spring equinox, 90° the summer solstice, 180° the autumn equinox, 270° the winter solstice. Mars's axial tilt is 25.19°, so its seasons swing wider than Earth's; a Martian year is 686.98 Earth days (~668.6 sols), and one sol is 24 h 39 m 35 s. In the default “browse” mode the Sun follows the camera; with real daylight on, the night hemisphere darkens naturally and the terminator moves with the clock.",
+  "颜色来自火面反照率与矿物成分：氧化铁让大部分地表偏橙红，古老高地偏亮，玄武岩平原与尘埃覆盖区偏暗；南北两极的白色是水冰与干冰冰盖。暗区「大瑟提斯」在望远镜时代就被看见，一直是最醒目的地标。": "Colour comes from surface albedo and mineral composition: iron oxide gives most of the surface its orange-red cast, ancient highlands read brighter, and basalt plains and dust-covered regions read darker; the white at both poles is the water-ice and dry-ice cap. The dark region Syrtis Major was already visible through early telescopes and remains the most striking landmark.",
+  "：火面影像来自 Solar System Scope 公开纹理（2K 等距圆柱贴图，版权见其许可）。地貌中心坐标与直径取 USGS / IAU Gazetteer of Planetary Nomenclature（planetocentric 纬度、东经 0–360°）；着陆器坐标取 NASA / ESA 官方公布值。标注坐标供探索参考，非勘界用途。引擎使用 three.js（MIT）自托管。": ": Surface imagery uses public Solar System Scope textures (2K equirectangular map; see their licence). Landform centre coordinates and diameters come from the USGS / IAU Gazetteer of Planetary Nomenclature (planetocentric latitude, 0–360°E); lander coordinates are the official NASA / ESA values. Coordinates are for exploration only, not for boundary purposes. The engine is self-hosted three.js (MIT).",
+  "火面地貌标注": "Surface feature labels"
+ },
+ "sub": {}
+}

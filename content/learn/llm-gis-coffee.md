@@ -4,9 +4,8 @@ title: 跟大模型说帮我找块地开咖啡馆，它真去查了
 summary: 当你说"帮我找块地开咖啡馆"，地理大模型能真的去查数据、做空间分析并给出选址建议。本文拆解大模型理解空间的三条路径——知识注入、工具调用（Agent）与多模态识图，说明它如何把 GIS 从专家工具变成一场对话，以及当前在拓扑关系与精确计算上的能力边界。
 date: 2026-08-08
 category: 地理基础
-level: 大学
 subject: 地理信息技术
-tags: 地理, 大学地理
+tags: 地理
 cover: https://blogphoto.planetgis.cn/PicGo/2026-08-08-4a269f732bb8afda83a1b65e64a91817-sz_900144.png
 ---
 

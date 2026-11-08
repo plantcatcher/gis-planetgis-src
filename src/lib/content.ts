@@ -49,16 +49,16 @@ export interface ContentItem {
   category?: string;
   /** 学科方向（仅 learn 使用）：自然地理 / 人文地理 / 区域地理 / 地理信息技术。 */
   subject?: string;
-  /** 学段（仅 learn 使用，可选）：初中 / 高中 / 大学。与 category（专题）、subject（学科）三者正交。 */
-  level?: string;
   /**
    * 主题标签（细分分类，仅 maps / games 使用）：比 category（互动地图 / 地理游戏）
    * 更细的一层，一条目可归多个主题，逗号分隔。用于 /maps、/games 的筛选。
    */
   topics?: string[];
   /**
-   * 地域范围（仅 maps / games 使用）：中国 / 世界 / 通用。
+   * 地域范围（仅 maps / games 使用）：中国 / 世界 / 太空 / 通用。
    * 与 topics（主题）正交，是 /maps、/games 的第二道筛选。
+   * 只允许这四个值——更细的地理粒度（美国 / 日本 / 南极 / 月球…）写进 topics，
+   * 否则筛选 chip 会退化成一堆只含一两条的孤岛。
    */
   scope?: string;
   tags?: string[];
@@ -221,7 +221,6 @@ for (const row of CONTENT_INDEX) {
     date: data.date,
     category: data.category,
     subject: data.subject,
-    level: data.level,
     topics: data.topics ? data.topics.split(',').map((s) => s.trim()).filter(Boolean) : [],
     scope: data.scope,
     tags: data.tags ? data.tags.split(',').map((s) => s.trim()).filter(Boolean) : [],
@@ -385,7 +384,7 @@ export const isResourceViewOnly = (i: ContentItem): boolean =>
 
 // 地理学习板块的「专题栏目」分类，按固定顺序返回，便于列表页生成筛选。
 // 注意：category 的语义是「专题栏目」（海平面模拟 / 历史地理 / 区域地理 / 地理基础），
-// 与 subject（学科方向）、level（学段）三者正交——不要再把学段值塞进 category。
+// 与 subject（学科方向）正交——不要把学科值塞进 category。
 const LEARN_CATEGORY_ORDER = ['海平面模拟', '历史地理', '区域地理', '地理基础'];
 export const getLearnCategories = (): string[] => {
   const cats = Array.from(
@@ -406,24 +405,7 @@ export const getLearnCategories = (): string[] => {
   });
 };
 
-// 地理学习板块的「学段」（仅课本同步类条目可选标注）：初中 / 高中 / 大学。
-// 与 category（专题栏目）、subject（学科方向）正交，多数条目没有学段。
-const LEARN_LEVEL_ORDER = ['初中', '高中', '大学'];
-export const getLearnLevels = (): string[] => {
-  const lvls = Array.from(
-    new Set(items.filter((i) => i.type === 'learn').map((i) => i.level).filter(Boolean) as string[]),
-  );
-  return lvls.sort((a, b) => {
-    const ia = LEARN_LEVEL_ORDER.indexOf(a);
-    const ib = LEARN_LEVEL_ORDER.indexOf(b);
-    if (ia === -1 && ib === -1) return a.localeCompare(b);
-    if (ia === -1) return 1;
-    if (ib === -1) return -1;
-    return ia - ib;
-  });
-};
-
-// 地理学习板块的学科方向（与专题 category、学段 level 正交）。
+// 地理学习板块的学科方向（与专题 category 正交）。
 // 沿用《中国大百科全书（第三版）·地理学》四大板块：自然地理学 / 人文地理学 /
 // 区域地理学 / 地理信息科学——也是中小学到高考地理的通用分法，对自助学习受众最友好。
 export const LEARN_SUBJECTS = ['自然地理', '人文地理', '区域地理', '地理信息技术'] as const;
@@ -472,8 +454,12 @@ export const getWorkTopics = (type: 'map' | 'game'): { name: string; count: numb
     .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, 'zh-Hans-CN'));
 };
 
-/** 地域范围的展示顺序（固定：中国 → 世界 → 通用，其余按出现次数兜底） */
-const SCOPE_ORDER = ['中国', '世界', '通用'];
+/**
+ * 地域范围的展示顺序（固定：中国 → 世界 → 太空 → 通用，其余按出现次数兜底）。
+ * 这四个值是受控词表：content/maps、content/games 的 scope 字段只应写这四个之一，
+ * 更细的粒度放 topics。未知值仍会显示（不至于丢数据），但会排在最后。
+ */
+const SCOPE_ORDER = ['中国', '世界', '太空', '通用'];
 
 /**
  * 某一类（map / game）的「地域范围」聚合，用于第二道筛选。

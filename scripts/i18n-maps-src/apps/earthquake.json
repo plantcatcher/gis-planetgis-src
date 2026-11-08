@@ -1,0 +1,9 @@
+{
+ "exact": {
+  "全球实时地震地图 · USGS 实时震情": "Global Live Earthquakes · USGS Real-Time Feed",
+  "按震级下限过滤。M≥4.5 只留能明显感知的中强以上地震，M≥6 是全球关注的破坏性地震。": "Filter by minimum magnitude. M≥4.5 keeps only moderate and stronger quakes you would clearly feel; M≥6 means destructive earthquakes of global concern.",
+  "自动刷新（60s）": "Auto-refresh (60 s)",
+  "震源光晕": "Hypocentre glow"
+ },
+ "sub": {}
+}

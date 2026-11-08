@@ -8,7 +8,7 @@ order: 94
 date: 2026-11-01
 category: 互动地图
 topics: 水系与地形
-scope: 日本
+scope: 世界
 tags: 日本,河流,水系,水文,Japan,互动地图,国土数値情報
 ---
 

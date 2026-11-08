@@ -1,0 +1,6 @@
+{
+ "exact": {
+  "**制图合规说明**：GADM 原始数据按印度方面的划法，把中印边界西段的阿克赛钦、喀喇昆仑走廊与东段的藏南地区一并计入印度行政区。本站遵循中国法律法规与地图编制规范，已在数据转换阶段按中方主张界线做剔除处理：**藏南地区（印方所谓「阿鲁纳恰尔邦」）整体属于中国领土，本图不作呈现、其面积亦不计入统计**；阿克赛钦与喀喇昆仑走廊归入中国，查谟和克什米尔只保留印方实控部分；GADM 用于标记他国主张版本的重复要素（Z 系列）一并去除。地图界线画法以中方主张为准，正式制图请使用自然资源部标准地图服务提供的官方数据。": "**Cartographic compliance note**: The raw GADM data follows India's own delimitation, counting Aksai Chin and the Karakoram corridor in the western sector and the Zangnan (South Tibet) area in the eastern sector as Indian administrative territory. This site follows Chinese law and cartographic standards and has removed them during data conversion, in line with China's claimed boundary: **Zangnan — the area India calls “Arunachal Pradesh” — is entirely Chinese territory, is not shown on this map, and its area is excluded from the statistics**; Aksai Chin and the Karakoram corridor are counted as China; for Jammu and Kashmir only the area under Indian control is retained; and the duplicate features GADM uses to mark other claimants' versions (the Z series) have been removed. Boundaries are drawn according to China's position; for formal cartography use the official data from the Ministry of Natural Resources' standard map service."
+ },
+ "sub": {}
+}

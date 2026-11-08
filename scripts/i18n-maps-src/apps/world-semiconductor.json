@@ -1,0 +1,15 @@
+{
+ "exact": {
+  "全球半导体 / 晶圆厂分布图 · 互动地图": "Global Semiconductor Fabs · Interactive Map",
+  "全球半导体 / 晶圆厂分布图": "Global Semiconductor Fabs",
+  "约 49 座主要晶圆厂 · 月产能约 382 万片(300mm 等效) · 按产能着色 · 1969—2026 投产回放": "~49 major fabs · ~3.82 million wafers/month (300 mm equivalent) · shaded by capacity · 1969–2026 opening replay",
+  "晶圆厂目录": "Fab Directory",
+  "月产能(千片)": "Monthly capacity (k wafers)",
+  "在营晶圆厂": "Operating fabs",
+  "晶圆厂月产能（环越大越亮，产能越高，千片/月）": "Fab monthly capacity (larger, brighter rings = higher output, k wafers/month)",
+  "2026 年 · 累计投产 49 座晶圆厂": "2026 · 49 fabs opened in total",
+  "搜索晶圆厂 / 公司 / 国家": "Search fab / company / country",
+  "回放数值 = 已投产晶圆厂按产能求和，不是当年真实产能": "Replay figure = capacity summed across fabs already opened, not the actual capacity that year"
+ },
+ "sub": {}
+}

@@ -16,7 +16,6 @@ import {
   getResources,
   getLearnCategories,
   getLearnSubjects,
-  getLearnLevels,
   countTags,
   isProvinceTag,
   isResourceGated,
@@ -332,21 +331,16 @@ const LearnGrid = () => {
   const all = getLearns();
   const subjects = getLearnSubjects();
   const categories = getLearnCategories();
-  const levels = getLearnLevels();
   // 标签：只统计本板块（科普文章）内的出现次数，数字与点击筛选结果一致
   const allTags = useMemo(() => countTags(all).slice(0, 14), [all]);
 
   const initialSubject = searchParams.get('subject');
   const initialCategory = searchParams.get('category');
-  const initialLevel = searchParams.get('level');
   const [activeSubject, setActiveSubject] = useState(
     initialSubject && subjects.some((s) => s.name === initialSubject) ? initialSubject : '全部',
   );
   const [activeCategory, setActiveCategory] = useState(
     initialCategory && categories.includes(initialCategory) ? initialCategory : '全部',
-  );
-  const [activeLevel, setActiveLevel] = useState(
-    initialLevel && levels.includes(initialLevel) ? initialLevel : '全部',
   );
   const [activeTags, setActiveTags] = useState<string[]>([]);
   const [query, setQuery] = useState(searchParams.get('q') || '');
@@ -368,20 +362,16 @@ const LearnGrid = () => {
     setActiveSubject(s && subjects.some((x) => x.name === s) ? s : '全部');
     const c = searchParams.get('category');
     setActiveCategory(c && categories.includes(c) ? c : '全部');
-    const l = searchParams.get('level');
-    setActiveLevel(l && levels.includes(l) ? l : '全部');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
-  // 筛选状态 → URL：点击筛选时把 学科/专题/学段 写回 query string
-  const syncUrl = (next: { subject?: string; category?: string; level?: string }) => {
+  // 筛选状态 → URL：点击筛选时把 学科/专题 写回 query string
+  const syncUrl = (next: { subject?: string; category?: string }) => {
     const s = next.subject ?? activeSubject;
     const c = next.category ?? activeCategory;
-    const l = next.level ?? activeLevel;
     const p: Record<string, string> = {};
     if (s !== '全部') p.subject = s;
     if (c !== '全部') p.category = c;
-    if (l !== '全部') p.level = l;
     if (query.trim()) p.q = query.trim();
     setSearchParams(p, { replace: true });
   };
@@ -394,18 +384,13 @@ const LearnGrid = () => {
     setActiveCategory(name);
     syncUrl({ category: name });
   };
-  const pickLevel = (name: string) => {
-    setActiveLevel(name);
-    syncUrl({ level: name });
-  };
   const toggleTag = (t: string) =>
     setActiveTags((prev) => (prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]));
 
-  // 四级过滤：学科 → 专题 → 学段 → 标签，最后正文检索
+  // 三级过滤：学科 → 专题 → 标签，最后正文检索
   let base = all;
   if (activeSubject !== '全部') base = base.filter((i) => i.subject === activeSubject);
   if (activeCategory !== '全部') base = base.filter((i) => i.category === activeCategory);
-  if (activeLevel !== '全部') base = base.filter((i) => i.level === activeLevel);
   if (activeTags.length) base = base.filter((i) => (i.tags || []).some((t) => activeTags.includes(t)));
   const q = query.trim();
   const searched: ContentItem[] = q ? searchAll(q, base).map((h) => h.item) : base;
@@ -559,30 +544,6 @@ const LearnGrid = () => {
             })}
           </div>
         </div>
-        {levels.length > 0 && (
-          <div>
-            <SectionLabel className="mb-3 !text-[11px]">{t('facet.level')}</SectionLabel>
-            <div className="space-y-1">
-              {['全部', ...levels].map((name) => {
-                const count = name === '全部' ? all.filter((i) => i.level).length : all.filter((i) => i.level === name).length;
-                const active = activeLevel === name;
-                return (
-                  <button
-                    key={name}
-                    type="button"
-                    onClick={() => pickLevel(name)}
-                    className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-[13px] transition-colors ${
-                      active ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-muted text-muted-foreground'
-                    }`}
-                  >
-                    <span>{facetLabel(name, lang)}</span>
-                    <span className="text-[11px] opacity-70">{count}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
       </aside>
 
       {/* 主区 */}
@@ -615,7 +576,6 @@ const LearnGrid = () => {
             {t('list.entries', { n: searched.length })}
             {activeSubject !== FACET_ALL && ` · ${localizeLabel(activeSubject, lang)}`}
             {activeCategory !== FACET_ALL && ` · ${localizeLabel(activeCategory, lang)}`}
-            {activeLevel !== FACET_ALL && ` · ${localizeLabel(activeLevel, lang)}`}
             {q && ` · ${t('list.contains', { q })}`}
           </p>
           <div className="flex items-center gap-1 rounded-lg border border-border p-0.5 shrink-0">
