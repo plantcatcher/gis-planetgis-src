@@ -229,7 +229,7 @@ const I18n = {
       'shareLine5': '👇 Challenge your geography skills!',
       'shareLink': '🔗 https://planetgis.cn/geoquiz',
       // 底部
-      'footer': 'Satellite: Esri World Imagery · © Planet Little Hunter',
+      'footer': 'Satellite: Esri World Imagery · © Planet Catcher',
       // 大洲
       'continentAsia': 'Asia', 'continentEurope': 'Europe', 'continentAmerica': 'Americas',
       'continentAfrica': 'Africa', 'continentOceania': 'Oceania',

@@ -502,9 +502,13 @@ export const zh = {
   'notfound.h1': '页面未找到',
   'notfound.p': '您访问的页面可能已被删除或不存在，请检查网址是否正确。',
   'notfound.backHome': '返回首页',
+  'notfound.searchPlaceholder': '搜索地理知识库，例如「海平面」',
+  'notfound.searchButton': '搜索',
+  'notfound.nav.learn': '地理知识库',
+  'notfound.nav.maps': '互动地图',
+  'notfound.nav.downloads': '资料下载',
   'notfound.nav.blog': '科普博客',
   'notfound.nav.tools': '地理工具',
-  'notfound.nav.works': '可视化作品',
 
   // ===== GIS 资源导航 =====
   'wiki.title': 'GIS 资源导航 - 星球小捕手',

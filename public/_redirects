@@ -76,3 +76,25 @@
 /works/world-nuclear  /maps/world-nuclear  301
 /works/world-ports  /maps/world-ports  301
 /works/zaf-regions  /maps/zaf-regions  301
+
+# ===== 静态补充 =====
+
+/en/geoquiz  /geoquiz  301
+/en/geoshape  /geoshape  301
+/en/geotype  /geotype  301
+/en/chinapuzzle  /chinapuzzle  301
+/en/wiki  /wiki  301
+/favicon.ico  /favicon.png  301
+
+# ===== 动态规则：英文站详情页 → 中文正文（英文版尚未建立）=====
+
+/en/maps/:slug/full  /maps/:slug/full  301
+/en/maps/:slug/*  /maps/:slug/:splat  301
+/en/maps/:slug  /maps/:slug  301
+/en/learn/:slug  /learn/:slug  301
+/en/downloads/:slug  /downloads/:slug  301
+/en/tools/:slug  /tools/:slug  301
+/en/works/:slug  /works/:slug  301
+/en/games/:slug  /games/:slug  301
+/en/tag/:tag  /tag/:tag  301
+/archives/*  https://blog.planetgis.cn/archives/:splat  301

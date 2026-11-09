@@ -352,7 +352,7 @@ export const en: Record<keyof Dict, string> = {
   'channel.official.dialog.desc': 'Open WeChat, tap Scan, and follow "那山那海那座城" for the latest geography articles.',
 
   // ===== About =====
-  'about.title': 'About Us - Planet Catcher | PlanetGIS',
+  'about.title': 'About Us - Planet Catcher',
   'about.metaDesc': 'Planet Catcher is an independent creator brand focused on Earth science — telling the story of a changing planet with data and discovering the warmth of the world through maps.',
   'about.h1': 'About Planet Catcher',
   'about.intro': 'An independent creator brand focused on Earth science. We tell the story of a changing planet with data and discover the warmth of the world through maps — from the melting Antarctic ice sheet to the veins of urban traffic, from the hydraulic wisdom of ancient civilizations to simulations of future sea levels. Our mission is to make professional geography intuitive, engaging, and within reach.',
@@ -381,14 +381,14 @@ export const en: Record<keyof Dict, string> = {
   'about.backHome': 'Back to home',
 
   // ===== Contact =====
-  'contact.title': 'Contact Us - Planet Catcher | PlanetGIS',
+  'contact.title': 'Contact Us - Planet Catcher',
   'contact.metaDesc': 'Contact Planet Catcher — reach us via WeChat, Weibo, Bilibili, Xiaohongshu, YouTube and more. Business collaboration, content suggestions and technical consulting are all welcome.',
   'contact.h1': 'Contact Us',
   'contact.intro': 'Looking for geography collaboration, content suggestions, or technical consulting? Reach us through any of the channels below.',
   'contact.replyNote': 'We will reply to your message as soon as possible. For business partnerships, please send a private message on social media marked "商业合作" (business cooperation).',
 
   // ===== Terms of Service =====
-  'terms.title': 'Terms of Service - Planet Catcher | PlanetGIS',
+  'terms.title': 'Terms of Service - Planet Catcher',
   'terms.metaDesc': 'Planet Catcher Terms of Service — your rights and obligations when using this website, including content usage rules, disclaimers, advertising disclosure, and intellectual property notices.',
   'terms.h1': 'Terms of Service',
   'terms.updated': 'Last updated: July 7, 2026',
@@ -422,7 +422,7 @@ export const en: Record<keyof Dict, string> = {
   'terms.s8.p': 'If you have any questions about these Terms of Service, please contact us via the WeChat Official Account "星球小捕手" or Weibo.',
 
   // ===== Privacy Policy =====
-  'privacy.title': 'Privacy Policy - Planet Catcher | PlanetGIS',
+  'privacy.title': 'Privacy Policy - Planet Catcher',
   'privacy.metaDesc': 'Planet Catcher Privacy Policy — how we collect, use, and protect your personal information, including cookie usage and third-party services (Google Analytics, AdSense, and Tawk.to live chat).',
   'privacy.h1': 'Privacy Policy',
   'privacy.updated': 'Last updated: October 31, 2026',
@@ -513,9 +513,13 @@ export const en: Record<keyof Dict, string> = {
   'notfound.h1': 'Page Not Found',
   'notfound.p': 'The page you requested may have been deleted or no longer exists. Please check whether the URL is correct.',
   'notfound.backHome': 'Back to home',
+  'notfound.searchPlaceholder': 'Search the geography library, e.g. “sea level”',
+  'notfound.searchButton': 'Search',
+  'notfound.nav.learn': 'Geography library',
+  'notfound.nav.maps': 'Interactive maps',
+  'notfound.nav.downloads': 'Downloads',
   'notfound.nav.blog': 'Blog',
   'notfound.nav.tools': 'Geography tools',
-  'notfound.nav.works': 'Visualization works',
 
   // ===== GIS resource directory =====
   'wiki.title': 'GIS Resource Directory - Planet Catcher',

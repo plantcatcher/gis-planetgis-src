@@ -48,6 +48,24 @@ export function trackEvent(name: string, params?: Record<string, unknown>) {
   window.gtag('event', name, params || {});
 }
 
+/**
+ * 404 埋点：记下「用户想访问的地址」和来源页。
+ *
+ * GA4 默认报表里 404 只是一个标题「页面未找到 - 404」，看不出是哪些 URL 挂了。
+ * 只有把真实地址作为事件参数带上来，才能在「事件 → page_not_found → page_location」
+ * 里排出值得做 301 的死链清单。同时记 referrer，用来区分「本站旧链接」和
+ * 「外部/AI 引用链接」——前者自己修，后者只能靠重定向兜。
+ */
+export function trackNotFound(path: string, referrer?: string) {
+  if (typeof window === 'undefined') return;
+  trackEvent('page_not_found', {
+    // 地址栏的真实路径（不用 path 参数拼：英文站的 Router basename 会丢前缀）
+    page_location: `${window.location.origin}${window.location.pathname}${window.location.search}`,
+    page_path: path || window.location.pathname,
+    page_referrer: referrer || document.referrer || '',
+  });
+}
+
 // -----------------------------------------------------------------------------
 // 业务埋点：站内搜索 / 资料下载
 //
