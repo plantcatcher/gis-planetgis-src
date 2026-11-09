@@ -15,8 +15,11 @@ const AnalyticsTracker = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    // PageMeta 在页面组件里设置 document.title，子组件的 effect 先于父级执行，
-    // 因此这里读到的已经是本次路由的标题。
+    // 标题不读 document.title —— 两个原因：
+    // 1. 本组件是 AppShell 的兄弟节点且声明在前，effect 先于 PageMeta 的 effect 执行，
+    //    此刻 document.title 还是上一页的。
+    // 2. Tawk.to 客服挂件有 1 秒定时器会改写 document.title（「N 条新消息」）。
+    // 标题由 PageMeta 在渲染期登记（lib/page-title.ts），trackPageView 按 pathname 取。
     trackPageView(pathname);
   }, [pathname]);
 

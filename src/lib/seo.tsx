@@ -11,6 +11,7 @@ import { useI18n } from '@/i18n/LocaleContext';
 import { stripLang, withLang, hasEnglishVersion, HTML_LANG, OG_LOCALE } from '@/i18n/config';
 import { zh as dictZh } from '@/i18n/dict.zh';
 import { en as dictEn } from '@/i18n/dict.en';
+import { registerPageTitle } from '@/lib/page-title';
 
 export interface HeadData {
   title?: string;
@@ -143,6 +144,13 @@ export function PageMeta({ title, description, canonical, image }: PageMetaProps
       ? image
       : `${SITE}${image.startsWith('/') ? '' : '/'}${image}`
     : DEFAULT_OG;
+
+  // 渲染期就把标题登记给埋点，供 AnalyticsTracker 取用（见 lib/page-title.ts）。
+  // 必须在渲染期而不是 effect 里：AnalyticsTracker 与 AppShell 是兄弟节点，
+  // 它的 effect 声明在前、先于 PageMeta 的 effect 执行，读 document.title 会读到上一页。
+  // 而 document.title 本身还会被 Tawk.to 客服挂件每秒改写（「N 条新消息」）。
+  // 只登记、不读 document.title，标题就只来自这一个来源。
+  if (typeof window !== 'undefined') registerPageTitle(pathname, title);
 
   // 客户端：直接操作 document.head
   useEffect(() => {

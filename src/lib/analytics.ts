@@ -12,6 +12,8 @@
  * 转发给父页，由父页统一上报（见 useIframeAnalyticsBridge）。
  */
 
+import { getRegisteredPageTitle } from '@/lib/page-title';
+
 export const GA_MEASUREMENT_ID = 'G-SDBDPNLN25';
 
 declare global {
@@ -21,13 +23,22 @@ declare global {
   }
 }
 
-/** 发送一个 page_view。path 用当前 pathname，标题取实时的 document.title。 */
+/** 发送一个 page_view。标题优先取 PageMeta 在渲染期登记的标题（见 lib/page-title.ts）。 */
 export function trackPageView(path: string, title?: string) {
   if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
+  // path 来自 useLocation()，**不含 Router 的 basename** —— 英文站下是 /learn 而非
+  // /en/learn。直接拿它拼 page_location，会让英文页把自己报成中文页的 URL
+  // （GA4 里 /en/learn 的浏览全记在 /learn 上）。上报用真实地址栏路径，
+  // 标题登记表仍按 path 查（登记时用的也是这个不含前缀的 path）。
+  const urlPath = window.location.pathname || path;
   window.gtag('event', 'page_view', {
-    page_path: path,
-    page_location: `${window.location.origin}${path}${window.location.search}`,
-    page_title: title || document.title,
+    page_path: urlPath,
+    page_location: `${window.location.origin}${urlPath}${window.location.search}`,
+    // ⚠️ 绝不能用 document.title 兜底成「实时值」：Tawk.to 客服挂件有 1 秒定时器
+    //    会把 document.title 改成「N 条新消息」（GA4 里因此出现过 3 行伪页面）。
+    //    登记表没有记录时，说明这页没渲染 PageMeta（如 404 之外的异常路径），
+    //    此时退到 document.title 仍比丢掉标题好，但这是已知有噪声的兜底。
+    page_title: title || getRegisteredPageTitle(path) || document.title,
   });
 }
 
