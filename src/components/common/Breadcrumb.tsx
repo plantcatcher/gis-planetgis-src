@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { ChevronRight, Home } from 'lucide-react';
 import { useJsonLd } from '@/lib/seo';
+import { stripPageSegment } from '@/lib/pagination';
 import { useI18n } from '@/i18n/LocaleContext';
 import type { DictKey } from '@/i18n/LocaleContext';
 
@@ -53,17 +54,24 @@ const BreadcrumbSchema: React.FC<{ items: BreadcrumbItem[] }> = ({ items }) => {
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ items: propItems }) => {
   const location = useLocation();
+  const params = useParams<{ page?: string }>();
   const { t } = useI18n();
+
+  // 分页页（/downloads/page/2）要按基路径 /downloads 查名称，
+  // 否则 location.pathname.slice(1) 得到 "downloads/page/2"，查表落空 → 显示成「页面」。
+  const basePath = stripPageSegment(location.pathname);
+  const pageNo = Number(params.page) || 1;
 
   const items: BreadcrumbItem[] = propItems || [
     { label: t('nav.breadcrumbHome'), path: '/' },
-    ...(location.pathname !== '/'
+    ...(basePath !== '/'
       ? [
           {
-            label: pageNameMap[location.pathname.slice(1)]
-              ? t(pageNameMap[location.pathname.slice(1)])
-              : t('nav.page'),
+            label: pageNameMap[basePath.slice(1)] ? t(pageNameMap[basePath.slice(1)]) : t('nav.page'),
+            // 分页页把基路径做成链接（第 2 页 → 资料下载首页），最后一级是页码本身
+            ...(pageNo > 1 ? { path: basePath } : {}),
           },
+          ...(pageNo > 1 ? [{ label: t('pager.pageSuffix', { n: pageNo }) }] : []),
         ]
       : []),
   ];

@@ -57,6 +57,7 @@ export const en: Record<keyof Dict, string> = {
   'pager.nav': 'Pagination',
   'pager.prev': 'Previous page',
   'pager.next': 'Next page',
+  'pager.pageSuffix': 'Page {n}',
 
   // ===== Cards =====
   'card.chars': '{n} characters',

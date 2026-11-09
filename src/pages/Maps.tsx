@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { PAGE_SIZE, usePageNav, usePageParam } from '@/lib/pagination';
 import { motion } from 'framer-motion';
 import { Map as MapIcon, ArrowRight, Layers, Database, Square, LayoutGrid, List, Flame, Search, X, ChevronDown, ChevronUp, SlidersHorizontal } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
@@ -77,7 +78,7 @@ const Maps: React.FC = () => {
   useSearchTracking(search, 'maps');
   // 移动端筛选栏默认收起（桌面端 lg:block 常显，复用 /downloads 的折叠模式）
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   // 细分筛选：主题（topic）+ 地域（scope），两维正交，均由 content/maps/<slug>.md
   // 的 frontmatter（topics / scope）驱动——写什么就筛什么，新增地图不用改本页。
@@ -121,33 +122,21 @@ const Maps: React.FC = () => {
   );
 
   // 分页：每页 12 张。
-  // 页码存 URL（?page=N）而不是 useState —— 分页器渲染的是真正的 <a href>，
-  // 爬虫顺着链接就能发现第 2 页起的全部地图；若页码只在内存里，
-  // 静态 HTML 里所有页码链接都会指向第 1 页，后 9 页对搜索引擎等于不存在。
-  const PAGE_SIZE = 12;
-  const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
-  const currentPage = Math.min(Math.max(1, Number(searchParams.get('page')) || 1), totalPages);
-  const pageItems = sorted.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
-  const goPage = (p: number) => {
-    const sp = new URLSearchParams(searchParams);
-    if (p <= 1) sp.delete('page');
-    else sp.set('page', String(p));
-    setSearchParams(sp, { replace: true });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-  // 主题/地域/排序/搜索变化 → 页码归 1（用 ref 跳过首次挂载：
-  // 直接访问 /maps?page=3 时不能一进来就把 page 删掉）
+  // 页码走**路径**（/maps/page/2）：本站是 SSG，dist 里一个 URL 对应一个扁平 .html，
+  // query string 不参与文件映射——?page=2 打到的还是 dist/maps.html，内容永远是第 1 页。
+  // 改成路径后 /maps/page/2 -> dist/maps/page/2.html，后 9 页才是真正可抓取的独立页面。
+  const size = PAGE_SIZE.maps;
+  const totalPages = Math.max(1, Math.ceil(sorted.length / size));
+  const { currentPage, goPage, setFilters } = usePageNav(totalPages);
+  const pageItems = sorted.slice((currentPage - 1) * size, currentPage * size);
+  // 主题/地域/排序/搜索变化 → 退回第 1 页（用 ref 跳过首次挂载：
+  // 直接访问 /maps/page/3 时不能一进来就被弹回第 1 页）。
   const filterSig = `${topic}|${scope}|${sortMode}|${search}`;
   const prevFilterSig = useRef(filterSig);
   useEffect(() => {
     if (prevFilterSig.current === filterSig) return;
     prevFilterSig.current = filterSig;
-    const cur = Number(searchParams.get('page')) || 1;
-    if (cur > 1) {
-      const sp = new URLSearchParams(searchParams);
-      sp.delete('page');
-      setSearchParams(sp, { replace: true });
-    }
+    setFilters(searchParams);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterSig]);
 
@@ -162,19 +151,26 @@ const Maps: React.FC = () => {
   }));
   const narrowed = topic !== '全部' || scope !== '全部' || search.trim() !== '';
 
+  // 分页页（/maps/page/3）要有自己的标题与 canonical，否则整站 10 页共用
+  // 一个 <title> 和一份 canonical，爬虫只会留第 1 页。
+  const page = usePageParam();
+  const pageTag = page > 1 ? t('pager.pageSuffix', { n: page }) : '';
+
   return (
     <>
       <PageMeta
-        title={`${t('maps.title')} - ${t('brand.name')}`}
+        title={pageTag ? `${t('maps.title')}（${pageTag}） - ${t('brand.name')}` : `${t('maps.title')} - ${t('brand.name')}`}
         description={t('maps.metaDescription')}
-        canonical="https://planetgis.cn/maps"
       />
       <Breadcrumb />
       <div className="min-h-screen bg-background text-foreground">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
           <header className="mb-8">
             <div className="flex items-end gap-4">
-              <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{t('maps.title')}</h1>
+              <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+                {t('maps.title')}
+                {pageTag && <span className="ml-2 text-base font-medium text-muted-foreground">{pageTag}</span>}
+              </h1>
               <div className="flex-1 h-[2px] bg-gradient-to-r from-primary/50 to-transparent mb-2" />
             </div>
             <div className="mt-3 h-1 w-14 bg-primary rounded-full" />

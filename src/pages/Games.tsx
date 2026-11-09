@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { PAGE_SIZE, usePageNav, usePageParam } from '@/lib/pagination';
 import { motion } from 'framer-motion';
 import { Gamepad2, ArrowRight, Flame, Play, Trophy, ChevronDown, Sparkles } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
@@ -78,7 +79,7 @@ const Games: React.FC = () => {
   const scopes = getWorkScopes('game');
   const [topic, setTopic] = useState('全部');
   const [scope, setScope] = useState('全部');
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   // 默认按热度（近 30 天 GA4 浏览量）降序，与资料下载页一致；可切回最新。
   const [sortMode, setSortMode] = useState<'latest' | 'heat'>('heat');
 
@@ -107,31 +108,19 @@ const Games: React.FC = () => {
   )[0];
   const featuredUrl = featured ? featured.link || `/${featured.slug}` : '/games';
 
-  // 分页：每页 12 款。页码存 URL（?page=N），与 /maps、/downloads 同一套做法：
-  // 分页器渲染的是真正的 <a href>，页码不在 URL 里的话静态 HTML 中所有页码链接都会指向第 1 页。
-  const PAGE_SIZE = 12;
-  const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
-  const currentPage = Math.min(Math.max(1, Number(searchParams.get('page')) || 1), totalPages);
-  const pageItems = sorted.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
-  const goPage = (p: number) => {
-    const sp = new URLSearchParams(searchParams);
-    if (p <= 1) sp.delete('page');
-    else sp.set('page', String(p));
-    setSearchParams(sp, { replace: true });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-  // 主题/地域/排序变化 → 页码归 1（ref 跳过首次挂载，直接访问 ?page=N 时保留页码）
+  // 分页：每页 12 款，页码走**路径**（/games/page/2），与 /maps、/downloads 同一套口径。
+  // SSG 下 query 不参与文件映射，?page=N 拿到的永远是同一份 dist/games.html。
+  const size = PAGE_SIZE.games;
+  const totalPages = Math.max(1, Math.ceil(sorted.length / size));
+  const { currentPage, goPage, setFilters } = usePageNav(totalPages);
+  const pageItems = sorted.slice((currentPage - 1) * size, currentPage * size);
+  // 主题/地域/排序变化 → 退回第 1 页（ref 跳过首次挂载，直接访问 /games/page/2 时保留页码）
   const filterSig = `${topic}|${scope}|${sortMode}`;
   const prevFilterSig = useRef(filterSig);
   useEffect(() => {
     if (prevFilterSig.current === filterSig) return;
     prevFilterSig.current = filterSig;
-    const cur = Number(searchParams.get('page')) || 1;
-    if (cur > 1) {
-      const sp = new URLSearchParams(searchParams);
-      sp.delete('page');
-      setSearchParams(sp, { replace: true });
-    }
+    setFilters(searchParams);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterSig]);
 
@@ -146,12 +135,15 @@ const Games: React.FC = () => {
   }));
   const narrowed = topic !== '全部' || scope !== '全部';
 
+  // 分页页标题/canonical 各自独立（目前只有 4 款游戏、1 页，但口径与其它列表页保持一致）
+  const page = usePageParam();
+  const pageTag = page > 1 ? t('pager.pageSuffix', { n: page }) : '';
+
   return (
     <>
       <PageMeta
-        title={`${t('games.title')} - ${t('brand.name')}`}
+        title={pageTag ? `${t('games.title')}（${pageTag}） - ${t('brand.name')}` : `${t('games.title')} - ${t('brand.name')}`}
         description={t('games.metaDescription')}
-        canonical="https://planetgis.cn/games"
       />
       <Breadcrumb />
       <div className="min-h-screen bg-background text-foreground">
@@ -202,6 +194,7 @@ const Games: React.FC = () => {
                 </div>
                 <h1 className="mt-4 text-4xl md:text-5xl font-bold tracking-tight">
                   {t('games.title')}
+                  {pageTag && <span className="ml-3 text-xl font-medium text-white/50">{pageTag}</span>}
                 </h1>
                 <p className="mt-4 max-w-lg text-sm md:text-base leading-relaxed text-white/70">
                   {t('games.subtitle')}
@@ -333,7 +326,7 @@ const Games: React.FC = () => {
                 {pageItems.map((game, i) => {
                   const playUrl = game.link || `/${game.slug}`;
                   const accent = ACCENTS[i % ACCENTS.length];
-                  const number = String((currentPage - 1) * PAGE_SIZE + i + 1).padStart(2, '0');
+                  const number = String((currentPage - 1) * size + i + 1).padStart(2, '0');
                   return (
                     <CardAnim key={game.slug} delay={i * 0.08} className="h-full">
                       {/* 卡片分工：封面、标题、开始游戏 → 游戏本体；底部「查看详情与解读」→ /games/<slug> 介绍页 */}

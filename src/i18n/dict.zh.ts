@@ -51,6 +51,7 @@ export const zh = {
   'pager.nav': '分页导航',
   'pager.prev': '上一页',
   'pager.next': '下一页',
+  'pager.pageSuffix': '第 {n} 页',
 
   // ===== 卡片 =====
   'card.chars': '{n} 字',
