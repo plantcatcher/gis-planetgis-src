@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { PAGE_SIZE, usePageNav, usePageParam } from '@/lib/pagination';
 import { motion } from 'framer-motion';
 import { ArrowRight, ExternalLink, Compass, Globe, Search, Calendar, LayoutGrid, List, Flame, SlidersHorizontal, ChevronDown, ChevronUp } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
@@ -111,7 +112,7 @@ const CardAnim: React.FC<{ children: React.ReactNode; delay?: number; className?
 // 互动地图与小游戏已迁到 /maps、/games 各自独立的汇总页。
 const WorkGrid = () => {
   const { lang, t } = useI18n();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const all = getWorks();
   const categories = useMemo(() => getWorkCategories(), []);
   const [active, setActive] = useState(FACET_ALL);
@@ -128,31 +129,20 @@ const WorkGrid = () => {
       : (b.date || '').localeCompare(a.date || '') || a.order - b.order,
   );
 
-  // 分页：每页 12 个。页码存 URL（?page=N），与 /maps、/games、/downloads 一致：
-  // 分页器渲染真正的 <a href>，页码不在 URL 里则静态 HTML 中所有页码链接都指向第 1 页。
-  const PAGE_SIZE = 12;
-  const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
-  const currentPage = Math.min(Math.max(1, Number(searchParams.get('page')) || 1), totalPages);
-  const pageItems = sorted.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
-  const goPage = (p: number) => {
-    const sp = new URLSearchParams(searchParams);
-    if (p <= 1) sp.delete('page');
-    else sp.set('page', String(p));
-    setSearchParams(sp, { replace: true });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-  // 分类/排序变化 → 页码归 1（ref 跳过首次挂载，直接访问 ?page=N 时保留页码）
+  // 分页：每页 12 个。页码走**路径**（/works/page/2），与 /maps、/games、/downloads 一致。
+  // 不用 ?page=N：SSG 下 query 不参与文件映射，/works?page=2 打到的还是 dist/works.html，
+  // 预渲染只能产出第 1 页，分页器里的链接等于全部指向同一份内容。
+  const size = PAGE_SIZE.works;
+  const totalPages = Math.max(1, Math.ceil(sorted.length / size));
+  const { currentPage, goPage, setFilters } = usePageNav(totalPages);
+  const pageItems = sorted.slice((currentPage - 1) * size, currentPage * size);
+  // 分类/排序变化 → 页码归 1。setFilters 会连路径里的 /page/N 一起退回第 1 页。
   const filterSig = `${active}|${sortMode}`;
   const prevFilterSig = useRef(filterSig);
   useEffect(() => {
     if (prevFilterSig.current === filterSig) return;
     prevFilterSig.current = filterSig;
-    const cur = Number(searchParams.get('page')) || 1;
-    if (cur > 1) {
-      const sp = new URLSearchParams(searchParams);
-      sp.delete('page');
-      setSearchParams(sp, { replace: true });
-    }
+    setFilters(searchParams);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterSig]);
 
@@ -339,7 +329,7 @@ const SubdomainGrid = () => {
 
 const LearnGrid = () => {
   const { lang, t } = useI18n();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const all = getLearns();
   const subjects = getLearnSubjects();
   const categories = getLearnCategories();
@@ -358,12 +348,6 @@ const LearnGrid = () => {
   const [query, setQuery] = useState(searchParams.get('q') || '');
   // 排序：默认「热度」（近 30 天 GA4 浏览量降序，整页拍平）；可切「最新」恢复学科分组
   const [sortMode, setSortMode] = useState<'latest' | 'heat'>('heat');
-  const pickSort = (m: 'latest' | 'heat') => {
-    setSortMode(m);
-    const sp = new URLSearchParams(searchParams);
-    sp.delete('page');
-    setSearchParams(sp, { replace: true });
-  };
 
   // GA4：知识库搜索关键词（防抖 + 会话内去重，避免记录输入中间态）
   useSearchTracking(query, 'learn');
@@ -377,25 +361,6 @@ const LearnGrid = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
-  // 筛选状态 → URL：点击筛选时把 学科/专题 写回 query string
-  const syncUrl = (next: { subject?: string; category?: string }) => {
-    const s = next.subject ?? activeSubject;
-    const c = next.category ?? activeCategory;
-    const p: Record<string, string> = {};
-    if (s !== '全部') p.subject = s;
-    if (c !== '全部') p.category = c;
-    if (query.trim()) p.q = query.trim();
-    setSearchParams(p, { replace: true });
-  };
-
-  const pickSubject = (name: string) => {
-    setActiveSubject(name);
-    syncUrl({ subject: name });
-  };
-  const pickCategory = (name: string) => {
-    setActiveCategory(name);
-    syncUrl({ category: name });
-  };
   const toggleTag = (t: string) =>
     setActiveTags((prev) => (prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]));
 
@@ -426,36 +391,51 @@ const LearnGrid = () => {
   );
 
   // 分页 + 扁平分组（方案 A：最新模式保留学科小标题，热度模式整页拍平）
-  const PAGE_SIZE = 18;
+  // 页码走路径（/learn/page/2）：SSG 下 ?page=N 拿到的永远是同一份 dist/learn.html。
+  const size = PAGE_SIZE.learn;
   const subjectCount: Record<string, number> = {};
   for (const g of groups) subjectCount[g.name] = g.items.length;
   const flat = groups.flatMap((g) => g.items.map((it) => ({ subject: g.name, item: it })));
   const flatAll = sortMode === 'heat' ? heatSorted.map((it) => ({ subject: '', item: it })) : flat;
-  const totalPages = Math.max(1, Math.ceil(flatAll.length / PAGE_SIZE));
-  const currentPage = Math.min(Math.max(1, Number(searchParams.get('page')) || 1), totalPages);
-  const pageItems = flatAll.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
-  const goPage = (p: number) => {
-    const sp = new URLSearchParams(searchParams);
-    if (p <= 1) sp.delete('page');
-    else sp.set('page', String(p));
-    setSearchParams(sp, { replace: true });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const totalPages = Math.max(1, Math.ceil(flatAll.length / size));
+  const { currentPage, goPage, setFilters } = usePageNav(totalPages);
+  const pageItems = flatAll.slice((currentPage - 1) * size, currentPage * size);
   // 搜索词变化 → 页码归 1。
-  // ⚠️ 必须用 ref 跳过首次挂载：直接访问 /learn?page=3（爬虫抓取分页链接、或用户收藏）
-  //    时若在挂载时清掉 page，页面会立刻退回第 1 页 —— 分页器里那些可爬的 <a> 就白给了。
+  // ⚠️ 必须用 ref 跳过首次挂载：直接访问 /learn/page/3（爬虫抓取分页链接、或用户收藏）
+  //    时若在挂载时退回第 1 页，分页器里那些可爬的 <a> 就白给了。
   const prevQuery = useRef(query);
   useEffect(() => {
     if (prevQuery.current === query) return;
     prevQuery.current = query;
-    const cur = Number(searchParams.get('page')) || 1;
-    if (cur > 1) {
-      const sp = new URLSearchParams(searchParams);
-      sp.delete('page');
-      setSearchParams(sp, { replace: true });
-    }
+    setFilters(searchParams);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
+
+  // 筛选状态 → URL：点击筛选时把 学科/专题 写回 query string。
+  // ⚠️ 走 setFilters 而不是 setSearchParams：后者只改 query，
+  //    停在 /learn/page/5 点学科会留在第 5 页（而筛选后可能只剩 1 页），看到一片空白。
+  const syncUrl = (next: { subject?: string; category?: string }) => {
+    const s = next.subject ?? activeSubject;
+    const c = next.category ?? activeCategory;
+    const p: Record<string, string> = {};
+    if (s !== '全部') p.subject = s;
+    if (c !== '全部') p.category = c;
+    if (query.trim()) p.q = query.trim();
+    setFilters(p);
+  };
+
+  const pickSubject = (name: string) => {
+    setActiveSubject(name);
+    syncUrl({ subject: name });
+  };
+  const pickCategory = (name: string) => {
+    setActiveCategory(name);
+    syncUrl({ category: name });
+  };
+  const pickSort = (m: 'latest' | 'heat') => {
+    setSortMode(m);
+    setFilters(searchParams);
+  };
 
   // 当页条目按学科分段渲染：某学科在当页首次出现时显示其小标题（跨页重显示）
   const groupedNodes: React.ReactNode[] = [];
@@ -723,7 +703,7 @@ const FacChip: React.FC<{ label: string; count?: number; active: boolean; onClic
 const ResourceGrid = () => {
   const { lang, t } = useI18n();
   const all = getResources();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   // 与知识库页一致：支持从 URL ?q= 进入（「我的学习」的搜索历史点回来能直接带出关键词）
   const [query, setQuery] = useState(searchParams.get('q') || '');
 
@@ -929,30 +909,19 @@ const ResourceGrid = () => {
     return (b.heat || 0) - (a.heat || 0) || (b.date || '').localeCompare(a.date || '');
   });
 
-  // 分页：每页 24 条；页码走 URL ?page=N（筛选/搜索变化自动归 1）
-  const PAGE_SIZE = 24;
-  const totalPages = Math.max(1, Math.ceil(sortedList.length / PAGE_SIZE));
-  const currentPage = Math.min(Math.max(1, Number(searchParams.get('page')) || 1), totalPages);
-  const pageItems = sortedList.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
-  const goPage = (p: number) => {
-    const sp = new URLSearchParams(searchParams);
-    if (p <= 1) sp.delete('page');
-    else sp.set('page', String(p));
-    setSearchParams(sp, { replace: true });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-  // 搜索词变化 → 页码归 1（同样用 ref 跳过首次挂载，保住 ?page=N 深链）。
-  // 筛选轴变化不需要单独处理：syncUrl() 重建 query 时不带 page，本身就会归 1。
+  // 分页：每页 24 条；页码走**路径**（/downloads/page/2）。
+  // SSG 下 ?page=N 打到的永远是同一份 dist/downloads.html，第 2 页起等于没有独立页面。
+  const size = PAGE_SIZE.downloads;
+  const totalPages = Math.max(1, Math.ceil(sortedList.length / size));
+  const { currentPage, goPage, setFilters } = usePageNav(totalPages);
+  const pageItems = sortedList.slice((currentPage - 1) * size, currentPage * size);
+  // 搜索词变化 → 页码归 1（ref 跳过首次挂载，保住 /downloads/page/3 深链）。
+  // 筛选轴变化不需要单独处理：syncUrl() 会连路径一起退回第 1 页。
   const prevQuery = useRef(query);
   useEffect(() => {
     if (prevQuery.current === query) return;
     prevQuery.current = query;
-    const cur = Number(searchParams.get('page')) || 1;
-    if (cur > 1) {
-      const sp = new URLSearchParams(searchParams);
-      sp.delete('page');
-      setSearchParams(sp, { replace: true });
-    }
+    setFilters(searchParams);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
@@ -981,7 +950,8 @@ const ResourceGrid = () => {
     if (tg) p.tag = tg;
     const qq = query.trim();
     if (qq) p.q = qq;
-    setSearchParams(p, { replace: true });
+    // 走 setFilters：写筛选的同时退回第 1 页（路径里的 /page/N 也要一并丢掉）
+    setFilters(p);
   };
 
   // 一键清空所有筛选（右栏底部 + 已选摘要行共用）
@@ -996,7 +966,7 @@ const ResourceGrid = () => {
     setActiveAccess('all');
     setActiveTag(null);
     setQuery('');
-    setSearchParams({}, { replace: true });
+    setFilters({});
   };
 
   // 已选条件摘要（可视化展示当前生效的筛选，供一眼核对/清空）
@@ -1467,19 +1437,28 @@ const ResourceGrid = () => {
 const Listing: React.FC<{ type: ListingType }> = ({ type }) => {
   const m = useMeta(type);
   const { t } = useI18n();
+  // 分页页（/downloads/page/2）标题带页码：第 2 页起是独立可抓取的页面，
+  // 若与第 1 页共用一个 <title>，爬虫会当成重复页只留一个。
+  const page = usePageParam();
+  const pageTag = page > 1 ? t('pager.pageSuffix', { n: page }) : '';
   return (
     <>
+      {/* canonical 不写死：分页是路径式的（/downloads/page/2），
+          写死成 /downloads 会让第 2 页起全部声明「我的规范地址是第 1 页」，
+          爬虫于是永远只收录第 1 页。交给 PageMeta 按当前 pathname 自引用。 */}
       <PageMeta
-        title={`${m.title} - ${t('brand.name')}`}
+        title={pageTag ? `${m.title}（${pageTag}） - ${t('brand.name')}` : `${m.title} - ${t('brand.name')}`}
         description={m.subtitle}
-        canonical={`https://planetgis.cn/${m.base}`}
       />
       <Breadcrumb />
       <div className="min-h-screen bg-background text-foreground">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
           <header className="mb-10">
             <div className="flex items-end gap-4">
-              <h1 className="text-2xl md:text-3xl font-bold tracking-tight">{m.title}</h1>
+              <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+                {m.title}
+                {pageTag && <span className="ml-2 text-base font-medium text-muted-foreground">{pageTag}</span>}
+              </h1>
               <div className="flex-1 h-[2px] bg-gradient-to-r from-primary/50 to-transparent mb-2" />
             </div>
             <div className="mt-3 h-1 w-14 bg-primary rounded-full" />

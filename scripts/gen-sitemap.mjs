@@ -117,18 +117,24 @@ try {
       continue;
     }
 
+    // 分页页（/downloads/page/2）不是详情页：内容就是列表的一段切片，
+    // 不进上面的 isDetail 分支（否则会被当成 0.7/monthly 的长尾正文页，
+    // 而且 /downloads/page/2 会被 /downloads/ 前缀误判成下载详情页）。
+    const isPage = /\/page\/\d+$/.test(bare);
     const isDetail =
-      bare.startsWith('/works/') ||
-      bare.startsWith('/maps/') ||
-      bare.startsWith('/games/') ||
-      bare.startsWith('/tools/') ||
-      bare.startsWith('/learn/') ||
-      // 下载详情页也是有正文的长尾落地页，此前漏在这一串之外，
-      // 于是它们拿到了 0.6 / weekly（列表页待遇）而不是 0.7 / monthly。
-      bare.startsWith('/downloads/');
+      !isPage &&
+      (bare.startsWith('/works/') ||
+        bare.startsWith('/maps/') ||
+        bare.startsWith('/games/') ||
+        bare.startsWith('/tools/') ||
+        bare.startsWith('/learn/') ||
+        // 下载详情页也是有正文的长尾落地页，此前漏在这一串之外，
+        // 于是它们拿到了 0.6 / weekly（列表页待遇）而不是 0.7 / monthly。
+        bare.startsWith('/downloads/'));
     // 英文版内容尚在补全（详情页还没英文正文），整体压低一档权重，
     // 让搜索引擎先抓中文站，英文站慢慢放量。
-    const priority = (isDetail ? 0.7 : (STATIC_PRIORITY[bare] ?? 0.6)) * (isEn ? 0.8 : 1);
+    const basePriority = isPage ? 0.4 : isDetail ? 0.7 : (STATIC_PRIORITY[bare] ?? 0.6);
+    const priority = basePriority * (isEn ? 0.8 : 1);
     const lastmod = lastmodMap[bare] || today;
     const changefreq = isDetail ? 'monthly' : 'weekly';
     entries.push(

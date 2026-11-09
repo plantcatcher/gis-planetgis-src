@@ -27,6 +27,12 @@ const Footer = () => {
               <Link to="/changelog" className="hover:text-primary transition-colors">{t('footer.changelog')}</Link>
               <Link to="/terms" className="hover:text-primary transition-colors">{t('footer.terms')}</Link>
               <Link to="/contact" className="hover:text-primary transition-colors">{t('footer.contact')}</Link>
+              {/* 子站导航 / GIS 资源导航原先只在导航栏「更多」下拉里，而下拉是点开才挂载的
+                  （moreOpen 为 false 时根本不渲染），所以这两页在全站静态 HTML 里**零入链**：
+                  爬虫只读 HTML、不点按钮，于是 sitemap 里有、站内却找不到路进去。
+                  页脚是全站每页都渲染的，放这里才是真正的静态入口。 */}
+              <Link to="/wiki" className="hover:text-primary transition-colors">{t('nav.wiki')}</Link>
+              <Link to="/subdomains" className="hover:text-primary transition-colors">{t('nav.subdomains')}</Link>
             </div>
           </div>
 

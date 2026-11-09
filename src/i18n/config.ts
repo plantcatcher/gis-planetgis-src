@@ -99,6 +99,10 @@ const EN_STATIC_ROUTES = new Set([
  */
 export function hasEnglishVersion(pathname: string): boolean {
   const p = stripLang(pathname || '/');
-  const base = p === '/' ? '/' : p.replace(/\/+$/, '');
+  // 分页页（/learn/page/3）跟着列表页走：列表页有英文版，它的分页就有。
+  // 不剥掉 /page/N 的话，白名单精确匹配落空 → 英文分页页不声明 hreflang="en"，
+  // 而中文分页页也不声明英文版，两边互相看不见。
+  const stripped = p.replace(/\/page\/\d+\/?$/, '') || '/';
+  const base = stripped === '/' ? '/' : stripped.replace(/\/+$/, '');
   return EN_STATIC_ROUTES.has(base);
 }

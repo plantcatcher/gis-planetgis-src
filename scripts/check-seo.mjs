@@ -75,7 +75,9 @@ for (const file of files) {
   //   dist/maps/<slug>.html        详情页（有正文，必须参与校验）
   //   dist/maps/<slug>/full.html   全屏壳页，正文就是 iframe 里的地图、无文字可校验
   //   dist/maps/<slug>/**          public/maps 复制来的地图源码资源，也不是页面
-  if (/^maps\/[^/]+\//.test(rel)) continue;
+  // ⚠️ 例外：dist/maps/page/N.html 是地图列表的**分页页**（正常 React 页面），
+  //    必须参与校验，否则分页页的 canonical / 正文问题会被这条规则整片漏掉。
+  if (/^maps\/(?!page\/)[^/]+\//.test(rel)) continue;
 
   // noindex 页面（tag 聚合页等）不参与 canonical 校验：
   // noindex 与 canonical 并存是互相矛盾的信号，prerender 会主动移除它们的 canonical，

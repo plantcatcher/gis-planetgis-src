@@ -56,14 +56,32 @@ const routes: RouteConfig[] = [
     element: <ContentDetail type="work" />
   },
   {
+    name: '精选作品分页',
+    path: '/works/page/:page',
+    element: <Listing type="work" />,
+    visible: false,
+  },
+  {
     name: '地图详情',
     path: '/maps/:slug',
     element: <ContentDetail type="map" />
   },
   {
+    name: '互动地图分页',
+    path: '/maps/page/:page',
+    element: <Maps />,
+    visible: false,
+  },
+  {
     name: '游戏详情',
     path: '/games/:slug',
     element: <ContentDetail type="game" />
+  },
+  {
+    name: '小游戏分页',
+    path: '/games/page/:page',
+    element: <Games />,
+    visible: false,
   },
   {
     name: '工具详情',
@@ -74,6 +92,12 @@ const routes: RouteConfig[] = [
     name: '学习详情',
     path: '/learn/:slug',
     element: <ContentDetail type="learn" />
+  },
+  {
+    name: '知识库分页',
+    path: '/learn/page/:page',
+    element: <Listing type="learn" />,
+    visible: false,
   },
   {
     name: '更新日志',
@@ -159,6 +183,12 @@ const routes: RouteConfig[] = [
     name: '资料详情',
     path: '/downloads/:slug',
     element: <ResourceDetail />
+  },
+  {
+    name: '资料下载分页',
+    path: '/downloads/page/:page',
+    element: <Listing type="resource" />,
+    visible: false,
   },
   {
     name: '标签专题',

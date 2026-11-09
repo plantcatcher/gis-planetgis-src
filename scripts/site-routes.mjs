@@ -144,19 +144,66 @@ export function getThinDetailPaths() {
   return out;
 }
 
+// ===== 列表分页页 =====
+//
+// 分页从 `?page=N` 改成路径式 `/learn/page/2`：
+// 本站是 SSG + Cloudflare Pages 的扁平 `.html` 产物，query string 不参与文件映射，
+// `/learn?page=2` 与 `/learn` 落到同一个 dist/learn.html —— 预渲染永远只有第 1 页，
+// 第 2 页起的内容在静态 HTML 里没有任何**有效**入口（链接存在，但指向同一份页面）。
+// 改成 `/learn/page/2 -> dist/learn/page/2.html` 后每页都是独立可抓取的 200 页面。
+//
+// ⚠️ PAGE_SIZES 必须与 src/lib/pagination.ts 的 PAGE_SIZE 一一对应：
+//    那边决定页面怎么切片，这边决定要预渲染到第几页，漂移会产出死链或漏页。
+const PAGE_SIZES = {
+  learn: 18,
+  downloads: 24,
+  maps: 12,
+  games: 12,
+  works: 12,
+};
+
+/**
+ * 由「条目总数 + 每页条数」算出分页路由（第 2 页起；第 1 页就是列表页本身）。
+ * @param {string} base 列表页基路径，如 /learn
+ * @param {number} total 该板块条目总数（**不过滤**，取全量）
+ * @param {number} size 每页条数
+ */
+function pageRoutes(base, total, size) {
+  const pages = Math.max(1, Math.ceil(total / size));
+  const out = [];
+  for (let p = 2; p <= pages; p++) out.push(`${base}/page/${p}`);
+  return out;
+}
+
 /**
  * 汇总全部需要预渲染 / 进 sitemap 的路由（已去重）。
  * @param {import('vite').ViteDevServer} vite 用于 ssrLoadModule 读取内容层
  */
 export async function collectRoutes(vite) {
   patchSsrLoadModuleTimeout(vite);
-  const { getAllDetailPaths, getAllTagPaths } = await vite.ssrLoadModule('/src/lib/content.ts');
+  const { getAllDetailPaths, getAllTagPaths, getLearns, getResources, getMaps, getGames, getWorks } =
+    await vite.ssrLoadModule('/src/lib/content.ts');
   // 互动地图全屏壳页也需预渲染，否则直接访问 /maps/<slug> 会落到 404.html
   const { getVizMapPaths } = await vite.ssrLoadModule('/src/lib/vizmaps.ts');
-  const zhRoutes = [...staticRoutes, ...getAllDetailPaths(), ...getAllTagPaths(), ...getVizMapPaths()];
+  const pagedRoutes = [
+    ...pageRoutes('/learn', getLearns().length, PAGE_SIZES.learn),
+    ...pageRoutes('/downloads', getResources().length, PAGE_SIZES.downloads),
+    ...pageRoutes('/maps', getMaps().length, PAGE_SIZES.maps),
+    ...pageRoutes('/games', getGames().length, PAGE_SIZES.games),
+    ...pageRoutes('/works', getWorks().length, PAGE_SIZES.works),
+  ];
+  const zhRoutes = [
+    ...staticRoutes,
+    ...pagedRoutes,
+    ...getAllDetailPaths(),
+    ...getAllTagPaths(),
+    ...getVizMapPaths(),
+  ];
   // 英文版目前只预渲染静态页与列表页：内容详情页的英文版要等 content/en/ 建好
   // 才有实际内容，提前预渲染只会产出「英文外壳 + 中文正文」的重复页面。
-  const all = [...zhRoutes, ...enRoutes(staticRoutes)];
+  // 分页页跟列表页同命运：列表页有英文版，它的分页就有（见 hasEnglishVersion）。
+  const enStatic = [...staticRoutes, ...pagedRoutes];
+  const all = [...zhRoutes, ...enRoutes(enStatic)];
   return [...new Set(all)];
 }
 
