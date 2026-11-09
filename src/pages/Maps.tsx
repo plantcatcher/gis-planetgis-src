@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Map as MapIcon, ArrowRight, Layers, Database, Square, LayoutGrid, List, Flame, Search, X, ChevronDown, ChevronUp, SlidersHorizontal } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
@@ -77,6 +77,7 @@ const Maps: React.FC = () => {
   useSearchTracking(search, 'maps');
   // 移动端筛选栏默认收起（桌面端 lg:block 常显，复用 /downloads 的折叠模式）
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // 细分筛选：主题（topic）+ 地域（scope），两维正交，均由 content/maps/<slug>.md
   // 的 frontmatter（topics / scope）驱动——写什么就筛什么，新增地图不用改本页。
@@ -119,15 +120,36 @@ const Maps: React.FC = () => {
       : (b.work.date || '').localeCompare(a.work.date || '') || a.work.order - b.work.order,
   );
 
-  // 分页：每页 12 张；主题/地域/排序变化自动归 1
+  // 分页：每页 12 张。
+  // 页码存 URL（?page=N）而不是 useState —— 分页器渲染的是真正的 <a href>，
+  // 爬虫顺着链接就能发现第 2 页起的全部地图；若页码只在内存里，
+  // 静态 HTML 里所有页码链接都会指向第 1 页，后 9 页对搜索引擎等于不存在。
   const PAGE_SIZE = 12;
-  const [page, setPage] = useState(1);
   const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
-  const currentPage = Math.min(page, totalPages);
+  const currentPage = Math.min(Math.max(1, Number(searchParams.get('page')) || 1), totalPages);
   const pageItems = sorted.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  const goPage = (p: number) => {
+    const sp = new URLSearchParams(searchParams);
+    if (p <= 1) sp.delete('page');
+    else sp.set('page', String(p));
+    setSearchParams(sp, { replace: true });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  // 主题/地域/排序/搜索变化 → 页码归 1（用 ref 跳过首次挂载：
+  // 直接访问 /maps?page=3 时不能一进来就把 page 删掉）
+  const filterSig = `${topic}|${scope}|${sortMode}|${search}`;
+  const prevFilterSig = useRef(filterSig);
   useEffect(() => {
-    setPage(1);
-  }, [topic, scope, sortMode, search]);
+    if (prevFilterSig.current === filterSig) return;
+    prevFilterSig.current = filterSig;
+    const cur = Number(searchParams.get('page')) || 1;
+    if (cur > 1) {
+      const sp = new URLSearchParams(searchParams);
+      sp.delete('page');
+      setSearchParams(sp, { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterSig]);
 
   // 分面计数：某个主题的条数按「当前地域」算，某个地域的条数按「当前主题」算
   const topicChips = topics.map(({ name }) => ({
@@ -513,14 +535,7 @@ const Maps: React.FC = () => {
             </div>
           )}
 
-          <Pagination
-            page={currentPage}
-            pageCount={totalPages}
-            onChange={(p) => {
-              setPage(p);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-          />
+          <Pagination page={currentPage} pageCount={totalPages} onChange={goPage} />
 
           <section className="mt-14 rounded-2xl border border-border bg-card/40 p-6 md:p-8">
             <h2 className="text-xl font-bold mb-3">{t('maps.about')}</h2>

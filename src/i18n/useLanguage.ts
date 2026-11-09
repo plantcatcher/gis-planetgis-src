@@ -5,23 +5,30 @@
 //    继续用 navigate 会让所有 <Link> 仍指向旧语言前缀。
 
 import type { Lang } from './config';
-import { stripLang, withLang } from './config';
-
-/** 详情页路径：/<板块>/<slug> —— 目前这类页面还没有英文版 */
-const DETAIL_PATH = /^\/(works|maps|games|tools|articles|learn|downloads)\/[^/]+\/?$/;
+import { hasEnglishVersion, stripLang, withLang } from './config';
 
 /**
  * 计算切到 target 语言后该去哪个地址。
  *
- * 详情页（如 /learn/xxx）在英文站尚无对应内容，直接加前缀会落到 404，
- * 因此回退到该板块的英文列表页（/en/learn）——总比把人扔到死链好。
- * 等 content/en/ 建好，把这里的判断换成「查英文内容清单是否存在该 slug」。
+ * 英文站目前只有静态页与列表页（见 config.ts 的 hasEnglishVersion）。
+ * 对没有英文版的路径（详情页 /learn/xxx、标签页 /tag/xxx、地图壳页 /maps/x/full），
+ * 直接加前缀会落到 404，因此回退到该板块的英文列表页（/en/learn）——
+ * 总比把人扔进死链好。等 content/en/ 建好，只需改 hasEnglishVersion 一处。
  */
 export function switchTarget(currentPath: string, target: Lang): string {
   const base = stripLang(currentPath || '/');
-  if (DETAIL_PATH.test(base)) {
-    const board = base.split('/')[1];
-    return withLang(`/${board}`, target);
+  if (target === 'en' && !hasEnglishVersion(base)) {
+    // 逐级向上退到「确有英文版」的最近一级：
+    //   /learn/xxx      -> /learn      （板块列表页）
+    //   /maps/x/full    -> /maps
+    //   /tag/地理       -> /           （/en/tag 也不存在，不能再退到它）
+    const segs = base.split('/').filter(Boolean);
+    while (segs.length > 0) {
+      segs.pop();
+      const up = `/${segs.join('/')}`.replace(/\/+$/, '') || '/';
+      if (hasEnglishVersion(up)) return withLang(up, target);
+    }
+    return withLang('/', target);
   }
   return withLang(base, target);
 }

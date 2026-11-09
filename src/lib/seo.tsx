@@ -8,7 +8,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useI18n } from '@/i18n/LocaleContext';
-import { stripLang, withLang, HTML_LANG, OG_LOCALE } from '@/i18n/config';
+import { stripLang, withLang, hasEnglishVersion, HTML_LANG, OG_LOCALE } from '@/i18n/config';
 import { zh as dictZh } from '@/i18n/dict.zh';
 import { en as dictEn } from '@/i18n/dict.en';
 
@@ -89,20 +89,25 @@ export function localizeCanonical(url: string, lang: 'zh' | 'en'): string {
 }
 
 /**
- * 生成 hreflang 三件套：zh-CN / en / x-default。
+ * 生成 hreflang：zh-CN + x-default，有英文版时再加 en。
  *
  * x-default 指向中文版——中文是默认语言，未匹配到任何语言的访问者应落在中文站。
- * ⚠️ 三者的路径都基于「去掉语言前缀的同一路径」，保证互为对应版本；
+ * ⚠️ 路径都基于「去掉语言前缀的同一路径」，保证互为对应版本；
  *    若直接拿带 /en 前缀的 pathname 去算，英文页会声明自己的英文 URL 为 en 版、
  *    中文版却变成 /en/en/... 的死链。
+ *
+ * ⚠️ **不要无条件输出 en**。详情页（/learn/xxx 等）在 dist 里没有 /en 版本，
+ *    声明 hreflang="en" 等于告诉搜索引擎「英文版在 /en/learn/xxx」，而那是 404。
+ *    是否真有英文版一律问 hasEnglishVersion()（与 site-routes.mjs 的预渲染清单对齐）。
  */
 export function buildAlternates(pathname: string): AlternateLink[] {
   const base = stripLang(pathname);
-  return [
-    { hreflang: 'zh-CN', href: buildCanonical(base) },
-    { hreflang: 'en', href: buildCanonical(withLang(base, 'en')) },
-    { hreflang: 'x-default', href: buildCanonical(base) },
-  ];
+  const list: AlternateLink[] = [{ hreflang: 'zh-CN', href: buildCanonical(base) }];
+  if (hasEnglishVersion(base)) {
+    list.push({ hreflang: 'en', href: buildCanonical(withLang(base, 'en')) });
+  }
+  list.push({ hreflang: 'x-default', href: buildCanonical(base) });
+  return list;
 }
 
 interface PageMetaProps {

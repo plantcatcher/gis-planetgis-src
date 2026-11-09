@@ -32,6 +32,17 @@ function fileToUrlPath(file) {
 }
 
 const files = walk(DIST);
+/** dist 里真实存在的 URL 路径集合（hreflang 与 sitemap 校验共用） */
+const knownPaths = new Set(files.map(fileToUrlPath));
+/** 站内绝对 URL -> 解码后的路径；非本站或无法解码时返回 null */
+function sitePathOf(url) {
+  if (!url.startsWith(SITE)) return null;
+  try {
+    return decodeURIComponent(url.slice(SITE.length)) || '/';
+  } catch {
+    return null;
+  }
+}
 const errors = [];
 const warnings = [];
 let noindexCount = 0;
@@ -139,6 +150,20 @@ for (const file of files) {
       `${rel}: 预渲染 DOM 含 ${hiddenInline.length} 处初始隐藏内联样式（无 JS 时不可见），` +
         `请把对应 motion 组件的 initial 改为 false。示例：${hiddenInline[0].slice(0, 60)}`,
     );
+  }
+
+  // 3b) hreflang 目标必须真实存在（dist 里要有对应产物）
+  //   典型事故：详情页无条件声明 hreflang="en" 指向 /en/learn/xxx，
+  //   而英文版只预渲染静态页与列表页 —— 那个地址是 404。
+  //   声明死链比不声明 hreflang 更糟：搜索引擎会把整组 hreflang 判为不可信。
+  //   这里只校验「指向站内的 alternate」，外链与 x-default（=自身中文地址）不查。
+  const alts = [...html.matchAll(/<link\s+rel="alternate"\s+hreflang="([^"]+)"\s+href="([^"]+)"/gi)];
+  for (const [, hreflang, href] of alts) {
+    const target = sitePathOf(href);
+    if (target === null) continue;
+    if (!knownPaths.has(target)) {
+      errors.push(`${rel}: hreflang="${hreflang}" 指向不存在的页面 ${href}`);
+    }
   }
 
   // 4) 页面 HTML 内不得含自动客户端跳转
