@@ -148,6 +148,8 @@ interface IndexRow {
   fm: Record<string, string>;
   words: number;
   lead: string;
+  /** 独有 8-gram 数（同目录语料内），构建期用于识别模板化重复页；客户端不使用 */
+  uniq?: number;
 }
 const CONTENT_INDEX = contentIndexRaw as unknown as IndexRow[];
 

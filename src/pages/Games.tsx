@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Gamepad2, ArrowRight, Flame, Play, Trophy, ChevronDown, Sparkles } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
@@ -78,6 +78,7 @@ const Games: React.FC = () => {
   const scopes = getWorkScopes('game');
   const [topic, setTopic] = useState('全部');
   const [scope, setScope] = useState('全部');
+  const [searchParams, setSearchParams] = useSearchParams();
   // 默认按热度（近 30 天 GA4 浏览量）降序，与资料下载页一致；可切回最新。
   const [sortMode, setSortMode] = useState<'latest' | 'heat'>('heat');
 
@@ -106,15 +107,33 @@ const Games: React.FC = () => {
   )[0];
   const featuredUrl = featured ? featured.link || `/${featured.slug}` : '/games';
 
-  // 分页：每页 12 款；主题/地域/排序变化自动归 1
+  // 分页：每页 12 款。页码存 URL（?page=N），与 /maps、/downloads 同一套做法：
+  // 分页器渲染的是真正的 <a href>，页码不在 URL 里的话静态 HTML 中所有页码链接都会指向第 1 页。
   const PAGE_SIZE = 12;
-  const [page, setPage] = useState(1);
   const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
-  const currentPage = Math.min(page, totalPages);
+  const currentPage = Math.min(Math.max(1, Number(searchParams.get('page')) || 1), totalPages);
   const pageItems = sorted.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  const goPage = (p: number) => {
+    const sp = new URLSearchParams(searchParams);
+    if (p <= 1) sp.delete('page');
+    else sp.set('page', String(p));
+    setSearchParams(sp, { replace: true });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  // 主题/地域/排序变化 → 页码归 1（ref 跳过首次挂载，直接访问 ?page=N 时保留页码）
+  const filterSig = `${topic}|${scope}|${sortMode}`;
+  const prevFilterSig = useRef(filterSig);
   useEffect(() => {
-    setPage(1);
-  }, [topic, scope, sortMode]);
+    if (prevFilterSig.current === filterSig) return;
+    prevFilterSig.current = filterSig;
+    const cur = Number(searchParams.get('page')) || 1;
+    if (cur > 1) {
+      const sp = new URLSearchParams(searchParams);
+      sp.delete('page');
+      setSearchParams(sp, { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterSig]);
 
   // 分面计数：主题的条数按当前地域算，地域的条数按当前主题算
   const topicChips = topics.map(({ name }) => ({
@@ -388,14 +407,7 @@ const Games: React.FC = () => {
             )}
 
             {totalPages > 1 && (
-              <Pagination
-                page={currentPage}
-                pageCount={totalPages}
-                onChange={(p) => {
-                  setPage(p);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-              />
+              <Pagination page={currentPage} pageCount={totalPages} onChange={goPage} />
             )}
           </section>
 

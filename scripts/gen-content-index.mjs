@@ -68,9 +68,55 @@ for (const folder of FOLDERS) {
       // 正文字数（去空白），卡片「N字」与阅读时长由它推导
       words: body.replace(/\s/g, '').length,
       lead: leadOf(fm.summary, body),
+      // 下面按目录统计「独有 8-gram 数」，先占位
+      uniq: 0,
+      // 仅内部使用，写出前删除
+      _text: body.replace(/\s/g, ''),
     });
   }
 }
+
+// ===== 独有 8-gram 数：量化「这篇正文有多大比例是别处也有的套话」=====
+//
+// 动机：downloads 里 306 篇「国土空间规划」用的是同一套六段式模板，
+// 大批页面正文 65% 以上的 8-gram 与其它页面重合。字数并不短（中位 1732 字），
+// 所以「加长正文」治不了，只能识别出来做 noindex 收敛。
+//
+// 口径：以**同一目录**为语料，把正文（去空白）切成连续 8 字片段；
+// 一个片段若出现在超过 15% 的同目录文档里，视为公共套话，不计入「独有」。
+// 阈值取相对值而非绝对值，新增内容时不需要调参。
+const SHINGLE = 8;
+const DF_RATIO = 0.15;
+
+const byFolder = new Map();
+for (const r of rows) {
+  if (!byFolder.has(r.folder)) byFolder.set(r.folder, []);
+  byFolder.get(r.folder).push(r);
+}
+
+for (const [, list] of byFolder) {
+  const docCount = list.length;
+  if (!docCount) continue;
+  // 下限 2：小目录（如 works 只有 2 篇）若按比例算出 1，会把「只此一篇有」的片段
+  // 也当成公共套话排除掉，导致所有页面 uniq=0 —— 那种数字没有意义。
+  const dfCut = Math.max(2, Math.ceil(docCount * DF_RATIO));
+  const df = new Map();
+  // 每篇先去重，避免长文靠重复自身刷高 df
+  const shingleSets = list.map((r) => {
+    const s = new Set();
+    const t = r._text;
+    for (let i = 0; i + SHINGLE <= t.length; i++) s.add(t.slice(i, i + SHINGLE));
+    return s;
+  });
+  for (const s of shingleSets) for (const g of s) df.set(g, (df.get(g) || 0) + 1);
+  list.forEach((r, i) => {
+    let n = 0;
+    for (const g of shingleSets[i]) if (df.get(g) < dfCut) n++;
+    r.uniq = n;
+  });
+}
+
+for (const r of rows) delete r._text;
 
 // 稳定排序：输出可复现，diff 才干净（防止目录遍历顺序波动造成整份 JSON 变动）
 rows.sort((a, b) => `${a.folder}/${a.filename}`.localeCompare(`${b.folder}/${b.filename}`));

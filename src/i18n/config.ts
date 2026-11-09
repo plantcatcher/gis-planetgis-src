@@ -57,3 +57,48 @@ export function withLang(pathname: string, lang: Lang): string {
 
 /** 是否为英文路径（含 /en 本身） */
 export const isEnPath = (pathname: string): boolean => langFromPath(pathname) === 'en';
+
+/**
+ * 拥有英文版的**固定路由**清单。
+ *
+ * ⚠️ 必须与 scripts/site-routes.mjs 的 staticRoutes 减去 EN_EXCLUDE 保持一致：
+ *    那边决定「预渲染哪些 /en/* 页面」，这边决定「页面声明哪些 hreflang」。
+ *    两边不同步 → hreflang 指向 dist 里不存在的 /en 地址（死链声明）。
+ *    为此 check-seo.mjs 会逐页校验 hreflang 目标可落地，漂移会让构建失败。
+ *
+ * 目前英文版只有「静态页 + 列表页」：内容详情页要等 content/en/ 建好才有真实内容。
+ */
+const EN_STATIC_ROUTES = new Set([
+  '/',
+  '/about',
+  '/contact',
+  '/privacy-policy',
+  '/terms',
+  '/works',
+  '/learn',
+  '/tools',
+  '/games',
+  '/maps',
+  '/my',
+  '/subdomains',
+  '/downloads',
+  '/changelog',
+]);
+
+/**
+ * 该路径在英文站是否有真实对应的页面。
+ *
+ * 用于生成 hreflang：**没有英文版的页面绝不能声明 hreflang="en"**。
+ * 旧实现无条件输出 zh-CN / en / x-default 三件套，而 collectRoutes() 只预渲染
+ * 静态路由的英文版，详情页（/learn/xxx 等 497+ 篇）根本没有 /en 版本 ——
+ * 于是每个详情页都在向搜索引擎声明「英文版在 /en/learn/xxx」，那个地址实际是 404。
+ * 百度/Google 会把「hreflang 指向死链」记为页面质量问题，且可能连中文版一起降权。
+ *
+ * 采用白名单而非黑名单：多级路径（/maps/<slug>/catalog、/maps/<slug>/full、/tag/x）
+ * 都落在名单之外，天然不会被误判成有英文版。传入带不带 /en 前缀都可以。
+ */
+export function hasEnglishVersion(pathname: string): boolean {
+  const p = stripLang(pathname || '/');
+  const base = p === '/' ? '/' : p.replace(/\/+$/, '');
+  return EN_STATIC_ROUTES.has(base);
+}

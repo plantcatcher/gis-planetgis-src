@@ -10,7 +10,7 @@
 import { createServer } from 'vite';
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
-import { collectRoutes, routeToFile } from './site-routes.mjs';
+import { collectRoutes, getThinDetailPaths, routeToFile } from './site-routes.mjs';
 
 const ROOT = process.cwd();
 const DIST = join(ROOT, 'dist');
@@ -142,6 +142,10 @@ function buildHtml(template, { html, head, lang }, { noindex = false, preload = 
     // 404 页不应被索引，也不需要 canonical（否则会指向占位路由）
     injected = injected.replace(/<link rel="canonical"[^>]*>/gi, '');
     injected = injected.replace(/<meta property="og:url"[^>]*>/gi, '');
+    // hreflang 同理：noindex 页的 alternate 会被搜索引擎直接忽略，
+    // 留着只会多出一组可能指向不存在地址的声明（如大小写不同的 tag 页），
+    // 且与「noindex + 无 canonical」的处理保持一致。
+    injected = injected.replace(/<link\s+rel="alternate"\s+hreflang="[^"]*"[^>]*>/gi, '');
     out = out.replace(
       /<meta\s+name="robots"[^>]*>/gi,
       '<meta name="robots" content="noindex, follow" />',
@@ -155,9 +159,14 @@ try {
   const routes = await collectRoutes(vite);
   const { render, preloadRoute } = await vite.ssrLoadModule('/src/entry-server.tsx');
   const template = readFileSync(join(DIST, 'index.html'), 'utf-8');
+  // 模板类重复页（downloads/国土空间规划 里的低独有度页）：noindex, follow。
+  // 判据与 sitemap 剔除共用 site-routes.mjs 的同一份函数，见那里的注释。
+  const thinDetailPaths = getThinDetailPaths();
+  console.log(`[prerender] 薄内容页（noindex）${thinDetailPaths.size} 个`);
 
   let ok = 0;
   let fail = 0;
+  let noindexCount = 0;
 
   for (const url of routes) {
     try {
@@ -179,8 +188,14 @@ try {
       //    是地图自带的静态内容页（有实质正文的长尾落地页），必须保持可索引。
       const isMapShell = /^\/maps\/[^/]+\/full\/?$/.test(url);
 
+      // 模板化重复页：正文不算短，但与同目录其它页面 8-gram 重合度过高，
+      // 属「同一篇文章换地名」，收录后只会稀释整站质量信号。
+      const isThin = thinDetailPaths.has(url);
+      const noindex = isTagPage || isMapShell || isThin;
+      if (noindex) noindexCount++;
+
       const out = buildHtml(template, rendered, {
-        noindex: isTagPage || isMapShell,
+        noindex,
         preload: modulePreloadTag(url),
       });
       const file = routeToFile(DIST, url);
@@ -211,7 +226,9 @@ try {
     fail++;
   }
 
-  console.log(`[prerender] 完成：成功 ${ok}，失败 ${fail}；注入 modulepreload ${preloadCount} 页`);
+  console.log(
+    `[prerender] 完成：成功 ${ok}，失败 ${fail}；其中 noindex ${noindexCount} 页；注入 modulepreload ${preloadCount} 页`,
+  );
   if (fail > 0) process.exitCode = 1;
 } finally {
   await vite.close();

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, ExternalLink, Compass, Globe, Search, Calendar, LayoutGrid, List, Flame, SlidersHorizontal, ChevronDown, ChevronUp } from 'lucide-react';
@@ -111,6 +111,7 @@ const CardAnim: React.FC<{ children: React.ReactNode; delay?: number; className?
 // 互动地图与小游戏已迁到 /maps、/games 各自独立的汇总页。
 const WorkGrid = () => {
   const { lang, t } = useI18n();
+  const [searchParams, setSearchParams] = useSearchParams();
   const all = getWorks();
   const categories = useMemo(() => getWorkCategories(), []);
   const [active, setActive] = useState(FACET_ALL);
@@ -127,15 +128,33 @@ const WorkGrid = () => {
       : (b.date || '').localeCompare(a.date || '') || a.order - b.order,
   );
 
-  // 分页：每页 12 个；切换分类 / 排序自动归 1
+  // 分页：每页 12 个。页码存 URL（?page=N），与 /maps、/games、/downloads 一致：
+  // 分页器渲染真正的 <a href>，页码不在 URL 里则静态 HTML 中所有页码链接都指向第 1 页。
   const PAGE_SIZE = 12;
-  const [page, setPage] = useState(1);
   const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
-  const currentPage = Math.min(page, totalPages);
+  const currentPage = Math.min(Math.max(1, Number(searchParams.get('page')) || 1), totalPages);
   const pageItems = sorted.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  const goPage = (p: number) => {
+    const sp = new URLSearchParams(searchParams);
+    if (p <= 1) sp.delete('page');
+    else sp.set('page', String(p));
+    setSearchParams(sp, { replace: true });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  // 分类/排序变化 → 页码归 1（ref 跳过首次挂载，直接访问 ?page=N 时保留页码）
+  const filterSig = `${active}|${sortMode}`;
+  const prevFilterSig = useRef(filterSig);
   useEffect(() => {
-    setPage(1);
-  }, [active, sortMode]);
+    if (prevFilterSig.current === filterSig) return;
+    prevFilterSig.current = filterSig;
+    const cur = Number(searchParams.get('page')) || 1;
+    if (cur > 1) {
+      const sp = new URLSearchParams(searchParams);
+      sp.delete('page');
+      setSearchParams(sp, { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterSig]);
 
   return (
     <>
@@ -223,14 +242,7 @@ const WorkGrid = () => {
           </CardAnim>
         ))}
       </div>
-      <Pagination
-        page={currentPage}
-        pageCount={totalPages}
-        onChange={(p) => {
-          setPage(p);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
-      />
+      <Pagination page={currentPage} pageCount={totalPages} onChange={goPage} />
     </>
   );
 };
@@ -429,8 +441,13 @@ const LearnGrid = () => {
     setSearchParams(sp, { replace: true });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-  // 搜索词变化 → 页码归 1
+  // 搜索词变化 → 页码归 1。
+  // ⚠️ 必须用 ref 跳过首次挂载：直接访问 /learn?page=3（爬虫抓取分页链接、或用户收藏）
+  //    时若在挂载时清掉 page，页面会立刻退回第 1 页 —— 分页器里那些可爬的 <a> 就白给了。
+  const prevQuery = useRef(query);
   useEffect(() => {
+    if (prevQuery.current === query) return;
+    prevQuery.current = query;
     const cur = Number(searchParams.get('page')) || 1;
     if (cur > 1) {
       const sp = new URLSearchParams(searchParams);
@@ -924,8 +941,12 @@ const ResourceGrid = () => {
     setSearchParams(sp, { replace: true });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-  // 搜索词变化 → 页码归 1
+  // 搜索词变化 → 页码归 1（同样用 ref 跳过首次挂载，保住 ?page=N 深链）。
+  // 筛选轴变化不需要单独处理：syncUrl() 重建 query 时不带 page，本身就会归 1。
+  const prevQuery = useRef(query);
   useEffect(() => {
+    if (prevQuery.current === query) return;
+    prevQuery.current = query;
     const cur = Number(searchParams.get('page')) || 1;
     if (cur > 1) {
       const sp = new URLSearchParams(searchParams);

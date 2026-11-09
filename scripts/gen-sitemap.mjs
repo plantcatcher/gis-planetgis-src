@@ -12,7 +12,7 @@
 import { createServer } from 'vite';
 import { writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
-import { collectRoutes, SITE } from './site-routes.mjs';
+import { collectRoutes, getThinDetailPaths, SITE } from './site-routes.mjs';
 
 const ROOT = process.cwd();
 const DIST = join(ROOT, 'dist');
@@ -83,7 +83,11 @@ try {
   // collectRoutes 内已把 ssrLoadModule 换成慢通道容忍版（60s → 10min），此处沿用。
   const { getDetailLastmodMap } = await vite.ssrLoadModule('/src/lib/content.ts');
   const lastmodMap = getDetailLastmodMap();
+  // 与 prerender 同源的薄内容清单：这些页已被标 noindex, follow，
+  // sitemap 里绝不能再出现（否则是「请收录我」与「别收录我」的矛盾信号）。
+  const thinDetailPaths = getThinDetailPaths();
   const entries = [];
+  let thinSkipped = 0;
 
   for (const u of routes) {
     // 英文站 URL 一律带 /en 前缀；下面的排除规则与优先级都按「去掉前缀的中文路径」判断，
@@ -106,12 +110,22 @@ try {
     // 否则是互相矛盾的信号；保留页面本身供站内导航使用。
     if (bare.startsWith('/tag/')) continue;
 
+    // 模板化重复页（downloads/国土空间规划，低独有 8-gram 且低热度）：
+    // prerender 已输出 noindex, follow，这里同步剔除。判据见 site-routes.mjs。
+    if (thinDetailPaths.has(bare)) {
+      thinSkipped++;
+      continue;
+    }
+
     const isDetail =
       bare.startsWith('/works/') ||
       bare.startsWith('/maps/') ||
       bare.startsWith('/games/') ||
       bare.startsWith('/tools/') ||
-      bare.startsWith('/learn/');
+      bare.startsWith('/learn/') ||
+      // 下载详情页也是有正文的长尾落地页，此前漏在这一串之外，
+      // 于是它们拿到了 0.6 / weekly（列表页待遇）而不是 0.7 / monthly。
+      bare.startsWith('/downloads/');
     // 英文版内容尚在补全（详情页还没英文正文），整体压低一档权重，
     // 让搜索引擎先抓中文站，英文站慢慢放量。
     const priority = (isDetail ? 0.7 : (STATIC_PRIORITY[bare] ?? 0.6)) * (isEn ? 0.8 : 1);
@@ -132,7 +146,10 @@ try {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.join('\n')}\n</urlset>\n`;
 
   writeFileSync(join(DIST, 'sitemap.xml'), xml, 'utf-8');
-  console.log(`[sitemap] 生成 ${entries.length} 条（含地图内容页 ${mapPages.length} 条）-> dist/sitemap.xml`);
+  console.log(
+    `[sitemap] 生成 ${entries.length} 条（含地图内容页 ${mapPages.length} 条；` +
+      `已剔除薄内容页 ${thinSkipped} 条）-> dist/sitemap.xml`,
+  );
 } finally {
   await vite.close();
 }

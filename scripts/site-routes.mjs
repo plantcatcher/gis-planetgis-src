@@ -2,6 +2,7 @@
 // 以前两份脚本各维护一份 staticRoutes，导致 /changelog 只进了 sitemap 却没被预渲染。
 
 import { join } from 'node:path';
+import { readFileSync } from 'node:fs';
 import { ModuleRunner, ESModulesEvaluator, createNodeImportMeta } from 'vite/module-runner';
 import { createServerModuleRunnerTransport } from 'vite';
 
@@ -66,6 +67,10 @@ export const staticRoutes = [
 /**
  * 暂不出英文版的路由。
  *
+ * ⚠️ 必须与 src/i18n/config.ts 的 EN_STATIC_ROUTES（英文版白名单）保持一致：
+ *    那边决定页面声明哪些 hreflang，这边决定实际预渲染哪些 /en 页面。
+ *    两边漂移 → hreflang 指向 dist 里不存在的地址，check-seo.mjs 会判构建失败。
+ *
  * - 四个游戏壳页：游戏本体是 public/games/<slug>/ 下的独立应用，界面文案仍是中文，
  *   给它们挂英文壳只会让人点进去看到中文界面，反而更困惑。等游戏本体做了 i18n 再放开。
  * - /wiki：GIS 资源导航收录的 172 个站点绝大多数是中文平台，英文用户用不上。
@@ -86,6 +91,57 @@ export function toEnRoute(route) {
 /** 由中文路由清单生成英文版路由清单 */
 export function enRoutes(routes) {
   return routes.filter((r) => !EN_EXCLUDE.has(r)).map(toEnRoute);
+}
+
+// ===== 薄内容页面（noindex + 移出 sitemap）=====
+//
+// downloads 里有 306 篇「国土空间规划」，全部套用同一份六段式模板：
+// 批复底线指标 / 规划目标 / 空间格局 / 指标体系 ……
+// 实测 8-gram 重合度中位 0.65，最高 0.89 —— 字数不少（中位 1732 字），
+// 但读起来几乎是同一篇文章换了地名，搜索引擎判定为模板化重复内容。
+// 这正是「收录数长期不涨」的核心：300 篇近似重复页在消耗抓取配额，
+// 还拉低整站的页面质量信号，连累真正有内容的页面。
+//
+// 判据（三条同时满足）：
+//   1. 属于 downloads / 国土空间规划 —— 只有这批页面共用模板；
+//   2. 独有 8-gram < 400 —— 与同目录其它页面的公共套话占绝对多数
+//      （非规划的 191 篇下载页最低也有 425，这条界线很干净）；
+//   3. 站内热度 < 5 —— 确实有人在搜的页面保留，不因模板化误伤。
+// 处理方式是 noindex, follow：页面照常可访问、站内导航照常链接、权重照常传递，
+// 只是不再占用索引位与抓取配额。
+//
+// ⚠️ 阈值集中在这里，prerender 与 gen-sitemap 都调用同一个函数，
+//    避免出现「prerender 说 noindex、sitemap 还收录着」的矛盾信号。
+const THIN_CATEGORY = '国土空间规划';
+const THIN_UNIQ_MAX = 400;
+const THIN_HEAT_MAX = 5;
+
+/**
+ * 返回应当 noindex 的详情页路径集合（形如 /downloads/<slug>）。
+ * 读 src/data/content-index.json（由 gen-content-index.mjs 生成，含 uniq）
+ * 与 src/data/heat.json（站内热度）。读不到就返回空集，构建照常进行。
+ */
+export function getThinDetailPaths() {
+  const out = new Set();
+  let rows;
+  let heat;
+  try {
+    rows = JSON.parse(readFileSync(join(process.cwd(), 'src/data/content-index.json'), 'utf-8'));
+    heat = JSON.parse(readFileSync(join(process.cwd(), 'src/data/heat.json'), 'utf-8'));
+  } catch {
+    return out;
+  }
+  for (const row of rows) {
+    if (row.folder !== 'downloads') continue;
+    const fm = row.fm || {};
+    if (fm.category !== THIN_CATEGORY) continue;
+    if (typeof row.uniq !== 'number' || row.uniq >= THIN_UNIQ_MAX) continue;
+    const slug = fm.slug || row.filename;
+    if ((heat[slug] || 0) >= THIN_HEAT_MAX) continue;
+    // 与 getAllDetailPaths() 同口径：slug 原样拼，不做 URL 编码
+    out.add(`/downloads/${slug}`);
+  }
+  return out;
 }
 
 /**
