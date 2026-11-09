@@ -10,7 +10,7 @@
   <link rel="icon" href="data:," />
   <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
   <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.v2.css" />
 </head>
 <body>
   <div id="map"></div>
@@ -32,13 +32,18 @@
     <div class="intro-body" id="introBody">
       <small class="eyebrow"><i class="ic-eq"></i> CHINA SPRING-FESTIVAL MIGRATION</small>
       <h1><span>中国春运</span><b>人口迁徙</b></h1>
-      <p class="lead">2026 年春节前返乡高峰，百度迁徙规模指数揭示的城市间人口流动网络。红色城市在「吸人」，蓝色城市在「送人」，橙色流线就是春运里真实的回家路。</p>
+      <p class="lead">2026 年春节前返乡高峰，百度迁徙规模指数揭示的城市间人口流动网络。蓝→红双色航线就是春运里真实的回家路：蓝端是送人的人口输出地，红端是吸人的「人口抽水机」，白色流光标注最强通道。</p>
 
       <div class="facts">
         <span><small>城市节点</small><b><span class="v"><em>81</em></span><i>座</i></b></span>
         <span><small>迁徙连线</small><b><span class="v"><em>743</em></span><i>条</i></b></span>
         <span><small>数据日</small><b><span class="v"><em>2026.02.10</em></span></b></span>
       </div>
+
+      <section class="block">
+        <header><small>图例</small></header>
+        <div id="legend" class="legend legend-card"></div>
+      </section>
 
       <section class="block">
         <header><small>人口「抽水机」TOP</small></header>
@@ -53,7 +58,7 @@
       </section>
 
       <section class="block src">
-        <p><b>数据来源</b>：节点坐标为真实城市的公开地理坐标（WGS84 转 GCJ-02）。<b>连线权重为百度迁徙规模指数占比（相对值，非绝对人次）</b>，仅用于表达城市间联系的相对强度，不作为客运量依据。连线为城市间直线示意，非实际迁徙路径。</p>
+        <p><b>数据来源</b>：节点坐标为真实城市的公开地理坐标（WGS84 转 GCJ-02）。<b>航线权重为百度迁徙规模指数占比（相对值，非绝对人次）</b>，仅用于表达城市间联系的相对强度，不作为客运量依据。航线为城市间弧线示意，非实际航路。</p>
       </section>
 
       <div class="intro-nav">
@@ -85,38 +90,38 @@
     <footer id="dtFooter">—</footer>
   </aside>
 
-  <!-- ── 右下：图例 ─────────────────────────────────────── -->
-  <div class="dock"><div class="legend" id="legend"></div></div>
-
-  <!-- ── 左下：图层与底图 ───────────────────────────────── -->
-  <div class="panel" id="panel">
-    <div class="panel-head" id="panelHead">
-      <span>图层与底图</span>
-      <button type="button" id="panelToggle" title="折叠/展开">－</button>
-    </div>
-    <div class="panel-body" id="panelBody">
+  <!-- ── 左下：设置按钮 + 图层/底图弹窗 ───────────────────── -->
+  <button class="tool-btn" id="toolToggle" type="button" title="图层与底图" aria-expanded="false" aria-controls="panel">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+      <line x1="4" y1="7.5" x2="20" y2="7.5"/><circle cx="9.5" cy="7.5" r="2.4" fill="currentColor" stroke="none"/>
+      <line x1="4" y1="16" x2="20" y2="16"/><circle cx="15" cy="16" r="2.4" fill="currentColor" stroke="none"/>
+    </svg>
+  </button>
+  <div class="panel tool-panel" id="panel" role="dialog" aria-label="图层与底图">
+    <div class="panel-head"><span>图层与底图</span></div>
+    <div class="tool-body">
       <label class="row"><input type="checkbox" id="ckLabel" checked /><span>城市名称</span></label>
-      <label class="row"><input type="checkbox" id="ckFlow" checked data-toggle-layer="flow-casing,flow-line" /><span>迁徙流线</span></label>
+      <label class="row"><input type="checkbox" id="ckFlow" checked data-toggle-layer="flow-glow,flow-casing,flow-line,flow-spark" /><span>迁徙航线</span></label>
       <label class="row"><input type="checkbox" id="ckArrow" checked data-toggle-layer="flow-arrow" /><span>流向箭头</span></label>
       <label class="row"><input type="checkbox" id="ckNodes" checked data-toggle-layer="node-dot" /><span>城市点位</span></label>
       <label class="row"><input type="checkbox" id="ckIntra" /><span>显示省内短途</span></label>
       <label class="row"><input type="checkbox" id="ckBorder" checked /><span>省级行政区边界</span></label>
-      <label class="row"><input type="checkbox" id="ckGraticule" /><span>经纬网格</span></label>
+      <label class="row"><input type="checkbox" id="ckGraticule" checked /><span>经纬网格</span></label>
       <div class="divider"></div>
       <div class="bm-title">底图</div>
       <div class="bm-seg">
-        <label class="bm-opt"><input type="radio" name="basemap" value="none" checked /><span>深色</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" checked /><span>深空</span></label>
         <label class="bm-opt"><input type="radio" name="basemap" value="img" /><span>卫星影像</span></label>
         <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>矢量路网</span></label>
       </div>
       <div class="divider"></div>
-      <p class="panel-note">默认<b>深色</b>：迁徙流线最醒目。嫌空可切<b>卫星影像</b>，看流线如何骑在真实地理骨架上。点任一城市看它的流入流出。</p>
+      <p class="panel-note">默认<b>深空科技底</b>：深空底色 + 陆地色块 + 海岸辉光，双色航线最醒目。可切<b>卫星影像</b>，看航线如何骑在真实地理骨架上。点任一城市看它的流入流出。</p>
     </div>
   </div>
 
   <script src="/maps/_shared/maplibre-gl.js"></script>
   <script src="/maps/_shared/thematic/thematic.js"></script>
-  <script src="js/config.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/config.v2.js"></script>
+  <script src="js/app.v2.js"></script>
 </body>
 </html>

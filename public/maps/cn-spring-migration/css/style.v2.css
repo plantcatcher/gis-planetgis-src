@@ -1,0 +1,123 @@
+/* 中国春运人口迁徙 · 专题配色与微调 v2（科技深空底 + 蓝→红双色航线）
+   主交互色保持暖橙（春运 / 归途），航线与节点共用「蓝=送人、红=吸人」语义色。 */
+:root {
+  --accent: #ff7a45;
+  --accent-light: #ffb38a;
+  --accent-dark: #d8542a;
+  --accent-soft: rgba(255, 122, 69, 0.14);
+  --netPos: #ff6b5e;   /* 净流入 */
+  --netNeg: #4fa3ff;   /* 净流出 */
+  --panel-solid: rgba(9, 15, 26, 0.55);
+}
+
+/* 详情卡强化毛玻璃 */
+.detail { backdrop-filter: blur(18px) saturate(1.25); }
+.detail[hidden] { display: none; }
+
+/* ── 左栏排行列表 ── */
+.ranks { display: flex; flex-direction: column; gap: 4px; margin: 2px 0 4px; }
+.rank-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 8px; border-radius: 8px;
+  border: 1px solid transparent; background: rgba(255, 255, 255, .03);
+  cursor: pointer; font-size: 12px; transition: .15s;
+}
+.rank-item:hover, .rank-item.active {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+.rank-item .no { width: 15px; color: var(--dim); font-variant-numeric: tabular-nums; text-align: right; }
+.rank-item .nm { flex: 1; color: #e8eef7; font-weight: 600; }
+.rank-item .vv { font-variant-numeric: tabular-nums; font-weight: 700; }
+.rank-item .vv.pos { color: var(--netPos); }
+.rank-item .vv.neg { color: var(--netNeg); }
+
+/* ── 图例（已移入左栏卡片） ── */
+.legend { line-height: 1.7; }
+.legend-card { padding-top: 2px; }
+.legend .lg-title {
+  font-size: 11px; font-weight: 700; color: var(--dim);
+  letter-spacing: .06em; margin: 8px 2px 4px;
+}
+.legend .lg-title:first-child { margin-top: 0; }
+.legend > span {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 12px; color: #cdd8e6; margin: 2px 0;
+}
+.legend .sw { width: 16px; height: 10px; border-radius: 3px; flex: none; }
+.legend .sw.dot { width: 11px; height: 11px; border-radius: 50%; }
+/* 双色航线：蓝端 → 红端 */
+.legend .sw.grad {
+  background: linear-gradient(90deg, rgba(79,163,255,.95), rgba(207,224,245,.7), rgba(255,107,94,.95));
+}
+
+/* ── 设置按钮 + 图层/底图弹窗 ──
+   定位沿用 thematic 的 --intro-w 体系：桌面在左栏右侧，移动端按其媒体查询走。
+   这里只管外观、动效与相对按钮的纵向偏移。 */
+.tool-btn {
+  position: absolute; z-index: 11;
+  width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #cfe0f5; cursor: pointer; padding: 0;
+  background: rgba(9, 15, 26, .72); border: 1px solid rgba(148, 178, 214, .22);
+  backdrop-filter: blur(10px); box-shadow: 0 4px 18px rgba(0, 0, 0, .35);
+  transition: color .2s, border-color .2s, background .2s,
+              transform .35s cubic-bezier(.22, 1, .36, 1);
+}
+.tool-btn:hover {
+  color: #fff; background: rgba(15, 24, 40, .88);
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+}
+.tool-btn svg { transition: transform .4s cubic-bezier(.22, 1, .36, 1); }
+.tool-btn.open { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
+.tool-btn.open svg { transform: rotate(90deg); }
+
+.panel.tool-panel {
+  transform-origin: left bottom;
+  opacity: 0; visibility: hidden;
+  transform: translateY(12px) scale(.94);
+  transition: opacity .26s ease, transform .32s cubic-bezier(.22, 1, .36, 1), visibility .32s;
+}
+.panel.tool-panel.open { opacity: 1; visibility: visible; transform: none; }
+.tool-body { padding: 0 12px 12px; overflow-y: auto; scrollbar-width: thin; }
+
+@media (min-width: 901px) {
+  .tool-btn { left: calc(var(--intro-w) + 24px); bottom: 16px; }
+  .panel.tool-panel { left: calc(var(--intro-w) + 24px); bottom: 66px; width: 252px; max-height: min(62vh, 480px); }
+}
+@media (max-width: 900px) {
+  .tool-btn { left: 10px; bottom: 16px; }
+  .panel.tool-panel { bottom: 66px; max-height: 52vh; }
+}
+
+/* ── 详情卡 · 可视化占比 ── */
+#dtFlows { display: flex; gap: 14px; margin-top: 8px; }
+.flow-col { flex: 1; min-width: 0; }
+.flow-col > small { display: block; font-size: 11px; font-weight: 700; color: #c4d2e4; margin-bottom: 6px; }
+.flow-row { display: flex; align-items: center; gap: 8px; padding: 3px 0; font-size: 12px; }
+.flow-row .fname {
+  flex: 0 0 4.2em; color: #dbe6f3;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.flow-row .bar {
+  flex: 1; height: 5px; border-radius: 3px;
+  background: rgba(255, 255, 255, .09); overflow: hidden;
+}
+.flow-row .bar > b { display: block; height: 100%; border-radius: 3px; background: linear-gradient(90deg, rgba(255,107,94,.5), #ff6b5e); }
+.flow-row.out .bar > b { background: linear-gradient(90deg, rgba(79,163,255,.5), #4fa3ff); }
+.flow-row .fval {
+  flex: 0 0 auto; min-width: 3.4em; text-align: right;
+  font-variant-numeric: tabular-nums; font-weight: 700; color: #fff; font-size: 11.5px;
+}
+.dt-bigbar { margin-top: 4px; }
+.dt-bigbar i {
+  display: block; height: 8px; border-radius: 4px;
+  background: rgba(255, 255, 255, .09); overflow: hidden;
+}
+.dt-bigbar b {
+  display: block; height: 100%; border-radius: 4px;
+  background: linear-gradient(90deg, rgba(79,163,255,.6), rgba(255,107,94,.9));
+  transition: width .5s cubic-bezier(.22, 1, .36, 1);
+}
+.dt-bigbar small { display: block; margin-top: 5px; font-size: 10.5px; line-height: 1.6; color: var(--dim); }
+.dt-bigbar + .note { margin-top: 8px; }
