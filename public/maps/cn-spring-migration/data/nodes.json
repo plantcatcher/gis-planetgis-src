@@ -1,0 +1,1788 @@
+{
+ "_comment": "中国春运人口迁徙 · 城市节点（GCJ-02）。数据日 20260210，来源百度迁徙规模指数(相对值)。properties.wgs84 为原始 WGS84。",
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-110000",
+    "name": "北京",
+    "adcode": 110000,
+    "prov": 11,
+    "strength": 213.92,
+    "net": -52.2,
+    "wgs84": [
+     116.41,
+     39.9
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.41624,
+     39.9014
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-120000",
+    "name": "天津",
+    "adcode": 120000,
+    "prov": 12,
+    "strength": 123.9,
+    "net": -13.34,
+    "wgs84": [
+     117.2,
+     39.13
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     117.2063,
+     39.13104
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-130100",
+    "name": "石家庄",
+    "adcode": 130100,
+    "prov": 13,
+    "strength": 88.88,
+    "net": 1.47,
+    "wgs84": [
+     114.51,
+     38.04
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     114.51599,
+     38.04063
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-130200",
+    "name": "唐山",
+    "adcode": 130200,
+    "prov": 13,
+    "strength": 79.65,
+    "net": 0.33,
+    "wgs84": [
+     118.18,
+     39.63
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     118.18628,
+     39.63131
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-130400",
+    "name": "邯郸",
+    "adcode": 130400,
+    "prov": 13,
+    "strength": 69.31,
+    "net": 21.75,
+    "wgs84": [
+     114.49,
+     36.61
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     114.49591,
+     36.61021
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-130600",
+    "name": "保定",
+    "adcode": 130600,
+    "prov": 13,
+    "strength": 101.36,
+    "net": 1.07,
+    "wgs84": [
+     115.46,
+     38.87
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     115.46633,
+     38.87091
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-140100",
+    "name": "太原",
+    "adcode": 140100,
+    "prov": 14,
+    "strength": 53.19,
+    "net": -1.09,
+    "wgs84": [
+     112.55,
+     37.87
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     112.5563,
+     37.87052
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-140800",
+    "name": "运城",
+    "adcode": 140800,
+    "prov": 14,
+    "strength": 107.34,
+    "net": 13.09,
+    "wgs84": [
+     111.0,
+     35.02
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     111.00578,
+     35.01923
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-141000",
+    "name": "临汾",
+    "adcode": 141000,
+    "prov": 14,
+    "strength": 100.69,
+    "net": 14.92,
+    "wgs84": [
+     111.52,
+     36.08
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     111.52621,
+     36.07987
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-150100",
+    "name": "呼和浩特",
+    "adcode": 150100,
+    "prov": 15,
+    "strength": 23.35,
+    "net": 2.16,
+    "wgs84": [
+     111.75,
+     40.84
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     111.75692,
+     40.84145
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-210100",
+    "name": "沈阳",
+    "adcode": 210100,
+    "prov": 21,
+    "strength": 48.68,
+    "net": -1.95,
+    "wgs84": [
+     123.43,
+     41.8
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     123.43614,
+     41.80243
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-210200",
+    "name": "大连",
+    "adcode": 210200,
+    "prov": 21,
+    "strength": 57.2,
+    "net": 10.92,
+    "wgs84": [
+     121.62,
+     38.92
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.62495,
+     38.92079
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-220100",
+    "name": "长春",
+    "adcode": 220100,
+    "prov": 22,
+    "strength": 45.49,
+    "net": 8.19,
+    "wgs84": [
+     125.32,
+     43.82
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     125.3265,
+     43.82244
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-230100",
+    "name": "哈尔滨",
+    "adcode": 230100,
+    "prov": 23,
+    "strength": 55.0,
+    "net": 7.67,
+    "wgs84": [
+     126.53,
+     45.8
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.53606,
+     45.802
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-320100",
+    "name": "南京",
+    "adcode": 320100,
+    "prov": 32,
+    "strength": 139.3,
+    "net": -14.51,
+    "wgs84": [
+     118.78,
+     32.04
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     118.78521,
+     32.03795
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-320200",
+    "name": "无锡",
+    "adcode": 320200,
+    "prov": 32,
+    "strength": 130.36,
+    "net": -23.91,
+    "wgs84": [
+     120.3,
+     31.57
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.3046,
+     31.5681
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-320300",
+    "name": "徐州",
+    "adcode": 320300,
+    "prov": 32,
+    "strength": 95.09,
+    "net": 25.97,
+    "wgs84": [
+     117.18,
+     34.26
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     117.18578,
+     34.25879
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-320400",
+    "name": "常州",
+    "adcode": 320400,
+    "prov": 32,
+    "strength": 104.69,
+    "net": -15.33,
+    "wgs84": [
+     119.95,
+     31.79
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     119.9547,
+     31.7879
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-320500",
+    "name": "苏州",
+    "adcode": 320500,
+    "prov": 32,
+    "strength": 166.12,
+    "net": -68.81,
+    "wgs84": [
+     120.62,
+     31.3
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.62418,
+     31.29782
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-320600",
+    "name": "南通",
+    "adcode": 320600,
+    "prov": 32,
+    "strength": 74.91,
+    "net": -4.37,
+    "wgs84": [
+     120.86,
+     31.98
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.86425,
+     31.97786
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-321000",
+    "name": "扬州",
+    "adcode": 321000,
+    "prov": 32,
+    "strength": 64.2,
+    "net": 4.73,
+    "wgs84": [
+     119.41,
+     32.39
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     119.41548,
+     32.38812
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-330100",
+    "name": "杭州",
+    "adcode": 330100,
+    "prov": 33,
+    "strength": 220.41,
+    "net": -69.92,
+    "wgs84": [
+     120.15,
+     30.27
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.15471,
+     30.26768
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-330200",
+    "name": "宁波",
+    "adcode": 330200,
+    "prov": 33,
+    "strength": 158.2,
+    "net": -48.05,
+    "wgs84": [
+     121.55,
+     29.87
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.55416,
+     29.86742
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-330300",
+    "name": "温州",
+    "adcode": 330300,
+    "prov": 33,
+    "strength": 104.4,
+    "net": -11.28,
+    "wgs84": [
+     120.7,
+     28.0
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.70406,
+     27.99672
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-330400",
+    "name": "嘉兴",
+    "adcode": 330400,
+    "prov": 33,
+    "strength": 105.65,
+    "net": -21.08,
+    "wgs84": [
+     120.76,
+     30.77
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.76432,
+     30.76771
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-330600",
+    "name": "绍兴",
+    "adcode": 330600,
+    "prov": 33,
+    "strength": 118.94,
+    "net": -13.67,
+    "wgs84": [
+     120.58,
+     30.01
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.58408,
+     30.00736
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-330700",
+    "name": "金华",
+    "adcode": 330700,
+    "prov": 33,
+    "strength": 129.05,
+    "net": -32.98,
+    "wgs84": [
+     119.65,
+     29.08
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     119.65471,
+     29.07703
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-330900",
+    "name": "台州",
+    "adcode": 330900,
+    "prov": 33,
+    "strength": 110.71,
+    "net": -20.2,
+    "wgs84": [
+     121.43,
+     28.66
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.43442,
+     28.65704
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-340100",
+    "name": "合肥",
+    "adcode": 340100,
+    "prov": 34,
+    "strength": 169.72,
+    "net": 9.28,
+    "wgs84": [
+     117.27,
+     31.86
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     117.2755,
+     31.85799
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-340500",
+    "name": "芜湖",
+    "adcode": 340500,
+    "prov": 34,
+    "strength": 80.11,
+    "net": 1.88,
+    "wgs84": [
+     118.38,
+     31.33
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     118.38541,
+     31.32815
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-340800",
+    "name": "安庆",
+    "adcode": 340800,
+    "prov": 34,
+    "strength": 87.96,
+    "net": 20.03,
+    "wgs84": [
+     117.05,
+     30.53
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     117.05542,
+     30.52769
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-341200",
+    "name": "阜阳",
+    "adcode": 341200,
+    "prov": 34,
+    "strength": 120.55,
+    "net": 47.07,
+    "wgs84": [
+     115.81,
+     32.9
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     115.81538,
+     32.89802
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-341500",
+    "name": "六安",
+    "adcode": 341500,
+    "prov": 34,
+    "strength": 104.42,
+    "net": 17.06,
+    "wgs84": [
+     116.52,
+     31.75
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.52508,
+     31.74793
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-341600",
+    "name": "亳州",
+    "adcode": 341600,
+    "prov": 34,
+    "strength": 98.47,
+    "net": 34.05,
+    "wgs84": [
+     115.78,
+     33.87
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     115.78554,
+     33.86856
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-341300",
+    "name": "宿州",
+    "adcode": 341300,
+    "prov": 34,
+    "strength": 95.52,
+    "net": 28.09,
+    "wgs84": [
+     116.97,
+     33.63
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.9754,
+     33.62844
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-350100",
+    "name": "福州",
+    "adcode": 350100,
+    "prov": 35,
+    "strength": 72.35,
+    "net": -4.34,
+    "wgs84": [
+     119.3,
+     26.08
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     119.30481,
+     26.0769
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-350200",
+    "name": "厦门",
+    "adcode": 350200,
+    "prov": 35,
+    "strength": 91.89,
+    "net": -16.1,
+    "wgs84": [
+     118.09,
+     24.48
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     118.09498,
+     24.47735
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-350500",
+    "name": "泉州",
+    "adcode": 350500,
+    "prov": 35,
+    "strength": 116.16,
+    "net": -10.31,
+    "wgs84": [
+     118.58,
+     24.91
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     118.58445,
+     24.907
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-360100",
+    "name": "南昌",
+    "adcode": 360100,
+    "prov": 36,
+    "strength": 122.43,
+    "net": 20.46,
+    "wgs84": [
+     115.86,
+     28.68
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     115.8649,
+     28.67667
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-360700",
+    "name": "赣州",
+    "adcode": 360700,
+    "prov": 36,
+    "strength": 80.9,
+    "net": 31.01,
+    "wgs84": [
+     114.94,
+     25.85
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     114.94474,
+     25.84681
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-360900",
+    "name": "宜春",
+    "adcode": 360900,
+    "prov": 36,
+    "strength": 99.69,
+    "net": 19.53,
+    "wgs84": [
+     114.39,
+     27.81
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     114.39532,
+     27.8069
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-361100",
+    "name": "上饶",
+    "adcode": 361100,
+    "prov": 36,
+    "strength": 95.05,
+    "net": 35.79,
+    "wgs84": [
+     117.97,
+     28.45
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     117.97504,
+     28.44665
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-370100",
+    "name": "济南",
+    "adcode": 370100,
+    "prov": 37,
+    "strength": 56.8,
+    "net": -1.56,
+    "wgs84": [
+     117.0,
+     36.65
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     117.00584,
+     36.65025
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-370200",
+    "name": "青岛",
+    "adcode": 370200,
+    "prov": 37,
+    "strength": 122.91,
+    "net": -6.08,
+    "wgs84": [
+     120.38,
+     36.07
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.38513,
+     36.07027
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-370600",
+    "name": "烟台",
+    "adcode": 370600,
+    "prov": 37,
+    "strength": 84.93,
+    "net": 3.16,
+    "wgs84": [
+     121.39,
+     37.54
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.39527,
+     37.54103
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-370700",
+    "name": "潍坊",
+    "adcode": 370700,
+    "prov": 37,
+    "strength": 84.17,
+    "net": 3.73,
+    "wgs84": [
+     119.1,
+     36.62
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     119.10596,
+     36.62046
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-420100",
+    "name": "武汉",
+    "adcode": 420100,
+    "prov": 42,
+    "strength": 102.37,
+    "net": 2.78,
+    "wgs84": [
+     114.3,
+     30.59
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     114.30544,
+     30.58758
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-430100",
+    "name": "长沙",
+    "adcode": 430100,
+    "prov": 43,
+    "strength": 103.28,
+    "net": 9.82,
+    "wgs84": [
+     112.94,
+     28.23
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     112.94545,
+     28.22649
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-421100",
+    "name": "黄冈",
+    "adcode": 421100,
+    "prov": 42,
+    "strength": 93.56,
+    "net": 22.04,
+    "wgs84": [
+     114.87,
+     30.45
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     114.87507,
+     30.44734
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-430400",
+    "name": "衡阳",
+    "adcode": 430400,
+    "prov": 43,
+    "strength": 81.74,
+    "net": 29.41,
+    "wgs84": [
+     112.57,
+     26.89
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     112.57524,
+     26.88642
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-430500",
+    "name": "邵阳",
+    "adcode": 430500,
+    "prov": 43,
+    "strength": 92.0,
+    "net": 29.37,
+    "wgs84": [
+     111.47,
+     27.24
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     111.47556,
+     27.23675
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-431200",
+    "name": "怀化",
+    "adcode": 431200,
+    "prov": 43,
+    "strength": 73.03,
+    "net": 27.14,
+    "wgs84": [
+     110.0,
+     27.55
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     110.00468,
+     27.54669
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-440100",
+    "name": "广州",
+    "adcode": 440100,
+    "prov": 44,
+    "strength": 203.83,
+    "net": -57.66,
+    "wgs84": [
+     113.26,
+     23.13
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.26533,
+     23.12732
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-440300",
+    "name": "深圳",
+    "adcode": 440300,
+    "prov": 44,
+    "strength": 202.13,
+    "net": -71.88,
+    "wgs84": [
+     114.06,
+     22.55
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     114.06512,
+     22.54729
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-440400",
+    "name": "珠海",
+    "adcode": 440400,
+    "prov": 44,
+    "strength": 97.28,
+    "net": -9.8,
+    "wgs84": [
+     113.55,
+     22.27
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.55509,
+     22.26703
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-440600",
+    "name": "佛山",
+    "adcode": 440600,
+    "prov": 44,
+    "strength": 122.1,
+    "net": -18.35,
+    "wgs84": [
+     113.12,
+     23.02
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.12548,
+     23.01745
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-441300",
+    "name": "惠州",
+    "adcode": 441300,
+    "prov": 44,
+    "strength": 113.17,
+    "net": -9.45,
+    "wgs84": [
+     114.42,
+     23.11
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     114.42496,
+     23.1075
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-441900",
+    "name": "东莞",
+    "adcode": 441900,
+    "prov": 44,
+    "strength": 168.37,
+    "net": -52.15,
+    "wgs84": [
+     113.75,
+     23.02
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.75519,
+     23.01728
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-442000",
+    "name": "中山",
+    "adcode": 442000,
+    "prov": 44,
+    "strength": 120.35,
+    "net": -6.36,
+    "wgs84": [
+     113.39,
+     22.52
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.39548,
+     22.51731
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-450100",
+    "name": "南宁",
+    "adcode": 450100,
+    "prov": 45,
+    "strength": 37.5,
+    "net": 15.61,
+    "wgs84": [
+     108.32,
+     22.82
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     108.32399,
+     22.81723
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-460100",
+    "name": "海口",
+    "adcode": 460100,
+    "prov": 46,
+    "strength": 17.18,
+    "net": -0.91,
+    "wgs84": [
+     110.2,
+     20.04
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     110.20429,
+     20.03789
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-500000",
+    "name": "重庆",
+    "adcode": 500000,
+    "prov": 50,
+    "strength": 214.41,
+    "net": 40.44,
+    "wgs84": [
+     106.55,
+     29.56
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     106.55372,
+     29.55715
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-510100",
+    "name": "成都",
+    "adcode": 510100,
+    "prov": 51,
+    "strength": 183.45,
+    "net": -32.72,
+    "wgs84": [
+     104.07,
+     30.57
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     104.07251,
+     30.56755
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-510500",
+    "name": "泸州",
+    "adcode": 510500,
+    "prov": 51,
+    "strength": 119.4,
+    "net": 13.78,
+    "wgs84": [
+     105.44,
+     28.87
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     105.44359,
+     28.86696
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-510700",
+    "name": "绵阳",
+    "adcode": 510700,
+    "prov": 51,
+    "strength": 73.05,
+    "net": 13.73,
+    "wgs84": [
+     104.68,
+     31.47
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     104.68262,
+     31.46773
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-511300",
+    "name": "南充",
+    "adcode": 511300,
+    "prov": 51,
+    "strength": 91.8,
+    "net": 23.39,
+    "wgs84": [
+     106.08,
+     30.8
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     106.08401,
+     30.79769
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-511500",
+    "name": "宜宾",
+    "adcode": 511500,
+    "prov": 51,
+    "strength": 111.39,
+    "net": 14.57,
+    "wgs84": [
+     104.64,
+     28.75
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     104.64237,
+     28.74657
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-511700",
+    "name": "达州",
+    "adcode": 511700,
+    "prov": 51,
+    "strength": 90.81,
+    "net": 18.55,
+    "wgs84": [
+     107.5,
+     31.21
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     107.50455,
+     31.20776
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-520100",
+    "name": "贵阳",
+    "adcode": 520100,
+    "prov": 52,
+    "strength": 110.21,
+    "net": -2.77,
+    "wgs84": [
+     106.71,
+     26.57
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     106.71376,
+     26.56647
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-520300",
+    "name": "遵义",
+    "adcode": 520300,
+    "prov": 52,
+    "strength": 124.42,
+    "net": 18.63,
+    "wgs84": [
+     106.93,
+     27.73
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     106.93383,
+     27.72647
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-520500",
+    "name": "毕节",
+    "adcode": 520500,
+    "prov": 52,
+    "strength": 138.43,
+    "net": 23.45,
+    "wgs84": [
+     105.29,
+     27.27
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     105.29323,
+     27.26663
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-530100",
+    "name": "昆明",
+    "adcode": 530100,
+    "prov": 53,
+    "strength": 124.23,
+    "net": -13.67,
+    "wgs84": [
+     102.83,
+     24.88
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     102.83142,
+     24.87694
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-530300",
+    "name": "曲靖",
+    "adcode": 530300,
+    "prov": 53,
+    "strength": 100.13,
+    "net": 11.15,
+    "wgs84": [
+     103.8,
+     25.49
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     103.80202,
+     25.48699
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-530600",
+    "name": "昭通",
+    "adcode": 530600,
+    "prov": 53,
+    "strength": 127.23,
+    "net": 20.67,
+    "wgs84": [
+     103.72,
+     27.34
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     103.7221,
+     27.33658
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-540100",
+    "name": "拉萨",
+    "adcode": 540100,
+    "prov": 54,
+    "strength": 18.22,
+    "net": -1.39,
+    "wgs84": [
+     91.11,
+     29.97
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     91.11157,
+     29.96733
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-610100",
+    "name": "西安",
+    "adcode": 610100,
+    "prov": 61,
+    "strength": 138.71,
+    "net": -2.44,
+    "wgs84": [
+     108.94,
+     34.34
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     108.94466,
+     34.33844
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-610500",
+    "name": "渭南",
+    "adcode": 610500,
+    "prov": 61,
+    "strength": 94.18,
+    "net": 6.88,
+    "wgs84": [
+     109.51,
+     34.5
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     109.51514,
+     34.49867
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-620100",
+    "name": "兰州",
+    "adcode": 620100,
+    "prov": 62,
+    "strength": 30.11,
+    "net": 5.93,
+    "wgs84": [
+     103.83,
+     36.06
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     103.83241,
+     36.05968
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-630100",
+    "name": "西宁",
+    "adcode": 630100,
+    "prov": 63,
+    "strength": 24.15,
+    "net": -1.19,
+    "wgs84": [
+     101.78,
+     36.62
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     101.78193,
+     36.61992
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-640100",
+    "name": "银川",
+    "adcode": 640100,
+    "prov": 64,
+    "strength": 17.36,
+    "net": 1.52,
+    "wgs84": [
+     106.23,
+     38.49
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     106.2344,
+     38.49046
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "c-650100",
+    "name": "乌鲁木齐",
+    "adcode": 650100,
+    "prov": 65,
+    "strength": 16.14,
+    "net": -0.38,
+    "wgs84": [
+     87.62,
+     43.82
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     87.62285,
+     43.82121
+    ]
+   }
+  }
+ ]
+}

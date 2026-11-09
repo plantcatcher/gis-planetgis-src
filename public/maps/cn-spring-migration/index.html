@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <script src="/shared/map-i18n.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>中国春运人口迁徙 · 互动地图</title>
+  <meta name="description" content="以 2026 年春节前返乡高峰的百度迁徙规模指数为底，揭示中国城市间人口流动的实时网络：点任一城市，看谁在吸人、谁在送人。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <!-- ── 左：介绍栏 ─────────────────────────────────────────── -->
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 全网总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-eq"></i>
+      <b>人口迁徙</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> CHINA SPRING-FESTIVAL MIGRATION</small>
+      <h1><span>中国春运</span><b>人口迁徙</b></h1>
+      <p class="lead">2026 年春节前返乡高峰，百度迁徙规模指数揭示的城市间人口流动网络。红色城市在「吸人」，蓝色城市在「送人」，橙色流线就是春运里真实的回家路。</p>
+
+      <div class="facts">
+        <span><small>城市节点</small><b><span class="v"><em>81</em></span><i>座</i></b></span>
+        <span><small>迁徙连线</small><b><span class="v"><em>743</em></span><i>条</i></b></span>
+        <span><small>数据日</small><b><span class="v"><em>2026.02.10</em></span></b></span>
+      </div>
+
+      <section class="block">
+        <header><small>人口「抽水机」TOP</small></header>
+        <div id="rankInflow" class="ranks"></div>
+        <p class="note">净流入最强（最吸引外来人口）的城市。点任一城市，地图会聚焦它所有的流入与流出。</p>
+      </section>
+
+      <section class="block">
+        <header><small>人口输出地 TOP</small></header>
+        <div id="rankOutflow" class="ranks"></div>
+        <p class="note">净流出最强（向外输送人口）的城市，多为劳务输出大省的核心城市。</p>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：节点坐标为真实城市的公开地理坐标（WGS84 转 GCJ-02）。<b>连线权重为百度迁徙规模指数占比（相对值，非绝对人次）</b>，仅用于表达城市间联系的相对强度，不作为客运量依据。连线为城市间直线示意，非实际迁徙路径。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/works/cn-spring-migration" target="_top">作品介绍</a>
+        <a href="/downloads" target="_top">资料下载</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── 右上：详情卡 ─────────────────────────────────────── -->
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtRole">CITY</small>
+      <div class="dt-actions">
+        <button type="button" id="dtClose" title="关闭">✕</button>
+      </div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtTagline">—</p>
+    <div class="dt-metrics">
+      <span><small id="dtM1Label">联系强度</small><b><em id="dtM1">—</em></b></span>
+      <span><small id="dtM2Label">净流动</small><b><em id="dtM2">—</em></b></span>
+      <span><small id="dtM3Label">关联城市</small><b><em id="dtM3">—</em></span>
+    </div>
+    <section class="dt-desc">
+      <small id="dtDescLabel">主要来源 / 去向</small>
+      <div id="dtFlows"></div>
+    </section>
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <!-- ── 右下：图例 ─────────────────────────────────────── -->
+  <div class="dock"><div class="legend" id="legend"></div></div>
+
+  <!-- ── 左下：图层与底图 ───────────────────────────────── -->
+  <div class="panel" id="panel">
+    <div class="panel-head" id="panelHead">
+      <span>图层与底图</span>
+      <button type="button" id="panelToggle" title="折叠/展开">－</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckLabel" checked /><span>城市名称</span></label>
+      <label class="row"><input type="checkbox" id="ckFlow" checked data-toggle-layer="flow-casing,flow-line" /><span>迁徙流线</span></label>
+      <label class="row"><input type="checkbox" id="ckArrow" checked data-toggle-layer="flow-arrow" /><span>流向箭头</span></label>
+      <label class="row"><input type="checkbox" id="ckNodes" checked data-toggle-layer="node-dot" /><span>城市点位</span></label>
+      <label class="row"><input type="checkbox" id="ckIntra" /><span>显示省内短途</span></label>
+      <label class="row"><input type="checkbox" id="ckBorder" checked /><span>省级行政区边界</span></label>
+      <label class="row"><input type="checkbox" id="ckGraticule" /><span>经纬网格</span></label>
+      <div class="divider"></div>
+      <div class="bm-title">底图</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" checked /><span>深色</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>矢量路网</span></label>
+      </div>
+      <div class="divider"></div>
+      <p class="panel-note">默认<b>深色</b>：迁徙流线最醒目。嫌空可切<b>卫星影像</b>，看流线如何骑在真实地理骨架上。点任一城市看它的流入流出。</p>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="/maps/_shared/thematic/thematic.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
