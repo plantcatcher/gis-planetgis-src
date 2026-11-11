@@ -656,6 +656,7 @@ export const zh = {
   'my.game.geoshape': 'GeoShape · 猜国家',
   'my.game.geotype': '地理人格测试',
   'my.game.chinapuzzle': '中国地图拼图挑战',
+  'my.game.geodaily': '每日地理挑战',
   'my.game.default': '地理小游戏',
   'my.completed': '已完成',
   'my.favorited': '已收藏',

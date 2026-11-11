@@ -138,6 +138,12 @@ const routes: RouteConfig[] = [
     visible: false,
   },
   {
+    name: '每日地理挑战',
+    path: '/geodaily',
+    element: <GameEmbed game="geodaily" />,
+    visible: false,
+  },
+  {
     name: '中国地图拼图',
     path: '/chinapuzzle',
     element: <GameEmbed game="chinapuzzle" />,

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0b1a30"/>
+      <stop offset="1" stop-color="#070d18"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.42" r="0.6">
+      <stop offset="0" stop-color="#1d8fe1" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#1d8fe1" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M60 0H0V60" fill="none" stroke="#1b3a5e" stroke-width="1" opacity="0.5"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <rect width="1200" height="675" fill="url(#grid)"/>
+  <ellipse cx="600" cy="290" rx="520" ry="320" fill="url(#glow)"/>
+
+  <!-- 抽象大陆色块 -->
+  <g fill="#16304e" opacity="0.9">
+    <path d="M120 360 q60 -40 150 -20 q70 15 110 70 q-30 60 -120 55 q-90 -5 -140 -60 q-30 -30 0 -45Z"/>
+    <path d="M330 470 q40 -10 90 10 q10 60 -30 110 q-50 20 -80 -20 q-20 -70 20 -100Z"/>
+    <path d="M560 300 q120 -30 230 0 q60 50 40 120 q-30 80 -150 80 q-130 0 -160 -90 q-20 -70 40 -110Z"/>
+    <path d="M860 330 q70 -20 140 10 q30 40 0 90 q-60 30 -120 10 q-40 -50 -20 -110Z"/>
+  </g>
+
+  <!-- 连线路径（点到点虚线） -->
+  <g stroke="#f59e0b" stroke-width="2.5" fill="none" stroke-dasharray="7 7" opacity="0.9">
+    <path d="M250 360 C 420 250 560 260 700 320"/>
+  </g>
+  <circle cx="700" cy="320" r="8" fill="#ef4444" stroke="#fff" stroke-width="2"/>
+  <circle cx="250" cy="360" r="7" fill="#38bdf8" stroke="#fff" stroke-width="2"/>
+
+  <!-- 标题区 -->
+  <text x="80" y="118" font-family="-apple-system,'PingFang SC','Microsoft YaHei',sans-serif" font-size="22" letter-spacing="6" fill="#38bdf8">GEO DAILY · 每日地理挑战</text>
+  <text x="78" y="200" font-family="-apple-system,'PingFang SC','Microsoft YaHei',sans-serif" font-size="68" font-weight="800" fill="#f1f6fc">每日地理挑战</text>
+  <text x="80" y="246" font-family="-apple-system,'PingFang SC','Microsoft YaHei',sans-serif" font-size="24" fill="#9fb3cc">在地图上丢针标位置 · 按距离算分 · 每天一题</text>
+
+  <!-- 标记针 -->
+  <g transform="translate(1050,520)">
+    <path d="M0 0 C 26 -34 26 -70 0 -78 C -26 -70 -26 -34 0 0 Z" fill="#ef4444"/>
+    <circle cx="0" cy="-52" r="13" fill="#fff"/>
+  </g>
+</svg>

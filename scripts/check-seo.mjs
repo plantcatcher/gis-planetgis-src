@@ -65,11 +65,11 @@ for (const file of files) {
   // 不应参与主站 SEO 校验，否则会误报并使构建失败。
   // ⚠️ 正则必须带尾斜杠：dist/games/<game>.html 是游戏详情页（有正文，必须校验），
   //    只有 dist/games/<game>/** 才是从 public/games 复制来的游戏资源（含 geotype 城市页）。
-  if (/^games\/(geoquiz|geoshape|geotype|chinapuzzle)\//.test(rel)) continue;
+  if (/^games\/(geoquiz|geoshape|geotype|chinapuzzle|geodaily)\//.test(rel)) continue;
 
   // 游戏 iframe 壳页（prerender 产物 dist/<game>.html，对应对外路由 /<game>）：
   // 画面由 iframe 承载、壳页正文自然很短，与上面同理豁免，避免误报导致构建失败。
-  if (/^(geoquiz|geoshape|geotype|chinapuzzle)\.html$/.test(rel)) continue;
+  if (/^(geoquiz|geoshape|geotype|chinapuzzle|geodaily)\.html$/.test(rel)) continue;
 
   // 互动地图同理，但要区分两个文件：
   //   dist/maps/<slug>.html        详情页（有正文，必须参与校验）

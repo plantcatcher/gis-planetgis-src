@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <script src="/shared/map-i18n.js"></script>
+    <script src="/shared/ga-bridge.js"></script>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📍</text></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#060912" />
+    <meta name="description" content="每日地理挑战 - 在地图上丢针标记目标地的真实位置，按距离算分、按连击攒连胜。每天一局，全网同题，可分享比拼。" />
+    <title>GeoDaily · 每日地理挑战</title>
+    <!-- 成绩打通：每局结算同步到主站「我的学习」 -->
+    <script src="/shared/games-sync.js"></script>
+    <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <!-- 地图铺满全屏，所有界面元素浮在它上面 -->
+      <main class="stage">
+        <div id="map" aria-label="世界地图"></div>
+        <div class="map-hint" id="mapHint">点地图放 📍 · 拖针微调 · 拖空白移图</div>
+        <!-- 卫星底图连不上时的提示条 -->
+        <div class="basemap-notice" id="basemapNotice" hidden>
+          <span id="basemapNoticeText">卫星底图连不上，已换备用源</span>
+          <button id="btnBasemapRetry" type="button">重试</button>
+          <button id="btnBasemapClose" type="button" aria-label="关闭提示">×</button>
+        </div>
+      </main>
+
+      <!-- 浮动 HUD：顶栏 + 题目卡 + 放针后的确认键 -->
+      <div class="hud">
+        <header class="topbar">
+          <div class="brand">
+            <span class="logo">📍</span>
+            <div class="brand-text">
+              <h1 id="dayTitle">每日地理挑战</h1>
+              <p class="subtitle" id="dateLabel">—</p>
+            </div>
+          </div>
+          <div class="topbar-stats">
+            <div class="stat stat-btn" id="streakStat" role="button" tabindex="0" title="连续完成每日挑战的天数，点击查看连击日历">
+              <span class="stat-num" id="streakNum">0</span>
+              <span class="stat-lab">连击</span>
+            </div>
+            <div class="stat" id="bestStat" title="今日最佳分（满分 1000）">
+              <span class="stat-num" id="bestNum">—</span>
+              <span class="stat-lab">今日最佳</span>
+            </div>
+            <div class="stat" id="totalStat" title="累计总分">
+              <span class="stat-num" id="totalNum">0</span>
+              <span class="stat-lab">累计</span>
+            </div>
+            <button id="btnHelp" class="btn ghost" title="玩法说明">?</button>
+          </div>
+        </header>
+
+        <section class="prompt" id="prompt">
+          <div class="prompt-kicker">
+            <span id="promptKicker">今天的地点是</span>
+            <span class="timer" id="timerChip" hidden>60s</span>
+            <span class="rival" id="rivalChip" hidden></span>
+            <span class="place-tag" id="placeTag" hidden></span>
+          </div>
+          <div class="prompt-name" id="promptName">—</div>
+          <div class="prompt-hint" id="promptHint">—</div>
+          <div class="prompt-actions">
+            <button id="btnSkip" class="btn ghost" title="换一题（不计分）">跳过</button>
+            <button id="btnMode" class="btn ghost mode" title="5 题连答，累计得分">🎯 挑战模式</button>
+            <button id="btnRepair" class="btn ghost repair" hidden>🔁 补签昨天</button>
+          </div>
+          <div class="prompt-tip" id="promptTip">点地图任意处放下 📍，标记点下方会出现「标定这里」。</div>
+        </section>
+      </div>
+
+      <!-- 结算浮层：贴在底部，露出上方地图上的距离线 -->
+      <div class="result" id="result" hidden>
+        <div class="result-card">
+          <div class="result-main">
+            <div class="result-score-wrap">
+              <div class="result-score" id="resultScore">0</div>
+              <div class="result-score-lab" id="resultScoreLab">本局得分</div>
+            </div>
+            <div class="result-info">
+              <div class="result-name" id="resultName">—</div>
+              <div class="result-dist" id="resultDist">—</div>
+              <div class="result-coords" id="resultCoords"></div>
+            </div>
+          </div>
+          <div class="result-vs" id="resultVs" hidden></div>
+          <div class="result-trivia" id="resultTrivia">—</div>
+          <div class="result-meta" id="resultMeta"></div>
+          <div class="result-actions">
+            <button id="btnShare" class="btn primary">分享成绩</button>
+            <button id="btnNext" class="btn ghost">下一题</button>
+          </div>
+          <button id="btnBattle" class="btn ghost battle" hidden>🔗 复制对战链接</button>
+        </div>
+      </div>
+
+      <!-- 成绩卡浮层（系统分享不可用时展示图片，可长按保存 / 下载） -->
+      <div class="modal" id="shareModal" hidden>
+        <div class="modal-card share-card">
+          <h2>成绩卡</h2>
+          <img id="shareImg" alt="每日地理挑战成绩卡" />
+          <p class="share-tip">长按图片保存，或直接分享给好友</p>
+          <a id="shareDownload" class="btn primary" download="geodaily-score.png">保存图片</a>
+          <button id="btnShareClose" class="btn ghost">关闭</button>
+        </div>
+      </div>
+
+      <!-- 连击日历浮层 -->
+      <div class="modal" id="streakModal" hidden>
+        <div class="modal-card streak-card">
+          <h2>连击日历</h2>
+          <p class="streak-sub" id="streakSub">—</p>
+          <div class="streak-grid" id="streakGrid"></div>
+          <div class="streak-legend">
+            <span><i class="dot done"></i>已完成</span>
+            <span><i class="dot repair"></i>已补签</span>
+            <span><i class="dot miss"></i>未完成</span>
+          </div>
+          <button id="btnRepairModal" class="btn primary" hidden>🔁 补签昨天</button>
+          <button id="btnStreakClose" class="btn ghost">关闭</button>
+        </div>
+      </div>
+
+      <!-- 玩法说明浮层 -->
+      <div class="modal" id="helpModal" hidden>
+        <div class="modal-card">
+          <h2>怎么玩</h2>
+          <ol>
+            <li>每天系统给一座城市 / 地点：<b>点地图任意处</b>放下 📍 到你认为的真实位置。</li>
+            <li>放下后标记点下方会出现「📍 标定这里」，点它即结算。</li>
+            <li>标记针可<b>拖动微调</b>；拖动空白处是<b>移动地图</b>（缩放用滚轮 / 双指 / 右下角控件）。</li>
+            <li>结算后地图上会画出<b>猜测点到真实点的距离线</b>，并标出偏差公里数。离得越近分越高（满分 1000）。</li>
+            <li><b>连续完成每日挑战</b>累加连击，断一天归零；题目由日期决定，全网同一天同题。点「下一题」进入练习局，不计连击。点顶栏「连击」可看连击日历；漏答一天还能用每周一次的「补签」把连击接上。</li>
+            <li><b>题型</b>：除城市外，还会出现自然地貌（沙漠、火山、峡湾、瀑布等）与名胜古迹；题目卡会标出类型与难度（入门 / 进阶 / 冷门）。</li>
+            <li><b>挑战模式</b>：5 题连答，每题 60 秒，按 5 题累计总分评级（满分 5000），适合一次玩个痛快。</li>
+            <li><b>分享与对战</b>：分享会生成一张带二维码的成绩卡；挑战结束后可复制「同题对战链接」，链接里带着你的分数，好友打开就是同一组题，答完直接比高低。</li>
+          </ol>
+          <button id="btnHelpClose" class="btn primary">知道了</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="/maps/_shared/maplibre-gl.js"></script>
+    <script src="/shared/cities.js"></script>
+    <script src="places.js"></script>
+    <script src="qr.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

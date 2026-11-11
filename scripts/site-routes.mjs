@@ -62,6 +62,7 @@ export const staticRoutes = [
   '/geoshape',
   '/geotype',
   '/chinapuzzle',
+  '/geodaily',
 ];
 
 /**
@@ -80,6 +81,7 @@ const EN_EXCLUDE = new Set([
   '/geoshape',
   '/geotype',
   '/chinapuzzle',
+  '/geodaily',
   '/wiki',
 ]);
 

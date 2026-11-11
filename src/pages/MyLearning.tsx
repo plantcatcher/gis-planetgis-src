@@ -12,6 +12,7 @@ import {
   Globe2,
   Compass,
   Map,
+  MapPin,
   ArrowRight,
   Clock,
   CheckCircle2,
@@ -86,13 +87,15 @@ const GAME_ICONS: Record<string, React.ReactNode> = {
   geoshape: <Globe2 className="w-5 h-5" />,
   geotype: <Compass className="w-5 h-5" />,
   chinapuzzle: <Puzzle className="w-5 h-5" />,
+  geodaily: <MapPin className="w-5 h-5" />,
 };
 
-const GAME_NAME_KEYS: Record<string, 'my.game.geoquiz' | 'my.game.geoshape' | 'my.game.geotype' | 'my.game.chinapuzzle'> = {
+const GAME_NAME_KEYS: Record<string, 'my.game.geoquiz' | 'my.game.geoshape' | 'my.game.geotype' | 'my.game.chinapuzzle' | 'my.game.geodaily'> = {
   geoquiz: 'my.game.geoquiz',
   geoshape: 'my.game.geoshape',
   geotype: 'my.game.geotype',
   chinapuzzle: 'my.game.chinapuzzle',
+  geodaily: 'my.game.geodaily',
 };
 
 /** 游戏显示名：按当前语言取词典，未登记的游戏回退通用名 */
@@ -106,6 +109,7 @@ const GAME_PATHS: Record<string, string> = {
   geoshape: '/geoshape',
   geotype: '/geotype',
   chinapuzzle: '/chinapuzzle',
+  geodaily: '/geodaily',
 };
 
 function gamePath(gameId?: string): string {

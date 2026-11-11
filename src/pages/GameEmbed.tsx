@@ -1,11 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { LayoutGrid } from 'lucide-react';
 import PageMeta from '@/components/common/PageMeta';
 import ShareButton from '@/components/common/ShareButton';
 import { useI18n } from '@/i18n/LocaleContext';
 
-type GameKey = 'geoquiz' | 'geoshape' | 'geotype' | 'chinapuzzle';
+type GameKey = 'geoquiz' | 'geoshape' | 'geotype' | 'chinapuzzle' | 'geodaily';
 
 const META: Record<GameKey, { title: string; description: string }> = {
   geoquiz: {
@@ -26,6 +26,11 @@ const META: Record<GameKey, { title: string; description: string }> = {
     title: '中国地图拼图挑战 · 拼出你心中的中国',
     description: '拖动省级行政区拼出完整中国地图，在限时挑战中熟悉中国行政区划。',
   },
+  geodaily: {
+    title: '每日地理挑战 · 在地图上丢针标位置',
+    description:
+      '每天一道空间定位题：在地图上丢一个针标记出目标地的真实位置，按距离算分、按连击攒连胜，在线免费玩。',
+  },
 };
 
 // 给搜索引擎 / 读屏器看的扩展说明：游戏壳页主体是一个整屏 iframe，
@@ -39,6 +44,8 @@ const GAME_INTRO: Record<GameKey, string> = {
     '「地理人格测试」是一份以地理视角切入的人格趣味测评。它会结合你喜欢的地理环境（海洋、山岳、星空、城市或原野）与个人偏好，把你归类为某一种「地球人格」，并解释这种人格背后的地理与心理含义。测试纯属趣味性质，用于科普地理与人的关系，结果仅供娱乐与自我探索，免费在线完成。',
   chinapuzzle:
     '「中国地图拼图挑战」是一款帮助记忆中国省级行政区划的拼图游戏。玩家需要在限时内把 34 个省级行政区（省、自治区、直辖市、特别行政区）拖动到正确位置，拼出完整的中国版图。游戏在趣味挑战中强化对中国政区位置、轮廓与相邻关系的认知，适合学生、地理爱好者与备考人群反复练习，免费在线游玩。',
+  geodaily:
+    '「每日地理挑战」是一款每日更新的空间定位游戏。系统每天给出一座城市或地点，玩家需在地图上拖动一个标记针到你认为它真实所在的位置；系统按标记点与真实坐标的距离自动算分，离得越近分越高，连续答对还能累加连击。题目由日期决定，全网同一天完全相同，方便好友之间比拼与分享成绩。游戏旨在训练你对经纬网格与地表位置的空间直觉，适合地理爱好者每天花一分钟练手，免费在线游玩。',
 };
 
 /**
@@ -54,9 +61,21 @@ const GAME_INTRO: Record<GameKey, string> = {
 const GameEmbed: React.FC<{ game: GameKey }> = ({ game }) => {
   const { lang } = useI18n();
   const meta = META[game];
+  const { search } = useLocation();
   // 英文 locale：给独立游戏应用追加 ?lang=en，触发共享运行时英译层
   // （public/shared/map-i18n.js）。中文站不加任何参数，零副作用。
-  const src = `/games/${game}/index.html${lang === 'en' ? '?lang=en' : ''}`;
+  // 每日地理挑战还要透传 ?vs=（好友对战的城市 id 列表）与 ?s=（发起人总分）：
+  // iframe 不继承父页查询串，必须手动带上，否则对战链接打开后仍是每日题 / 看不到对手分数。
+  const query: string[] = [];
+  if (lang === 'en') query.push('lang=en');
+  const params = new URLSearchParams(search);
+  const vs = params.get('vs');
+  if (game === 'geodaily' && vs) {
+    query.push('vs=' + encodeURIComponent(vs));
+    const s = params.get('s');
+    if (s) query.push('s=' + encodeURIComponent(s));
+  }
+  const src = `/games/${game}/index.html${query.length ? '?' + query.join('&') : ''}`;
   return (
     <div className="w-full bg-[#060912]" style={{ height: '100dvh' }}>
       {/* 壳页也要有 title / description：浏览器标签页、搜索引擎与 GA4 的
@@ -69,7 +88,7 @@ const GameEmbed: React.FC<{ game: GameKey }> = ({ game }) => {
       <iframe
         src={src}
         title={meta.title}
-        loading="lazy"
+        loading="eager"
         className="w-full h-full border-0 block"
       />
       {/* 对爬虫 / 读屏器可见、但不在游戏画面上显示的说明文字 */}

@@ -666,6 +666,7 @@ export const en: Record<keyof Dict, string> = {
   'my.game.geoshape': 'GeoShape · Guess the Country',
   'my.game.geotype': 'Geography Personality Test',
   'my.game.chinapuzzle': 'China Map Puzzle Challenge',
+  'my.game.geodaily': 'Daily Geo Challenge',
   'my.game.default': 'Geography game',
   'my.completed': 'Completed',
   'my.favorited': 'Favorited',

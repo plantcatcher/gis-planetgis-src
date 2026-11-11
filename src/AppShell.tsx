@@ -8,7 +8,7 @@ import LangBanner from '@/components/common/LangBanner';
 
 // 游戏内嵌页（/geoquiz /geoshape /geotype /chinapuzzle）占满视口、隐藏站点
 // Navbar/Footer，由 iframe 全屏承载游戏本身，避免游戏自带全局样式污染主站。
-const GAME_PATHS = ['/geoquiz', '/geoshape', '/geotype', '/chinapuzzle'];
+const GAME_PATHS = ['/geoquiz', '/geoshape', '/geotype', '/chinapuzzle', '/geodaily'];
 
 // 可视化互动地图「本体」全屏壳页（/maps/<slug>/full）同理：iframe 承载地图本体，
 // 必须隐藏 Navbar/Footer/客服浮层，否则地图画面顶部会压着一条主站导航栏。

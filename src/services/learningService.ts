@@ -600,12 +600,14 @@ const GAME_PATHS_FALLBACK: Record<string, string> = {
   geoshape: '/geoshape',
   geotype: '/geotype',
   chinapuzzle: '/chinapuzzle',
+  geodaily: '/geodaily',
 };
 const GAME_NAMES_FALLBACK: Record<string, string> = {
   geoquiz: '卫星之眼 · 猜城市',
   geoshape: 'GeoShape · 猜国家',
   geotype: '地理人格测试',
   chinapuzzle: '中国地图拼图挑战',
+  geodaily: '每日地理挑战',
 };
 
 // -----------------------------------------------------------------------------

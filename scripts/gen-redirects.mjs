@@ -45,6 +45,7 @@ const enDetail = [
   ['/en/geoshape', '/geoshape'],
   ['/en/geotype', '/geotype'],
   ['/en/chinapuzzle', '/chinapuzzle'],
+  ['/en/geodaily', '/geodaily'],
   ['/en/wiki', '/wiki'],
 ];
 

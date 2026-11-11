@@ -1,0 +1,270 @@
+/* GeoDaily · 每日地理挑战 —— 暗色地理风格，与全站游戏 UI 一致 */
+* { box-sizing: border-box; }
+/* hidden 属性必须压过下面的 display:flex / display:grid，否则浮层常驻显示 */
+[hidden] { display: none !important; }
+html, body { margin: 0; height: 100%; }
+body {
+  font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: #060912;
+  color: #e6edf6;
+  overflow: hidden;
+}
+/* 地图铺满全屏，HUD / 结算 / 弹窗都是浮在上面的图层 */
+#app { position: relative; height: 100dvh; overflow: hidden; }
+
+/* 地图 */
+.stage { position: absolute; inset: 0; }
+#map { position: absolute; inset: 0; }
+.map-hint {
+  position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 4;
+  font-size: 11px; color: #cbd9ea; background: rgba(6,9,18,.6);
+  padding: 4px 10px; border-radius: 999px; pointer-events: none;
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  white-space: nowrap;
+}
+
+/* 站点在游戏页右下角浮着「全部游戏」按钮，把地图控件抬起来避开 */
+.maplibregl-ctrl-bottom-right { bottom: 56px; }
+.maplibregl-ctrl-bottom-left { bottom: 56px; }
+
+/* 浮动 HUD：顶栏与题目卡浮在卫星底图之上 */
+.hud {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 6;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  padding: 0 12px env(safe-area-inset-bottom, 0);
+  pointer-events: none;
+}
+.hud > * { pointer-events: auto; }
+
+/* 顶栏 */
+.topbar {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 10px 14px 16px;
+  background: linear-gradient(180deg, rgba(6,9,18,.92), rgba(6,9,18,.62) 62%, rgba(6,9,18,0));
+  z-index: 5;
+}
+.brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.brand .logo { font-size: 22px; }
+.brand-text h1 { font-size: 15px; margin: 0; font-weight: 700; letter-spacing: .02em; }
+.brand-text .subtitle { font-size: 11px; margin: 2px 0 0; color: #9db2ca; }
+.topbar-stats { display: flex; align-items: center; gap: 10px; }
+.stat { display: flex; flex-direction: column; align-items: center; min-width: 40px; }
+.stat-num { font-size: 18px; font-weight: 800; color: #38bdf8; line-height: 1; }
+.stat-lab { font-size: 10px; color: #9db2ca; margin-top: 3px; white-space: nowrap; }
+
+/* 题目卡：半透明毛玻璃，卫星底图能透出来 */
+.prompt {
+  width: min(560px, 100%); padding: 14px 16px; border-radius: 16px;
+  background: rgba(12,21,38,.52);
+  border: 1px solid rgba(255,255,255,.16);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+.prompt-kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: #6cc7f7; }
+.prompt-name { font-size: 22px; font-weight: 800; margin: 4px 0 6px; }
+.prompt-hint { font-size: 13px; color: #c9d6e6; line-height: 1.5; min-height: 20px; }
+.prompt-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+.prompt-tip { font-size: 11px; color: #9db2ca; margin-top: 8px; }
+
+/* 挑战倒计时 */
+.timer {
+  display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 999px;
+  font-size: 11px; font-weight: 800; letter-spacing: .04em;
+  background: rgba(245,158,11,.16); color: #fbbf24;
+  border: 1px solid rgba(245,158,11,.4);
+  vertical-align: 1px;
+}
+.timer.warn { background: rgba(239,68,68,.2); color: #fca5a5; border-color: rgba(239,68,68,.55); }
+
+/* 可点击的统计项（连击 → 连击日历） */
+.stat-btn { cursor: pointer; border-radius: 10px; transition: background .15s ease; }
+.stat-btn:hover { background: rgba(255,255,255,.06); }
+.stat-btn:focus-visible { outline: 2px solid #38bdf8; outline-offset: 2px; }
+
+/* 题型 / 难度标签 */
+.place-tag {
+  display: inline-block; margin-left: 6px; padding: 2px 8px; border-radius: 999px;
+  font-size: 11px; font-weight: 700; letter-spacing: .02em;
+  background: rgba(56,189,248,.14); color: #7dd3fc;
+  border: 1px solid rgba(56,189,248,.4);
+  vertical-align: 1px;
+}
+
+.btn.repair { border-color: rgba(245,158,11,.45); color: #fcd34d; }
+.btn.repair:hover { background: rgba(245,158,11,.14); }
+
+/* 卫星底图失败提示条 */
+.basemap-notice {
+  /* left/right + margin:auto：用整行可用宽度计算宽度，避免 50% 定位把文字挤到省略号 */
+  position: absolute; left: 12px; right: 12px; bottom: 44px; z-index: 7;
+  width: max-content; max-width: calc(100% - 24px); margin: 0 auto;
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 8px 6px 14px; border-radius: 999px;
+  font-size: 12px; color: #e6edf6;
+  background: rgba(6,9,18,.82); border: 1px solid rgba(245,158,11,.45);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+.basemap-notice > span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.basemap-notice button {
+  border: 0; border-radius: 999px; padding: 4px 10px; cursor: pointer;
+  background: #1d8fe1; color: #fff; font-size: 12px; font-weight: 700; font-family: inherit;
+  flex: 0 0 auto;
+}
+#btnBasemapClose { background: transparent; color: #9db2ca; font-size: 16px; line-height: 1; padding: 2px 6px; }
+
+/* 好友对战：发起人成绩小徽标 */
+.rival {
+  display: inline-block; margin-left: 6px; padding: 2px 8px; border-radius: 999px;
+  font-size: 11px; font-weight: 700; letter-spacing: .02em;
+  background: rgba(168,85,247,.18); color: #d8b4fe;
+  border: 1px solid rgba(168,85,247,.45);
+  vertical-align: 1px;
+}
+
+/* 放针后挂在标记点下方的确认键 */
+.confirm-wrap { z-index: 8; }
+.confirm {
+  border: 0; border-radius: 999px; padding: 8px 16px;
+  font-size: 13px; font-weight: 800; font-family: inherit;
+  background: #1d8fe1; color: #fff; cursor: pointer; white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.18) inset;
+  animation: confirm-pop .16s ease-out;
+}
+.confirm:hover { background: #38bdf8; }
+.confirm:active { transform: scale(.97); }
+@keyframes confirm-pop {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 按钮 */
+.btn {
+  border: 1px solid transparent; border-radius: 999px; padding: 8px 16px;
+  font-size: 13px; font-weight: 600; cursor: pointer; transition: all .15s ease;
+  font-family: inherit;
+}
+.btn.primary { background: #1d8fe1; color: #fff; }
+.btn.primary:hover { background: #38bdf8; }
+.btn.primary:disabled { background: #2a3a52; color: #6b7f99; cursor: not-allowed; }
+.btn.ghost { background: rgba(255,255,255,.08); color: #dbe6f3; border-color: rgba(255,255,255,.16); }
+.btn.ghost:hover { background: rgba(255,255,255,.15); }
+.btn.mode { border-color: rgba(56,189,248,.4); color: #a5e2ff; }
+
+/* 结算：底部浮层，上方地图保留可见，方便看距离线 */
+.result {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 10;
+  display: flex; justify-content: center;
+  padding: 0 12px calc(14px + env(safe-area-inset-bottom, 0));
+  background: linear-gradient(0deg, rgba(6,9,18,.82), rgba(6,9,18,0));
+  pointer-events: none;
+}
+.result-card {
+  pointer-events: auto;
+  width: min(480px, 100%); padding: 16px 18px; border-radius: 18px;
+  background: rgba(12,21,38,.74);
+  border: 1px solid rgba(255,255,255,.16);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  box-shadow: 0 16px 50px rgba(0,0,0,.5);
+}
+.result-main { display: flex; align-items: center; gap: 16px; }
+.result-score-wrap { flex: 0 0 auto; text-align: center; }
+.result-score { font-size: 44px; font-weight: 900; color: #38bdf8; line-height: 1; }
+.result-score-lab { font-size: 11px; color: #9db2ca; margin-top: 4px; letter-spacing: .08em; }
+.result-info { min-width: 0; text-align: left; }
+.result-name { font-size: 16px; font-weight: 700; }
+.result-dist { font-size: 12px; color: #c9d6e6; margin-top: 3px; }
+.result-coords { font-size: 11px; color: #8aa0bb; margin-top: 3px; }
+.result-trivia { font-size: 12px; color: #a9bcd2; margin: 10px 0 0; line-height: 1.5; }
+
+/* 对手成绩对比条：进行中 / 赢 / 输 / 平 */
+.result-vs {
+  margin-top: 10px; padding: 7px 10px; border-radius: 10px;
+  font-size: 12px; font-weight: 700; text-align: center;
+  background: rgba(168,85,247,.14); color: #d8b4fe;
+  border: 1px solid rgba(168,85,247,.35);
+}
+.result-vs.win { background: rgba(34,197,94,.16); color: #86efac; border-color: rgba(34,197,94,.45); }
+.result-vs.lose { background: rgba(239,68,68,.14); color: #fca5a5; border-color: rgba(239,68,68,.4); }
+.result-vs.tie { background: rgba(245,158,11,.14); color: #fcd34d; border-color: rgba(245,158,11,.4); }
+.result-meta { font-size: 12px; color: #7fd0fb; margin-top: 6px; }
+.result-actions { display: flex; gap: 8px; margin-top: 12px; }
+.result-actions .btn { flex: 1; }
+.btn.battle {
+  display: block; width: 100%; margin-top: 8px;
+  border-color: rgba(56,189,248,.35); color: #a5e2ff;
+}
+
+/* 距离标签（连线中点） */
+.dist-label {
+  background: rgba(6,9,18,.86); border: 1px solid rgba(245,158,11,.65);
+  color: #fbbf24; font-size: 12px; font-weight: 700; line-height: 1;
+  padding: 5px 10px; border-radius: 999px; white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(0,0,0,.45);
+}
+
+/* 说明浮层 */
+.modal {
+  position: absolute; inset: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(6,9,18,.6);
+  padding: 16px;
+}
+.modal-card {
+  width: min(400px, 100%); padding: 22px; border-radius: 16px;
+  background: rgba(13,22,40,.97); border: 1px solid rgba(255,255,255,.1);
+}
+.modal-card h2 { margin: 0 0 12px; font-size: 18px; }
+.modal-card ol { margin: 0 0 16px; padding-left: 20px; font-size: 13px; line-height: 1.7; color: #cdd9e8; }
+.modal-card .btn { width: 100%; }
+.share-card { width: min(520px, 100%); }
+.share-card img {
+  display: block; width: 100%; max-height: 58vh; object-fit: contain;
+  border-radius: 12px; margin: 6px 0 10px; background: #0b1a30;
+}
+.share-tip { font-size: 12px; color: #9db2ca; margin: 0 0 12px; text-align: center; }
+.share-card .btn { display: block; text-align: center; text-decoration: none; box-sizing: border-box; }
+.share-card .btn + .btn { margin-top: 8px; }
+
+/* 连击日历 */
+.streak-card h2 { margin-bottom: 6px; }
+.streak-sub { margin: 0 0 14px; font-size: 12px; color: #9db2ca; line-height: 1.5; }
+.streak-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 12px; }
+.day {
+  aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center;
+  border-radius: 10px; font-size: 12px; font-weight: 700;
+  background: rgba(255,255,255,.04); color: #6b7f99;
+  border: 1px solid rgba(255,255,255,.08);
+}
+.day.done { background: rgba(56,189,248,.18); color: #7dd3fc; border-color: rgba(56,189,248,.45); }
+.day.repair { background: rgba(245,158,11,.16); color: #fcd34d; border-color: rgba(245,158,11,.5); }
+.day.today { box-shadow: 0 0 0 2px rgba(56,189,248,.45); }
+.streak-legend { display: flex; gap: 14px; font-size: 11px; color: #9db2ca; margin-bottom: 14px; }
+.streak-legend .dot { display: inline-block; width: 9px; height: 9px; border-radius: 3px; margin-right: 5px; }
+.streak-legend .dot.done { background: #38bdf8; }
+.streak-legend .dot.repair { background: #f59e0b; }
+.streak-legend .dot.miss { background: #334155; }
+.streak-card .btn { width: 100%; }
+.streak-card .btn + .btn { margin-top: 8px; }
+
+/* 标记针：SVG 图钉，底端尖角与坐标严格对齐 */
+.pin { cursor: grab; }
+.pin:active { cursor: grabbing; }
+.pin svg { display: block; filter: drop-shadow(0 3px 4px rgba(0,0,0,.5)); }
+
+@media (max-width: 600px) {
+  .prompt-name { font-size: 19px; }
+  .prompt { padding: 12px 14px; }
+  .result-score { font-size: 38px; }
+  .brand .logo { font-size: 18px; }
+  .brand-text h1 { font-size: 13px; }
+  .stat { min-width: 34px; }
+  .stat-num { font-size: 16px; }
+}
+
+@media (max-width: 430px) {
+  .brand-text .subtitle { display: none; }
+  .topbar-stats { gap: 6px; }
+  .stat-lab { font-size: 9px; }
+}
