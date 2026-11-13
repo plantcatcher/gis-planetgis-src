@@ -27,59 +27,36 @@ function tileUrls(num) {
   return WB_HOSTS.map(h => 'https://' + h + WB_PATH + num + '/{z}/{y}/{x}');
 }
 
-/* 天地图注记（cva = 中文注记 + 境界线），CGCS2000 与影像无偏移 */
+/* 天地图中文注记 cva_w（含境界线），CGCS2000 与影像无偏移。
+   tk 复用 geotype 游戏的共享开发 key（原本就是站内公开注册的浏览器端 key）。 */
+const TDT_TK = 'e92d8558a9a7eb0709e7f895801bdcc9';
 const TDT_SUB = ['0', '1', '2', '3', '4', '5', '6', '7'];
-function tdtUrl(layer) {
-  return 'https://t{s}.tianditu.gov.cn/' + layer + '_w/wmts?SERVICE=WMTS&REQUEST=GetTile' +
-         '&VERSION=1.0.0&LAYER=' + layer + '&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles' +
-         '&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=' + state.tk;
+function tdtUrl() {
+  /* 注意：maplibre-gl raster source 的 tiles 数组接受多 URL，每个 URL 里的 {x}{y}{z}
+     是占位符，但子域名 {s} 必须我们自己展开——maplibre 不认识 {s}。 */
+  return TDT_SUB.map(s =>
+    'https://t' + s + '.tianditu.gov.cn/cva_w/wmts?SERVICE=WMTS&REQUEST=GetTile' +
+    '&VERSION=1.0.0&LAYER=cva&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles' +
+    '&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=' + TDT_TK
+  );
 }
 
-const PLACES = [
-  { g: '中国 · 城市生长', items: [
-    { n: '上海 · 浦东陆家嘴', c: [121.505, 31.240], z: 13 },
-    { n: '深圳 · 前海',       c: [113.892, 22.532], z: 14 },
-    { n: '北京 · 城市副中心', c: [116.660, 39.910], z: 13 },
-    { n: '河北 · 雄安新区',   c: [115.970, 39.050], z: 13 },
-    { n: '香港 · 国际机场',   c: [113.915, 22.315], z: 12 },
-    { n: '广东 · 深中通道',   c: [113.690, 22.560], z: 12 }
-  ]},
-  { g: '中国 · 工程与生态', items: [
-    { n: '上海 · 洋山深水港',   c: [122.080, 30.625], z: 12 },
-    { n: '湖北 · 三峡大坝',     c: [111.003, 30.823], z: 13 },
-    { n: '青海 · 塔拉滩光伏',   c: [100.300, 35.850], z: 11 },
-    { n: '甘肃 · 酒泉风电',     c: [97.500, 40.200],  z: 9 },
-    { n: '内蒙古 · 库布其治沙', c: [108.600, 40.350], z: 10 },
-    { n: '陕西 · 毛乌素沙地',   c: [109.100, 38.400], z: 10 },
-    { n: '新疆 · 塔克拉玛干',   c: [83.600, 38.900],  z: 9 },
-    { n: '山东 · 黄河入海口',   c: [119.050, 37.750], z: 10 },
-    { n: '江西 · 鄱阳湖',       c: [116.300, 29.100], z: 9 }
-  ]},
-  { g: '全球 · 剧烈变化', items: [
-    { n: '阿联酋 · 迪拜棕榈岛', c: [55.130, 25.110],   z: 12 },
-    { n: '乌兹别克 · 咸海',     c: [58.900, 45.000],   z: 7 },
-    { n: '以色列 · 死海',       c: [35.500, 31.500],   z: 10 },
-    { n: '美国 · 拉斯维加斯',   c: [-115.150, 36.100], z: 11 },
-    { n: '巴西 · 亚马逊雨林',   c: [-60.000, -5.000],  z: 8 },
-    { n: '格陵兰 · 冰盖边缘',   c: [-45.000, 68.500],  z: 6 },
-    { n: '巴拿马 · 运河船闸',   c: [-79.600, 9.100],   z: 12 },
-    { n: '新加坡 · 大士填海',   c: [103.630, 1.290],   z: 12 }
-  ]}
-];
+const PLACES = null; /* 已废弃：原观察点数据，搜索改走 Photon/天地图 */
 
 /* =====================================================================
    2  状态与元素
    ===================================================================== */
-const LS_TK = 'hist_tdt_tk';
 const LS_MODE = 'hist_mode';
+const LS_LABEL = 'hist_label';
 
 const state = {
   mode: 'single',
   cur: LAST,
   ref: 0,
-  tk: '',
   labelOn: false,
-  swipePct: 50
+  swipePct: 50,
+  /* 局部对比 lens（单位 % 相对 stage），x/y 是左上角 */
+  lensX: 30, lensY: 22, lensW: 40, lensH: 50
 };
 
 const $ = id => document.getElementById(id);
@@ -93,10 +70,10 @@ const el = {
   metaCur: $('metaCur'), metaRef: $('metaRef'),
   rowRef: $('rowRef'), hudPos: $('hudPos'),
   loadbar: $('loadbar'), toast: $('toast'), boot: $('boot'),
-  mask: $('mask'), tkInput: $('tkInput'), btnLabel: $('btnLabel'),
+  btnLabel: $('btnLabel'),
   modes: $('modes'), searchBox: $('searchBox'), searchInput: $('searchInput'),
   searchClr: $('searchClr'), suggest: $('suggest'),
-  btnPresets: $('btnPresets'), presetPop: $('presetPop')
+  lens: $('lens'), lensHandle: $('lensHandle'), lensTagRef: $('lensTagRef')
 };
 
 /* =====================================================================
@@ -229,7 +206,7 @@ class HistView {
     this._timer = setTimeout(settle, 7000);
   }
 
-  /* 天地图注记层 */
+  /* 天地图中文注记层（含境界线） */
   setLabel(show) {
     this._labelWanted = show;
     const m = this.map;
@@ -247,11 +224,10 @@ class HistView {
       if (!m.getSource('tdt-cva')) {
         m.addSource('tdt-cva', {
           type: 'raster',
-          tiles: [tdtUrl('cva')],
+          tiles: tdtUrl(),
           tileSize: 256,
           minzoom: 1,
           maxzoom: 18,
-          subdomains: TDT_SUB,
           attribution: '天地图'
         });
       }
@@ -263,17 +239,6 @@ class HistView {
       }
       this._labelShown = true;
     } catch (e) { /* ignore */ }
-  }
-
-  /* tk 变化后必须重建 source */
-  resetLabel() {
-    const m = this.map;
-    try {
-      if (m.getLayer('tdt-cva')) m.removeLayer('tdt-cva');
-      if (m.getSource('tdt-cva')) m.removeSource('tdt-cva');
-    } catch (e) { /* ignore */ }
-    this._labelShown = false;
-    if (this._labelWanted) this.setLabel(true);
   }
 }
 
@@ -287,7 +252,7 @@ let syncing = false;
 function linkMove(src, dst) {
   src.map.on('move', () => {
     if (syncing) return;
-    if (state.mode !== 'swipe') return;
+    if (state.mode !== 'swipe' && state.mode !== 'lens') return;
     if (!dst.ready) return;
     syncing = true;
     try {
@@ -310,10 +275,10 @@ function syncTop() {
   } catch (e) { /* ignore */ }
 }
 
-/* 唯一的地图发布入口 */
+/* 唯一的地图发布入口：swipe/lens 都是「底层=基准期，上层=当前期」 */
 let releaseTimer = null;
 function applyReleases() {
-  if (state.mode === 'swipe') {
+  if (state.mode === 'swipe' || state.mode === 'lens') {
     viewBase.release(RELEASES[state.ref][1]);
     viewTop.release(RELEASES[state.cur][1]);
   } else {
@@ -427,23 +392,90 @@ function applySwipe(pct) {
 })();
 
 /* =====================================================================
-   8  模式
+   8  模式（单期 / 卷帘 / 局部对比 lens）
    ===================================================================== */
-function setMode(m, silent) {
-  state.mode = (m === 'swipe') ? 'swipe' : 'single';
-  try { localStorage.setItem(LS_MODE, state.mode); } catch (e) {}
+/* lens 的 clip 用 inset(top right bottom left)，左上->右下，单位 % */
+function applyLens() {
+  const x = Math.min(92 - state.lensW, Math.max(0, state.lensX));
+  const y = Math.min(92 - state.lensH, Math.max(0, state.lensY));
+  const w = Math.max(10, state.lensW);
+  const h = Math.max(10, state.lensH);
+  state.lensX = x; state.lensY = y; state.lensW = w; state.lensH = h;
 
-  const sw = state.mode === 'swipe';
+  /* mapTop = 当前期：clip 成 lens 方框 */
+  $('mapTop').style.clipPath =
+    'inset(' + y + '% ' + (100 - x - w) + '% ' + (100 - y - h) + '% ' + x + '%)';
+
+  /* lens div 同步定位 */
+  el.lens.style.left   = x + '%';
+  el.lens.style.top    = y + '%';
+  el.lens.style.width  = w + '%';
+  el.lens.style.height = h + '%';
+}
+
+(function initLens() {
+  let mode = null, sx = 0, sy = 0, ox = 0, oy = 0, ow = 0, oh = 0;
+
+  function rect() { return el.stage.getBoundingClientRect(); }
+  function start(e, isResize) {
+    e.preventDefault();
+    e.stopPropagation();
+    mode = isResize ? 'resize' : 'move';
+    const r = rect();
+    sx = e.clientX; sy = e.clientY;
+    ox = state.lensX; oy = state.lensY;
+    ow = state.lensW; oh = state.lensH;
+    el.lens.classList.add('drag');
+    try { (isResize ? el.lensHandle : el.lens).setPointerCapture(e.pointerId); } catch (err) {}
+  }
+  function move(e) {
+    if (!mode) return;
+    const r = rect();
+    const dx = ((e.clientX - sx) / r.width) * 100;
+    const dy = ((e.clientY - sy) / r.height) * 100;
+    if (mode === 'move') {
+      state.lensX = ox + dx;
+      state.lensY = oy + dy;
+    } else {
+      state.lensW = Math.min(96 - ox, Math.max(10, ow + dx));
+      state.lensH = Math.min(96 - oy, Math.max(10, oh + dy));
+    }
+    applyLens();
+  }
+  function end() { mode = null; el.lens.classList.remove('drag'); }
+
+  el.lens.addEventListener('pointerdown', e => start(e, false));
+  el.lens.addEventListener('pointermove', move);
+  el.lens.addEventListener('pointerup', end);
+  el.lens.addEventListener('pointercancel', end);
+  el.lensHandle.addEventListener('pointerdown', e => start(e, true));
+  el.lensHandle.addEventListener('pointermove', move);
+  el.lensHandle.addEventListener('pointerup', end);
+  el.lensHandle.addEventListener('pointercancel', end);
+})();
+
+function setMode(m, silent) {
+  if (m !== 'swipe' && m !== 'lens' && m !== 'single') m = 'single';
+  state.mode = m;
+  try { localStorage.setItem(LS_MODE, m); } catch (e) {}
+
+  const sw = (m === 'swipe');
+  const ln = (m === 'lens');
   el.swipe.classList.toggle('on', sw);
   el.stage.classList.toggle('swiping', sw);
-  el.rowRef.classList.toggle('hide', !sw);
+  el.stage.classList.toggle('lensing', ln);
+  el.lens.classList.toggle('on', ln);
+  el.lensTagRef.classList.toggle('on', ln);
+  /* 双时间轴在 swipe/lens 都需要 */
+  el.rowRef.classList.toggle('hide', !sw && !ln);
+  /* 两侧文字标签只在 swipe 显示；lens 用 .lens-tag */
   el.eraRef.classList.toggle('on', sw);
   el.eraCur.classList.toggle('on', sw);
   el.eraRefK.textContent = '基准期';
   el.eraCurK.textContent = '当前期';
 
   Array.prototype.forEach.call(el.modes.children, b => {
-    b.classList.toggle('on', b.dataset.mode === state.mode);
+    b.classList.toggle('on', b.dataset.mode === m);
   });
 
   if (sw) {
@@ -453,6 +485,12 @@ function setMode(m, silent) {
     applySwipe(state.swipePct);
     applyReleasesSoon(0);
     if (!silent) toast('拖动中间把手，对比两个时期');
+  } else if (ln) {
+    viewTop.map.resize();
+    syncTop();
+    applyLens();
+    applyReleasesSoon(0);
+    if (!silent) toast('拖动方框移动，右下圆点调整大小');
   } else {
     $('mapTop').style.clipPath = 'inset(0 0 0 100%)';
     applyReleasesSoon(0);
@@ -526,38 +564,12 @@ document.addEventListener('keydown', e => {
   else if (e.key === 'ArrowUp'   && state.mode === 'swipe') { step('ref',  1); e.preventDefault(); }
   else if (e.key === 'ArrowDown' && state.mode === 'swipe') { step('ref', -1); e.preventDefault(); }
   else if (e.key === ' ')  { setMode(state.mode === 'swipe' ? 'single' : 'swipe'); e.preventDefault(); }
-  else if (e.key === 'Escape') { closeSuggest(); el.mask.classList.remove('on'); el.presetPop.classList.remove('on'); }
+  else if (e.key === 'Escape') { closeSuggest(); }
 });
 
 /* =====================================================================
-   10  搜索 / 观察点 / 定位
+   10  搜索 / 定位
    ===================================================================== */
-const flatPlaces = [];
-PLACES.forEach(g => g.items.forEach(it => flatPlaces.push({ n: it.n, c: it.c, z: it.z, g: g.g })));
-
-(function buildPresets() {
-  let html = '';
-  PLACES.forEach(g => {
-    html += '<div class="gl">' + g.g + '</div><div class="chips">';
-    g.items.forEach(it => {
-      html += '<button class="chip" data-lng="' + it.c[0] + '" data-lat="' + it.c[1] +
-              '" data-z="' + it.z + '">' + it.n.replace(/^[^·]+·\s*/, '') + '</button>';
-    });
-    html += '</div>';
-  });
-  el.presetPop.innerHTML = html;
-})();
-
-el.btnPresets.onclick = e => {
-  e.stopPropagation();
-  el.presetPop.classList.toggle('on');
-};
-el.presetPop.addEventListener('click', e => {
-  const b = e.target.closest('.chip');
-  if (!b) return;
-  flyTo(parseFloat(b.dataset.lng), parseFloat(b.dataset.lat), parseFloat(b.dataset.z));
-  el.presetPop.classList.remove('on');
-});
 
 function flyTo(lng, lat, z) {
   const zz = z || 12;
@@ -569,7 +581,6 @@ function flyTo(lng, lat, z) {
   }
   closeSuggest();
   el.searchInput.blur();
-  el.presetPop.classList.remove('on');
 }
 
 function parseCoord(s) {
@@ -587,14 +598,101 @@ function parseCoord(s) {
 let sugIndex = -1;
 function closeSuggest() { el.suggest.classList.remove('on'); sugIndex = -1; }
 
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[c]);
+}
+
+/* 在线地名搜索：Photon（OSM 数据，免 Key，WGS84）+ 天地图搜索（CGCS2000，需已存 tk）。
+   高德/腾讯是 GCJ-02、百度是 BD-09，相对 Esri WGS84 影像有百米级偏移，刻意不接。 */
+const PHOTON = 'https://photon.komoot.io/api/';
+let nomTimer = null, nomSeq = 0;
+
+function spanZoom(dLat, dLng) {
+  const span = Math.max(dLat, dLng);
+  if (!isFinite(span) || span <= 0) return 12;
+  if (span > 20) return 4;
+  if (span > 8)  return 6;
+  if (span > 3)  return 8;
+  if (span > 1)  return 10;
+  if (span > 0.3) return 12;
+  if (span > 0.08) return 14;
+  return 15;
+}
+
+/* Photon: 返回统一条目 {lng,lat,z,nm,co} */
+function searchPhoton(q) {
+  const url = PHOTON + '?limit=6&lang=default&q=' + encodeURIComponent(q);
+  return fetch(url)
+    .then(r => r.ok ? r.json() : null)
+    .then(j => {
+      if (!j || !j.features) return [];
+      return j.features.map(f => {
+        const p = f.properties || {}, c = f.geometry.coordinates;
+        let z;
+        if (p.extent && p.extent.length === 4) {
+          z = spanZoom(Math.abs(p.extent[3] - p.extent[1]), Math.abs(p.extent[2] - p.extent[0]));
+        } else {
+          z = { country: 5, state: 7, region: 7, province: 7, city: 11, town: 12,
+                district: 13, locality: 13, borough: 13, suburb: 13, quarter: 14,
+                village: 13, hamlet: 14, street: 15, house: 16 }[p.osm_value] || 13;
+        }
+        const tail = [p.district, p.city, p.state, p.country].filter(Boolean).join(' · ');
+        return { lng: c[0], lat: c[1], z: z, nm: p.name || q, co: tail };
+      }).filter(it => isFinite(it.lng) && isFinite(it.lat));
+    })
+    .catch(() => []);
+}
+
+/* 天地图地名搜索 V2：CGCS2000 与影像无偏移；tk 复用注记层那枚。 */
+function searchTianditu(q) {
+  const tk = TDT_TK;
+  const post = JSON.stringify({
+    keyWord: q, level: 12, mapBound: '-180,-85,180,85',
+    queryType: 1, start: 0, count: 6, show: 1
+  });
+  const url = 'https://api.tianditu.gov.cn/v2/search?type=query&tk=' + encodeURIComponent(tk) +
+              '&postStr=' + encodeURIComponent(post);
+  return fetch(url)
+    .then(r => r.ok ? r.json() : null)
+    .then(j => {
+      const pois = j && (j.pois || (j.area && j.area.pois)) || [];
+      return pois.map(p => {
+        const m = String(p.lonlat || '').split(/[\s,]+/).map(parseFloat);
+        if (m.length < 2 || !isFinite(m[0]) || !isFinite(m[1])) return null;
+        const lv = parseInt(p.level, 10);
+        const z = isFinite(lv) ? Math.max(5, Math.min(16, lv)) : 13;
+        return { lng: m[0], lat: m[1], z: z, nm: p.name || q,
+                 co: (p.address || '').slice(0, 40) };
+      }).filter(Boolean);
+    })
+    .catch(() => []);
+}
+
+function searchOnline(q) {
+  return Promise.all([searchTianditu(q), searchPhoton(q)])
+    .then(([tdt, pho]) => {
+      const seen = new Set(), out = [];
+      tdt.concat(pho).forEach(it => {
+        const k = Math.round(it.lng * 500) + '_' + Math.round(it.lat * 500);
+        if (seen.has(k)) return;
+        seen.add(k); out.push(it);
+      });
+      return out.slice(0, 7);
+    });
+}
+
 function renderSuggest(q) {
   const key = q.trim().toLowerCase();
-  if (!key) { closeSuggest(); return; }
+  nomSeq++;
+  if (!key) {
+    if (nomTimer) { clearTimeout(nomTimer); nomTimer = null; }
+    closeSuggest();
+    return;
+  }
 
   const coord = parseCoord(key);
-  const hits = flatPlaces.filter(p =>
-    p.n.toLowerCase().indexOf(key) >= 0 || p.g.toLowerCase().indexOf(key) >= 0
-  ).slice(0, 12);
 
   let html = '';
   if (coord) {
@@ -602,15 +700,44 @@ function renderSuggest(q) {
             coord.lat + '" data-z="13"><span class="nm">跳转到 ' +
             coord.lat.toFixed(5) + ', ' + coord.lng.toFixed(5) + '</span></button>';
   }
-  if (hits.length) {
-    html += '<div class="grp">地点</div>';
-    hits.forEach(p => {
-      html += '<button data-lng="' + p.c[0] + '" data-lat="' + p.c[1] + '" data-z="' + p.z +
-              '"><span class="nm">' + p.n + '</span><span class="co">' +
-              p.c[1].toFixed(2) + ', ' + p.c[0].toFixed(2) + '</span></button>';
-    });
+
+  /* 非坐标查询时追加 Nominatim 在线结果（先渲染本地，防抖后异步补上） */
+  if (!coord) {
+    const groupId = 'nom-grp';
+    html += '<div class="grp" id="' + groupId + '">在线搜索</div>' +
+            '<div class="empty" id="nom-status" style="padding-top:0">搜索中…</div>';
+    el.suggest.innerHTML = html;
+    el.suggest.classList.add('on');
+    sugIndex = -1;
+
+    if (nomTimer) clearTimeout(nomTimer);
+    const mySeq = nomSeq;
+    nomTimer = setTimeout(() => {
+      searchOnline(key).then(list => {
+        /* 输入已变化，丢弃过期结果 */
+        if (mySeq !== nomSeq) return;
+        if (el.searchInput.value.trim().toLowerCase() !== key) return;
+        const status = document.getElementById('nom-status');
+        if (!status) return;
+        if (!list.length) {
+          status.textContent = '在线搜索无结果';
+          return;
+        }
+        status.remove();
+        let extra = '';
+        list.forEach(it => {
+          extra += '<button data-lng="' + it.lng + '" data-lat="' + it.lat + '" data-z="' + it.z +
+                   '"><span class="nm">' + esc(it.nm) + '</span><span class="co">' +
+                   esc(it.co) + '</span></button>';
+        });
+        const grp = document.getElementById(groupId);
+        if (grp) grp.insertAdjacentHTML('afterend', extra);
+      });
+    }, 280);
+    return;
   }
-  if (!coord && !hits.length) {
+
+  if (!html) {
     html = '<div class="empty">未找到匹配地点。可直接输入坐标，例如 <b>22.54,114.06</b></div>';
   }
   el.suggest.innerHTML = html;
@@ -648,58 +775,33 @@ el.searchClr.onclick = () => {
 };
 document.addEventListener('click', e => {
   if (!el.searchBox.contains(e.target)) closeSuggest();
-  if (!e.target.closest('.pop-wrap')) el.presetPop.classList.remove('on');
 });
 
 /* =====================================================================
-   11  天地图注记层
+   11  中文注记层（高德免 Key 瓦片）
    ===================================================================== */
 function applyLabel() {
   viewBase.setLabel(state.labelOn);
   viewTop.setLabel(state.labelOn);
   el.btnLabel.classList.toggle('on', state.labelOn);
+  el.btnLabel.querySelector('.t').textContent = state.labelOn ? '注记开' : '注记';
 }
 
 el.btnLabel.onclick = () => {
-  if (state.labelOn) {
-    state.labelOn = false; applyLabel();
-    toast('已关闭注记层');
-    return;
-  }
-  if (!state.tk) {
-    el.tkInput.value = '';
-    el.mask.classList.add('on');
-    setTimeout(() => el.tkInput.focus(), 60);
-    return;
-  }
-  state.labelOn = true; applyLabel();
-  toast('已叠加天地图注记与国界线');
-};
-
-$('tkCancel').onclick = () => el.mask.classList.remove('on');
-$('tkOk').onclick = () => {
-  const v = el.tkInput.value.trim();
-  if (v.length < 16) { toast('Key 长度不足，请检查'); return; }
-  state.tk = v;
-  try { localStorage.setItem(LS_TK, v); } catch (e) {}
-  el.mask.classList.remove('on');
-  state.labelOn = false;
-  viewBase.resetLabel();
-  viewTop.resetLabel();
-  state.labelOn = true;
+  state.labelOn = !state.labelOn;
+  try { localStorage.setItem(LS_LABEL, state.labelOn ? '1' : '0'); } catch (e) {}
   applyLabel();
-  toast('注记层已开启');
+  toast(state.labelOn ? '已开启中文注记（高德路网）' : '已关闭注记层');
 };
-el.mask.addEventListener('click', e => { if (e.target === el.mask) el.mask.classList.remove('on'); });
 
 /* =====================================================================
    12  启动
    ===================================================================== */
 (function boot() {
   try {
-    state.tk = localStorage.getItem(LS_TK) || '';
     const m = localStorage.getItem(LS_MODE);
-    if (m === 'swipe' || m === 'single') state.mode = m;
+    if (m === 'swipe' || m === 'single' || m === 'lens') state.mode = m;
+    state.labelOn = localStorage.getItem(LS_LABEL) === '1';
   } catch (e) {}
 
   state.cur = LAST;
@@ -715,19 +817,27 @@ el.mask.addEventListener('click', e => { if (e.target === el.mask) el.mask.class
     if (fired) return;
     fired = true;
 
-    el.stage.classList.toggle('swiping', state.mode === 'swipe');
-    el.swipe.classList.toggle('on', state.mode === 'swipe');
-    el.rowRef.classList.toggle('hide', state.mode !== 'swipe');
-    el.eraRef.classList.toggle('on', state.mode === 'swipe');
-    el.eraCur.classList.toggle('on', state.mode === 'swipe');
+    const sw = state.mode === 'swipe', ln = state.mode === 'lens';
+    el.stage.classList.toggle('swiping', sw);
+    el.stage.classList.toggle('lensing', ln);
+    el.swipe.classList.toggle('on', sw);
+    el.lens.classList.toggle('on', ln);
+    el.lensTagRef.classList.toggle('on', ln);
+    el.rowRef.classList.toggle('hide', !sw && !ln);
+    el.eraRef.classList.toggle('on', sw);
+    el.eraCur.classList.toggle('on', sw);
     Array.prototype.forEach.call(el.modes.children, b => {
       b.classList.toggle('on', b.dataset.mode === state.mode);
     });
-    if (state.mode === 'swipe') {
+    if (sw) {
       $('mapTop').style.clipPath = 'inset(0 0 0 ' + state.swipePct + '%)';
       applySwipe(state.swipePct);
       viewTop.map.resize();
       syncTop();
+    } else if (ln) {
+      viewTop.map.resize();
+      syncTop();
+      applyLens();
     } else {
       $('mapTop').style.clipPath = 'inset(0 0 0 100%)';
     }

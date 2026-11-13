@@ -123,7 +123,50 @@ input{font:inherit}
 .map{position:absolute;inset:0;background:#05070a}
 #mapTop{clip-path:inset(0 0 0 100%);pointer-events:none}
 .stage.swiping #mapTop{pointer-events:auto}
+.stage.lensing #mapTop{pointer-events:auto}
 .map .maplibregl-canvas{outline:none}
+
+/* 局部对比 lens 容器：位置与大小由 JS 设置，clip-path 同步裁 mapTop */
+.lens{
+  position:absolute;z-index:12;display:none;
+  border:2px solid rgba(34,211,238,.92);
+  border-radius:10px;
+  box-shadow:0 0 0 1px rgba(0,0,0,.55),0 14px 40px rgba(0,0,0,.6),inset 0 0 0 1px rgba(0,0,0,.4);
+  cursor:grab;
+}
+.lens.on{display:block}
+.lens.drag{cursor:grabbing}
+/* lens 期别标签：基准期固定在舞台左上角，当前期跟随方框 */
+.lens-tag{
+  position:absolute;z-index:11;display:none;
+  padding:4px 10px;border-radius:7px;
+  font-size:11.5px;color:#dfe9f4;white-space:nowrap;
+  background:rgba(9,13,19,.86);border:1px solid var(--line-2);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  box-shadow:0 4px 14px rgba(0,0,0,.55);pointer-events:none;
+}
+.lens-tag.t-ref{
+  left:12px;top:13px;
+  color:#cbb8fd;border-color:rgba(167,139,250,.55);
+}
+.lens-tag.t-ref.on{display:block}
+/* 当前期标签挂在方框内侧左上，随 lens 移动 */
+.lens .lens-tag.t-cur{
+  display:block;
+  top:6px;left:6px;
+  color:#7fe6f5;border-color:rgba(34,211,238,.55);
+  font-size:10.5px;padding:2px 7px;
+}
+/* 把手：右下斜向双向箭头，提示可拖拽缩放；SVG 逆时针旋转 90° 让箭头指向 ↖↘ 方向 */
+.lens-handle{
+  position:absolute;right:-11px;bottom:-11px;
+  width:24px;height:24px;border-radius:50%;
+  background:var(--acc);color:#04191d;
+  display:grid;place-items:center;
+  box-shadow:0 4px 12px rgba(0,0,0,.65),0 0 0 2px rgba(255,255,255,.15);
+  cursor:nwse-resize;
+}
+.lens-handle svg{width:13px;height:13px;pointer-events:none;transform:rotate(-90deg)}
 
 .swipe{
   position:absolute;top:0;bottom:0;left:50%;width:2px;
@@ -315,11 +358,57 @@ input{font:inherit}
   .tl-meta{display:none}
   #hudAttr{display:none}
 }
-@media (max-width:560px){
-  .modes button{padding:0 9px;font-size:12px}
-  .tbtn{padding:0 9px}
-  .site-nav{left:8px;bottom:8px}
-  .site-nav a{padding:3px 8px;font-size:11.5px}
+@media (max-width:640px){
+  .topbar{padding:8px 10px;gap:8px}
+  .brand{gap:8px}
+  .brand .mark{width:28px;height:28px;border-radius:7px}
+  .brand .mark svg{width:15px;height:15px}
+  .brand h1{font-size:13.5px}
+  .search input{height:32px;font-size:12.5px}
+  .suggest{max-height:48vh}
+  .suggest button{padding:6px 10px;font-size:12.5px}
+  .modes{padding:2px}
+  .modes button{padding:0 9px;height:26px;font-size:12px}
+  .tbtn{height:32px;padding:0 9px;font-size:12px}
+  .tbtn svg{width:13px;height:13px}
+  /* 移动端隐藏次要按钮保留注记 */
+  /* 时间轴紧凑布局 */
+  .timeline{padding:8px 10px 10px}
+  .tl-row{gap:8px;min-height:30px}
+  .tl-tag{font-size:10px;gap:4px}
+  .tl-tag i{width:5px;height:5px}
+  .tl-date{width:auto;font-size:13px}
+  .slider{padding:6px 0 14px}
+  .slider input[type=range]{height:18px}
+  .ticks{display:none}
+  .tl-nav button{width:26px;height:26px}
+  .tl-nav button svg{width:12px;height:12px}
+  /* 卷帘旋钮适配手指触摸 */
+  .swipe .knob{width:32px;height:32px}
+  .swipe .knob svg{width:16px;height:16px}
+  /* HUD 防重叠 */
+  #hudPos{right:8px;top:8px;font-size:10px;padding:4px 7px}
+  .era{top:8px;font-size:11px;padding:4px 9px}
+  .era .k{font-size:9.5px}
+  .site-nav{left:8px;bottom:8px;padding:3px}
+  .site-nav a{padding:3px 7px;font-size:11px}
+  .toast{bottom:14px;font-size:12px;padding:7px 12px}
+  /* 卷帘标签窄屏可能重叠，缩小 */
+  .era{gap:5px}
+}
+/* 移动端 lens 适配 */
+@media (max-width:640px){
+  .lens-tag.t-ref{left:8px;top:8px;font-size:10.5px;padding:3px 8px}
+  .lens .lens-tag.t-cur{font-size:10px;padding:2px 6px;top:5px;left:5px}
+  .lens-handle{width:28px;height:28px;right:-12px;bottom:-12px}
+  .lens-handle svg{width:15px;height:15px}
+}
+
+@media (max-width:400px){
+  .brand h1{font-size:12.5px}
+  .tl-date{font-size:12px}
+  .search input{padding:0 26px 0 28px;font-size:12px}
+  .search .ico{left:8px;width:13px;height:13px}
 }
 /* ── 减少动态效果（prefers-reduced-motion）──
    加载条的无限扫光改为静态满格，启动页图标不再呼吸缩放，

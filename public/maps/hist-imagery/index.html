@@ -43,20 +43,11 @@
     <div class="modes" id="modes">
       <button data-mode="single" class="on">单期浏览</button>
       <button data-mode="swipe">卷帘对比</button>
+      <button data-mode="lens">局部对比</button>
     </div>
 
-    <div class="pop-wrap">
-      <button class="tbtn" id="btnPresets">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/>
-        </svg>
-        观察点
-      </button>
-      <div class="preset-pop" id="presetPop"></div>
-    </div>
-
-    <button class="tbtn" id="btnLabel" title="叠加天地图中文注记与国界线">
-      <span class="dot"></span>注记
+    <button class="tbtn" id="btnLabel" title="叠加中文注记与路网（高德免 Key）">
+      <span class="dot"></span><span class="t">注记</span>
     </button>
   </header>
 
@@ -68,6 +59,17 @@
       <div class="knob">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 6 4 12l5 6M15 6l5 6-5 6"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 局部对比：基准期铺满底层，mapTop 用 clipPath 裁出方框显示当前期 -->
+    <div class="lens-tag t-ref" id="lensTagRef">基准期</div>
+    <div class="lens" id="lens">
+      <div class="lens-tag t-cur">当前期</div>
+      <div class="lens-handle" id="lensHandle" title="拖动改变大小" aria-label="拖拽调整大小">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 3h6v6M21 3l-9 9M9 21H3v-6M3 21l9-9"/>
         </svg>
       </div>
     </div>
@@ -128,20 +130,8 @@
   </footer>
 </div>
 
-<div class="mask" id="mask">
-  <div class="dlg">
-    <h2>开启天地图注记层</h2>
-    <div class="bd">
-      注记层会在影像之上叠加<b>中文地名与国界线</b>，使领土表达符合国家标准。<br>
-      需要一枚天地图开发者 Key（免费）。前往 <code>console.tianditu.gov.cn</code>
-      注册后创建「浏览器端」类型应用即可获取。
-      <input type="text" id="tkInput" placeholder="粘贴天地图 Key（32 位字符）" spellcheck="false">
-    </div>
-    <div class="ft">
-      <button id="tkCancel">取消</button>
-      <button id="tkOk" class="pri">保存并开启</button>
-    </div>
-  </div>
+<div class="mask" id="mask" style="display:none">
+  <!-- 已弃用：原天地图 Key 输入弹层，注记改走高德免费瓦片，无需 Key -->
 </div>
 
 <div class="boot" id="boot">
