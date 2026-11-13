@@ -2,6 +2,34 @@
   "_comment": "可视化互动地图 · 数据资产登记册。职责单一：只记录每张地图的『数据与技术信息』（入口、坐标系、数据源、数据文件清单、要素数）。标题 / 封面 / 摘要 / 介绍页一律来自 content/works/<slug>.md，此处不再重复维护，避免两处不同步。新增地图 = public/maps/<slug>/ 放源码 + 这里加一条 + content/works/<slug>.md（series: map）写介绍页。data[].file 为 public/ 下的相对路径，便于审计体积与共享情况。",
   "maps": [
     {
+      "slug": "nearest",
+      "entry": "/maps/nearest/index.html",
+      "bbox": [
+        73.0,
+        17.5,
+        135.5,
+        54.5
+      ],
+      "crs": "GCJ-02（火星坐标，与高德瓦片对齐）；浏览器定位得到的 WGS84 坐标先经标准 GCJ-02 偏移换算再参与距离计算；Haversine 球面直线距离，地球半径 6371.0088 km，非驾车里程",
+      "basemap": "高德瓦片：卫星影像 style=6（默认，压暗）/ 矢量路网 style=7 / 深色无底图；始终叠加站内统一合规省级行政区边界（含台湾省与九段线）",
+      "source": "点位全部复用站内已有互动地图，无新增外部采集：逐店坐标取 cn-sams（70 家山姆）、cn-ikea（37 家宜家）、cn-costco（7 家开市客）、cn-apple（49 家 Apple 直营 + 9,486 个授权经销点）、cn-universities（136 所重点高校）；城市中心口径取 cn-starbucks / cn-luckin / cn-mixue / cn-7eleven / cn-lawson / cn-familymart / cn-tesla 七张城市气泡图的 cities.json；437 座城市搜索索引由上述 cities.json 去重合并。构建脚本为 _g/build_nearest_data.py，输出自托管 data/nearest.json（紧凑数组格式，约 732 KB），浏览器端一次性加载，不依赖外部 API。两种口径在界面分组标注：门址级精确到单个点位，城市级只表示「该城市有此品牌」，不虚构门址。各源图采集时间为 2026 年 10—11 月，本图做空间索引合并，不代表同一天的实时在营状态。交互：搜索城市 / 地图点选 / 浏览器定位三种起点 → 对 13 类品牌各自遍历全部点位取最近 → 结果按门址级 / 公共设施 / 城市级分组并按距离升序 → 地图绘制 13 条起点连线与最近点环形高亮 → 选中行放大到两点之间 → Canvas 生成 1200×675 分享卡。支持 ?city=成都 直达。数据仅覆盖中国大陆，不含港澳台与海外门店；省级边界采用站内统一合规底图，台湾已并入中国，藏南与阿克赛钦按中国口径绘制，不表达任何国界主张。",
+      "updated": "2026-11-14",
+      "data": [
+        {
+          "file": "maps/nearest/data/nearest.json",
+          "features": 10897,
+          "unit": "个点位",
+          "desc": "13 类品牌 / 437 座城市搜索索引 / 品牌元数据；groups[brand] 为紧凑数组，逐店含经纬度、名称、城市、省份、地址，城市中心点含该城单元数。门址级 299 点绘制为地图底点，其余参与距离计算但不铺点"
+        },
+        {
+          "file": "maps/_shared/china-provinces.json",
+          "features": 35,
+          "unit": "个省级行政区",
+          "desc": "跨地图复用的合规省级边界（GCJ-02，含台湾省与九段线），始终叠加，无底图模式下作为主要空间参照"
+        }
+      ]
+    },
+    {
       "slug": "gba-cities",
       "entry": "/maps/gba-cities/index.html",
       "bbox": [

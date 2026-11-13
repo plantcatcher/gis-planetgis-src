@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <script src="/shared/map-i18n.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>离我最近的门店 · 中国品牌最近距离查询</title>
+  <meta name="description" content="输入城市、点一下地图或用当前位置，立即算出离你最近的山姆、宜家、开市客、Apple 直营店、重点高校，以及星巴克、瑞幸、蜜雪冰城等连锁品牌所在城市。13 类品牌、10897 个点位、437 座城市，直线距离实时计算，可生成分享卡片。" />
+  <meta name="keywords" content="最近距离查询,附近门店,离我最近,山姆,宜家,开市客,Apple直营店,星巴克,瑞幸,蜜雪冰城,特斯拉超充,商业地理,互动地图" />
+  <meta name="author" content="PlanetGIS" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="css/style.v1.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <header class="topbar">
+    <div class="tb-kicker">PLANETGIS · 互动地图</div>
+    <h1>离我最近的门店</h1>
+    <p class="tb-sub">13 类品牌 · 10,897 个点位 · 输入城市或点地图，直线距离实时计算</p>
+  </header>
+
+  <aside class="side" id="side">
+    <button class="drawer" id="drawer" type="button" aria-label="展开或收起面板" aria-expanded="true"><i></i></button>
+
+    <div class="side-scroll">
+      <section class="origin-box">
+        <div class="sec-label">我的位置</div>
+        <div class="search-wrap">
+          <input type="text" id="cityInput" placeholder="输入城市，如 深圳 / 成都" autocomplete="off" />
+          <ul id="cityList" class="city-list"></ul>
+        </div>
+        <div class="origin-btns">
+          <button type="button" id="btnLocate">◎ 使用当前位置</button>
+          <button type="button" id="btnClear">× 点地图选位置</button>
+        </div>
+        <div class="origin-cur" id="originCur">当前：深圳 · 广东</div>
+      </section>
+
+      <section class="stat-row">
+        <div><b id="statBrand">13</b><span>类品牌</span></div>
+        <div><b id="statPoi">10,897</b><span>个点位</span></div>
+        <div><b id="statCity">437</b><span>座城市</span></div>
+      </section>
+
+      <section class="result-sec">
+        <div class="result-head">
+          <span>最近距离</span>
+          <span class="rh-note" id="rhNote">按直线距离</span>
+        </div>
+        <div class="result-list" id="resultList"><div class="loading">正在加载点位数据…</div></div>
+      </section>
+    </div>
+
+    <div class="side-foot">
+      <button type="button" id="btnShare" class="share-btn">生成分享卡片</button>
+      <div class="ctrl-nav">
+        <a href="/maps/nearest" target="_top">作品介绍</a>
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+      <p class="foot-note">直线距离，非驾车距离。城市级品牌按城市中心计算，不代表门店门址。</p>
+    </div>
+  </aside>
+  <button type="button" class="panel-open" id="panelOpen" aria-label="展开面板">结果</button>
+
+  <div class="top-right">
+    <div class="bm-seg" role="group" aria-label="底图切换">
+      <button type="button" data-bm="img" class="on">卫星影像</button>
+      <button type="button" data-bm="vec">矢量路网</button>
+      <button type="button" data-bm="none">无底图</button>
+    </div>
+    <button type="button" id="btnReset" class="reset-btn" title="回到全国视角">⤢ 全国视角</button>
+  </div>
+
+  <div class="map-hint" id="mapHint">点地图任意位置，即可重设「我的位置」</div>
+  <div class="toast" id="toast" role="status"></div>
+
+  <div class="share-modal" id="shareModal" role="dialog" aria-label="分享卡片">
+    <div class="share-inner">
+      <canvas id="shareCanvas" width="1200" height="675"></canvas>
+      <div class="share-actions">
+        <button type="button" id="btnDownload" class="share-btn">保存图片</button>
+        <button type="button" id="btnCloseShare" class="ghost-btn">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="js/app.v1.js"></script>
+</body>
+</html>
