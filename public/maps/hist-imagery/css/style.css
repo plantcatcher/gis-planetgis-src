@@ -120,19 +120,24 @@ input{font:inherit}
 
 /* ================= 地图舞台 ================= */
 .stage{position:relative;flex:1 1 auto;min-height:0;overflow:hidden;background:#05070a}
+/* 卷帘/局部对比模式：mapTop 经常改 clip-path，单独合成避免影响底层 */
+#mapTop{will-change:clip-path;transform:translateZ(0)}
 .map{position:absolute;inset:0;background:#05070a}
 #mapTop{clip-path:inset(0 0 0 100%);pointer-events:none}
 .stage.swiping #mapTop{pointer-events:auto}
 .stage.lensing #mapTop{pointer-events:auto}
 .map .maplibregl-canvas{outline:none}
 
-/* 局部对比 lens 容器：位置与大小由 JS 设置，clip-path 同步裁 mapTop */
+/* 局部对比 lens 容器：位置与大小由 JS 设置，clip-path 同步裁 mapTop。
+   transform 走合成器，拖拽期间不触发布局。 */
 .lens{
   position:absolute;z-index:12;display:none;
   border:2px solid rgba(34,211,238,.92);
   border-radius:10px;
   box-shadow:0 0 0 1px rgba(0,0,0,.55),0 14px 40px rgba(0,0,0,.6),inset 0 0 0 1px rgba(0,0,0,.4);
   cursor:grab;
+  touch-action:none;user-select:none;-webkit-user-select:none;
+  will-change:transform,width,height;
 }
 .lens.on{display:block}
 .lens.drag{cursor:grabbing}
@@ -165,6 +170,7 @@ input{font:inherit}
   display:grid;place-items:center;
   box-shadow:0 4px 12px rgba(0,0,0,.65),0 0 0 2px rgba(255,255,255,.15);
   cursor:nwse-resize;
+  touch-action:none;user-select:none;-webkit-user-select:none;
 }
 .lens-handle svg{width:13px;height:13px;pointer-events:none;transform:rotate(-90deg)}
 
@@ -173,6 +179,7 @@ input{font:inherit}
   background:rgba(255,255,255,.92);
   box-shadow:0 0 0 1px rgba(0,0,0,.55),0 0 18px rgba(0,0,0,.7);
   transform:translateX(-1px);cursor:ew-resize;z-index:12;display:none;
+  touch-action:none;user-select:none;-webkit-user-select:none;
 }
 .swipe.on{display:block}
 .swipe .knob{

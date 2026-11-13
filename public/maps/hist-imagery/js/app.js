@@ -359,14 +359,36 @@ function applySwipe(pct) {
 
 (function initSwipe() {
   let dragging = false;
+  let rafId = null, pendingX = 0, cachedRect = null;
 
-  function start() { dragging = true; el.swipe.classList.add('drag'); }
+  /* 拖拽期间缓存 rect 避免每次 pointermove 触发 layout */
+  function rect() {
+    if (!cachedRect) cachedRect = el.stage.getBoundingClientRect();
+    return cachedRect;
+  }
+
+  function flush() {
+    rafId = null;
+    const r = rect();
+    applySwipe(((pendingX - r.left) / r.width) * 100);
+  }
+
+  function start() {
+    dragging = true;
+    cachedRect = el.stage.getBoundingClientRect();
+    el.swipe.classList.add('drag');
+  }
   function move(clientX) {
     if (!dragging) return;
-    const r = el.stage.getBoundingClientRect();
-    applySwipe(((clientX - r.left) / r.width) * 100);
+    pendingX = clientX;
+    if (!rafId) rafId = requestAnimationFrame(flush);
   }
-  function end() { dragging = false; el.swipe.classList.remove('drag'); }
+  function end() {
+    dragging = false;
+    cachedRect = null;
+    if (rafId) { cancelAnimationFrame(rafId); rafId = null; flush(); }
+    el.swipe.classList.remove('drag');
+  }
 
   el.swipe.addEventListener('pointerdown', e => {
     e.preventDefault(); start();
@@ -394,34 +416,45 @@ function applySwipe(pct) {
 /* =====================================================================
    8  模式（单期 / 卷帘 / 局部对比 lens）
    ===================================================================== */
-/* lens 的 clip 用 inset(top right bottom left)，左上->右下，单位 % */
-function applyLens() {
+/* lens 的 clip 用 inset(top right bottom left)，左上->右下，单位 %。
+   拖拽期间用 rAF 合帧 + 缓存 stage rect，把多次 pointermove 合并成一次写入；
+   位置用 left/top 写入在 rAF 回调内，跟 pointermove 解耦。 */
+let lensRaf = null, lensRect = null, lensRectW = 1, lensRectH = 1;
+function applyLensNow() {
+  lensRaf = null;
   const x = Math.min(92 - state.lensW, Math.max(0, state.lensX));
   const y = Math.min(92 - state.lensH, Math.max(0, state.lensY));
   const w = Math.max(10, state.lensW);
   const h = Math.max(10, state.lensH);
   state.lensX = x; state.lensY = y; state.lensW = w; state.lensH = h;
 
-  /* mapTop = 当前期：clip 成 lens 方框 */
   $('mapTop').style.clipPath =
     'inset(' + y + '% ' + (100 - x - w) + '% ' + (100 - y - h) + '% ' + x + '%)';
 
-  /* lens div 同步定位 */
-  el.lens.style.left   = x + '%';
-  el.lens.style.top    = y + '%';
-  el.lens.style.width  = w + '%';
+  /* transform: translate 让 lens div 位移走合成器，不触发布局。
+     width/height 只有 resize 时才变；move 时只是 transform。 */
+  el.lens.style.transform = 'translate3d(' + x * lensRectW / 100 + 'px,' +
+                            y * lensRectH / 100 + 'px,0)';
+  el.lens.style.width = w + '%';
   el.lens.style.height = h + '%';
+}
+function applyLens() {
+  if (!lensRaf) lensRaf = requestAnimationFrame(applyLensNow);
 }
 
 (function initLens() {
   let mode = null, sx = 0, sy = 0, ox = 0, oy = 0, ow = 0, oh = 0;
 
-  function rect() { return el.stage.getBoundingClientRect(); }
+  function rect() {
+    if (!lensRect) lensRect = el.stage.getBoundingClientRect();
+    return lensRect;
+  }
   function start(e, isResize) {
     e.preventDefault();
     e.stopPropagation();
     mode = isResize ? 'resize' : 'move';
-    const r = rect();
+    lensRect = el.stage.getBoundingClientRect();
+    lensRectW = lensRect.width; lensRectH = lensRect.height;
     sx = e.clientX; sy = e.clientY;
     ox = state.lensX; oy = state.lensY;
     ow = state.lensW; oh = state.lensH;
@@ -442,7 +475,12 @@ function applyLens() {
     }
     applyLens();
   }
-  function end() { mode = null; el.lens.classList.remove('drag'); }
+  function end() {
+    mode = null;
+    lensRect = null;
+    if (lensRaf) { cancelAnimationFrame(lensRaf); lensRaf = null; applyLensNow(); }
+    el.lens.classList.remove('drag');
+  }
 
   el.lens.addEventListener('pointerdown', e => start(e, false));
   el.lens.addEventListener('pointermove', move);
@@ -488,7 +526,10 @@ function setMode(m, silent) {
   } else if (ln) {
     viewTop.map.resize();
     syncTop();
-    applyLens();
+    /* 非拖拽路径下先刷新 rect 缓存再应用 */
+    const r = el.stage.getBoundingClientRect();
+    lensRectW = r.width; lensRectH = r.height;
+    applyLensNow();
     applyReleasesSoon(0);
     if (!silent) toast('拖动方框移动，右下圆点调整大小');
   } else {
@@ -837,7 +878,9 @@ el.btnLabel.onclick = () => {
     } else if (ln) {
       viewTop.map.resize();
       syncTop();
-      applyLens();
+      const r = el.stage.getBoundingClientRect();
+      lensRectW = r.width; lensRectH = r.height;
+      applyLensNow();
     } else {
       $('mapTop').style.clipPath = 'inset(0 0 0 100%)';
     }
