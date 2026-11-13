@@ -238,7 +238,8 @@ totalEl.textContent = level.regions.length;
 
 // ---- 引擎与渲染 ----
 let engine = new PuzzleEngine(level);
-const renderer = new Renderer({ svg, viewport, bgLayer, ghostLayer, pieceLayer, traySvg, trayContent, level });
+const dragViewport = document.getElementById('dragViewport');
+const renderer = new Renderer({ svg, viewport, bgLayer, ghostLayer, pieceLayer, traySvg, trayContent, dragViewport, level });
 // 桌面端（≥980px）碎片区改用多列网格（右侧栏），与 CSS 两栏布局配合
 const mqDesktop = window.matchMedia('(min-width: 980px)');
 renderer.grid = mqDesktop.matches;
@@ -252,14 +253,25 @@ function applyView() {
 function clamp(v, lo, hi) {
   return Math.min(hi, Math.max(lo, v));
 }
-function zoomBy(factor) {
-  const rect = mapWrap.getBoundingClientRect();
-  const c = clientToSvg(svg, viewport, rect.left + rect.width / 2, rect.top + rect.height / 2);
-  const newK = clamp(view.k * factor, 0.6, 6);
+// 以屏幕点 (cx, cy) 为锚点缩放到 newK：锚点下的地图内容保持不动
+function zoomAt(cx, cy, newK) {
+  const c = clientToSvg(svg, viewport, cx, cy);
   view.tx += (view.k - newK) * c.x;
   view.ty += (view.k - newK) * c.y;
   view.k = newK;
   applyView();
+}
+function zoomBy(factor) {
+  const rect = mapWrap.getBoundingClientRect();
+  zoomAt(rect.left + rect.width / 2, rect.top + rect.height / 2, clamp(view.k * factor, 0.6, 6));
+}
+// 1 屏幕像素 = 多少个 viewport 外层（svg 用户）单位。
+// 注意：view.tx/ty 在 scale(k) 外层，平移增量不能直接用 clientToSvg（那里含 k），
+// 否则放大后拖动会比手指慢 1/k 倍。
+function mapUnitsPerPixel() {
+  const m = svg.getScreenCTM();
+  const s = m && m.a;
+  return s > 0 ? 1 / s : 1;
 }
 document.getElementById('zoomIn').addEventListener('click', () => { audio.playClick(); zoomBy(1.25); });
 document.getElementById('zoomOut').addEventListener('click', () => { audio.playClick(); zoomBy(0.8); });
@@ -268,34 +280,54 @@ document.getElementById('zoomReset').addEventListener('click', () => {
   view.k = 1; view.tx = 0; view.ty = 0; applyView();
 });
 
-// 平移：在地图空白处拖动
-let panning = null;
+// 平移 + 双指缩放：单指拖动平移；两指 pinch 以指间中点为锚缩放、随中点平移。
+// 用 Map 跟踪所有触点， pinchDist 记录上一帧指距；剩余一指时回落为平移。
+const mapPointers = new Map();
+let pinchDist = 0;
 svg.addEventListener('pointerdown', (e) => {
-  panning = { id: e.pointerId, x: e.clientX, y: e.clientY };
+  mapPointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (mapPointers.size === 2) {
+    const [p, q] = [...mapPointers.values()];
+    pinchDist = Math.hypot(p.x - q.x, p.y - q.y);
+  }
   try { svg.setPointerCapture(e.pointerId); } catch {}
 });
 svg.addEventListener('pointermove', (e) => {
-  if (!panning) return;
-  const a = clientToSvg(svg, viewport, panning.x, panning.y);
-  const b = clientToSvg(svg, viewport, e.clientX, e.clientY);
-  view.tx += b.x - a.x;
-  view.ty += b.y - a.y;
-  applyView();
-  panning.x = e.clientX; panning.y = e.clientY;
+  const prev = mapPointers.get(e.pointerId);
+  if (!prev) return;
+  if (mapPointers.size === 1) {
+    // 单指平移：屏幕位移按 svg 外层比例换算，任何缩放级别都严格跟手
+    const f = mapUnitsPerPixel();
+    view.tx += (e.clientX - prev.x) * f;
+    view.ty += (e.clientY - prev.y) * f;
+    applyView();
+  }
+  mapPointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (mapPointers.size === 2) {
+    const [p, q] = [...mapPointers.values()];
+    const dist = Math.hypot(p.x - q.x, p.y - q.y);
+    const midX = (p.x + q.x) / 2;
+    const midY = (p.y + q.y) / 2;
+    if (pinchDist > 0) {
+      zoomAt(midX, midY, clamp(view.k * (dist / pinchDist), 0.6, 6));
+    }
+    pinchDist = dist;
+  }
 });
-function endPan(e) {
-  if (!panning) return;
-  panning = null;
+function endMapPointer(e) {
+  if (!mapPointers.delete(e.pointerId)) return;
   try { svg.releasePointerCapture(e.pointerId); } catch {}
+  if (mapPointers.size < 2) pinchDist = 0;
 }
-svg.addEventListener('pointerup', endPan);
-svg.addEventListener('pointercancel', endPan);
-// 滚轮缩放
+svg.addEventListener('pointerup', endMapPointer);
+svg.addEventListener('pointercancel', endMapPointer);
+// 滚轮缩放：以鼠标位置为锚点，缩放后指针下的内容不跑
 mapWrap.addEventListener(
   'wheel',
   (e) => {
     e.preventDefault();
-    zoomBy(e.deltaY < 0 ? 1.12 : 0.89);
+    const next = clamp(view.k * (e.deltaY < 0 ? 1.12 : 0.89), 0.6, 6);
+    zoomAt(e.clientX, e.clientY, next);
   },
   { passive: false }
 );
@@ -538,7 +570,10 @@ function renderHomeStats() {
   homeStats.innerHTML = html;
 }
 function buildHomeMap() {
-  let html = `<path d="${CHINA.background}" fill="none" stroke="rgba(56,189,248,0.55)" stroke-width="1.8"/>`;
+  // 数据源可能不含南海诸岛描边（CHINA.background 为空），有才画，避免 d="undefined" 的 SVG 报错
+  let html = CHINA.background
+    ? `<path d="${CHINA.background}" fill="none" stroke="rgba(56,189,248,0.55)" stroke-width="1.8"/>`
+    : '';
   for (const p of CHINA.provinces) {
     html += `<path d="${p.path}" fill="rgba(56,189,248,0.14)" stroke="rgba(56,189,248,0.60)" stroke-width="1"/>`;
   }
@@ -547,6 +582,7 @@ function buildHomeMap() {
 function showHome() {
   stopTimer();
   audio.stopBGM();
+  modals.hideAll();
   engine.reset();
   renderer.reset(mode);
   if (progressFill) progressFill.style.width = '0%';
@@ -598,6 +634,8 @@ startConfirmBtn.addEventListener('click', async () => {
     await startGame(selectedLevelId, selectedMode);
     startModal.classList.add('hidden');
     homeScreen.classList.add('hidden');
+    // 推一层历史：游戏中按系统返回（侧滑/安卓返回键）只退回主页，不直接退出游戏页
+    history.pushState({ cmp: 'game' }, '');
   } catch (err) {
     console.error('关卡加载失败', err);
     modals.toast('关卡加载失败，请重试');
@@ -609,7 +647,31 @@ startConfirmBtn.addEventListener('click', async () => {
 homeModeSeg.querySelectorAll('.mode-seg-btn').forEach((btn) => {
   btn.addEventListener('click', () => { audio.playClick(); selectMode(btn.dataset.mode); });
 });
-btnHome.addEventListener('click', () => { audio.playClick(); showHome(); });
+// 系统返回（浏览器/手势返回键）触发 popstate：弹掉游戏层，回主页而非退出游戏页。
+// 若在主页上按返回，iframe 再无可弹历史，浏览器正常离开游戏页（回小游戏列表）。
+let backPending = false; // 防止连点「返回」把游戏层和上一页一起弹掉
+window.addEventListener('popstate', () => {
+  backPending = false;
+  if (homeScreen.classList.contains('hidden')) showHome();
+});
+
+// 顶栏「‹ 返回」：游戏中 = 退到主页；主页上 = 离开本页（iframe 场景回小游戏列表）。
+// 两条路径都走 history.back()：游戏中有我们压入的一层可弹，主页上没有就直接离开。
+btnHome.addEventListener('click', () => {
+  audio.playClick();
+  if (backPending) return;
+  // 有弹层先关弹层（结算/设置/知识卡），不打断当前这一局
+  const openModal = ['resultModal', 'settingsModal', 'cardModal', 'shareModal']
+    .map((id) => document.getElementById(id))
+    .find((m) => m && !m.classList.contains('hidden'));
+  if (openModal) {
+    openModal.classList.add('hidden');
+    return;
+  }
+  backPending = true;
+  setTimeout(() => { backPending = false; }, 700); // 无可弹历史时兜底解锁
+  history.back();
+});
 homeHelpBtn.addEventListener('click', () => {
   audio.playClick();
   modals.showSettings({
@@ -622,15 +684,10 @@ homeHelpBtn.addEventListener('click', () => {
   });
 });
 
-// 跨断点切换碎片区布局：仅当桌面/移动状态变化时重建托盘（避免频繁洗牌）
-let __cmpDesktop = mqDesktop.matches;
-window.addEventListener('resize', () => {
-  const d = mqDesktop.matches;
-  if (d !== __cmpDesktop) {
-    __cmpDesktop = d;
-    renderer.setGrid(d);
-  }
-});
+// 跨断点切换碎片区布局：用 matchMedia 的 change 事件（比 resize + matches 的时序可靠，
+// 横竖屏旋转 / 拖窄窗口都能即时切换）；同断点内的尺寸变化只重算托盘可见窗口。
+mqDesktop.addEventListener('change', (e) => renderer.setGrid(e.matches));
+window.addEventListener('resize', () => renderer.updateTrayView());
 
 // 暴露给调试
-window.__cmp = { engine, renderer, view };
+window.__cmp = { engine, renderer, view, drag };

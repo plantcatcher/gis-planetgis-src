@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="topbar-actions">
-        <button id="btnHome" class="btn ghost" title="返回主页">🏠</button>
+        <button id="btnHome" class="btn ghost" title="返回">‹ 返回</button>
         <button id="btnSettings" class="btn ghost" title="设置">⚙ 设置</button>
       </div>
     </header>
@@ -56,10 +56,16 @@
         <div class="toast" id="toast"></div>
       </div>
 
+      <!-- 拖拽覆盖层：拖动中的碎片画在这里（全屏、浮在最上层），
+           避免被地图容器的 overflow / 碎片区层级裁剪或遮挡 -->
+      <svg id="dragLayer" class="drag-layer" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g id="dragViewport"></g>
+      </svg>
+
       <section class="tray" id="tray" aria-label="碎片区">
         <div class="tray-head">
           <span>碎片区</span>
-          <span class="tray-hint">按住拖动到地图 · 可滚动浏览</span>
+          <span class="tray-hint">往上拖到地图 · 左右滑动浏览</span>
         </div>
         <svg id="traySvg" class="tray-svg" xmlns="http://www.w3.org/2000/svg" aria-label="省级行政区碎片">
           <g id="trayContent"></g>

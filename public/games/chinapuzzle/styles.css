@@ -299,6 +299,18 @@ html, body {
 }
 .toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
+/* 拖拽覆盖层：全屏浮层，拖动中的碎片在这里绘制，永远不会被地图容器或碎片区挡住。
+   fixed 定位相对视口，拖拽坐标由 viewport.getScreenCTM() 同步。 */
+.drag-layer {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 60;
+}
+
 /* ---------- Tray ---------- */
 .tray {
   background: linear-gradient(180deg, var(--panel), var(--bg-soft));
@@ -317,7 +329,7 @@ html, body {
 .tray-head span:first-child { color: var(--text); font-weight: 700; font-size: 14px; }
 .tray-svg {
   width: 100%;
-  height: 100px;
+  height: 122px;   /* 与 TRAY_VB_H=130 × 托盘渲染比例 0.9 ≈ 117，余量放标签 */
   display: block;
   touch-action: none;
   background: var(--panel-2);
@@ -543,7 +555,7 @@ html, body {
 
 /* Desktop niceties */
 @media (min-width: 760px) {
-  .tray-svg { height: 116px; }
+  .tray-svg { height: 130px; }
   .brand-text h1 { font-size: 18px; }
 }
 

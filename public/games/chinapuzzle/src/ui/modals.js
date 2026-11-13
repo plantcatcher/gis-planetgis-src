@@ -58,6 +58,15 @@ export class Modals {
   show(m) { m.classList.remove('hidden'); }
   hide(m) { m.classList.add('hidden'); }
 
+  // 关闭所有弹层（返回主页时调用，避免残留知识卡/结算/设置挡住首页）
+  hideAll() {
+    [this.cardModal, this.resultModal, this.settingsModal].forEach((m) => m && this.hide(m));
+    const share = document.getElementById('shareModal');
+    if (share) this.hide(share);
+    if (this.toastEl) this.toastEl.classList.remove('show');
+    if (this._toastTimer) { clearTimeout(this._toastTimer); this._toastTimer = null; }
+  }
+
   showSettings(opts = {}) {
     const o = opts || {};
     // 开关初始态（作用于内部 .set-toggle，CSS 以 .set-toggle.on 渲染）
