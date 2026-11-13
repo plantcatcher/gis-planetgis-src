@@ -5,22 +5,54 @@
   <script src="/shared/map-i18n.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>国家真实面积对比 · True Size of Countries</title>
-  <meta name="description" content="拖动任意国家到地图任意位置，亲眼看墨卡托投影如何让高纬度国家「虚胖」、让赤道国家「缩水」。数据基于 Natural Earth 公共领域国界，实时计算真实面积与墨卡托放大倍数。" />
+  <title>世界地图投影实验室 · 国家真实面积对比 | 平等地球投影</title>
+  <meta name="description" content="2026 年联合国大会通过《纠正地图》决议，推荐平等地球投影。本站用同一份国界数据，一键切换墨卡托、平等地球、高尔-彼得斯、温克尔三重、等距方位 5 种投影，实时对比格陵兰与非洲的视觉面积比和真实面积比；还可拖动任意国家，亲眼看见墨卡托投影如何让高纬度国家虚胖。数据基于 Natural Earth 公共领域国界，全部本地计算。" />
   <link rel="icon" href="data:," />
   <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
   <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/lab.css" />
 </head>
 <body>
   <div id="map"></div>
   <div id="labels"></div>
+
+  <!-- ── 投影实验室视图：覆盖 MapLibre 画布，纯 SVG 本地计算 ── -->
+  <section id="lab" hidden aria-label="世界地图投影实验室">
+    <div class="lab-stage">
+      <svg id="labSvg" viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid meet" role="img" aria-label="五种地图投影下的世界国界对比">
+        <path id="labGrid"></path>
+        <g id="labCountries"></g>
+        <g id="labMarks"></g>
+      </svg>
+      <p class="lab-loading" id="labLoading">正在加载国界数据…</p>
+    </div>
+    <p class="lab-merc-note" id="labMercNote" hidden>墨卡托把全球拉成正方形。为保持比例，画布左右留白。</p>
+    <div class="lab-thumbs" id="labThumbs" role="group" aria-label="选择地图投影"></div>
+    <div class="lab-compare">
+      <div class="lc-head">当前投影 <b id="lcName">墨卡托</b> <em id="lcProjEn">Web Mercator</em> · 同一份国界，只换投影</div>
+      <div class="lc-body">
+        <div class="lc-bars">
+          <div class="lc-row"><span>格陵兰</span><div class="lc-track"><i id="lcBarG"></i></div></div>
+          <div class="lc-row"><span>非洲</span><div class="lc-track"><i id="lcBarA"></i></div></div>
+        </div>
+        <div class="lc-stat"><small>视觉面积比</small><b class="hl" id="lcVisual">—</b></div>
+        <div class="lc-stat"><small>真实面积比</small><b id="lcReal">—</b></div>
+      </div>
+      <p class="lc-note" id="lcNote">—</p>
+    </div>
+  </section>
 
   <!-- ── 左：介绍 / 操作栏 ─────────────────────────────── -->
   <aside class="intro" id="intro">
     <div class="intro-head">
       <a class="btn-back" href="/maps" target="_top"><i>‹</i> 全部地图</a>
       <button class="btn-overview" id="btnOverview" type="button"><i>◉</i> 全球总览</button>
+    </div>
+
+    <div class="mode-tabs" id="modeTabs" role="group" aria-label="切换地图视图">
+      <button type="button" class="mt-btn is-active" data-mode="drag">拖拽实验</button>
+      <button type="button" class="mt-btn" data-mode="lab">投影实验室</button>
     </div>
 
     <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
@@ -30,6 +62,7 @@
     </div>
 
     <div class="intro-body" id="introBody">
+      <div id="paneDrag">
       <small class="eyebrow"><i class="ic-eq"></i> TRUE SIZE · MERCATOR</small>
       <h1><span>国家真实</span><b>面积对比</b></h1>
       <p class="lead">你每天看到的平面世界地图（墨卡托投影）会<b>把高纬度国家放大</b>——格陵兰看起来和非洲一样大，其实只有它的 <b>1/14</b>。<b>点选任意国家，拖到地图任意位置</b>，它的真实面积不变，但视觉大小会随纬度剧烈变化。右侧实时显示真实面积与「墨卡托放大倍数」。</p>
@@ -78,6 +111,36 @@
       <div class="intro-nav">
         <a href="/maps" target="_top">全部地图</a>
       </div>
+      </div><!-- /paneDrag -->
+
+      <div id="paneLab" hidden>
+        <small class="eyebrow"><i class="ic-eq"></i> PROJECTION LAB · UN 2026</small>
+        <h1><span>同一份地球</span><b>换投影看</b></h1>
+        <p class="lead">2026 年 9 月 4 日，联合国大会以 <b>164 票赞成、1 票反对</b>通过《纠正地图》决议，建议在教学与公共传播中改用<b>平等地球（Equal Earth）</b>等积投影。切换下面 5 种投影，看同一份国界数据如何变形。底部读数会告诉你：<b>格陵兰和非洲的视觉面积比，怎样被投影改写</b>。</p>
+
+        <section class="block">
+          <header><small>选择投影</small><small class="hint-n">点击即切换</small></header>
+          <div class="lab-projs" id="labProjs"></div>
+        </section>
+
+        <section class="block">
+          <header><small>当前投影</small></header>
+          <p class="lab-note" id="labProjNote">—</p>
+        </section>
+
+        <section class="block">
+          <header><small>怎么读这张图</small></header>
+          <p class="lab-note">黄色是格陵兰，青色是非洲，蓝色是中国。底部两根条按<b>当前投影下的屏幕面积</b>绘制。真实面积比固定不变；墨卡托下两根条几乎等长，切到平等地球后立刻拉开约 14 倍。也可以点下方缩略图快速切换。</p>
+        </section>
+
+        <section class="block src">
+          <p><b>口径</b>：5 种投影由本站脚本本地计算，不加载第三方制图库。国界仍是 Natural Earth 110m（公共领域），台湾已并入中国，不单列。面积比用同一份轮廓在屏幕上的像素面积计算，仅作示意，不是测绘成果。</p>
+        </section>
+
+        <div class="intro-nav">
+          <a href="/maps" target="_top">全部地图</a>
+        </div>
+      </div>
     </div>
   </aside>
 
@@ -112,5 +175,6 @@
   <script src="/maps/_shared/thematic/thematic.js"></script>
   <script src="js/config.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/lab.js"></script>
 </body>
 </html>
