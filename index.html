@@ -107,6 +107,18 @@
       gtag('config', 'G-SDBDPNLN25', { send_page_view: false });
     </script>
 
+    <!-- 百度统计 —— hm.js 加载时自动记录首屏 PV；SPA 后续路由跳转的 PV
+         由 src/lib/analytics.ts 的 trackPageView 推 _trackPageview 补发。 -->
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?5f205c32c21ba1214653529ac7c7ee51";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+
     <!-- 不蒜子访客统计（轻量页面访问量展示，免注册，仅供参考） -->
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   </head>

@@ -20,12 +20,30 @@ declare global {
   interface Window {
     dataLayer?: unknown[];
     gtag?: (...args: unknown[]) => void;
+    _hmt?: unknown[];
   }
 }
 
 /** 发送一个 page_view。标题优先取 PageMeta 在渲染期登记的标题（见 lib/page-title.ts）。 */
+let baiduFirstViewSkipped = false;
+
+/**
+ * 百度统计 SPA 补发 PV。hm.js 加载时已自动记录首屏，所以第一次路由不重复上报；
+ * 之后每次路由切换推一条 _trackPageview（_hmt 在 hm.js 加载前是普通数组队列，可直接 push）。
+ */
+function trackBaiduPageView(urlPath: string) {
+  if (!baiduFirstViewSkipped) {
+    baiduFirstViewSkipped = true;
+    return;
+  }
+  if (!Array.isArray(window._hmt) && typeof window._hmt?.push !== 'function') return;
+  window._hmt.push(['_trackPageview', `${urlPath}${window.location.search}`]);
+}
+
 export function trackPageView(path: string, title?: string) {
-  if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
+  if (typeof window === 'undefined') return;
+  trackBaiduPageView(window.location.pathname || path);
+  if (typeof window.gtag !== 'function') return;
   // path 来自 useLocation()，**不含 Router 的 basename** —— 英文站下是 /learn 而非
   // /en/learn。直接拿它拼 page_location，会让英文页把自己报成中文页的 URL
   // （GA4 里 /en/learn 的浏览全记在 /learn 上）。上报用真实地址栏路径，
