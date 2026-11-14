@@ -26,6 +26,7 @@ build_*.log
 
 # 内容元数据索引：由 scripts/gen-content-index.mjs 在 dev/build 前置生成，属构建产物
 src/data/content-index.json
+src/data/content-index.client.json
 
 # Agent 内存（非项目源码，不进仓库）
 .workbuddy/

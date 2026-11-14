@@ -16,7 +16,15 @@ import { en as dictEn } from './i18n/dict.en';
 // 正文按篇懒加载（见 lib/content.ts）：预渲染脚本需在 renderToString 之前先预载
 // 当前路由的正文，否则渲染出的是空正文（check-seo 会以「正文过短」拦下）。
 // 这里把 preloadRoute 透出给 prerender.mjs。
-export { preloadRoute } from './lib/content';
+import { preloadRoute as preloadBody } from './lib/content';
+import { preloadPage } from './routes';
+
+// 页面组件也按路由懒加载（见 lib/lazyPage.tsx），与正文一起预载。
+// 返回该页面组件的源文件路径，prerender.mjs 用它在 manifest 里查 chunk 写 modulepreload。
+export async function preloadRoute(url: string): Promise<string | undefined> {
+  const [, pageSrc] = await Promise.all([preloadBody(url), preloadPage(url)]);
+  return pageSrc;
+}
 
 // 供 scripts/prerender.mjs 调用：把任意路由渲染成完整 HTML 字符串。
 // head 标签（标题 / 描述 / OG / JSON-LD）由各页面的 <PageMeta> 在渲染期间

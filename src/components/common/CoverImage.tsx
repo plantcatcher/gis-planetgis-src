@@ -36,6 +36,7 @@ const CoverImage: React.FC<CoverImageProps> = ({ cover, title, className = '', l
         src={cover}
         alt={`${title} - ${t('cover.image')}`}
         loading={lazy ? 'lazy' : undefined}
+        decoding="async"
         className={`w-full h-full object-cover ${className}`}
       />
     );
@@ -48,6 +49,7 @@ const CoverImage: React.FC<CoverImageProps> = ({ cover, title, className = '', l
         src={DEFAULT_COVER}
         alt={`${title} - ${t('cover.default')}`}
         loading={lazy ? 'lazy' : undefined}
+        decoding="async"
         onError={() => setImgFailed(true)}
         className={`w-full h-full object-cover ${className}`}
       />

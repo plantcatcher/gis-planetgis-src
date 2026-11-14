@@ -1,0 +1,10 @@
+# Cloudflare Pages 响应头规则（https://developers.cloudflare.com/pages/configuration/headers/）
+#
+# /assets/* 是 Vite 产物，文件名带内容 hash：内容一变文件名就变，旧文件永远不会被改写，
+# 因此可以让浏览器缓存一年且不再回源校验（immutable）。默认的 max-age=14400, must-revalidate
+# 会让回访用户每 4 小时就为每个 JS/CSS/字体发一次校验请求。
+#
+# ⚠️ 只对带 hash 的目录这样设。HTML、/maps/*、/games/* 等不带 hash 的文件不能加 immutable，
+#    否则更新后用户会一直看到旧版本。
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable

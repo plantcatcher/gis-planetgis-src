@@ -330,7 +330,7 @@ const Home = () => {
               </div>
               <div className="flex shrink-0 gap-3">
                 <Link
-                  to="/geoquiz"
+                  to="/geodaily"
                   className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-primary/25 transition-transform hover:scale-[1.03]"
                 >
                   {t('home.try.cta')} <ArrowRight className="w-4 h-4" />
@@ -375,6 +375,8 @@ const Home = () => {
                   <div className="aspect-video overflow-hidden relative">
                     <img
                       src={work.cover}
+                      loading="lazy"
+                      decoding="async"
                       alt={`${work.title} - ${t('brand.name')}`}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />
@@ -414,6 +416,8 @@ const Home = () => {
                     <div className="aspect-video overflow-hidden relative">
                       <img
                         src={m.cover}
+                        loading="lazy"
+                        decoding="async"
                         alt={`${m.title} - ${t('brand.name')}`}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       />
@@ -454,6 +458,8 @@ const Home = () => {
                     <div className="aspect-video overflow-hidden relative">
                       <img
                         src={game.cover}
+                        loading="lazy"
+                        decoding="async"
                         alt={`${game.title} - ${t('brand.name')}`}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       />
@@ -495,6 +501,8 @@ const Home = () => {
                       <div className="relative w-20 sm:w-24 aspect-[3/4] overflow-hidden bg-muted rounded-lg shrink-0">
                         <img
                           src={r.cover}
+                          loading="lazy"
+                          decoding="async"
                           alt={`${r.title} - ${t('brand.name')}`}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                         />
@@ -743,6 +751,8 @@ const Home = () => {
                 <div className="flex justify-center py-2">
                   <img
                     src="/images/wechat-qr.png"
+                    loading="lazy"
+                    decoding="async"
                     alt={`${t('social.wechat')} - ${t('brand.name')}`}
                     className="w-60 h-60 rounded-lg border border-border object-cover"
                   />
@@ -760,6 +770,8 @@ const Home = () => {
                 <div className="flex justify-center py-2">
                   <img
                     src="/images/wechat-official-qr.jpg"
+                    loading="lazy"
+                    decoding="async"
                     alt={`${t('social.official')} - ${t('brand.officialAccount')}`}
                     className="w-60 h-60 rounded-lg border border-border object-cover"
                   />

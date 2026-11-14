@@ -87,7 +87,26 @@ function buildSlugToFile() {
   return map;
 }
 
-const bodyChunkMap = buildBodyChunkMap(readManifest());
+const manifest = readManifest();
+const bodyChunkMap = buildBodyChunkMap(manifest);
+
+/**
+ * 页面组件 chunk（路由懒加载，见 src/lib/lazyPage.tsx）-> 需 modulepreload 的文件列表。
+ * 包含该页面 chunk 及其依赖的共享 chunk（入口 chunk 已由 <script type=module> 加载，排除）。
+ */
+function pageChunkFiles(src) {
+  const out = [];
+  const seen = new Set();
+  const walk = (key) => {
+    const entry = manifest && manifest[key];
+    if (!entry || seen.has(key) || entry.isEntry) return;
+    seen.add(key);
+    out.push(`/${String(entry.file).replace(/^\/+/, '')}`);
+    for (const dep of entry.imports || []) walk(dep);
+  };
+  if (src) walk(src);
+  return out;
+}
 const slugToFileMap = buildSlugToFile();
 let preloadCount = 0;
 
@@ -96,7 +115,14 @@ if (!bodyChunkMap.size) {
 }
 
 /** 详情页 URL -> <link rel="modulepreload">；非详情页或查不到映射时返回空串 */
-function modulePreloadTag(url) {
+function modulePreloadTag(url, pageSrc) {
+  const pageTags = pageChunkFiles(pageSrc).map((f) => `<link rel="modulepreload" href="${f}" />`);
+  const bodyTag = bodyPreloadTag(url);
+  return [...pageTags, bodyTag].filter(Boolean).join('\n');
+}
+
+/** 详情页正文 chunk 的 modulepreload */
+function bodyPreloadTag(url) {
   // 英文详情页带 /en 前缀，先剥掉再匹配——正文 chunk 映射是按中文档案名建的，与语言无关
   const bare = url === '/en' ? '/' : url.startsWith('/en/') ? url.slice(3) : url;
   const m = /^\/(works|maps|games|tools|articles|learn|downloads)\/([^/]+?)\/?$/.exec(bare);
@@ -172,7 +198,7 @@ try {
     try {
       // 正文按篇懒加载（见 src/lib/content.ts）：渲染前先把当前路由的正文预载好，
       // 否则 renderToString 拿到的是空正文，产出「零正文页面」。
-      await preloadRoute(url);
+      const pageSrc = await preloadRoute(url);
       const rendered = await render(url);
       // tag 聚合页属薄内容：正文仅数百~两千字，且与所属文章高度重合，
       // 全站 858 条曾占 sitemap 的 71%，会吃掉抓取配额、拉低整站质量信号。
@@ -196,7 +222,7 @@ try {
 
       const out = buildHtml(template, rendered, {
         noindex,
-        preload: modulePreloadTag(url),
+        preload: modulePreloadTag(url, pageSrc),
       });
       const file = routeToFile(DIST, url);
       mkdirSync(dirname(file), { recursive: true });

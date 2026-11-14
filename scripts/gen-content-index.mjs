@@ -124,3 +124,40 @@ rows.sort((a, b) => `${a.folder}/${a.filename}`.localeCompare(`${b.folder}/${b.f
 mkdirSync(dirname(OUT), { recursive: true });
 writeFileSync(OUT, JSON.stringify(rows), 'utf-8');
 console.log(`[content-index] 写出 ${rows.length} 条元数据 -> src/data/content-index.json`);
+
+// ===== 客户端瘦身索引（content-index.client.json）=====
+//
+// 上面的完整索引供构建脚本（prerender / site-routes）使用；浏览器端打进主 bundle 的
+// 是这份瘦身版。两点区别：
+//   1. 去掉「只在该篇详情页才用得到」的字段（DETAIL_KEYS）。这些字段仍在每篇 md 的
+//      frontmatter 里，content.ts 的 loadBody() 拉正文时会顺带解析并补到 item 上——
+//      首屏 hydration / 预渲染前都会先 preloadRoute()，因此详情页 DOM 与 SSG 一致。
+//   2. 资料的访问方式（gated / view / open）在这里预先算好写成 acc，
+//      列表页 / 首页的徽标与筛选因此无需 code / download / viewUrl。
+// ⚠️ 若某个列表卡片 / 搜索开始用到 DETAIL_KEYS 里的字段，要把它从这里移出。
+const DETAIL_KEYS = [
+  'code', 'download', 'viewUrl', 'officialUrl', 'officialName', 'standardNo', 'stdStatus',
+  'stdDate', 'source', 'keywordAliases', 'trigger', 'panCode', 'downloadAlt', 'downloadAltType',
+  'downloadAltCode', 'downloadType', 'timeline', 'publisher', 'isbn', 'pubYear', 'pages',
+  // ⚠️ author 不能进 DETAIL_KEYS：相关推荐卡片（ResourceDetail r.author）会显示作者。
+];
+
+// 与 content.ts 的 isResourceGated / isResourceViewOnly 口径一致
+function accessKind(fm) {
+  const gated = fm.access === 'gated' || (fm.access !== 'open' && !!(fm.code && fm.code.trim()));
+  if (gated) return 'gated';
+  if (fm.viewUrl && !fm.download) return 'view';
+  return 'open';
+}
+
+const clientRows = rows.map(({ folder, filename, fm, words, lead }) => {
+  const slim = {};
+  for (const [k, v] of Object.entries(fm)) if (!DETAIL_KEYS.includes(k)) slim[k] = v;
+  const row = { folder, filename, fm: slim, words };
+  if (lead) row.lead = lead;
+  if (folder === 'downloads') row.acc = accessKind(fm);
+  return row;
+});
+const CLIENT_OUT = join(ROOT, 'src', 'data', 'content-index.client.json');
+writeFileSync(CLIENT_OUT, JSON.stringify(clientRows), 'utf-8');
+console.log(`[content-index] 客户端瘦身索引 -> src/data/content-index.client.json`);

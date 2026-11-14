@@ -140,10 +140,10 @@ export const zh = {
   'home.profile.byline1': '每日更新 · 自助阅读',
   'home.profile.byline2': '{year} 年刊',
 
-  // ===== 首页 · 30 秒体验 =====
-  'home.try.kicker': '30 秒体验一下',
-  'home.try.title': '看一张卫星图，猜这是哪座城市',
-  'home.try.desc': '无需注册，打开就能玩——你熟悉的那座城市，换个角度还认得出来吗？',
+  // ===== 首页 · 每日地理挑战 =====
+  'home.try.kicker': '每日一题 · 30 秒',
+  'home.try.title': '今天的地点，你能丢准吗',
+  'home.try.desc': '在地图上拖一个点，标出你猜的位置——离真实坐标越近分越高，连胜记录攒在本地。',
   'home.try.cta': '开始挑战',
   'home.try.alt': '或查一条河',
 

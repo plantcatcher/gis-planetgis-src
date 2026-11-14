@@ -414,6 +414,8 @@ const Maps: React.FC = () => {
                       >
                         <img
                           src={w.cover}
+                          loading="lazy"
+                          decoding="async"
                           alt={t('maps.alt', { title: w.title })}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
@@ -466,6 +468,8 @@ const Maps: React.FC = () => {
                         <div className="aspect-video overflow-hidden relative">
                           <img
                             src={w.cover}
+                            loading="lazy"
+                            decoding="async"
                             alt={t('maps.alt', { title: w.title })}
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                           />

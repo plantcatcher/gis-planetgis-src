@@ -146,11 +146,11 @@ export const en: Record<keyof Dict, string> = {
   'home.profile.byline1': 'Updated daily · Read at your own pace',
   'home.profile.byline2': '{year} Edition',
 
-  // ===== 首页 · 30 秒体验 =====
-  'home.try.kicker': 'TRY IT IN 30 SECONDS',
-  'home.try.title': 'Look at a satellite image. Guess the city.',
+  // ===== 首页 · 每日地理挑战 =====
+  'home.try.kicker': 'DAILY GEO CHALLENGE · 30s',
+  'home.try.title': "Today's place — can you pin it right?",
   'home.try.desc':
-    'No sign-up, just open and play — the city you think you know looks different from above.',
+    'Drop a marker on the map where you think it is — the closer to the real coordinates, the higher the score; streaks stay on your device.',
   'home.try.cta': 'Start the challenge',
   'home.try.alt': 'Or look up a river',
 

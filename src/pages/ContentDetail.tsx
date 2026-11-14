@@ -445,6 +445,7 @@ export default function ContentDetail({ type }: Props) {
       {item.cover && type !== 'learn' && (
         <img
           src={item.cover}
+          decoding="async"
           alt={item.title}
           onClick={onImageClick}
           className="w-full rounded-2xl mb-8 object-cover max-h-[520px] cursor-zoom-in"

@@ -18,7 +18,9 @@ const HEAT: Record<string, number> = (heatRaw as unknown as Record<string, numbe
 // 内容元数据索引（不含正文）：由 scripts/gen-content-index.mjs 在 dev/build 前置生成。
 // 过去这里是 eager glob 把全部 markdown（含正文，约 4MB）打进主 bundle，是首包 4.9MB 的主因；
 // 现在只常驻这份轻量元数据，正文改由下方 loadBody() 按篇懒加载（详见该函数注释）。
-import contentIndexRaw from '../data/content-index.json';
+// 打进 bundle 的是瘦身版（content-index.client.json）：资料详情页专用字段（验证码 / 下载链接 /
+// 出版信息等）不常驻，改由 loadBody() 拉正文时从同一篇 md 的 frontmatter 补上（见 detailFields）。
+import contentIndexRaw from '../data/content-index.client.json';
 
 export type ContentType = 'work' | 'map' | 'game' | 'tool' | 'article' | 'learn' | 'resource';
 
@@ -136,6 +138,11 @@ export interface ContentItem {
   readingMin?: number;
   /** 卡片导语：无 summary 时的正文摘录（构建期预计算，前 72 字）；有 summary 时为空 */
   lead?: string;
+  /**
+   * 资料访问方式（构建期预计算）：gated=需验证码 / view=仅在线观看 / open=直接下载。
+   * 列表与首页徽标靠它判断，因为 code / download / viewUrl 只在详情加载后才有。
+   */
+  acc?: 'gated' | 'view' | 'open';
 }
 
 interface Frontmatter {
@@ -147,9 +154,9 @@ interface IndexRow {
   filename: string;
   fm: Record<string, string>;
   words: number;
-  lead: string;
-  /** 独有 8-gram 数（同目录语料内），构建期用于识别模板化重复页；客户端不使用 */
-  uniq?: number;
+  lead?: string;
+  /** 资料访问方式（仅 downloads），构建期预计算，见 gen-content-index.mjs 的 accessKind */
+  acc?: ContentItem['acc'];
 }
 const CONTENT_INDEX = contentIndexRaw as unknown as IndexRow[];
 
@@ -181,6 +188,37 @@ function parseFrontmatter(raw: string): { data: Frontmatter; content: string } {
     if (val) data[key] = val;
   }
   return { data, content: raw.slice(m[0].length) };
+}
+
+/**
+ * 详情页专用字段：不在瘦身索引里（gen-content-index.mjs 的 DETAIL_KEYS），
+ * loadBody() 拉到整篇 md 后从其 frontmatter 解析补上。两处列表需保持一致。
+ */
+function detailFields(data: Frontmatter): Partial<ContentItem> {
+  return {
+    code: data.code,
+    download: data.download,
+    author: data.author,
+    publisher: data.publisher,
+    isbn: data.isbn,
+    pubYear: data.pubYear,
+    source: data.source,
+    timeline: data.timeline,
+    trigger: data.trigger,
+    keywordAliases: data.keywordAliases ? data.keywordAliases.split(',').map((s) => s.trim()).filter(Boolean) : [],
+    downloadType: data.downloadType as ContentItem['downloadType'],
+    viewUrl: data.viewUrl,
+    officialUrl: data.officialUrl,
+    officialName: data.officialName,
+    standardNo: data.standardNo,
+    stdStatus: data.stdStatus,
+    stdDate: data.stdDate,
+    pages: data.pages,
+    panCode: data.panCode,
+    downloadAlt: data.downloadAlt,
+    downloadAltType: data.downloadAltType as ContentItem['downloadAltType'],
+    downloadAltCode: data.downloadAltCode,
+  };
 }
 
 const items: ContentItem[] = [];
@@ -231,31 +269,11 @@ for (const row of CONTENT_INDEX) {
     words: row.words,
     readingMin: Math.max(1, Math.ceil(row.words / 350)),
     lead: row.lead || undefined,
-    code: data.code,
-    download: data.download,
+    access: data.access as ContentItem['access'],
     format: data.format,
     size: data.size,
-    author: data.author,
-    publisher: data.publisher,
-    isbn: data.isbn,
-    pubYear: data.pubYear,
-    access: data.access as ContentItem['access'],
-    source: data.source,
-    timeline: data.timeline,
-    trigger: data.trigger,
-    keywordAliases: data.keywordAliases ? data.keywordAliases.split(',').map((s) => s.trim()).filter(Boolean) : [],
-    downloadType: data.downloadType as ContentItem['downloadType'],
-    viewUrl: data.viewUrl,
-    officialUrl: data.officialUrl,
-    officialName: data.officialName,
-    standardNo: data.standardNo,
-    stdStatus: data.stdStatus,
-    stdDate: data.stdDate,
-    pages: data.pages,
-    panCode: data.panCode,
-    downloadAlt: data.downloadAlt,
-    downloadAltType: data.downloadAltType as ContentItem['downloadAltType'],
-    downloadAltCode: data.downloadAltCode,
+    ...detailFields(data),
+    acc: row.acc,
     home: data.home === 'true' || data.home === '1',
     homeOrder: data.homeOrder ? Number(data.homeOrder) : undefined,
     group: data.group,
@@ -284,7 +302,9 @@ export function loadBody(type: ContentType, slug: string): Promise<void> {
   if (!loader) return Promise.resolve();
   const p = loader()
     .then((raw) => {
-      item.body = parseFrontmatter(raw).content.trim();
+      const { data, content } = parseFrontmatter(raw);
+      Object.assign(item, detailFields(data));
+      item.body = content.trim();
     })
     .finally(() => bodyLoading.delete(key));
   bodyLoading.set(key, p);
@@ -371,7 +391,9 @@ export const getHomeResources = (limit = 6): ContentItem[] => {
 
 /** 资料是否需公众号验证码门禁：显式 gated，或（未标记 open 且带 code）视为门禁 */
 export const isResourceGated = (i: ContentItem): boolean =>
-  i.access === 'gated' || (i.access !== 'open' && !!(i.code && i.code.trim()));
+  i.acc
+    ? i.acc === 'gated'
+    : i.access === 'gated' || (i.access !== 'open' && !!(i.code && i.code.trim()));
 
 /** 资料是否可直接下载（无需验证码）：地图图片等 */
 export const isResourceOpen = (i: ContentItem): boolean => !isResourceGated(i);
@@ -382,7 +404,7 @@ export const isResourceOpen = (i: ContentItem): boolean => !isResourceGated(i);
  * 需验证码（gated） / 在线观看（view-only） / 直接下载（其余 open）。
  */
 export const isResourceViewOnly = (i: ContentItem): boolean =>
-  !isResourceGated(i) && !!i.viewUrl && !i.download;
+  i.acc ? i.acc === 'view' : !isResourceGated(i) && !!i.viewUrl && !i.download;
 
 // 地理学习板块的「专题栏目」分类，按固定顺序返回，便于列表页生成筛选。
 // 注意：category 的语义是「专题栏目」（海平面模拟 / 历史地理 / 区域地理 / 地理基础），

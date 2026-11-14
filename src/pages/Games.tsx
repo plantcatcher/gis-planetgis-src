@@ -233,6 +233,7 @@ const Games: React.FC = () => {
                 >
                   <img
                     src={featured.cover}
+                    decoding="async"
                     alt={t('games.alt', { title: featured.title })}
                     className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
@@ -338,6 +339,8 @@ const Games: React.FC = () => {
                         >
                           <img
                             src={game.cover}
+                            loading="lazy"
+                            decoding="async"
                             alt={t('games.alt', { title: game.title })}
                             className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                           />

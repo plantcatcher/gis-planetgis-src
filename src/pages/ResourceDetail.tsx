@@ -390,6 +390,7 @@ const ResourceDetail: React.FC = () => {
             {item.cover ? (
               <img
                 src={item.cover}
+                decoding="async"
                 alt={item.title}
                 onClick={onImageClick}
                 className="w-full aspect-[3/4] object-cover rounded-2xl border border-border/60 mb-5 cursor-zoom-in hover:shadow-md transition-shadow"
@@ -688,6 +689,8 @@ const ResourceDetail: React.FC = () => {
                       {WECHAT_QR && (
                         <img
                           src={WECHAT_QR}
+                          loading="lazy"
+                          decoding="async"
                           alt={`${WECHAT_OFFICIAL} 公众号二维码`}
                           className="h-14 w-14 shrink-0 rounded-lg border border-border bg-white object-contain sm:h-20 sm:w-20"
                         />

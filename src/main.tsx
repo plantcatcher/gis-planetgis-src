@@ -1,12 +1,15 @@
 import { StrictMode } from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
-// 思源宋体（Noto Serif SC）自托管：仅引入简体中文子集 600/700 两个字重，字体随本站资源打包，不依赖任何外部字体源
-import "@fontsource/noto-serif-sc/chinese-simplified-600.css";
-import "@fontsource/noto-serif-sc/chinese-simplified-700.css";
+// 思源宋体（Noto Serif SC）自托管：600/700 两个字重，字体随本站资源打包，不依赖任何外部字体源。
+// 用的是按 unicode-range 切成约 100 片的版本（600.css / 700.css）：浏览器只下载页面上实际出现的字
+// 所在的切片。之前引的 chinese-simplified-*.css 是整包单文件（每个字重 1.5MB woff2，一个标题就得全量下载）。
+import "@fontsource/noto-serif-sc/600.css";
+import "@fontsource/noto-serif-sc/700.css";
 import "./index.css";
 import App from "./App.tsx";
 import { AppWrapper } from "./components/common/PageMeta.tsx";
 import { preloadRoute } from "./lib/content";
+import { preloadPage } from "./routes";
 
 // 记录初始进入路径，供不蒜子 SPA 浏览量统计判断是否需要补计
 // （直接以某详情页 URL 进入时，全局脚本已自动统计过，hook 应跳过首屏那一次，避免重复 +1）。
@@ -32,7 +35,11 @@ const tree = (
 // 的 HTML 不一致，会造成 hydration mismatch。预载只加载「当前这一篇」，其余按需再取。
 async function bootstrap() {
   try {
-    await preloadRoute(window.location.pathname);
+    // 当前页的正文与页面组件（均为懒加载 chunk）并行预载
+    await Promise.all([
+      preloadRoute(window.location.pathname),
+      preloadPage(window.location.pathname),
+    ]);
   } catch {
     // 预载失败（网络异常等）不阻塞启动：正文留空，页面其余部分照常可交互。
   }

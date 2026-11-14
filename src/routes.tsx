@@ -1,21 +1,28 @@
 import React from 'react';
-import Home from './pages/Home';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import Terms from './pages/Terms';
-import ContentDetail from './pages/ContentDetail';
-import Changelog from './pages/Changelog';
-import TagPage from './pages/TagPage';
-import Listing from './pages/Listing';
-import Wiki from './pages/Wiki';
-import MyLearning from './pages/MyLearning';
-import GameEmbed from './pages/GameEmbed';
-import ResourceDetail from './pages/ResourceDetail';
-import Games from './pages/Games';
-import Maps from './pages/Maps';
-import MapEmbed from './pages/MapEmbed';
-import type { ReactNode } from 'react';
+import { matchRoutes } from 'react-router-dom';
+import type { ReactElement, ReactNode } from 'react';
+import { lazyPage } from './lib/lazyPage';
+
+// 页面按路由拆分成独立 chunk（原来全部静态 import，进同一个主包）。
+// 首屏 / 预渲染前由 preloadPage() 预载当前页，见 lib/lazyPage.tsx。
+const Home = lazyPage(() => import('./pages/Home'), 'src/pages/Home.tsx');
+const About = lazyPage(() => import('./pages/About'), 'src/pages/About.tsx');
+const Contact = lazyPage(() => import('./pages/Contact'), 'src/pages/Contact.tsx');
+const PrivacyPolicy = lazyPage(() => import('./pages/PrivacyPolicy'), 'src/pages/PrivacyPolicy.tsx');
+const Terms = lazyPage(() => import('./pages/Terms'), 'src/pages/Terms.tsx');
+const ContentDetail = lazyPage(() => import('./pages/ContentDetail'), 'src/pages/ContentDetail.tsx');
+const Changelog = lazyPage(() => import('./pages/Changelog'), 'src/pages/Changelog.tsx');
+const TagPage = lazyPage(() => import('./pages/TagPage'), 'src/pages/TagPage.tsx');
+const Listing = lazyPage(() => import('./pages/Listing'), 'src/pages/Listing.tsx');
+const Wiki = lazyPage(() => import('./pages/Wiki'), 'src/pages/Wiki.tsx');
+const MyLearning = lazyPage(() => import('./pages/MyLearning'), 'src/pages/MyLearning.tsx');
+const GameEmbed = lazyPage(() => import('./pages/GameEmbed'), 'src/pages/GameEmbed.tsx');
+const ResourceDetail = lazyPage(() => import('./pages/ResourceDetail'), 'src/pages/ResourceDetail.tsx');
+const Games = lazyPage(() => import('./pages/Games'), 'src/pages/Games.tsx');
+const Maps = lazyPage(() => import('./pages/Maps'), 'src/pages/Maps.tsx');
+const MapEmbed = lazyPage(() => import('./pages/MapEmbed'), 'src/pages/MapEmbed.tsx');
+
+
 
 interface RouteConfig {
   name: string;
@@ -202,5 +209,24 @@ const routes: RouteConfig[] = [
     element: <TagPage />
   }
 ];
+
+/**
+ * 预载某个 URL 对应的页面模块（render / hydrate 之前调用）。
+ * 返回命中页面的源文件路径（无懒加载页面命中时为 undefined）。
+ * 英文站整体挂在 /en 下（见 App.tsx 的 basename），匹配前先剥掉前缀。
+ */
+export async function preloadPage(pathname: string): Promise<string | undefined> {
+  const bare = pathname === '/en' ? '/' : pathname.startsWith('/en/') ? pathname.slice(3) : pathname;
+  const matched = matchRoutes(routes.map((r) => ({ path: r.path })), bare);
+  const hit = matched?.[matched.length - 1]?.route;
+  if (!hit) return;
+  const route = routes.find((r) => r.path === hit.path);
+  const type = (route?.element as ReactElement | undefined)?.type as
+    | { preload?: () => Promise<void>; src?: string }
+    | undefined;
+  await type?.preload?.();
+  // 返回页面源文件路径，供预渲染写 modulepreload
+  return type?.src;
+}
 
 export default routes;

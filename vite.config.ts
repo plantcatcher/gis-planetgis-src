@@ -103,7 +103,11 @@ export default defineConfig({
     },
   },
   build: {
-    emptyOutDir: false,
+    // 需要 true：dist 完全由本次构建重新产出。false 会让前几轮构建遗留的同名旧 chunk 一直堆在
+    // /assets 里（本地实测 5 轮后 66MB），还会干扰 check-seo 等按目录扫描的脚本重复报旧文件的警。
+    // 之所以先前设为 false 应是担心「public/ 整目录被删」——实测 Vite 只在 build 完成前清空
+    // outDir，public/ 拷贝发生在其后，不会受影响。
+    emptyOutDir: true,
     // 产出 dist/.vite/manifest.json：记录「源码文件 -> 产物 chunk 文件名」。
     // prerender 靠它查出每个详情页对应的正文 chunk，往 HTML 里写
     // <link rel="modulepreload">，让正文 chunk 与 main bundle 并行下载

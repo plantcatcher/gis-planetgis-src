@@ -193,6 +193,8 @@ const WorkGrid = () => {
                 <div className="aspect-video overflow-hidden relative">
                   <img
                     src={w.cover}
+                    loading="lazy"
+                    decoding="async"
                     alt={`${w.title} - ${t('brand.name')}`}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
