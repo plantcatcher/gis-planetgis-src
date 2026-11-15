@@ -30,6 +30,46 @@
       ]
     },
     {
+      "slug": "cn-adcode",
+      "entry": "/maps/cn-adcode/index.html",
+      "bbox": [
+        73.0,
+        17.0,
+        136.0,
+        54.5
+      ],
+      "crs": "CGCS2000 ≈ WGS84（DataV.GeoAtlas 行政边界，Douglas-Peucker 0.0004° 简化、坐标 4 位）；底图高德瓦片为 GCJ-02，两者约 500 m 系统偏移，与站内其它中国专题图口径一致",
+      "basemap": "高德瓦片：卫星影像 style=6（默认，压暗）/ 矢量路网 style=7 / 深色无底图；可选 2° 经纬网格与单元名 HTML 标注叠层",
+      "source": "行政区划代码取民政部现行县以上代码（GB/T 2260，2025 年版 + 2026 年新设岑岭县、草湖市），整理自开源数据集 yescallop/areacodes（CC0），与 /learn/china-admin-division-codes 同一份数据。边界取 DataV.GeoAtlas areas_v3：省级用 {adcode}.json，地级与县级用 {adcode}_full.json；地级层共 449 个单元（335 个地级层级条目 + 114 个直辖市的区/县和省直辖县级单位；台湾仅省级、港澳台无民政部下级代码）。县级边界按地级单元分文件懒加载（counties/<adcode>.json，共 443 个文件），构建脚本 scripts/maps/build_cn_adcode.py，缓存 /tmp/geodata/datav。",
+      "updated": "2026-11-15",
+      "data": [
+        {
+          "file": "maps/cn-adcode/data/prefectures.geojson",
+          "features": 449,
+          "unit": "个地级/直管单元",
+          "desc": "全国地级单元边界：335 个地级层级条目（含港澳整体边界）+ 114 个直辖市的区/县和省直辖县级单位；属性含 adcode、名称、level、所属省、下辖县级数、标注中心点"
+        },
+        {
+          "file": "maps/cn-adcode/data/provinces.geojson",
+          "features": 34,
+          "unit": "个省级行政区",
+          "desc": "34 个省级边界（含台湾省与九段线要素），用于总览着色与省级点选"
+        },
+        {
+          "file": "maps/cn-adcode/data/index.json",
+          "features": 3214,
+          "unit": "条代码索引",
+          "desc": "省/地/县三级全量代码搜索索引，紧凑数组 [code, name, level, parent]，与民政部现行表一致"
+        },
+        {
+          "file": "maps/cn-adcode/data/counties/*.json",
+          "features": 2840,
+          "unit": "个县级边界",
+          "desc": "县级边界按地级单元分 443 个文件，点击下钻时按需加载；省直辖县级单位的文件为其自身边界"
+        }
+      ]
+    },
+    {
       "slug": "gba-cities",
       "entry": "/maps/gba-cities/index.html",
       "bbox": [
