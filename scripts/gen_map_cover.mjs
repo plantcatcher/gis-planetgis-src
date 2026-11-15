@@ -8,7 +8,15 @@ import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
-const CHROME = process.env.CHROME || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+/* CHROME 可覆盖；默认按平台取（Windows 开发机 / macOS）。 */
+const CHROME = process.env.CHROME || (process.platform === 'darwin'
+  ? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+  : 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe');
+/* 软件 WebGL 的启动参数。某些机器（macOS 新版 headless）带这几个开关会直接崩进程，
+   传 NO_GPU_FLAGS=1 走 Chrome 默认的软件渲染。 */
+const GPU_FLAGS = process.env.NO_GPU_FLAGS ? [] : [
+  '--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--in-process-gpu',
+];
 const BASE = process.env.BASE || 'http://127.0.0.1:8899';
 const PORT = Number(process.env.PORT || 9700);
 const W = Number(process.env.W || 1200);
@@ -39,7 +47,7 @@ try { fs.rmSync(PROF, { recursive: true, force: true }); } catch (_) {}
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 const child = spawn(CHROME, [
   '--headless=new', '--disable-gpu-sandbox', '--no-first-run', '--no-default-browser-check',
-  '--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--in-process-gpu',
+  ...GPU_FLAGS,
   '--hide-scrollbars', '--no-proxy-server',
   '--user-data-dir=' + path.resolve(PROF), '--remote-debugging-port=' + PORT, 'about:blank'
 ], { stdio: 'ignore' });
