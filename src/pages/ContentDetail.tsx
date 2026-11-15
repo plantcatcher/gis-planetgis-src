@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
@@ -20,6 +20,7 @@ import { ArrowLeft, ArrowRight, ExternalLink, BookOpen, Layers, Wrench, Gamepad2
 import { PageViewCount } from '@/lib/busuanzi';
 import FactBox from '@/components/knowledge/FactBox';
 import SeeAlso from '@/components/knowledge/SeeAlso';
+import TableSearch from '@/components/knowledge/TableSearch';
 import { buildInfobox, getSeeAlso, getReadingTime, getWordCount, getRelatedInBoard } from '@/lib/knowledge';
 
 interface Props {
@@ -211,8 +212,9 @@ const SeriesFooterBlock: React.FC<{
   );
 };
 
-// 文章 / 学习页的结构化数据：BlogPosting（文章）或 Course（学习），
-// 携带 headline / author / datePublished / image / keywords，并嵌入"地理"关键词，
+// 文章 / 学习页的结构化数据：BlogPosting（文章）或 Article（学习）。
+// 学习页不用 Course——Course 必须带 provider / offers 等字段，缺了会被判无效结构化数据。
+// 携带 headline / author / datePublished / dateModified / image / keywords，并嵌入"地理"关键词，
 // 帮助百度 / Google 理解页面主题，争取富媒体展示。独立组件以遵守 hooks 调用规则。
 const ArticleJsonLd: React.FC<{ item: ContentItem; type: ContentType }> = ({ item, type }) => {
   const { t, lang } = useI18n();
@@ -220,11 +222,11 @@ const ArticleJsonLd: React.FC<{ item: ContentItem; type: ContentType }> = ({ ite
   const canonical = localizeCanonical(`https://planetgis.cn/${basePath[type]}/${item.slug}`, lang);
   const schema = {
     '@context': 'https://schema.org',
-    '@type': type === 'learn' ? 'Course' : 'BlogPosting',
+    '@type': type === 'learn' ? 'Article' : 'BlogPosting',
     headline: item.title,
     ...(item.summary ? { description: item.summary } : {}),
     ...(item.cover ? { image: [item.cover] } : {}),
-    ...(item.date ? { datePublished: item.date, dateModified: item.date } : {}),
+    ...(item.date ? { datePublished: item.date, dateModified: item.updated || item.date } : {}),
     author: { '@type': 'Organization', name: brand },
     publisher: {
       '@type': 'Organization',
@@ -232,7 +234,9 @@ const ArticleJsonLd: React.FC<{ item: ContentItem; type: ContentType }> = ({ ite
       logo: { '@type': 'ImageObject', url: LOGO },
     },
     mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
-    keywords: [item.category, lang === 'zh' ? '地理' : 'geography', lang === 'zh' ? '地理科普' : 'geography science'].filter(Boolean).join(', '),
+    keywords: Array.from(
+      new Set([...(item.tags || []), item.category, lang === 'zh' ? '地理' : 'geography'].filter(Boolean)),
+    ).join(', '),
     inLanguage: HTML_LANG[lang] || HTML_LANG.zh,
   };
   useJsonLd(schema);
@@ -343,6 +347,8 @@ export default function ContentDetail({ type }: Props) {
   const item = slug ? getItem(type, slug) : undefined;
   // 正文懒加载：首屏（hydration）前已由 main.tsx 预载，站内跳转时异步补载。
   const { body, loading } = useContentBody(type, slug);
+  // .md-body 容器：tableSearch 页的行级筛选作用域（见 components/knowledge/TableSearch）
+  const bodyRef = useRef<HTMLDivElement>(null);
 
   if (!item) return <NotFound />;
 
@@ -395,6 +401,14 @@ export default function ContentDetail({ type }: Props) {
         description={item.summary || item.title}
         canonical={`https://planetgis.cn/${basePath[type]}/${item.slug}`}
         image={item.cover}
+        type={type === 'article' || type === 'learn' ? 'article' : 'website'}
+        keywords={
+          type === 'article' || type === 'learn'
+            ? Array.from(new Set([...(item.tags || []), item.category].filter(Boolean) as string[])).slice(0, 10)
+            : undefined
+        }
+        publishedTime={type === 'article' || type === 'learn' ? item.date : undefined}
+        modifiedTime={type === 'article' || type === 'learn' ? (item.updated || item.date) : undefined}
       />
 
       {type === 'article' || type === 'learn' ? (
@@ -418,6 +432,9 @@ export default function ContentDetail({ type }: Props) {
         <div className="byline flex flex-wrap items-center gap-x-3 gap-y-1">
           <span>{t('brand.name')}</span>
           {item.date && (<><span className="opacity-40">·</span><span>{item.date}</span></>)}
+          {item.updated && item.updated !== item.date && (
+            <><span className="opacity-40">·</span><span>{t('detail.updatedAt', { d: item.updated })}</span></>
+          )}
           {(type === 'article' || type === 'learn') && (
             <><span className="opacity-40">·</span><span>{t('detail.minRead', { n: readingTime })}</span><span className="opacity-40">·</span><span>{t('card.chars', { n: wordCount })}</span></>
           )}
@@ -456,6 +473,8 @@ export default function ContentDetail({ type }: Props) {
         <p className="standfirst">{item.summary}</p>
       )}
 
+      {item.tableSearch && <TableSearch bodyRef={bodyRef} body={body} />}
+      <div ref={bodyRef}>
       {loading ? (
         // 站内跳转、目标正文尚未载入时的骨架。首屏（SSR/hydration）阶段 loading 恒为 false，
         // 故不会与预渲染 HTML 产生差异；仅在客户端跳转的空窗期出现。
@@ -488,6 +507,7 @@ export default function ContentDetail({ type }: Props) {
           dangerouslySetInnerHTML={{ __html: renderMarkdown(body) }}
         />
       )}
+      </div>
       <ImageLightbox state={lightbox} onClose={closeLightbox} onNav={navLightbox} />
 
       {item.tags && item.tags.length > 0 && (

@@ -97,3 +97,16 @@ cover: https://blogphoto.planetgis.cn/PicGo/2026-09-25-river_cover.jpg
 ---
 
 > 读到这里，不妨真的去点一下：**[我国主要河流分布图（互动地图）](https://planetgis.cn/maps/cn-rivers)** 。把全国 1681 条河流与运河点亮，开卫星影像底图，鼠标随便扫过一条河——名称、级别、干流归属、河长立刻浮现。看懂水系，就看懂了中国地形与降水的一半。
+
+## 地理编码速查系列
+
+- [行政区划代码全表](/learn/china-admin-division-codes)
+- [身份证前六位地区码对照](/learn/id-card-region-codes)
+- [34 个省级行政区一览](/learn/china-provinces-overview)
+- [全国车牌代码对照表](/learn/china-license-plate-codes)
+- [全国电话区号表](/learn/china-telephone-area-codes)
+- [全国机场三字码 / 四字码](/learn/china-airport-codes)
+- [世界国家和地区代码（ISO 3166）](/learn/iso-3166-country-codes)
+- [中国常用坐标系 EPSG 代码](/learn/china-epsg-codes)
+- [高斯-克吕格分带带号对照](/learn/gauss-kruger-zone-table)
+- [用地用海分类代码表](/learn/land-sea-use-classification-codes)

@@ -157,7 +157,7 @@ function buildHtml(template, { html, head, lang }, { noindex = false, preload = 
 
   // 移除模板默认 SEO 标签，避免与页面级 head（PageMeta 注入）重复。
   out = out.replace(/<title>[\s\S]*?<\/title>/gi, '');
-  out = out.replace(/<meta\s+name="(title|description)"[^>]*>/gi, '');
+  out = out.replace(/<meta\s+name="(title|description|keywords)"[^>]*>/gi, '');
   out = out.replace(/<meta\s+property="og:[^"]*"[^>]*>/gi, '');
   out = out.replace(/<meta\s+name="twitter:[^"]*"[^>]*>/gi, '');
   out = out.replace(/<link\s+rel="canonical"[^>]*>/gi, '');

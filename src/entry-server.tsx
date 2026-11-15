@@ -71,6 +71,17 @@ export function render(url: string): { html: string; head: string; lang: string 
     h.description
       ? `<meta name="description" content="${escapeAttr(h.description)}" />`
       : '',
+    // 每页恰好一个 keywords meta：页面级词表优先，缺省回退站点默认（见 seo.tsx SITE_KEYWORDS）。
+    // 模板 index.html 里的静态 keywords meta 由 prerender.mjs 统一剥掉，避免重复。
+    h.keywords && h.keywords.length
+      ? `<meta name="keywords" content="${escapeAttr(h.keywords.join(', '))}" />`
+      : '',
+    h.publishedTime
+      ? `<meta property="article:published_time" content="${escapeAttr(h.publishedTime)}" />`
+      : '',
+    h.modifiedTime
+      ? `<meta property="article:modified_time" content="${escapeAttr(h.modifiedTime)}" />`
+      : '',
     h.canonical
       ? `<link rel="canonical" href="${escapeAttr(h.canonical)}" />`
       : '',

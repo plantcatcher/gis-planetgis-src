@@ -47,6 +47,8 @@ export interface ContentItem {
   link?: string;
   order: number;
   date?: string;
+  /** 内容更新日期（YYYY-MM-DD）：有值且与 date 不同时，详情页 byline 展示「更新于」，sitemap lastmod 与 dateModified 优先取它 */
+  updated?: string;
   /** 学习/作品等内容的「专题栏目」（如海平面模拟 / 历史地理 / 区域地理）。 */
   category?: string;
   /** 学科方向（仅 learn 使用）：自然地理 / 人文地理 / 区域地理 / 地理信息技术。 */
@@ -127,6 +129,8 @@ export interface ContentItem {
   region?: string;
   /** 资料下载专用：地理数据的格式类型（SHP / GeoTIFF / 影像 / 其他），由 format 归一化而来 */
   dataFormat?: string;
+  /** 参考/速查页开关：为 true 时详情页在正文上方渲染表格搜索框（筛选 .md-body 内所有 tbody tr） */
+  tableSearch?: boolean;
   /** 页面热度：近 30 天 GA4 浏览量（构建期从 heat.json 注入，缺省 0） */
   heat?: number;
   /**
@@ -259,6 +263,7 @@ for (const row of CONTENT_INDEX) {
     link: data.link,
     order: data.order ? Number(data.order) : 999,
     date: data.date,
+    updated: data.updated,
     category: data.category,
     subject: data.subject,
     topics: data.topics ? data.topics.split(',').map((s) => s.trim()).filter(Boolean) : [],
@@ -279,6 +284,7 @@ for (const row of CONTENT_INDEX) {
     group: data.group,
     region: data.region,
     dataFormat: data.dataFormat,
+    tableSearch: data.tableSearch === 'true' || data.tableSearch === '1',
     heat: HEAT[slug] || 0,
   });
 }
@@ -608,7 +614,7 @@ export const getDetailLastmodMap = (): Record<string, string> => {
     // /articles/<slug>，于是 /maps/*、/games/* 在 sitemap 里取不到真实日期、
     // 退化成构建当天——正是本函数要消除的「全站每天都在更新」失真信号。
     const base = BASE_PATH[it.type];
-    const d = (it.date || '').slice(0, 10);
+    const d = (it.updated || it.date || '').slice(0, 10);
     if (/^\d{4}-\d{2}-\d{2}$/.test(d)) map[`/${base}/${it.slug}`] = d;
   }
   return map;

@@ -19,7 +19,15 @@ export interface HeadData {
   canonical?: string;
   image?: string;
   type?: string;
+  keywords?: string[];
+  publishedTime?: string;
+  modifiedTime?: string;
 }
+
+/** 站点默认 keywords（与 index.html 模板里的静态 meta 保持一致）：
+ *  页面未提供 keywords 时回退到它，避免站内跳转后残留上一页的关键词。 */
+export const SITE_KEYWORDS =
+  '地理科普, GIS, 海平面模拟, 地形分析, 城市路网, 星空观测, 气候变化, 可视化, 地理工具, PlanetGIS, 星球小捕手';
 
 /** 品牌名按语言取：中文「星球小捕手」/ 英文「Planet Catcher」 */
 const BRAND: Record<string, string> = {
@@ -118,9 +126,16 @@ interface PageMetaProps {
   canonical?: string;
   /** Open Graph 图片 */
   image?: string;
+  /** og:type：文章/学习页传 'article'，其余缺省 'website' */
+  type?: 'website' | 'article';
+  /** 页面级 keywords；缺省回退站点默认词表 */
+  keywords?: string[];
+  /** article 类型的发布 / 更新时间（ISO 日期），输出 article:published_time / article:modified_time */
+  publishedTime?: string;
+  modifiedTime?: string;
 }
 
-export function PageMeta({ title, description, canonical, image }: PageMetaProps) {
+export function PageMeta({ title, description, canonical, image, type = 'website', keywords, publishedTime, modifiedTime }: PageMetaProps) {
   // 缺省 canonical 由当前路由生成，保证「自引用」。
   // 旧实现是用页面标题拼 URL（`${SITE}/${title.split(' ')[0]}`），会产出
   // https://planetgis.cn/星球小捕手 这类根本不存在的地址，被搜索引擎判定为
@@ -160,7 +175,17 @@ export function PageMeta({ title, description, canonical, image }: PageMetaProps
     setMeta('og:description', description, 'property');
     setMeta('og:url', canonicalUrl, 'property');
     setMeta('og:image', ogImage, 'property');
-    setMeta('og:type', 'website', 'property');
+    setMeta('og:type', type, 'property');
+    // keywords 未提供时回退站点默认词表，避免站内跳转后残留上一页的关键词
+    setMeta('keywords', keywords && keywords.length ? keywords.join(', ') : SITE_KEYWORDS);
+    if (type === 'article') {
+      if (publishedTime) setMeta('article:published_time', publishedTime, 'property');
+      if (modifiedTime) setMeta('article:modified_time', modifiedTime, 'property');
+    } else {
+      // 从文章页跳回普通页时清掉残留的 article:* meta
+      removeMeta('article:published_time', 'property');
+      removeMeta('article:modified_time', 'property');
+    }
     setMeta('og:site_name', brand, 'property');
     setMeta('og:locale', OG_LOCALE[lang] || OG_LOCALE.zh, 'property');
     setMeta('twitter:card', 'summary_large_image');
@@ -178,7 +203,8 @@ export function PageMeta({ title, description, canonical, image }: PageMetaProps
       inLanguage: HTML_LANG[lang] || HTML_LANG.zh,
       isPartOf: { '@type': 'WebSite', name: brand, url: SITE },
     });
-  }, [title, description, canonicalUrl, ogImage, lang, brand]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [title, description, canonicalUrl, ogImage, lang, brand, type, keywords?.join(','), publishedTime, modifiedTime]);
 
   // 服务端：收集到模块级单例
   if (typeof window === 'undefined') {
@@ -187,7 +213,10 @@ export function PageMeta({ title, description, canonical, image }: PageMetaProps
       description,
       canonical: canonicalUrl,
       image: ogImage,
-      type: 'website',
+      type,
+      keywords: keywords && keywords.length ? keywords : SITE_KEYWORDS.split(', '),
+      publishedTime: type === 'article' ? publishedTime : undefined,
+      modifiedTime: type === 'article' ? modifiedTime : undefined,
     };
     ssrAlternates = alternates;
     ssrJsonLd.push({
@@ -232,6 +261,11 @@ function setMeta(key: string, content: string, attr: 'name' | 'property' = 'name
     document.head.appendChild(el);
   }
   el.setAttribute('content', content);
+}
+
+function removeMeta(key: string, attr: 'name' | 'property' = 'name') {
+  if (typeof document === 'undefined') return;
+  document.head.querySelector(`meta[${attr}="${key}"]`)?.remove();
 }
 
 function setCanonical(href: string) {

@@ -1,112 +1,168 @@
 ---
 slug: china-admin-division-codes
-title: 中华人民共和国行政区划代码（六位码）全表
-summary: 全国行政区划六位代码依据 GB/T 2260 编制，前两位为省级、中间两位为地级、后两位为县级，覆盖 34 个省级行政区及下属地市与区县。本文提供可检索的完整代码表，并说明编码规则、变更历史与在 GIS 制图、地址标准化、数据匹配中的实际用途。
+title: 行政区划代码查询（2025–2026 最新）：全国省市县六位代码全表
+summary: 全国县以上行政区划 6 位代码全表（3214 条，截至 2026 年），依据 GB/T 2260 与民政部最新公布数据整理，可按代码或名称即时检索。讲清前两位省、中间两位地级、后两位县级的编码规则，附各省地级、县级数量统计、2016 年以来的代码变更对照，以及在 GIS 数据挂接中的用法。
 date: 2026-09-20
+updated: 2026-11-15
 category: 地理基础
 subject: 人文地理
-tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
+tags: 行政区划代码, GB/T 2260, 身份证前六位, 地理编码, GIS数据, 城市代码, 民政部
+tableSearch: true
 ---
 
+> 数据更新：**2026-11-15**。现行代码以民政部 / 国家地名信息库公布的 **2025 年县以上行政区划代码**（截至 2025 年 12 月 31 日）为底，并补入 2026 年已公布新设的岑岭县、草湖市。页面顶部的搜索框支持按代码或名称即时筛选，例如输入 `440300` 或 `深圳`。
 
 ## 一、这是什么
 
-「行政区划代码」是我国对每个省级、地市级、区县级行政区编制的**唯一数字代号**，国家标准为 **GB/T 2260**。
-它在 GIS 制图、地址标准化、统计报表、邮政与身份证前六位里无处不在——身份证前六位就是户籍所在地的行政区划代码。
+「行政区划代码」是国家给每个省级、地级、县级行政区编制的**唯一 6 位数字代号**，编码规则来自国家标准 **GB/T 2260《中华人民共和国行政区划代码》**，具体代码由民政部每年更新发布。
 
-## 二、六位码怎么读
+它的用处很多：
+- **身份证号前 6 位**就是首次办证时户籍所在县级行政区的代码，详见[身份证前六位地区码对照（含历年旧码）](/learn/id-card-region-codes)；
+- 统计年鉴、人口普查、政务系统都用它当地区主键；
+- GIS 里把 Excel 统计表和行政区划矢量数据挂接，最稳妥的字段就是它，比用地名匹配可靠得多。地名会重名（全国有好几个「朝阳区」「鼓楼区」），代码不会。
 
-每一行代码固定 **6 位数字**，按层级拆成三段：
+## 二、6 位代码怎么读
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>段</th><th>位数</th><th>含义</th><th>示例（北京市）</th></tr>
+    <tr><th>位置</th><th>含义</th><th>取值规律</th><th>示例</th></tr>
   </thead>
   <tbody>
-    <tr><td>第 1–2 位</td><td>省</td><td>省级行政区（省 / 直辖市 / 自治区 / 特别行政区）</td><td><code>11</code> 北京市</td></tr>
-    <tr><td>第 3–4 位</td><td>市</td><td>地级市 / 地区 / 自治州 / 盟（直辖市此段为 <code>01</code> 起）</td><td><code>1101</code> 市辖区</td></tr>
-    <tr><td>第 5–6 位</td><td>区</td><td>市辖区 / 县 / 县级市</td><td><code>110101</code> 东城区</td></tr>
+    <tr><td>第 1–2 位</td><td>省级行政区</td><td>按大区分段：1 华北、2 东北、3 华东、4 中南、5 西南、6 西北；71 台湾，81 香港，82 澳门</td><td><code>44</code> 广东省</td></tr>
+    <tr><td>第 3–4 位</td><td>地级行政区</td><td>01–20、51–70 一般为地级市；21–50 为地区、自治州、盟；90 为省（自治区）直辖县级行政区划</td><td><code>4403</code> 深圳市</td></tr>
+    <tr><td>第 5–6 位</td><td>县级行政区</td><td>01–20 一般为市辖区；21–80 为县、自治县、旗等；81–99 为县级市</td><td><code>440304</code> 福田区</td></tr>
   </tbody>
 </table>
 </div>
 
-规则：省级代码以 `0000` 结尾，地市级以 `00` 结尾，区县级为完整 6 位。
-例如 `440300` 深圳市 = `44` 广东 + `03` 深圳 + `00`（地级市本身）；其下 `440304` 福田区 = `44`+`03`+`04`。
+读法口诀：**以 `0000` 结尾是省，以 `00` 结尾是地级，其余是县级**。例如 `440300` 深圳市 = `44` 广东 + `03` 深圳 + `00`；`440304` 福田区 = `44` + `03` + `04`。
 
-## 三、全表（按省级行政区排列）
+几个容易踩的坑：
+- **直辖市没有地级这一层**。北京、天津、上海、重庆的区县直接挂在省级下面，代码第 3–4 位是 `01`（市辖区）或 `02`（县，现仅重庆还有）。
+- **省直辖县级行政区划用 `90`**。如湖北的仙桃 `429004`、河南的济源 `419001`、新疆兵团各市 `6590xx`，它们不属于任何地级市。
+- **取值规律有例外**。重庆的区已经排到 `500157`（两江新区），超出了 01–20 的范围；判断类型请以名称和民政部公布为准，不要只看数字。
+- **民政部代码表不列「市辖区」占位码**（如 `110100`），本表也不收；部分旧数据或统计用代码里会出现。
 
-下表整理自本地数据集 `城市代码.xls`，共 **3628** 条记录，覆盖 34 个省级行政区。
-表格列为：**代码 / 省 / 市（地区·自治州） / 区·县**。
+## 三、全国县以上行政区划统计
 
-> 说明：直辖市（北京、天津、上海、重庆）的「市 / 地区」列直接填入市辖区名称，「区 / 县」列为空，这是源数据的编排方式。
-
-## 北京市（110000）
+截至本次更新，全国共 **34 个省级、333 个地级、2847 个县级**行政区划单位（本表共收 3214 个代码）：
+- 地级：293 个地级市、7 个地区、30 个自治州、3 个盟；
+- 县级：976 个市辖区、398 个县级市、1302 个县、117 个自治县、49 个旗、3 个自治旗、1 个特区、1 个林区。
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级行政区</th><th>地级数</th><th>县级数</th><th>县级构成</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>110000</code></td><td>北京市</td><td>—</td><td>16</td><td>市辖区16</td></tr>
+    <tr><td><code>120000</code></td><td>天津市</td><td>—</td><td>16</td><td>市辖区16</td></tr>
+    <tr><td><code>130000</code></td><td>河北省</td><td>11</td><td>167</td><td>市辖区49、县级市21、县91、自治县6</td></tr>
+    <tr><td><code>140000</code></td><td>山西省</td><td>11</td><td>117</td><td>市辖区26、县级市11、县80</td></tr>
+    <tr><td><code>150000</code></td><td>内蒙古自治区</td><td>12</td><td>103</td><td>市辖区23、县级市11、县17、旗49、自治旗3</td></tr>
+    <tr><td><code>210000</code></td><td>辽宁省</td><td>14</td><td>100</td><td>市辖区59、县级市16、县17、自治县8</td></tr>
+    <tr><td><code>220000</code></td><td>吉林省</td><td>9</td><td>60</td><td>市辖区21、县级市20、县16、自治县3</td></tr>
+    <tr><td><code>230000</code></td><td>黑龙江省</td><td>13</td><td>121</td><td>市辖区54、县级市21、县45、自治县1</td></tr>
+    <tr><td><code>310000</code></td><td>上海市</td><td>—</td><td>16</td><td>市辖区16</td></tr>
+    <tr><td><code>320000</code></td><td>江苏省</td><td>13</td><td>95</td><td>市辖区55、县级市21、县19</td></tr>
+    <tr><td><code>330000</code></td><td>浙江省</td><td>11</td><td>90</td><td>市辖区37、县级市20、县32、自治县1</td></tr>
+    <tr><td><code>340000</code></td><td>安徽省</td><td>16</td><td>104</td><td>市辖区45、县级市9、县50</td></tr>
+    <tr><td><code>350000</code></td><td>福建省</td><td>9</td><td>84</td><td>市辖区31、县级市11、县42</td></tr>
+    <tr><td><code>360000</code></td><td>江西省</td><td>11</td><td>100</td><td>市辖区27、县级市12、县61</td></tr>
+    <tr><td><code>370000</code></td><td>山东省</td><td>16</td><td>136</td><td>市辖区58、县级市26、县52</td></tr>
+    <tr><td><code>410000</code></td><td>河南省</td><td>17</td><td>157</td><td>市辖区54、县级市21、县82</td></tr>
+    <tr><td><code>420000</code></td><td>湖北省</td><td>13</td><td>103</td><td>市辖区39、县级市26、县35、自治县2、林区1</td></tr>
+    <tr><td><code>430000</code></td><td>湖南省</td><td>14</td><td>122</td><td>市辖区36、县级市19、县60、自治县7</td></tr>
+    <tr><td><code>440000</code></td><td>广东省</td><td>21</td><td>122</td><td>市辖区65、县级市20、县34、自治县3</td></tr>
+    <tr><td><code>450000</code></td><td>广西壮族自治区</td><td>14</td><td>111</td><td>市辖区41、县级市10、县48、自治县12</td></tr>
+    <tr><td><code>460000</code></td><td>海南省</td><td>4</td><td>25</td><td>市辖区10、县级市5、县4、自治县6</td></tr>
+    <tr><td><code>500000</code></td><td>重庆市</td><td>—</td><td>37</td><td>市辖区25、县8、自治县4</td></tr>
+    <tr><td><code>510000</code></td><td>四川省</td><td>21</td><td>183</td><td>市辖区55、县级市19、县105、自治县4</td></tr>
+    <tr><td><code>520000</code></td><td>贵州省</td><td>9</td><td>88</td><td>市辖区16、县级市10、县50、自治县11、特区1</td></tr>
+    <tr><td><code>530000</code></td><td>云南省</td><td>16</td><td>129</td><td>市辖区17、县级市18、县65、自治县29</td></tr>
+    <tr><td><code>540000</code></td><td>西藏自治区</td><td>7</td><td>74</td><td>市辖区8、县级市2、县64</td></tr>
+    <tr><td><code>610000</code></td><td>陕西省</td><td>10</td><td>107</td><td>市辖区31、县级市7、县69</td></tr>
+    <tr><td><code>620000</code></td><td>甘肃省</td><td>14</td><td>86</td><td>市辖区17、县级市5、县57、自治县7</td></tr>
+    <tr><td><code>630000</code></td><td>青海省</td><td>8</td><td>44</td><td>市辖区7、县级市5、县25、自治县7</td></tr>
+    <tr><td><code>640000</code></td><td>宁夏回族自治区</td><td>5</td><td>22</td><td>市辖区9、县级市2、县11</td></tr>
+    <tr><td><code>650000</code></td><td>新疆维吾尔自治区</td><td>14</td><td>112</td><td>市辖区13、县级市30、县63、自治县6</td></tr>
+    <tr><td><code>710000</code></td><td>台湾省</td><td>—</td><td>—</td><td>（民政部代码表仅列省级）</td></tr>
+    <tr><td><code>810000</code></td><td>香港特别行政区</td><td>—</td><td>—</td><td>（民政部代码表仅列省级）</td></tr>
+    <tr><td><code>820000</code></td><td>澳门特别行政区</td><td>—</td><td>—</td><td>（民政部代码表仅列省级）</td></tr>
+    <tr><td></td><td>合计</td><td>333</td><td>2847</td><td></td></tr>
+  </tbody>
+</table>
+</div>
+
+## 四、现行代码全表（按省级行政区排列）
+
+表格列为 **代码 / 省级 / 地级 / 县级**。省级行加粗，地级行稍粗；直辖市的区县「地级」列显示为「（直辖）」。
+
+### 北京市（110000）
+
+<div class="admin-table-wrapper">
+<table>
+  <thead>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>110000</code></td><td>北京市</td><td></td><td></td></tr>
-    <tr><td><code>110101</code></td><td>北京市</td><td>东城区</td><td></td></tr>
-    <tr><td><code>110102</code></td><td>北京市</td><td>西城区</td><td></td></tr>
-    <tr><td><code>110105</code></td><td>北京市</td><td>朝阳区</td><td></td></tr>
-    <tr><td><code>110106</code></td><td>北京市</td><td>丰台区</td><td></td></tr>
-    <tr><td><code>110107</code></td><td>北京市</td><td>石景山区</td><td></td></tr>
-    <tr><td><code>110108</code></td><td>北京市</td><td>海淀区</td><td></td></tr>
-    <tr><td><code>110109</code></td><td>北京市</td><td>门头沟区</td><td></td></tr>
-    <tr><td><code>110111</code></td><td>北京市</td><td>房山区</td><td></td></tr>
-    <tr><td><code>110112</code></td><td>北京市</td><td>通州区</td><td></td></tr>
-    <tr><td><code>110113</code></td><td>北京市</td><td>顺义区</td><td></td></tr>
-    <tr><td><code>110114</code></td><td>北京市</td><td>昌平区</td><td></td></tr>
-    <tr><td><code>110115</code></td><td>北京市</td><td>大兴区</td><td></td></tr>
-    <tr><td><code>110116</code></td><td>北京市</td><td>怀柔区</td><td></td></tr>
-    <tr><td><code>110117</code></td><td>北京市</td><td>平谷区</td><td></td></tr>
-    <tr><td><code>110118</code></td><td>北京市</td><td>密云区</td><td></td></tr>
-    <tr><td><code>110119</code></td><td>北京市</td><td>延庆区</td><td></td></tr>
+    <tr><td><code>110101</code></td><td>北京市</td><td>（直辖）</td><td>东城区</td></tr>
+    <tr><td><code>110102</code></td><td>北京市</td><td>（直辖）</td><td>西城区</td></tr>
+    <tr><td><code>110105</code></td><td>北京市</td><td>（直辖）</td><td>朝阳区</td></tr>
+    <tr><td><code>110106</code></td><td>北京市</td><td>（直辖）</td><td>丰台区</td></tr>
+    <tr><td><code>110107</code></td><td>北京市</td><td>（直辖）</td><td>石景山区</td></tr>
+    <tr><td><code>110108</code></td><td>北京市</td><td>（直辖）</td><td>海淀区</td></tr>
+    <tr><td><code>110109</code></td><td>北京市</td><td>（直辖）</td><td>门头沟区</td></tr>
+    <tr><td><code>110111</code></td><td>北京市</td><td>（直辖）</td><td>房山区</td></tr>
+    <tr><td><code>110112</code></td><td>北京市</td><td>（直辖）</td><td>通州区</td></tr>
+    <tr><td><code>110113</code></td><td>北京市</td><td>（直辖）</td><td>顺义区</td></tr>
+    <tr><td><code>110114</code></td><td>北京市</td><td>（直辖）</td><td>昌平区</td></tr>
+    <tr><td><code>110115</code></td><td>北京市</td><td>（直辖）</td><td>大兴区</td></tr>
+    <tr><td><code>110116</code></td><td>北京市</td><td>（直辖）</td><td>怀柔区</td></tr>
+    <tr><td><code>110117</code></td><td>北京市</td><td>（直辖）</td><td>平谷区</td></tr>
+    <tr><td><code>110118</code></td><td>北京市</td><td>（直辖）</td><td>密云区</td></tr>
+    <tr><td><code>110119</code></td><td>北京市</td><td>（直辖）</td><td>延庆区</td></tr>
   </tbody>
 </table>
 </div>
 
-
-## 天津市（120000）
+### 天津市（120000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>120000</code></td><td>天津市</td><td></td><td></td></tr>
-    <tr><td><code>120101</code></td><td>天津市</td><td>和平区</td><td></td></tr>
-    <tr><td><code>120102</code></td><td>天津市</td><td>河东区</td><td></td></tr>
-    <tr><td><code>120103</code></td><td>天津市</td><td>河西区</td><td></td></tr>
-    <tr><td><code>120104</code></td><td>天津市</td><td>南开区</td><td></td></tr>
-    <tr><td><code>120105</code></td><td>天津市</td><td>河北区</td><td></td></tr>
-    <tr><td><code>120106</code></td><td>天津市</td><td>红桥区</td><td></td></tr>
-    <tr><td><code>120110</code></td><td>天津市</td><td>东丽区</td><td></td></tr>
-    <tr><td><code>120111</code></td><td>天津市</td><td>西青区</td><td></td></tr>
-    <tr><td><code>120112</code></td><td>天津市</td><td>津南区</td><td></td></tr>
-    <tr><td><code>120113</code></td><td>天津市</td><td>北辰区</td><td></td></tr>
-    <tr><td><code>120114</code></td><td>天津市</td><td>武清区</td><td></td></tr>
-    <tr><td><code>120115</code></td><td>天津市</td><td>宝坻区</td><td></td></tr>
-    <tr><td><code>120116</code></td><td>天津市</td><td>滨海新区</td><td></td></tr>
-    <tr><td><code>120117</code></td><td>天津市</td><td>宁河区</td><td></td></tr>
-    <tr><td><code>120118</code></td><td>天津市</td><td>静海区</td><td></td></tr>
-    <tr><td><code>120119</code></td><td>天津市</td><td>蓟州区</td><td></td></tr>
+    <tr><td><code>120101</code></td><td>天津市</td><td>（直辖）</td><td>和平区</td></tr>
+    <tr><td><code>120102</code></td><td>天津市</td><td>（直辖）</td><td>河东区</td></tr>
+    <tr><td><code>120103</code></td><td>天津市</td><td>（直辖）</td><td>河西区</td></tr>
+    <tr><td><code>120104</code></td><td>天津市</td><td>（直辖）</td><td>南开区</td></tr>
+    <tr><td><code>120105</code></td><td>天津市</td><td>（直辖）</td><td>河北区</td></tr>
+    <tr><td><code>120106</code></td><td>天津市</td><td>（直辖）</td><td>红桥区</td></tr>
+    <tr><td><code>120110</code></td><td>天津市</td><td>（直辖）</td><td>东丽区</td></tr>
+    <tr><td><code>120111</code></td><td>天津市</td><td>（直辖）</td><td>西青区</td></tr>
+    <tr><td><code>120112</code></td><td>天津市</td><td>（直辖）</td><td>津南区</td></tr>
+    <tr><td><code>120113</code></td><td>天津市</td><td>（直辖）</td><td>北辰区</td></tr>
+    <tr><td><code>120114</code></td><td>天津市</td><td>（直辖）</td><td>武清区</td></tr>
+    <tr><td><code>120115</code></td><td>天津市</td><td>（直辖）</td><td>宝坻区</td></tr>
+    <tr><td><code>120116</code></td><td>天津市</td><td>（直辖）</td><td>滨海新区</td></tr>
+    <tr><td><code>120117</code></td><td>天津市</td><td>（直辖）</td><td>宁河区</td></tr>
+    <tr><td><code>120118</code></td><td>天津市</td><td>（直辖）</td><td>静海区</td></tr>
+    <tr><td><code>120119</code></td><td>天津市</td><td>（直辖）</td><td>蓟州区</td></tr>
   </tbody>
 </table>
 </div>
 
-
-## 河北省（130000）
+### 河北省（130000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>130000</code></td><td>河北省</td><td></td><td></td></tr>
@@ -130,6 +186,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>130131</code></td><td>河北省</td><td>石家庄市</td><td>平山县</td></tr>
     <tr><td><code>130132</code></td><td>河北省</td><td>石家庄市</td><td>元氏县</td></tr>
     <tr><td><code>130133</code></td><td>河北省</td><td>石家庄市</td><td>赵县</td></tr>
+    <tr><td><code>130181</code></td><td>河北省</td><td>石家庄市</td><td>辛集市</td></tr>
     <tr><td><code>130183</code></td><td>河北省</td><td>石家庄市</td><td>晋州市</td></tr>
     <tr><td><code>130184</code></td><td>河北省</td><td>石家庄市</td><td>新乐市</td></tr>
     <tr class="level-city"><td><code>130200</code></td><td>河北省</td><td>唐山市</td><td></td></tr>
@@ -140,13 +197,13 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>130207</code></td><td>河北省</td><td>唐山市</td><td>丰南区</td></tr>
     <tr><td><code>130208</code></td><td>河北省</td><td>唐山市</td><td>丰润区</td></tr>
     <tr><td><code>130209</code></td><td>河北省</td><td>唐山市</td><td>曹妃甸区</td></tr>
-    <tr><td><code>130223</code></td><td>河北省</td><td>唐山市</td><td>滦县</td></tr>
     <tr><td><code>130224</code></td><td>河北省</td><td>唐山市</td><td>滦南县</td></tr>
     <tr><td><code>130225</code></td><td>河北省</td><td>唐山市</td><td>乐亭县</td></tr>
     <tr><td><code>130227</code></td><td>河北省</td><td>唐山市</td><td>迁西县</td></tr>
     <tr><td><code>130229</code></td><td>河北省</td><td>唐山市</td><td>玉田县</td></tr>
     <tr><td><code>130281</code></td><td>河北省</td><td>唐山市</td><td>遵化市</td></tr>
     <tr><td><code>130283</code></td><td>河北省</td><td>唐山市</td><td>迁安市</td></tr>
+    <tr><td><code>130284</code></td><td>河北省</td><td>唐山市</td><td>滦州市</td></tr>
     <tr class="level-city"><td><code>130300</code></td><td>河北省</td><td>秦皇岛市</td><td></td></tr>
     <tr><td><code>130302</code></td><td>河北省</td><td>秦皇岛市</td><td>海港区</td></tr>
     <tr><td><code>130303</code></td><td>河北省</td><td>秦皇岛市</td><td>山海关区</td></tr>
@@ -175,15 +232,14 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>130435</code></td><td>河北省</td><td>邯郸市</td><td>曲周县</td></tr>
     <tr><td><code>130481</code></td><td>河北省</td><td>邯郸市</td><td>武安市</td></tr>
     <tr class="level-city"><td><code>130500</code></td><td>河北省</td><td>邢台市</td><td></td></tr>
-    <tr><td><code>130502</code></td><td>河北省</td><td>邢台市</td><td>桥东区</td></tr>
-    <tr><td><code>130503</code></td><td>河北省</td><td>邢台市</td><td>桥西区</td></tr>
-    <tr><td><code>130521</code></td><td>河北省</td><td>邢台市</td><td>邢台县</td></tr>
+    <tr><td><code>130502</code></td><td>河北省</td><td>邢台市</td><td>襄都区</td></tr>
+    <tr><td><code>130503</code></td><td>河北省</td><td>邢台市</td><td>信都区</td></tr>
+    <tr><td><code>130505</code></td><td>河北省</td><td>邢台市</td><td>任泽区</td></tr>
+    <tr><td><code>130506</code></td><td>河北省</td><td>邢台市</td><td>南和区</td></tr>
     <tr><td><code>130522</code></td><td>河北省</td><td>邢台市</td><td>临城县</td></tr>
     <tr><td><code>130523</code></td><td>河北省</td><td>邢台市</td><td>内丘县</td></tr>
     <tr><td><code>130524</code></td><td>河北省</td><td>邢台市</td><td>柏乡县</td></tr>
     <tr><td><code>130525</code></td><td>河北省</td><td>邢台市</td><td>隆尧县</td></tr>
-    <tr><td><code>130526</code></td><td>河北省</td><td>邢台市</td><td>任县</td></tr>
-    <tr><td><code>130527</code></td><td>河北省</td><td>邢台市</td><td>南和县</td></tr>
     <tr><td><code>130528</code></td><td>河北省</td><td>邢台市</td><td>宁晋县</td></tr>
     <tr><td><code>130529</code></td><td>河北省</td><td>邢台市</td><td>巨鹿县</td></tr>
     <tr><td><code>130530</code></td><td>河北省</td><td>邢台市</td><td>新河县</td></tr>
@@ -216,6 +272,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>130637</code></td><td>河北省</td><td>保定市</td><td>博野县</td></tr>
     <tr><td><code>130638</code></td><td>河北省</td><td>保定市</td><td>雄县</td></tr>
     <tr><td><code>130681</code></td><td>河北省</td><td>保定市</td><td>涿州市</td></tr>
+    <tr><td><code>130682</code></td><td>河北省</td><td>保定市</td><td>定州市</td></tr>
     <tr><td><code>130683</code></td><td>河北省</td><td>保定市</td><td>安国市</td></tr>
     <tr><td><code>130684</code></td><td>河北省</td><td>保定市</td><td>高碑店市</td></tr>
     <tr class="level-city"><td><code>130700</code></td><td>河北省</td><td>张家口市</td><td></td></tr>
@@ -287,19 +344,16 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>131127</code></td><td>河北省</td><td>衡水市</td><td>景县</td></tr>
     <tr><td><code>131128</code></td><td>河北省</td><td>衡水市</td><td>阜城县</td></tr>
     <tr><td><code>131182</code></td><td>河北省</td><td>衡水市</td><td>深州市</td></tr>
-    <tr><td><code>139001</code></td><td>河北省</td><td>定州市</td><td>定州市</td></tr>
-    <tr><td><code>139002</code></td><td>河北省</td><td>辛集市</td><td>辛集市</td></tr>
   </tbody>
 </table>
 </div>
 
-
-## 山西省（140000）
+### 山西省（140000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>140000</code></td><td>山西省</td><td></td><td></td></tr>
@@ -315,17 +369,16 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>140123</code></td><td>山西省</td><td>太原市</td><td>娄烦县</td></tr>
     <tr><td><code>140181</code></td><td>山西省</td><td>太原市</td><td>古交市</td></tr>
     <tr class="level-city"><td><code>140200</code></td><td>山西省</td><td>大同市</td><td></td></tr>
-    <tr><td><code>140202</code></td><td>山西省</td><td>大同市</td><td>城区</td></tr>
-    <tr><td><code>140203</code></td><td>山西省</td><td>大同市</td><td>矿区</td></tr>
-    <tr><td><code>140211</code></td><td>山西省</td><td>大同市</td><td>南郊区</td></tr>
     <tr><td><code>140212</code></td><td>山西省</td><td>大同市</td><td>新荣区</td></tr>
+    <tr><td><code>140213</code></td><td>山西省</td><td>大同市</td><td>平城区</td></tr>
+    <tr><td><code>140214</code></td><td>山西省</td><td>大同市</td><td>云冈区</td></tr>
+    <tr><td><code>140215</code></td><td>山西省</td><td>大同市</td><td>云州区</td></tr>
     <tr><td><code>140221</code></td><td>山西省</td><td>大同市</td><td>阳高县</td></tr>
     <tr><td><code>140222</code></td><td>山西省</td><td>大同市</td><td>天镇县</td></tr>
     <tr><td><code>140223</code></td><td>山西省</td><td>大同市</td><td>广灵县</td></tr>
     <tr><td><code>140224</code></td><td>山西省</td><td>大同市</td><td>灵丘县</td></tr>
     <tr><td><code>140225</code></td><td>山西省</td><td>大同市</td><td>浑源县</td></tr>
     <tr><td><code>140226</code></td><td>山西省</td><td>大同市</td><td>左云县</td></tr>
-    <tr><td><code>140227</code></td><td>山西省</td><td>大同市</td><td>大同县</td></tr>
     <tr class="level-city"><td><code>140300</code></td><td>山西省</td><td>阳泉市</td><td></td></tr>
     <tr><td><code>140302</code></td><td>山西省</td><td>阳泉市</td><td>城区</td></tr>
     <tr><td><code>140303</code></td><td>山西省</td><td>阳泉市</td><td>矿区</td></tr>
@@ -333,11 +386,11 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>140321</code></td><td>山西省</td><td>阳泉市</td><td>平定县</td></tr>
     <tr><td><code>140322</code></td><td>山西省</td><td>阳泉市</td><td>盂县</td></tr>
     <tr class="level-city"><td><code>140400</code></td><td>山西省</td><td>长治市</td><td></td></tr>
-    <tr><td><code>140402</code></td><td>山西省</td><td>长治市</td><td>城区</td></tr>
-    <tr><td><code>140411</code></td><td>山西省</td><td>长治市</td><td>郊区</td></tr>
-    <tr><td><code>140421</code></td><td>山西省</td><td>长治市</td><td>长治县</td></tr>
+    <tr><td><code>140403</code></td><td>山西省</td><td>长治市</td><td>潞州区</td></tr>
+    <tr><td><code>140404</code></td><td>山西省</td><td>长治市</td><td>上党区</td></tr>
+    <tr><td><code>140405</code></td><td>山西省</td><td>长治市</td><td>屯留区</td></tr>
+    <tr><td><code>140406</code></td><td>山西省</td><td>长治市</td><td>潞城区</td></tr>
     <tr><td><code>140423</code></td><td>山西省</td><td>长治市</td><td>襄垣县</td></tr>
-    <tr><td><code>140424</code></td><td>山西省</td><td>长治市</td><td>屯留县</td></tr>
     <tr><td><code>140425</code></td><td>山西省</td><td>长治市</td><td>平顺县</td></tr>
     <tr><td><code>140426</code></td><td>山西省</td><td>长治市</td><td>黎城县</td></tr>
     <tr><td><code>140427</code></td><td>山西省</td><td>长治市</td><td>壶关县</td></tr>
@@ -345,7 +398,6 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>140429</code></td><td>山西省</td><td>长治市</td><td>武乡县</td></tr>
     <tr><td><code>140430</code></td><td>山西省</td><td>长治市</td><td>沁县</td></tr>
     <tr><td><code>140431</code></td><td>山西省</td><td>长治市</td><td>沁源县</td></tr>
-    <tr><td><code>140481</code></td><td>山西省</td><td>长治市</td><td>潞城市</td></tr>
     <tr class="level-city"><td><code>140500</code></td><td>山西省</td><td>晋城市</td><td></td></tr>
     <tr><td><code>140502</code></td><td>山西省</td><td>晋城市</td><td>城区</td></tr>
     <tr><td><code>140521</code></td><td>山西省</td><td>晋城市</td><td>沁水县</td></tr>
@@ -359,15 +411,15 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>140621</code></td><td>山西省</td><td>朔州市</td><td>山阴县</td></tr>
     <tr><td><code>140622</code></td><td>山西省</td><td>朔州市</td><td>应县</td></tr>
     <tr><td><code>140623</code></td><td>山西省</td><td>朔州市</td><td>右玉县</td></tr>
-    <tr><td><code>140624</code></td><td>山西省</td><td>朔州市</td><td>怀仁县</td></tr>
+    <tr><td><code>140681</code></td><td>山西省</td><td>朔州市</td><td>怀仁市</td></tr>
     <tr class="level-city"><td><code>140700</code></td><td>山西省</td><td>晋中市</td><td></td></tr>
     <tr><td><code>140702</code></td><td>山西省</td><td>晋中市</td><td>榆次区</td></tr>
+    <tr><td><code>140703</code></td><td>山西省</td><td>晋中市</td><td>太谷区</td></tr>
     <tr><td><code>140721</code></td><td>山西省</td><td>晋中市</td><td>榆社县</td></tr>
     <tr><td><code>140722</code></td><td>山西省</td><td>晋中市</td><td>左权县</td></tr>
     <tr><td><code>140723</code></td><td>山西省</td><td>晋中市</td><td>和顺县</td></tr>
     <tr><td><code>140724</code></td><td>山西省</td><td>晋中市</td><td>昔阳县</td></tr>
     <tr><td><code>140725</code></td><td>山西省</td><td>晋中市</td><td>寿阳县</td></tr>
-    <tr><td><code>140726</code></td><td>山西省</td><td>晋中市</td><td>太谷县</td></tr>
     <tr><td><code>140727</code></td><td>山西省</td><td>晋中市</td><td>祁县</td></tr>
     <tr><td><code>140728</code></td><td>山西省</td><td>晋中市</td><td>平遥县</td></tr>
     <tr><td><code>140729</code></td><td>山西省</td><td>晋中市</td><td>灵石县</td></tr>
@@ -437,13 +489,12 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
 </table>
 </div>
 
-
-## 内蒙古自治区（150000）
+### 内蒙古自治区（150000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>150000</code></td><td>内蒙古自治区</td><td></td><td></td></tr>
@@ -566,13 +617,12 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
 </table>
 </div>
 
-
-## 辽宁省（210000）
+### 辽宁省（210000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>210000</code></td><td>辽宁省</td><td></td><td></td></tr>
@@ -694,13 +744,12 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
 </table>
 </div>
 
-
-## 吉林省（220000）
+### 吉林省（220000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>220000</code></td><td>吉林省</td><td></td><td></td></tr>
@@ -715,6 +764,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>220122</code></td><td>吉林省</td><td>长春市</td><td>农安县</td></tr>
     <tr><td><code>220182</code></td><td>吉林省</td><td>长春市</td><td>榆树市</td></tr>
     <tr><td><code>220183</code></td><td>吉林省</td><td>长春市</td><td>德惠市</td></tr>
+    <tr><td><code>220184</code></td><td>吉林省</td><td>长春市</td><td>公主岭市</td></tr>
     <tr class="level-city"><td><code>220200</code></td><td>吉林省</td><td>吉林市</td><td></td></tr>
     <tr><td><code>220202</code></td><td>吉林省</td><td>吉林市</td><td>昌邑区</td></tr>
     <tr><td><code>220203</code></td><td>吉林省</td><td>吉林市</td><td>龙潭区</td></tr>
@@ -730,7 +780,6 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>220303</code></td><td>吉林省</td><td>四平市</td><td>铁东区</td></tr>
     <tr><td><code>220322</code></td><td>吉林省</td><td>四平市</td><td>梨树县</td></tr>
     <tr><td><code>220323</code></td><td>吉林省</td><td>四平市</td><td>伊通满族自治县</td></tr>
-    <tr><td><code>220381</code></td><td>吉林省</td><td>四平市</td><td>公主岭市</td></tr>
     <tr><td><code>220382</code></td><td>吉林省</td><td>四平市</td><td>双辽市</td></tr>
     <tr class="level-city"><td><code>220400</code></td><td>吉林省</td><td>辽源市</td><td></td></tr>
     <tr><td><code>220402</code></td><td>吉林省</td><td>辽源市</td><td>龙山区</td></tr>
@@ -777,13 +826,12 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
 </table>
 </div>
 
-
-## 黑龙江省（230000）
+### 黑龙江省（230000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>230000</code></td><td>黑龙江省</td><td></td><td></td></tr>
@@ -862,22 +910,15 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>230623</code></td><td>黑龙江省</td><td>大庆市</td><td>林甸县</td></tr>
     <tr><td><code>230624</code></td><td>黑龙江省</td><td>大庆市</td><td>杜尔伯特蒙古族自治县</td></tr>
     <tr class="level-city"><td><code>230700</code></td><td>黑龙江省</td><td>伊春市</td><td></td></tr>
-    <tr><td><code>230702</code></td><td>黑龙江省</td><td>伊春市</td><td>伊春区</td></tr>
-    <tr><td><code>230703</code></td><td>黑龙江省</td><td>伊春市</td><td>南岔区</td></tr>
-    <tr><td><code>230704</code></td><td>黑龙江省</td><td>伊春市</td><td>友好区</td></tr>
-    <tr><td><code>230705</code></td><td>黑龙江省</td><td>伊春市</td><td>西林区</td></tr>
-    <tr><td><code>230706</code></td><td>黑龙江省</td><td>伊春市</td><td>翠峦区</td></tr>
-    <tr><td><code>230707</code></td><td>黑龙江省</td><td>伊春市</td><td>新青区</td></tr>
-    <tr><td><code>230708</code></td><td>黑龙江省</td><td>伊春市</td><td>美溪区</td></tr>
-    <tr><td><code>230709</code></td><td>黑龙江省</td><td>伊春市</td><td>金山屯区</td></tr>
-    <tr><td><code>230710</code></td><td>黑龙江省</td><td>伊春市</td><td>五营区</td></tr>
-    <tr><td><code>230711</code></td><td>黑龙江省</td><td>伊春市</td><td>乌马河区</td></tr>
-    <tr><td><code>230712</code></td><td>黑龙江省</td><td>伊春市</td><td>汤旺河区</td></tr>
-    <tr><td><code>230713</code></td><td>黑龙江省</td><td>伊春市</td><td>带岭区</td></tr>
-    <tr><td><code>230714</code></td><td>黑龙江省</td><td>伊春市</td><td>乌伊岭区</td></tr>
-    <tr><td><code>230715</code></td><td>黑龙江省</td><td>伊春市</td><td>红星区</td></tr>
-    <tr><td><code>230716</code></td><td>黑龙江省</td><td>伊春市</td><td>上甘岭区</td></tr>
+    <tr><td><code>230717</code></td><td>黑龙江省</td><td>伊春市</td><td>伊美区</td></tr>
+    <tr><td><code>230718</code></td><td>黑龙江省</td><td>伊春市</td><td>乌翠区</td></tr>
+    <tr><td><code>230719</code></td><td>黑龙江省</td><td>伊春市</td><td>友好区</td></tr>
     <tr><td><code>230722</code></td><td>黑龙江省</td><td>伊春市</td><td>嘉荫县</td></tr>
+    <tr><td><code>230723</code></td><td>黑龙江省</td><td>伊春市</td><td>汤旺县</td></tr>
+    <tr><td><code>230724</code></td><td>黑龙江省</td><td>伊春市</td><td>丰林县</td></tr>
+    <tr><td><code>230725</code></td><td>黑龙江省</td><td>伊春市</td><td>大箐山县</td></tr>
+    <tr><td><code>230726</code></td><td>黑龙江省</td><td>伊春市</td><td>南岔县</td></tr>
+    <tr><td><code>230751</code></td><td>黑龙江省</td><td>伊春市</td><td>金林区</td></tr>
     <tr><td><code>230781</code></td><td>黑龙江省</td><td>伊春市</td><td>铁力市</td></tr>
     <tr class="level-city"><td><code>230800</code></td><td>黑龙江省</td><td>佳木斯市</td><td></td></tr>
     <tr><td><code>230803</code></td><td>黑龙江省</td><td>佳木斯市</td><td>向阳区</td></tr>
@@ -908,11 +949,11 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>231086</code></td><td>黑龙江省</td><td>牡丹江市</td><td>东宁市</td></tr>
     <tr class="level-city"><td><code>231100</code></td><td>黑龙江省</td><td>黑河市</td><td></td></tr>
     <tr><td><code>231102</code></td><td>黑龙江省</td><td>黑河市</td><td>爱辉区</td></tr>
-    <tr><td><code>231121</code></td><td>黑龙江省</td><td>黑河市</td><td>嫩江县</td></tr>
     <tr><td><code>231123</code></td><td>黑龙江省</td><td>黑河市</td><td>逊克县</td></tr>
     <tr><td><code>231124</code></td><td>黑龙江省</td><td>黑河市</td><td>孙吴县</td></tr>
     <tr><td><code>231181</code></td><td>黑龙江省</td><td>黑河市</td><td>北安市</td></tr>
     <tr><td><code>231182</code></td><td>黑龙江省</td><td>黑河市</td><td>五大连池市</td></tr>
+    <tr><td><code>231183</code></td><td>黑龙江省</td><td>黑河市</td><td>嫩江市</td></tr>
     <tr class="level-city"><td><code>231200</code></td><td>黑龙江省</td><td>绥化市</td><td></td></tr>
     <tr><td><code>231202</code></td><td>黑龙江省</td><td>绥化市</td><td>北林区</td></tr>
     <tr><td><code>231221</code></td><td>黑龙江省</td><td>绥化市</td><td>望奎县</td></tr>
@@ -925,51 +966,48 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>231282</code></td><td>黑龙江省</td><td>绥化市</td><td>肇东市</td></tr>
     <tr><td><code>231283</code></td><td>黑龙江省</td><td>绥化市</td><td>海伦市</td></tr>
     <tr class="level-city"><td><code>232700</code></td><td>黑龙江省</td><td>大兴安岭地区</td><td></td></tr>
-    <tr><td><code>232701</code></td><td>黑龙江省</td><td>大兴安岭地区</td><td>加格达奇区</td></tr>
+    <tr><td><code>232701</code></td><td>黑龙江省</td><td>大兴安岭地区</td><td>漠河市</td></tr>
     <tr><td><code>232721</code></td><td>黑龙江省</td><td>大兴安岭地区</td><td>呼玛县</td></tr>
     <tr><td><code>232722</code></td><td>黑龙江省</td><td>大兴安岭地区</td><td>塔河县</td></tr>
-    <tr><td><code>232723</code></td><td>黑龙江省</td><td>大兴安岭地区</td><td>漠河县</td></tr>
   </tbody>
 </table>
 </div>
 
-
-## 上海市（310000）
+### 上海市（310000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>310000</code></td><td>上海市</td><td></td><td></td></tr>
-    <tr><td><code>310101</code></td><td>上海市</td><td>黄浦区</td><td></td></tr>
-    <tr><td><code>310104</code></td><td>上海市</td><td>徐汇区</td><td></td></tr>
-    <tr><td><code>310105</code></td><td>上海市</td><td>长宁区</td><td></td></tr>
-    <tr><td><code>310106</code></td><td>上海市</td><td>静安区</td><td></td></tr>
-    <tr><td><code>310107</code></td><td>上海市</td><td>普陀区</td><td></td></tr>
-    <tr><td><code>310109</code></td><td>上海市</td><td>虹口区</td><td></td></tr>
-    <tr><td><code>310110</code></td><td>上海市</td><td>杨浦区</td><td></td></tr>
-    <tr><td><code>310112</code></td><td>上海市</td><td>闵行区</td><td></td></tr>
-    <tr><td><code>310113</code></td><td>上海市</td><td>宝山区</td><td></td></tr>
-    <tr><td><code>310114</code></td><td>上海市</td><td>嘉定区</td><td></td></tr>
-    <tr><td><code>310115</code></td><td>上海市</td><td>浦东新区</td><td></td></tr>
-    <tr><td><code>310116</code></td><td>上海市</td><td>金山区</td><td></td></tr>
-    <tr><td><code>310117</code></td><td>上海市</td><td>松江区</td><td></td></tr>
-    <tr><td><code>310118</code></td><td>上海市</td><td>青浦区</td><td></td></tr>
-    <tr><td><code>310120</code></td><td>上海市</td><td>奉贤区</td><td></td></tr>
-    <tr><td><code>310151</code></td><td>上海市</td><td>崇明区</td><td></td></tr>
+    <tr><td><code>310101</code></td><td>上海市</td><td>（直辖）</td><td>黄浦区</td></tr>
+    <tr><td><code>310104</code></td><td>上海市</td><td>（直辖）</td><td>徐汇区</td></tr>
+    <tr><td><code>310105</code></td><td>上海市</td><td>（直辖）</td><td>长宁区</td></tr>
+    <tr><td><code>310106</code></td><td>上海市</td><td>（直辖）</td><td>静安区</td></tr>
+    <tr><td><code>310107</code></td><td>上海市</td><td>（直辖）</td><td>普陀区</td></tr>
+    <tr><td><code>310109</code></td><td>上海市</td><td>（直辖）</td><td>虹口区</td></tr>
+    <tr><td><code>310110</code></td><td>上海市</td><td>（直辖）</td><td>杨浦区</td></tr>
+    <tr><td><code>310112</code></td><td>上海市</td><td>（直辖）</td><td>闵行区</td></tr>
+    <tr><td><code>310113</code></td><td>上海市</td><td>（直辖）</td><td>宝山区</td></tr>
+    <tr><td><code>310114</code></td><td>上海市</td><td>（直辖）</td><td>嘉定区</td></tr>
+    <tr><td><code>310115</code></td><td>上海市</td><td>（直辖）</td><td>浦东新区</td></tr>
+    <tr><td><code>310116</code></td><td>上海市</td><td>（直辖）</td><td>金山区</td></tr>
+    <tr><td><code>310117</code></td><td>上海市</td><td>（直辖）</td><td>松江区</td></tr>
+    <tr><td><code>310118</code></td><td>上海市</td><td>（直辖）</td><td>青浦区</td></tr>
+    <tr><td><code>310120</code></td><td>上海市</td><td>（直辖）</td><td>奉贤区</td></tr>
+    <tr><td><code>310151</code></td><td>上海市</td><td>（直辖）</td><td>崇明区</td></tr>
   </tbody>
 </table>
 </div>
 
-
-## 江苏省（320000）
+### 江苏省（320000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>320000</code></td><td>江苏省</td><td></td><td></td></tr>
@@ -1022,14 +1060,13 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>320583</code></td><td>江苏省</td><td>苏州市</td><td>昆山市</td></tr>
     <tr><td><code>320585</code></td><td>江苏省</td><td>苏州市</td><td>太仓市</td></tr>
     <tr class="level-city"><td><code>320600</code></td><td>江苏省</td><td>南通市</td><td></td></tr>
-    <tr><td><code>320602</code></td><td>江苏省</td><td>南通市</td><td>崇川区</td></tr>
-    <tr><td><code>320611</code></td><td>江苏省</td><td>南通市</td><td>港闸区</td></tr>
     <tr><td><code>320612</code></td><td>江苏省</td><td>南通市</td><td>通州区</td></tr>
-    <tr><td><code>320621</code></td><td>江苏省</td><td>南通市</td><td>海安县</td></tr>
+    <tr><td><code>320613</code></td><td>江苏省</td><td>南通市</td><td>崇川区</td></tr>
+    <tr><td><code>320614</code></td><td>江苏省</td><td>南通市</td><td>海门区</td></tr>
     <tr><td><code>320623</code></td><td>江苏省</td><td>南通市</td><td>如东县</td></tr>
     <tr><td><code>320681</code></td><td>江苏省</td><td>南通市</td><td>启东市</td></tr>
     <tr><td><code>320682</code></td><td>江苏省</td><td>南通市</td><td>如皋市</td></tr>
-    <tr><td><code>320684</code></td><td>江苏省</td><td>南通市</td><td>海门市</td></tr>
+    <tr><td><code>320685</code></td><td>江苏省</td><td>南通市</td><td>海安市</td></tr>
     <tr class="level-city"><td><code>320700</code></td><td>江苏省</td><td>连云港市</td><td></td></tr>
     <tr><td><code>320703</code></td><td>江苏省</td><td>连云港市</td><td>连云区</td></tr>
     <tr><td><code>320706</code></td><td>江苏省</td><td>连云港市</td><td>海州区</td></tr>
@@ -1086,30 +1123,29 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
 </table>
 </div>
 
-
-## 浙江省（330000）
+### 浙江省（330000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>330000</code></td><td>浙江省</td><td></td><td></td></tr>
     <tr class="level-city"><td><code>330100</code></td><td>浙江省</td><td>杭州市</td><td></td></tr>
     <tr><td><code>330102</code></td><td>浙江省</td><td>杭州市</td><td>上城区</td></tr>
-    <tr><td><code>330103</code></td><td>浙江省</td><td>杭州市</td><td>下城区</td></tr>
-    <tr><td><code>330104</code></td><td>浙江省</td><td>杭州市</td><td>江干区</td></tr>
     <tr><td><code>330105</code></td><td>浙江省</td><td>杭州市</td><td>拱墅区</td></tr>
     <tr><td><code>330106</code></td><td>浙江省</td><td>杭州市</td><td>西湖区</td></tr>
     <tr><td><code>330108</code></td><td>浙江省</td><td>杭州市</td><td>滨江区</td></tr>
     <tr><td><code>330109</code></td><td>浙江省</td><td>杭州市</td><td>萧山区</td></tr>
     <tr><td><code>330110</code></td><td>浙江省</td><td>杭州市</td><td>余杭区</td></tr>
     <tr><td><code>330111</code></td><td>浙江省</td><td>杭州市</td><td>富阳区</td></tr>
+    <tr><td><code>330112</code></td><td>浙江省</td><td>杭州市</td><td>临安区</td></tr>
+    <tr><td><code>330113</code></td><td>浙江省</td><td>杭州市</td><td>临平区</td></tr>
+    <tr><td><code>330114</code></td><td>浙江省</td><td>杭州市</td><td>钱塘区</td></tr>
     <tr><td><code>330122</code></td><td>浙江省</td><td>杭州市</td><td>桐庐县</td></tr>
     <tr><td><code>330127</code></td><td>浙江省</td><td>杭州市</td><td>淳安县</td></tr>
     <tr><td><code>330182</code></td><td>浙江省</td><td>杭州市</td><td>建德市</td></tr>
-    <tr><td><code>330185</code></td><td>浙江省</td><td>杭州市</td><td>临安市</td></tr>
     <tr class="level-city"><td><code>330200</code></td><td>浙江省</td><td>宁波市</td><td></td></tr>
     <tr><td><code>330203</code></td><td>浙江省</td><td>宁波市</td><td>海曙区</td></tr>
     <tr><td><code>330205</code></td><td>浙江省</td><td>宁波市</td><td>江北区</td></tr>
@@ -1133,6 +1169,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>330329</code></td><td>浙江省</td><td>温州市</td><td>泰顺县</td></tr>
     <tr><td><code>330381</code></td><td>浙江省</td><td>温州市</td><td>瑞安市</td></tr>
     <tr><td><code>330382</code></td><td>浙江省</td><td>温州市</td><td>乐清市</td></tr>
+    <tr><td><code>330383</code></td><td>浙江省</td><td>温州市</td><td>龙港市</td></tr>
     <tr class="level-city"><td><code>330400</code></td><td>浙江省</td><td>嘉兴市</td><td></td></tr>
     <tr><td><code>330402</code></td><td>浙江省</td><td>嘉兴市</td><td>南湖区</td></tr>
     <tr><td><code>330411</code></td><td>浙江省</td><td>嘉兴市</td><td>秀洲区</td></tr>
@@ -1200,13 +1237,12 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
 </table>
 </div>
 
-
-## 安徽省（340000）
+### 安徽省（340000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>340000</code></td><td>安徽省</td><td></td><td></td></tr>
@@ -1222,13 +1258,12 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>340181</code></td><td>安徽省</td><td>合肥市</td><td>巢湖市</td></tr>
     <tr class="level-city"><td><code>340200</code></td><td>安徽省</td><td>芜湖市</td><td></td></tr>
     <tr><td><code>340202</code></td><td>安徽省</td><td>芜湖市</td><td>镜湖区</td></tr>
-    <tr><td><code>340203</code></td><td>安徽省</td><td>芜湖市</td><td>弋江区</td></tr>
     <tr><td><code>340207</code></td><td>安徽省</td><td>芜湖市</td><td>鸠江区</td></tr>
-    <tr><td><code>340208</code></td><td>安徽省</td><td>芜湖市</td><td>三山区</td></tr>
-    <tr><td><code>340221</code></td><td>安徽省</td><td>芜湖市</td><td>芜湖县</td></tr>
-    <tr><td><code>340222</code></td><td>安徽省</td><td>芜湖市</td><td>繁昌县</td></tr>
+    <tr><td><code>340209</code></td><td>安徽省</td><td>芜湖市</td><td>弋江区</td></tr>
+    <tr><td><code>340210</code></td><td>安徽省</td><td>芜湖市</td><td>湾沚区</td></tr>
+    <tr><td><code>340212</code></td><td>安徽省</td><td>芜湖市</td><td>繁昌区</td></tr>
     <tr><td><code>340223</code></td><td>安徽省</td><td>芜湖市</td><td>南陵县</td></tr>
-    <tr><td><code>340225</code></td><td>安徽省</td><td>芜湖市</td><td>无为县</td></tr>
+    <tr><td><code>340281</code></td><td>安徽省</td><td>芜湖市</td><td>无为市</td></tr>
     <tr class="level-city"><td><code>340300</code></td><td>安徽省</td><td>蚌埠市</td><td></td></tr>
     <tr><td><code>340302</code></td><td>安徽省</td><td>蚌埠市</td><td>龙子湖区</td></tr>
     <tr><td><code>340303</code></td><td>安徽省</td><td>蚌埠市</td><td>蚌山区</td></tr>
@@ -1267,12 +1302,12 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>340803</code></td><td>安徽省</td><td>安庆市</td><td>大观区</td></tr>
     <tr><td><code>340811</code></td><td>安徽省</td><td>安庆市</td><td>宜秀区</td></tr>
     <tr><td><code>340822</code></td><td>安徽省</td><td>安庆市</td><td>怀宁县</td></tr>
-    <tr><td><code>340824</code></td><td>安徽省</td><td>安庆市</td><td>潜山县</td></tr>
     <tr><td><code>340825</code></td><td>安徽省</td><td>安庆市</td><td>太湖县</td></tr>
     <tr><td><code>340826</code></td><td>安徽省</td><td>安庆市</td><td>宿松县</td></tr>
     <tr><td><code>340827</code></td><td>安徽省</td><td>安庆市</td><td>望江县</td></tr>
     <tr><td><code>340828</code></td><td>安徽省</td><td>安庆市</td><td>岳西县</td></tr>
     <tr><td><code>340881</code></td><td>安徽省</td><td>安庆市</td><td>桐城市</td></tr>
+    <tr><td><code>340882</code></td><td>安徽省</td><td>安庆市</td><td>潜山市</td></tr>
     <tr class="level-city"><td><code>341000</code></td><td>安徽省</td><td>黄山市</td><td></td></tr>
     <tr><td><code>341002</code></td><td>安徽省</td><td>黄山市</td><td>屯溪区</td></tr>
     <tr><td><code>341003</code></td><td>安徽省</td><td>黄山市</td><td>黄山区</td></tr>
@@ -1326,22 +1361,21 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr class="level-city"><td><code>341800</code></td><td>安徽省</td><td>宣城市</td><td></td></tr>
     <tr><td><code>341802</code></td><td>安徽省</td><td>宣城市</td><td>宣州区</td></tr>
     <tr><td><code>341821</code></td><td>安徽省</td><td>宣城市</td><td>郎溪县</td></tr>
-    <tr><td><code>341822</code></td><td>安徽省</td><td>宣城市</td><td>广德县</td></tr>
     <tr><td><code>341823</code></td><td>安徽省</td><td>宣城市</td><td>泾县</td></tr>
     <tr><td><code>341824</code></td><td>安徽省</td><td>宣城市</td><td>绩溪县</td></tr>
     <tr><td><code>341825</code></td><td>安徽省</td><td>宣城市</td><td>旌德县</td></tr>
     <tr><td><code>341881</code></td><td>安徽省</td><td>宣城市</td><td>宁国市</td></tr>
+    <tr><td><code>341882</code></td><td>安徽省</td><td>宣城市</td><td>广德市</td></tr>
   </tbody>
 </table>
 </div>
 
-
-## 福建省（350000）
+### 福建省（350000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>350000</code></td><td>福建省</td><td></td><td></td></tr>
@@ -1351,6 +1385,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>350104</code></td><td>福建省</td><td>福州市</td><td>仓山区</td></tr>
     <tr><td><code>350105</code></td><td>福建省</td><td>福州市</td><td>马尾区</td></tr>
     <tr><td><code>350111</code></td><td>福建省</td><td>福州市</td><td>晋安区</td></tr>
+    <tr><td><code>350112</code></td><td>福建省</td><td>福州市</td><td>长乐区</td></tr>
     <tr><td><code>350121</code></td><td>福建省</td><td>福州市</td><td>闽侯县</td></tr>
     <tr><td><code>350122</code></td><td>福建省</td><td>福州市</td><td>连江县</td></tr>
     <tr><td><code>350123</code></td><td>福建省</td><td>福州市</td><td>罗源县</td></tr>
@@ -1358,7 +1393,6 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>350125</code></td><td>福建省</td><td>福州市</td><td>永泰县</td></tr>
     <tr><td><code>350128</code></td><td>福建省</td><td>福州市</td><td>平潭县</td></tr>
     <tr><td><code>350181</code></td><td>福建省</td><td>福州市</td><td>福清市</td></tr>
-    <tr><td><code>350182</code></td><td>福建省</td><td>福州市</td><td>长乐市</td></tr>
     <tr class="level-city"><td><code>350200</code></td><td>福建省</td><td>厦门市</td><td></td></tr>
     <tr><td><code>350203</code></td><td>福建省</td><td>厦门市</td><td>思明区</td></tr>
     <tr><td><code>350205</code></td><td>福建省</td><td>厦门市</td><td>海沧区</td></tr>
@@ -1373,14 +1407,13 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>350305</code></td><td>福建省</td><td>莆田市</td><td>秀屿区</td></tr>
     <tr><td><code>350322</code></td><td>福建省</td><td>莆田市</td><td>仙游县</td></tr>
     <tr class="level-city"><td><code>350400</code></td><td>福建省</td><td>三明市</td><td></td></tr>
-    <tr><td><code>350402</code></td><td>福建省</td><td>三明市</td><td>梅列区</td></tr>
-    <tr><td><code>350403</code></td><td>福建省</td><td>三明市</td><td>三元区</td></tr>
+    <tr><td><code>350404</code></td><td>福建省</td><td>三明市</td><td>三元区</td></tr>
+    <tr><td><code>350405</code></td><td>福建省</td><td>三明市</td><td>沙县区</td></tr>
     <tr><td><code>350421</code></td><td>福建省</td><td>三明市</td><td>明溪县</td></tr>
     <tr><td><code>350423</code></td><td>福建省</td><td>三明市</td><td>清流县</td></tr>
     <tr><td><code>350424</code></td><td>福建省</td><td>三明市</td><td>宁化县</td></tr>
     <tr><td><code>350425</code></td><td>福建省</td><td>三明市</td><td>大田县</td></tr>
     <tr><td><code>350426</code></td><td>福建省</td><td>三明市</td><td>尤溪县</td></tr>
-    <tr><td><code>350427</code></td><td>福建省</td><td>三明市</td><td>沙县</td></tr>
     <tr><td><code>350428</code></td><td>福建省</td><td>三明市</td><td>将乐县</td></tr>
     <tr><td><code>350429</code></td><td>福建省</td><td>三明市</td><td>泰宁县</td></tr>
     <tr><td><code>350430</code></td><td>福建省</td><td>三明市</td><td>建宁县</td></tr>
@@ -1401,15 +1434,15 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr class="level-city"><td><code>350600</code></td><td>福建省</td><td>漳州市</td><td></td></tr>
     <tr><td><code>350602</code></td><td>福建省</td><td>漳州市</td><td>芗城区</td></tr>
     <tr><td><code>350603</code></td><td>福建省</td><td>漳州市</td><td>龙文区</td></tr>
+    <tr><td><code>350604</code></td><td>福建省</td><td>漳州市</td><td>龙海区</td></tr>
+    <tr><td><code>350605</code></td><td>福建省</td><td>漳州市</td><td>长泰区</td></tr>
     <tr><td><code>350622</code></td><td>福建省</td><td>漳州市</td><td>云霄县</td></tr>
     <tr><td><code>350623</code></td><td>福建省</td><td>漳州市</td><td>漳浦县</td></tr>
     <tr><td><code>350624</code></td><td>福建省</td><td>漳州市</td><td>诏安县</td></tr>
-    <tr><td><code>350625</code></td><td>福建省</td><td>漳州市</td><td>长泰县</td></tr>
     <tr><td><code>350626</code></td><td>福建省</td><td>漳州市</td><td>东山县</td></tr>
     <tr><td><code>350627</code></td><td>福建省</td><td>漳州市</td><td>南靖县</td></tr>
     <tr><td><code>350628</code></td><td>福建省</td><td>漳州市</td><td>平和县</td></tr>
     <tr><td><code>350629</code></td><td>福建省</td><td>漳州市</td><td>华安县</td></tr>
-    <tr><td><code>350681</code></td><td>福建省</td><td>漳州市</td><td>龙海市</td></tr>
     <tr class="level-city"><td><code>350700</code></td><td>福建省</td><td>南平市</td><td></td></tr>
     <tr><td><code>350702</code></td><td>福建省</td><td>南平市</td><td>延平区</td></tr>
     <tr><td><code>350703</code></td><td>福建省</td><td>南平市</td><td>建阳区</td></tr>
@@ -1443,13 +1476,12 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
 </table>
 </div>
 
-
-## 江西省（360000）
+### 江西省（360000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>360000</code></td><td>江西省</td><td></td><td></td></tr>
@@ -1457,9 +1489,9 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>360102</code></td><td>江西省</td><td>南昌市</td><td>东湖区</td></tr>
     <tr><td><code>360103</code></td><td>江西省</td><td>南昌市</td><td>西湖区</td></tr>
     <tr><td><code>360104</code></td><td>江西省</td><td>南昌市</td><td>青云谱区</td></tr>
-    <tr><td><code>360105</code></td><td>江西省</td><td>南昌市</td><td>湾里区</td></tr>
     <tr><td><code>360111</code></td><td>江西省</td><td>南昌市</td><td>青山湖区</td></tr>
     <tr><td><code>360112</code></td><td>江西省</td><td>南昌市</td><td>新建区</td></tr>
+    <tr><td><code>360113</code></td><td>江西省</td><td>南昌市</td><td>红谷滩区</td></tr>
     <tr><td><code>360121</code></td><td>江西省</td><td>南昌市</td><td>南昌县</td></tr>
     <tr><td><code>360123</code></td><td>江西省</td><td>南昌市</td><td>安义县</td></tr>
     <tr><td><code>360124</code></td><td>江西省</td><td>南昌市</td><td>进贤县</td></tr>
@@ -1477,7 +1509,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr class="level-city"><td><code>360400</code></td><td>江西省</td><td>九江市</td><td></td></tr>
     <tr><td><code>360402</code></td><td>江西省</td><td>九江市</td><td>濂溪区</td></tr>
     <tr><td><code>360403</code></td><td>江西省</td><td>九江市</td><td>浔阳区</td></tr>
-    <tr><td><code>360421</code></td><td>江西省</td><td>九江市</td><td>九江县</td></tr>
+    <tr><td><code>360404</code></td><td>江西省</td><td>九江市</td><td>柴桑区</td></tr>
     <tr><td><code>360423</code></td><td>江西省</td><td>九江市</td><td>武宁县</td></tr>
     <tr><td><code>360424</code></td><td>江西省</td><td>九江市</td><td>修水县</td></tr>
     <tr><td><code>360425</code></td><td>江西省</td><td>九江市</td><td>永修县</td></tr>
@@ -1493,7 +1525,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>360521</code></td><td>江西省</td><td>新余市</td><td>分宜县</td></tr>
     <tr class="level-city"><td><code>360600</code></td><td>江西省</td><td>鹰潭市</td><td></td></tr>
     <tr><td><code>360602</code></td><td>江西省</td><td>鹰潭市</td><td>月湖区</td></tr>
-    <tr><td><code>360622</code></td><td>江西省</td><td>鹰潭市</td><td>余江县</td></tr>
+    <tr><td><code>360603</code></td><td>江西省</td><td>鹰潭市</td><td>余江区</td></tr>
     <tr><td><code>360681</code></td><td>江西省</td><td>鹰潭市</td><td>贵溪市</td></tr>
     <tr class="level-city"><td><code>360700</code></td><td>江西省</td><td>赣州市</td><td></td></tr>
     <tr><td><code>360702</code></td><td>江西省</td><td>赣州市</td><td>章贡区</td></tr>
@@ -1504,7 +1536,6 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>360724</code></td><td>江西省</td><td>赣州市</td><td>上犹县</td></tr>
     <tr><td><code>360725</code></td><td>江西省</td><td>赣州市</td><td>崇义县</td></tr>
     <tr><td><code>360726</code></td><td>江西省</td><td>赣州市</td><td>安远县</td></tr>
-    <tr><td><code>360727</code></td><td>江西省</td><td>赣州市</td><td>龙南县</td></tr>
     <tr><td><code>360728</code></td><td>江西省</td><td>赣州市</td><td>定南县</td></tr>
     <tr><td><code>360729</code></td><td>江西省</td><td>赣州市</td><td>全南县</td></tr>
     <tr><td><code>360730</code></td><td>江西省</td><td>赣州市</td><td>宁都县</td></tr>
@@ -1514,6 +1545,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>360734</code></td><td>江西省</td><td>赣州市</td><td>寻乌县</td></tr>
     <tr><td><code>360735</code></td><td>江西省</td><td>赣州市</td><td>石城县</td></tr>
     <tr><td><code>360781</code></td><td>江西省</td><td>赣州市</td><td>瑞金市</td></tr>
+    <tr><td><code>360783</code></td><td>江西省</td><td>赣州市</td><td>龙南市</td></tr>
     <tr class="level-city"><td><code>360800</code></td><td>江西省</td><td>吉安市</td><td></td></tr>
     <tr><td><code>360802</code></td><td>江西省</td><td>吉安市</td><td>吉州区</td></tr>
     <tr><td><code>360803</code></td><td>江西省</td><td>吉安市</td><td>青原区</td></tr>
@@ -1554,7 +1586,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr class="level-city"><td><code>361100</code></td><td>江西省</td><td>上饶市</td><td></td></tr>
     <tr><td><code>361102</code></td><td>江西省</td><td>上饶市</td><td>信州区</td></tr>
     <tr><td><code>361103</code></td><td>江西省</td><td>上饶市</td><td>广丰区</td></tr>
-    <tr><td><code>361121</code></td><td>江西省</td><td>上饶市</td><td>上饶县</td></tr>
+    <tr><td><code>361104</code></td><td>江西省</td><td>上饶市</td><td>广信区</td></tr>
     <tr><td><code>361123</code></td><td>江西省</td><td>上饶市</td><td>玉山县</td></tr>
     <tr><td><code>361124</code></td><td>江西省</td><td>上饶市</td><td>铅山县</td></tr>
     <tr><td><code>361125</code></td><td>江西省</td><td>上饶市</td><td>横峰县</td></tr>
@@ -1568,13 +1600,12 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
 </table>
 </div>
 
-
-## 山东省（370000）
+### 山东省（370000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>370000</code></td><td>山东省</td><td></td><td></td></tr>
@@ -1586,8 +1617,10 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>370112</code></td><td>山东省</td><td>济南市</td><td>历城区</td></tr>
     <tr><td><code>370113</code></td><td>山东省</td><td>济南市</td><td>长清区</td></tr>
     <tr><td><code>370114</code></td><td>山东省</td><td>济南市</td><td>章丘区</td></tr>
+    <tr><td><code>370115</code></td><td>山东省</td><td>济南市</td><td>济阳区</td></tr>
+    <tr><td><code>370116</code></td><td>山东省</td><td>济南市</td><td>莱芜区</td></tr>
+    <tr><td><code>370117</code></td><td>山东省</td><td>济南市</td><td>钢城区</td></tr>
     <tr><td><code>370124</code></td><td>山东省</td><td>济南市</td><td>平阴县</td></tr>
-    <tr><td><code>370125</code></td><td>山东省</td><td>济南市</td><td>济阳县</td></tr>
     <tr><td><code>370126</code></td><td>山东省</td><td>济南市</td><td>商河县</td></tr>
     <tr class="level-city"><td><code>370200</code></td><td>山东省</td><td>青岛市</td><td></td></tr>
     <tr><td><code>370202</code></td><td>山东省</td><td>青岛市</td><td>市南区</td></tr>
@@ -1596,8 +1629,8 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>370212</code></td><td>山东省</td><td>青岛市</td><td>崂山区</td></tr>
     <tr><td><code>370213</code></td><td>山东省</td><td>青岛市</td><td>李沧区</td></tr>
     <tr><td><code>370214</code></td><td>山东省</td><td>青岛市</td><td>城阳区</td></tr>
+    <tr><td><code>370215</code></td><td>山东省</td><td>青岛市</td><td>即墨区</td></tr>
     <tr><td><code>370281</code></td><td>山东省</td><td>青岛市</td><td>胶州市</td></tr>
-    <tr><td><code>370282</code></td><td>山东省</td><td>青岛市</td><td>即墨市</td></tr>
     <tr><td><code>370283</code></td><td>山东省</td><td>青岛市</td><td>平度市</td></tr>
     <tr><td><code>370285</code></td><td>山东省</td><td>青岛市</td><td>莱西市</td></tr>
     <tr class="level-city"><td><code>370300</code></td><td>山东省</td><td>淄博市</td><td></td></tr>
@@ -1627,11 +1660,10 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>370611</code></td><td>山东省</td><td>烟台市</td><td>福山区</td></tr>
     <tr><td><code>370612</code></td><td>山东省</td><td>烟台市</td><td>牟平区</td></tr>
     <tr><td><code>370613</code></td><td>山东省</td><td>烟台市</td><td>莱山区</td></tr>
-    <tr><td><code>370634</code></td><td>山东省</td><td>烟台市</td><td>长岛县</td></tr>
+    <tr><td><code>370614</code></td><td>山东省</td><td>烟台市</td><td>蓬莱区</td></tr>
     <tr><td><code>370681</code></td><td>山东省</td><td>烟台市</td><td>龙口市</td></tr>
     <tr><td><code>370682</code></td><td>山东省</td><td>烟台市</td><td>莱阳市</td></tr>
     <tr><td><code>370683</code></td><td>山东省</td><td>烟台市</td><td>莱州市</td></tr>
-    <tr><td><code>370684</code></td><td>山东省</td><td>烟台市</td><td>蓬莱市</td></tr>
     <tr><td><code>370685</code></td><td>山东省</td><td>烟台市</td><td>招远市</td></tr>
     <tr><td><code>370686</code></td><td>山东省</td><td>烟台市</td><td>栖霞市</td></tr>
     <tr><td><code>370687</code></td><td>山东省</td><td>烟台市</td><td>海阳市</td></tr>
@@ -1677,9 +1709,6 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>371103</code></td><td>山东省</td><td>日照市</td><td>岚山区</td></tr>
     <tr><td><code>371121</code></td><td>山东省</td><td>日照市</td><td>五莲县</td></tr>
     <tr><td><code>371122</code></td><td>山东省</td><td>日照市</td><td>莒县</td></tr>
-    <tr class="level-city"><td><code>371200</code></td><td>山东省</td><td>莱芜市</td><td></td></tr>
-    <tr><td><code>371202</code></td><td>山东省</td><td>莱芜市</td><td>莱城区</td></tr>
-    <tr><td><code>371203</code></td><td>山东省</td><td>莱芜市</td><td>钢城区</td></tr>
     <tr class="level-city"><td><code>371300</code></td><td>山东省</td><td>临沂市</td><td></td></tr>
     <tr><td><code>371302</code></td><td>山东省</td><td>临沂市</td><td>兰山区</td></tr>
     <tr><td><code>371311</code></td><td>山东省</td><td>临沂市</td><td>罗庄区</td></tr>
@@ -1707,9 +1736,9 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>371482</code></td><td>山东省</td><td>德州市</td><td>禹城市</td></tr>
     <tr class="level-city"><td><code>371500</code></td><td>山东省</td><td>聊城市</td><td></td></tr>
     <tr><td><code>371502</code></td><td>山东省</td><td>聊城市</td><td>东昌府区</td></tr>
+    <tr><td><code>371503</code></td><td>山东省</td><td>聊城市</td><td>茌平区</td></tr>
     <tr><td><code>371521</code></td><td>山东省</td><td>聊城市</td><td>阳谷县</td></tr>
     <tr><td><code>371522</code></td><td>山东省</td><td>聊城市</td><td>莘县</td></tr>
-    <tr><td><code>371523</code></td><td>山东省</td><td>聊城市</td><td>茌平县</td></tr>
     <tr><td><code>371524</code></td><td>山东省</td><td>聊城市</td><td>东阿县</td></tr>
     <tr><td><code>371525</code></td><td>山东省</td><td>聊城市</td><td>冠县</td></tr>
     <tr><td><code>371526</code></td><td>山东省</td><td>聊城市</td><td>高唐县</td></tr>
@@ -1721,7 +1750,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>371622</code></td><td>山东省</td><td>滨州市</td><td>阳信县</td></tr>
     <tr><td><code>371623</code></td><td>山东省</td><td>滨州市</td><td>无棣县</td></tr>
     <tr><td><code>371625</code></td><td>山东省</td><td>滨州市</td><td>博兴县</td></tr>
-    <tr><td><code>371626</code></td><td>山东省</td><td>滨州市</td><td>邹平县</td></tr>
+    <tr><td><code>371681</code></td><td>山东省</td><td>滨州市</td><td>邹平市</td></tr>
     <tr class="level-city"><td><code>371700</code></td><td>山东省</td><td>菏泽市</td><td></td></tr>
     <tr><td><code>371702</code></td><td>山东省</td><td>菏泽市</td><td>牡丹区</td></tr>
     <tr><td><code>371703</code></td><td>山东省</td><td>菏泽市</td><td>定陶区</td></tr>
@@ -1736,13 +1765,12 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
 </table>
 </div>
 
-
-## 河南省（410000）
+### 河南省（410000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>410000</code></td><td>河南省</td><td></td><td></td></tr>
@@ -1774,9 +1802,9 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>410303</code></td><td>河南省</td><td>洛阳市</td><td>西工区</td></tr>
     <tr><td><code>410304</code></td><td>河南省</td><td>洛阳市</td><td>瀍河回族区</td></tr>
     <tr><td><code>410305</code></td><td>河南省</td><td>洛阳市</td><td>涧西区</td></tr>
-    <tr><td><code>410306</code></td><td>河南省</td><td>洛阳市</td><td>吉利区</td></tr>
+    <tr><td><code>410307</code></td><td>河南省</td><td>洛阳市</td><td>偃师区</td></tr>
+    <tr><td><code>410308</code></td><td>河南省</td><td>洛阳市</td><td>孟津区</td></tr>
     <tr><td><code>410311</code></td><td>河南省</td><td>洛阳市</td><td>洛龙区</td></tr>
-    <tr><td><code>410322</code></td><td>河南省</td><td>洛阳市</td><td>孟津县</td></tr>
     <tr><td><code>410323</code></td><td>河南省</td><td>洛阳市</td><td>新安县</td></tr>
     <tr><td><code>410324</code></td><td>河南省</td><td>洛阳市</td><td>栾川县</td></tr>
     <tr><td><code>410325</code></td><td>河南省</td><td>洛阳市</td><td>嵩县</td></tr>
@@ -1784,7 +1812,6 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>410327</code></td><td>河南省</td><td>洛阳市</td><td>宜阳县</td></tr>
     <tr><td><code>410328</code></td><td>河南省</td><td>洛阳市</td><td>洛宁县</td></tr>
     <tr><td><code>410329</code></td><td>河南省</td><td>洛阳市</td><td>伊川县</td></tr>
-    <tr><td><code>410381</code></td><td>河南省</td><td>洛阳市</td><td>偃师市</td></tr>
     <tr class="level-city"><td><code>410400</code></td><td>河南省</td><td>平顶山市</td><td></td></tr>
     <tr><td><code>410402</code></td><td>河南省</td><td>平顶山市</td><td>新华区</td></tr>
     <tr><td><code>410403</code></td><td>河南省</td><td>平顶山市</td><td>卫东区</td></tr>
@@ -1822,9 +1849,9 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>410725</code></td><td>河南省</td><td>新乡市</td><td>原阳县</td></tr>
     <tr><td><code>410726</code></td><td>河南省</td><td>新乡市</td><td>延津县</td></tr>
     <tr><td><code>410727</code></td><td>河南省</td><td>新乡市</td><td>封丘县</td></tr>
-    <tr><td><code>410728</code></td><td>河南省</td><td>新乡市</td><td>长垣县</td></tr>
     <tr><td><code>410781</code></td><td>河南省</td><td>新乡市</td><td>卫辉市</td></tr>
     <tr><td><code>410782</code></td><td>河南省</td><td>新乡市</td><td>辉县市</td></tr>
+    <tr><td><code>410783</code></td><td>河南省</td><td>新乡市</td><td>长垣市</td></tr>
     <tr class="level-city"><td><code>410800</code></td><td>河南省</td><td>焦作市</td><td></td></tr>
     <tr><td><code>410802</code></td><td>河南省</td><td>焦作市</td><td>解放区</td></tr>
     <tr><td><code>410803</code></td><td>河南省</td><td>焦作市</td><td>中站区</td></tr>
@@ -1900,12 +1927,12 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>411528</code></td><td>河南省</td><td>信阳市</td><td>息县</td></tr>
     <tr class="level-city"><td><code>411600</code></td><td>河南省</td><td>周口市</td><td></td></tr>
     <tr><td><code>411602</code></td><td>河南省</td><td>周口市</td><td>川汇区</td></tr>
+    <tr><td><code>411603</code></td><td>河南省</td><td>周口市</td><td>淮阳区</td></tr>
     <tr><td><code>411621</code></td><td>河南省</td><td>周口市</td><td>扶沟县</td></tr>
     <tr><td><code>411622</code></td><td>河南省</td><td>周口市</td><td>西华县</td></tr>
     <tr><td><code>411623</code></td><td>河南省</td><td>周口市</td><td>商水县</td></tr>
     <tr><td><code>411624</code></td><td>河南省</td><td>周口市</td><td>沈丘县</td></tr>
     <tr><td><code>411625</code></td><td>河南省</td><td>周口市</td><td>郸城县</td></tr>
-    <tr><td><code>411626</code></td><td>河南省</td><td>周口市</td><td>淮阳县</td></tr>
     <tr><td><code>411627</code></td><td>河南省</td><td>周口市</td><td>太康县</td></tr>
     <tr><td><code>411628</code></td><td>河南省</td><td>周口市</td><td>鹿邑县</td></tr>
     <tr><td><code>411681</code></td><td>河南省</td><td>周口市</td><td>项城市</td></tr>
@@ -1920,18 +1947,17 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>411727</code></td><td>河南省</td><td>驻马店市</td><td>汝南县</td></tr>
     <tr><td><code>411728</code></td><td>河南省</td><td>驻马店市</td><td>遂平县</td></tr>
     <tr><td><code>411729</code></td><td>河南省</td><td>驻马店市</td><td>新蔡县</td></tr>
-    <tr><td><code>419001</code></td><td>河南省</td><td>济源市</td><td>济源市</td></tr>
+    <tr><td><code>419001</code></td><td>河南省</td><td>省直辖县级行政区划</td><td>济源市</td></tr>
   </tbody>
 </table>
 </div>
 
-
-## 湖北省（420000）
+### 湖北省（420000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>420000</code></td><td>湖北省</td><td></td><td></td></tr>
@@ -1996,9 +2022,9 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr class="level-city"><td><code>420800</code></td><td>湖北省</td><td>荆门市</td><td></td></tr>
     <tr><td><code>420802</code></td><td>湖北省</td><td>荆门市</td><td>东宝区</td></tr>
     <tr><td><code>420804</code></td><td>湖北省</td><td>荆门市</td><td>掇刀区</td></tr>
-    <tr><td><code>420821</code></td><td>湖北省</td><td>荆门市</td><td>京山县</td></tr>
     <tr><td><code>420822</code></td><td>湖北省</td><td>荆门市</td><td>沙洋县</td></tr>
     <tr><td><code>420881</code></td><td>湖北省</td><td>荆门市</td><td>钟祥市</td></tr>
+    <tr><td><code>420882</code></td><td>湖北省</td><td>荆门市</td><td>京山市</td></tr>
     <tr class="level-city"><td><code>420900</code></td><td>湖北省</td><td>孝感市</td><td></td></tr>
     <tr><td><code>420902</code></td><td>湖北省</td><td>孝感市</td><td>孝南区</td></tr>
     <tr><td><code>420921</code></td><td>湖北省</td><td>孝感市</td><td>孝昌县</td></tr>
@@ -2011,11 +2037,11 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>421002</code></td><td>湖北省</td><td>荆州市</td><td>沙市区</td></tr>
     <tr><td><code>421003</code></td><td>湖北省</td><td>荆州市</td><td>荆州区</td></tr>
     <tr><td><code>421022</code></td><td>湖北省</td><td>荆州市</td><td>公安县</td></tr>
-    <tr><td><code>421023</code></td><td>湖北省</td><td>荆州市</td><td>监利县</td></tr>
     <tr><td><code>421024</code></td><td>湖北省</td><td>荆州市</td><td>江陵县</td></tr>
     <tr><td><code>421081</code></td><td>湖北省</td><td>荆州市</td><td>石首市</td></tr>
     <tr><td><code>421083</code></td><td>湖北省</td><td>荆州市</td><td>洪湖市</td></tr>
     <tr><td><code>421087</code></td><td>湖北省</td><td>荆州市</td><td>松滋市</td></tr>
+    <tr><td><code>421088</code></td><td>湖北省</td><td>荆州市</td><td>监利市</td></tr>
     <tr class="level-city"><td><code>421100</code></td><td>湖北省</td><td>黄冈市</td><td></td></tr>
     <tr><td><code>421102</code></td><td>湖北省</td><td>黄冈市</td><td>黄州区</td></tr>
     <tr><td><code>421121</code></td><td>湖北省</td><td>黄冈市</td><td>团风县</td></tr>
@@ -2047,21 +2073,20 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>422826</code></td><td>湖北省</td><td>恩施土家族苗族自治州</td><td>咸丰县</td></tr>
     <tr><td><code>422827</code></td><td>湖北省</td><td>恩施土家族苗族自治州</td><td>来凤县</td></tr>
     <tr><td><code>422828</code></td><td>湖北省</td><td>恩施土家族苗族自治州</td><td>鹤峰县</td></tr>
-    <tr><td><code>429004</code></td><td>湖北省</td><td>仙桃市</td><td>仙桃市</td></tr>
-    <tr><td><code>429005</code></td><td>湖北省</td><td>潜江市</td><td>潜江市</td></tr>
-    <tr><td><code>429006</code></td><td>湖北省</td><td>天门市</td><td>天门市</td></tr>
-    <tr><td><code>429021</code></td><td>湖北省</td><td>神农架林区</td><td>神农架林区</td></tr>
+    <tr><td><code>429004</code></td><td>湖北省</td><td>省直辖县级行政区划</td><td>仙桃市</td></tr>
+    <tr><td><code>429005</code></td><td>湖北省</td><td>省直辖县级行政区划</td><td>潜江市</td></tr>
+    <tr><td><code>429006</code></td><td>湖北省</td><td>省直辖县级行政区划</td><td>天门市</td></tr>
+    <tr><td><code>429021</code></td><td>湖北省</td><td>省直辖县级行政区划</td><td>神农架林区</td></tr>
   </tbody>
 </table>
 </div>
 
-
-## 湖南省（430000）
+### 湖南省（430000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>430000</code></td><td>湖南省</td><td></td><td></td></tr>
@@ -2080,7 +2105,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>430203</code></td><td>湖南省</td><td>株洲市</td><td>芦淞区</td></tr>
     <tr><td><code>430204</code></td><td>湖南省</td><td>株洲市</td><td>石峰区</td></tr>
     <tr><td><code>430211</code></td><td>湖南省</td><td>株洲市</td><td>天元区</td></tr>
-    <tr><td><code>430221</code></td><td>湖南省</td><td>株洲市</td><td>株洲县</td></tr>
+    <tr><td><code>430212</code></td><td>湖南省</td><td>株洲市</td><td>渌口区</td></tr>
     <tr><td><code>430223</code></td><td>湖南省</td><td>株洲市</td><td>攸县</td></tr>
     <tr><td><code>430224</code></td><td>湖南省</td><td>株洲市</td><td>茶陵县</td></tr>
     <tr><td><code>430225</code></td><td>湖南省</td><td>株洲市</td><td>炎陵县</td></tr>
@@ -2108,7 +2133,6 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>430502</code></td><td>湖南省</td><td>邵阳市</td><td>双清区</td></tr>
     <tr><td><code>430503</code></td><td>湖南省</td><td>邵阳市</td><td>大祥区</td></tr>
     <tr><td><code>430511</code></td><td>湖南省</td><td>邵阳市</td><td>北塔区</td></tr>
-    <tr><td><code>430521</code></td><td>湖南省</td><td>邵阳市</td><td>邵东县</td></tr>
     <tr><td><code>430522</code></td><td>湖南省</td><td>邵阳市</td><td>新邵县</td></tr>
     <tr><td><code>430523</code></td><td>湖南省</td><td>邵阳市</td><td>邵阳县</td></tr>
     <tr><td><code>430524</code></td><td>湖南省</td><td>邵阳市</td><td>隆回县</td></tr>
@@ -2117,6 +2141,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>430528</code></td><td>湖南省</td><td>邵阳市</td><td>新宁县</td></tr>
     <tr><td><code>430529</code></td><td>湖南省</td><td>邵阳市</td><td>城步苗族自治县</td></tr>
     <tr><td><code>430581</code></td><td>湖南省</td><td>邵阳市</td><td>武冈市</td></tr>
+    <tr><td><code>430582</code></td><td>湖南省</td><td>邵阳市</td><td>邵东市</td></tr>
     <tr class="level-city"><td><code>430600</code></td><td>湖南省</td><td>岳阳市</td><td></td></tr>
     <tr><td><code>430602</code></td><td>湖南省</td><td>岳阳市</td><td>岳阳楼区</td></tr>
     <tr><td><code>430603</code></td><td>湖南省</td><td>岳阳市</td><td>云溪区</td></tr>
@@ -2164,7 +2189,6 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr class="level-city"><td><code>431100</code></td><td>湖南省</td><td>永州市</td><td></td></tr>
     <tr><td><code>431102</code></td><td>湖南省</td><td>永州市</td><td>零陵区</td></tr>
     <tr><td><code>431103</code></td><td>湖南省</td><td>永州市</td><td>冷水滩区</td></tr>
-    <tr><td><code>431121</code></td><td>湖南省</td><td>永州市</td><td>祁阳县</td></tr>
     <tr><td><code>431122</code></td><td>湖南省</td><td>永州市</td><td>东安县</td></tr>
     <tr><td><code>431123</code></td><td>湖南省</td><td>永州市</td><td>双牌县</td></tr>
     <tr><td><code>431124</code></td><td>湖南省</td><td>永州市</td><td>道县</td></tr>
@@ -2173,6 +2197,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>431127</code></td><td>湖南省</td><td>永州市</td><td>蓝山县</td></tr>
     <tr><td><code>431128</code></td><td>湖南省</td><td>永州市</td><td>新田县</td></tr>
     <tr><td><code>431129</code></td><td>湖南省</td><td>永州市</td><td>江华瑶族自治县</td></tr>
+    <tr><td><code>431181</code></td><td>湖南省</td><td>永州市</td><td>祁阳市</td></tr>
     <tr class="level-city"><td><code>431200</code></td><td>湖南省</td><td>怀化市</td><td></td></tr>
     <tr><td><code>431202</code></td><td>湖南省</td><td>怀化市</td><td>鹤城区</td></tr>
     <tr><td><code>431221</code></td><td>湖南省</td><td>怀化市</td><td>中方县</td></tr>
@@ -2205,13 +2230,12 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
 </table>
 </div>
 
-
-## 广东省（440000）
+### 广东省（440000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>440000</code></td><td>广东省</td><td></td><td></td></tr>
@@ -2247,11 +2271,11 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>440308</code></td><td>广东省</td><td>深圳市</td><td>盐田区</td></tr>
     <tr><td><code>440309</code></td><td>广东省</td><td>深圳市</td><td>龙华区</td></tr>
     <tr><td><code>440310</code></td><td>广东省</td><td>深圳市</td><td>坪山区</td></tr>
+    <tr><td><code>440311</code></td><td>广东省</td><td>深圳市</td><td>光明区</td></tr>
     <tr class="level-city"><td><code>440400</code></td><td>广东省</td><td>珠海市</td><td></td></tr>
     <tr><td><code>440402</code></td><td>广东省</td><td>珠海市</td><td>香洲区</td></tr>
     <tr><td><code>440403</code></td><td>广东省</td><td>珠海市</td><td>斗门区</td></tr>
     <tr><td><code>440404</code></td><td>广东省</td><td>珠海市</td><td>金湾区</td></tr>
-    <tr><td><code>440499</code></td><td>广东省</td><td>珠海市</td><td>香洲区(由澳门特别行政区实施管辖)</td></tr>
     <tr class="level-city"><td><code>440500</code></td><td>广东省</td><td>汕头市</td><td></td></tr>
     <tr><td><code>440507</code></td><td>广东省</td><td>汕头市</td><td>龙湖区</td></tr>
     <tr><td><code>440511</code></td><td>广东省</td><td>汕头市</td><td>金平区</td></tr>
@@ -2362,13 +2386,12 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
 </table>
 </div>
 
-
-## 广西壮族自治区（450000）
+### 广西壮族自治区（450000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>450000</code></td><td>广西壮族自治区</td><td></td><td></td></tr>
@@ -2384,7 +2407,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>450124</code></td><td>广西壮族自治区</td><td>南宁市</td><td>马山县</td></tr>
     <tr><td><code>450125</code></td><td>广西壮族自治区</td><td>南宁市</td><td>上林县</td></tr>
     <tr><td><code>450126</code></td><td>广西壮族自治区</td><td>南宁市</td><td>宾阳县</td></tr>
-    <tr><td><code>450127</code></td><td>广西壮族自治区</td><td>南宁市</td><td>横县</td></tr>
+    <tr><td><code>450181</code></td><td>广西壮族自治区</td><td>南宁市</td><td>横州市</td></tr>
     <tr class="level-city"><td><code>450200</code></td><td>广西壮族自治区</td><td>柳州市</td><td></td></tr>
     <tr><td><code>450202</code></td><td>广西壮族自治区</td><td>柳州市</td><td>城中区</td></tr>
     <tr><td><code>450203</code></td><td>广西壮族自治区</td><td>柳州市</td><td>鱼峰区</td></tr>
@@ -2412,8 +2435,8 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>450328</code></td><td>广西壮族自治区</td><td>桂林市</td><td>龙胜各族自治县</td></tr>
     <tr><td><code>450329</code></td><td>广西壮族自治区</td><td>桂林市</td><td>资源县</td></tr>
     <tr><td><code>450330</code></td><td>广西壮族自治区</td><td>桂林市</td><td>平乐县</td></tr>
-    <tr><td><code>450331</code></td><td>广西壮族自治区</td><td>桂林市</td><td>荔浦县</td></tr>
     <tr><td><code>450332</code></td><td>广西壮族自治区</td><td>桂林市</td><td>恭城瑶族自治县</td></tr>
+    <tr><td><code>450381</code></td><td>广西壮族自治区</td><td>桂林市</td><td>荔浦市</td></tr>
     <tr class="level-city"><td><code>450400</code></td><td>广西壮族自治区</td><td>梧州市</td><td></td></tr>
     <tr><td><code>450403</code></td><td>广西壮族自治区</td><td>梧州市</td><td>万秀区</td></tr>
     <tr><td><code>450405</code></td><td>广西壮族自治区</td><td>梧州市</td><td>长洲区</td></tr>
@@ -2453,9 +2476,8 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>450981</code></td><td>广西壮族自治区</td><td>玉林市</td><td>北流市</td></tr>
     <tr class="level-city"><td><code>451000</code></td><td>广西壮族自治区</td><td>百色市</td><td></td></tr>
     <tr><td><code>451002</code></td><td>广西壮族自治区</td><td>百色市</td><td>右江区</td></tr>
-    <tr><td><code>451021</code></td><td>广西壮族自治区</td><td>百色市</td><td>田阳县</td></tr>
+    <tr><td><code>451003</code></td><td>广西壮族自治区</td><td>百色市</td><td>田阳区</td></tr>
     <tr><td><code>451022</code></td><td>广西壮族自治区</td><td>百色市</td><td>田东县</td></tr>
-    <tr><td><code>451023</code></td><td>广西壮族自治区</td><td>百色市</td><td>平果县</td></tr>
     <tr><td><code>451024</code></td><td>广西壮族自治区</td><td>百色市</td><td>德保县</td></tr>
     <tr><td><code>451026</code></td><td>广西壮族自治区</td><td>百色市</td><td>那坡县</td></tr>
     <tr><td><code>451027</code></td><td>广西壮族自治区</td><td>百色市</td><td>凌云县</td></tr>
@@ -2464,6 +2486,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>451030</code></td><td>广西壮族自治区</td><td>百色市</td><td>西林县</td></tr>
     <tr><td><code>451031</code></td><td>广西壮族自治区</td><td>百色市</td><td>隆林各族自治县</td></tr>
     <tr><td><code>451081</code></td><td>广西壮族自治区</td><td>百色市</td><td>靖西市</td></tr>
+    <tr><td><code>451082</code></td><td>广西壮族自治区</td><td>百色市</td><td>平果市</td></tr>
     <tr class="level-city"><td><code>451100</code></td><td>广西壮族自治区</td><td>贺州市</td><td></td></tr>
     <tr><td><code>451102</code></td><td>广西壮族自治区</td><td>贺州市</td><td>八步区</td></tr>
     <tr><td><code>451103</code></td><td>广西壮族自治区</td><td>贺州市</td><td>平桂区</td></tr>
@@ -2501,13 +2524,12 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
 </table>
 </div>
 
-
-## 海南省（460000）
+### 海南省（460000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>460000</code></td><td>海南省</td><td></td><td></td></tr>
@@ -2522,88 +2544,84 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>460204</code></td><td>海南省</td><td>三亚市</td><td>天涯区</td></tr>
     <tr><td><code>460205</code></td><td>海南省</td><td>三亚市</td><td>崖州区</td></tr>
     <tr class="level-city"><td><code>460300</code></td><td>海南省</td><td>三沙市</td><td></td></tr>
-    <tr><td><code>460321</code></td><td>海南省</td><td>三沙市</td><td>西沙群岛</td></tr>
-    <tr><td><code>460322</code></td><td>海南省</td><td>三沙市</td><td>南沙群岛</td></tr>
-    <tr><td><code>460323</code></td><td>海南省</td><td>三沙市</td><td>中沙群岛的岛礁及其海域</td></tr>
+    <tr><td><code>460302</code></td><td>海南省</td><td>三沙市</td><td>西沙区</td></tr>
+    <tr><td><code>460303</code></td><td>海南省</td><td>三沙市</td><td>南沙区</td></tr>
     <tr class="level-city"><td><code>460400</code></td><td>海南省</td><td>儋州市</td><td></td></tr>
-    <tr><td><code>469001</code></td><td>海南省</td><td>五指山市</td><td>五指山市</td></tr>
-    <tr><td><code>469002</code></td><td>海南省</td><td>琼海市</td><td>琼海市</td></tr>
-    <tr><td><code>469005</code></td><td>海南省</td><td>文昌市</td><td>文昌市</td></tr>
-    <tr><td><code>469006</code></td><td>海南省</td><td>万宁市</td><td>万宁市</td></tr>
-    <tr><td><code>469007</code></td><td>海南省</td><td>东方市</td><td>东方市</td></tr>
-    <tr><td><code>469021</code></td><td>海南省</td><td>定安县</td><td>定安县</td></tr>
-    <tr><td><code>469022</code></td><td>海南省</td><td>屯昌县</td><td>屯昌县</td></tr>
-    <tr><td><code>469023</code></td><td>海南省</td><td>澄迈县</td><td>澄迈县</td></tr>
-    <tr><td><code>469024</code></td><td>海南省</td><td>临高县</td><td>临高县</td></tr>
-    <tr><td><code>469025</code></td><td>海南省</td><td>白沙黎族自治县</td><td>白沙黎族自治县</td></tr>
-    <tr><td><code>469026</code></td><td>海南省</td><td>昌江黎族自治县</td><td>昌江黎族自治县</td></tr>
-    <tr><td><code>469027</code></td><td>海南省</td><td>乐东黎族自治县</td><td>乐东黎族自治县</td></tr>
-    <tr><td><code>469028</code></td><td>海南省</td><td>陵水黎族自治县</td><td>陵水黎族自治县</td></tr>
-    <tr><td><code>469029</code></td><td>海南省</td><td>保亭黎族苗族自治县</td><td>保亭黎族苗族自治县</td></tr>
-    <tr><td><code>469030</code></td><td>海南省</td><td>琼中黎族苗族自治县</td><td>琼中黎族苗族自治县</td></tr>
+    <tr><td><code>469001</code></td><td>海南省</td><td>省直辖县级行政区划</td><td>五指山市</td></tr>
+    <tr><td><code>469002</code></td><td>海南省</td><td>省直辖县级行政区划</td><td>琼海市</td></tr>
+    <tr><td><code>469005</code></td><td>海南省</td><td>省直辖县级行政区划</td><td>文昌市</td></tr>
+    <tr><td><code>469006</code></td><td>海南省</td><td>省直辖县级行政区划</td><td>万宁市</td></tr>
+    <tr><td><code>469007</code></td><td>海南省</td><td>省直辖县级行政区划</td><td>东方市</td></tr>
+    <tr><td><code>469021</code></td><td>海南省</td><td>省直辖县级行政区划</td><td>定安县</td></tr>
+    <tr><td><code>469022</code></td><td>海南省</td><td>省直辖县级行政区划</td><td>屯昌县</td></tr>
+    <tr><td><code>469023</code></td><td>海南省</td><td>省直辖县级行政区划</td><td>澄迈县</td></tr>
+    <tr><td><code>469024</code></td><td>海南省</td><td>省直辖县级行政区划</td><td>临高县</td></tr>
+    <tr><td><code>469025</code></td><td>海南省</td><td>省直辖县级行政区划</td><td>白沙黎族自治县</td></tr>
+    <tr><td><code>469026</code></td><td>海南省</td><td>省直辖县级行政区划</td><td>昌江黎族自治县</td></tr>
+    <tr><td><code>469027</code></td><td>海南省</td><td>省直辖县级行政区划</td><td>乐东黎族自治县</td></tr>
+    <tr><td><code>469028</code></td><td>海南省</td><td>省直辖县级行政区划</td><td>陵水黎族自治县</td></tr>
+    <tr><td><code>469029</code></td><td>海南省</td><td>省直辖县级行政区划</td><td>保亭黎族苗族自治县</td></tr>
+    <tr><td><code>469030</code></td><td>海南省</td><td>省直辖县级行政区划</td><td>琼中黎族苗族自治县</td></tr>
   </tbody>
 </table>
 </div>
 
-
-## 重庆市（500000）
+### 重庆市（500000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>500000</code></td><td>重庆市</td><td></td><td></td></tr>
-    <tr><td><code>500101</code></td><td>重庆市</td><td>万州区</td><td></td></tr>
-    <tr><td><code>500102</code></td><td>重庆市</td><td>涪陵区</td><td></td></tr>
-    <tr><td><code>500103</code></td><td>重庆市</td><td>渝中区</td><td></td></tr>
-    <tr><td><code>500104</code></td><td>重庆市</td><td>大渡口区</td><td></td></tr>
-    <tr><td><code>500105</code></td><td>重庆市</td><td>江北区</td><td></td></tr>
-    <tr><td><code>500106</code></td><td>重庆市</td><td>沙坪坝区</td><td></td></tr>
-    <tr><td><code>500107</code></td><td>重庆市</td><td>九龙坡区</td><td></td></tr>
-    <tr><td><code>500108</code></td><td>重庆市</td><td>南岸区</td><td></td></tr>
-    <tr><td><code>500109</code></td><td>重庆市</td><td>北碚区</td><td></td></tr>
-    <tr><td><code>500110</code></td><td>重庆市</td><td>綦江区</td><td></td></tr>
-    <tr><td><code>500111</code></td><td>重庆市</td><td>大足区</td><td></td></tr>
-    <tr><td><code>500112</code></td><td>重庆市</td><td>渝北区</td><td></td></tr>
-    <tr><td><code>500113</code></td><td>重庆市</td><td>巴南区</td><td></td></tr>
-    <tr><td><code>500114</code></td><td>重庆市</td><td>黔江区</td><td></td></tr>
-    <tr><td><code>500115</code></td><td>重庆市</td><td>长寿区</td><td></td></tr>
-    <tr><td><code>500116</code></td><td>重庆市</td><td>江津区</td><td></td></tr>
-    <tr><td><code>500117</code></td><td>重庆市</td><td>合川区</td><td></td></tr>
-    <tr><td><code>500118</code></td><td>重庆市</td><td>永川区</td><td></td></tr>
-    <tr><td><code>500119</code></td><td>重庆市</td><td>南川区</td><td></td></tr>
-    <tr><td><code>500120</code></td><td>重庆市</td><td>璧山区</td><td></td></tr>
-    <tr><td><code>500151</code></td><td>重庆市</td><td>铜梁区</td><td></td></tr>
-    <tr><td><code>500152</code></td><td>重庆市</td><td>潼南区</td><td></td></tr>
-    <tr><td><code>500153</code></td><td>重庆市</td><td>荣昌区</td><td></td></tr>
-    <tr><td><code>500154</code></td><td>重庆市</td><td>开州区</td><td></td></tr>
-    <tr><td><code>500155</code></td><td>重庆市</td><td>梁平区</td><td></td></tr>
-    <tr><td><code>500156</code></td><td>重庆市</td><td>武隆区</td><td></td></tr>
-    <tr><td><code>500229</code></td><td>重庆市</td><td>城口县</td><td></td></tr>
-    <tr><td><code>500230</code></td><td>重庆市</td><td>丰都县</td><td></td></tr>
-    <tr><td><code>500231</code></td><td>重庆市</td><td>垫江县</td><td></td></tr>
-    <tr><td><code>500233</code></td><td>重庆市</td><td>忠县</td><td></td></tr>
-    <tr><td><code>500235</code></td><td>重庆市</td><td>云阳县</td><td></td></tr>
-    <tr><td><code>500236</code></td><td>重庆市</td><td>奉节县</td><td></td></tr>
-    <tr><td><code>500237</code></td><td>重庆市</td><td>巫山县</td><td></td></tr>
-    <tr><td><code>500238</code></td><td>重庆市</td><td>巫溪县</td><td></td></tr>
-    <tr><td><code>500240</code></td><td>重庆市</td><td>重庆市</td><td>石柱土家族自治县</td></tr>
-    <tr><td><code>500241</code></td><td>重庆市</td><td>重庆市</td><td>秀山土家族苗族自治县</td></tr>
-    <tr><td><code>500242</code></td><td>重庆市</td><td>重庆市</td><td>酉阳土家族苗族自治县</td></tr>
-    <tr><td><code>500243</code></td><td>重庆市</td><td>重庆市</td><td>彭水苗族土家族自治县</td></tr>
+    <tr><td><code>500101</code></td><td>重庆市</td><td>（直辖）</td><td>万州区</td></tr>
+    <tr><td><code>500102</code></td><td>重庆市</td><td>（直辖）</td><td>涪陵区</td></tr>
+    <tr><td><code>500103</code></td><td>重庆市</td><td>（直辖）</td><td>渝中区</td></tr>
+    <tr><td><code>500104</code></td><td>重庆市</td><td>（直辖）</td><td>大渡口区</td></tr>
+    <tr><td><code>500106</code></td><td>重庆市</td><td>（直辖）</td><td>沙坪坝区</td></tr>
+    <tr><td><code>500107</code></td><td>重庆市</td><td>（直辖）</td><td>九龙坡区</td></tr>
+    <tr><td><code>500108</code></td><td>重庆市</td><td>（直辖）</td><td>南岸区</td></tr>
+    <tr><td><code>500109</code></td><td>重庆市</td><td>（直辖）</td><td>北碚区</td></tr>
+    <tr><td><code>500110</code></td><td>重庆市</td><td>（直辖）</td><td>綦江区</td></tr>
+    <tr><td><code>500111</code></td><td>重庆市</td><td>（直辖）</td><td>大足区</td></tr>
+    <tr><td><code>500113</code></td><td>重庆市</td><td>（直辖）</td><td>巴南区</td></tr>
+    <tr><td><code>500114</code></td><td>重庆市</td><td>（直辖）</td><td>黔江区</td></tr>
+    <tr><td><code>500115</code></td><td>重庆市</td><td>（直辖）</td><td>长寿区</td></tr>
+    <tr><td><code>500116</code></td><td>重庆市</td><td>（直辖）</td><td>江津区</td></tr>
+    <tr><td><code>500117</code></td><td>重庆市</td><td>（直辖）</td><td>合川区</td></tr>
+    <tr><td><code>500118</code></td><td>重庆市</td><td>（直辖）</td><td>永川区</td></tr>
+    <tr><td><code>500119</code></td><td>重庆市</td><td>（直辖）</td><td>南川区</td></tr>
+    <tr><td><code>500120</code></td><td>重庆市</td><td>（直辖）</td><td>璧山区</td></tr>
+    <tr><td><code>500151</code></td><td>重庆市</td><td>（直辖）</td><td>铜梁区</td></tr>
+    <tr><td><code>500152</code></td><td>重庆市</td><td>（直辖）</td><td>潼南区</td></tr>
+    <tr><td><code>500153</code></td><td>重庆市</td><td>（直辖）</td><td>荣昌区</td></tr>
+    <tr><td><code>500154</code></td><td>重庆市</td><td>（直辖）</td><td>开州区</td></tr>
+    <tr><td><code>500155</code></td><td>重庆市</td><td>（直辖）</td><td>梁平区</td></tr>
+    <tr><td><code>500156</code></td><td>重庆市</td><td>（直辖）</td><td>武隆区</td></tr>
+    <tr><td><code>500157</code></td><td>重庆市</td><td>（直辖）</td><td>两江新区</td></tr>
+    <tr><td><code>500229</code></td><td>重庆市</td><td>（直辖）</td><td>城口县</td></tr>
+    <tr><td><code>500230</code></td><td>重庆市</td><td>（直辖）</td><td>丰都县</td></tr>
+    <tr><td><code>500231</code></td><td>重庆市</td><td>（直辖）</td><td>垫江县</td></tr>
+    <tr><td><code>500233</code></td><td>重庆市</td><td>（直辖）</td><td>忠县</td></tr>
+    <tr><td><code>500235</code></td><td>重庆市</td><td>（直辖）</td><td>云阳县</td></tr>
+    <tr><td><code>500236</code></td><td>重庆市</td><td>（直辖）</td><td>奉节县</td></tr>
+    <tr><td><code>500237</code></td><td>重庆市</td><td>（直辖）</td><td>巫山县</td></tr>
+    <tr><td><code>500238</code></td><td>重庆市</td><td>（直辖）</td><td>巫溪县</td></tr>
+    <tr><td><code>500240</code></td><td>重庆市</td><td>（直辖）</td><td>石柱土家族自治县</td></tr>
+    <tr><td><code>500241</code></td><td>重庆市</td><td>（直辖）</td><td>秀山土家族苗族自治县</td></tr>
+    <tr><td><code>500242</code></td><td>重庆市</td><td>（直辖）</td><td>酉阳土家族苗族自治县</td></tr>
+    <tr><td><code>500243</code></td><td>重庆市</td><td>（直辖）</td><td>彭水苗族土家族自治县</td></tr>
   </tbody>
 </table>
 </div>
 
-
-## 四川省（510000）
+### 四川省（510000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>510000</code></td><td>四川省</td><td></td><td></td></tr>
@@ -2619,10 +2637,10 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>510115</code></td><td>四川省</td><td>成都市</td><td>温江区</td></tr>
     <tr><td><code>510116</code></td><td>四川省</td><td>成都市</td><td>双流区</td></tr>
     <tr><td><code>510117</code></td><td>四川省</td><td>成都市</td><td>郫都区</td></tr>
+    <tr><td><code>510118</code></td><td>四川省</td><td>成都市</td><td>新津区</td></tr>
     <tr><td><code>510121</code></td><td>四川省</td><td>成都市</td><td>金堂县</td></tr>
     <tr><td><code>510129</code></td><td>四川省</td><td>成都市</td><td>大邑县</td></tr>
     <tr><td><code>510131</code></td><td>四川省</td><td>成都市</td><td>蒲江县</td></tr>
-    <tr><td><code>510132</code></td><td>四川省</td><td>成都市</td><td>新津县</td></tr>
     <tr><td><code>510181</code></td><td>四川省</td><td>成都市</td><td>都江堰市</td></tr>
     <tr><td><code>510182</code></td><td>四川省</td><td>成都市</td><td>彭州市</td></tr>
     <tr><td><code>510183</code></td><td>四川省</td><td>成都市</td><td>邛崃市</td></tr>
@@ -2651,8 +2669,8 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>510525</code></td><td>四川省</td><td>泸州市</td><td>古蔺县</td></tr>
     <tr class="level-city"><td><code>510600</code></td><td>四川省</td><td>德阳市</td><td></td></tr>
     <tr><td><code>510603</code></td><td>四川省</td><td>德阳市</td><td>旌阳区</td></tr>
+    <tr><td><code>510604</code></td><td>四川省</td><td>德阳市</td><td>罗江区</td></tr>
     <tr><td><code>510623</code></td><td>四川省</td><td>德阳市</td><td>中江县</td></tr>
-    <tr><td><code>510626</code></td><td>四川省</td><td>德阳市</td><td>罗江县</td></tr>
     <tr><td><code>510681</code></td><td>四川省</td><td>德阳市</td><td>广汉市</td></tr>
     <tr><td><code>510682</code></td><td>四川省</td><td>德阳市</td><td>什邡市</td></tr>
     <tr><td><code>510683</code></td><td>四川省</td><td>德阳市</td><td>绵竹市</td></tr>
@@ -2678,8 +2696,8 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>510903</code></td><td>四川省</td><td>遂宁市</td><td>船山区</td></tr>
     <tr><td><code>510904</code></td><td>四川省</td><td>遂宁市</td><td>安居区</td></tr>
     <tr><td><code>510921</code></td><td>四川省</td><td>遂宁市</td><td>蓬溪县</td></tr>
-    <tr><td><code>510922</code></td><td>四川省</td><td>遂宁市</td><td>射洪县</td></tr>
     <tr><td><code>510923</code></td><td>四川省</td><td>遂宁市</td><td>大英县</td></tr>
+    <tr><td><code>510981</code></td><td>四川省</td><td>遂宁市</td><td>射洪市</td></tr>
     <tr class="level-city"><td><code>511000</code></td><td>四川省</td><td>内江市</td><td></td></tr>
     <tr><td><code>511002</code></td><td>四川省</td><td>内江市</td><td>市中区</td></tr>
     <tr><td><code>511011</code></td><td>四川省</td><td>内江市</td><td>东兴区</td></tr>
@@ -2718,7 +2736,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr class="level-city"><td><code>511500</code></td><td>四川省</td><td>宜宾市</td><td></td></tr>
     <tr><td><code>511502</code></td><td>四川省</td><td>宜宾市</td><td>翠屏区</td></tr>
     <tr><td><code>511503</code></td><td>四川省</td><td>宜宾市</td><td>南溪区</td></tr>
-    <tr><td><code>511521</code></td><td>四川省</td><td>宜宾市</td><td>宜宾县</td></tr>
+    <tr><td><code>511504</code></td><td>四川省</td><td>宜宾市</td><td>叙州区</td></tr>
     <tr><td><code>511523</code></td><td>四川省</td><td>宜宾市</td><td>江安县</td></tr>
     <tr><td><code>511524</code></td><td>四川省</td><td>宜宾市</td><td>长宁县</td></tr>
     <tr><td><code>511525</code></td><td>四川省</td><td>宜宾市</td><td>高县</td></tr>
@@ -2795,10 +2813,10 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>513338</code></td><td>四川省</td><td>甘孜藏族自治州</td><td>得荣县</td></tr>
     <tr class="level-city"><td><code>513400</code></td><td>四川省</td><td>凉山彝族自治州</td><td></td></tr>
     <tr><td><code>513401</code></td><td>四川省</td><td>凉山彝族自治州</td><td>西昌市</td></tr>
+    <tr><td><code>513402</code></td><td>四川省</td><td>凉山彝族自治州</td><td>会理市</td></tr>
     <tr><td><code>513422</code></td><td>四川省</td><td>凉山彝族自治州</td><td>木里藏族自治县</td></tr>
     <tr><td><code>513423</code></td><td>四川省</td><td>凉山彝族自治州</td><td>盐源县</td></tr>
     <tr><td><code>513424</code></td><td>四川省</td><td>凉山彝族自治州</td><td>德昌县</td></tr>
-    <tr><td><code>513425</code></td><td>四川省</td><td>凉山彝族自治州</td><td>会理县</td></tr>
     <tr><td><code>513426</code></td><td>四川省</td><td>凉山彝族自治州</td><td>会东县</td></tr>
     <tr><td><code>513427</code></td><td>四川省</td><td>凉山彝族自治州</td><td>宁南县</td></tr>
     <tr><td><code>513428</code></td><td>四川省</td><td>凉山彝族自治州</td><td>普格县</td></tr>
@@ -2815,13 +2833,12 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
 </table>
 </div>
 
-
-## 贵州省（520000）
+### 贵州省（520000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>520000</code></td><td>贵州省</td><td></td><td></td></tr>
@@ -2839,7 +2856,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr class="level-city"><td><code>520200</code></td><td>贵州省</td><td>六盘水市</td><td></td></tr>
     <tr><td><code>520201</code></td><td>贵州省</td><td>六盘水市</td><td>钟山区</td></tr>
     <tr><td><code>520203</code></td><td>贵州省</td><td>六盘水市</td><td>六枝特区</td></tr>
-    <tr><td><code>520221</code></td><td>贵州省</td><td>六盘水市</td><td>水城县</td></tr>
+    <tr><td><code>520204</code></td><td>贵州省</td><td>六盘水市</td><td>水城区</td></tr>
     <tr><td><code>520281</code></td><td>贵州省</td><td>六盘水市</td><td>盘州市</td></tr>
     <tr class="level-city"><td><code>520300</code></td><td>贵州省</td><td>遵义市</td><td></td></tr>
     <tr><td><code>520302</code></td><td>贵州省</td><td>遵义市</td><td>红花岗区</td></tr>
@@ -2866,12 +2883,12 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr class="level-city"><td><code>520500</code></td><td>贵州省</td><td>毕节市</td><td></td></tr>
     <tr><td><code>520502</code></td><td>贵州省</td><td>毕节市</td><td>七星关区</td></tr>
     <tr><td><code>520521</code></td><td>贵州省</td><td>毕节市</td><td>大方县</td></tr>
-    <tr><td><code>520522</code></td><td>贵州省</td><td>毕节市</td><td>黔西县</td></tr>
     <tr><td><code>520523</code></td><td>贵州省</td><td>毕节市</td><td>金沙县</td></tr>
     <tr><td><code>520524</code></td><td>贵州省</td><td>毕节市</td><td>织金县</td></tr>
     <tr><td><code>520525</code></td><td>贵州省</td><td>毕节市</td><td>纳雍县</td></tr>
     <tr><td><code>520526</code></td><td>贵州省</td><td>毕节市</td><td>威宁彝族回族苗族自治县</td></tr>
     <tr><td><code>520527</code></td><td>贵州省</td><td>毕节市</td><td>赫章县</td></tr>
+    <tr><td><code>520581</code></td><td>贵州省</td><td>毕节市</td><td>黔西市</td></tr>
     <tr class="level-city"><td><code>520600</code></td><td>贵州省</td><td>铜仁市</td><td></td></tr>
     <tr><td><code>520602</code></td><td>贵州省</td><td>铜仁市</td><td>碧江区</td></tr>
     <tr><td><code>520603</code></td><td>贵州省</td><td>铜仁市</td><td>万山区</td></tr>
@@ -2885,7 +2902,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>520628</code></td><td>贵州省</td><td>铜仁市</td><td>松桃苗族自治县</td></tr>
     <tr class="level-city"><td><code>522300</code></td><td>贵州省</td><td>黔西南布依族苗族自治州</td><td></td></tr>
     <tr><td><code>522301</code></td><td>贵州省</td><td>黔西南布依族苗族自治州</td><td>兴义市</td></tr>
-    <tr><td><code>522322</code></td><td>贵州省</td><td>黔西南布依族苗族自治州</td><td>兴仁县</td></tr>
+    <tr><td><code>522302</code></td><td>贵州省</td><td>黔西南布依族苗族自治州</td><td>兴仁市</td></tr>
     <tr><td><code>522323</code></td><td>贵州省</td><td>黔西南布依族苗族自治州</td><td>普安县</td></tr>
     <tr><td><code>522324</code></td><td>贵州省</td><td>黔西南布依族苗族自治州</td><td>晴隆县</td></tr>
     <tr><td><code>522325</code></td><td>贵州省</td><td>黔西南布依族苗族自治州</td><td>贞丰县</td></tr>
@@ -2926,13 +2943,12 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
 </table>
 </div>
 
-
-## 云南省（530000）
+### 云南省（530000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>530000</code></td><td>云南省</td><td></td><td></td></tr>
@@ -2954,7 +2970,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr class="level-city"><td><code>530300</code></td><td>云南省</td><td>曲靖市</td><td></td></tr>
     <tr><td><code>530302</code></td><td>云南省</td><td>曲靖市</td><td>麒麟区</td></tr>
     <tr><td><code>530303</code></td><td>云南省</td><td>曲靖市</td><td>沾益区</td></tr>
-    <tr><td><code>530321</code></td><td>云南省</td><td>曲靖市</td><td>马龙县</td></tr>
+    <tr><td><code>530304</code></td><td>云南省</td><td>曲靖市</td><td>马龙区</td></tr>
     <tr><td><code>530322</code></td><td>云南省</td><td>曲靖市</td><td>陆良县</td></tr>
     <tr><td><code>530323</code></td><td>云南省</td><td>曲靖市</td><td>师宗县</td></tr>
     <tr><td><code>530324</code></td><td>云南省</td><td>曲靖市</td><td>罗平县</td></tr>
@@ -2964,13 +2980,13 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr class="level-city"><td><code>530400</code></td><td>云南省</td><td>玉溪市</td><td></td></tr>
     <tr><td><code>530402</code></td><td>云南省</td><td>玉溪市</td><td>红塔区</td></tr>
     <tr><td><code>530403</code></td><td>云南省</td><td>玉溪市</td><td>江川区</td></tr>
-    <tr><td><code>530422</code></td><td>云南省</td><td>玉溪市</td><td>澄江县</td></tr>
     <tr><td><code>530423</code></td><td>云南省</td><td>玉溪市</td><td>通海县</td></tr>
     <tr><td><code>530424</code></td><td>云南省</td><td>玉溪市</td><td>华宁县</td></tr>
     <tr><td><code>530425</code></td><td>云南省</td><td>玉溪市</td><td>易门县</td></tr>
     <tr><td><code>530426</code></td><td>云南省</td><td>玉溪市</td><td>峨山彝族自治县</td></tr>
     <tr><td><code>530427</code></td><td>云南省</td><td>玉溪市</td><td>新平彝族傣族自治县</td></tr>
     <tr><td><code>530428</code></td><td>云南省</td><td>玉溪市</td><td>元江哈尼族彝族傣族自治县</td></tr>
+    <tr><td><code>530481</code></td><td>云南省</td><td>玉溪市</td><td>澄江市</td></tr>
     <tr class="level-city"><td><code>530500</code></td><td>云南省</td><td>保山市</td><td></td></tr>
     <tr><td><code>530502</code></td><td>云南省</td><td>保山市</td><td>隆阳区</td></tr>
     <tr><td><code>530521</code></td><td>云南省</td><td>保山市</td><td>施甸县</td></tr>
@@ -2988,7 +3004,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>530627</code></td><td>云南省</td><td>昭通市</td><td>镇雄县</td></tr>
     <tr><td><code>530628</code></td><td>云南省</td><td>昭通市</td><td>彝良县</td></tr>
     <tr><td><code>530629</code></td><td>云南省</td><td>昭通市</td><td>威信县</td></tr>
-    <tr><td><code>530630</code></td><td>云南省</td><td>昭通市</td><td>水富县</td></tr>
+    <tr><td><code>530681</code></td><td>云南省</td><td>昭通市</td><td>水富市</td></tr>
     <tr class="level-city"><td><code>530700</code></td><td>云南省</td><td>丽江市</td><td></td></tr>
     <tr><td><code>530702</code></td><td>云南省</td><td>丽江市</td><td>古城区</td></tr>
     <tr><td><code>530721</code></td><td>云南省</td><td>丽江市</td><td>玉龙纳西族自治县</td></tr>
@@ -3017,6 +3033,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>530927</code></td><td>云南省</td><td>临沧市</td><td>沧源佤族自治县</td></tr>
     <tr class="level-city"><td><code>532300</code></td><td>云南省</td><td>楚雄彝族自治州</td><td></td></tr>
     <tr><td><code>532301</code></td><td>云南省</td><td>楚雄彝族自治州</td><td>楚雄市</td></tr>
+    <tr><td><code>532302</code></td><td>云南省</td><td>楚雄彝族自治州</td><td>禄丰市</td></tr>
     <tr><td><code>532322</code></td><td>云南省</td><td>楚雄彝族自治州</td><td>双柏县</td></tr>
     <tr><td><code>532323</code></td><td>云南省</td><td>楚雄彝族自治州</td><td>牟定县</td></tr>
     <tr><td><code>532324</code></td><td>云南省</td><td>楚雄彝族自治州</td><td>南华县</td></tr>
@@ -3025,7 +3042,6 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>532327</code></td><td>云南省</td><td>楚雄彝族自治州</td><td>永仁县</td></tr>
     <tr><td><code>532328</code></td><td>云南省</td><td>楚雄彝族自治州</td><td>元谋县</td></tr>
     <tr><td><code>532329</code></td><td>云南省</td><td>楚雄彝族自治州</td><td>武定县</td></tr>
-    <tr><td><code>532331</code></td><td>云南省</td><td>楚雄彝族自治州</td><td>禄丰县</td></tr>
     <tr class="level-city"><td><code>532500</code></td><td>云南省</td><td>红河哈尼族彝族自治州</td><td></td></tr>
     <tr><td><code>532501</code></td><td>云南省</td><td>红河哈尼族彝族自治州</td><td>个旧市</td></tr>
     <tr><td><code>532502</code></td><td>云南省</td><td>红河哈尼族彝族自治州</td><td>开远市</td></tr>
@@ -3085,24 +3101,23 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
 </table>
 </div>
 
-
-## 西藏自治区（540000）
+### 西藏自治区（540000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>540000</code></td><td>西藏自治区</td><td></td><td></td></tr>
     <tr class="level-city"><td><code>540100</code></td><td>西藏自治区</td><td>拉萨市</td><td></td></tr>
     <tr><td><code>540102</code></td><td>西藏自治区</td><td>拉萨市</td><td>城关区</td></tr>
     <tr><td><code>540103</code></td><td>西藏自治区</td><td>拉萨市</td><td>堆龙德庆区</td></tr>
+    <tr><td><code>540104</code></td><td>西藏自治区</td><td>拉萨市</td><td>达孜区</td></tr>
     <tr><td><code>540121</code></td><td>西藏自治区</td><td>拉萨市</td><td>林周县</td></tr>
     <tr><td><code>540122</code></td><td>西藏自治区</td><td>拉萨市</td><td>当雄县</td></tr>
     <tr><td><code>540123</code></td><td>西藏自治区</td><td>拉萨市</td><td>尼木县</td></tr>
     <tr><td><code>540124</code></td><td>西藏自治区</td><td>拉萨市</td><td>曲水县</td></tr>
-    <tr><td><code>540126</code></td><td>西藏自治区</td><td>拉萨市</td><td>达孜县</td></tr>
     <tr><td><code>540127</code></td><td>西藏自治区</td><td>拉萨市</td><td>墨竹工卡县</td></tr>
     <tr class="level-city"><td><code>540200</code></td><td>西藏自治区</td><td>日喀则市</td><td></td></tr>
     <tr><td><code>540202</code></td><td>西藏自治区</td><td>日喀则市</td><td>桑珠孜区</td></tr>
@@ -3138,11 +3153,11 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr class="level-city"><td><code>540400</code></td><td>西藏自治区</td><td>林芝市</td><td></td></tr>
     <tr><td><code>540402</code></td><td>西藏自治区</td><td>林芝市</td><td>巴宜区</td></tr>
     <tr><td><code>540421</code></td><td>西藏自治区</td><td>林芝市</td><td>工布江达县</td></tr>
-    <tr><td><code>540422</code></td><td>西藏自治区</td><td>林芝市</td><td>米林县</td></tr>
     <tr><td><code>540423</code></td><td>西藏自治区</td><td>林芝市</td><td>墨脱县</td></tr>
     <tr><td><code>540424</code></td><td>西藏自治区</td><td>林芝市</td><td>波密县</td></tr>
     <tr><td><code>540425</code></td><td>西藏自治区</td><td>林芝市</td><td>察隅县</td></tr>
     <tr><td><code>540426</code></td><td>西藏自治区</td><td>林芝市</td><td>朗县</td></tr>
+    <tr><td><code>540481</code></td><td>西藏自治区</td><td>林芝市</td><td>米林市</td></tr>
     <tr class="level-city"><td><code>540500</code></td><td>西藏自治区</td><td>山南市</td><td></td></tr>
     <tr><td><code>540502</code></td><td>西藏自治区</td><td>山南市</td><td>乃东区</td></tr>
     <tr><td><code>540521</code></td><td>西藏自治区</td><td>山南市</td><td>扎囊县</td></tr>
@@ -3154,20 +3169,20 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>540527</code></td><td>西藏自治区</td><td>山南市</td><td>洛扎县</td></tr>
     <tr><td><code>540528</code></td><td>西藏自治区</td><td>山南市</td><td>加查县</td></tr>
     <tr><td><code>540529</code></td><td>西藏自治区</td><td>山南市</td><td>隆子县</td></tr>
-    <tr><td><code>540530</code></td><td>西藏自治区</td><td>山南市</td><td>错那县</td></tr>
     <tr><td><code>540531</code></td><td>西藏自治区</td><td>山南市</td><td>浪卡子县</td></tr>
-    <tr class="level-city"><td><code>542400</code></td><td>西藏自治区</td><td>那曲地区</td><td></td></tr>
-    <tr><td><code>542421</code></td><td>西藏自治区</td><td>那曲地区</td><td>那曲县</td></tr>
-    <tr><td><code>542422</code></td><td>西藏自治区</td><td>那曲地区</td><td>嘉黎县</td></tr>
-    <tr><td><code>542423</code></td><td>西藏自治区</td><td>那曲地区</td><td>比如县</td></tr>
-    <tr><td><code>542424</code></td><td>西藏自治区</td><td>那曲地区</td><td>聂荣县</td></tr>
-    <tr><td><code>542425</code></td><td>西藏自治区</td><td>那曲地区</td><td>安多县</td></tr>
-    <tr><td><code>542426</code></td><td>西藏自治区</td><td>那曲地区</td><td>申扎县</td></tr>
-    <tr><td><code>542427</code></td><td>西藏自治区</td><td>那曲地区</td><td>索县</td></tr>
-    <tr><td><code>542428</code></td><td>西藏自治区</td><td>那曲地区</td><td>班戈县</td></tr>
-    <tr><td><code>542429</code></td><td>西藏自治区</td><td>那曲地区</td><td>巴青县</td></tr>
-    <tr><td><code>542430</code></td><td>西藏自治区</td><td>那曲地区</td><td>尼玛县</td></tr>
-    <tr><td><code>542431</code></td><td>西藏自治区</td><td>那曲地区</td><td>双湖县</td></tr>
+    <tr><td><code>540581</code></td><td>西藏自治区</td><td>山南市</td><td>错那市</td></tr>
+    <tr class="level-city"><td><code>540600</code></td><td>西藏自治区</td><td>那曲市</td><td></td></tr>
+    <tr><td><code>540602</code></td><td>西藏自治区</td><td>那曲市</td><td>色尼区</td></tr>
+    <tr><td><code>540621</code></td><td>西藏自治区</td><td>那曲市</td><td>嘉黎县</td></tr>
+    <tr><td><code>540622</code></td><td>西藏自治区</td><td>那曲市</td><td>比如县</td></tr>
+    <tr><td><code>540623</code></td><td>西藏自治区</td><td>那曲市</td><td>聂荣县</td></tr>
+    <tr><td><code>540624</code></td><td>西藏自治区</td><td>那曲市</td><td>安多县</td></tr>
+    <tr><td><code>540625</code></td><td>西藏自治区</td><td>那曲市</td><td>申扎县</td></tr>
+    <tr><td><code>540626</code></td><td>西藏自治区</td><td>那曲市</td><td>索县</td></tr>
+    <tr><td><code>540627</code></td><td>西藏自治区</td><td>那曲市</td><td>班戈县</td></tr>
+    <tr><td><code>540628</code></td><td>西藏自治区</td><td>那曲市</td><td>巴青县</td></tr>
+    <tr><td><code>540629</code></td><td>西藏自治区</td><td>那曲市</td><td>尼玛县</td></tr>
+    <tr><td><code>540630</code></td><td>西藏自治区</td><td>那曲市</td><td>双湖县</td></tr>
     <tr class="level-city"><td><code>542500</code></td><td>西藏自治区</td><td>阿里地区</td><td></td></tr>
     <tr><td><code>542521</code></td><td>西藏自治区</td><td>阿里地区</td><td>普兰县</td></tr>
     <tr><td><code>542522</code></td><td>西藏自治区</td><td>阿里地区</td><td>札达县</td></tr>
@@ -3180,13 +3195,12 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
 </table>
 </div>
 
-
-## 陕西省（610000）
+### 陕西省（610000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>610000</code></td><td>陕西省</td><td></td><td></td></tr>
@@ -3213,7 +3227,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>610302</code></td><td>陕西省</td><td>宝鸡市</td><td>渭滨区</td></tr>
     <tr><td><code>610303</code></td><td>陕西省</td><td>宝鸡市</td><td>金台区</td></tr>
     <tr><td><code>610304</code></td><td>陕西省</td><td>宝鸡市</td><td>陈仓区</td></tr>
-    <tr><td><code>610322</code></td><td>陕西省</td><td>宝鸡市</td><td>凤翔县</td></tr>
+    <tr><td><code>610305</code></td><td>陕西省</td><td>宝鸡市</td><td>凤翔区</td></tr>
     <tr><td><code>610323</code></td><td>陕西省</td><td>宝鸡市</td><td>岐山县</td></tr>
     <tr><td><code>610324</code></td><td>陕西省</td><td>宝鸡市</td><td>扶风县</td></tr>
     <tr><td><code>610326</code></td><td>陕西省</td><td>宝鸡市</td><td>眉县</td></tr>
@@ -3231,12 +3245,12 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>610424</code></td><td>陕西省</td><td>咸阳市</td><td>乾县</td></tr>
     <tr><td><code>610425</code></td><td>陕西省</td><td>咸阳市</td><td>礼泉县</td></tr>
     <tr><td><code>610426</code></td><td>陕西省</td><td>咸阳市</td><td>永寿县</td></tr>
-    <tr><td><code>610427</code></td><td>陕西省</td><td>咸阳市</td><td>彬县</td></tr>
     <tr><td><code>610428</code></td><td>陕西省</td><td>咸阳市</td><td>长武县</td></tr>
     <tr><td><code>610429</code></td><td>陕西省</td><td>咸阳市</td><td>旬邑县</td></tr>
     <tr><td><code>610430</code></td><td>陕西省</td><td>咸阳市</td><td>淳化县</td></tr>
     <tr><td><code>610431</code></td><td>陕西省</td><td>咸阳市</td><td>武功县</td></tr>
     <tr><td><code>610481</code></td><td>陕西省</td><td>咸阳市</td><td>兴平市</td></tr>
+    <tr><td><code>610482</code></td><td>陕西省</td><td>咸阳市</td><td>彬州市</td></tr>
     <tr class="level-city"><td><code>610500</code></td><td>陕西省</td><td>渭南市</td><td></td></tr>
     <tr><td><code>610502</code></td><td>陕西省</td><td>渭南市</td><td>临渭区</td></tr>
     <tr><td><code>610503</code></td><td>陕西省</td><td>渭南市</td><td>华州区</td></tr>
@@ -3254,7 +3268,6 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>610603</code></td><td>陕西省</td><td>延安市</td><td>安塞区</td></tr>
     <tr><td><code>610621</code></td><td>陕西省</td><td>延安市</td><td>延长县</td></tr>
     <tr><td><code>610622</code></td><td>陕西省</td><td>延安市</td><td>延川县</td></tr>
-    <tr><td><code>610623</code></td><td>陕西省</td><td>延安市</td><td>子长县</td></tr>
     <tr><td><code>610625</code></td><td>陕西省</td><td>延安市</td><td>志丹县</td></tr>
     <tr><td><code>610626</code></td><td>陕西省</td><td>延安市</td><td>吴起县</td></tr>
     <tr><td><code>610627</code></td><td>陕西省</td><td>延安市</td><td>甘泉县</td></tr>
@@ -3263,9 +3276,10 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>610630</code></td><td>陕西省</td><td>延安市</td><td>宜川县</td></tr>
     <tr><td><code>610631</code></td><td>陕西省</td><td>延安市</td><td>黄龙县</td></tr>
     <tr><td><code>610632</code></td><td>陕西省</td><td>延安市</td><td>黄陵县</td></tr>
+    <tr><td><code>610681</code></td><td>陕西省</td><td>延安市</td><td>子长市</td></tr>
     <tr class="level-city"><td><code>610700</code></td><td>陕西省</td><td>汉中市</td><td></td></tr>
     <tr><td><code>610702</code></td><td>陕西省</td><td>汉中市</td><td>汉台区</td></tr>
-    <tr><td><code>610721</code></td><td>陕西省</td><td>汉中市</td><td>南郑县</td></tr>
+    <tr><td><code>610703</code></td><td>陕西省</td><td>汉中市</td><td>南郑区</td></tr>
     <tr><td><code>610722</code></td><td>陕西省</td><td>汉中市</td><td>城固县</td></tr>
     <tr><td><code>610723</code></td><td>陕西省</td><td>汉中市</td><td>洋县</td></tr>
     <tr><td><code>610724</code></td><td>陕西省</td><td>汉中市</td><td>西乡县</td></tr>
@@ -3297,8 +3311,8 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>610925</code></td><td>陕西省</td><td>安康市</td><td>岚皋县</td></tr>
     <tr><td><code>610926</code></td><td>陕西省</td><td>安康市</td><td>平利县</td></tr>
     <tr><td><code>610927</code></td><td>陕西省</td><td>安康市</td><td>镇坪县</td></tr>
-    <tr><td><code>610928</code></td><td>陕西省</td><td>安康市</td><td>旬阳县</td></tr>
     <tr><td><code>610929</code></td><td>陕西省</td><td>安康市</td><td>白河县</td></tr>
+    <tr><td><code>610981</code></td><td>陕西省</td><td>安康市</td><td>旬阳市</td></tr>
     <tr class="level-city"><td><code>611000</code></td><td>陕西省</td><td>商洛市</td><td></td></tr>
     <tr><td><code>611002</code></td><td>陕西省</td><td>商洛市</td><td>商州区</td></tr>
     <tr><td><code>611021</code></td><td>陕西省</td><td>商洛市</td><td>洛南县</td></tr>
@@ -3311,13 +3325,12 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
 </table>
 </div>
 
-
-## 甘肃省（620000）
+### 甘肃省（620000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>620000</code></td><td>甘肃省</td><td></td><td></td></tr>
@@ -3331,7 +3344,6 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>620122</code></td><td>甘肃省</td><td>兰州市</td><td>皋兰县</td></tr>
     <tr><td><code>620123</code></td><td>甘肃省</td><td>兰州市</td><td>榆中县</td></tr>
     <tr class="level-city"><td><code>620200</code></td><td>甘肃省</td><td>嘉峪关市</td><td></td></tr>
-    <tr><td><code>620201</code></td><td>甘肃省</td><td>嘉峪关市</td><td>嘉峪关市</td></tr>
     <tr class="level-city"><td><code>620300</code></td><td>甘肃省</td><td>金昌市</td><td></td></tr>
     <tr><td><code>620302</code></td><td>甘肃省</td><td>金昌市</td><td>金川区</td></tr>
     <tr><td><code>620321</code></td><td>甘肃省</td><td>金昌市</td><td>永昌县</td></tr>
@@ -3366,9 +3378,9 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>620821</code></td><td>甘肃省</td><td>平凉市</td><td>泾川县</td></tr>
     <tr><td><code>620822</code></td><td>甘肃省</td><td>平凉市</td><td>灵台县</td></tr>
     <tr><td><code>620823</code></td><td>甘肃省</td><td>平凉市</td><td>崇信县</td></tr>
-    <tr><td><code>620824</code></td><td>甘肃省</td><td>平凉市</td><td>华亭县</td></tr>
     <tr><td><code>620825</code></td><td>甘肃省</td><td>平凉市</td><td>庄浪县</td></tr>
     <tr><td><code>620826</code></td><td>甘肃省</td><td>平凉市</td><td>静宁县</td></tr>
+    <tr><td><code>620881</code></td><td>甘肃省</td><td>平凉市</td><td>华亭市</td></tr>
     <tr class="level-city"><td><code>620900</code></td><td>甘肃省</td><td>酒泉市</td><td></td></tr>
     <tr><td><code>620902</code></td><td>甘肃省</td><td>酒泉市</td><td>肃州区</td></tr>
     <tr><td><code>620921</code></td><td>甘肃省</td><td>酒泉市</td><td>金塔县</td></tr>
@@ -3426,13 +3438,12 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
 </table>
 </div>
 
-
-## 青海省（630000）
+### 青海省（630000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>630000</code></td><td>青海省</td><td></td><td></td></tr>
@@ -3441,8 +3452,8 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>630103</code></td><td>青海省</td><td>西宁市</td><td>城中区</td></tr>
     <tr><td><code>630104</code></td><td>青海省</td><td>西宁市</td><td>城西区</td></tr>
     <tr><td><code>630105</code></td><td>青海省</td><td>西宁市</td><td>城北区</td></tr>
+    <tr><td><code>630106</code></td><td>青海省</td><td>西宁市</td><td>湟中区</td></tr>
     <tr><td><code>630121</code></td><td>青海省</td><td>西宁市</td><td>大通回族土族自治县</td></tr>
-    <tr><td><code>630122</code></td><td>青海省</td><td>西宁市</td><td>湟中县</td></tr>
     <tr><td><code>630123</code></td><td>青海省</td><td>西宁市</td><td>湟源县</td></tr>
     <tr class="level-city"><td><code>630200</code></td><td>青海省</td><td>海东市</td><td></td></tr>
     <tr><td><code>630202</code></td><td>青海省</td><td>海东市</td><td>乐都区</td></tr>
@@ -3457,7 +3468,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>632223</code></td><td>青海省</td><td>海北藏族自治州</td><td>海晏县</td></tr>
     <tr><td><code>632224</code></td><td>青海省</td><td>海北藏族自治州</td><td>刚察县</td></tr>
     <tr class="level-city"><td><code>632300</code></td><td>青海省</td><td>黄南藏族自治州</td><td></td></tr>
-    <tr><td><code>632321</code></td><td>青海省</td><td>黄南藏族自治州</td><td>同仁县</td></tr>
+    <tr><td><code>632301</code></td><td>青海省</td><td>黄南藏族自治州</td><td>同仁市</td></tr>
     <tr><td><code>632322</code></td><td>青海省</td><td>黄南藏族自治州</td><td>尖扎县</td></tr>
     <tr><td><code>632323</code></td><td>青海省</td><td>黄南藏族自治州</td><td>泽库县</td></tr>
     <tr><td><code>632324</code></td><td>青海省</td><td>黄南藏族自治州</td><td>河南蒙古族自治县</td></tr>
@@ -3484,23 +3495,20 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr class="level-city"><td><code>632800</code></td><td>青海省</td><td>海西蒙古族藏族自治州</td><td></td></tr>
     <tr><td><code>632801</code></td><td>青海省</td><td>海西蒙古族藏族自治州</td><td>格尔木市</td></tr>
     <tr><td><code>632802</code></td><td>青海省</td><td>海西蒙古族藏族自治州</td><td>德令哈市</td></tr>
+    <tr><td><code>632803</code></td><td>青海省</td><td>海西蒙古族藏族自治州</td><td>茫崖市</td></tr>
     <tr><td><code>632821</code></td><td>青海省</td><td>海西蒙古族藏族自治州</td><td>乌兰县</td></tr>
     <tr><td><code>632822</code></td><td>青海省</td><td>海西蒙古族藏族自治州</td><td>都兰县</td></tr>
     <tr><td><code>632823</code></td><td>青海省</td><td>海西蒙古族藏族自治州</td><td>天峻县</td></tr>
-    <tr><td><code>632824</code></td><td>青海省</td><td>海西蒙古族藏族自治州</td><td>冷湖行政区</td></tr>
-    <tr><td><code>632825</code></td><td>青海省</td><td>海西蒙古族藏族自治州</td><td>大柴旦行政区</td></tr>
-    <tr><td><code>632826</code></td><td>青海省</td><td>海西蒙古族藏族自治州</td><td>茫崖行政区</td></tr>
   </tbody>
 </table>
 </div>
 
-
-## 宁夏回族自治区（640000）
+### 宁夏回族自治区（640000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>640000</code></td><td>宁夏回族自治区</td><td></td><td></td></tr>
@@ -3535,13 +3543,12 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
 </table>
 </div>
 
-
-## 新疆维吾尔自治区（650000）
+### 新疆维吾尔自治区（650000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>650000</code></td><td>新疆维吾尔自治区</td><td></td><td></td></tr>
@@ -3592,8 +3599,8 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>652829</code></td><td>新疆维吾尔自治区</td><td>巴音郭楞蒙古自治州</td><td>博湖县</td></tr>
     <tr class="level-city"><td><code>652900</code></td><td>新疆维吾尔自治区</td><td>阿克苏地区</td><td></td></tr>
     <tr><td><code>652901</code></td><td>新疆维吾尔自治区</td><td>阿克苏地区</td><td>阿克苏市</td></tr>
+    <tr><td><code>652902</code></td><td>新疆维吾尔自治区</td><td>阿克苏地区</td><td>库车市</td></tr>
     <tr><td><code>652922</code></td><td>新疆维吾尔自治区</td><td>阿克苏地区</td><td>温宿县</td></tr>
-    <tr><td><code>652923</code></td><td>新疆维吾尔自治区</td><td>阿克苏地区</td><td>库车县</td></tr>
     <tr><td><code>652924</code></td><td>新疆维吾尔自治区</td><td>阿克苏地区</td><td>沙雅县</td></tr>
     <tr><td><code>652925</code></td><td>新疆维吾尔自治区</td><td>阿克苏地区</td><td>新和县</td></tr>
     <tr><td><code>652926</code></td><td>新疆维吾尔自治区</td><td>阿克苏地区</td><td>拜城县</td></tr>
@@ -3618,6 +3625,7 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>653129</code></td><td>新疆维吾尔自治区</td><td>喀什地区</td><td>伽师县</td></tr>
     <tr><td><code>653130</code></td><td>新疆维吾尔自治区</td><td>喀什地区</td><td>巴楚县</td></tr>
     <tr><td><code>653131</code></td><td>新疆维吾尔自治区</td><td>喀什地区</td><td>塔什库尔干塔吉克自治县</td></tr>
+    <tr><td><code>653132</code></td><td>新疆维吾尔自治区</td><td>喀什地区</td><td>岑岭县</td></tr>
     <tr class="level-city"><td><code>653200</code></td><td>新疆维吾尔自治区</td><td>和田地区</td><td></td></tr>
     <tr><td><code>653201</code></td><td>新疆维吾尔自治区</td><td>和田地区</td><td>和田市</td></tr>
     <tr><td><code>653221</code></td><td>新疆维吾尔自治区</td><td>和田地区</td><td>和田县</td></tr>
@@ -3627,6 +3635,8 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>653225</code></td><td>新疆维吾尔自治区</td><td>和田地区</td><td>策勒县</td></tr>
     <tr><td><code>653226</code></td><td>新疆维吾尔自治区</td><td>和田地区</td><td>于田县</td></tr>
     <tr><td><code>653227</code></td><td>新疆维吾尔自治区</td><td>和田地区</td><td>民丰县</td></tr>
+    <tr><td><code>653228</code></td><td>新疆维吾尔自治区</td><td>和田地区</td><td>和康县</td></tr>
+    <tr><td><code>653229</code></td><td>新疆维吾尔自治区</td><td>和田地区</td><td>和安县</td></tr>
     <tr class="level-city"><td><code>654000</code></td><td>新疆维吾尔自治区</td><td>伊犁哈萨克自治州</td><td></td></tr>
     <tr><td><code>654002</code></td><td>新疆维吾尔自治区</td><td>伊犁哈萨克自治州</td><td>伊宁市</td></tr>
     <tr><td><code>654003</code></td><td>新疆维吾尔自治区</td><td>伊犁哈萨克自治州</td><td>奎屯市</td></tr>
@@ -3642,8 +3652,8 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr class="level-city"><td><code>654200</code></td><td>新疆维吾尔自治区</td><td>塔城地区</td><td></td></tr>
     <tr><td><code>654201</code></td><td>新疆维吾尔自治区</td><td>塔城地区</td><td>塔城市</td></tr>
     <tr><td><code>654202</code></td><td>新疆维吾尔自治区</td><td>塔城地区</td><td>乌苏市</td></tr>
+    <tr><td><code>654203</code></td><td>新疆维吾尔自治区</td><td>塔城地区</td><td>沙湾市</td></tr>
     <tr><td><code>654221</code></td><td>新疆维吾尔自治区</td><td>塔城地区</td><td>额敏县</td></tr>
-    <tr><td><code>654223</code></td><td>新疆维吾尔自治区</td><td>塔城地区</td><td>沙湾县</td></tr>
     <tr><td><code>654224</code></td><td>新疆维吾尔自治区</td><td>塔城地区</td><td>托里县</td></tr>
     <tr><td><code>654225</code></td><td>新疆维吾尔自治区</td><td>塔城地区</td><td>裕民县</td></tr>
     <tr><td><code>654226</code></td><td>新疆维吾尔自治区</td><td>塔城地区</td><td>和布克赛尔蒙古自治县</td></tr>
@@ -3655,469 +3665,322 @@ tags: 行政区划代码, GB/T 2260, 地理编码, GIS数据, 城市代码
     <tr><td><code>654324</code></td><td>新疆维吾尔自治区</td><td>阿勒泰地区</td><td>哈巴河县</td></tr>
     <tr><td><code>654325</code></td><td>新疆维吾尔自治区</td><td>阿勒泰地区</td><td>青河县</td></tr>
     <tr><td><code>654326</code></td><td>新疆维吾尔自治区</td><td>阿勒泰地区</td><td>吉木乃县</td></tr>
-    <tr><td><code>659001</code></td><td>新疆维吾尔自治区</td><td>石河子市</td><td>石河子市</td></tr>
-    <tr><td><code>659002</code></td><td>新疆维吾尔自治区</td><td>阿拉尔市</td><td>阿拉尔市</td></tr>
-    <tr><td><code>659003</code></td><td>新疆维吾尔自治区</td><td>图木舒克市</td><td>图木舒克市</td></tr>
-    <tr><td><code>659004</code></td><td>新疆维吾尔自治区</td><td>五家渠市</td><td>五家渠市</td></tr>
-    <tr><td><code>659005</code></td><td>新疆维吾尔自治区</td><td>北屯市</td><td>北屯市</td></tr>
-    <tr><td><code>659006</code></td><td>新疆维吾尔自治区</td><td>铁门关市</td><td>铁门关市</td></tr>
-    <tr><td><code>659007</code></td><td>新疆维吾尔自治区</td><td>双河市</td><td>双河市</td></tr>
-    <tr><td><code>659008</code></td><td>新疆维吾尔自治区</td><td>可克达拉市</td><td>可克达拉市</td></tr>
-    <tr><td><code>659009</code></td><td>新疆维吾尔自治区</td><td>昆玉市</td><td>昆玉市</td></tr>
+    <tr><td><code>659001</code></td><td>新疆维吾尔自治区</td><td>省直辖县级行政区划</td><td>石河子市</td></tr>
+    <tr><td><code>659002</code></td><td>新疆维吾尔自治区</td><td>省直辖县级行政区划</td><td>阿拉尔市</td></tr>
+    <tr><td><code>659003</code></td><td>新疆维吾尔自治区</td><td>省直辖县级行政区划</td><td>图木舒克市</td></tr>
+    <tr><td><code>659004</code></td><td>新疆维吾尔自治区</td><td>省直辖县级行政区划</td><td>五家渠市</td></tr>
+    <tr><td><code>659005</code></td><td>新疆维吾尔自治区</td><td>省直辖县级行政区划</td><td>北屯市</td></tr>
+    <tr><td><code>659006</code></td><td>新疆维吾尔自治区</td><td>省直辖县级行政区划</td><td>铁门关市</td></tr>
+    <tr><td><code>659007</code></td><td>新疆维吾尔自治区</td><td>省直辖县级行政区划</td><td>双河市</td></tr>
+    <tr><td><code>659008</code></td><td>新疆维吾尔自治区</td><td>省直辖县级行政区划</td><td>可克达拉市</td></tr>
+    <tr><td><code>659009</code></td><td>新疆维吾尔自治区</td><td>省直辖县级行政区划</td><td>昆玉市</td></tr>
+    <tr><td><code>659010</code></td><td>新疆维吾尔自治区</td><td>省直辖县级行政区划</td><td>胡杨河市</td></tr>
+    <tr><td><code>659011</code></td><td>新疆维吾尔自治区</td><td>省直辖县级行政区划</td><td>新星市</td></tr>
+    <tr><td><code>659012</code></td><td>新疆维吾尔自治区</td><td>省直辖县级行政区划</td><td>白杨市</td></tr>
+    <tr><td><code>659013</code></td><td>新疆维吾尔自治区</td><td>省直辖县级行政区划</td><td>草湖市</td></tr>
   </tbody>
 </table>
 </div>
 
-
-## 台湾省（710000）
+### 台湾省（710000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
     <tr class="level-prov"><td><code>710000</code></td><td>台湾省</td><td></td><td></td></tr>
-    <tr class="level-city"><td><code>710100</code></td><td>台湾省</td><td>台北市</td><td></td></tr>
-    <tr><td><code>710101</code></td><td>台湾省</td><td>台北市</td><td>中正区</td></tr>
-    <tr><td><code>710102</code></td><td>台湾省</td><td>台北市</td><td>大同区</td></tr>
-    <tr><td><code>710103</code></td><td>台湾省</td><td>台北市</td><td>中山区</td></tr>
-    <tr><td><code>710104</code></td><td>台湾省</td><td>台北市</td><td>松山区</td></tr>
-    <tr><td><code>710105</code></td><td>台湾省</td><td>台北市</td><td>大安区</td></tr>
-    <tr><td><code>710106</code></td><td>台湾省</td><td>台北市</td><td>万华区</td></tr>
-    <tr><td><code>710107</code></td><td>台湾省</td><td>台北市</td><td>信义区</td></tr>
-    <tr><td><code>710108</code></td><td>台湾省</td><td>台北市</td><td>士林区</td></tr>
-    <tr><td><code>710109</code></td><td>台湾省</td><td>台北市</td><td>北投区</td></tr>
-    <tr><td><code>710110</code></td><td>台湾省</td><td>台北市</td><td>内湖区</td></tr>
-    <tr><td><code>710111</code></td><td>台湾省</td><td>台北市</td><td>南港区</td></tr>
-    <tr><td><code>710112</code></td><td>台湾省</td><td>台北市</td><td>文山区</td></tr>
-    <tr class="level-city"><td><code>710200</code></td><td>台湾省</td><td>高雄市</td><td></td></tr>
-    <tr><td><code>710201</code></td><td>台湾省</td><td>高雄市</td><td>新兴区</td></tr>
-    <tr><td><code>710202</code></td><td>台湾省</td><td>高雄市</td><td>前金区</td></tr>
-    <tr><td><code>710203</code></td><td>台湾省</td><td>高雄市</td><td>苓雅区</td></tr>
-    <tr><td><code>710204</code></td><td>台湾省</td><td>高雄市</td><td>盐埕区</td></tr>
-    <tr><td><code>710205</code></td><td>台湾省</td><td>高雄市</td><td>鼓山区</td></tr>
-    <tr><td><code>710206</code></td><td>台湾省</td><td>高雄市</td><td>旗津区</td></tr>
-    <tr><td><code>710207</code></td><td>台湾省</td><td>高雄市</td><td>前镇区</td></tr>
-    <tr><td><code>710208</code></td><td>台湾省</td><td>高雄市</td><td>三民区</td></tr>
-    <tr><td><code>710209</code></td><td>台湾省</td><td>高雄市</td><td>左营区</td></tr>
-    <tr><td><code>710210</code></td><td>台湾省</td><td>高雄市</td><td>楠梓区</td></tr>
-    <tr><td><code>710211</code></td><td>台湾省</td><td>高雄市</td><td>小港区</td></tr>
-    <tr><td><code>710242</code></td><td>台湾省</td><td>高雄市</td><td>仁武区</td></tr>
-    <tr><td><code>710243</code></td><td>台湾省</td><td>高雄市</td><td>大社区</td></tr>
-    <tr><td><code>710244</code></td><td>台湾省</td><td>高雄市</td><td>冈山区</td></tr>
-    <tr><td><code>710245</code></td><td>台湾省</td><td>高雄市</td><td>路竹区</td></tr>
-    <tr><td><code>710246</code></td><td>台湾省</td><td>高雄市</td><td>阿莲区</td></tr>
-    <tr><td><code>710247</code></td><td>台湾省</td><td>高雄市</td><td>田寮区</td></tr>
-    <tr><td><code>710248</code></td><td>台湾省</td><td>高雄市</td><td>燕巢区</td></tr>
-    <tr><td><code>710249</code></td><td>台湾省</td><td>高雄市</td><td>桥头区</td></tr>
-    <tr><td><code>710250</code></td><td>台湾省</td><td>高雄市</td><td>梓官区</td></tr>
-    <tr><td><code>710251</code></td><td>台湾省</td><td>高雄市</td><td>弥陀区</td></tr>
-    <tr><td><code>710252</code></td><td>台湾省</td><td>高雄市</td><td>永安区</td></tr>
-    <tr><td><code>710253</code></td><td>台湾省</td><td>高雄市</td><td>湖内区</td></tr>
-    <tr><td><code>710254</code></td><td>台湾省</td><td>高雄市</td><td>凤山区</td></tr>
-    <tr><td><code>710255</code></td><td>台湾省</td><td>高雄市</td><td>大寮区</td></tr>
-    <tr><td><code>710256</code></td><td>台湾省</td><td>高雄市</td><td>林园区</td></tr>
-    <tr><td><code>710257</code></td><td>台湾省</td><td>高雄市</td><td>鸟松区</td></tr>
-    <tr><td><code>710258</code></td><td>台湾省</td><td>高雄市</td><td>大树区</td></tr>
-    <tr><td><code>710259</code></td><td>台湾省</td><td>高雄市</td><td>旗山区</td></tr>
-    <tr><td><code>710260</code></td><td>台湾省</td><td>高雄市</td><td>美浓区</td></tr>
-    <tr><td><code>710261</code></td><td>台湾省</td><td>高雄市</td><td>六龟区</td></tr>
-    <tr><td><code>710262</code></td><td>台湾省</td><td>高雄市</td><td>内门区</td></tr>
-    <tr><td><code>710263</code></td><td>台湾省</td><td>高雄市</td><td>杉林区</td></tr>
-    <tr><td><code>710264</code></td><td>台湾省</td><td>高雄市</td><td>甲仙区</td></tr>
-    <tr><td><code>710265</code></td><td>台湾省</td><td>高雄市</td><td>桃源区</td></tr>
-    <tr><td><code>710266</code></td><td>台湾省</td><td>高雄市</td><td>那玛夏区</td></tr>
-    <tr><td><code>710267</code></td><td>台湾省</td><td>高雄市</td><td>茂林区</td></tr>
-    <tr><td><code>710268</code></td><td>台湾省</td><td>高雄市</td><td>茄萣区</td></tr>
-    <tr class="level-city"><td><code>710300</code></td><td>台湾省</td><td>台南市</td><td></td></tr>
-    <tr><td><code>710301</code></td><td>台湾省</td><td>台南市</td><td>中西区</td></tr>
-    <tr><td><code>710302</code></td><td>台湾省</td><td>台南市</td><td>东区</td></tr>
-    <tr><td><code>710303</code></td><td>台湾省</td><td>台南市</td><td>南区</td></tr>
-    <tr><td><code>710304</code></td><td>台湾省</td><td>台南市</td><td>北区</td></tr>
-    <tr><td><code>710305</code></td><td>台湾省</td><td>台南市</td><td>安平区</td></tr>
-    <tr><td><code>710306</code></td><td>台湾省</td><td>台南市</td><td>安南区</td></tr>
-    <tr><td><code>710339</code></td><td>台湾省</td><td>台南市</td><td>永康区</td></tr>
-    <tr><td><code>710340</code></td><td>台湾省</td><td>台南市</td><td>归仁区</td></tr>
-    <tr><td><code>710341</code></td><td>台湾省</td><td>台南市</td><td>新化区</td></tr>
-    <tr><td><code>710342</code></td><td>台湾省</td><td>台南市</td><td>左镇区</td></tr>
-    <tr><td><code>710343</code></td><td>台湾省</td><td>台南市</td><td>玉井区</td></tr>
-    <tr><td><code>710344</code></td><td>台湾省</td><td>台南市</td><td>楠西区</td></tr>
-    <tr><td><code>710345</code></td><td>台湾省</td><td>台南市</td><td>南化区</td></tr>
-    <tr><td><code>710346</code></td><td>台湾省</td><td>台南市</td><td>仁德区</td></tr>
-    <tr><td><code>710347</code></td><td>台湾省</td><td>台南市</td><td>关庙区</td></tr>
-    <tr><td><code>710348</code></td><td>台湾省</td><td>台南市</td><td>龙崎区</td></tr>
-    <tr><td><code>710349</code></td><td>台湾省</td><td>台南市</td><td>官田区</td></tr>
-    <tr><td><code>710350</code></td><td>台湾省</td><td>台南市</td><td>麻豆区</td></tr>
-    <tr><td><code>710351</code></td><td>台湾省</td><td>台南市</td><td>佳里区</td></tr>
-    <tr><td><code>710352</code></td><td>台湾省</td><td>台南市</td><td>西港区</td></tr>
-    <tr><td><code>710353</code></td><td>台湾省</td><td>台南市</td><td>七股区</td></tr>
-    <tr><td><code>710354</code></td><td>台湾省</td><td>台南市</td><td>将军区</td></tr>
-    <tr><td><code>710355</code></td><td>台湾省</td><td>台南市</td><td>学甲区</td></tr>
-    <tr><td><code>710356</code></td><td>台湾省</td><td>台南市</td><td>北门区</td></tr>
-    <tr><td><code>710357</code></td><td>台湾省</td><td>台南市</td><td>新营区</td></tr>
-    <tr><td><code>710358</code></td><td>台湾省</td><td>台南市</td><td>后壁区</td></tr>
-    <tr><td><code>710359</code></td><td>台湾省</td><td>台南市</td><td>白河区</td></tr>
-    <tr><td><code>710360</code></td><td>台湾省</td><td>台南市</td><td>东山区</td></tr>
-    <tr><td><code>710361</code></td><td>台湾省</td><td>台南市</td><td>六甲区</td></tr>
-    <tr><td><code>710362</code></td><td>台湾省</td><td>台南市</td><td>下营区</td></tr>
-    <tr><td><code>710363</code></td><td>台湾省</td><td>台南市</td><td>柳营区</td></tr>
-    <tr><td><code>710364</code></td><td>台湾省</td><td>台南市</td><td>盐水区</td></tr>
-    <tr><td><code>710365</code></td><td>台湾省</td><td>台南市</td><td>善化区</td></tr>
-    <tr><td><code>710366</code></td><td>台湾省</td><td>台南市</td><td>大内区</td></tr>
-    <tr><td><code>710367</code></td><td>台湾省</td><td>台南市</td><td>山上区</td></tr>
-    <tr><td><code>710368</code></td><td>台湾省</td><td>台南市</td><td>新市区</td></tr>
-    <tr><td><code>710369</code></td><td>台湾省</td><td>台南市</td><td>安定区</td></tr>
-    <tr class="level-city"><td><code>710400</code></td><td>台湾省</td><td>台中市</td><td></td></tr>
-    <tr><td><code>710401</code></td><td>台湾省</td><td>台中市</td><td>中区</td></tr>
-    <tr><td><code>710402</code></td><td>台湾省</td><td>台中市</td><td>东区</td></tr>
-    <tr><td><code>710403</code></td><td>台湾省</td><td>台中市</td><td>南区</td></tr>
-    <tr><td><code>710404</code></td><td>台湾省</td><td>台中市</td><td>西区</td></tr>
-    <tr><td><code>710405</code></td><td>台湾省</td><td>台中市</td><td>北区</td></tr>
-    <tr><td><code>710406</code></td><td>台湾省</td><td>台中市</td><td>北屯区</td></tr>
-    <tr><td><code>710407</code></td><td>台湾省</td><td>台中市</td><td>西屯区</td></tr>
-    <tr><td><code>710408</code></td><td>台湾省</td><td>台中市</td><td>南屯区</td></tr>
-    <tr><td><code>710431</code></td><td>台湾省</td><td>台中市</td><td>太平区</td></tr>
-    <tr><td><code>710432</code></td><td>台湾省</td><td>台中市</td><td>大里区</td></tr>
-    <tr><td><code>710433</code></td><td>台湾省</td><td>台中市</td><td>雾峰区</td></tr>
-    <tr><td><code>710434</code></td><td>台湾省</td><td>台中市</td><td>乌日区</td></tr>
-    <tr><td><code>710435</code></td><td>台湾省</td><td>台中市</td><td>丰原区</td></tr>
-    <tr><td><code>710436</code></td><td>台湾省</td><td>台中市</td><td>后里区</td></tr>
-    <tr><td><code>710437</code></td><td>台湾省</td><td>台中市</td><td>石冈区</td></tr>
-    <tr><td><code>710438</code></td><td>台湾省</td><td>台中市</td><td>东势区</td></tr>
-    <tr><td><code>710439</code></td><td>台湾省</td><td>台中市</td><td>和平区</td></tr>
-    <tr><td><code>710440</code></td><td>台湾省</td><td>台中市</td><td>新社区</td></tr>
-    <tr><td><code>710441</code></td><td>台湾省</td><td>台中市</td><td>潭子区</td></tr>
-    <tr><td><code>710442</code></td><td>台湾省</td><td>台中市</td><td>大雅区</td></tr>
-    <tr><td><code>710443</code></td><td>台湾省</td><td>台中市</td><td>神冈区</td></tr>
-    <tr><td><code>710444</code></td><td>台湾省</td><td>台中市</td><td>大肚区</td></tr>
-    <tr><td><code>710445</code></td><td>台湾省</td><td>台中市</td><td>沙鹿区</td></tr>
-    <tr><td><code>710446</code></td><td>台湾省</td><td>台中市</td><td>龙井区</td></tr>
-    <tr><td><code>710447</code></td><td>台湾省</td><td>台中市</td><td>梧栖区</td></tr>
-    <tr><td><code>710448</code></td><td>台湾省</td><td>台中市</td><td>清水区</td></tr>
-    <tr><td><code>710449</code></td><td>台湾省</td><td>台中市</td><td>大甲区</td></tr>
-    <tr><td><code>710450</code></td><td>台湾省</td><td>台中市</td><td>外埔区</td></tr>
-    <tr><td><code>710451</code></td><td>台湾省</td><td>台中市</td><td>大安区</td></tr>
-    <tr class="level-city"><td><code>710600</code></td><td>台湾省</td><td>南投县</td><td></td></tr>
-    <tr><td><code>710614</code></td><td>台湾省</td><td>南投县</td><td>南投市</td></tr>
-    <tr><td><code>710615</code></td><td>台湾省</td><td>南投县</td><td>中寮乡</td></tr>
-    <tr><td><code>710616</code></td><td>台湾省</td><td>南投县</td><td>草屯镇</td></tr>
-    <tr><td><code>710617</code></td><td>台湾省</td><td>南投县</td><td>国姓乡</td></tr>
-    <tr><td><code>710618</code></td><td>台湾省</td><td>南投县</td><td>埔里镇</td></tr>
-    <tr><td><code>710619</code></td><td>台湾省</td><td>南投县</td><td>仁爱乡</td></tr>
-    <tr><td><code>710620</code></td><td>台湾省</td><td>南投县</td><td>名间乡</td></tr>
-    <tr><td><code>710621</code></td><td>台湾省</td><td>南投县</td><td>集集镇</td></tr>
-    <tr><td><code>710622</code></td><td>台湾省</td><td>南投县</td><td>水里乡</td></tr>
-    <tr><td><code>710623</code></td><td>台湾省</td><td>南投县</td><td>鱼池乡</td></tr>
-    <tr><td><code>710624</code></td><td>台湾省</td><td>南投县</td><td>信义乡</td></tr>
-    <tr><td><code>710625</code></td><td>台湾省</td><td>南投县</td><td>竹山镇</td></tr>
-    <tr><td><code>710626</code></td><td>台湾省</td><td>南投县</td><td>鹿谷乡</td></tr>
-    <tr class="level-city"><td><code>710700</code></td><td>台湾省</td><td>基隆市</td><td></td></tr>
-    <tr><td><code>710701</code></td><td>台湾省</td><td>基隆市</td><td>仁爱区</td></tr>
-    <tr><td><code>710702</code></td><td>台湾省</td><td>基隆市</td><td>信义区</td></tr>
-    <tr><td><code>710703</code></td><td>台湾省</td><td>基隆市</td><td>中正区</td></tr>
-    <tr><td><code>710704</code></td><td>台湾省</td><td>基隆市</td><td>中山区</td></tr>
-    <tr><td><code>710705</code></td><td>台湾省</td><td>基隆市</td><td>安乐区</td></tr>
-    <tr><td><code>710706</code></td><td>台湾省</td><td>基隆市</td><td>暖暖区</td></tr>
-    <tr><td><code>710707</code></td><td>台湾省</td><td>基隆市</td><td>七堵区</td></tr>
-    <tr class="level-city"><td><code>710800</code></td><td>台湾省</td><td>新竹市</td><td></td></tr>
-    <tr><td><code>710801</code></td><td>台湾省</td><td>新竹市</td><td>东区</td></tr>
-    <tr><td><code>710802</code></td><td>台湾省</td><td>新竹市</td><td>北区</td></tr>
-    <tr><td><code>710803</code></td><td>台湾省</td><td>新竹市</td><td>香山区</td></tr>
-    <tr class="level-city"><td><code>710900</code></td><td>台湾省</td><td>嘉义市</td><td></td></tr>
-    <tr><td><code>710901</code></td><td>台湾省</td><td>嘉义市</td><td>东区</td></tr>
-    <tr><td><code>710902</code></td><td>台湾省</td><td>嘉义市</td><td>西区</td></tr>
-    <tr class="level-city"><td><code>711100</code></td><td>台湾省</td><td>新北市</td><td></td></tr>
-    <tr><td><code>711130</code></td><td>台湾省</td><td>新北市</td><td>万里区</td></tr>
-    <tr><td><code>711131</code></td><td>台湾省</td><td>新北市</td><td>金山区</td></tr>
-    <tr><td><code>711132</code></td><td>台湾省</td><td>新北市</td><td>板桥区</td></tr>
-    <tr><td><code>711133</code></td><td>台湾省</td><td>新北市</td><td>汐止区</td></tr>
-    <tr><td><code>711134</code></td><td>台湾省</td><td>新北市</td><td>深坑区</td></tr>
-    <tr><td><code>711135</code></td><td>台湾省</td><td>新北市</td><td>石碇区</td></tr>
-    <tr><td><code>711136</code></td><td>台湾省</td><td>新北市</td><td>瑞芳区</td></tr>
-    <tr><td><code>711137</code></td><td>台湾省</td><td>新北市</td><td>平溪区</td></tr>
-    <tr><td><code>711138</code></td><td>台湾省</td><td>新北市</td><td>双溪区</td></tr>
-    <tr><td><code>711139</code></td><td>台湾省</td><td>新北市</td><td>贡寮区</td></tr>
-    <tr><td><code>711140</code></td><td>台湾省</td><td>新北市</td><td>新店区</td></tr>
-    <tr><td><code>711141</code></td><td>台湾省</td><td>新北市</td><td>坪林区</td></tr>
-    <tr><td><code>711142</code></td><td>台湾省</td><td>新北市</td><td>乌来区</td></tr>
-    <tr><td><code>711143</code></td><td>台湾省</td><td>新北市</td><td>永和区</td></tr>
-    <tr><td><code>711144</code></td><td>台湾省</td><td>新北市</td><td>中和区</td></tr>
-    <tr><td><code>711145</code></td><td>台湾省</td><td>新北市</td><td>土城区</td></tr>
-    <tr><td><code>711146</code></td><td>台湾省</td><td>新北市</td><td>三峡区</td></tr>
-    <tr><td><code>711147</code></td><td>台湾省</td><td>新北市</td><td>树林区</td></tr>
-    <tr><td><code>711148</code></td><td>台湾省</td><td>新北市</td><td>莺歌区</td></tr>
-    <tr><td><code>711149</code></td><td>台湾省</td><td>新北市</td><td>三重区</td></tr>
-    <tr><td><code>711150</code></td><td>台湾省</td><td>新北市</td><td>新庄区</td></tr>
-    <tr><td><code>711151</code></td><td>台湾省</td><td>新北市</td><td>泰山区</td></tr>
-    <tr><td><code>711152</code></td><td>台湾省</td><td>新北市</td><td>林口区</td></tr>
-    <tr><td><code>711153</code></td><td>台湾省</td><td>新北市</td><td>芦洲区</td></tr>
-    <tr><td><code>711154</code></td><td>台湾省</td><td>新北市</td><td>五股区</td></tr>
-    <tr><td><code>711155</code></td><td>台湾省</td><td>新北市</td><td>八里区</td></tr>
-    <tr><td><code>711156</code></td><td>台湾省</td><td>新北市</td><td>淡水区</td></tr>
-    <tr><td><code>711157</code></td><td>台湾省</td><td>新北市</td><td>三芝区</td></tr>
-    <tr><td><code>711158</code></td><td>台湾省</td><td>新北市</td><td>石门区</td></tr>
-    <tr class="level-city"><td><code>711200</code></td><td>台湾省</td><td>宜兰县</td><td></td></tr>
-    <tr><td><code>711214</code></td><td>台湾省</td><td>宜兰县</td><td>宜兰市</td></tr>
-    <tr><td><code>711215</code></td><td>台湾省</td><td>宜兰县</td><td>头城镇</td></tr>
-    <tr><td><code>711216</code></td><td>台湾省</td><td>宜兰县</td><td>礁溪乡</td></tr>
-    <tr><td><code>711217</code></td><td>台湾省</td><td>宜兰县</td><td>壮围乡</td></tr>
-    <tr><td><code>711218</code></td><td>台湾省</td><td>宜兰县</td><td>员山乡</td></tr>
-    <tr><td><code>711219</code></td><td>台湾省</td><td>宜兰县</td><td>罗东镇</td></tr>
-    <tr><td><code>711220</code></td><td>台湾省</td><td>宜兰县</td><td>三星乡</td></tr>
-    <tr><td><code>711221</code></td><td>台湾省</td><td>宜兰县</td><td>大同乡</td></tr>
-    <tr><td><code>711222</code></td><td>台湾省</td><td>宜兰县</td><td>五结乡</td></tr>
-    <tr><td><code>711223</code></td><td>台湾省</td><td>宜兰县</td><td>冬山乡</td></tr>
-    <tr><td><code>711224</code></td><td>台湾省</td><td>宜兰县</td><td>苏澳镇</td></tr>
-    <tr><td><code>711225</code></td><td>台湾省</td><td>宜兰县</td><td>南澳乡</td></tr>
-    <tr class="level-city"><td><code>711300</code></td><td>台湾省</td><td>新竹县</td><td></td></tr>
-    <tr><td><code>711314</code></td><td>台湾省</td><td>新竹县</td><td>竹北市</td></tr>
-    <tr><td><code>711315</code></td><td>台湾省</td><td>新竹县</td><td>湖口乡</td></tr>
-    <tr><td><code>711316</code></td><td>台湾省</td><td>新竹县</td><td>新丰乡</td></tr>
-    <tr><td><code>711317</code></td><td>台湾省</td><td>新竹县</td><td>新埔镇</td></tr>
-    <tr><td><code>711318</code></td><td>台湾省</td><td>新竹县</td><td>关西镇</td></tr>
-    <tr><td><code>711319</code></td><td>台湾省</td><td>新竹县</td><td>芎林乡</td></tr>
-    <tr><td><code>711320</code></td><td>台湾省</td><td>新竹县</td><td>宝山乡</td></tr>
-    <tr><td><code>711321</code></td><td>台湾省</td><td>新竹县</td><td>竹东镇</td></tr>
-    <tr><td><code>711322</code></td><td>台湾省</td><td>新竹县</td><td>五峰乡</td></tr>
-    <tr><td><code>711323</code></td><td>台湾省</td><td>新竹县</td><td>横山乡</td></tr>
-    <tr><td><code>711324</code></td><td>台湾省</td><td>新竹县</td><td>尖石乡</td></tr>
-    <tr><td><code>711325</code></td><td>台湾省</td><td>新竹县</td><td>北埔乡</td></tr>
-    <tr><td><code>711326</code></td><td>台湾省</td><td>新竹县</td><td>峨眉乡</td></tr>
-    <tr class="level-city"><td><code>711400</code></td><td>台湾省</td><td>桃园市</td><td></td></tr>
-    <tr><td><code>711414</code></td><td>台湾省</td><td>桃园市</td><td>中坜区</td></tr>
-    <tr><td><code>711415</code></td><td>台湾省</td><td>桃园市</td><td>平镇区</td></tr>
-    <tr><td><code>711416</code></td><td>台湾省</td><td>桃园市</td><td>龙潭区</td></tr>
-    <tr><td><code>711417</code></td><td>台湾省</td><td>桃园市</td><td>杨梅区</td></tr>
-    <tr><td><code>711418</code></td><td>台湾省</td><td>桃园市</td><td>新屋区</td></tr>
-    <tr><td><code>711419</code></td><td>台湾省</td><td>桃园市</td><td>观音区</td></tr>
-    <tr><td><code>711420</code></td><td>台湾省</td><td>桃园市</td><td>桃园区</td></tr>
-    <tr><td><code>711421</code></td><td>台湾省</td><td>桃园市</td><td>龟山区</td></tr>
-    <tr><td><code>711422</code></td><td>台湾省</td><td>桃园市</td><td>八德区</td></tr>
-    <tr><td><code>711423</code></td><td>台湾省</td><td>桃园市</td><td>大溪区</td></tr>
-    <tr><td><code>711424</code></td><td>台湾省</td><td>桃园市</td><td>复兴区</td></tr>
-    <tr><td><code>711425</code></td><td>台湾省</td><td>桃园市</td><td>大园区</td></tr>
-    <tr><td><code>711426</code></td><td>台湾省</td><td>桃园市</td><td>芦竹区</td></tr>
-    <tr class="level-city"><td><code>711500</code></td><td>台湾省</td><td>苗栗县</td><td></td></tr>
-    <tr><td><code>711519</code></td><td>台湾省</td><td>苗栗县</td><td>竹南镇</td></tr>
-    <tr><td><code>711520</code></td><td>台湾省</td><td>苗栗县</td><td>头份市</td></tr>
-    <tr><td><code>711521</code></td><td>台湾省</td><td>苗栗县</td><td>三湾乡</td></tr>
-    <tr><td><code>711522</code></td><td>台湾省</td><td>苗栗县</td><td>南庄乡</td></tr>
-    <tr><td><code>711523</code></td><td>台湾省</td><td>苗栗县</td><td>狮潭乡</td></tr>
-    <tr><td><code>711524</code></td><td>台湾省</td><td>苗栗县</td><td>后龙镇</td></tr>
-    <tr><td><code>711525</code></td><td>台湾省</td><td>苗栗县</td><td>通霄镇</td></tr>
-    <tr><td><code>711526</code></td><td>台湾省</td><td>苗栗县</td><td>苑里镇</td></tr>
-    <tr><td><code>711527</code></td><td>台湾省</td><td>苗栗县</td><td>苗栗市</td></tr>
-    <tr><td><code>711528</code></td><td>台湾省</td><td>苗栗县</td><td>造桥乡</td></tr>
-    <tr><td><code>711529</code></td><td>台湾省</td><td>苗栗县</td><td>头屋乡</td></tr>
-    <tr><td><code>711530</code></td><td>台湾省</td><td>苗栗县</td><td>公馆乡</td></tr>
-    <tr><td><code>711531</code></td><td>台湾省</td><td>苗栗县</td><td>大湖乡</td></tr>
-    <tr><td><code>711532</code></td><td>台湾省</td><td>苗栗县</td><td>泰安乡</td></tr>
-    <tr><td><code>711533</code></td><td>台湾省</td><td>苗栗县</td><td>铜锣乡</td></tr>
-    <tr><td><code>711534</code></td><td>台湾省</td><td>苗栗县</td><td>三义乡</td></tr>
-    <tr><td><code>711535</code></td><td>台湾省</td><td>苗栗县</td><td>西湖乡</td></tr>
-    <tr><td><code>711536</code></td><td>台湾省</td><td>苗栗县</td><td>卓兰镇</td></tr>
-    <tr class="level-city"><td><code>711700</code></td><td>台湾省</td><td>彰化县</td><td></td></tr>
-    <tr><td><code>711727</code></td><td>台湾省</td><td>彰化县</td><td>彰化市</td></tr>
-    <tr><td><code>711728</code></td><td>台湾省</td><td>彰化县</td><td>芬园乡</td></tr>
-    <tr><td><code>711729</code></td><td>台湾省</td><td>彰化县</td><td>花坛乡</td></tr>
-    <tr><td><code>711730</code></td><td>台湾省</td><td>彰化县</td><td>秀水乡</td></tr>
-    <tr><td><code>711731</code></td><td>台湾省</td><td>彰化县</td><td>鹿港镇</td></tr>
-    <tr><td><code>711732</code></td><td>台湾省</td><td>彰化县</td><td>福兴乡</td></tr>
-    <tr><td><code>711733</code></td><td>台湾省</td><td>彰化县</td><td>线西乡</td></tr>
-    <tr><td><code>711734</code></td><td>台湾省</td><td>彰化县</td><td>和美镇</td></tr>
-    <tr><td><code>711735</code></td><td>台湾省</td><td>彰化县</td><td>伸港乡</td></tr>
-    <tr><td><code>711736</code></td><td>台湾省</td><td>彰化县</td><td>员林市</td></tr>
-    <tr><td><code>711737</code></td><td>台湾省</td><td>彰化县</td><td>社头乡</td></tr>
-    <tr><td><code>711738</code></td><td>台湾省</td><td>彰化县</td><td>永靖乡</td></tr>
-    <tr><td><code>711739</code></td><td>台湾省</td><td>彰化县</td><td>埔心乡</td></tr>
-    <tr><td><code>711740</code></td><td>台湾省</td><td>彰化县</td><td>溪湖镇</td></tr>
-    <tr><td><code>711741</code></td><td>台湾省</td><td>彰化县</td><td>大村乡</td></tr>
-    <tr><td><code>711742</code></td><td>台湾省</td><td>彰化县</td><td>埔盐乡</td></tr>
-    <tr><td><code>711743</code></td><td>台湾省</td><td>彰化县</td><td>田中镇</td></tr>
-    <tr><td><code>711744</code></td><td>台湾省</td><td>彰化县</td><td>北斗镇</td></tr>
-    <tr><td><code>711745</code></td><td>台湾省</td><td>彰化县</td><td>田尾乡</td></tr>
-    <tr><td><code>711746</code></td><td>台湾省</td><td>彰化县</td><td>埤头乡</td></tr>
-    <tr><td><code>711747</code></td><td>台湾省</td><td>彰化县</td><td>溪州乡</td></tr>
-    <tr><td><code>711748</code></td><td>台湾省</td><td>彰化县</td><td>竹塘乡</td></tr>
-    <tr><td><code>711749</code></td><td>台湾省</td><td>彰化县</td><td>二林镇</td></tr>
-    <tr><td><code>711750</code></td><td>台湾省</td><td>彰化县</td><td>大城乡</td></tr>
-    <tr><td><code>711751</code></td><td>台湾省</td><td>彰化县</td><td>芳苑乡</td></tr>
-    <tr><td><code>711752</code></td><td>台湾省</td><td>彰化县</td><td>二水乡</td></tr>
-    <tr class="level-city"><td><code>711900</code></td><td>台湾省</td><td>嘉义县</td><td></td></tr>
-    <tr><td><code>711919</code></td><td>台湾省</td><td>嘉义县</td><td>番路乡</td></tr>
-    <tr><td><code>711920</code></td><td>台湾省</td><td>嘉义县</td><td>梅山乡</td></tr>
-    <tr><td><code>711921</code></td><td>台湾省</td><td>嘉义县</td><td>竹崎乡</td></tr>
-    <tr><td><code>711922</code></td><td>台湾省</td><td>嘉义县</td><td>阿里山乡</td></tr>
-    <tr><td><code>711923</code></td><td>台湾省</td><td>嘉义县</td><td>中埔乡</td></tr>
-    <tr><td><code>711924</code></td><td>台湾省</td><td>嘉义县</td><td>大埔乡</td></tr>
-    <tr><td><code>711925</code></td><td>台湾省</td><td>嘉义县</td><td>水上乡</td></tr>
-    <tr><td><code>711926</code></td><td>台湾省</td><td>嘉义县</td><td>鹿草乡</td></tr>
-    <tr><td><code>711927</code></td><td>台湾省</td><td>嘉义县</td><td>太保市</td></tr>
-    <tr><td><code>711928</code></td><td>台湾省</td><td>嘉义县</td><td>朴子市</td></tr>
-    <tr><td><code>711929</code></td><td>台湾省</td><td>嘉义县</td><td>东石乡</td></tr>
-    <tr><td><code>711930</code></td><td>台湾省</td><td>嘉义县</td><td>六脚乡</td></tr>
-    <tr><td><code>711931</code></td><td>台湾省</td><td>嘉义县</td><td>新港乡</td></tr>
-    <tr><td><code>711932</code></td><td>台湾省</td><td>嘉义县</td><td>民雄乡</td></tr>
-    <tr><td><code>711933</code></td><td>台湾省</td><td>嘉义县</td><td>大林镇</td></tr>
-    <tr><td><code>711934</code></td><td>台湾省</td><td>嘉义县</td><td>溪口乡</td></tr>
-    <tr><td><code>711935</code></td><td>台湾省</td><td>嘉义县</td><td>义竹乡</td></tr>
-    <tr><td><code>711936</code></td><td>台湾省</td><td>嘉义县</td><td>布袋镇</td></tr>
-    <tr class="level-city"><td><code>712100</code></td><td>台湾省</td><td>云林县</td><td></td></tr>
-    <tr><td><code>712121</code></td><td>台湾省</td><td>云林县</td><td>斗南镇</td></tr>
-    <tr><td><code>712122</code></td><td>台湾省</td><td>云林县</td><td>大埤乡</td></tr>
-    <tr><td><code>712123</code></td><td>台湾省</td><td>云林县</td><td>虎尾镇</td></tr>
-    <tr><td><code>712124</code></td><td>台湾省</td><td>云林县</td><td>土库镇</td></tr>
-    <tr><td><code>712125</code></td><td>台湾省</td><td>云林县</td><td>褒忠乡</td></tr>
-    <tr><td><code>712126</code></td><td>台湾省</td><td>云林县</td><td>东势乡</td></tr>
-    <tr><td><code>712127</code></td><td>台湾省</td><td>云林县</td><td>台西乡</td></tr>
-    <tr><td><code>712128</code></td><td>台湾省</td><td>云林县</td><td>仑背乡</td></tr>
-    <tr><td><code>712129</code></td><td>台湾省</td><td>云林县</td><td>麦寮乡</td></tr>
-    <tr><td><code>712130</code></td><td>台湾省</td><td>云林县</td><td>斗六市</td></tr>
-    <tr><td><code>712131</code></td><td>台湾省</td><td>云林县</td><td>林内乡</td></tr>
-    <tr><td><code>712132</code></td><td>台湾省</td><td>云林县</td><td>古坑乡</td></tr>
-    <tr><td><code>712133</code></td><td>台湾省</td><td>云林县</td><td>莿桐乡</td></tr>
-    <tr><td><code>712134</code></td><td>台湾省</td><td>云林县</td><td>西螺镇</td></tr>
-    <tr><td><code>712135</code></td><td>台湾省</td><td>云林县</td><td>二仑乡</td></tr>
-    <tr><td><code>712136</code></td><td>台湾省</td><td>云林县</td><td>北港镇</td></tr>
-    <tr><td><code>712137</code></td><td>台湾省</td><td>云林县</td><td>水林乡</td></tr>
-    <tr><td><code>712138</code></td><td>台湾省</td><td>云林县</td><td>口湖乡</td></tr>
-    <tr><td><code>712139</code></td><td>台湾省</td><td>云林县</td><td>四湖乡</td></tr>
-    <tr><td><code>712140</code></td><td>台湾省</td><td>云林县</td><td>元长乡</td></tr>
-    <tr class="level-city"><td><code>712400</code></td><td>台湾省</td><td>屏东县</td><td></td></tr>
-    <tr><td><code>712434</code></td><td>台湾省</td><td>屏东县</td><td>屏东市</td></tr>
-    <tr><td><code>712435</code></td><td>台湾省</td><td>屏东县</td><td>三地门乡</td></tr>
-    <tr><td><code>712436</code></td><td>台湾省</td><td>屏东县</td><td>雾台乡</td></tr>
-    <tr><td><code>712437</code></td><td>台湾省</td><td>屏东县</td><td>玛家乡</td></tr>
-    <tr><td><code>712438</code></td><td>台湾省</td><td>屏东县</td><td>九如乡</td></tr>
-    <tr><td><code>712439</code></td><td>台湾省</td><td>屏东县</td><td>里港乡</td></tr>
-    <tr><td><code>712440</code></td><td>台湾省</td><td>屏东县</td><td>高树乡</td></tr>
-    <tr><td><code>712441</code></td><td>台湾省</td><td>屏东县</td><td>盐埔乡</td></tr>
-    <tr><td><code>712442</code></td><td>台湾省</td><td>屏东县</td><td>长治乡</td></tr>
-    <tr><td><code>712443</code></td><td>台湾省</td><td>屏东县</td><td>麟洛乡</td></tr>
-    <tr><td><code>712444</code></td><td>台湾省</td><td>屏东县</td><td>竹田乡</td></tr>
-    <tr><td><code>712445</code></td><td>台湾省</td><td>屏东县</td><td>内埔乡</td></tr>
-    <tr><td><code>712446</code></td><td>台湾省</td><td>屏东县</td><td>万丹乡</td></tr>
-    <tr><td><code>712447</code></td><td>台湾省</td><td>屏东县</td><td>潮州镇</td></tr>
-    <tr><td><code>712448</code></td><td>台湾省</td><td>屏东县</td><td>泰武乡</td></tr>
-    <tr><td><code>712449</code></td><td>台湾省</td><td>屏东县</td><td>来义乡</td></tr>
-    <tr><td><code>712450</code></td><td>台湾省</td><td>屏东县</td><td>万峦乡</td></tr>
-    <tr><td><code>712451</code></td><td>台湾省</td><td>屏东县</td><td>崁顶乡</td></tr>
-    <tr><td><code>712452</code></td><td>台湾省</td><td>屏东县</td><td>新埤乡</td></tr>
-    <tr><td><code>712453</code></td><td>台湾省</td><td>屏东县</td><td>南州乡</td></tr>
-    <tr><td><code>712454</code></td><td>台湾省</td><td>屏东县</td><td>林边乡</td></tr>
-    <tr><td><code>712455</code></td><td>台湾省</td><td>屏东县</td><td>东港镇</td></tr>
-    <tr><td><code>712456</code></td><td>台湾省</td><td>屏东县</td><td>琉球乡</td></tr>
-    <tr><td><code>712457</code></td><td>台湾省</td><td>屏东县</td><td>佳冬乡</td></tr>
-    <tr><td><code>712458</code></td><td>台湾省</td><td>屏东县</td><td>新园乡</td></tr>
-    <tr><td><code>712459</code></td><td>台湾省</td><td>屏东县</td><td>枋寮乡</td></tr>
-    <tr><td><code>712460</code></td><td>台湾省</td><td>屏东县</td><td>枋山乡</td></tr>
-    <tr><td><code>712461</code></td><td>台湾省</td><td>屏东县</td><td>春日乡</td></tr>
-    <tr><td><code>712462</code></td><td>台湾省</td><td>屏东县</td><td>狮子乡</td></tr>
-    <tr><td><code>712463</code></td><td>台湾省</td><td>屏东县</td><td>车城乡</td></tr>
-    <tr><td><code>712464</code></td><td>台湾省</td><td>屏东县</td><td>牡丹乡</td></tr>
-    <tr><td><code>712465</code></td><td>台湾省</td><td>屏东县</td><td>恒春镇</td></tr>
-    <tr><td><code>712466</code></td><td>台湾省</td><td>屏东县</td><td>满州乡</td></tr>
-    <tr class="level-city"><td><code>712500</code></td><td>台湾省</td><td>台东县</td><td></td></tr>
-    <tr><td><code>712517</code></td><td>台湾省</td><td>台东县</td><td>台东市</td></tr>
-    <tr><td><code>712518</code></td><td>台湾省</td><td>台东县</td><td>绿岛乡</td></tr>
-    <tr><td><code>712519</code></td><td>台湾省</td><td>台东县</td><td>兰屿乡</td></tr>
-    <tr><td><code>712520</code></td><td>台湾省</td><td>台东县</td><td>延平乡</td></tr>
-    <tr><td><code>712521</code></td><td>台湾省</td><td>台东县</td><td>卑南乡</td></tr>
-    <tr><td><code>712522</code></td><td>台湾省</td><td>台东县</td><td>鹿野乡</td></tr>
-    <tr><td><code>712523</code></td><td>台湾省</td><td>台东县</td><td>关山镇</td></tr>
-    <tr><td><code>712524</code></td><td>台湾省</td><td>台东县</td><td>海端乡</td></tr>
-    <tr><td><code>712525</code></td><td>台湾省</td><td>台东县</td><td>池上乡</td></tr>
-    <tr><td><code>712526</code></td><td>台湾省</td><td>台东县</td><td>东河乡</td></tr>
-    <tr><td><code>712527</code></td><td>台湾省</td><td>台东县</td><td>成功镇</td></tr>
-    <tr><td><code>712528</code></td><td>台湾省</td><td>台东县</td><td>长滨乡</td></tr>
-    <tr><td><code>712529</code></td><td>台湾省</td><td>台东县</td><td>金峰乡</td></tr>
-    <tr><td><code>712530</code></td><td>台湾省</td><td>台东县</td><td>大武乡</td></tr>
-    <tr><td><code>712531</code></td><td>台湾省</td><td>台东县</td><td>达仁乡</td></tr>
-    <tr><td><code>712532</code></td><td>台湾省</td><td>台东县</td><td>太麻里乡</td></tr>
-    <tr class="level-city"><td><code>712600</code></td><td>台湾省</td><td>花莲县</td><td></td></tr>
-    <tr><td><code>712615</code></td><td>台湾省</td><td>花莲县</td><td>花莲市</td></tr>
-    <tr><td><code>712616</code></td><td>台湾省</td><td>花莲县</td><td>新城乡</td></tr>
-    <tr><td><code>712618</code></td><td>台湾省</td><td>花莲县</td><td>秀林乡</td></tr>
-    <tr><td><code>712619</code></td><td>台湾省</td><td>花莲县</td><td>吉安乡</td></tr>
-    <tr><td><code>712620</code></td><td>台湾省</td><td>花莲县</td><td>寿丰乡</td></tr>
-    <tr><td><code>712621</code></td><td>台湾省</td><td>花莲县</td><td>凤林镇</td></tr>
-    <tr><td><code>712622</code></td><td>台湾省</td><td>花莲县</td><td>光复乡</td></tr>
-    <tr><td><code>712623</code></td><td>台湾省</td><td>花莲县</td><td>丰滨乡</td></tr>
-    <tr><td><code>712624</code></td><td>台湾省</td><td>花莲县</td><td>瑞穗乡</td></tr>
-    <tr><td><code>712625</code></td><td>台湾省</td><td>花莲县</td><td>万荣乡</td></tr>
-    <tr><td><code>712626</code></td><td>台湾省</td><td>花莲县</td><td>玉里镇</td></tr>
-    <tr><td><code>712627</code></td><td>台湾省</td><td>花莲县</td><td>卓溪乡</td></tr>
-    <tr><td><code>712628</code></td><td>台湾省</td><td>花莲县</td><td>富里乡</td></tr>
-    <tr class="level-city"><td><code>712700</code></td><td>台湾省</td><td>澎湖县</td><td></td></tr>
-    <tr><td><code>712707</code></td><td>台湾省</td><td>澎湖县</td><td>马公市</td></tr>
-    <tr><td><code>712708</code></td><td>台湾省</td><td>澎湖县</td><td>西屿乡</td></tr>
-    <tr><td><code>712709</code></td><td>台湾省</td><td>澎湖县</td><td>望安乡</td></tr>
-    <tr><td><code>712710</code></td><td>台湾省</td><td>澎湖县</td><td>七美乡</td></tr>
-    <tr><td><code>712711</code></td><td>台湾省</td><td>澎湖县</td><td>白沙乡</td></tr>
-    <tr><td><code>712712</code></td><td>台湾省</td><td>澎湖县</td><td>湖西乡</td></tr>
   </tbody>
 </table>
 </div>
 
-
-## 香港特别行政区（810000）
+### 香港特别行政区（810000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
-    <tr class="level-prov"><td><code>810000</code></td><td>香港特别行政区</td><td>香港特别行政区</td><td></td></tr>
-    <tr><td><code>810101</code></td><td>香港特别行政区</td><td>香港特别行政区</td><td>中西区</td></tr>
-    <tr><td><code>810102</code></td><td>香港特别行政区</td><td>香港特别行政区</td><td>东区</td></tr>
-    <tr><td><code>810103</code></td><td>香港特别行政区</td><td>香港特别行政区</td><td>九龙城区</td></tr>
-    <tr><td><code>810104</code></td><td>香港特别行政区</td><td>香港特别行政区</td><td>观塘区</td></tr>
-    <tr><td><code>810105</code></td><td>香港特别行政区</td><td>香港特别行政区</td><td>南区</td></tr>
-    <tr><td><code>810106</code></td><td>香港特别行政区</td><td>香港特别行政区</td><td>深水埗区</td></tr>
-    <tr><td><code>810107</code></td><td>香港特别行政区</td><td>香港特别行政区</td><td>湾仔区</td></tr>
-    <tr><td><code>810108</code></td><td>香港特别行政区</td><td>香港特别行政区</td><td>黄大仙区</td></tr>
-    <tr><td><code>810109</code></td><td>香港特别行政区</td><td>香港特别行政区</td><td>油尖旺区</td></tr>
-    <tr><td><code>810110</code></td><td>香港特别行政区</td><td>香港特别行政区</td><td>离岛区</td></tr>
-    <tr><td><code>810111</code></td><td>香港特别行政区</td><td>香港特别行政区</td><td>葵青区</td></tr>
-    <tr><td><code>810112</code></td><td>香港特别行政区</td><td>香港特别行政区</td><td>北区</td></tr>
-    <tr><td><code>810113</code></td><td>香港特别行政区</td><td>香港特别行政区</td><td>西贡区</td></tr>
-    <tr><td><code>810114</code></td><td>香港特别行政区</td><td>香港特别行政区</td><td>沙田区</td></tr>
-    <tr><td><code>810115</code></td><td>香港特别行政区</td><td>香港特别行政区</td><td>屯门区</td></tr>
-    <tr><td><code>810116</code></td><td>香港特别行政区</td><td>香港特别行政区</td><td>大埔区</td></tr>
-    <tr><td><code>810117</code></td><td>香港特别行政区</td><td>香港特别行政区</td><td>荃湾区</td></tr>
-    <tr><td><code>810118</code></td><td>香港特别行政区</td><td>香港特别行政区</td><td>元朗区</td></tr>
+    <tr class="level-prov"><td><code>810000</code></td><td>香港特别行政区</td><td></td><td></td></tr>
   </tbody>
 </table>
 </div>
 
-
-## 澳门特别行政区（820000）
+### 澳门特别行政区（820000）
 
 <div class="admin-table-wrapper">
 <table>
   <thead>
-    <tr><th>代码</th><th>省</th><th>市 / 地区</th><th>区 / 县</th></tr>
+    <tr><th>代码</th><th>省级</th><th>地级</th><th>县级</th></tr>
   </thead>
   <tbody>
-    <tr class="level-prov"><td><code>820000</code></td><td>澳门特别行政区</td><td>澳门特别行政区</td><td></td></tr>
-    <tr><td><code>820101</code></td><td>澳门特别行政区</td><td>澳门特别行政区</td><td>澳门半岛</td></tr>
-    <tr><td><code>820102</code></td><td>澳门特别行政区</td><td>澳门特别行政区</td><td>凼仔</td></tr>
-    <tr><td><code>820103</code></td><td>澳门特别行政区</td><td>澳门特别行政区</td><td>路凼城</td></tr>
-    <tr><td><code>820104</code></td><td>澳门特别行政区</td><td>澳门特别行政区</td><td>路环</td></tr>
+    <tr class="level-prov"><td><code>820000</code></td><td>澳门特别行政区</td><td></td><td></td></tr>
   </tbody>
 </table>
 </div>
 
+## 五、近年代码变更（2016 年以来）
 
+区划调整后，旧代码会停用，所辖范围并入新代码。下表列出 2016 年以来停用或更名的 184 条记录及 2026 年新设的代码，方便核对旧数据。1981 年以来的**完整历史代码**见[身份证前六位地区码对照](/learn/id-card-region-codes)。
 
-## 四、数据说明与校验
+<div class="admin-table-wrapper">
+<table>
+  <thead>
+    <tr><th>年份</th><th>变动</th><th>代码</th><th>名称（当时所属）</th><th>现对应代码</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>2026 年</td><td>新设</td><td><code>653132</code></td><td>岑岭县</td><td></td></tr>
+    <tr><td>2026 年</td><td>新设</td><td><code>659013</code></td><td>草湖市</td><td></td></tr>
+    <tr><td>2025 年</td><td>停用</td><td><code>500105</code></td><td>江北区（重庆市）</td><td><code>500157</code> 两江新区</td></tr>
+    <tr><td>2025 年</td><td>停用</td><td><code>500112</code></td><td>渝北区（重庆市）</td><td><code>500109</code> 北碚区；<code>500157</code> 两江新区</td></tr>
+    <tr><td>2023 年</td><td>停用</td><td><code>540422</code></td><td>米林县（西藏自治区林芝市）</td><td><code>540481</code> 米林市</td></tr>
+    <tr><td>2023 年</td><td>停用</td><td><code>540530</code></td><td>错那县（西藏自治区山南市）</td><td><code>540581</code> 错那市</td></tr>
+    <tr><td>2021 年</td><td>停用</td><td><code>330103</code></td><td>下城区（浙江省杭州市）</td><td><code>330105</code> 拱墅区</td></tr>
+    <tr><td>2021 年</td><td>停用</td><td><code>330104</code></td><td>江干区（浙江省杭州市）</td><td><code>330102</code> 上城区；<code>330102</code> 上城区；<code>330114</code> 钱塘区</td></tr>
+    <tr><td>2021 年</td><td>停用</td><td><code>350402</code></td><td>梅列区（福建省三明市）</td><td><code>350404</code> 三元区</td></tr>
+    <tr><td>2021 年</td><td>停用</td><td><code>350403</code></td><td>三元区（福建省三明市）</td><td><code>350404</code> 三元区</td></tr>
+    <tr><td>2021 年</td><td>停用</td><td><code>350427</code></td><td>沙县（福建省三明市）</td><td><code>350405</code> 沙县区</td></tr>
+    <tr><td>2021 年</td><td>停用</td><td><code>350625</code></td><td>长泰县（福建省漳州市）</td><td><code>350605</code> 长泰区</td></tr>
+    <tr><td>2021 年</td><td>停用</td><td><code>350681</code></td><td>龙海市（福建省漳州市）</td><td><code>350603</code> 龙文区；<code>350604</code> 龙海区</td></tr>
+    <tr><td>2021 年</td><td>停用</td><td><code>410306</code></td><td>吉利区（河南省洛阳市）</td><td><code>410308</code> 孟津区</td></tr>
+    <tr><td>2021 年</td><td>停用</td><td><code>410322</code></td><td>孟津县（河南省洛阳市）</td><td><code>410308</code> 孟津区</td></tr>
+    <tr><td>2021 年</td><td>停用</td><td><code>410381</code></td><td>偃师市（河南省洛阳市）</td><td><code>410307</code> 偃师区</td></tr>
+    <tr><td>2021 年</td><td>停用</td><td><code>431121</code></td><td>祁阳县（湖南省永州市）</td><td><code>431181</code> 祁阳市</td></tr>
+    <tr><td>2021 年</td><td>停用</td><td><code>450127</code></td><td>横县（广西壮族自治区南宁市）</td><td><code>450181</code> 横州市</td></tr>
+    <tr><td>2021 年</td><td>停用</td><td><code>513425</code></td><td>会理县（四川省凉山彝族自治州）</td><td><code>513402</code> 会理市</td></tr>
+    <tr><td>2021 年</td><td>停用</td><td><code>520522</code></td><td>黔西县（贵州省毕节市）</td><td><code>520581</code> 黔西市</td></tr>
+    <tr><td>2021 年</td><td>停用</td><td><code>532331</code></td><td>禄丰县（云南省楚雄彝族自治州）</td><td><code>532302</code> 禄丰市</td></tr>
+    <tr><td>2021 年</td><td>停用</td><td><code>610322</code></td><td>凤翔县（陕西省宝鸡市）</td><td><code>610305</code> 凤翔区</td></tr>
+    <tr><td>2021 年</td><td>停用</td><td><code>610928</code></td><td>旬阳县（陕西省安康市）</td><td><code>610981</code> 旬阳市</td></tr>
+    <tr><td>2021 年</td><td>停用</td><td><code>654223</code></td><td>沙湾县（新疆维吾尔自治区塔城地区）</td><td><code>654203</code> 沙湾市</td></tr>
+    <tr><td>2020 年</td><td>更名</td><td><code>130502</code></td><td>桥东区（河北省邢台市）</td><td>代码未变，现名 襄都区</td></tr>
+    <tr><td>2020 年</td><td>更名</td><td><code>130503</code></td><td>桥西区（河北省邢台市）</td><td>代码未变，现名 信都区</td></tr>
+    <tr><td>2020 年</td><td>停用</td><td><code>130521</code></td><td>邢台县（河北省邢台市）</td><td><code>130502</code> 襄都区；<code>130503</code> 信都区</td></tr>
+    <tr><td>2020 年</td><td>停用</td><td><code>130526</code></td><td>任县（河北省邢台市）</td><td><code>130505</code> 任泽区</td></tr>
+    <tr><td>2020 年</td><td>停用</td><td><code>130527</code></td><td>南和县（河北省邢台市）</td><td><code>130506</code> 南和区</td></tr>
+    <tr><td>2020 年</td><td>停用</td><td><code>220381</code></td><td>公主岭市（吉林省四平市）</td><td><code>220104</code> 朝阳区；<code>220184</code> 公主岭市</td></tr>
+    <tr><td>2020 年</td><td>停用</td><td><code>320602</code></td><td>崇川区（江苏省南通市）</td><td><code>320613</code> 崇川区</td></tr>
+    <tr><td>2020 年</td><td>停用</td><td><code>320611</code></td><td>港闸区（江苏省南通市）</td><td><code>320613</code> 崇川区</td></tr>
+    <tr><td>2020 年</td><td>停用</td><td><code>320684</code></td><td>海门市（江苏省南通市）</td><td><code>320614</code> 海门区</td></tr>
+    <tr><td>2020 年</td><td>停用</td><td><code>340203</code></td><td>弋江区（安徽省芜湖市）</td><td><code>340209</code> 弋江区</td></tr>
+    <tr><td>2020 年</td><td>停用</td><td><code>340208</code></td><td>三山区（安徽省芜湖市）</td><td><code>340209</code> 弋江区</td></tr>
+    <tr><td>2020 年</td><td>停用</td><td><code>340221</code></td><td>芜湖县（安徽省芜湖市）</td><td><code>340203</code> 马塘区；<code>340210</code> 湾沚区</td></tr>
+    <tr><td>2020 年</td><td>停用</td><td><code>340222</code></td><td>繁昌县（安徽省芜湖市）</td><td><code>340208</code> 三山区；<code>340212</code> 繁昌区</td></tr>
+    <tr><td>2020 年</td><td>停用</td><td><code>360727</code></td><td>龙南县（江西省赣州市）</td><td><code>360783</code> 龙南市</td></tr>
+    <tr><td>2020 年</td><td>停用</td><td><code>370634</code></td><td>长岛县（山东省烟台市）</td><td><code>370614</code> 蓬莱区</td></tr>
+    <tr><td>2020 年</td><td>停用</td><td><code>370684</code></td><td>蓬莱市（山东省烟台市）</td><td><code>370614</code> 蓬莱区</td></tr>
+    <tr><td>2020 年</td><td>停用</td><td><code>421023</code></td><td>监利县（湖北省荆州市）</td><td><code>421088</code> 监利市</td></tr>
+    <tr><td>2020 年</td><td>停用</td><td><code>510132</code></td><td>新津县（四川省成都市）</td><td><code>510118</code> 新津区</td></tr>
+    <tr><td>2020 年</td><td>停用</td><td><code>520221</code></td><td>水城县（贵州省六盘水市）</td><td><code>520201</code> 钟山区；<code>520204</code> 水城区</td></tr>
+    <tr><td>2020 年</td><td>停用</td><td><code>632321</code></td><td>同仁县（青海省黄南藏族自治州）</td><td><code>632301</code> 同仁市</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>140726</code></td><td>太谷县（山西省晋中市）</td><td><code>140703</code> 太谷区</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>230702</code></td><td>伊春区（黑龙江省伊春市）</td><td><code>230717</code> 伊美区</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>230703</code></td><td>南岔区（黑龙江省伊春市）</td><td><code>230726</code> 南岔县</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>230704</code></td><td>友好区（黑龙江省伊春市）</td><td><code>230719</code> 友好区</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>230705</code></td><td>西林区（黑龙江省伊春市）</td><td><code>230751</code> 金林区</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>230706</code></td><td>翠峦区（黑龙江省伊春市）</td><td><code>230718</code> 乌翠区</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>230707</code></td><td>新青区（黑龙江省伊春市）</td><td><code>230724</code> 丰林县</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>230708</code></td><td>美溪区（黑龙江省伊春市）</td><td><code>230717</code> 伊美区</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>230709</code></td><td>金山屯区（黑龙江省伊春市）</td><td><code>230751</code> 金林区</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>230710</code></td><td>五营区（黑龙江省伊春市）</td><td><code>230724</code> 丰林县</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>230711</code></td><td>乌马河区（黑龙江省伊春市）</td><td><code>230717</code> 伊美区；<code>230718</code> 乌翠区</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>230712</code></td><td>汤旺河区（黑龙江省伊春市）</td><td><code>230723</code> 汤旺县</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>230713</code></td><td>带岭区（黑龙江省伊春市）</td><td><code>230725</code> 大箐山县</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>230714</code></td><td>乌伊岭区（黑龙江省伊春市）</td><td><code>230723</code> 汤旺县</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>230715</code></td><td>红星区（黑龙江省伊春市）</td><td><code>230724</code> 丰林县</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>230716</code></td><td>上甘岭区（黑龙江省伊春市）</td><td><code>230719</code> 友好区</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>231121</code></td><td>嫩江县（黑龙江省黑河市）</td><td><code>231183</code> 嫩江市</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>340225</code></td><td>无为县（安徽省芜湖市）</td><td><code>340207</code> 鸠江区；<code>340281</code> 无为市</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>341822</code></td><td>广德县（安徽省宣城市）</td><td><code>341882</code> 广德市</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>360105</code></td><td>湾里区（江西省南昌市）</td><td><code>360112</code> 新建区</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>361121</code></td><td>上饶县（江西省上饶市）</td><td><code>361104</code> 广信区</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>371523</code></td><td>茌平县（山东省聊城市）</td><td><code>371503</code> 茌平区</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>410728</code></td><td>长垣县（河南省新乡市）</td><td><code>410783</code> 长垣市</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>411626</code></td><td>淮阳县（河南省周口市）</td><td><code>411602</code> 川汇区；<code>411603</code> 淮阳区</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>430521</code></td><td>邵东县（湖南省邵阳市）</td><td><code>430582</code> 邵东市</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>451021</code></td><td>田阳县（广西壮族自治区百色市）</td><td><code>451003</code> 田阳区</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>451023</code></td><td>平果县（广西壮族自治区百色市）</td><td><code>451082</code> 平果市</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>510922</code></td><td>射洪县（四川省遂宁市）</td><td><code>510981</code> 射洪市</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>530422</code></td><td>澄江县（云南省玉溪市）</td><td><code>530481</code> 澄江市</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>610623</code></td><td>子长县（陕西省延安市）</td><td><code>610681</code> 子长市</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>630122</code></td><td>湟中县（青海省西宁市）</td><td><code>630106</code> 湟中区</td></tr>
+    <tr><td>2019 年</td><td>停用</td><td><code>652923</code></td><td>库车县（新疆维吾尔自治区阿克苏地区）</td><td><code>652902</code> 库车市</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>130223</code></td><td>滦县（河北省唐山市）</td><td><code>130284</code> 滦州市</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>140202</code></td><td>城区（山西省大同市）</td><td><code>140213</code> 平城区；<code>140214</code> 云冈区</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>140203</code></td><td>矿区（山西省大同市）</td><td><code>140214</code> 云冈区</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>140211</code></td><td>南郊区（山西省大同市）</td><td><code>140212</code> 新荣区；<code>140213</code> 平城区；<code>140214</code> 云冈区</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>140227</code></td><td>大同县（山西省大同市）</td><td><code>140215</code> 云州区</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>140402</code></td><td>城区（山西省长治市）</td><td><code>140403</code> 潞州区</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>140411</code></td><td>郊区（山西省长治市）</td><td><code>140403</code> 潞州区</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>140421</code></td><td>长治县（山西省长治市）</td><td><code>140404</code> 上党区</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>140424</code></td><td>屯留县（山西省长治市）</td><td><code>140405</code> 屯留区</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>140481</code></td><td>潞城市（山西省长治市）</td><td><code>140406</code> 潞城区</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>140624</code></td><td>怀仁县（山西省朔州市）</td><td><code>140681</code> 怀仁市</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>232723</code></td><td>漠河县（黑龙江省大兴安岭地区）</td><td><code>232701</code> 漠河市</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>320621</code></td><td>海安县（江苏省南通市）</td><td><code>320685</code> 海安市</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>340824</code></td><td>潜山县（安徽省安庆市）</td><td><code>340882</code> 潜山市</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>360622</code></td><td>余江县（江西省鹰潭市）</td><td><code>360603</code> 余江区</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>370125</code></td><td>济阳县（山东省济南市）</td><td><code>370115</code> 济阳区</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>371200</code></td><td>莱芜市（山东省）</td><td>—（地级建制撤销，原辖区县见各自对应行）</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>371202</code></td><td>莱城区（山东省莱芜市）</td><td><code>371203</code> 钢城区；<code>370116</code> 莱芜区</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>371203</code></td><td>钢城区（山东省莱芜市）</td><td><code>370117</code> 钢城区</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>371626</code></td><td>邹平县（山东省滨州市）</td><td><code>371681</code> 邹平市</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>420821</code></td><td>京山县（湖北省荆门市）</td><td><code>420882</code> 京山市</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>430221</code></td><td>株洲县（湖南省株洲市）</td><td><code>430211</code> 天元区；<code>430211</code> 天元区；<code>430212</code> 渌口区</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>450331</code></td><td>荔浦县（广西壮族自治区桂林市）</td><td><code>450381</code> 荔浦市</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>511521</code></td><td>宜宾县（四川省宜宾市）</td><td><code>511502</code> 翠屏区；<code>511504</code> 叙州区</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>522322</code></td><td>兴仁县（贵州省黔西南布依族苗族自治州）</td><td><code>522302</code> 兴仁市</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>530321</code></td><td>马龙县（云南省曲靖市）</td><td><code>530304</code> 马龙区</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>530630</code></td><td>水富县（云南省昭通市）</td><td><code>530681</code> 水富市</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>610427</code></td><td>彬县（陕西省咸阳市）</td><td><code>610482</code> 彬州市</td></tr>
+    <tr><td>2018 年</td><td>停用</td><td><code>620824</code></td><td>华亭县（甘肃省平凉市）</td><td><code>620881</code> 华亭市</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>130823</code></td><td>平泉县（河北省承德市）</td><td><code>130881</code> 平泉市</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>330185</code></td><td>临安市（浙江省杭州市）</td><td><code>330112</code> 临安区</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>331021</code></td><td>玉环县（浙江省台州市）</td><td><code>331083</code> 玉环市</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>350182</code></td><td>长乐市（福建省福州市）</td><td><code>350112</code> 长乐区</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>360421</code></td><td>九江县（江西省九江市）</td><td><code>360404</code> 柴桑区</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>370282</code></td><td>即墨市（山东省青岛市）</td><td><code>370215</code> 即墨区</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>430124</code></td><td>宁乡县（湖南省长沙市）</td><td><code>430182</code> 宁乡市</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>510626</code></td><td>罗江县（四川省德阳市）</td><td><code>510604</code> 罗江区</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>511028</code></td><td>隆昌县（四川省内江市）</td><td><code>511083</code> 隆昌市</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>520222</code></td><td>盘县（贵州省六盘水市）</td><td><code>520281</code> 盘州市</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>540126</code></td><td>达孜县（西藏自治区拉萨市）</td><td><code>540104</code> 达孜区</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>542400</code></td><td>那曲地区（西藏自治区）</td><td>—（地级建制撤销，原辖区县见各自对应行）</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>542421</code></td><td>那曲县（西藏自治区那曲地区）</td><td><code>540602</code> 色尼区</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>542422</code></td><td>嘉黎县（西藏自治区那曲地区）</td><td><code>540621</code> 嘉黎县</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>542423</code></td><td>比如县（西藏自治区那曲地区）</td><td><code>540622</code> 比如县</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>542424</code></td><td>聂荣县（西藏自治区那曲地区）</td><td><code>540623</code> 聂荣县</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>542425</code></td><td>安多县（西藏自治区那曲地区）</td><td><code>540624</code> 安多县</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>542426</code></td><td>申扎县（西藏自治区那曲地区）</td><td><code>542430</code> 尼玛县；<code>540625</code> 申扎县</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>542427</code></td><td>索县（西藏自治区那曲地区）</td><td><code>540626</code> 索县</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>542428</code></td><td>班戈县（西藏自治区那曲地区）</td><td><code>542430</code> 尼玛县；<code>542426</code> 申扎县；<code>540627</code> 班戈县</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>542429</code></td><td>巴青县（西藏自治区那曲地区）</td><td><code>540628</code> 巴青县</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>542430</code></td><td>尼玛县（西藏自治区那曲地区）</td><td><code>542431</code> 双湖县；<code>540629</code> 尼玛县</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>542431</code></td><td>双湖县（西藏自治区那曲地区）</td><td><code>540630</code> 双湖县</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>610721</code></td><td>南郑县（陕西省汉中市）</td><td><code>610703</code> 南郑区</td></tr>
+    <tr><td>2017 年</td><td>停用</td><td><code>610821</code></td><td>神木县（陕西省榆林市）</td><td><code>610881</code> 神木市</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>120225</code></td><td>蓟县（天津市）</td><td><code>120119</code> 蓟州区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>130421</code></td><td>邯郸县（河北省邯郸市）</td><td><code>130404</code> 复兴区；<code>130402</code> 邯山区；<code>130403</code> 丛台区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>130428</code></td><td>肥乡县（河北省邯郸市）</td><td><code>130407</code> 肥乡区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>130429</code></td><td>永年县（河北省邯郸市）</td><td><code>130403</code> 丛台区；<code>130408</code> 永年区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>130721</code></td><td>宣化县（河北省张家口市）</td><td><code>130702</code> 桥东区；<code>130703</code> 桥西区；<code>130705</code> 宣化区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>130729</code></td><td>万全县（河北省张家口市）</td><td><code>130708</code> 万全区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>130733</code></td><td>崇礼县（河北省张家口市）</td><td><code>130709</code> 崇礼区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>131181</code></td><td>冀州市（河北省衡水市）</td><td><code>131103</code> 冀州区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>210122</code></td><td>辽中县（辽宁省沈阳市）</td><td><code>210115</code> 辽中区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>211121</code></td><td>大洼县（辽宁省盘锦市）</td><td><code>211104</code> 大洼区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>230833</code></td><td>抚远县（黑龙江省佳木斯市）</td><td><code>230883</code> 抚远市</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>310230</code></td><td>崇明县（上海市）</td><td><code>310151</code> 崇明区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>320802</code></td><td>清河区（江苏省淮安市）</td><td><code>320812</code> 清江浦区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>320811</code></td><td>清浦区（江苏省淮安市）</td><td><code>320812</code> 清江浦区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>320829</code></td><td>洪泽县（江苏省淮安市）</td><td><code>320813</code> 洪泽区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>330204</code></td><td>江东区（浙江省宁波市）</td><td><code>330212</code> 鄞州区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>330283</code></td><td>奉化市（浙江省宁波市）</td><td><code>330213</code> 奉化区</td></tr>
+    <tr><td>2016 年</td><td>更名</td><td><code>360402</code></td><td>庐山区（江西省九江市）</td><td>代码未变，现名 濂溪区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>360427</code></td><td>星子县（江西省九江市）</td><td><code>360482</code> 共青城市；<code>360483</code> 庐山市</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>360721</code></td><td>赣县（江西省赣州市）</td><td><code>360704</code> 赣县区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>361029</code></td><td>东乡县（江西省抚州市）</td><td><code>361003</code> 东乡区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>370181</code></td><td>章丘市（山东省济南市）</td><td><code>370114</code> 章丘区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>370521</code></td><td>垦利县（山东省东营市）</td><td><code>370505</code> 垦利区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>371727</code></td><td>定陶县（山东省菏泽市）</td><td><code>371703</code> 定陶区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>411023</code></td><td>许昌县（河南省许昌市）</td><td><code>411003</code> 建安区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>450221</code></td><td>柳江县（广西壮族自治区柳州市）</td><td><code>450206</code> 柳江区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>451281</code></td><td>宜州市（广西壮族自治区河池市）</td><td><code>451203</code> 宜州区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>500228</code></td><td>梁平县（重庆市）</td><td><code>500155</code> 梁平区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>500232</code></td><td>武隆县（重庆市）</td><td><code>500156</code> 武隆区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>500234</code></td><td>开县（重庆市）</td><td><code>500154</code> 开州区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>510124</code></td><td>郫县（四川省成都市）</td><td><code>510117</code> 郫都区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>510724</code></td><td>安县（四川省绵阳市）</td><td><code>510726</code> 北川羌族自治县；<code>510705</code> 安州区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>512081</code></td><td>简阳市（四川省资阳市）</td><td><code>510185</code> 简阳市</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>520321</code></td><td>遵义县（贵州省遵义市）</td><td><code>520303</code> 汇川区；<code>520302</code> 红花岗区；<code>520303</code> 汇川区；<code>520304</code> 播州区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>530122</code></td><td>晋宁县（云南省昆明市）</td><td><code>530115</code> 晋宁区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>530328</code></td><td>沾益县（云南省曲靖市）</td><td><code>530303</code> 沾益区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>533321</code></td><td>泸水县（云南省怒江傈僳族自治州）</td><td><code>533301</code> 泸水市</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>542200</code></td><td>山南地区（西藏自治区）</td><td>—（地级建制撤销，原辖区县见各自对应行）</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>542221</code></td><td>乃东县（西藏自治区山南地区）</td><td><code>540502</code> 乃东区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>542222</code></td><td>扎囊县（西藏自治区山南地区）</td><td><code>540521</code> 扎囊县</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>542223</code></td><td>贡嘎县（西藏自治区山南地区）</td><td><code>540522</code> 贡嘎县</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>542224</code></td><td>桑日县（西藏自治区山南地区）</td><td><code>540523</code> 桑日县</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>542225</code></td><td>琼结县（西藏自治区山南地区）</td><td><code>540524</code> 琼结县</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>542226</code></td><td>曲松县（西藏自治区山南地区）</td><td><code>540525</code> 曲松县</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>542227</code></td><td>措美县（西藏自治区山南地区）</td><td><code>540526</code> 措美县</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>542228</code></td><td>洛扎县（西藏自治区山南地区）</td><td><code>540527</code> 洛扎县</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>542229</code></td><td>加查县（西藏自治区山南地区）</td><td><code>540528</code> 加查县</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>542231</code></td><td>隆子县（西藏自治区山南地区）</td><td><code>540529</code> 隆子县</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>542232</code></td><td>错那县（西藏自治区山南地区）</td><td><code>540530</code> 错那县</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>542233</code></td><td>浪卡子县（西藏自治区山南地区）</td><td><code>540531</code> 浪卡子县</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>610125</code></td><td>户县（陕西省西安市）</td><td><code>610118</code> 鄠邑区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>610624</code></td><td>安塞县（陕西省延安市）</td><td><code>610603</code> 安塞区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>652200</code></td><td>哈密地区（新疆维吾尔自治区）</td><td>—（地级建制撤销，原辖区县见各自对应行）</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>652201</code></td><td>哈密市（新疆维吾尔自治区哈密地区）</td><td><code>650502</code> 伊州区</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>652222</code></td><td>巴里坤哈萨克自治县（新疆维吾尔自治区哈密地区）</td><td><code>650521</code> 巴里坤哈萨克自治县</td></tr>
+    <tr><td>2016 年</td><td>停用</td><td><code>652223</code></td><td>伊吾县（新疆维吾尔自治区哈密地区）</td><td><code>650522</code> 伊吾县</td></tr>
+  </tbody>
+</table>
+</div>
 
-- **结构校验**：全部 3628 条均为 6 位数字，无空码、无重复码；34 个省级前缀（11–65、71、81、82）与 GB/T 2260 完全一致，省名无一错配。
-- **时效性**：该数据集为 **约 2016 年**快照（仍含「那曲地区」「莱芜市」等 2018 年前后已撤地设市 / 撤并的代码，且缺少 2016 年后新设的区县）。
-  与 2024 年现行代码比对，**约 607 条已因行政区划调整而作废**（如 `130223 滦县`→`130284 滦州市`、`140202 大同市城区`已于 2018 年撤销）。这些码在其制作年份是有效的，并非录入错误，仅代表"已过时"。
-- **录入瑕疵**：源表有 4 条重庆市辖自治县（石柱、秀山、酉阳、彭水）的「省」列为空，本表已按代码前缀 `50` 补全为「重庆市」。
-- **当前使用建议**：用于历史数据回溯、老图斑匹配可行；若做实时地址标准化 / 新图制图，请以民政部最新年度代码为准。
+## 六、在 GIS 里怎么用
 
-> 数据来源：[中华人民共和国行政区划代码（六位码）全表-2016年快照.xls](https://downloads.planetgis.cn/Data/city_code.xls)（Sheet1，共 3628 行）。
+1. **统计表挂接矢量**：把代码列统一设成**文本型**再连接（Join），否则 Excel 会把 `110101` 当数字处理，部分软件还会补成 `110101.0`。
+2. **只取上级**：县级代码取前 4 位补 `00` 得地级代码，取前 2 位补 `0000` 得省级代码，可以直接用来做分级汇总。
+3. **老数据要对版本**：2016 年的数据拿 2025 年的代码去挂，会有上百条对不上。先用第五节的变更表把旧码映射到新码，再连接。
+4. 需要配套的矢量数据，可以下载[全国行政区划矢量点数据（省 / 市 / 县 / 乡四级）](/downloads/xzqh-point)，或用[行政区划边界下载工具](/tools/boundary)直接取边界。
+
+## 常见问题 FAQ
+
+<details>
+<summary>Q: 行政区划代码和邮政编码、电话区号是一回事吗？</summary>
+
+不是。行政区划代码是 6 位纯数字，由民政部按 GB/T 2260 编制；邮政编码也是 6 位，但由邮政部门按投递网络编排，两者数字不相同；电话区号是 3–4 位，由工信部按电信网编排，可参考[全国电话区号表](/learn/china-telephone-area-codes)。
+
+</details>
+
+<details>
+<summary>Q: 身份证前 6 位查不到对应地区，是号码有问题吗？</summary>
+
+多数情况不是。身份证地址码是**首次办证时**的县级代码，之后区划调整也不会改号，所以很多老身份证用的是已经停用的旧代码。请到[身份证前六位地区码对照](/learn/id-card-region-codes)里查 1981 年以来的历史代码。
+
+</details>
+
+<details>
+<summary>Q: 行政区划代码多久更新一次？</summary>
+
+民政部按年度发布县以上行政区划代码，区划一调整（撤县设区、设立新县、地级市更名等），对应代码就会新增或停用。做数据挂接时一定要确认用的是哪一年的代码。
+
+</details>
+
+<details>
+<summary>Q: 统计用区划代码为什么是 12 位？</summary>
+
+国家统计局的「统计用区划和城乡划分代码」在 6 位行政区划代码后面又加了 3 位乡级、3 位村级代码，共 12 位，用于普查和抽样调查。前 6 位与民政部县级代码基本一致，但个别开发区、新区等统计单元会单独编码。
+
+</details>
+
+<details>
+<summary>Q: 台湾、香港、澳门有下级代码吗？</summary>
+
+民政部公布的县以上代码表中，台湾省（`710000`）、香港特别行政区（`810000`）、澳门特别行政区（`820000`）只列省级代码，没有下级代码，本表与之保持一致。
+
+</details>
+
+## 七、数据来源与说明
+
+- **现行代码**：民政部「中华人民共和国县级以上行政区划代码」及国家地名信息库 2025 年版，整理自开源数据集 [yescallop/areacodes](https://github.com/yescallop/areacodes)（CC0）；2026 年新设的岑岭县（<code>653132</code>）、草湖市（<code>659013</code>）据新疆维吾尔自治区人民政府公告补入。
+- **校验**：各类县级、地级单位数量与区划地名网公布的 2026 年全国行政区划统计（333 个地级、2847 个县级）一致。
+- **版本说明**：本页旧版基于约 2016 年的代码快照，已于 2026-11-15 全面更新为现行代码；旧代码并未删除，而是归入第五节和身份证前六位页面的历史对照表。
+- 区划调整随时可能发生，正式用途（户籍、公文、法定报送）请以[民政部全国行政区划信息查询平台](http://xzqh.mca.gov.cn/)为准。
+
+## 地理编码速查系列
+
+- [身份证前六位地区码对照](/learn/id-card-region-codes)
+- [34 个省级行政区一览](/learn/china-provinces-overview)
+- [全国车牌代码对照表](/learn/china-license-plate-codes)
+- [全国电话区号表](/learn/china-telephone-area-codes)
+- [全国机场三字码 / 四字码](/learn/china-airport-codes)
+- [世界国家和地区代码（ISO 3166）](/learn/iso-3166-country-codes)
+- [中国常用坐标系 EPSG 代码](/learn/china-epsg-codes)
+- [高斯-克吕格分带带号对照](/learn/gauss-kruger-zone-table)
+- [用地用海分类代码表](/learn/land-sea-use-classification-codes)
+- [河流国标码](/learn/china-river-codes)
