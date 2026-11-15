@@ -20,7 +20,8 @@ declare global {
   interface Window {
     dataLayer?: unknown[];
     gtag?: (...args: unknown[]) => void;
-    _hmt?: unknown[];
+    // 百度统计：hm.js 加载前是普通数组队列，加载后被替换成带 push 的对象
+    _hmt?: { push?: (entry: unknown[]) => void };
   }
 }
 
@@ -36,8 +37,11 @@ function trackBaiduPageView(urlPath: string) {
     baiduFirstViewSkipped = true;
     return;
   }
-  if (!Array.isArray(window._hmt) && typeof window._hmt?.push !== 'function') return;
-  window._hmt.push(['_trackPageview', `${urlPath}${window.location.search}`]);
+  // hm.js 加载前后 _hmt 的形态不同（数组队列 / 带 push 的对象），两者都接受；
+  // 都没有就说明统计脚本没加载，直接放弃，别抛错。
+  const hmt = window._hmt as { push?: (entry: unknown[]) => void } | undefined;
+  if (typeof hmt?.push !== 'function') return;
+  hmt.push(['_trackPageview', `${urlPath}${window.location.search}`]);
 }
 
 export function trackPageView(path: string, title?: string) {
@@ -131,6 +135,15 @@ export function trackResourceDownload(item: {
   const isPan =
     item.downloadType === 'baidu' || /(pan\.baidu\.com|yun\.baidu\.com)/.test(item.url || '');
   const ext = extFrom(item.url);
+  // download_method 区分四类点击：baidu_pan=网盘 / direct=本站直链 /
+  // external=第三方外链 / view=「在线观看」按钮（不是真下载，但同一上报入口）
+  const method = isPan
+    ? 'baidu_pan'
+    : item.downloadType === 'view'
+      ? 'view'
+      : item.downloadType === 'external'
+        ? 'external'
+        : 'direct';
   trackEvent('file_download', {
     // GA4 标准参数
     file_name: item.title,
@@ -143,8 +156,25 @@ export function trackResourceDownload(item: {
     resource_category: item.category || '未分类',
     resource_format: item.format || '',
     resource_size: item.size || '',
-    download_method: isPan ? 'baidu_pan' : 'direct',
+    download_method: method,
     download_access: item.access || '',
+  });
+}
+
+/**
+ * 验证码门禁埋点。在「验证并解锁」提交时调用（无论对错都记）。
+ * unlock_success 区分输对与输错：错得多说明关键词引导文案/输入框提示不清；
+ * 与 file_download(download_access=gated) 对比还能算出「解锁后真的去下载」的转化率。
+ */
+export function trackResourceUnlock(
+  item: { slug: string; title: string; category?: string },
+  success: boolean,
+) {
+  trackEvent('resource_unlock', {
+    resource_slug: item.slug,
+    resource_title: item.title,
+    resource_category: item.category || '未分类',
+    unlock_success: success,
   });
 }
 

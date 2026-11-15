@@ -5,7 +5,7 @@ import Breadcrumb from '@/components/common/Breadcrumb';
 import PageMeta from '@/components/common/PageMeta';
 import { getItem, getRelated, isResourceGated, isResourceViewOnly, isProvinceTag, type ContentItem } from '@/lib/content';
 import { recordDownload } from '@/services/learningService';
-import { trackResourceDownload } from '@/lib/analytics';
+import { trackResourceDownload, trackResourceUnlock } from '@/lib/analytics';
 import { renderMarkdown, extractFaq, type FaqEntry } from '@/lib/markdown';
 import { useJsonLd } from '@/lib/seo';
 import { useI18n } from '@/i18n/LocaleContext';
@@ -349,7 +349,10 @@ const ResourceDetail: React.FC = () => {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (code.trim().toLowerCase() === correct) {
+    const ok = code.trim().toLowerCase() === correct;
+    // GA4 埋点：无论对错都记一次 resource_unlock，unlock_success 区分输对/输错
+    trackResourceUnlock(item, ok);
+    if (ok) {
       setUnlocked(true);
       setError(false);
       try {
