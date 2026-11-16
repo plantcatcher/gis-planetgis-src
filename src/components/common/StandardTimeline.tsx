@@ -15,7 +15,7 @@ type TimelineNode = {
   title: string;
   date: string;
   org: string;
-  status: '现行' | '已废止';
+  status: '现行' | '旧版' | '已废止';
   note: string;
 };
 
@@ -74,6 +74,30 @@ const TIMELINES: Record<string, { label: string; nodes: TimelineNode[] }> = {
         org: '国家市场监督管理总局 / 国家标准化管理委员会',
         status: '现行',
         note: '跳出水利单一行业，面向地理信息公共基底数据，给出跨部门通用的河流地理实体编码。',
+      },
+    ],
+  },
+  // 行政区划标准地图审图号演进：自然资源部标准地图 → 天地图行政区划数据
+  'admin-map': {
+    label: '行政区划标准地图演进',
+    nodes: [
+      {
+        slug: 'gs-2024-0650-shp',
+        code: 'GS(2024)0650',
+        title: '标准地图矢量数据包（省 / 市 / 县 + 南海十段线）',
+        date: '2024 年版',
+        org: '自然资源部标准地图服务',
+        status: '旧版',
+        note: '省 34 / 市 375 / 县 2891，南海诸岛十段线 7 段独立图层，仅 SHP 格式。县级要素含重庆江北区、渝北区。',
+      },
+      {
+        slug: 'gs-2026-4921',
+        code: 'GS(2026)4921',
+        title: '行政区划矢量数据包（省 / 市 / 县 + 南海断续线）',
+        date: '2026-10 更新',
+        org: '国家地理信息公共服务平台「天地图」',
+        status: '现行',
+        note: '省 34 / 市 375 / 县 2850，境界线 8 要素三级通用，SHP + GeoJSON 双格式。重庆撤江北区、渝北区，新增两江新区并调整北碚区界。',
       },
     ],
   },
