@@ -7,6 +7,7 @@ category: 地理基础
 subject: 地理信息技术
 tags: 高斯-克吕格投影, 3度带, 6度带, 中央经线, 带号, CGCS2000, 测绘, GIS
 tableSearch: true
+tableSearchPlaceholder: 输入带号、中央经线或省份，如 39 / 117°E / 北京
 ---
 
 > 本页给出我国范围内（约 73°E–135°E）高斯-克吕格投影 **6° 带 13–23 带、3° 带 25–45 带**的经度范围与中央经线，并按省列出覆盖的带号和省会所在带。顶部搜索框可搜省份、带号或经度，如 `浙江`、`39`、`117°`。
@@ -231,6 +232,7 @@ tableSearch: true
 - [34 个省级行政区一览](/learn/china-provinces-overview)
 - [全国车牌代码对照表](/learn/china-license-plate-codes)
 - [全国电话区号表](/learn/china-telephone-area-codes)
+- [全国邮政编码表](/learn/china-postal-codes)
 - [全国机场三字码 / 四字码](/learn/china-airport-codes)
 - [世界国家和地区代码（ISO 3166）](/learn/iso-3166-country-codes)
 - [中国常用坐标系 EPSG 代码](/learn/china-epsg-codes)

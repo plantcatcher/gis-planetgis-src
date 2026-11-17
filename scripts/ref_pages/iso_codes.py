@@ -130,6 +130,7 @@ ISO 3166-1 是国际标准化组织（ISO）发布的**国家和地区代码标�
         'subject': '人文地理',
         'tags': 'ISO 3166, 国家代码, 国家和地区代码, GB/T 2659, 三字母代码, GADM, GIS数据',
         'tableSearch': 'true',
+        'tableSearchPlaceholder': '输入二 / 三字母码、数字码或国家名，如 JPN / 392 / 日本',
     }, body)
     print('ok', len(rows))
 

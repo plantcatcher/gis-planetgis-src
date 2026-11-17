@@ -7,6 +7,7 @@ category: 地理基础
 subject: 人文地理
 tags: ISO 3166, 国家代码, 国家和地区代码, GB/T 2659, 三字母代码, GADM, GIS数据
 tableSearch: true
+tableSearchPlaceholder: 输入二 / 三字母码、数字码或国家名，如 JPN / 392 / 日本
 ---
 
 > 本页收录 ISO 3166-1 全部 **249 个**国家和地区代码（二字母、三字母、数字三种），配中英文名称和联合国 M49 地理分区，按大洲分组。顶部搜索框可直接输入 `JPN`、`392`、`日本` 或 `Japan` 查询。
@@ -426,6 +427,7 @@ ISO 3166-2 是各国**一级行政区**的代码，格式为「国家二字母-�
 - [34 个省级行政区一览](/learn/china-provinces-overview)
 - [全国车牌代码对照表](/learn/china-license-plate-codes)
 - [全国电话区号表](/learn/china-telephone-area-codes)
+- [全国邮政编码表](/learn/china-postal-codes)
 - [全国机场三字码 / 四字码](/learn/china-airport-codes)
 - [中国常用坐标系 EPSG 代码](/learn/china-epsg-codes)
 - [高斯-克吕格分带带号对照](/learn/gauss-kruger-zone-table)

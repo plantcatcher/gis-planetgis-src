@@ -7,6 +7,7 @@ category: 地理基础
 subject: 人文地理
 tags: 机场三字码, 机场四字码, IATA, ICAO, 民用机场, 机场代码, 航空, 交通地理
 tableSearch: true
+tableSearchPlaceholder: 输入三字码 / 四字码或机场名，如 SZX / ZGSZ / 宝安
 ---
 
 > 数据更新：**2026-11-15**。机场清单与旅客吞吐量取自民航局 **《2025 年全国民用运输机场吞吐量排名》**（共 268 个有统计数据的境内运输机场）。顶部搜索框可直接输入三字码、四字码、城市或机场名，例如 `PKX`、`ZGSZ`、`成都`。
@@ -484,6 +485,7 @@ tableSearch: true
 - [34 个省级行政区一览](/learn/china-provinces-overview)
 - [全国车牌代码对照表](/learn/china-license-plate-codes)
 - [全国电话区号表](/learn/china-telephone-area-codes)
+- [全国邮政编码表](/learn/china-postal-codes)
 - [世界国家和地区代码（ISO 3166）](/learn/iso-3166-country-codes)
 - [中国常用坐标系 EPSG 代码](/learn/china-epsg-codes)
 - [高斯-克吕格分带带号对照](/learn/gauss-kruger-zone-table)

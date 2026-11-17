@@ -223,6 +223,7 @@ def build(cur, hist):
         'subject': '人文地理',
         'tags': '行政区划代码, GB/T 2260, 身份证前六位, 地理编码, GIS数据, 城市代码, 民政部',
         'tableSearch': 'true',
+        'tableSearchPlaceholder': '输入代码或地名，如 440300 / 深圳 / 南山区',
     }, body)
 
     # ---------- 页面二：身份证前六位 ----------
@@ -324,6 +325,7 @@ def build(cur, hist):
         'tags': '身份证前六位, 身份证地区码, 行政区划代码, GB 11643, GB/T 2260, 历史行政区划',
         'cover': '',
         'tableSearch': 'true',
+        'tableSearchPlaceholder': '输入身份证前六位或地名，如 440305 / 宝安',
     }, body2)
     print('current', total, 'pref', n_pref, 'county', n_cty, 'recent', len(recent), 'abolished', len(abolished))
 

@@ -7,6 +7,7 @@ category: 地理基础
 subject: 地理信息技术
 tags: EPSG, CGCS2000, 坐标系, 高斯-克吕格投影, 西安80, 北京54, 投影坐标系, GIS
 tableSearch: true
+tableSearchPlaceholder: 输入 EPSG 代码或坐标系名，如 4549 / CGCS2000
 ---
 
 > 本页所有 EPSG 代码、名称与投影参数均直接读取自 PROJ 9.3.0 自带的 EPSG 数据库并逐条校验（中央经线、假东偏移、带号三者一致），不是手抄的。顶部搜索框可直接搜 `4549`、`120°E` 或 `CGCS2000`。
@@ -320,6 +321,7 @@ tableSearch: true
 - [34 个省级行政区一览](/learn/china-provinces-overview)
 - [全国车牌代码对照表](/learn/china-license-plate-codes)
 - [全国电话区号表](/learn/china-telephone-area-codes)
+- [全国邮政编码表](/learn/china-postal-codes)
 - [全国机场三字码 / 四字码](/learn/china-airport-codes)
 - [世界国家和地区代码（ISO 3166）](/learn/iso-3166-country-codes)
 - [高斯-克吕格分带带号对照](/learn/gauss-kruger-zone-table)

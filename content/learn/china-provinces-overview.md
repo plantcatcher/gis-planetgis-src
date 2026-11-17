@@ -7,6 +7,7 @@ category: 地理基础
 subject: 区域地理
 tags: 省级行政区, 省份简称, 省会, 中国34个省, 人口, 行政区划
 tableSearch: true
+tableSearchPlaceholder: 输入省名、简称或代码，如 广东 / 粤 / 440000
 ---
 
 > 数据更新：**2026-11-15**。一张表看全中国 **34 个省级行政区**：行政区划代码、简称、省会（首府）、所属区域、地级与县级单位数量和第七次全国人口普查常住人口。顶部搜索框可按名称、简称或代码筛选。
@@ -156,6 +157,7 @@ tableSearch: true
 - [身份证前六位地区码对照](/learn/id-card-region-codes)
 - [全国车牌代码对照表](/learn/china-license-plate-codes)
 - [全国电话区号表](/learn/china-telephone-area-codes)
+- [全国邮政编码表](/learn/china-postal-codes)
 - [全国机场三字码 / 四字码](/learn/china-airport-codes)
 - [世界国家和地区代码（ISO 3166）](/learn/iso-3166-country-codes)
 - [中国常用坐标系 EPSG 代码](/learn/china-epsg-codes)

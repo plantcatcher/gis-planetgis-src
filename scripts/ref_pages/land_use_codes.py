@@ -174,6 +174,7 @@ def build():
         'subject': '地理信息技术',
         'tags': '用地用海分类, 国土空间规划, 国土调查, 地类代码, 自然资发〔2023〕234号, 土地利用分类, 三调',
         'tableSearch': 'true',
+        'tableSearchPlaceholder': '输入用地代码或名称，如 0701 / 城镇住宅',
     }, body)
     print('items', len(items))
 

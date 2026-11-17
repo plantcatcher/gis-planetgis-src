@@ -60,6 +60,7 @@ SERIES = [
     ('china-provinces-overview', '34 个省级行政区一览'),
     ('china-license-plate-codes', '全国车牌代码对照表'),
     ('china-telephone-area-codes', '全国电话区号表'),
+    ('china-postal-codes', '全国邮政编码表'),
     ('china-airport-codes', '全国机场三字码 / 四字码'),
     ('iso-3166-country-codes', '世界国家和地区代码（ISO 3166）'),
     ('china-epsg-codes', '中国常用坐标系 EPSG 代码'),

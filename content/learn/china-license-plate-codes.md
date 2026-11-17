@@ -7,6 +7,7 @@ category: 地理基础
 subject: 人文地理
 tags: 车牌代码, 车牌归属地, 车牌简称, 发牌机关代号, GA 36-2018, 新能源车牌, 城市代码
 tableSearch: true
+tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
 ---
 
 > 数据更新：**2026-11-15**。共收录 31 个省级行政区的 **407 个**发牌机关代号。顶部搜索框可以直接输入车牌前两位（如 `粤B`）或城市名（如 `苏州`）查询。
@@ -935,6 +936,7 @@ tableSearch: true
 - [身份证前六位地区码对照](/learn/id-card-region-codes)
 - [34 个省级行政区一览](/learn/china-provinces-overview)
 - [全国电话区号表](/learn/china-telephone-area-codes)
+- [全国邮政编码表](/learn/china-postal-codes)
 - [全国机场三字码 / 四字码](/learn/china-airport-codes)
 - [世界国家和地区代码（ISO 3166）](/learn/iso-3166-country-codes)
 - [中国常用坐标系 EPSG 代码](/learn/china-epsg-codes)

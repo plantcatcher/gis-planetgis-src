@@ -123,6 +123,7 @@ def build():
         'subject': '区域地理',
         'tags': '省级行政区, 省份简称, 省会, 中国34个省, 人口, 行政区划',
         'tableSearch': 'true',
+        'tableSearchPlaceholder': '输入省名、简称或代码，如 广东 / 粤 / 440000',
     }, body)
     print('ok', len(rows))
 

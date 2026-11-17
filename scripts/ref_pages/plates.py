@@ -135,6 +135,7 @@ def build():
         'subject': '人文地理',
         'tags': '车牌代码, 车牌归属地, 车牌简称, 发牌机关代号, GA 36-2018, 新能源车牌, 城市代码',
         'tableSearch': 'true',
+        'tableSearchPlaceholder': '输入车牌代号或城市名，如 粤B / 苏州',
     }, body)
     print('ok', len(deer), 'both', len(both))
 

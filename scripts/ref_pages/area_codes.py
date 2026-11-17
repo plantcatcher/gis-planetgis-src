@@ -134,6 +134,7 @@ def build():
         'subject': '人文地理',
         'tags': '电话区号, 长途区号, 区号查询, 固定电话, 城市区号, 区号并网',
         'tableSearch': 'true',
+        'tableSearchPlaceholder': '输入区号或城市名，如 0755 / 深圳',
     }, body)
     print('ok', len(rows), len(changes))
 

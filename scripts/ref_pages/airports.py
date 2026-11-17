@@ -203,6 +203,7 @@ def build():
         'subject': '人文地理',
         'tags': '机场三字码, 机场四字码, IATA, ICAO, 民用机场, 机场代码, 航空, 交通地理',
         'tableSearch': 'true',
+        'tableSearchPlaceholder': '输入三字码 / 四字码或机场名，如 SZX / ZGSZ / 宝安',
     }, body)
     print('ok', len(out), 'multi', len(multi_rows))
 

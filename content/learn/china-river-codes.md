@@ -105,6 +105,7 @@ cover: https://blogphoto.planetgis.cn/PicGo/2026-09-25-river_cover.jpg
 - [34 个省级行政区一览](/learn/china-provinces-overview)
 - [全国车牌代码对照表](/learn/china-license-plate-codes)
 - [全国电话区号表](/learn/china-telephone-area-codes)
+- [全国邮政编码表](/learn/china-postal-codes)
 - [全国机场三字码 / 四字码](/learn/china-airport-codes)
 - [世界国家和地区代码（ISO 3166）](/learn/iso-3166-country-codes)
 - [中国常用坐标系 EPSG 代码](/learn/china-epsg-codes)

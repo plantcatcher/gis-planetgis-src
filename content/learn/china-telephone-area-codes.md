@@ -7,6 +7,7 @@ category: 地理基础
 subject: 人文地理
 tags: 电话区号, 长途区号, 区号查询, 固定电话, 城市区号, 区号并网
 tableSearch: true
+tableSearchPlaceholder: 输入区号或城市名，如 0755 / 深圳
 ---
 
 > 数据更新：**2026-11-15**。收录中国大陆 31 个省级行政区的 **320 个**长途区号，以及近年区号并网的变更记录。顶部搜索框可直接输入区号（如 `0755`）或城市名（如 `深圳`）查询。
@@ -866,6 +867,7 @@ tableSearch: true
 - [身份证前六位地区码对照](/learn/id-card-region-codes)
 - [34 个省级行政区一览](/learn/china-provinces-overview)
 - [全国车牌代码对照表](/learn/china-license-plate-codes)
+- [全国邮政编码表](/learn/china-postal-codes)
 - [全国机场三字码 / 四字码](/learn/china-airport-codes)
 - [世界国家和地区代码（ISO 3166）](/learn/iso-3166-country-codes)
 - [中国常用坐标系 EPSG 代码](/learn/china-epsg-codes)

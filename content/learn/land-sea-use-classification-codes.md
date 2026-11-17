@@ -7,6 +7,7 @@ category: 地理基础
 subject: 地理信息技术
 tags: 用地用海分类, 国土空间规划, 国土调查, 地类代码, 自然资发〔2023〕234号, 土地利用分类, 三调
 tableSearch: true
+tableSearchPlaceholder: 输入用地代码或名称，如 0701 / 城镇住宅
 ---
 
 > 本页依据自然资源部 **《国土空间调查、规划、用途管制用地用海分类指南》（自然资发〔2023〕234 号，2023 年 11 月 22 日印发）** 正式文本整理，收录表 2.1 全部 175 个代码及附录 A 的含义说明。顶部搜索框可按代码或名称筛选，如输入 `0701` 或 `停车`。
@@ -654,6 +655,7 @@ tableSearch: true
 - [34 个省级行政区一览](/learn/china-provinces-overview)
 - [全国车牌代码对照表](/learn/china-license-plate-codes)
 - [全国电话区号表](/learn/china-telephone-area-codes)
+- [全国邮政编码表](/learn/china-postal-codes)
 - [全国机场三字码 / 四字码](/learn/china-airport-codes)
 - [世界国家和地区代码（ISO 3166）](/learn/iso-3166-country-codes)
 - [中国常用坐标系 EPSG 代码](/learn/china-epsg-codes)

@@ -7,6 +7,7 @@ category: 地理基础
 subject: 人文地理
 tags: 身份证前六位, 身份证地区码, 行政区划代码, GB 11643, GB/T 2260, 历史行政区划
 tableSearch: true
+tableSearchPlaceholder: 输入身份证前六位或地名，如 440305 / 宝安
 ---
 
 > 数据更新：**2026-11-15**。下方表格收录 **1981–2025 年间已经停用或更名的 3612 条县以上行政区划代码记录**，可以在顶部搜索框直接输入身份证前 6 位查询。现行代码请查[行政区划代码全表](/learn/china-admin-division-codes)。
@@ -3733,6 +3734,7 @@ X 是罗马数字 10。校验码按 MOD 11-2 计算，余数为 2 时对应的�
 - [34 个省级行政区一览](/learn/china-provinces-overview)
 - [全国车牌代码对照表](/learn/china-license-plate-codes)
 - [全国电话区号表](/learn/china-telephone-area-codes)
+- [全国邮政编码表](/learn/china-postal-codes)
 - [全国机场三字码 / 四字码](/learn/china-airport-codes)
 - [世界国家和地区代码（ISO 3166）](/learn/iso-3166-country-codes)
 - [中国常用坐标系 EPSG 代码](/learn/china-epsg-codes)

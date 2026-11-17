@@ -195,6 +195,7 @@ def build():
         'subject': '地理信息技术',
         'tags': 'EPSG, CGCS2000, 坐标系, 高斯-克吕格投影, 西安80, 北京54, 投影坐标系, GIS',
         'tableSearch': 'true',
+        'tableSearchPlaceholder': '输入 EPSG 代码或坐标系名，如 4549 / CGCS2000',
     }, body)
 
     # ---------- 分带对照 ----------
@@ -303,6 +304,7 @@ def build():
         'subject': '地理信息技术',
         'tags': '高斯-克吕格投影, 3度带, 6度带, 中央经线, 带号, CGCS2000, 测绘, GIS',
         'tableSearch': 'true',
+        'tableSearchPlaceholder': '输入带号、中央经线或省份，如 39 / 117°E / 北京',
     }, body2)
     print('ok', len(prov_rows))
 
