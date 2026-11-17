@@ -131,6 +131,8 @@ export interface ContentItem {
   dataFormat?: string;
   /** 参考/速查页开关：为 true 时详情页在正文上方渲染表格搜索框（筛选 .md-body 内所有 tbody tr） */
   tableSearch?: boolean;
+  /** 该页搜索框的定制提示语（frontmatter `tableSearchPlaceholder`），缺省用词典通用文案 */
+  tableSearchPlaceholder?: string;
   /** 页面热度：近 30 天 GA4 浏览量（构建期从 heat.json 注入，缺省 0） */
   heat?: number;
   /**
@@ -285,6 +287,7 @@ for (const row of CONTENT_INDEX) {
     region: data.region,
     dataFormat: data.dataFormat,
     tableSearch: data.tableSearch === 'true' || data.tableSearch === '1',
+    tableSearchPlaceholder: data.tableSearchPlaceholder,
     heat: HEAT[slug] || 0,
   });
 }

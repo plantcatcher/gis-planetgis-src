@@ -21,6 +21,7 @@ import { PageViewCount } from '@/lib/busuanzi';
 import FactBox from '@/components/knowledge/FactBox';
 import SeeAlso from '@/components/knowledge/SeeAlso';
 import TableSearch from '@/components/knowledge/TableSearch';
+import TocNav from '@/components/knowledge/TocNav';
 import { buildInfobox, getSeeAlso, getReadingTime, getWordCount, getRelatedInBoard } from '@/lib/knowledge';
 
 interface Props {
@@ -394,8 +395,9 @@ export default function ContentDetail({ type }: Props) {
       {/* 容器宽度与「资料下载」详情页保持一致：max-w-7xl + px-4 md:px-8 */}
       <div className="max-w-7xl mx-auto px-4 md:px-8 pt-4 pb-12 md:pb-16">
       <LearningTracker contentKey={contentKey} />
-      <div className="lg:grid lg:grid-cols-[1fr_240px] lg:gap-12 lg:items-start">
-        <article className="min-w-0 mx-auto reading-column w-full">
+      {/* 不设 lg:items-start：aside 需被拉满整行高度，内层 sticky 才有行程（侧栏吸顶见下） */}
+      <div className="lg:grid lg:grid-cols-[1fr_240px] lg:gap-12">
+        <article className="min-w-0 mx-auto reading-column w-full self-start">
       <PageMeta
         title={item.title}
         description={item.summary || item.title}
@@ -473,7 +475,9 @@ export default function ContentDetail({ type }: Props) {
         <p className="standfirst">{item.summary}</p>
       )}
 
-      {item.tableSearch && <TableSearch bodyRef={bodyRef} body={body} />}
+      {item.tableSearch && (
+        <TableSearch bodyRef={bodyRef} body={body} placeholder={item.tableSearchPlaceholder} />
+      )}
       <div ref={bodyRef}>
       {loading ? (
         // 站内跳转、目标正文尚未载入时的骨架。首屏（SSR/hydration）阶段 loading 恒为 false，
@@ -554,28 +558,22 @@ export default function ContentDetail({ type }: Props) {
       )}
 
         </article>
+        {/* 侧栏：FactBox 随页面滚走，其下的「本文大纲 + 相关推荐」吸顶。
+            sticky 生效的前提是父级 aside 被拉满整行高度（故 grid 不设 items-start），
+            否则 aside 只有内容高，内层没有可滚动的行程。 */}
         <aside className="hidden lg:block">
-          <div className="sticky top-24 space-y-6">
+          <div className="mb-6">
             <FactBox title={t('detail.info.title')} rows={infobox} />
+          </div>
+          {/* 不用 overscroll-contain：目录滚到底后继续滚轮应带动页面，而不是卡住 */}
+          <div className="sticky top-24 max-h-[calc(100vh-7rem)] space-y-6 overflow-y-auto pr-1 pb-4">
             {toc.length > 1 && (
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">{t('detail.toc')}</p>
-                <nav className="space-y-2 text-sm">
-                  {toc.map((h) => (
-                    <a
-                      key={h.id}
-                      href={`#${h.id}`}
-                      className={`block hover:text-primary transition-colors line-clamp-2 ${h.level === 3 ? 'pl-3 text-muted-foreground/80' : 'font-medium'}`}
-                    >
-                      {h.text}
-                    </a>
-                  ))}
-                </nav>
+                <TocNav headings={toc} />
               </div>
             )}
             <SeeAlso items={seeAlso} />
-
-            {/* 侧栏仅保留 FactBox / 本文大纲 / SeeAlso；相关学习已移到页面底部、跨两列全宽渲染 */}
           </div>
         </aside>
       </div>
