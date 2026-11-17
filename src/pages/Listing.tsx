@@ -21,8 +21,6 @@ import {
   isProvinceTag,
   isResourceGated,
   isResourceViewOnly,
-  SUBJECT_META,
-  LEARN_SUBJECTS,
   resourceGroup,
   resourceDocType,
   resourceStdLevel,
@@ -374,31 +372,23 @@ const LearnGrid = () => {
   const q = query.trim();
   const searched: ContentItem[] = q ? searchAll(q, base).map((h) => h.item) : base;
 
-  // 未选学科时按学科分组呈现，强化"知识地图"结构感
-  const groups =
-    activeSubject === '全部'
-      ? LEARN_SUBJECTS.map((name) => ({
-          name,
-          items: searched.filter((i) => i.subject === name),
-        })).filter((g) => g.items.length)
-      : [{ name: activeSubject, items: searched }];
-
-  // 热度模式：整页按热度拍平排序；最新模式：保留学科分组（见下方 flatAll / groupedNodes 分支）
-  const heatSorted = useMemo(
-    () =>
-      [...searched].sort(
+  // 热度模式：按近 30 天 GA4 浏览量降序；最新模式：按更新日期倒序。
+  // 两者都整页拍平，不再按学科分组——否则「最新」只是各组内部按日期，
+  // 组与组仍按固定学科顺序排，真正最新新增的文章会被埋在靠后的学科组里，
+  // 用户点「最新」却看不到最新内容（2026-11-17 板牙反馈并修复）。
+  const sortedAll = useMemo(() => {
+    const arr = [...searched];
+    if (sortMode === 'heat') {
+      return arr.sort(
         (a, b) => (b.heat || 0) - (a.heat || 0) || (b.date || '').localeCompare(a.date || ''),
-      ),
-    [searched],
-  );
+      );
+    }
+    return arr.sort((a, b) => (b.date || '').localeCompare(a.date || '') || (b.heat || 0) - (a.heat || 0));
+  }, [searched, sortMode]);
 
-  // 分页 + 扁平分组（方案 A：最新模式保留学科小标题，热度模式整页拍平）
   // 页码走路径（/learn/page/2）：SSG 下 ?page=N 拿到的永远是同一份 dist/learn.html。
   const size = PAGE_SIZE.learn;
-  const subjectCount: Record<string, number> = {};
-  for (const g of groups) subjectCount[g.name] = g.items.length;
-  const flat = groups.flatMap((g) => g.items.map((it) => ({ subject: g.name, item: it })));
-  const flatAll = sortMode === 'heat' ? heatSorted.map((it) => ({ subject: '', item: it })) : flat;
+  const flatAll = sortedAll.map((it) => ({ subject: '', item: it }));
   const totalPages = Math.max(1, Math.ceil(flatAll.length / size));
   const { currentPage, goPage, setFilters } = usePageNav(totalPages);
   const pageItems = flatAll.slice((currentPage - 1) * size, currentPage * size);
@@ -438,45 +428,6 @@ const LearnGrid = () => {
     setSortMode(m);
     setFilters(searchParams);
   };
-
-  // 当页条目按学科分段渲染：某学科在当页首次出现时显示其小标题（跨页重显示）
-  const groupedNodes: React.ReactNode[] = [];
-  {
-    let curSubj: string | null = null;
-    let buffer: ContentItem[] = [];
-    const flush = () => {
-      if (curSubj && buffer.length) {
-        groupedNodes.push(
-          <section key={`${curSubj}-${groupedNodes.length}`}>
-            <div className="flex items-center gap-3 mb-4">
-              <SubjectIcon name={SUBJECT_META[curSubj]?.icon || 'Globe'} className="w-5 h-5 text-primary" />
-              <h2 className="font-serif text-lg font-bold">{localizeLabel(curSubj, lang)}</h2>
-              <span className="text-xs text-muted-foreground">
-                {t('list.entries', { n: subjectCount[curSubj] })}
-              </span>
-              <div className="flex-1 h-px bg-border" />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-              {buffer.map((a, i) => (
-                <CardAnim key={a.slug} delay={i * 0.05}>
-                  <KnowledgeCard item={a} />
-                </CardAnim>
-              ))}
-            </div>
-          </section>,
-        );
-        buffer = [];
-      }
-    };
-    for (const { subject, item } of pageItems) {
-      if (subject !== curSubj) {
-        flush();
-        curSubj = subject;
-      }
-      buffer.push(item);
-    }
-    flush();
-  }
 
   return (
     <div className="lg:grid lg:grid-cols-[236px_1fr] lg:gap-8">
@@ -595,7 +546,7 @@ const LearnGrid = () => {
 
         {searched.length === 0 ? (
           <p className="text-muted-foreground">{t('list.empty.learn')}</p>
-        ) : sortMode === 'heat' ? (
+        ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
             {pageItems.map(({ item }) => (
               <CardAnim key={item.slug} delay={0}>
@@ -603,8 +554,6 @@ const LearnGrid = () => {
               </CardAnim>
             ))}
           </div>
-        ) : (
-          <div className="space-y-10">{groupedNodes}</div>
         )}
 
         {allTags.length > 0 && activeTags.length === 0 && (

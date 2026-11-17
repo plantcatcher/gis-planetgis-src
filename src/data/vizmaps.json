@@ -3214,6 +3214,23 @@
         "desc": "城市间有向迁徙边（GCJ-02）；属性含起讫城市 adcode/名称、百度迁徙占比 w、是否跨省 cross；from→to 即人流动方向，仅含 w≥0.8 的边"
       }
     ]
+  },
+  {
+    "slug": "china-postal-codes",
+    "entry": "/maps/china-postal-codes/index.html",
+    "bbox": [73.0, 17.5, 135.5, 54.5],
+    "crs": "WGS84（与天地图底图同源，无偏移）——县级多边形复用方言图 WGS84 干净县界（含台湾、港澳与南海诸岛）；邮编来自开源邮政网点名录，按 2025 年县以上行政区划归入县区",
+    "basemap": "天地图：卫星影像 img_w / 矢量路网 vec_w / 深色无底图（默认）；可叠加县级行政界线与 5° 经纬网格",
+    "source": "邮编整理自 mumuy/data_post（MIT，全国邮政网点名录，含网点名称/地址/邮编），剔除撤销网点并去重、剔除误填为行政区划代码的记录，按民政部 2025 年县以上行政区划归入县区，共 37026 个邮编 / 2857 个县区；县级着色取该县邮编首位数字的众数，对应九大邮区（0 华北、1 东北、2 华东、3 东南、4 华中、5 华南、6 西南、7 西北、8 青藏·新疆）。港澳台无大陆邮编标灰；新设/撤销区划无独立记录者标灰。数据由 _g/_build_china_postal_map.py 从 content/learn/china-postal-codes.md 解析生成。与速查页 /learn/china-postal-codes 双向互链。",
+    "updated": "2026-11-17",
+    "data": [
+      {
+        "file": "maps/china-postal-codes/data/counties.geojson",
+        "features": 2891,
+        "unit": "县级多边形",
+        "desc": "2891 个县市级单元，属性含 adcode、省名、地级、邮编串(zips 逗号分隔)、邮编数(n)、首位邮区(lead)、主前缀(prefix)、前四位段数(p4)；按九大邮区着色"
+      }
+    ]
   }
 ]
 }

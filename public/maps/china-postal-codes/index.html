@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <script src="/shared/map-i18n.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>邮政编码地图 · 全国九大邮区 · 按县查 6 位邮编互动查询</title>
+  <meta name="description" content="点一下中国地图上的任意县区，右侧就是它完整的 6 位邮政编码表——按邮编首位数字归入九大邮区。支持按邮编或地名即时搜索，例如 518000 或 深圳。与全国邮政编码速查页互链。" />
+  <meta name="keywords" content="邮政编码,邮编查询,六位邮编,九大邮区,互动地图, postal code,GIS" />
+  <meta name="author" content="PlanetGIS" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps/china-postal-codes" target="_top"><i>&#8249;</i> 作品介绍</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>&#9673;</i> 全国总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-eq"></i>
+      <b>邮政编码地图</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> POSTAL CODE · 6 DIGITS</small>
+      <h1><span>邮政编码</span><b>九大邮区地图</b></h1>
+      <p class="lead">你写的每一个 6 位邮编，头一位数字都在回答：这封信先送去中国的哪一片。<b>点一下任意县区</b>，右侧就是它的完整邮编表；颜色是邮编首位对应的九大邮区。</p>
+
+      <div class="facts">
+        <span><small>有邮编县区</small><b><span class="v"><em id="fCounty">—</em></span><i>个</i></b></span>
+        <span><small>邮政编码</small><b><span class="v"><em id="fZip">—</em></span><i>个</i></b></span>
+        <span><small>邮区</small><b><span class="v"><em id="fGroup">—</em></span><i>大区</i></b></span>
+      </div>
+
+      <section class="block">
+        <header><small>按邮编或地名搜索</small><small class="hint-n">如 518000 或 深圳</small></header>
+        <div class="searchbox">
+          <input type="search" id="searchInput" placeholder="输入 6 位邮编或地名…" autocomplete="off" spellcheck="false" />
+        </div>
+        <div class="search-results" id="searchResults"></div>
+      </section>
+
+      <section class="block">
+        <header><small>目录</small><small class="hint-n" id="listHint">点击定位到地图</small></header>
+        <div class="unit-list" id="unitList"></div>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：邮编整理自开源数据集 <a href="https://github.com/mumuy/data_post" target="_blank" rel="noopener">mumuy/data_post</a>（MIT，全国邮政网点名录），按民政部 2025 年县以上行政区划归入县区，共 37026 个邮编 / 2857 个县区；县界为 WGS84 干净县级多边形（含台湾、港澳，2891 单元），底图为天地图，同源无偏移。港澳台无大陆邮编标灰。校验口径与配套文章一致：<a href="/learn/china-postal-codes" target="_top">全国邮政编码速查页</a>。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/maps/china-postal-codes" target="_top">作品介绍</a>
+        <a href="/learn/china-postal-codes" target="_top">邮编速查页</a>
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </aside>
+
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtLevel">—</small>
+      <div class="dt-actions"><button type="button" id="dtClose" title="关闭">✕</button></div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtSub">—</p>
+
+    <div class="dt-code" id="dtCodeBox">
+      <small id="dtCodeLabel">代表邮编（县区中心局）</small>
+      <b id="dtCode">—</b>
+      <button type="button" id="dtCopy" title="复制邮编">复制</button>
+    </div>
+
+    <div class="dt-meta" id="dtMeta"></div>
+
+    <section class="dt-desc">
+      <small id="dtChildrenLabel">该县区全部邮政编码（点击复制）</small>
+      <div class="zip-list" id="zipList"></div>
+    </section>
+
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <button class="panel-gear" id="panelGear" type="button" title="图层与底图设置" aria-label="图层与底图设置">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="3"></circle>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0-1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+    </svg>
+  </button>
+
+  <div class="panel closed" id="panel">
+    <button type="button" id="panelClose" class="panel-close" title="收起">✕</button>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckLabel" checked /><span>名称标注</span></label>
+      <label class="row"><input type="checkbox" id="ckGraticule" /><span>2° 经纬网格</span></label>
+      <div class="divider"></div>
+      <div class="bm-title">底图</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" checked /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>矢量路网</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" /><span>深色</span></label>
+      </div>
+      <div class="divider"></div>
+      <p class="panel-note">色块按<b>邮编首位数字的众数</b>染成九大邮区，颜色跨省界。选中县后退色 + 白色描边，地址栏带 <b>#u/代码</b> 可直接分享某个县区。</p>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="/maps/_shared/thematic/thematic.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

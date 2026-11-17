@@ -147,8 +147,8 @@ export default function TableSearch({ bodyRef, body, placeholder }: Props) {
   const label = placeholder || t('detail.tableSearch.placeholder');
 
   return (
-    <div className="sticky top-16 z-30 -mx-1 mb-6 bg-background/95 px-1 pb-3 pt-3 backdrop-blur-sm">
-      <div className="rounded-xl border-2 border-primary/25 bg-card/90 p-2.5 shadow-sm transition-all focus-within:border-primary/60 focus-within:shadow-md">
+    <div className="sticky top-16 z-30 -mx-1 mb-6 px-1 pb-3 pt-3">
+      <div className="rounded-xl border-2 border-primary/25 bg-card/55 p-2.5 shadow-sm backdrop-blur-md transition-all focus-within:border-primary/60 focus-within:bg-card/75 focus-within:shadow-md">
         <p className="mb-1 flex items-center gap-1.5 px-1 text-xs font-semibold tracking-wide text-primary">
           <Search className="h-3.5 w-3.5" aria-hidden="true" />
           {t('detail.tableSearch.label')}
