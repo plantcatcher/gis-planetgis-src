@@ -346,7 +346,8 @@
   };
 
   /* ── 标注层 ─────────────────────────────────────────────── */
-  /* items: [{id, text, lng, lat, color, kind:'dot'|'square'|'tag', active }] */
+  /* items: [{id, text, lng, lat, color, kind:'dot'|'square'|'tag', active, sub }]
+     sub（可选）：标注第二行，小号等宽字，用于代码类地图（如行政区划代码）。 */
   Instance.prototype.setLabels = function (items) {
     this._labels = items || [];
     this._requestLabels();
@@ -370,9 +371,13 @@
       var p = self.map.project([it.lng, it.lat]);
       html += '<div class="tlabel' +
         (it.kind === 'square' ? ' is-square' : (it.kind === 'tag' ? ' is-tag' : '')) +
-        (it.active ? ' is-active' : '') +
+        (it.active ? ' is-active' : '') + (it.sub ? ' is-coded' : '') +
         '" style="left:' + p.x.toFixed(1) + 'px;top:' + p.y.toFixed(1) + 'px;--c:' + (it.color || '#fff') + '">' +
-        esc(it.text) + '</div>';
+        (it.sub
+          ? '<span class="tlabel-main">' + esc(it.text) + '</span>' +
+            '<span class="tlabel-sub">' + esc(it.sub) + '</span>'
+          : esc(it.text)) +
+        '</div>';
     });
     el.innerHTML = html;
   };

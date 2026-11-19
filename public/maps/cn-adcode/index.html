@@ -97,9 +97,13 @@
   </button>
 
   <div class="panel closed" id="panel">
-    <button type="button" id="panelClose" class="panel-close" title="收起">✕</button>
+    <div class="panel-head">
+      <span>图层与底图</span>
+      <button type="button" id="panelClose" class="panel-close" title="收起（Esc）">✕</button>
+    </div>
     <div class="panel-body" id="panelBody">
       <label class="row"><input type="checkbox" id="ckLabel" checked /><span>名称标注</span></label>
+      <label class="row row-sub"><input type="checkbox" id="ckCode" checked /><span>同时显示 6 位代码</span></label>
       <label class="row"><input type="checkbox" id="ckGraticule" /><span>2° 经纬网格</span></label>
       <div class="divider"></div>
       <div class="bm-title">底图</div>
@@ -109,7 +113,7 @@
         <label class="bm-opt"><input type="radio" name="basemap" value="none" /><span>深色</span></label>
       </div>
       <div class="divider"></div>
-      <p class="panel-note">色块按<b>下辖县级数量</b>着色，越多越亮。选中单元后色块变透明、色环勾边；地级单元选中即自动画出县级边界，地址栏带 <b>#u/代码</b> 可直接分享某个省、地级或县级单位。</p>
+      <p class="panel-note">色块按<b>下辖县级数量</b>着色，越多越亮。选中单元后色块变透明、色环勾边；地级单元选中即自动画出县级边界，地址栏带 <b>#u/代码</b> 可直接分享某个省、地级或县级单位。<b>Esc</b> 或点空白处逐级退回。</p>
     </div>
   </div>
 

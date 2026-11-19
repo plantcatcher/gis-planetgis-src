@@ -57,6 +57,22 @@ body::-webkit-scrollbar-thumb, .intro-body::-webkit-scrollbar-thumb { background
 .tlabel.is-tag { padding: 3px 10px; font-size: 12px; color: #cfe0f5; }
 .tlabel.is-active { color: #fff; border-color: var(--c, #fff); background: rgba(6, 11, 20, 0.92); }
 
+/* 带代码的两行标注：左列色点，右列上行名称、下行 6 位代码（等宽、暗一档） */
+.tlabel.is-coded {
+  display: inline-grid; grid-template-columns: auto auto;
+  align-items: center; column-gap: 6px;
+  padding: 3px 9px 3px 7px; border-radius: 8px; line-height: 1.28;
+}
+.tlabel.is-coded::before { grid-row: 1 / -1; }
+.tlabel.is-coded .tlabel-main { grid-column: 2; font-size: 12.5px; }
+.tlabel.is-coded .tlabel-sub {
+  grid-column: 2;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10.5px; font-weight: 500; letter-spacing: .08em;
+  color: var(--c, #cfe3f5); opacity: .82; font-variant-numeric: tabular-nums;
+}
+.tlabel.is-coded.is-active .tlabel-sub { opacity: 1; }
+
 /* 悬停提示 */
 .ttip {
   position: absolute; z-index: 9; pointer-events: none; display: none;

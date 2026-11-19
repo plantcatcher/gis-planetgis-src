@@ -12,6 +12,7 @@
   'use strict';
 
   var fmt = Thematic.fmt, esc = Thematic.esc;
+  var shutPanel = null;  // bindPanel 里赋值；手机端卡片弹出时用它收掉设置卡
 
   var el = {};
   ['fProv', 'fPref', 'fCounty', 'searchInput', 'searchResults', 'unitList', 'listHint',
@@ -386,6 +387,7 @@
       el.detail.hidden = true;
       app.setDetailOpen(false);
       markUnit('');
+      updateLabels();
       try { history.replaceState(null, '', location.pathname + location.search); } catch (_) {}
       return;
     }
@@ -399,6 +401,7 @@
     var selCode = String(f.properties.adcode);
     if (srcId === 'cty') selCode = selCode.slice(0, 4) + '00';
     markUnit(selCode);
+    updateLabels();
     try { history.replaceState(null, '', '#u/' + f.properties.adcode); } catch (_) {}
   }
 
@@ -420,6 +423,7 @@
 
   /* ── 详情卡 ── */
   function openCard(f) {
+    if (shutPanel && window.innerWidth <= 900) shutPanel();
     var p = f.properties, code = String(p.adcode);
     el.dtCode.textContent = code;
     el.dtName.textContent = p.name;
@@ -464,6 +468,7 @@
 
   /* 代码在表里、边界没发布：照样给卡片和可复制的代码，只是不落点 */
   function openMissing(code, row) {
+    if (shutPanel && window.innerWidth <= 900) shutPanel();
     setSel(null);
     el.dtLevel.textContent = LEVEL_ZH[row[2]] + '行政区';
     el.dtName.textContent = row[1];
@@ -505,10 +510,14 @@
     };
   }
 
-  /* ── 标注：缩放 >4.6 时显示当前视图单元名称 ── */
+  /* ── 标注：缩放 >4.6 时显示当前视图单元名称（可叠 6 位代码） ── */
   function updateLabels() {
     var z = app.map.getZoom();
     if (z < 4.6) { app.setLabels([]); return; }
+    /* 代码开关由本图自己的面板控制（ckCode）；共享引擎只认 ckLabel 管名称 */
+    var ckCode = document.getElementById('ckCode');
+    var withCode = !ckCode || ckCode.checked;
+    var selCode = S.sel ? String(S.sel.properties.adcode) : '';
     var feats = S.view === 'pref' ? S.pref : Object.keys(S.countyByCode).map(function (k) { return S.countyByCode[k]; });
     var items = [];
     feats.forEach(function (f) {
@@ -516,7 +525,10 @@
         var b = Thematic.bboxOf(f.geometry); return b ? [(b[0] + b[2]) / 2, (b[1] + b[3]) / 2] : null;
       })();
       if (!c) return;
-      items.push({ id: String(f.properties.adcode), text: f.properties.name,
+      var code = String(f.properties.adcode);
+      items.push({ id: code, text: f.properties.name,
+                   sub: withCode ? code : '',
+                   active: code === selCode,
                    lng: c[0], lat: c[1], color: '#cfe3f5' });
     });
     app.setLabels(items.slice(0, 400));
@@ -602,22 +614,62 @@
     });
   }
 
-  /* ── 图层与底图面板 ── */
+  /* ── 图层与底图面板 ──
+     齿轮开、✕ / 点面板外 / Esc 关。共享引擎的 Esc 绑定的是 opts.onClose（= stepUp），
+     所以面板开着时先截住 Esc 只收面板，不让它顺手把地图也退一级。 */
   function bindPanel() {
     var gear = document.getElementById('panelGear');
     var panel = document.getElementById('panel');
     var close = document.getElementById('panelClose');
-    if (gear && panel) {
-      gear.addEventListener('click', function () {
-        panel.classList.remove('closed');
-        gear.hidden = true;
-      });
-    }
-    if (close && panel && gear) {
-      close.addEventListener('click', function () {
-        panel.classList.add('closed');
-        gear.hidden = false;
-      });
+    var ckCode = document.getElementById('ckCode');
+    var ckLabel = document.getElementById('ckLabel');
+    if (!gear || !panel) return;
+
+    var isOpen = function () { return !panel.classList.contains('closed'); };
+    var open = function () {
+      panel.classList.remove('closed');
+      gear.hidden = true;
+      gear.setAttribute('aria-expanded', 'true');
+    };
+    var shut = function () {
+      panel.classList.add('closed');
+      gear.hidden = false;
+      gear.setAttribute('aria-expanded', 'false');
+    };
+
+    shutPanel = shut;  // 手机端卡片弹出时由 openCard / openMissing 调用
+    gear.setAttribute('aria-expanded', 'false');
+    gear.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (isOpen()) shut(); else open();
+    });
+    if (close) close.addEventListener('click', function (e) { e.stopPropagation(); shut(); });
+
+    /* 点面板内部不该关：mousedown 在面板里、mouseup 在外面（拖选文字）也会触发 click */
+    document.addEventListener('mousedown', function (e) {
+      if (!isOpen() || panel.contains(e.target) || gear.contains(e.target)) return;
+      shut();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape' || !isOpen()) return;
+      shut();
+      /* 只吃掉这一次：地图的 Esc（逐级退回）在这一下里不该跟着触发 */
+      e.stopPropagation();
+      if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+      gear.focus();
+    }, true);
+
+    /* 代码开关：名称关着时代码也没意义，跟着灰掉 */
+    if (ckCode) {
+      ckCode.addEventListener('change', updateLabels);
+      var syncCode = function () {
+        var on = !ckLabel || ckLabel.checked;
+        ckCode.disabled = !on;
+        if (ckCode.parentNode) ckCode.parentNode.classList.toggle('is-disabled', !on);
+        updateLabels();
+      };
+      if (ckLabel) ckLabel.addEventListener('change', syncCode);
+      syncCode();
     }
   }
 })();

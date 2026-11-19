@@ -12,6 +12,7 @@
 
 用法：python3 scripts/maps/build_cn_adcode.py
 """
+import glob
 import json
 import os
 import re
@@ -19,6 +20,11 @@ import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'ref_pages'))
 from common import fetch  # noqa: E402
+
+from shapely import set_precision  # noqa: E402
+from shapely.geometry import mapping, shape  # noqa: E402
+from shapely.ops import unary_union  # noqa: E402
+from shapely.validation import make_valid  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 OUT = os.path.join(ROOT, 'public', 'maps', 'cn-adcode', 'data')
@@ -57,31 +63,46 @@ def load_geo(adcode, full=True):
         return json.load(f)
 
 
-def simplify_ring(ring, tol):
-    """垂距简化（Douglas-Peucker 的轻量版）：够网页用即可。"""
-    if len(ring) <= 4:
-        return ring
-    keep = [ring[0]]
-    for i in range(1, len(ring) - 1):
-        x0, y0 = keep[-1]
-        x1, y1 = ring[i]
-        x2, y2 = ring[i + 1]
-        dx, dy = x2 - x0, y2 - y0
-        d = abs((x1 - x0) * dy - (y1 - y0) * dx) / (dx * dx + dy * dy + 1e-12)
-        if d > tol * tol:
-            keep.append(ring[i])
-    keep.append(ring[-1])
-    return keep
+def polygonal(g):
+    """只留面。make_valid 对自相交的环可能返回 GeometryCollection（面 + 线/点毛刺）。"""
+    if g is None or g.is_empty:
+        return None
+    if g.geom_type in ('Polygon', 'MultiPolygon'):
+        return g
+    if g.geom_type == 'GeometryCollection':
+        polys = [p for p in g.geoms if p.geom_type in ('Polygon', 'MultiPolygon')]
+        return unary_union(polys) if polys else None
+    return None
 
 
-def simplify_geom(geom, tol=0.0004):
-    t = geom['type']
-    cs = geom['coordinates']
-    if t == 'Polygon':
-        return {'type': t, 'coordinates': [simplify_ring(r, tol) for r in cs]}
-    if t == 'MultiPolygon':
-        return {'type': t, 'coordinates': [[simplify_ring(r, tol) for r in p] for p in cs]}
-    return geom
+def clean_geom(geom, tol=0.0004, grid=1e-4):
+    """修好自相交的环，再简化、取整。
+
+    DataV areas_v3 里有 270 来个单元的环自相交（绵阳的游仙区、北川羌族自治县都在内）。
+    MapLibre 的 earcut 三角化遇到这种多边形会画出错误的填充三角，屏幕上就是
+    「边界没加载全、拉一条横线闭口」。所以每个面都过一遍：
+      make_valid 拆开自相交 → 只留面 → 拓扑保持的简化 → 网格取整（合并近重合点）
+    取整后再校验一次，不合格就退回未简化的修复版；实在修不好宁可留原样，
+    也不能让单元从地图上消失（代码检索还要靠它）。
+    """
+    g = shape(geom)
+    if not g.is_valid:
+        g = polygonal(make_valid(g))
+    if g is None or g.is_empty:
+        return None
+    cands = []
+    try:
+        cands.append(set_precision(g.simplify(tol, preserve_topology=True), grid))
+    except Exception:  # noqa: BLE001 — GEOS 修不干净时直接退回未简化版
+        pass
+    cands.append(g)
+    for c in cands:
+        c = polygonal(c)
+        if c is None:
+            continue
+        if c.is_valid:
+            return round_coords(mapping(c), nd=4)
+    return round_coords(mapping(g), nd=4)
 
 
 def round_coords(geom, nd=4):
@@ -136,6 +157,42 @@ def pick_geo(pool, adcode, name, used):
     return None
 
 
+def repair_existing():
+    """就地修复已生成的数据（不重新下载 DataV）。
+
+    生成脚本的 clean_geom 已经保证新数据是干净的；这个入口用于修补历史上生成的文件：
+      python3 scripts/maps/build_cn_adcode.py --repair
+    只动 geometry，属性原样保留；每个文件覆盖前先写 .tmp 再原子替换。
+    """
+    bad = 0
+    for path in [os.path.join(OUT, 'provinces.geojson'), os.path.join(OUT, 'prefectures.geojson')] + \
+            sorted(glob.glob(os.path.join(OUT, 'counties', '*.json'))):
+        with open(path, encoding='utf-8') as f:
+            fc = json.load(f)
+        changed = 0
+        for feat in fc['features']:
+            g = feat.get('geometry')
+            if not g:
+                continue
+            try:
+                if shape(g).is_valid:
+                    continue
+            except Exception:  # noqa: BLE001
+                pass
+            fixed = clean_geom(g)
+            if fixed:
+                feat['geometry'] = fixed
+                changed += 1
+        if changed:
+            bad += changed
+            tmp = path + '.tmp'
+            with open(tmp, 'w', encoding='utf-8') as f:
+                json.dump(fc, f, ensure_ascii=False, separators=(',', ':'))
+            os.replace(tmp, path)
+            print(f'  fixed {changed:3d}  {os.path.relpath(path, OUT)}')
+    print('repair done, features fixed:', bad)
+
+
 def main():
     cur = load_codes()
     os.makedirs(os.path.join(OUT, 'counties'), exist_ok=True)
@@ -153,7 +210,7 @@ def main():
         prov_feats.append({
             'type': 'Feature',
             'properties': prop(pc, pname, 'prov'),
-            'geometry': round_coords(simplify_geom(pf['geometry'])),
+            'geometry': clean_geom(pf['geometry']),
         })
 
         # 台湾省民政部只列省级码，DataV 也无下级——跳过下钻
@@ -200,7 +257,7 @@ def main():
                     'countyN': len(sub_counties),
                     'center': g['properties'].get('center'),
                 }),
-                'geometry': round_coords(simplify_geom(g['geometry'])),
+                'geometry': clean_geom(g['geometry']),
             })
 
             # 县级边界（民政部代码表里的县才收，DataV 里多出的统计用码跳过）。
@@ -220,7 +277,7 @@ def main():
                 county_feats.append({
                     'type': 'Feature',
                     'properties': prop(cc, cur[cc], 'county'),
-                    'geometry': round_coords(simplify_geom(f['geometry'])),
+                    'geometry': clean_geom(f['geometry']),
                 })
             if no_geo:
                 # 新设县级单位边界暂缺：记在父级属性上，前端据此提示而不是说「加载失败」
@@ -245,14 +302,14 @@ def main():
                 'type': 'Feature',
                 'properties': prop(cc, cur[cc], 'county', {'prov': pname, 'direct': True,
                                                          'center': g['properties'].get('center')}),
-                'geometry': round_coords(simplify_geom(g['geometry'])),
+                'geometry': clean_geom(g['geometry']),
             })
             # 省直辖县级单位本身没有再分下级，counties/<code>.json 就放它自己一个面
             with open(os.path.join(OUT, 'counties', f'{cc}.json'), 'w', encoding='utf-8') as f:
                 json.dump({'type': 'FeatureCollection', 'features': [{
                     'type': 'Feature',
                     'properties': prop(cc, cur[cc], 'county'),
-                    'geometry': round_coords(simplify_geom(g['geometry'])),
+                    'geometry': clean_geom(g['geometry']),
                 }]}, f, ensure_ascii=False, separators=(',', ':'))
 
         # 直辖市的区/县：民政部表中是县级码直接挂省级（xx01xx / xx02xx），DataV 同
@@ -269,13 +326,13 @@ def main():
                 'type': 'Feature',
                 'properties': prop(cc, cur[cc], 'county', {'prov': pname, 'direct': True,
                                                          'center': g['properties'].get('center')}),
-                'geometry': round_coords(simplify_geom(g['geometry'])),
+                'geometry': clean_geom(g['geometry']),
             })
             with open(os.path.join(OUT, 'counties', f'{cc}.json'), 'w', encoding='utf-8') as f:
                 json.dump({'type': 'FeatureCollection', 'features': [{
                     'type': 'Feature',
                     'properties': prop(cc, cur[cc], 'county'),
-                    'geometry': round_coords(simplify_geom(g['geometry'])),
+                    'geometry': clean_geom(g['geometry']),
                 }]}, f, ensure_ascii=False, separators=(',', ':'))
 
         print(pc, pname, 'prefs:', len(prefs), 'counties:', len(counties))
@@ -291,4 +348,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    if '--repair' in sys.argv:
+        repair_existing()
+    else:
+        main()
