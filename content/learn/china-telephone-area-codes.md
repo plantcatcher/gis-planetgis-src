@@ -12,6 +12,8 @@ tableSearchPlaceholder: 输入区号或城市名，如 0755 / 深圳
 
 > 数据更新：**2026-11-15**。收录中国大陆 31 个省级行政区的 **320 个**长途区号，以及近年区号并网的变更记录。顶部搜索框可直接输入区号（如 `0755`）或城市名（如 `深圳`）查询。
 
+> 想看成图？打开[全国电话区号互动地图](/maps/china-telephone-codes)：320 个区号按首位分成八组铺在地图上，点城市读区号，输入旧区号 `0634` 也能反查到济南。
+
 ## 一、区号怎么拨
 
 - **同城拨打座机**：直接拨号码，不加区号；
@@ -863,6 +865,7 @@ tableSearchPlaceholder: 输入区号或城市名，如 0755 / 深圳
 
 ## 地理编码速查系列
 
+- [全国电话区号互动地图](/maps/china-telephone-codes)
 - [行政区划代码全表](/learn/china-admin-division-codes)
 - [身份证前六位地区码对照](/learn/id-card-region-codes)
 - [34 个省级行政区一览](/learn/china-provinces-overview)

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <script src="/shared/map-i18n.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>电话区号地图 · 全国 320 个长途区号 · 按城市查区号</title>
+  <meta name="description" content="点一下中国地图上的任意地级市，右侧就是它固定电话的长途区号。320 个区号按首位数字分成八组，输入 0755 或深圳即可查询；共用区号、旧区号并网的改拨方法一并列出。与「全国电话区号表」速查页互链。" />
+  <meta name="keywords" content="电话区号,长途区号,区号查询,城市区号,区号并网,320个区号,互动地图,GIS" />
+  <meta name="author" content="PlanetGIS" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps/china-telephone-codes" target="_top"><i>&#8249;</i> 作品介绍</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>&#9673;</i> 全国总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-eq"></i>
+      <b>电话区号地图</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> AREA CODE · 320 CODES</small>
+      <h1><span>电话区号</span><b>长途区号地图</b></h1>
+      <p class="lead">一串区号，就是一座城市在电话网里的地址。<b>点一下任意地级市</b>，右侧就是它的长途区号；颜色按区号首位分成八组，一眼看出华北、东北、华东的编号板块。</p>
+
+      <div class="facts">
+        <span><small>长途区号</small><b><span class="v"><em id="fCode">—</em></span><i>个</i></b></span>
+        <span><small>覆盖地级单元</small><b><span class="v"><em id="fUnit">—</em></span><i>个</i></b></span>
+        <span><small>首位分组</small><b><span class="v"><em id="fGrp">—</em></span><i>组</i></b></span>
+      </div>
+
+      <section class="block">
+        <header><small>区号首位 · 编排分组</small><small class="hint-n">点色块高亮</small></header>
+        <div class="grp-strip" id="grpStrip"></div>
+      </section>
+
+      <section class="block">
+        <header><small>按区号或城市名搜索</small><small class="hint-n">如 0755 或 深圳</small></header>
+        <div class="searchbox">
+          <input type="search" id="searchInput" placeholder="输入区号或城市名…" autocomplete="off" spellcheck="false" />
+        </div>
+        <div class="search-results" id="searchResults"></div>
+      </section>
+
+      <section class="block">
+        <header><small>目录</small><small class="hint-n" id="listHint">点击定位到地图</small></header>
+        <div class="unit-list" id="unitList"></div>
+      </section>
+
+      <section class="block src">
+        <p><b>数据来源</b>：区号与并网变更整理自 <a href="https://deertools.cn/tools/area-code" target="_blank" rel="noopener">DeerTools 电话区号查询</a>（依公开核配结果与各地通信管理局并网公告，2026-09-28 核对版），与配套速查页为同一份数据。地级 / 直辖县级边界取 <b>DataV.GeoAtlas</b>（WGS84），底图为高德影像 / 路网（GCJ-02），两者约 500 m 系统偏移；正式用途请以自然资源部标准地图为准。新疆兵团 2011—2020 年新设的 5 个县级市按所在地州推定区号，详情卡单独标注。港澳台不属大陆长途区号体系，标灰保留边界。完整表格见<a href="/learn/china-telephone-area-codes" target="_top">全国电话区号表（320 个区号，2026 最新）</a>。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/maps/china-telephone-codes" target="_top">作品介绍</a>
+        <a href="/learn/china-telephone-area-codes" target="_top">区号速查文章</a>
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </aside>
+
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtLevel">—</small>
+      <div class="dt-actions"><button type="button" id="dtClose" title="关闭">✕</button></div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtSub">—</p>
+
+    <div class="dt-code" id="dtCodeBox">
+      <small id="dtCodeLabel">长途区号（点击复制）</small>
+      <b id="dtCode">—</b>
+      <button type="button" id="dtCopy" title="复制区号">复制</button>
+    </div>
+
+    <div class="dt-meta" id="dtMeta"></div>
+
+    <section class="dt-desc">
+      <small id="dtChildrenLabel">旧区号 · 并网改拨</small>
+      <div class="old-list" id="oldList"></div>
+    </section>
+
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <button class="panel-gear" id="panelGear" type="button" title="图层与底图设置" aria-label="图层与底图设置">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="3"></circle>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0-1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+    </svg>
+  </button>
+
+  <div class="panel closed" id="panel">
+    <div class="panel-head">
+      <span>图层与底图</span>
+      <button type="button" id="panelClose" class="panel-close" title="收起（Esc）">✕</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckLabel" checked /><span>名称标注</span></label>
+      <label class="row"><input type="checkbox" id="ckGraticule" /><span>2° 经纬网格</span></label>
+      <div class="divider"></div>
+      <div class="bm-title">底图</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" checked /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>矢量路网</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" /><span>深色</span></label>
+      </div>
+      <div class="divider"></div>
+      <p class="panel-note">色块按<b>长途区号首位数字</b>分组。相邻城市并网后共用同一区号，地址栏带 <b>#u/单元代码</b> 可直接分享某个城市；按 <b>Esc</b> 退出选中。</p>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="/maps/_shared/thematic/thematic.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

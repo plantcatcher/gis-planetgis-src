@@ -70,6 +70,34 @@
       ]
     },
     {
+      "slug": "china-telephone-codes",
+      "entry": "/maps/china-telephone-codes/index.html",
+      "bbox": [
+        73.0,
+        17.0,
+        136.0,
+        54.5
+      ],
+      "crs": "WGS84（DataV.GeoAtlas 地级 / 直辖县级行政边界）；底图高德瓦片为 GCJ-02，两者约 500 m 系统偏移，与站内其它中国专题图口径一致",
+      "basemap": "高德瓦片：卫星影像 style=6（默认，压暗）/ 矢量路网 style=7 / 深色无底图；可叠加地级单元名 + 区号标注与 2° 经纬网格",
+      "source": "区号与并网变更取自 /learn/china-telephone-area-codes 同一份数据（DeerTools 电话区号查询，2026-09-28 核对版，依公开核配结果与各地通信管理局并网公告，与 libphonenumber 交叉核对）：大陆 31 个省级行政区共 320 个长途区号 + 14 条旧区号变更。边界取 DataV.GeoAtlas areas_v3 地级层（449 个单元：335 个地级层级 + 114 个直辖市区 / 省直辖县级单位），并从省级层补入台湾省要素，合计 450 个单元；港澳台无大陆区号标灰。城市名匹配 442/449 个单元，剩余 5 个新疆兵团新设县级市（铁门关、双河、可克达拉、昆玉、胡杨河）按所在地州推定并在卡片标注，2 个为港澳；海西州、伊犁州各有 2 个区号并列展示。构建脚本 _g/_build_china_telephone_map.py，输出 data/prefectures.geojson（450 单元）与 data/index.json（915 条搜索索引：区号 451 / 地名 450 / 旧区号 14）。表与图双向互链：详情卡与介绍页直达速查文章，速查文章顶部一键回到地图。",
+      "updated": "2026-11-20",
+      "data": [
+        {
+          "file": "maps/china-telephone-codes/data/prefectures.geojson",
+          "features": 450,
+          "unit": "个地级/直管单元",
+          "desc": "全国统一地级边界（含台湾省与港澳），属性含 adcode、name、prov、level、区号 code、首位分组 grp、覆盖城市 cities、旧区号 old、并列区号 alts、推定标记 inferred"
+        },
+        {
+          "file": "maps/china-telephone-codes/data/index.json",
+          "features": 915,
+          "unit": "条搜索索引",
+          "desc": "紧凑数组 [主键, 名称, 类型, adcode]；类型 code=现行区号、old=已停用旧区号、name=城市名，支持输入 0634 反查济南"
+        }
+      ]
+    },
+    {
       "slug": "gba-cities",
       "entry": "/maps/gba-cities/index.html",
       "bbox": [
