@@ -98,6 +98,34 @@
       ]
     },
     {
+      "slug": "china-license-plate-codes",
+      "entry": "/maps/china-license-plate-codes/index.html",
+      "bbox": [
+        73.0,
+        17.0,
+        136.0,
+        54.5
+      ],
+      "crs": "WGS84（DataV.GeoAtlas 地级 / 直辖县级行政边界）；底图高德瓦片为 GCJ-02，两者约 500 m 系统偏移，与站内其它中国专题图口径一致",
+      "basemap": "高德瓦片：卫星影像 style=6（默认，压暗）/ 矢量路网 style=7 / 深色无底图；可叠加发牌城市 + 代号标注与 2° 经纬网格",
+      "source": "代号与城市对应取自 /learn/china-license-plate-codes 同一份 407 条数据（公安部 GA 36-2018 与 DeerTools 车牌归属地一览表，2026-09-28 核对版并与独立资料逐条比对）：31 个省级行政区、407 个发牌机关代号。边界取 DataV.GeoAtlas areas_v3 地级层（335 地级 + 114 直辖市区 / 省直辖县级单位），并从省级层补入台湾省要素，合计 450 单元；港澳台标灰。直辖市按全省单元赋同一批代号；奎屯（新D）落伊犁州、杨凌（陕V）落咸阳、洋浦（琼E）落儋州、粤Z 落深圳，均在详情卡注明。颜色按车牌简称所属地理大区（华北、东北、华东、华中、华南、西南、西北）分七组。构建脚本 _g/_build_china_license_map.py，输出 data/prefectures.geojson（450 单元）与 data/index.json（1826 条搜索索引：代号 407 / 城市名 422 / 省名 31 / 简称 31）。表与图双向互链：详情卡与介绍页直达速查文章，速查文章顶部一键回到地图。",
+      "updated": "2026-11-21",
+      "data": [
+        {
+          "file": "maps/china-license-plate-codes/data/prefectures.geojson",
+          "features": 450,
+          "unit": "个地级/直管单元",
+          "desc": "全国统一地级边界（含台湾省与港澳），属性含 adcode、name、prov、plateCity、plateProv、level、主代号 code、全部代号 codes、大区分组 grp、省会 A 牌 capital、备注 note"
+        },
+        {
+          "file": "maps/china-license-plate-codes/data/index.json",
+          "features": 1826,
+          "unit": "条搜索索引",
+          "desc": "紧凑数组 [主键, 名称, 类型, adcode]；类型 plate=车牌代号、name=发牌城市、prov=省份、short=车牌简称，支持输入 粤B 或 佛山 定位"
+        }
+      ]
+    },
+    {
       "slug": "gba-cities",
       "entry": "/maps/gba-cities/index.html",
       "bbox": [

@@ -866,6 +866,7 @@ tableSearchPlaceholder: 输入区号或城市名，如 0755 / 深圳
 ## 地理编码速查系列
 
 - [全国电话区号互动地图](/maps/china-telephone-codes)
+- [全国车牌代码互动地图](/maps/china-license-plate-codes)
 - [行政区划代码全表](/learn/china-admin-division-codes)
 - [身份证前六位地区码对照](/learn/id-card-region-codes)
 - [34 个省级行政区一览](/learn/china-provinces-overview)

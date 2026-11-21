@@ -3384,6 +3384,7 @@ tableSearchPlaceholder: 输入邮编、县区或地级市，如 518000 / 南山 
 - [身份证前六位地区码对照](/learn/id-card-region-codes)
 - [34 个省级行政区一览](/learn/china-provinces-overview)
 - [全国车牌代码对照表](/learn/china-license-plate-codes)
+- [全国车牌代码互动地图](/maps/china-license-plate-codes)
 - [全国电话区号表](/learn/china-telephone-area-codes)
 - [全国机场三字码 / 四字码](/learn/china-airport-codes)
 - [世界国家和地区代码（ISO 3166）](/learn/iso-3166-country-codes)

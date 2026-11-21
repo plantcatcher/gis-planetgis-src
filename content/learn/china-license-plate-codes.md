@@ -12,6 +12,8 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
 
 > 数据更新：**2026-11-15**。共收录 31 个省级行政区的 **407 个**发牌机关代号。顶部搜索框可以直接输入车牌前两位（如 `粤B`）或城市名（如 `苏州`）查询。
 
+> 想看成图？打开[全国车牌代码互动地图](/maps/china-license-plate-codes)：407 个代号按地理大区铺在地图上，点城市读代号，输入 `粤B` 或 `佛山` 都能定位，一城多代号与省会 A 牌一眼看清。
+
 ## 一、车牌怎么看是哪里的
 
 普通汽车号牌的格式是 **省份简称 + 发牌机关代号 + 序号**，例如「粤B·12345」：
@@ -932,6 +934,7 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
 
 ## 地理编码速查系列
 
+- [全国车牌代码互动地图](/maps/china-license-plate-codes)
 - [行政区划代码全表](/learn/china-admin-division-codes)
 - [身份证前六位地区码对照](/learn/id-card-region-codes)
 - [34 个省级行政区一览](/learn/china-provinces-overview)
