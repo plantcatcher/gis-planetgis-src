@@ -1,7 +1,7 @@
 ---
 slug: china-license-plate-codes
-title: 全国车牌代码对照表：31 省车牌简称与 407 个发牌城市代号（粤B 是哪里）
-summary: 全国 31 个省级行政区车牌简称与 407 个发牌机关代号对照表，输入车牌前两位或城市名即可查归属地。说明车牌「省份简称 + 字母 + 序号」的结构、A 牌规律、字母 I 和 O 不用的原因、新能源车牌 D / F 的含义，以及一城多代号、城市撤并后的历史号段。
+title: 全国车牌代码对照表：31 省车牌简称与 409 个发牌城市代号（粤B 是哪里）
+summary: 全国 31 个省级行政区车牌简称与 409 个发牌机关代号对照表，输入车牌前两位或城市名即可查归属地。说明车牌「省份简称 + 字母 + 序号」的结构、A 牌规律、字母 I 和 O 不用的原因、新能源车牌 D / F 的含义，以及一城多代号、城市撤并后的历史号段。
 date: 2026-11-15
 category: 地理基础
 subject: 人文地理
@@ -9,10 +9,11 @@ tags: 车牌代码, 车牌归属地, 车牌简称, 发牌机关代号, GA 36-201
 tableSearch: true
 tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
 ---
+<!-- plate-gallery-inserted -->
 
-> 数据更新：**2026-11-15**。共收录 31 个省级行政区的 **407 个**发牌机关代号。顶部搜索框可以直接输入车牌前两位（如 `粤B`）或城市名（如 `苏州`）查询。
+> 数据更新：**2026-11-21**。共收录 31 个省级行政区的 **409 个**发牌机关代号（2026-11-21 补入琼C、琼D 两个范围覆盖代号）。顶部搜索框可以直接输入车牌前两位（如 `粤B`）或城市名（如 `苏州`）查询。
 
-> 想看成图？打开[全国车牌代码互动地图](/maps/china-license-plate-codes)：407 个代号按地理大区铺在地图上，点城市读代号，输入 `粤B` 或 `佛山` 都能定位，一城多代号与省会 A 牌一眼看清。
+> 想看成图？打开[全国车牌代码互动地图](/maps/china-license-plate-codes)：409 个代号按地理大区铺在地图上，点城市读代号，输入 `粤B` 或 `佛山` 都能定位，一城多代号与省会 A 牌一眼看清。
 
 ## 一、车牌怎么看是哪里的
 
@@ -25,6 +26,13 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
 一般规律是 **A 为省会（首府）**，其余字母大致按地市排列，但各省分配方式不同，不能硬套。字母 **I 和 O 不用**，避免和数字 1、0 混淆。
 
 注意：**车牌归属地只代表车辆在哪里登记上牌**，不代表车主住在那里，更不能据此判断车主身份。
+
+![全国B字车牌城市分布图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-B车牌集合.jpg)
+*全国 B 字车牌城市：各省第 2 位字母对应的城市。四个直辖市暂不显示。制图：板牙。*
+
+![全国C字车牌城市分布图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-C车牌集合.jpg)
+*全国 C 字车牌城市：各省第 3 位字母对应的城市。四个直辖市暂不显示。制图：板牙。*
+
 
 ## 二、新能源车牌怎么区分
 
@@ -62,7 +70,7 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
     <tr><td>湘</td><td>湖南省</td><td>14</td><td>长沙市</td></tr>
     <tr><td>粤</td><td>广东省</td><td>24</td><td>广州市</td></tr>
     <tr><td>桂</td><td>广西壮族自治区</td><td>15</td><td>南宁市</td></tr>
-    <tr><td>琼</td><td>海南省</td><td>4</td><td>海口市</td></tr>
+    <tr><td>琼</td><td>海南省</td><td>6</td><td>海口市</td></tr>
     <tr><td>渝</td><td>重庆市</td><td>7</td><td>重庆市</td></tr>
     <tr><td>川</td><td>四川省</td><td>22</td><td>成都市</td></tr>
     <tr><td>贵</td><td>贵州省</td><td>9</td><td>贵阳市</td></tr>
@@ -188,6 +196,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
 </table>
 </div>
 
+![河北省车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（河北）.jpg)
+*河北省车牌代号分区。制图：板牙，2025 年 2 月。*
+
+
 ### 山西省（晋，11 个代号）
 
 <div class="admin-table-wrapper">
@@ -210,6 +222,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
   </tbody>
 </table>
 </div>
+
+![山西省车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（山西）.jpg)
+*山西省车牌代号分区。制图：板牙，2025 年 2 月。*
+
 
 ### 内蒙古自治区（蒙，12 个代号）
 
@@ -234,6 +250,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
   </tbody>
 </table>
 </div>
+
+![内蒙古自治区车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（内蒙古）.jpg)
+*内蒙古自治区车牌代号分区。制图：板牙，2025 年 2 月。*
+
 
 ### 辽宁省（辽，14 个代号）
 
@@ -261,6 +281,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
 </table>
 </div>
 
+![辽宁省车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（辽宁）.jpg)
+*辽宁省车牌代号分区。制图：板牙，2025 年 2 月。*
+
+
 ### 吉林省（吉，9 个代号）
 
 <div class="admin-table-wrapper">
@@ -281,6 +305,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
   </tbody>
 </table>
 </div>
+
+![吉林省车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（吉林）.jpg)
+*吉林省车牌代号分区。制图：板牙，2025 年 2 月。*
+
 
 ### 黑龙江省（黑，14 个代号）
 
@@ -307,6 +335,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
   </tbody>
 </table>
 </div>
+
+![黑龙江省车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（黑龙江）.jpg)
+*黑龙江省车牌代号分区。制图：板牙，2025 年 2 月。*
+
 
 ### 上海市（沪，13 个代号）
 
@@ -359,6 +391,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
 </table>
 </div>
 
+![江苏省车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（江苏）.jpg)
+*江苏省车牌代号分区。制图：板牙，2025 年 2 月。*
+
+
 ### 浙江省（浙，11 个代号）
 
 <div class="admin-table-wrapper">
@@ -381,6 +417,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
   </tbody>
 </table>
 </div>
+
+![浙江省车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（浙江）.jpg)
+*浙江省车牌代号分区。制图：板牙，2025 年 2 月。*
+
 
 ### 安徽省（皖，16 个代号）
 
@@ -410,6 +450,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
 </table>
 </div>
 
+![安徽省车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（安徽）.jpg)
+*安徽省车牌代号分区。制图：板牙，2025 年 2 月。*
+
+
 ### 福建省（闽，9 个代号）
 
 <div class="admin-table-wrapper">
@@ -430,6 +474,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
   </tbody>
 </table>
 </div>
+
+![福建省车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（福建）.jpg)
+*福建省车牌代号分区。制图：板牙，2025 年 2 月。*
+
 
 ### 江西省（赣，12 个代号）
 
@@ -454,6 +502,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
   </tbody>
 </table>
 </div>
+
+![江西省车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（江西）.jpg)
+*江西省车牌代号分区。制图：板牙，2025 年 2 月。*
+
 
 ### 山东省（鲁，21 个代号）
 
@@ -488,6 +540,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
 </table>
 </div>
 
+![山东省车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（山东）.jpg)
+*山东省车牌代号分区。制图：板牙，2025 年 2 月。*
+
+
 ### 河南省（豫，19 个代号）
 
 <div class="admin-table-wrapper">
@@ -519,6 +575,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
 </table>
 </div>
 
+![河南省车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（河南）.jpg)
+*河南省车牌代号分区。制图：板牙，2025 年 2 月。*
+
+
 ### 湖北省（鄂，17 个代号）
 
 <div class="admin-table-wrapper">
@@ -548,6 +608,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
 </table>
 </div>
 
+![湖北省车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（湖北）.jpg)
+*湖北省车牌代号分区。制图：板牙，2025 年 2 月。*
+
+
 ### 湖南省（湘，14 个代号）
 
 <div class="admin-table-wrapper">
@@ -573,6 +637,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
   </tbody>
 </table>
 </div>
+
+![湖南省车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（湖南）.jpg)
+*湖南省车牌代号分区。制图：板牙，2025 年 2 月。*
+
 
 ### 广东省（粤，24 个代号）
 
@@ -610,6 +678,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
 </table>
 </div>
 
+![广东省车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（广东）.jpg)
+*广东省车牌代号分区。粤X 顺德、粤Y 南海，粤Z 港澳入出境车辆。制图：板牙，2025 年 2 月。*
+
+
 ### 广西壮族自治区（桂，15 个代号）
 
 <div class="admin-table-wrapper">
@@ -637,7 +709,11 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
 </table>
 </div>
 
-### 海南省（琼，4 个代号）
+![广西壮族自治区车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（广西）.jpg)
+*广西壮族自治区车牌代号分区。制图：板牙，2025 年 2 月。*
+
+
+### 海南省（琼，6 个代号）
 
 <div class="admin-table-wrapper">
 <table>
@@ -647,11 +723,19 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
   <tbody>
     <tr><td>琼A</td><td>海口市</td><td></td></tr>
     <tr><td>琼B</td><td>三亚市</td><td></td></tr>
-    <tr><td>琼E</td><td>洋浦经济开发区</td><td></td></tr>
-    <tr><td>琼F</td><td>儋州市</td><td></td></tr>
+    <tr><td>琼C</td><td>海南省（海口、三亚除外）</td><td>琼北、琼东市县：文昌、琼海、万宁、定安、屯昌、澄迈、临高、三沙等</td></tr>
+    <tr><td>琼D</td><td>海南省（海口、三亚除外）</td><td>琼西、琼中市县：东方、昌江、白沙、五指山、琼中、乐东、陵水、保亭等</td></tr>
+    <tr><td>琼E</td><td>洋浦经济开发区</td><td>地理上位于儋州市境内</td></tr>
+    <tr><td>琼F</td><td>儋州市</td><td>2015 年撤销县级儋州市后设立地级儋州市启用</td></tr>
   </tbody>
 </table>
 </div>
+
+![海南省车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（海南）.jpg)
+*海南省车牌代号分区。琼C 管琼北琼东，琼D 管琼西琼中；琼E 洋浦位于儋州境内。制图：板牙，2025 年 2 月。*
+
+
+海南与其他省不同：**琼C、琼D 不是某一个城市，而是覆盖海口、三亚以外的全部市县**。琼C 管琼北与琼东，琼D 管琼西与琼中。儋州市同时出现琼E（洋浦）与琼F，洋浦经济开发区地理上就在儋州境内。
 
 ### 重庆市（渝，7 个代号）
 
@@ -671,6 +755,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
   </tbody>
 </table>
 </div>
+
+![重庆市车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（重庆）.jpg)
+*重庆市车牌代号分区。该图为 2018 年合并前的历史口径，仅作纪念；现全市统一号池。制图：板牙，2025 年 2 月。*
+
 
 ### 四川省（川，22 个代号）
 
@@ -706,6 +794,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
 </table>
 </div>
 
+![四川省车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（四川）.jpg)
+*四川省车牌代号分区。制图：板牙，2025 年 2 月。*
+
+
 ### 贵州省（贵，9 个代号）
 
 <div class="admin-table-wrapper">
@@ -726,6 +818,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
   </tbody>
 </table>
 </div>
+
+![贵州省车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（贵州）.jpg)
+*贵州省车牌代号分区。制图：板牙，2025 年 2 月。*
+
 
 ### 云南省（云，16 个代号）
 
@@ -755,6 +851,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
 </table>
 </div>
 
+![云南省车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（云南）.jpg)
+*云南省车牌代号分区。制图：板牙，2025 年 2 月。*
+
+
 ### 西藏自治区（藏，7 个代号）
 
 <div class="admin-table-wrapper">
@@ -773,6 +873,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
   </tbody>
 </table>
 </div>
+
+![西藏自治区车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（西藏）.jpg)
+*西藏自治区车牌代号分区。制图：板牙，2025 年 2 月。*
+
 
 ### 陕西省（陕，12 个代号）
 
@@ -797,6 +901,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
   </tbody>
 </table>
 </div>
+
+![陕西省车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（陕西）.jpg)
+*陕西省车牌代号分区。制图：板牙，2025 年 2 月。*
+
 
 ### 甘肃省（甘，14 个代号）
 
@@ -824,6 +932,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
 </table>
 </div>
 
+![甘肃省车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（甘肃）.jpg)
+*甘肃省车牌代号分区。制图：板牙，2025 年 2 月。*
+
+
 ### 青海省（青，8 个代号）
 
 <div class="admin-table-wrapper">
@@ -844,6 +956,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
 </table>
 </div>
 
+![青海省车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（青海）.jpg)
+*青海省车牌代号分区。制图：板牙，2025 年 2 月。*
+
+
 ### 宁夏回族自治区（宁，5 个代号）
 
 <div class="admin-table-wrapper">
@@ -860,6 +976,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
   </tbody>
 </table>
 </div>
+
+![宁夏回族自治区车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（宁夏）.jpg)
+*宁夏回族自治区车牌代号分区。制图：板牙，2025 年 2 月。*
+
 
 ### 新疆维吾尔自治区（新，16 个代号）
 
@@ -888,6 +1008,10 @@ tableSearchPlaceholder: 输入车牌代号或城市名，如 粤B / 苏州
   </tbody>
 </table>
 </div>
+
+![新疆维吾尔自治区车牌代号分区图](https://blogphoto.planetgis.cn/PicGo/2026-07-22-车牌（新疆）.jpg)
+*新疆维吾尔自治区车牌代号分区。制图：板牙，2025 年 2 月。*
+
 
 ## 常见问题 FAQ
 

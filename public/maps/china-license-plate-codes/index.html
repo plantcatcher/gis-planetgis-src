@@ -5,14 +5,14 @@
   <script src="/shared/map-i18n.js"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>车牌代码地图 · 全国 407 个发牌机关代号 · 按城市查车牌</title>
-  <meta name="description" content="点一下中国地图上的任意城市，右侧就是它的车牌代号。407 个发牌机关代号按地理大区上色，输入 粤B 或 佛山即可查询；一城多代号、省会 A 牌、新能源与港澳号段一并说明。与「全国车牌代码对照表」速查文章互链。" />
+  <title>车牌代码地图 · 全国 409 个发牌机关代号 · 按城市查车牌</title>
+  <meta name="description" content="点一下中国地图上的任意城市，右侧就是它的车牌代号。409 个发牌机关代号按地理大区上色，输入 粤B 或 佛山即可查询；一城多代号、省会 A 牌、新能源与港澳号段一并说明。与「全国车牌代码对照表」速查文章互链。" />
   <meta name="keywords" content="车牌代码,车牌归属地,车牌简称,发牌机关代号,粤B,车牌查询,新能源车牌,互动地图,GIS" />
   <meta name="author" content="PlanetGIS" />
   <link rel="icon" href="data:," />
   <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
   <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
-  <link rel="stylesheet" href="css/style.v3.css" />
+  <link rel="stylesheet" href="css/style.v4.css" />
 </head>
 <body>
 
@@ -32,9 +32,9 @@
     </div>
 
     <div class="intro-body" id="introBody">
-      <small class="eyebrow"><i class="ic-eq"></i> PLATE CODE · 407 CODES</small>
+      <small class="eyebrow"><i class="ic-eq"></i> PLATE CODE · 409 CODES</small>
       <h1><span>车牌代码</span><b>发牌机关地图</b></h1>
-      <p class="lead">粤B 是深圳，那粤X 呢？<b>点一下任意城市</b>，右侧就是它的发牌代号。407 个代号按地理大区上色，一城多代号与省会 A 牌一眼看清。</p>
+      <p class="lead">粤B 是深圳，那粤X 呢？<b>点一下任意城市</b>，右侧就是它的发牌代号。409 个代号按地理大区上色，一城多代号与省会 A 牌一眼看清。</p>
 
       <div class="facts">
         <span><small>发牌代号</small><b><span class="v"><em id="fCode">—</em></span><i>个</i></b></span>
@@ -61,7 +61,7 @@
       </section>
 
       <section class="block src">
-        <p><b>数据来源</b>：代号与城市对应整理自公安部行业标准 <b>GA 36-2018</b> 及各地交管公开信息，与配套速查页为同一份 407 条数据（见 <a href="https://deertools.cn/tools/plate-location" target="_blank" rel="noopener">DeerTools 车牌归属地一览表</a>）。地级 / 直辖县级边界取 <b>DataV.GeoAtlas</b>（WGS84），底图为高德影像 / 路网（GCJ-02），两者约 500 m 系统偏移；正式用途请以自然资源部标准地图为准。港澳台号牌由当地自行管理，标灰保留边界。已停发历史号段、警用及内部专用号段未收录。完整表格与规则说明见<a href="/learn/china-license-plate-codes" target="_top">全国车牌代码对照表（407 个代号）</a>。</p>
+        <p><b>数据来源</b>：代号与城市对应整理自公安部行业标准 <b>GA 36-2018</b> 及各地交管公开信息，与配套速查页为同一份 409 条数据（见 <a href="https://deertools.cn/tools/plate-location" target="_blank" rel="noopener">DeerTools 车牌归属地一览表</a>）。地级 / 直辖县级边界取 <b>DataV.GeoAtlas</b>（WGS84），底图为高德影像 / 路网（GCJ-02），两者约 500 m 系统偏移；正式用途请以自然资源部标准地图为准。港澳台号牌由当地自行管理，标灰保留边界。已停发历史号段、警用及内部专用号段未收录。完整表格与规则说明见<a href="/learn/china-license-plate-codes" target="_top">全国车牌代码对照表（409 个代号）</a>。</p>
       </section>
 
       <div class="intro-nav">
@@ -95,7 +95,7 @@
 
     <section class="dt-about" id="dtAbout">
       <header>
-        <small>车牌由来 · 小知识</small>
+        <small>车牌代号由来</small>
         <button type="button" id="dtAboutToggle" title="收起 / 展开">收起</button>
       </header>
       <div class="dt-about-body" id="dtAboutBody"></div>
@@ -133,7 +133,7 @@
 
   <script src="/maps/_shared/maplibre-gl.js"></script>
   <script src="/maps/_shared/thematic/thematic.js"></script>
-  <script src="js/config.v2.js"></script>
-  <script src="js/app.v5.js"></script>
+  <script src="js/config.v3.js"></script>
+  <script src="js/app.v7.js"></script>
 </body>
 </html>

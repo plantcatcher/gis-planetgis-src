@@ -44,16 +44,31 @@
   function plateOrder(a, b) {
     return (isSpecial(a) - isSpecial(b)) || (isCapital(b) - isCapital(a)) || a.localeCompare(b);
   }
-  /* 车牌由来简介：通用规则固定，省简称来源按当前单元取。
-     ABOUT.general 含 <b> 标记，不再转义；省名与来源文本一律转义。 */
-  function aboutHtml(short, prov) {
-    var a = CFG.ABOUT || {}, origin = CFG.ORIGINS && CFG.ORIGINS[short];
-    var html = '<p class="ab-p">' + (a.general || '') + '</p>';
-    if (origin) {
-      html += '<p class="ab-prov"><b>' + esc(short) + ' · ' + esc(prov || '') + '</b>' + esc(origin) + '</p>';
-    } else {
-      html += '<p class="ab-prov">' + (a.special || '港澳台号牌由当地自行管理。') + '</p>';
+  /* 车牌由来：按当前单元所在省、当前代号变化。
+     省简称来源 + 本省代号编排 + 本单元特殊代号由来；文本一律转义。 */
+  function aboutHtml(short, prov, codes, unitName) {
+    var a = CFG.ABOUT || {};
+    var origin = CFG.ORIGINS && CFG.ORIGINS[short];
+    var region = CFG.REGION && CFG.REGION[short];
+    var pm = CFG.PLATE || {};
+    if (!origin) return '<p class="ab-p">' + esc(a.special || '港澳台号牌由当地自行管理。') + '</p>';
+
+    var html = '<p class="ab-prov"><b>' + esc(short) + ' · ' + esc(prov || '') + '</b>' + esc(origin) + '</p>';
+    if (region) html += '<p class="ab-rule"><em>本省代号</em>' + esc(region) + '</p>';
+
+    var notes = [];
+    (codes || []).forEach(function (c) { if (pm[c]) notes.push([c, pm[c]]); });
+    if (notes.length) {
+      html += '<p class="ab-codes"><em>本单元代号由来</em></p><ul class="ab-list">';
+      notes.forEach(function (n) {
+        html += '<li><b>' + esc(n[0]) + '</b>' + esc(n[1]) + '</li>';
+      });
+      html += '</ul>';
+    } else if (codes && codes.length) {
+      html += '<p class="ab-codes"><em>本单元代号</em>' + esc(unitName || '') +
+        '沿用本省排序，无单独史料记载。</p>';
     }
+    html += '<p class="ab-foot">' + esc(a.general || '') + '</p>';
     return html;
   }
   /* queryRenderedFeatures 返回 MapLibre 包装要素，直接 setData 会被 worker 拒绝 */
@@ -324,7 +339,7 @@
         }).join('')
       : '<div class="dt-empty">' + esc(p.note || '该单元未收录独立发牌机关代号。') + '</div>';
 
-    if (el.dtAboutBody) el.dtAboutBody.innerHTML = aboutHtml(p.plateProv, p.prov);
+    if (el.dtAboutBody) el.dtAboutBody.innerHTML = aboutHtml(p.plateProv, p.prov, codes, p.name);
     if (el.dtAboutToggle) { el.dtAboutToggle.textContent = '收起'; el.dtAboutBody.classList.remove('folded'); }
     el.dtFooter.innerHTML = (p.note ? '<span style="color:#fcd34d">' + esc(p.note) + '</span><br>' : '') +
       '<a href="/learn/china-license-plate-codes" target="_top">在「全国车牌代码对照表」中查看完整表格与规则 ›</a>';
@@ -332,7 +347,16 @@
     app.setDetailOpen(true);
   }
 
-  /* ── 标注：缩放 >5 时显示城市名 + 主代号 ── */
+  /* ── 标注：缩放 >5 时显示本单元名 + 本单元全部代号 ──
+     直辖市各区代号不同（京A / 京G、沪A / 沪C、渝A / 渝C…），
+     用单元名而非全市名，避免各区标签都写成「北京市 京A」。 */
+  function labelText(p) {
+    var codes = Array.isArray(p.codes) ? p.codes : [];
+    if (!codes.length) return p.name;
+    var shown = codes.slice(0, 4).join('·');
+    if (codes.length > 4) shown += ' 等' + codes.length + '个';
+    return p.name + ' ' + shown;
+  }
   function updateLabels() {
     if (!S.labelsOn || app.map.getZoom() < 5) { app.setLabels([]); return; }
     var items = [];
@@ -342,7 +366,7 @@
       if (!b) return;
       items.push({
         id: String(p.adcode),
-        text: p.code ? (p.plateCity || p.name) + ' ' + p.code : p.name,
+        text: labelText(p),
         lng: (b[0] + b[2]) / 2, lat: (b[1] + b[3]) / 2,
         color: '#dbeafe'
       });
@@ -358,7 +382,7 @@
       if (!f) { map.getCanvas().style.cursor = ''; app.tooltip(null); return; }
       map.getCanvas().style.cursor = 'pointer';
       var p = f.properties, g = groupOf(p.grp);
-      app.tooltip('<b>' + esc(p.plateCity || p.name) + '</b> <span style="color:#9fb4cd">' + esc(p.prov || '') + '</span><br>' +
+      app.tooltip('<b>' + esc(p.name) + '</b> <span style="color:#9fb4cd">' + esc(p.prov || '') + '</span><br>' +
         '<span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:' +
         (COLORS[p.grp] || '#7c8eb0') + ';margin-right:5px"></span>' +
         (p.code ? esc(g.name) + ' · ' + esc((p.codes || []).join(' / ')) : '未收录发牌机关代号') +
