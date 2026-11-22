@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <script src="/shared/map-i18n.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>奥斯卡最佳外语片全球分布图 · 互动地图</title>
+  <meta name="description" content="1948—2026 奥斯卡最佳外语片（最佳国际影片）获奖与提名的全球分布。按选送国统计，大洲分色看 70 年电影版图从欧洲扩散到全球。点国家看历届获奖提名影片。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="css/style.v2.css" />
+</head>
+<body>
+  <div id="map"></div>
+
+  <div class="topbar">
+    <h1>奥斯卡最佳外语片全球分布图</h1>
+    <p class="sub">78 次获奖 · 280 次提名 · 58 个选送国 · 大洲分色看版图扩散 · 1948—2026 年份回放</p>
+  </div>
+
+  <!-- 左侧国家目录 -->
+  <aside class="side-panel" id="side-panel">
+    <button class="drawer-handle" id="drawer-handle" type="button" aria-label="展开或收起目录" aria-expanded="true"><i></i></button>
+    <div class="panel-head">
+      <h2>选送国目录</h2>
+      <button class="panel-close" id="panel-close" aria-label="收起目录">×</button>
+    </div>
+    <div class="panel-stats">
+      <div><b id="stat-stores">–</b><span>获奖</span></div>
+      <div><b id="stat-cities">–</b><span>提名</span></div>
+      <div><b id="stat-provs">–</b><span>选送国</span></div>
+      <div><b>2026</b><span>快照</span></div>
+    </div>
+    <div class="panel-tools">
+      <div class="pt-group">
+        <span class="pt-label">大洲分色（灰=无获奖）</span>
+        <div class="era-filter" id="era-filter"><!-- JS 渲染三阶段 --></div>
+      </div>
+      <div class="pt-group">
+        <span class="pt-label">大洲筛选</span>
+        <select class="prov-select" id="prov-select"><!-- JS 渲染 --></select>
+      </div>
+    </div>
+    <div class="city-list" id="city-list"><!-- JS 渲染 --></div>
+    <div class="list-count" id="list-count"></div>
+    <div class="panel-foot">
+      <div class="ctrl-nav">
+        <a href="/maps/oscar-best-film" target="_top">作品介绍</a>
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </aside>
+  <button class="panel-open" id="panel-open" type="button" aria-label="展开国家目录" aria-expanded="true">目录</button>
+
+  <!-- 右侧详情面板 -->
+  <aside class="detail-panel" id="detail-panel" aria-hidden="true" aria-label="国家电影榜单">
+    <button class="dp-close" id="dp-close" aria-label="关闭详情" title="关闭">×</button>
+    <div class="dp-body" id="dp-body"><!-- JS 渲染 --></div>
+  </aside>
+
+  <!-- 右上角：搜索 + 底图设置 + 数据榜 -->
+  <div class="top-right">
+    <div class="top-search">
+      <input type="text" id="search" placeholder="搜索国家 / 片名 / 导演" autocomplete="off" />
+      <ul id="searchResult"></ul>
+    </div>
+    <button class="rank-btn" id="rank-btn" type="button" title="数据榜单">榜单</button>
+    <div class="rank-pop" id="rank-pop" role="dialog" aria-label="数据榜单">
+      <div class="rp-head"><b>数据榜单</b><button id="rank-close" aria-label="关闭">×</button></div>
+      <div class="rp-tabs"><button class="rp-tab active" data-tab="zero">零获奖者</button><button class="rp-tab" data-tab="director">导演榜</button><button class="rp-tab" data-tab="continent">大洲榜</button></div>
+      <div class="rp-body" id="rp-body"><!-- JS 渲染 --></div>
+    </div>
+    <button class="map-opts-btn" id="map-opts-btn" type="button" aria-label="底图与叠加设置" aria-expanded="false" title="底图与叠加设置">⚙</button>
+    <div class="map-opts" id="map-opts" role="dialog" aria-label="底图与叠加设置">
+      <div class="mo-group">
+        <span class="mo-label">底图（三选一）</span>
+        <div class="bm-seg">
+          <label class="bm-opt"><input type="radio" name="basemap" value="none" /><span>深色</span></label>
+          <label class="bm-opt"><input type="radio" name="basemap" value="img" checked /><span>卫星影像</span></label>
+          <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>地形晕渲</span></label>
+        </div>
+      </div>
+      <div class="mo-group">
+        <span class="mo-label">叠加</span>
+        <div class="mo-row">
+          <button class="tool-btn" id="toggleProv" aria-pressed="true">国家着色</button>
+          <button class="tool-btn" id="toggleLabel" aria-pressed="true">国家标注</button>
+        </div>
+      </div>
+      <div class="mo-group">
+        <span class="mo-label">口径</span>
+        <span style="font-size:11px;color:var(--text-muted);line-height:1.6">获奖与提名均按选送国计入；中国香港、中国台湾、中国大陆并入「中国」；苏联、南斯拉夫、捷克斯洛伐克按继承国落点并注明。1947—1955 为荣誉奖阶段（非竞赛、无提名）。年份为颁奖年份。</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部分年份时间轴 -->
+  <div class="timeline">
+    <button class="tl-play" id="tl-play" type="button" aria-label="播放年份时间轴">▶</button>
+    <div class="tl-slider-wrap">
+      <div class="tl-top"><span class="tl-year" id="tl-year">2026 年 · 累计获奖 78 部</span><span class="tl-cum" id="tl-cum" title="回放数值 = 颁奖年份 ≤ 当前年的获奖数，非当年电影产量">已获奖 <b>78</b> 部</span></div>
+      <input type="range" class="tl-slider" id="tl-slider" min="1948" max="2026" step="1" value="2026" />
+      <div class="tl-scale"><span>1948</span><span>1970</span><span>1990</span><span>2010</span><span>2026</span></div>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="js/app.v2.js"></script>
+</body>
+</html>

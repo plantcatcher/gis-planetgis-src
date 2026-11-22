@@ -1,0 +1,1383 @@
+{
+ "meta": {
+  "total": 358,
+  "winners": 78,
+  "nominees": 280,
+  "countries": 58,
+  "yearMin": 1948,
+  "yearMax": 2026,
+  "note": "年份为颁奖年份；1947—1955 荣誉奖无提名；获奖按选送国统计；港澳台并入中国"
+ },
+ "countries": [
+  {
+   "iso": "IT",
+   "name": "意大利",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "wins": 13,
+   "noms": 19,
+   "winYears": [
+    1948,
+    1950,
+    1957,
+    1958,
+    1964,
+    1965,
+    1971,
+    1972,
+    1975,
+    1990,
+    1992,
+    1999,
+    2014
+   ],
+   "nomYears": [
+    1959,
+    1960,
+    1961,
+    1963,
+    1966,
+    1967,
+    1969,
+    1976,
+    1977,
+    1978,
+    1979,
+    1980,
+    1982,
+    1988,
+    1991,
+    1996,
+    2006,
+    2022,
+    2024
+   ],
+   "color": "#4f9de0",
+   "firstWin": 1948,
+   "lastWin": 2014
+  },
+  {
+   "iso": "FR",
+   "name": "法国",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "wins": 12,
+   "noms": 30,
+   "winYears": [
+    1949,
+    1951,
+    1953,
+    1959,
+    1960,
+    1963,
+    1967,
+    1973,
+    1974,
+    1978,
+    1979,
+    1993
+   ],
+   "nomYears": [
+    1957,
+    1958,
+    1961,
+    1965,
+    1968,
+    1969,
+    1970,
+    1971,
+    1975,
+    1977,
+    1980,
+    1981,
+    1983,
+    1984,
+    1986,
+    1987,
+    1988,
+    1990,
+    1991,
+    1997,
+    2000,
+    2001,
+    2002,
+    2006,
+    2009,
+    2010,
+    2016,
+    2020,
+    2025,
+    2026
+   ],
+   "color": "#4f9de0",
+   "firstWin": 1949,
+   "lastWin": 1993
+  },
+  {
+   "iso": "JP",
+   "name": "日本",
+   "continent": "亚洲",
+   "lnglat": [
+    138.3,
+    36.2
+   ],
+   "wins": 5,
+   "noms": 14,
+   "winYears": [
+    1952,
+    1955,
+    1956,
+    2009,
+    2022
+   ],
+   "nomYears": [
+    1957,
+    1962,
+    1964,
+    1965,
+    1966,
+    1968,
+    1972,
+    1976,
+    1981,
+    1981,
+    1982,
+    2004,
+    2019,
+    2024
+   ],
+   "color": "#e8614f",
+   "firstWin": 1952,
+   "lastWin": 2022
+  },
+  {
+   "iso": "DE",
+   "name": "德国",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "wins": 4,
+   "noms": 19,
+   "winYears": [
+    1980,
+    2003,
+    2007,
+    2023
+   ],
+   "nomYears": [
+    1957,
+    1958,
+    1959,
+    1960,
+    1974,
+    1977,
+    1979,
+    1986,
+    1991,
+    1993,
+    1998,
+    2005,
+    2006,
+    2009,
+    2010,
+    2017,
+    2019,
+    2024,
+    2025
+   ],
+   "color": "#4f9de0",
+   "firstWin": 1980,
+   "lastWin": 2023
+  },
+  {
+   "iso": "ES",
+   "name": "西班牙",
+   "continent": "欧洲",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "wins": 4,
+   "noms": 18,
+   "winYears": [
+    1983,
+    1994,
+    2000,
+    2005
+   ],
+   "nomYears": [
+    1959,
+    1962,
+    1964,
+    1968,
+    1971,
+    1973,
+    1978,
+    1980,
+    1981,
+    1984,
+    1985,
+    1988,
+    1989,
+    1998,
+    1999,
+    2020,
+    2024,
+    2026
+   ],
+   "color": "#4f9de0",
+   "firstWin": 1983,
+   "lastWin": 2005
+  },
+  {
+   "iso": "RU",
+   "name": "俄罗斯",
+   "continent": "欧洲",
+   "lnglat": [
+    95.0,
+    61.0
+   ],
+   "wins": 4,
+   "noms": 12,
+   "winYears": [
+    1969,
+    1976,
+    1981,
+    1995
+   ],
+   "nomYears": [
+    1970,
+    1972,
+    1973,
+    1979,
+    1983,
+    1985,
+    1993,
+    1997,
+    1998,
+    2008,
+    2015,
+    2018
+   ],
+   "color": "#4f9de0",
+   "firstWin": 1969,
+   "lastWin": 1995
+  },
+  {
+   "iso": "DK",
+   "name": "丹麦",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    56.0
+   ],
+   "wins": 4,
+   "noms": 11,
+   "winYears": [
+    1988,
+    1989,
+    2011,
+    2021
+   ],
+   "nomYears": [
+    1957,
+    1960,
+    1962,
+    1990,
+    2007,
+    2013,
+    2014,
+    2016,
+    2017,
+    2022,
+    2025
+   ],
+   "color": "#4f9de0",
+   "firstWin": 1988,
+   "lastWin": 2021
+  },
+  {
+   "iso": "SE",
+   "name": "瑞典",
+   "continent": "欧洲",
+   "lnglat": [
+    15.0,
+    62.0
+   ],
+   "wins": 3,
+   "noms": 13,
+   "winYears": [
+    1961,
+    1962,
+    1984
+   ],
+   "nomYears": [
+    1965,
+    1966,
+    1970,
+    1972,
+    1973,
+    1983,
+    1992,
+    1996,
+    2000,
+    2004,
+    2005,
+    2017,
+    2018
+   ],
+   "color": "#4f9de0",
+   "firstWin": 1961,
+   "lastWin": 1984
+  },
+  {
+   "iso": "CZ",
+   "name": "捷克",
+   "continent": "欧洲",
+   "lnglat": [
+    15.5,
+    49.8
+   ],
+   "wins": 3,
+   "noms": 6,
+   "winYears": [
+    1966,
+    1968,
+    1997
+   ],
+   "nomYears": [
+    1967,
+    1969,
+    1987,
+    1992,
+    2001,
+    2004
+   ],
+   "color": "#4f9de0",
+   "firstWin": 1966,
+   "lastWin": 1997
+  },
+  {
+   "iso": "NL",
+   "name": "荷兰",
+   "continent": "欧洲",
+   "lnglat": [
+    5.3,
+    52.2
+   ],
+   "wins": 3,
+   "noms": 4,
+   "winYears": [
+    1987,
+    1996,
+    1998
+   ],
+   "nomYears": [
+    1960,
+    1974,
+    2003,
+    2004
+   ],
+   "color": "#4f9de0",
+   "firstWin": 1987,
+   "lastWin": 1998
+  },
+  {
+   "iso": "HU",
+   "name": "匈牙利",
+   "continent": "欧洲",
+   "lnglat": [
+    19.5,
+    47.2
+   ],
+   "wins": 2,
+   "noms": 8,
+   "winYears": [
+    1982,
+    2016
+   ],
+   "nomYears": [
+    1969,
+    1975,
+    1979,
+    1981,
+    1984,
+    1986,
+    1989,
+    2018
+   ],
+   "color": "#4f9de0",
+   "firstWin": 1982,
+   "lastWin": 2016
+  },
+  {
+   "iso": "AR",
+   "name": "阿根廷",
+   "continent": "美洲",
+   "lnglat": [
+    -63.6,
+    -35.7
+   ],
+   "wins": 2,
+   "noms": 6,
+   "winYears": [
+    1986,
+    2010
+   ],
+   "nomYears": [
+    1975,
+    1985,
+    1999,
+    2002,
+    2015,
+    2023
+   ],
+   "color": "#e0a63c",
+   "firstWin": 1986,
+   "lastWin": 2010
+  },
+  {
+   "iso": "CH",
+   "name": "瑞士",
+   "continent": "欧洲",
+   "lnglat": [
+    8.2,
+    46.8
+   ],
+   "wins": 2,
+   "noms": 3,
+   "winYears": [
+    1985,
+    1991
+   ],
+   "nomYears": [
+    1971,
+    1974,
+    1982
+   ],
+   "color": "#4f9de0",
+   "firstWin": 1985,
+   "lastWin": 1991
+  },
+  {
+   "iso": "AT",
+   "name": "奥地利",
+   "continent": "欧洲",
+   "lnglat": [
+    14.6,
+    47.5
+   ],
+   "wins": 2,
+   "noms": 2,
+   "winYears": [
+    2008,
+    2013
+   ],
+   "nomYears": [
+    1987,
+    2009
+   ],
+   "color": "#4f9de0",
+   "firstWin": 2008,
+   "lastWin": 2013
+  },
+  {
+   "iso": "IR",
+   "name": "伊朗",
+   "continent": "亚洲",
+   "lnglat": [
+    53.7,
+    32.4
+   ],
+   "wins": 2,
+   "noms": 1,
+   "winYears": [
+    2012,
+    2017
+   ],
+   "nomYears": [
+    1999
+   ],
+   "color": "#e8614f",
+   "firstWin": 2012,
+   "lastWin": 2017
+  },
+  {
+   "iso": "PL",
+   "name": "波兰",
+   "continent": "欧洲",
+   "lnglat": [
+    19.1,
+    52.2
+   ],
+   "wins": 1,
+   "noms": 12,
+   "winYears": [
+    2015
+   ],
+   "nomYears": [
+    1964,
+    1967,
+    1975,
+    1976,
+    1977,
+    1980,
+    1982,
+    2008,
+    2012,
+    2019,
+    2020,
+    2023
+   ],
+   "color": "#4f9de0",
+   "firstWin": 2015,
+   "lastWin": 2015
+  },
+  {
+   "iso": "MX",
+   "name": "墨西哥",
+   "continent": "美洲",
+   "lnglat": [
+    -102.5,
+    23.6
+   ],
+   "wins": 1,
+   "noms": 8,
+   "winYears": [
+    2019
+   ],
+   "nomYears": [
+    1961,
+    1962,
+    1963,
+    1976,
+    2001,
+    2003,
+    2007,
+    2011
+   ],
+   "color": "#e0a63c",
+   "firstWin": 2019,
+   "lastWin": 2019
+  },
+  {
+   "iso": "CN",
+   "name": "中国",
+   "continent": "亚洲",
+   "lnglat": [
+    104.0,
+    35.0
+   ],
+   "wins": 1,
+   "noms": 7,
+   "winYears": [
+    2001
+   ],
+   "nomYears": [
+    1991,
+    1992,
+    1994,
+    1994,
+    1995,
+    2003,
+    2021
+   ],
+   "color": "#e8614f",
+   "firstWin": 2001,
+   "lastWin": 2001
+  },
+  {
+   "iso": "CA",
+   "name": "加拿大",
+   "continent": "美洲",
+   "lnglat": [
+    -106.3,
+    56.1
+   ],
+   "wins": 1,
+   "noms": 6,
+   "winYears": [
+    2004
+   ],
+   "nomYears": [
+    1987,
+    1990,
+    2007,
+    2011,
+    2012,
+    2013
+   ],
+   "color": "#e0a63c",
+   "firstWin": 2004,
+   "lastWin": 2004
+  },
+  {
+   "iso": "NO",
+   "name": "挪威",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    61.0
+   ],
+   "wins": 1,
+   "noms": 6,
+   "winYears": [
+    2026
+   ],
+   "nomYears": [
+    1958,
+    1988,
+    1997,
+    2002,
+    2013,
+    2022
+   ],
+   "color": "#4f9de0",
+   "firstWin": 2026,
+   "lastWin": 2026
+  },
+  {
+   "iso": "BR",
+   "name": "巴西",
+   "continent": "美洲",
+   "lnglat": [
+    -51.9,
+    -14.2
+   ],
+   "wins": 1,
+   "noms": 5,
+   "winYears": [
+    2025
+   ],
+   "nomYears": [
+    1963,
+    1996,
+    1998,
+    1999,
+    2026
+   ],
+   "color": "#e0a63c",
+   "firstWin": 2025,
+   "lastWin": 2025
+  },
+  {
+   "iso": "DZ",
+   "name": "阿尔及利亚",
+   "continent": "非洲",
+   "lnglat": [
+    2.6,
+    28.0
+   ],
+   "wins": 1,
+   "noms": 4,
+   "winYears": [
+    1970
+   ],
+   "nomYears": [
+    1984,
+    1996,
+    2007,
+    2011
+   ],
+   "color": "#4fbfa0",
+   "firstWin": 1970,
+   "lastWin": 1970
+  },
+  {
+   "iso": "GB",
+   "name": "英国",
+   "continent": "欧洲",
+   "lnglat": [
+    -2.0,
+    54.0
+   ],
+   "wins": 1,
+   "noms": 2,
+   "winYears": [
+    2024
+   ],
+   "nomYears": [
+    1994,
+    2000
+   ],
+   "color": "#4f9de0",
+   "firstWin": 2024,
+   "lastWin": 2024
+  },
+  {
+   "iso": "ZA",
+   "name": "南非",
+   "continent": "非洲",
+   "lnglat": [
+    25.0,
+    -29.0
+   ],
+   "wins": 1,
+   "noms": 1,
+   "winYears": [
+    2006
+   ],
+   "nomYears": [
+    2005
+   ],
+   "color": "#4fbfa0",
+   "firstWin": 2006,
+   "lastWin": 2006
+  },
+  {
+   "iso": "CL",
+   "name": "智利",
+   "continent": "美洲",
+   "lnglat": [
+    -71.5,
+    -35.7
+   ],
+   "wins": 1,
+   "noms": 1,
+   "winYears": [
+    2018
+   ],
+   "nomYears": [
+    2013
+   ],
+   "color": "#e0a63c",
+   "firstWin": 2018,
+   "lastWin": 2018
+  },
+  {
+   "iso": "BA",
+   "name": "波黑",
+   "continent": "欧洲",
+   "lnglat": [
+    17.9,
+    43.9
+   ],
+   "wins": 1,
+   "noms": 1,
+   "winYears": [
+    2002
+   ],
+   "nomYears": [
+    2021
+   ],
+   "color": "#4f9de0",
+   "firstWin": 2002,
+   "lastWin": 2002
+  },
+  {
+   "iso": "CI",
+   "name": "科特迪瓦",
+   "continent": "非洲",
+   "lnglat": [
+    -5.6,
+    6.8
+   ],
+   "wins": 1,
+   "noms": 0,
+   "winYears": [
+    1977
+   ],
+   "nomYears": [],
+   "color": "#4fbfa0",
+   "firstWin": 1977,
+   "lastWin": 1977
+  },
+  {
+   "iso": "KR",
+   "name": "韩国",
+   "continent": "亚洲",
+   "lnglat": [
+    127.8,
+    36.5
+   ],
+   "wins": 1,
+   "noms": 0,
+   "winYears": [
+    2020
+   ],
+   "nomYears": [],
+   "color": "#e8614f",
+   "firstWin": 2020,
+   "lastWin": 2020
+  },
+  {
+   "iso": "IL",
+   "name": "以色列",
+   "continent": "亚洲",
+   "lnglat": [
+    35.0,
+    31.5
+   ],
+   "wins": 0,
+   "noms": 10,
+   "winYears": [],
+   "nomYears": [
+    1965,
+    1972,
+    1973,
+    1974,
+    1978,
+    1985,
+    2008,
+    2009,
+    2010,
+    2012
+   ],
+   "color": "#e8614f",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "BE",
+   "name": "比利时",
+   "continent": "欧洲",
+   "lnglat": [
+    4.5,
+    50.5
+   ],
+   "wins": 0,
+   "noms": 8,
+   "winYears": [],
+   "nomYears": [
+    1971,
+    1989,
+    1993,
+    1995,
+    2001,
+    2012,
+    2014,
+    2023
+   ],
+   "color": "#4f9de0",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "RS",
+   "name": "塞尔维亚",
+   "continent": "欧洲",
+   "lnglat": [
+    20.5,
+    44.0
+   ],
+   "wins": 0,
+   "noms": 6,
+   "winYears": [],
+   "nomYears": [
+    1959,
+    1961,
+    1967,
+    1968,
+    1970,
+    1986
+   ],
+   "color": "#4f9de0",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "GR",
+   "name": "希腊",
+   "continent": "欧洲",
+   "lnglat": [
+    22.0,
+    39.0
+   ],
+   "wins": 0,
+   "noms": 5,
+   "winYears": [],
+   "nomYears": [
+    1963,
+    1964,
+    1966,
+    1978,
+    2011
+   ],
+   "color": "#4f9de0",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "IN",
+   "name": "印度",
+   "continent": "亚洲",
+   "lnglat": [
+    79.0,
+    22.0
+   ],
+   "wins": 0,
+   "noms": 3,
+   "winYears": [],
+   "nomYears": [
+    1958,
+    1989,
+    2002
+   ],
+   "color": "#e8614f",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "MK",
+   "name": "北马其顿",
+   "continent": "欧洲",
+   "lnglat": [
+    21.4,
+    41.6
+   ],
+   "wins": 0,
+   "noms": 2,
+   "winYears": [],
+   "nomYears": [
+    1995,
+    2020
+   ],
+   "color": "#4f9de0",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "PS",
+   "name": "巴勒斯坦",
+   "continent": "亚洲",
+   "lnglat": [
+    35.2,
+    31.9
+   ],
+   "wins": 0,
+   "noms": 2,
+   "winYears": [],
+   "nomYears": [
+    2006,
+    2014
+   ],
+   "color": "#e8614f",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "TN",
+   "name": "突尼斯",
+   "continent": "非洲",
+   "lnglat": [
+    9.5,
+    34.0
+   ],
+   "wins": 0,
+   "noms": 2,
+   "winYears": [],
+   "nomYears": [
+    2021,
+    2026
+   ],
+   "color": "#4fbfa0",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "LB",
+   "name": "黎巴嫩",
+   "continent": "亚洲",
+   "lnglat": [
+    35.9,
+    33.9
+   ],
+   "wins": 0,
+   "noms": 2,
+   "winYears": [],
+   "nomYears": [
+    2018,
+    2019
+   ],
+   "color": "#e8614f",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "BT",
+   "name": "不丹",
+   "continent": "亚洲",
+   "lnglat": [
+    90.5,
+    27.5
+   ],
+   "wins": 0,
+   "noms": 1,
+   "winYears": [],
+   "nomYears": [
+    2022
+   ],
+   "color": "#e8614f",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "UY",
+   "name": "乌拉圭",
+   "continent": "美洲",
+   "lnglat": [
+    -56.0,
+    -33.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "winYears": [],
+   "nomYears": [
+    1993
+   ],
+   "color": "#e0a63c",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "IS",
+   "name": "冰岛",
+   "continent": "欧洲",
+   "lnglat": [
+    -19.0,
+    64.9
+   ],
+   "wins": 0,
+   "noms": 1,
+   "winYears": [],
+   "nomYears": [
+    1992
+   ],
+   "color": "#4f9de0",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "CU",
+   "name": "古巴",
+   "continent": "美洲",
+   "lnglat": [
+    -79.0,
+    22.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "winYears": [],
+   "nomYears": [
+    1995
+   ],
+   "color": "#e0a63c",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "KZ",
+   "name": "哈萨克斯坦",
+   "continent": "亚洲",
+   "lnglat": [
+    68.0,
+    48.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "winYears": [],
+   "nomYears": [
+    2008
+   ],
+   "color": "#e8614f",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "CO",
+   "name": "哥伦比亚",
+   "continent": "美洲",
+   "lnglat": [
+    -74.0,
+    4.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "winYears": [],
+   "nomYears": [
+    2016
+   ],
+   "color": "#e0a63c",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "NI",
+   "name": "尼加拉瓜",
+   "continent": "美洲",
+   "lnglat": [
+    -85.0,
+    13.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "winYears": [],
+   "nomYears": [
+    1983
+   ],
+   "color": "#e0a63c",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "NP",
+   "name": "尼泊尔",
+   "continent": "亚洲",
+   "lnglat": [
+    84.0,
+    28.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "winYears": [],
+   "nomYears": [
+    2000
+   ],
+   "color": "#e8614f",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "LV",
+   "name": "拉脱维亚",
+   "continent": "欧洲",
+   "lnglat": [
+    24.0,
+    57.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "winYears": [],
+   "nomYears": [
+    2025
+   ],
+   "color": "#4f9de0",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "KH",
+   "name": "柬埔寨",
+   "continent": "亚洲",
+   "lnglat": [
+    105.0,
+    13.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "winYears": [],
+   "nomYears": [
+    2014
+   ],
+   "color": "#e8614f",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "GE",
+   "name": "格鲁吉亚",
+   "continent": "亚洲",
+   "lnglat": [
+    43.5,
+    42.3
+   ],
+   "wins": 0,
+   "noms": 1,
+   "winYears": [],
+   "nomYears": [
+    1997
+   ],
+   "color": "#e8614f",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "MR",
+   "name": "毛里塔尼亚",
+   "continent": "非洲",
+   "lnglat": [
+    -10.0,
+    20.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "winYears": [],
+   "nomYears": [
+    2015
+   ],
+   "color": "#4fbfa0",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "PR",
+   "name": "波多黎各",
+   "continent": "美洲",
+   "lnglat": [
+    -66.5,
+    18.2
+   ],
+   "wins": 0,
+   "noms": 1,
+   "winYears": [],
+   "nomYears": [
+    1990
+   ],
+   "color": "#e0a63c",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "AU",
+   "name": "澳大利亚",
+   "continent": "大洋洲",
+   "lnglat": [
+    134.0,
+    -25.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "winYears": [],
+   "nomYears": [
+    2017
+   ],
+   "color": "#a876e0",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "IE",
+   "name": "爱尔兰",
+   "continent": "欧洲",
+   "lnglat": [
+    -8.2,
+    53.4
+   ],
+   "wins": 0,
+   "noms": 1,
+   "winYears": [],
+   "nomYears": [
+    2023
+   ],
+   "color": "#4f9de0",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "EE",
+   "name": "爱沙尼亚",
+   "continent": "欧洲",
+   "lnglat": [
+    25.0,
+    59.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "winYears": [],
+   "nomYears": [
+    2015
+   ],
+   "color": "#4f9de0",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "PE",
+   "name": "秘鲁",
+   "continent": "美洲",
+   "lnglat": [
+    -75.0,
+    -10.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "winYears": [],
+   "nomYears": [
+    2010
+   ],
+   "color": "#e0a63c",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "JO",
+   "name": "约旦",
+   "continent": "亚洲",
+   "lnglat": [
+    36.5,
+    31.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "winYears": [],
+   "nomYears": [
+    2016
+   ],
+   "color": "#e8614f",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "RO",
+   "name": "罗马尼亚",
+   "continent": "欧洲",
+   "lnglat": [
+    25.0,
+    46.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "winYears": [],
+   "nomYears": [
+    2021
+   ],
+   "color": "#4f9de0",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "FI",
+   "name": "芬兰",
+   "continent": "欧洲",
+   "lnglat": [
+    26.0,
+    64.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "winYears": [],
+   "nomYears": [
+    2003
+   ],
+   "color": "#4f9de0",
+   "firstWin": null,
+   "lastWin": null
+  },
+  {
+   "iso": "VN",
+   "name": "越南",
+   "continent": "亚洲",
+   "lnglat": [
+    106.0,
+    16.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "winYears": [],
+   "nomYears": [
+    1994
+   ],
+   "color": "#e8614f",
+   "firstWin": null,
+   "lastWin": null
+  }
+ ]
+}

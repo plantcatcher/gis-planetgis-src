@@ -1,0 +1,7174 @@
+{
+ "meta": {
+  "total": 358,
+  "winners": 78,
+  "nominees": 280,
+  "countries": 58,
+  "yearMin": 1948,
+  "yearMax": 2026,
+  "note": "年份为颁奖年份；1947—1955 荣誉奖无提名；获奖按选送国统计；港澳台并入中国",
+  "posters": 324
+ },
+ "films": [
+  {
+   "ceremonyYear": 1948,
+   "filmYear": 1947,
+   "ceremony": 20,
+   "titleEn": "Shoe-Shine",
+   "titleZh": "擦鞋童",
+   "countryRaw": "Italy",
+   "director": "Vittorio De Sica",
+   "result": "winner",
+   "honorary": true,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/000.jpg"
+  },
+  {
+   "ceremonyYear": 1949,
+   "filmYear": 1948,
+   "ceremony": 21,
+   "titleEn": "Monsieur Vincent",
+   "titleZh": "文森特先生",
+   "countryRaw": "France",
+   "director": "Maurice Cloche",
+   "result": "winner",
+   "honorary": true,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/001.jpg"
+  },
+  {
+   "ceremonyYear": 1950,
+   "filmYear": 1949,
+   "ceremony": 22,
+   "titleEn": "Bicycle Thieves",
+   "titleZh": "偷自行车的人",
+   "countryRaw": "Italy",
+   "director": "Vittorio De Sica",
+   "result": "winner",
+   "honorary": true,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/002.jpg"
+  },
+  {
+   "ceremonyYear": 1951,
+   "filmYear": 1950,
+   "ceremony": 23,
+   "titleEn": "The Walls of Malapaga",
+   "titleZh": "玛拉帕加之墙",
+   "countryRaw": "France",
+   "director": "René Clément",
+   "result": "winner",
+   "honorary": true,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/003.jpg"
+  },
+  {
+   "ceremonyYear": 1952,
+   "filmYear": 1951,
+   "ceremony": 24,
+   "titleEn": "Rashomon",
+   "titleZh": "罗生门",
+   "countryRaw": "Japan",
+   "director": "Akira Kurosawa",
+   "result": "winner",
+   "honorary": true,
+   "country": "日本",
+   "iso": "JP",
+   "continent": "亚洲",
+   "lnglat": [
+    138.3,
+    36.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/004.jpg"
+  },
+  {
+   "ceremonyYear": 1953,
+   "filmYear": 1952,
+   "ceremony": 25,
+   "titleEn": "Forbidden Games",
+   "titleZh": "禁忌的游戏",
+   "countryRaw": "France",
+   "director": "René Clément",
+   "result": "winner",
+   "honorary": true,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/005.jpg"
+  },
+  {
+   "ceremonyYear": 1955,
+   "filmYear": 1954,
+   "ceremony": 27,
+   "titleEn": "Gate of Hell",
+   "titleZh": "地狱门",
+   "countryRaw": "Japan",
+   "director": "Teinosuke Kinugasa",
+   "result": "winner",
+   "honorary": true,
+   "country": "日本",
+   "iso": "JP",
+   "continent": "亚洲",
+   "lnglat": [
+    138.3,
+    36.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/006.jpg"
+  },
+  {
+   "ceremonyYear": 1956,
+   "filmYear": 1955,
+   "ceremony": 28,
+   "titleEn": "Samurai, The Legend of Musashi",
+   "titleZh": "宫本武藏",
+   "countryRaw": "Japan",
+   "director": "Hiroshi Inagaki",
+   "result": "winner",
+   "honorary": true,
+   "country": "日本",
+   "iso": "JP",
+   "continent": "亚洲",
+   "lnglat": [
+    138.3,
+    36.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/007.jpg"
+  },
+  {
+   "ceremonyYear": 1957,
+   "filmYear": 1956,
+   "ceremony": 29,
+   "titleEn": "La Strada",
+   "titleZh": "大路",
+   "countryRaw": "Italy",
+   "director": "Federico Fellini",
+   "result": "winner",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/008.jpg"
+  },
+  {
+   "ceremonyYear": 1957,
+   "filmYear": 1956,
+   "ceremony": 29,
+   "titleEn": "Gervaise",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "René Clément",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/009.jpg"
+  },
+  {
+   "ceremonyYear": 1957,
+   "filmYear": 1956,
+   "ceremony": 29,
+   "titleEn": "Captain of Köpenick",
+   "titleZh": "",
+   "countryRaw": "West Germany",
+   "director": "Helmut Käutner",
+   "result": "nominee",
+   "honorary": false,
+   "country": "德国",
+   "iso": "DE",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "countryNote": "原西德选送",
+   "poster": "/maps/oscar-best-film/data/posters/010.jpg"
+  },
+  {
+   "ceremonyYear": 1957,
+   "filmYear": 1956,
+   "ceremony": 29,
+   "titleEn": "Harp of Burma",
+   "titleZh": "",
+   "countryRaw": "Japan",
+   "director": "Kon Ichikawa",
+   "result": "nominee",
+   "honorary": false,
+   "country": "日本",
+   "iso": "JP",
+   "continent": "亚洲",
+   "lnglat": [
+    138.3,
+    36.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/011.jpg"
+  },
+  {
+   "ceremonyYear": 1957,
+   "filmYear": 1956,
+   "ceremony": 29,
+   "titleEn": "Qivitoq",
+   "titleZh": "",
+   "countryRaw": "Denmark",
+   "director": "Erik Balling",
+   "result": "nominee",
+   "honorary": false,
+   "country": "丹麦",
+   "iso": "DK",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    56.0
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1958,
+   "filmYear": 1957,
+   "ceremony": 30,
+   "titleEn": "Nights of Cabiria",
+   "titleZh": "卡比利亚之夜",
+   "countryRaw": "Italy",
+   "director": "Federico Fellini",
+   "result": "winner",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/013.jpg"
+  },
+  {
+   "ceremonyYear": 1958,
+   "filmYear": 1957,
+   "ceremony": 30,
+   "titleEn": "Mother India",
+   "titleZh": "",
+   "countryRaw": "India",
+   "director": "Mehboob Khan",
+   "result": "nominee",
+   "honorary": false,
+   "country": "印度",
+   "iso": "IN",
+   "continent": "亚洲",
+   "lnglat": [
+    79.0,
+    22.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/014.jpg"
+  },
+  {
+   "ceremonyYear": 1958,
+   "filmYear": 1957,
+   "ceremony": 30,
+   "titleEn": "The Devil Strikes at Night",
+   "titleZh": "",
+   "countryRaw": "West Germany",
+   "director": "Robert Siodmak",
+   "result": "nominee",
+   "honorary": false,
+   "country": "德国",
+   "iso": "DE",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "countryNote": "原西德选送",
+   "poster": "/maps/oscar-best-film/data/posters/015.jpg"
+  },
+  {
+   "ceremonyYear": 1958,
+   "filmYear": 1957,
+   "ceremony": 30,
+   "titleEn": "Gates of Paris",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "René Clair",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1958,
+   "filmYear": 1957,
+   "ceremony": 30,
+   "titleEn": "Nine Lives",
+   "titleZh": "",
+   "countryRaw": "Norway",
+   "director": "Arne Skouen",
+   "result": "nominee",
+   "honorary": false,
+   "country": "挪威",
+   "iso": "NO",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    61.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/017.jpg"
+  },
+  {
+   "ceremonyYear": 1959,
+   "filmYear": 1958,
+   "ceremony": 31,
+   "titleEn": "My Uncle",
+   "titleZh": "我的舅舅",
+   "countryRaw": "France",
+   "director": "Jacques Tati",
+   "result": "winner",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/018.jpg"
+  },
+  {
+   "ceremonyYear": 1959,
+   "filmYear": 1958,
+   "ceremony": 31,
+   "titleEn": "La Venganza",
+   "titleZh": "",
+   "countryRaw": "Spain",
+   "director": "Juan Antonio Bardem",
+   "result": "nominee",
+   "honorary": false,
+   "country": "西班牙",
+   "iso": "ES",
+   "continent": "欧洲",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1959,
+   "filmYear": 1958,
+   "ceremony": 31,
+   "titleEn": "Arms and the Man",
+   "titleZh": "",
+   "countryRaw": "West Germany",
+   "director": "Franz Peter Wirth",
+   "result": "nominee",
+   "honorary": false,
+   "country": "德国",
+   "iso": "DE",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "countryNote": "原西德选送",
+   "poster": "/maps/oscar-best-film/data/posters/020.jpg"
+  },
+  {
+   "ceremonyYear": 1959,
+   "filmYear": 1958,
+   "ceremony": 31,
+   "titleEn": "The Road a Year Long",
+   "titleZh": "",
+   "countryRaw": "Yugoslavia",
+   "director": "Giuseppe De Santis",
+   "result": "nominee",
+   "honorary": false,
+   "country": "塞尔维亚",
+   "iso": "RS",
+   "continent": "欧洲",
+   "lnglat": [
+    20.5,
+    44.0
+   ],
+   "countryNote": "原南斯拉夫选送",
+   "poster": "/maps/oscar-best-film/data/posters/021.jpg"
+  },
+  {
+   "ceremonyYear": 1959,
+   "filmYear": 1958,
+   "ceremony": 31,
+   "titleEn": "The Usual Unidentified Thieves",
+   "titleZh": "",
+   "countryRaw": "Italy",
+   "director": "Mario Monicelli",
+   "result": "nominee",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/022.jpg"
+  },
+  {
+   "ceremonyYear": 1960,
+   "filmYear": 1959,
+   "ceremony": 32,
+   "titleEn": "Black Orpheus",
+   "titleZh": "黑人奥菲尔",
+   "countryRaw": "France",
+   "director": "Marcel Camus",
+   "result": "winner",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/023.jpg"
+  },
+  {
+   "ceremonyYear": 1960,
+   "filmYear": 1959,
+   "ceremony": 32,
+   "titleEn": "The Great War",
+   "titleZh": "",
+   "countryRaw": "Italy",
+   "director": "Mario Monicelli",
+   "result": "nominee",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/024.jpg"
+  },
+  {
+   "ceremonyYear": 1960,
+   "filmYear": 1959,
+   "ceremony": 32,
+   "titleEn": "Paw",
+   "titleZh": "",
+   "countryRaw": "Denmark",
+   "director": "Astrid Henning-Jensen",
+   "result": "nominee",
+   "honorary": false,
+   "country": "丹麦",
+   "iso": "DK",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    56.0
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1960,
+   "filmYear": 1959,
+   "ceremony": 32,
+   "titleEn": "The Bridge",
+   "titleZh": "",
+   "countryRaw": "West Germany",
+   "director": "Bernhard Wicki",
+   "result": "nominee",
+   "honorary": false,
+   "country": "德国",
+   "iso": "DE",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "countryNote": "原西德选送",
+   "poster": "/maps/oscar-best-film/data/posters/026.jpg"
+  },
+  {
+   "ceremonyYear": 1960,
+   "filmYear": 1959,
+   "ceremony": 32,
+   "titleEn": "The Village on the River",
+   "titleZh": "",
+   "countryRaw": "Netherlands",
+   "director": "Fons Rademakers",
+   "result": "nominee",
+   "honorary": false,
+   "country": "荷兰",
+   "iso": "NL",
+   "continent": "欧洲",
+   "lnglat": [
+    5.3,
+    52.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/027.jpg"
+  },
+  {
+   "ceremonyYear": 1961,
+   "filmYear": 1960,
+   "ceremony": 33,
+   "titleEn": "The Virgin Spring",
+   "titleZh": "处女泉",
+   "countryRaw": "Sweden",
+   "director": "Ingmar Bergman",
+   "result": "winner",
+   "honorary": false,
+   "country": "瑞典",
+   "iso": "SE",
+   "continent": "欧洲",
+   "lnglat": [
+    15.0,
+    62.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/028.jpg"
+  },
+  {
+   "ceremonyYear": 1961,
+   "filmYear": 1960,
+   "ceremony": 33,
+   "titleEn": "Kapò",
+   "titleZh": "",
+   "countryRaw": "Italy",
+   "director": "Gillo Pontecorvo",
+   "result": "nominee",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/029.jpg"
+  },
+  {
+   "ceremonyYear": 1961,
+   "filmYear": 1960,
+   "ceremony": 33,
+   "titleEn": "La Vérité",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Henri-Georges Clouzot",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/030.jpg"
+  },
+  {
+   "ceremonyYear": 1961,
+   "filmYear": 1960,
+   "ceremony": 33,
+   "titleEn": "Macario",
+   "titleZh": "",
+   "countryRaw": "Mexico",
+   "director": "Roberto Gavaldón",
+   "result": "nominee",
+   "honorary": false,
+   "country": "墨西哥",
+   "iso": "MX",
+   "continent": "美洲",
+   "lnglat": [
+    -102.5,
+    23.6
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/031.jpg"
+  },
+  {
+   "ceremonyYear": 1961,
+   "filmYear": 1960,
+   "ceremony": 33,
+   "titleEn": "The Ninth Circle",
+   "titleZh": "",
+   "countryRaw": "Yugoslavia",
+   "director": "France Štiglic",
+   "result": "nominee",
+   "honorary": false,
+   "country": "塞尔维亚",
+   "iso": "RS",
+   "continent": "欧洲",
+   "lnglat": [
+    20.5,
+    44.0
+   ],
+   "countryNote": "原南斯拉夫选送",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1962,
+   "filmYear": 1961,
+   "ceremony": 34,
+   "titleEn": "Through a Glass Darkly",
+   "titleZh": "犹在镜中",
+   "countryRaw": "Sweden",
+   "director": "Ingmar Bergman",
+   "result": "winner",
+   "honorary": false,
+   "country": "瑞典",
+   "iso": "SE",
+   "continent": "欧洲",
+   "lnglat": [
+    15.0,
+    62.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/033.jpg"
+  },
+  {
+   "ceremonyYear": 1962,
+   "filmYear": 1961,
+   "ceremony": 34,
+   "titleEn": "Plácido",
+   "titleZh": "",
+   "countryRaw": "Spain",
+   "director": "Luis García Berlanga",
+   "result": "nominee",
+   "honorary": false,
+   "country": "西班牙",
+   "iso": "ES",
+   "continent": "欧洲",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/034.jpg"
+  },
+  {
+   "ceremonyYear": 1962,
+   "filmYear": 1961,
+   "ceremony": 34,
+   "titleEn": "Immortal Love",
+   "titleZh": "",
+   "countryRaw": "Japan",
+   "director": "Keisuke Kinoshita",
+   "result": "nominee",
+   "honorary": false,
+   "country": "日本",
+   "iso": "JP",
+   "continent": "亚洲",
+   "lnglat": [
+    138.3,
+    36.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/035.jpg"
+  },
+  {
+   "ceremonyYear": 1962,
+   "filmYear": 1961,
+   "ceremony": 34,
+   "titleEn": "The Important Man",
+   "titleZh": "",
+   "countryRaw": "Mexico",
+   "director": "Ismael Rodríguez",
+   "result": "nominee",
+   "honorary": false,
+   "country": "墨西哥",
+   "iso": "MX",
+   "continent": "美洲",
+   "lnglat": [
+    -102.5,
+    23.6
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1962,
+   "filmYear": 1961,
+   "ceremony": 34,
+   "titleEn": "Harry and the Butler",
+   "titleZh": "",
+   "countryRaw": "Denmark",
+   "director": "Bent Christensen",
+   "result": "nominee",
+   "honorary": false,
+   "country": "丹麦",
+   "iso": "DK",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    56.0
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1963,
+   "filmYear": 1962,
+   "ceremony": 35,
+   "titleEn": "Sundays and Cybele",
+   "titleZh": "花落莺啼春",
+   "countryRaw": "France",
+   "director": "Serge Bourguignon",
+   "result": "winner",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/038.jpg"
+  },
+  {
+   "ceremonyYear": 1963,
+   "filmYear": 1962,
+   "ceremony": 35,
+   "titleEn": "Keeper of Promises",
+   "titleZh": "",
+   "countryRaw": "Brazil",
+   "director": "Anselmo Duarte",
+   "result": "nominee",
+   "honorary": false,
+   "country": "巴西",
+   "iso": "BR",
+   "continent": "美洲",
+   "lnglat": [
+    -51.9,
+    -14.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/039.jpg"
+  },
+  {
+   "ceremonyYear": 1963,
+   "filmYear": 1962,
+   "ceremony": 35,
+   "titleEn": "Electra",
+   "titleZh": "",
+   "countryRaw": "Greece",
+   "director": "Michael Cacoyannis",
+   "result": "nominee",
+   "honorary": false,
+   "country": "希腊",
+   "iso": "GR",
+   "continent": "欧洲",
+   "lnglat": [
+    22.0,
+    39.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/040.jpg"
+  },
+  {
+   "ceremonyYear": 1963,
+   "filmYear": 1962,
+   "ceremony": 35,
+   "titleEn": "The Four Days of Naples",
+   "titleZh": "",
+   "countryRaw": "Italy",
+   "director": "Nanni Loy",
+   "result": "nominee",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/041.jpg"
+  },
+  {
+   "ceremonyYear": 1963,
+   "filmYear": 1962,
+   "ceremony": 35,
+   "titleEn": "Tlayucan",
+   "titleZh": "",
+   "countryRaw": "Mexico",
+   "director": "Luis Alcoriza",
+   "result": "nominee",
+   "honorary": false,
+   "country": "墨西哥",
+   "iso": "MX",
+   "continent": "美洲",
+   "lnglat": [
+    -102.5,
+    23.6
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1964,
+   "filmYear": 1963,
+   "ceremony": 36,
+   "titleEn": "8½",
+   "titleZh": "八部半",
+   "countryRaw": "Italy",
+   "director": "Federico Fellini",
+   "result": "winner",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/043.jpg"
+  },
+  {
+   "ceremonyYear": 1964,
+   "filmYear": 1963,
+   "ceremony": 36,
+   "titleEn": "Knife in the Water",
+   "titleZh": "",
+   "countryRaw": "Poland",
+   "director": "Roman Polanski",
+   "result": "nominee",
+   "honorary": false,
+   "country": "波兰",
+   "iso": "PL",
+   "continent": "欧洲",
+   "lnglat": [
+    19.1,
+    52.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/044.jpg"
+  },
+  {
+   "ceremonyYear": 1964,
+   "filmYear": 1963,
+   "ceremony": 36,
+   "titleEn": "Los Tarantos",
+   "titleZh": "",
+   "countryRaw": "Spain",
+   "director": "Francisco Rovira Beleta",
+   "result": "nominee",
+   "honorary": false,
+   "country": "西班牙",
+   "iso": "ES",
+   "continent": "欧洲",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/045.jpg"
+  },
+  {
+   "ceremonyYear": 1964,
+   "filmYear": 1963,
+   "ceremony": 36,
+   "titleEn": "The Red Lanterns",
+   "titleZh": "",
+   "countryRaw": "Greece",
+   "director": "Vasilis Georgiadis",
+   "result": "nominee",
+   "honorary": false,
+   "country": "希腊",
+   "iso": "GR",
+   "continent": "欧洲",
+   "lnglat": [
+    22.0,
+    39.0
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1964,
+   "filmYear": 1963,
+   "ceremony": 36,
+   "titleEn": "Twin Sisters of Kyoto",
+   "titleZh": "",
+   "countryRaw": "Japan",
+   "director": "Noboru Nakamura",
+   "result": "nominee",
+   "honorary": false,
+   "country": "日本",
+   "iso": "JP",
+   "continent": "亚洲",
+   "lnglat": [
+    138.3,
+    36.2
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1965,
+   "filmYear": 1964,
+   "ceremony": 37,
+   "titleEn": "Yesterday, Today and Tomorrow",
+   "titleZh": "昨日、今日和明日",
+   "countryRaw": "Italy",
+   "director": "Vittorio De Sica",
+   "result": "winner",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/048.jpg"
+  },
+  {
+   "ceremonyYear": 1965,
+   "filmYear": 1964,
+   "ceremony": 37,
+   "titleEn": "Raven's End",
+   "titleZh": "",
+   "countryRaw": "Sweden",
+   "director": "Bo Widerberg",
+   "result": "nominee",
+   "honorary": false,
+   "country": "瑞典",
+   "iso": "SE",
+   "continent": "欧洲",
+   "lnglat": [
+    15.0,
+    62.0
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1965,
+   "filmYear": 1964,
+   "ceremony": 37,
+   "titleEn": "Sallah",
+   "titleZh": "",
+   "countryRaw": "Israel",
+   "director": "Ephraim Kishon",
+   "result": "nominee",
+   "honorary": false,
+   "country": "以色列",
+   "iso": "IL",
+   "continent": "亚洲",
+   "lnglat": [
+    35.0,
+    31.5
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/050.jpg"
+  },
+  {
+   "ceremonyYear": 1965,
+   "filmYear": 1964,
+   "ceremony": 37,
+   "titleEn": "The Umbrellas of Cherbourg",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Jacques Demy",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/051.jpg"
+  },
+  {
+   "ceremonyYear": 1965,
+   "filmYear": 1964,
+   "ceremony": 37,
+   "titleEn": "The Woman in the Dunes",
+   "titleZh": "",
+   "countryRaw": "Japan",
+   "director": "Hiroshi Teshigahara",
+   "result": "nominee",
+   "honorary": false,
+   "country": "日本",
+   "iso": "JP",
+   "continent": "亚洲",
+   "lnglat": [
+    138.3,
+    36.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/052.jpg"
+  },
+  {
+   "ceremonyYear": 1966,
+   "filmYear": 1965,
+   "ceremony": 38,
+   "titleEn": "The Shop on Main Street",
+   "titleZh": "大街上的商店",
+   "countryRaw": "Czechoslovakia",
+   "director": "Ján Kadár and Elmar Klos Slovak",
+   "result": "winner",
+   "honorary": false,
+   "country": "捷克",
+   "iso": "CZ",
+   "continent": "欧洲",
+   "lnglat": [
+    15.5,
+    49.8
+   ],
+   "countryNote": "原捷克斯洛伐克选送",
+   "poster": "/maps/oscar-best-film/data/posters/053.jpg"
+  },
+  {
+   "ceremonyYear": 1966,
+   "filmYear": 1965,
+   "ceremony": 38,
+   "titleEn": "Blood on the Land",
+   "titleZh": "",
+   "countryRaw": "Greece",
+   "director": "Vasilis Georgiadis",
+   "result": "nominee",
+   "honorary": false,
+   "country": "希腊",
+   "iso": "GR",
+   "continent": "欧洲",
+   "lnglat": [
+    22.0,
+    39.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/054.jpg"
+  },
+  {
+   "ceremonyYear": 1966,
+   "filmYear": 1965,
+   "ceremony": 38,
+   "titleEn": "Dear John",
+   "titleZh": "",
+   "countryRaw": "Sweden",
+   "director": "Lars-Magnus Lindgren",
+   "result": "nominee",
+   "honorary": false,
+   "country": "瑞典",
+   "iso": "SE",
+   "continent": "欧洲",
+   "lnglat": [
+    15.0,
+    62.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/055.jpg"
+  },
+  {
+   "ceremonyYear": 1966,
+   "filmYear": 1965,
+   "ceremony": 38,
+   "titleEn": "Kwaidan",
+   "titleZh": "",
+   "countryRaw": "Japan",
+   "director": "Masaki Kobayashi",
+   "result": "nominee",
+   "honorary": false,
+   "country": "日本",
+   "iso": "JP",
+   "continent": "亚洲",
+   "lnglat": [
+    138.3,
+    36.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/056.jpg"
+  },
+  {
+   "ceremonyYear": 1966,
+   "filmYear": 1965,
+   "ceremony": 38,
+   "titleEn": "Marriage Italian Style",
+   "titleZh": "",
+   "countryRaw": "Italy",
+   "director": "Vittorio De Sica",
+   "result": "nominee",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/057.jpg"
+  },
+  {
+   "ceremonyYear": 1967,
+   "filmYear": 1966,
+   "ceremony": 39,
+   "titleEn": "A Man and a Woman",
+   "titleZh": "一个男人和一个女人",
+   "countryRaw": "France",
+   "director": "Claude Lelouch",
+   "result": "winner",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/058.jpg"
+  },
+  {
+   "ceremonyYear": 1967,
+   "filmYear": 1966,
+   "ceremony": 39,
+   "titleEn": "The Battle of Algiers",
+   "titleZh": "",
+   "countryRaw": "Italy",
+   "director": "Gillo Pontecorvo",
+   "result": "nominee",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/059.jpg"
+  },
+  {
+   "ceremonyYear": 1967,
+   "filmYear": 1966,
+   "ceremony": 39,
+   "titleEn": "Loves of a Blonde",
+   "titleZh": "",
+   "countryRaw": "Czechoslovakia",
+   "director": "Miloš Forman",
+   "result": "nominee",
+   "honorary": false,
+   "country": "捷克",
+   "iso": "CZ",
+   "continent": "欧洲",
+   "lnglat": [
+    15.5,
+    49.8
+   ],
+   "countryNote": "原捷克斯洛伐克选送",
+   "poster": "/maps/oscar-best-film/data/posters/060.jpg"
+  },
+  {
+   "ceremonyYear": 1967,
+   "filmYear": 1966,
+   "ceremony": 39,
+   "titleEn": "Pharaoh",
+   "titleZh": "",
+   "countryRaw": "Poland",
+   "director": "Jerzy Kawalerowicz",
+   "result": "nominee",
+   "honorary": false,
+   "country": "波兰",
+   "iso": "PL",
+   "continent": "欧洲",
+   "lnglat": [
+    19.1,
+    52.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/061.jpg"
+  },
+  {
+   "ceremonyYear": 1967,
+   "filmYear": 1966,
+   "ceremony": 39,
+   "titleEn": "Three",
+   "titleZh": "",
+   "countryRaw": "Yugoslavia",
+   "director": "Aleksandar Petrović",
+   "result": "nominee",
+   "honorary": false,
+   "country": "塞尔维亚",
+   "iso": "RS",
+   "continent": "欧洲",
+   "lnglat": [
+    20.5,
+    44.0
+   ],
+   "countryNote": "原南斯拉夫选送",
+   "poster": "/maps/oscar-best-film/data/posters/062.jpg"
+  },
+  {
+   "ceremonyYear": 1968,
+   "filmYear": 1967,
+   "ceremony": 40,
+   "titleEn": "Closely Watched Trains",
+   "titleZh": "严密监视的火车",
+   "countryRaw": "Czechoslovakia",
+   "director": "Jiří Menzel",
+   "result": "winner",
+   "honorary": false,
+   "country": "捷克",
+   "iso": "CZ",
+   "continent": "欧洲",
+   "lnglat": [
+    15.5,
+    49.8
+   ],
+   "countryNote": "原捷克斯洛伐克选送",
+   "poster": "/maps/oscar-best-film/data/posters/063.jpg"
+  },
+  {
+   "ceremonyYear": 1968,
+   "filmYear": 1967,
+   "ceremony": 40,
+   "titleEn": "El Amor Brujo",
+   "titleZh": "",
+   "countryRaw": "Spain",
+   "director": "Francisco Rovira Beleta",
+   "result": "nominee",
+   "honorary": false,
+   "country": "西班牙",
+   "iso": "ES",
+   "continent": "欧洲",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/064.jpg"
+  },
+  {
+   "ceremonyYear": 1968,
+   "filmYear": 1967,
+   "ceremony": 40,
+   "titleEn": "Live for Life",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Claude Lelouch",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/065.jpg"
+  },
+  {
+   "ceremonyYear": 1968,
+   "filmYear": 1967,
+   "ceremony": 40,
+   "titleEn": "Even Met Happy Gypsies",
+   "titleZh": "",
+   "countryRaw": "Yugoslavia",
+   "director": "Aleksandar Petrović",
+   "result": "nominee",
+   "honorary": false,
+   "country": "塞尔维亚",
+   "iso": "RS",
+   "continent": "欧洲",
+   "lnglat": [
+    20.5,
+    44.0
+   ],
+   "countryNote": "原南斯拉夫选送",
+   "poster": "/maps/oscar-best-film/data/posters/066.jpg"
+  },
+  {
+   "ceremonyYear": 1968,
+   "filmYear": 1967,
+   "ceremony": 40,
+   "titleEn": "Portrait of Chieko",
+   "titleZh": "",
+   "countryRaw": "Japan",
+   "director": "Noboru Nakamura",
+   "result": "nominee",
+   "honorary": false,
+   "country": "日本",
+   "iso": "JP",
+   "continent": "亚洲",
+   "lnglat": [
+    138.3,
+    36.2
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1969,
+   "filmYear": 1968,
+   "ceremony": 41,
+   "titleEn": "War and Peace",
+   "titleZh": "战争与和平",
+   "countryRaw": "Soviet Union",
+   "director": "Sergei Bondarchuk",
+   "result": "winner",
+   "honorary": false,
+   "country": "俄罗斯",
+   "iso": "RU",
+   "continent": "欧洲",
+   "lnglat": [
+    95.0,
+    61.0
+   ],
+   "countryNote": "原苏联选送",
+   "poster": "/maps/oscar-best-film/data/posters/068.jpg"
+  },
+  {
+   "ceremonyYear": 1969,
+   "filmYear": 1968,
+   "ceremony": 41,
+   "titleEn": "Stolen Kisses",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "François Truffaut",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/069.jpg"
+  },
+  {
+   "ceremonyYear": 1969,
+   "filmYear": 1968,
+   "ceremony": 41,
+   "titleEn": "The Boys of Paul Street",
+   "titleZh": "",
+   "countryRaw": "Hungary",
+   "director": "Zoltán Fábri",
+   "result": "nominee",
+   "honorary": false,
+   "country": "匈牙利",
+   "iso": "HU",
+   "continent": "欧洲",
+   "lnglat": [
+    19.5,
+    47.2
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1969,
+   "filmYear": 1968,
+   "ceremony": 41,
+   "titleEn": "The Firemen's Ball",
+   "titleZh": "",
+   "countryRaw": "Czechoslovakia",
+   "director": "Miloš Forman",
+   "result": "nominee",
+   "honorary": false,
+   "country": "捷克",
+   "iso": "CZ",
+   "continent": "欧洲",
+   "lnglat": [
+    15.5,
+    49.8
+   ],
+   "countryNote": "原捷克斯洛伐克选送",
+   "poster": "/maps/oscar-best-film/data/posters/071.jpg"
+  },
+  {
+   "ceremonyYear": 1969,
+   "filmYear": 1968,
+   "ceremony": 41,
+   "titleEn": "The Girl with the Pistol",
+   "titleZh": "",
+   "countryRaw": "Italy",
+   "director": "Mario Monicelli",
+   "result": "nominee",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/072.jpg"
+  },
+  {
+   "ceremonyYear": 1970,
+   "filmYear": 1969,
+   "ceremony": 42,
+   "titleEn": "Z",
+   "titleZh": "焦点新闻 Z",
+   "countryRaw": "Algeria",
+   "director": "Costa-Gavras",
+   "result": "winner",
+   "honorary": false,
+   "country": "阿尔及利亚",
+   "iso": "DZ",
+   "continent": "非洲",
+   "lnglat": [
+    2.6,
+    28.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/073.jpg"
+  },
+  {
+   "ceremonyYear": 1970,
+   "filmYear": 1969,
+   "ceremony": 42,
+   "titleEn": "Ådalen '31",
+   "titleZh": "",
+   "countryRaw": "Sweden",
+   "director": "Bo Widerberg",
+   "result": "nominee",
+   "honorary": false,
+   "country": "瑞典",
+   "iso": "SE",
+   "continent": "欧洲",
+   "lnglat": [
+    15.0,
+    62.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/074.jpg"
+  },
+  {
+   "ceremonyYear": 1970,
+   "filmYear": 1969,
+   "ceremony": 42,
+   "titleEn": "The Battle of Neretva",
+   "titleZh": "",
+   "countryRaw": "Yugoslavia",
+   "director": "Veljko Bulajić",
+   "result": "nominee",
+   "honorary": false,
+   "country": "塞尔维亚",
+   "iso": "RS",
+   "continent": "欧洲",
+   "lnglat": [
+    20.5,
+    44.0
+   ],
+   "countryNote": "原南斯拉夫选送",
+   "poster": "/maps/oscar-best-film/data/posters/075.jpg"
+  },
+  {
+   "ceremonyYear": 1970,
+   "filmYear": 1969,
+   "ceremony": 42,
+   "titleEn": "The Brothers Karamazov",
+   "titleZh": "",
+   "countryRaw": "Soviet Union",
+   "director": "Kirill Lavrov and Ivan Pyryev and Mikhail Ulyanov",
+   "result": "nominee",
+   "honorary": false,
+   "country": "俄罗斯",
+   "iso": "RU",
+   "continent": "欧洲",
+   "lnglat": [
+    95.0,
+    61.0
+   ],
+   "countryNote": "原苏联选送",
+   "poster": "/maps/oscar-best-film/data/posters/076.jpg"
+  },
+  {
+   "ceremonyYear": 1970,
+   "filmYear": 1969,
+   "ceremony": 42,
+   "titleEn": "My Night with Maud",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Eric Rohmer",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/077.jpg"
+  },
+  {
+   "ceremonyYear": 1971,
+   "filmYear": 1970,
+   "ceremony": 43,
+   "titleEn": "Investigation of a Citizen Above Suspicion",
+   "titleZh": "对一个不容怀疑的公民的调查",
+   "countryRaw": "Italy",
+   "director": "Elio Petri",
+   "result": "winner",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/078.jpg"
+  },
+  {
+   "ceremonyYear": 1971,
+   "filmYear": 1970,
+   "ceremony": 43,
+   "titleEn": "Tristana",
+   "titleZh": "",
+   "countryRaw": "Spain",
+   "director": "Luis Buñuel",
+   "result": "nominee",
+   "honorary": false,
+   "country": "西班牙",
+   "iso": "ES",
+   "continent": "欧洲",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/079.jpg"
+  },
+  {
+   "ceremonyYear": 1971,
+   "filmYear": 1970,
+   "ceremony": 43,
+   "titleEn": "First Love",
+   "titleZh": "",
+   "countryRaw": "Switzerland",
+   "director": "Maximilian Schell",
+   "result": "nominee",
+   "honorary": false,
+   "country": "瑞士",
+   "iso": "CH",
+   "continent": "欧洲",
+   "lnglat": [
+    8.2,
+    46.8
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1971,
+   "filmYear": 1970,
+   "ceremony": 43,
+   "titleEn": "Hoa-Binh",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Raoul Coutard",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/081.jpg"
+  },
+  {
+   "ceremonyYear": 1971,
+   "filmYear": 1970,
+   "ceremony": 43,
+   "titleEn": "Paix Sur Les Champs",
+   "titleZh": "",
+   "countryRaw": "Belgium",
+   "director": "Jacques Boigelot",
+   "result": "nominee",
+   "honorary": false,
+   "country": "比利时",
+   "iso": "BE",
+   "continent": "欧洲",
+   "lnglat": [
+    4.5,
+    50.5
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/082.jpg"
+  },
+  {
+   "ceremonyYear": 1972,
+   "filmYear": 1971,
+   "ceremony": 44,
+   "titleEn": "The Garden of the Finzi Continis",
+   "titleZh": "费尼兹花园",
+   "countryRaw": "Italy",
+   "director": "Vittorio De Sica",
+   "result": "winner",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/083.jpg"
+  },
+  {
+   "ceremonyYear": 1972,
+   "filmYear": 1971,
+   "ceremony": 44,
+   "titleEn": "The Emigrants",
+   "titleZh": "",
+   "countryRaw": "Sweden",
+   "director": "Jan Troell",
+   "result": "nominee",
+   "honorary": false,
+   "country": "瑞典",
+   "iso": "SE",
+   "continent": "欧洲",
+   "lnglat": [
+    15.0,
+    62.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/084.jpg"
+  },
+  {
+   "ceremonyYear": 1972,
+   "filmYear": 1971,
+   "ceremony": 44,
+   "titleEn": "Dodes'ka-Den",
+   "titleZh": "",
+   "countryRaw": "Japan",
+   "director": "Akira Kurosawa",
+   "result": "nominee",
+   "honorary": false,
+   "country": "日本",
+   "iso": "JP",
+   "continent": "亚洲",
+   "lnglat": [
+    138.3,
+    36.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/085.jpg"
+  },
+  {
+   "ceremonyYear": 1972,
+   "filmYear": 1971,
+   "ceremony": 44,
+   "titleEn": "The Policeman",
+   "titleZh": "",
+   "countryRaw": "Israel",
+   "director": "Ephraim Kishon",
+   "result": "nominee",
+   "honorary": false,
+   "country": "以色列",
+   "iso": "IL",
+   "continent": "亚洲",
+   "lnglat": [
+    35.0,
+    31.5
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/086.jpg"
+  },
+  {
+   "ceremonyYear": 1972,
+   "filmYear": 1971,
+   "ceremony": 44,
+   "titleEn": "Tchaikovsky",
+   "titleZh": "",
+   "countryRaw": "Soviet Union",
+   "director": "Igor Talankin",
+   "result": "nominee",
+   "honorary": false,
+   "country": "俄罗斯",
+   "iso": "RU",
+   "continent": "欧洲",
+   "lnglat": [
+    95.0,
+    61.0
+   ],
+   "countryNote": "原苏联选送",
+   "poster": "/maps/oscar-best-film/data/posters/087.jpg"
+  },
+  {
+   "ceremonyYear": 1973,
+   "filmYear": 1972,
+   "ceremony": 45,
+   "titleEn": "The Discreet Charm of the Bourgeoisie",
+   "titleZh": "资产阶级的审慎魅力",
+   "countryRaw": "France",
+   "director": "Luis Buñuel",
+   "result": "winner",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/088.jpg"
+  },
+  {
+   "ceremonyYear": 1973,
+   "filmYear": 1972,
+   "ceremony": 45,
+   "titleEn": "The New Land",
+   "titleZh": "",
+   "countryRaw": "Sweden",
+   "director": "Jan Troell",
+   "result": "nominee",
+   "honorary": false,
+   "country": "瑞典",
+   "iso": "SE",
+   "continent": "欧洲",
+   "lnglat": [
+    15.0,
+    62.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/089.jpg"
+  },
+  {
+   "ceremonyYear": 1973,
+   "filmYear": 1972,
+   "ceremony": 45,
+   "titleEn": "The Dawns Here Are Quiet",
+   "titleZh": "",
+   "countryRaw": "Soviet Union",
+   "director": "Stanislav Rostotsky",
+   "result": "nominee",
+   "honorary": false,
+   "country": "俄罗斯",
+   "iso": "RU",
+   "continent": "欧洲",
+   "lnglat": [
+    95.0,
+    61.0
+   ],
+   "countryNote": "原苏联选送",
+   "poster": "/maps/oscar-best-film/data/posters/090.jpg"
+  },
+  {
+   "ceremonyYear": 1973,
+   "filmYear": 1972,
+   "ceremony": 45,
+   "titleEn": "I Love You Rosa Ani",
+   "titleZh": "",
+   "countryRaw": "Israel",
+   "director": "Moshé Mizrahi",
+   "result": "nominee",
+   "honorary": false,
+   "country": "以色列",
+   "iso": "IL",
+   "continent": "亚洲",
+   "lnglat": [
+    35.0,
+    31.5
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/091.jpg"
+  },
+  {
+   "ceremonyYear": 1973,
+   "filmYear": 1972,
+   "ceremony": 45,
+   "titleEn": "My Dearest Señorita",
+   "titleZh": "",
+   "countryRaw": "Spain",
+   "director": "Jaime de Armiñán",
+   "result": "nominee",
+   "honorary": false,
+   "country": "西班牙",
+   "iso": "ES",
+   "continent": "欧洲",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/092.jpg"
+  },
+  {
+   "ceremonyYear": 1974,
+   "filmYear": 1973,
+   "ceremony": 46,
+   "titleEn": "Day for Night",
+   "titleZh": "日以继夜",
+   "countryRaw": "France",
+   "director": "François Truffaut",
+   "result": "winner",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/093.jpg"
+  },
+  {
+   "ceremonyYear": 1974,
+   "filmYear": 1973,
+   "ceremony": 46,
+   "titleEn": "L'Invitation",
+   "titleZh": "",
+   "countryRaw": "Switzerland",
+   "director": "Claude Goretta",
+   "result": "nominee",
+   "honorary": false,
+   "country": "瑞士",
+   "iso": "CH",
+   "continent": "欧洲",
+   "lnglat": [
+    8.2,
+    46.8
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1974,
+   "filmYear": 1973,
+   "ceremony": 46,
+   "titleEn": "The Pedestrian",
+   "titleZh": "",
+   "countryRaw": "West Germany",
+   "director": "Maximilian Schell",
+   "result": "nominee",
+   "honorary": false,
+   "country": "德国",
+   "iso": "DE",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "countryNote": "原西德选送",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1974,
+   "filmYear": 1973,
+   "ceremony": 46,
+   "titleEn": "The House on Chelouche Street",
+   "titleZh": "",
+   "countryRaw": "Israel",
+   "director": "Moshé Mizrahi",
+   "result": "nominee",
+   "honorary": false,
+   "country": "以色列",
+   "iso": "IL",
+   "continent": "亚洲",
+   "lnglat": [
+    35.0,
+    31.5
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/096.jpg"
+  },
+  {
+   "ceremonyYear": 1974,
+   "filmYear": 1973,
+   "ceremony": 46,
+   "titleEn": "Turkish Delight",
+   "titleZh": "",
+   "countryRaw": "Netherlands",
+   "director": "Paul Verhoeven",
+   "result": "nominee",
+   "honorary": false,
+   "country": "荷兰",
+   "iso": "NL",
+   "continent": "欧洲",
+   "lnglat": [
+    5.3,
+    52.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/097.jpg"
+  },
+  {
+   "ceremonyYear": 1975,
+   "filmYear": 1974,
+   "ceremony": 47,
+   "titleEn": "Amarcord",
+   "titleZh": "阿玛柯德",
+   "countryRaw": "Italy",
+   "director": "Federico Fellini",
+   "result": "winner",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/098.jpg"
+  },
+  {
+   "ceremonyYear": 1975,
+   "filmYear": 1974,
+   "ceremony": 47,
+   "titleEn": "Cats' Play",
+   "titleZh": "",
+   "countryRaw": "Hungary",
+   "director": "Károly Makk",
+   "result": "nominee",
+   "honorary": false,
+   "country": "匈牙利",
+   "iso": "HU",
+   "continent": "欧洲",
+   "lnglat": [
+    19.5,
+    47.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/099.jpg"
+  },
+  {
+   "ceremonyYear": 1975,
+   "filmYear": 1974,
+   "ceremony": 47,
+   "titleEn": "Lacombe, Lucien",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Louis Malle",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/100.jpg"
+  },
+  {
+   "ceremonyYear": 1975,
+   "filmYear": 1974,
+   "ceremony": 47,
+   "titleEn": "The Truce",
+   "titleZh": "",
+   "countryRaw": "Argentina",
+   "director": "Sergio Renán",
+   "result": "nominee",
+   "honorary": false,
+   "country": "阿根廷",
+   "iso": "AR",
+   "continent": "美洲",
+   "lnglat": [
+    -63.6,
+    -35.7
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1975,
+   "filmYear": 1974,
+   "ceremony": 47,
+   "titleEn": "The Deluge",
+   "titleZh": "",
+   "countryRaw": "Poland",
+   "director": "Jerzy Hoffman",
+   "result": "nominee",
+   "honorary": false,
+   "country": "波兰",
+   "iso": "PL",
+   "continent": "欧洲",
+   "lnglat": [
+    19.1,
+    52.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/102.jpg"
+  },
+  {
+   "ceremonyYear": 1976,
+   "filmYear": 1975,
+   "ceremony": 48,
+   "titleEn": "Dersu Uzala",
+   "titleZh": "德尔苏·乌扎拉",
+   "countryRaw": "Soviet Union",
+   "director": "Akira Kurosawa",
+   "result": "winner",
+   "honorary": false,
+   "country": "俄罗斯",
+   "iso": "RU",
+   "continent": "欧洲",
+   "lnglat": [
+    95.0,
+    61.0
+   ],
+   "countryNote": "原苏联选送",
+   "poster": "/maps/oscar-best-film/data/posters/103.jpg"
+  },
+  {
+   "ceremonyYear": 1976,
+   "filmYear": 1975,
+   "ceremony": 48,
+   "titleEn": "Scent of a Woman",
+   "titleZh": "",
+   "countryRaw": "Italy",
+   "director": "Dino Risi",
+   "result": "nominee",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/104.jpg"
+  },
+  {
+   "ceremonyYear": 1976,
+   "filmYear": 1975,
+   "ceremony": 48,
+   "titleEn": "Letters from Marusia",
+   "titleZh": "",
+   "countryRaw": "Mexico",
+   "director": "Miguel Littín",
+   "result": "nominee",
+   "honorary": false,
+   "country": "墨西哥",
+   "iso": "MX",
+   "continent": "美洲",
+   "lnglat": [
+    -102.5,
+    23.6
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/105.jpg"
+  },
+  {
+   "ceremonyYear": 1976,
+   "filmYear": 1975,
+   "ceremony": 48,
+   "titleEn": "The Promised Land",
+   "titleZh": "",
+   "countryRaw": "Poland",
+   "director": "Andrzej Wajda",
+   "result": "nominee",
+   "honorary": false,
+   "country": "波兰",
+   "iso": "PL",
+   "continent": "欧洲",
+   "lnglat": [
+    19.1,
+    52.2
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1976,
+   "filmYear": 1975,
+   "ceremony": 48,
+   "titleEn": "Sandakan No. 8",
+   "titleZh": "",
+   "countryRaw": "Japan",
+   "director": "Kei Kumai",
+   "result": "nominee",
+   "honorary": false,
+   "country": "日本",
+   "iso": "JP",
+   "continent": "亚洲",
+   "lnglat": [
+    138.3,
+    36.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/107.jpg"
+  },
+  {
+   "ceremonyYear": 1977,
+   "filmYear": 1976,
+   "ceremony": 49,
+   "titleEn": "Black and White in Color",
+   "titleZh": "黑人为白人作战",
+   "countryRaw": "Ivory Coast",
+   "director": "Jean-Jacques Annaud",
+   "result": "winner",
+   "honorary": false,
+   "country": "科特迪瓦",
+   "iso": "CI",
+   "continent": "非洲",
+   "lnglat": [
+    -5.6,
+    6.8
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/108.jpg"
+  },
+  {
+   "ceremonyYear": 1977,
+   "filmYear": 1976,
+   "ceremony": 49,
+   "titleEn": "Cousin, Cousine",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Jean-Charles Tacchella",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/109.jpg"
+  },
+  {
+   "ceremonyYear": 1977,
+   "filmYear": 1976,
+   "ceremony": 49,
+   "titleEn": "Jacob the Liar",
+   "titleZh": "",
+   "countryRaw": "East Germany",
+   "director": "Frank Beyer",
+   "result": "nominee",
+   "honorary": false,
+   "country": "德国",
+   "iso": "DE",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "countryNote": "原东德选送",
+   "poster": "/maps/oscar-best-film/data/posters/110.jpg"
+  },
+  {
+   "ceremonyYear": 1977,
+   "filmYear": 1976,
+   "ceremony": 49,
+   "titleEn": "Nights and Days",
+   "titleZh": "",
+   "countryRaw": "Poland",
+   "director": "Jerzy Antczak",
+   "result": "nominee",
+   "honorary": false,
+   "country": "波兰",
+   "iso": "PL",
+   "continent": "欧洲",
+   "lnglat": [
+    19.1,
+    52.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/111.jpg"
+  },
+  {
+   "ceremonyYear": 1977,
+   "filmYear": 1976,
+   "ceremony": 49,
+   "titleEn": "Seven Beauties",
+   "titleZh": "",
+   "countryRaw": "Italy",
+   "director": "Lina Wertmüller",
+   "result": "nominee",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/112.jpg"
+  },
+  {
+   "ceremonyYear": 1978,
+   "filmYear": 1977,
+   "ceremony": 50,
+   "titleEn": "Madame Rosa",
+   "titleZh": "罗莎夫人",
+   "countryRaw": "France",
+   "director": "Moshé Mizrahi",
+   "result": "winner",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/113.jpg"
+  },
+  {
+   "ceremonyYear": 1978,
+   "filmYear": 1977,
+   "ceremony": 50,
+   "titleEn": "Operation Thunderbolt",
+   "titleZh": "",
+   "countryRaw": "Israel",
+   "director": "Menahem Golan",
+   "result": "nominee",
+   "honorary": false,
+   "country": "以色列",
+   "iso": "IL",
+   "continent": "亚洲",
+   "lnglat": [
+    35.0,
+    31.5
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/114.jpg"
+  },
+  {
+   "ceremonyYear": 1978,
+   "filmYear": 1977,
+   "ceremony": 50,
+   "titleEn": "Iphigenia",
+   "titleZh": "",
+   "countryRaw": "Greece",
+   "director": "Michael Cacoyannis",
+   "result": "nominee",
+   "honorary": false,
+   "country": "希腊",
+   "iso": "GR",
+   "continent": "欧洲",
+   "lnglat": [
+    22.0,
+    39.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/115.jpg"
+  },
+  {
+   "ceremonyYear": 1978,
+   "filmYear": 1977,
+   "ceremony": 50,
+   "titleEn": "A Special Day",
+   "titleZh": "",
+   "countryRaw": "Italy",
+   "director": "Ettore Scola",
+   "result": "nominee",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/116.jpg"
+  },
+  {
+   "ceremonyYear": 1978,
+   "filmYear": 1977,
+   "ceremony": 50,
+   "titleEn": "That Obscure Object of Desire",
+   "titleZh": "",
+   "countryRaw": "Spain",
+   "director": "Luis Buñuel",
+   "result": "nominee",
+   "honorary": false,
+   "country": "西班牙",
+   "iso": "ES",
+   "continent": "欧洲",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/117.jpg"
+  },
+  {
+   "ceremonyYear": 1979,
+   "filmYear": 1978,
+   "ceremony": 51,
+   "titleEn": "Get Out Your Handkerchiefs",
+   "titleZh": "掏出你的手帕",
+   "countryRaw": "France",
+   "director": "Bertrand Blier",
+   "result": "winner",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/118.jpg"
+  },
+  {
+   "ceremonyYear": 1979,
+   "filmYear": 1978,
+   "ceremony": 51,
+   "titleEn": "The Glass Cell",
+   "titleZh": "",
+   "countryRaw": "West Germany",
+   "director": "Hans W. Geißendörfer",
+   "result": "nominee",
+   "honorary": false,
+   "country": "德国",
+   "iso": "DE",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "countryNote": "原西德选送",
+   "poster": "/maps/oscar-best-film/data/posters/119.jpg"
+  },
+  {
+   "ceremonyYear": 1979,
+   "filmYear": 1978,
+   "ceremony": 51,
+   "titleEn": "Viva Italia!",
+   "titleZh": "",
+   "countryRaw": "Italy, Mario Monicelli, Dino Risi",
+   "director": "Mario Monicelli, Dino Risi, Ettore Scola",
+   "result": "nominee",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1979,
+   "filmYear": 1978,
+   "ceremony": 51,
+   "titleEn": "White Bim Black Ear",
+   "titleZh": "",
+   "countryRaw": "Soviet Union",
+   "director": "Stanislav Rostotsky",
+   "result": "nominee",
+   "honorary": false,
+   "country": "俄罗斯",
+   "iso": "RU",
+   "continent": "欧洲",
+   "lnglat": [
+    95.0,
+    61.0
+   ],
+   "countryNote": "原苏联选送",
+   "poster": "/maps/oscar-best-film/data/posters/121.jpg"
+  },
+  {
+   "ceremonyYear": 1979,
+   "filmYear": 1978,
+   "ceremony": 51,
+   "titleEn": "Hungarians",
+   "titleZh": "",
+   "countryRaw": "Hungary",
+   "director": "Zoltán Fábri",
+   "result": "nominee",
+   "honorary": false,
+   "country": "匈牙利",
+   "iso": "HU",
+   "continent": "欧洲",
+   "lnglat": [
+    19.5,
+    47.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/122.jpg"
+  },
+  {
+   "ceremonyYear": 1980,
+   "filmYear": 1979,
+   "ceremony": 52,
+   "titleEn": "The Tin Drum",
+   "titleZh": "铁皮鼓",
+   "countryRaw": "West Germany",
+   "director": "Volker Schlöndorff",
+   "result": "winner",
+   "honorary": false,
+   "country": "德国",
+   "iso": "DE",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "countryNote": "原西德选送",
+   "poster": "/maps/oscar-best-film/data/posters/123.jpg"
+  },
+  {
+   "ceremonyYear": 1980,
+   "filmYear": 1979,
+   "ceremony": 52,
+   "titleEn": "The Maids of Wilko",
+   "titleZh": "",
+   "countryRaw": "Poland",
+   "director": "Andrzej Wajda",
+   "result": "nominee",
+   "honorary": false,
+   "country": "波兰",
+   "iso": "PL",
+   "continent": "欧洲",
+   "lnglat": [
+    19.1,
+    52.2
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1980,
+   "filmYear": 1979,
+   "ceremony": 52,
+   "titleEn": "Mama Turns a Hundred",
+   "titleZh": "",
+   "countryRaw": "Spain",
+   "director": "Carlos Saura",
+   "result": "nominee",
+   "honorary": false,
+   "country": "西班牙",
+   "iso": "ES",
+   "continent": "欧洲",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/125.jpg"
+  },
+  {
+   "ceremonyYear": 1980,
+   "filmYear": 1979,
+   "ceremony": 52,
+   "titleEn": "A Simple Story",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Claude Sautet",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/126.jpg"
+  },
+  {
+   "ceremonyYear": 1980,
+   "filmYear": 1979,
+   "ceremony": 52,
+   "titleEn": "To Forget Venice",
+   "titleZh": "",
+   "countryRaw": "Italy",
+   "director": "Franco Brusati",
+   "result": "nominee",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/127.jpg"
+  },
+  {
+   "ceremonyYear": 1981,
+   "filmYear": 1980,
+   "ceremony": 53,
+   "titleEn": "Moscow Does Not Believe in Tears",
+   "titleZh": "莫斯科不相信眼泪",
+   "countryRaw": "Soviet Union",
+   "director": "Vladimir Menshov",
+   "result": "winner",
+   "honorary": false,
+   "country": "俄罗斯",
+   "iso": "RU",
+   "continent": "欧洲",
+   "lnglat": [
+    95.0,
+    61.0
+   ],
+   "countryNote": "原苏联选送",
+   "poster": "/maps/oscar-best-film/data/posters/128.jpg"
+  },
+  {
+   "ceremonyYear": 1981,
+   "filmYear": 1980,
+   "ceremony": 53,
+   "titleEn": "Kagemusha",
+   "titleZh": "",
+   "countryRaw": "Japan",
+   "director": "Akira Kurosawa",
+   "result": "nominee",
+   "honorary": false,
+   "country": "日本",
+   "iso": "JP",
+   "continent": "亚洲",
+   "lnglat": [
+    138.3,
+    36.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/129.jpg"
+  },
+  {
+   "ceremonyYear": 1981,
+   "filmYear": 1980,
+   "ceremony": 53,
+   "titleEn": "",
+   "titleZh": "",
+   "countryRaw": "Japan",
+   "director": "Akira Kurosawa",
+   "result": "nominee",
+   "honorary": false,
+   "country": "日本",
+   "iso": "JP",
+   "continent": "亚洲",
+   "lnglat": [
+    138.3,
+    36.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/130.jpg"
+  },
+  {
+   "ceremonyYear": 1981,
+   "filmYear": 1980,
+   "ceremony": 53,
+   "titleEn": "The Last Metro",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "François Truffaut",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/131.jpg"
+  },
+  {
+   "ceremonyYear": 1981,
+   "filmYear": 1980,
+   "ceremony": 53,
+   "titleEn": "Confidence",
+   "titleZh": "",
+   "countryRaw": "Hungary",
+   "director": "István Szabó",
+   "result": "nominee",
+   "honorary": false,
+   "country": "匈牙利",
+   "iso": "HU",
+   "continent": "欧洲",
+   "lnglat": [
+    19.5,
+    47.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/132.jpg"
+  },
+  {
+   "ceremonyYear": 1981,
+   "filmYear": 1980,
+   "ceremony": 53,
+   "titleEn": "The Nest",
+   "titleZh": "",
+   "countryRaw": "Spain",
+   "director": "Jaime de Armiñán",
+   "result": "nominee",
+   "honorary": false,
+   "country": "西班牙",
+   "iso": "ES",
+   "continent": "欧洲",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1982,
+   "filmYear": 1981,
+   "ceremony": 54,
+   "titleEn": "Mephisto",
+   "titleZh": "靡菲斯特",
+   "countryRaw": "Hungary",
+   "director": "István Szabó",
+   "result": "winner",
+   "honorary": false,
+   "country": "匈牙利",
+   "iso": "HU",
+   "continent": "欧洲",
+   "lnglat": [
+    19.5,
+    47.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/134.jpg"
+  },
+  {
+   "ceremonyYear": 1982,
+   "filmYear": 1981,
+   "ceremony": 54,
+   "titleEn": "The Boat Is Full",
+   "titleZh": "",
+   "countryRaw": "Switzerland",
+   "director": "Markus Imhoof",
+   "result": "nominee",
+   "honorary": false,
+   "country": "瑞士",
+   "iso": "CH",
+   "continent": "欧洲",
+   "lnglat": [
+    8.2,
+    46.8
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/135.jpg"
+  },
+  {
+   "ceremonyYear": 1982,
+   "filmYear": 1981,
+   "ceremony": 54,
+   "titleEn": "Man of Iron",
+   "titleZh": "",
+   "countryRaw": "Poland",
+   "director": "Andrzej Wajda",
+   "result": "nominee",
+   "honorary": false,
+   "country": "波兰",
+   "iso": "PL",
+   "continent": "欧洲",
+   "lnglat": [
+    19.1,
+    52.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/136.jpg"
+  },
+  {
+   "ceremonyYear": 1982,
+   "filmYear": 1981,
+   "ceremony": 54,
+   "titleEn": "Muddy River",
+   "titleZh": "",
+   "countryRaw": "Japan",
+   "director": "Kōhei Oguri",
+   "result": "nominee",
+   "honorary": false,
+   "country": "日本",
+   "iso": "JP",
+   "continent": "亚洲",
+   "lnglat": [
+    138.3,
+    36.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/137.jpg"
+  },
+  {
+   "ceremonyYear": 1982,
+   "filmYear": 1981,
+   "ceremony": 54,
+   "titleEn": "Three Brothers",
+   "titleZh": "",
+   "countryRaw": "Italy",
+   "director": "Francesco Rosi",
+   "result": "nominee",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/138.jpg"
+  },
+  {
+   "ceremonyYear": 1983,
+   "filmYear": 1982,
+   "ceremony": 55,
+   "titleEn": "Volver a Empezar",
+   "titleZh": "重新开始",
+   "countryRaw": "Spain",
+   "director": "José Luis Garci",
+   "result": "winner",
+   "honorary": false,
+   "country": "西班牙",
+   "iso": "ES",
+   "continent": "欧洲",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1983,
+   "filmYear": 1982,
+   "ceremony": 55,
+   "titleEn": "Alsino and the Condor",
+   "titleZh": "",
+   "countryRaw": "Nicaragua",
+   "director": "Miguel Littín",
+   "result": "nominee",
+   "honorary": false,
+   "country": "尼加拉瓜",
+   "iso": "NI",
+   "continent": "美洲",
+   "lnglat": [
+    -85.0,
+    13.0
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1983,
+   "filmYear": 1982,
+   "ceremony": 55,
+   "titleEn": "Coup de Torchon",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Bertrand Tavernier",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/141.jpg"
+  },
+  {
+   "ceremonyYear": 1983,
+   "filmYear": 1982,
+   "ceremony": 55,
+   "titleEn": "The Flight of the Eagle",
+   "titleZh": "",
+   "countryRaw": "Sweden",
+   "director": "Jan Troell",
+   "result": "nominee",
+   "honorary": false,
+   "country": "瑞典",
+   "iso": "SE",
+   "continent": "欧洲",
+   "lnglat": [
+    15.0,
+    62.0
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1983,
+   "filmYear": 1982,
+   "ceremony": 55,
+   "titleEn": "Private Life",
+   "titleZh": "",
+   "countryRaw": "Soviet Union",
+   "director": "Yuli Raizman",
+   "result": "nominee",
+   "honorary": false,
+   "country": "俄罗斯",
+   "iso": "RU",
+   "continent": "欧洲",
+   "lnglat": [
+    95.0,
+    61.0
+   ],
+   "countryNote": "原苏联选送",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1984,
+   "filmYear": 1983,
+   "ceremony": 56,
+   "titleEn": "Fanny & Alexander",
+   "titleZh": "芬妮与亚历山大",
+   "countryRaw": "Sweden",
+   "director": "Ingmar Bergman",
+   "result": "winner",
+   "honorary": false,
+   "country": "瑞典",
+   "iso": "SE",
+   "continent": "欧洲",
+   "lnglat": [
+    15.0,
+    62.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/144.jpg"
+  },
+  {
+   "ceremonyYear": 1984,
+   "filmYear": 1983,
+   "ceremony": 56,
+   "titleEn": "Entre Nous",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Diane Kurys",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/145.jpg"
+  },
+  {
+   "ceremonyYear": 1984,
+   "filmYear": 1983,
+   "ceremony": 56,
+   "titleEn": "Carmen",
+   "titleZh": "",
+   "countryRaw": "Spain",
+   "director": "Carlos Saura",
+   "result": "nominee",
+   "honorary": false,
+   "country": "西班牙",
+   "iso": "ES",
+   "continent": "欧洲",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/146.jpg"
+  },
+  {
+   "ceremonyYear": 1984,
+   "filmYear": 1983,
+   "ceremony": 56,
+   "titleEn": "Job's Revolt",
+   "titleZh": "",
+   "countryRaw": "Hungary, Imre Gyöngyössy",
+   "director": "Imre Gyöngyössy, Barna Kabay",
+   "result": "nominee",
+   "honorary": false,
+   "country": "匈牙利",
+   "iso": "HU",
+   "continent": "欧洲",
+   "lnglat": [
+    19.5,
+    47.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/147.jpg"
+  },
+  {
+   "ceremonyYear": 1984,
+   "filmYear": 1983,
+   "ceremony": 56,
+   "titleEn": "Le Bal",
+   "titleZh": "",
+   "countryRaw": "Algeria",
+   "director": "Ettore Scola",
+   "result": "nominee",
+   "honorary": false,
+   "country": "阿尔及利亚",
+   "iso": "DZ",
+   "continent": "非洲",
+   "lnglat": [
+    2.6,
+    28.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/148.jpg"
+  },
+  {
+   "ceremonyYear": 1985,
+   "filmYear": 1984,
+   "ceremony": 57,
+   "titleEn": "Dangerous Moves",
+   "titleZh": "危险行动",
+   "countryRaw": "Switzerland",
+   "director": "Richard Dembo",
+   "result": "winner",
+   "honorary": false,
+   "country": "瑞士",
+   "iso": "CH",
+   "continent": "欧洲",
+   "lnglat": [
+    8.2,
+    46.8
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/149.jpg"
+  },
+  {
+   "ceremonyYear": 1985,
+   "filmYear": 1984,
+   "ceremony": 57,
+   "titleEn": "Beyond the Walls",
+   "titleZh": "",
+   "countryRaw": "Israel",
+   "director": "Uri Barbash",
+   "result": "nominee",
+   "honorary": false,
+   "country": "以色列",
+   "iso": "IL",
+   "continent": "亚洲",
+   "lnglat": [
+    35.0,
+    31.5
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/150.jpg"
+  },
+  {
+   "ceremonyYear": 1985,
+   "filmYear": 1984,
+   "ceremony": 57,
+   "titleEn": "Camila",
+   "titleZh": "",
+   "countryRaw": "Argentina",
+   "director": "María Luisa Bemberg",
+   "result": "nominee",
+   "honorary": false,
+   "country": "阿根廷",
+   "iso": "AR",
+   "continent": "美洲",
+   "lnglat": [
+    -63.6,
+    -35.7
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/151.jpg"
+  },
+  {
+   "ceremonyYear": 1985,
+   "filmYear": 1984,
+   "ceremony": 57,
+   "titleEn": "Double Feature",
+   "titleZh": "",
+   "countryRaw": "Spain",
+   "director": "José Luis Garci",
+   "result": "nominee",
+   "honorary": false,
+   "country": "西班牙",
+   "iso": "ES",
+   "continent": "欧洲",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/152.jpg"
+  },
+  {
+   "ceremonyYear": 1985,
+   "filmYear": 1984,
+   "ceremony": 57,
+   "titleEn": "Wartime Romance",
+   "titleZh": "",
+   "countryRaw": "Soviet Union",
+   "director": "Pyotr Todorovsky",
+   "result": "nominee",
+   "honorary": false,
+   "country": "俄罗斯",
+   "iso": "RU",
+   "continent": "欧洲",
+   "lnglat": [
+    95.0,
+    61.0
+   ],
+   "countryNote": "原苏联选送",
+   "poster": "/maps/oscar-best-film/data/posters/153.jpg"
+  },
+  {
+   "ceremonyYear": 1986,
+   "filmYear": 1985,
+   "ceremony": 58,
+   "titleEn": "The Official Story",
+   "titleZh": "官方说法",
+   "countryRaw": "Argentina",
+   "director": "Luis Puenzo",
+   "result": "winner",
+   "honorary": false,
+   "country": "阿根廷",
+   "iso": "AR",
+   "continent": "美洲",
+   "lnglat": [
+    -63.6,
+    -35.7
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/154.jpg"
+  },
+  {
+   "ceremonyYear": 1986,
+   "filmYear": 1985,
+   "ceremony": 58,
+   "titleEn": "Angry Harvest",
+   "titleZh": "",
+   "countryRaw": "West Germany",
+   "director": "Agnieszka Holland",
+   "result": "nominee",
+   "honorary": false,
+   "country": "德国",
+   "iso": "DE",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "countryNote": "原西德选送",
+   "poster": "/maps/oscar-best-film/data/posters/155.jpg"
+  },
+  {
+   "ceremonyYear": 1986,
+   "filmYear": 1985,
+   "ceremony": 58,
+   "titleEn": "Colonel Redl",
+   "titleZh": "",
+   "countryRaw": "Hungary",
+   "director": "István Szabó",
+   "result": "nominee",
+   "honorary": false,
+   "country": "匈牙利",
+   "iso": "HU",
+   "continent": "欧洲",
+   "lnglat": [
+    19.5,
+    47.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/156.jpg"
+  },
+  {
+   "ceremonyYear": 1986,
+   "filmYear": 1985,
+   "ceremony": 58,
+   "titleEn": "Three Men and a Cradle",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Coline Serreau",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/157.jpg"
+  },
+  {
+   "ceremonyYear": 1986,
+   "filmYear": 1985,
+   "ceremony": 58,
+   "titleEn": "When Father Was Away on Business",
+   "titleZh": "",
+   "countryRaw": "Yugoslavia",
+   "director": "Emir Kusturica",
+   "result": "nominee",
+   "honorary": false,
+   "country": "塞尔维亚",
+   "iso": "RS",
+   "continent": "欧洲",
+   "lnglat": [
+    20.5,
+    44.0
+   ],
+   "countryNote": "原南斯拉夫选送",
+   "poster": "/maps/oscar-best-film/data/posters/158.jpg"
+  },
+  {
+   "ceremonyYear": 1987,
+   "filmYear": 1986,
+   "ceremony": 59,
+   "titleEn": "The Assault",
+   "titleZh": "战火葬童年",
+   "countryRaw": "Netherlands",
+   "director": "Fons Rademakers",
+   "result": "winner",
+   "honorary": false,
+   "country": "荷兰",
+   "iso": "NL",
+   "continent": "欧洲",
+   "lnglat": [
+    5.3,
+    52.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/159.jpg"
+  },
+  {
+   "ceremonyYear": 1987,
+   "filmYear": 1986,
+   "ceremony": 59,
+   "titleEn": "My Sweet Little Village",
+   "titleZh": "",
+   "countryRaw": "Czechoslovakia",
+   "director": "Jiří Menzel",
+   "result": "nominee",
+   "honorary": false,
+   "country": "捷克",
+   "iso": "CZ",
+   "continent": "欧洲",
+   "lnglat": [
+    15.5,
+    49.8
+   ],
+   "countryNote": "原捷克斯洛伐克选送",
+   "poster": "/maps/oscar-best-film/data/posters/160.jpg"
+  },
+  {
+   "ceremonyYear": 1987,
+   "filmYear": 1986,
+   "ceremony": 59,
+   "titleEn": "'38 — Vienna Before the Fall",
+   "titleZh": "",
+   "countryRaw": "Austria",
+   "director": "Wolfgang Glück",
+   "result": "nominee",
+   "honorary": false,
+   "country": "奥地利",
+   "iso": "AT",
+   "continent": "欧洲",
+   "lnglat": [
+    14.6,
+    47.5
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/161.jpg"
+  },
+  {
+   "ceremonyYear": 1987,
+   "filmYear": 1986,
+   "ceremony": 59,
+   "titleEn": "Betty Blue",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Jean-Jacques Beineix",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/162.jpg"
+  },
+  {
+   "ceremonyYear": 1987,
+   "filmYear": 1986,
+   "ceremony": 59,
+   "titleEn": "The Decline of the American Empire",
+   "titleZh": "",
+   "countryRaw": "Canada",
+   "director": "Denys Arcand",
+   "result": "nominee",
+   "honorary": false,
+   "country": "加拿大",
+   "iso": "CA",
+   "continent": "美洲",
+   "lnglat": [
+    -106.3,
+    56.1
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/163.jpg"
+  },
+  {
+   "ceremonyYear": 1988,
+   "filmYear": 1987,
+   "ceremony": 60,
+   "titleEn": "Babette's Feast",
+   "titleZh": "巴贝特之宴",
+   "countryRaw": "Denmark",
+   "director": "Gabriel Axel",
+   "result": "winner",
+   "honorary": false,
+   "country": "丹麦",
+   "iso": "DK",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    56.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/164.jpg"
+  },
+  {
+   "ceremonyYear": 1988,
+   "filmYear": 1987,
+   "ceremony": 60,
+   "titleEn": "The Family",
+   "titleZh": "",
+   "countryRaw": "Italy",
+   "director": "Ettore Scola",
+   "result": "nominee",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/165.jpg"
+  },
+  {
+   "ceremonyYear": 1988,
+   "filmYear": 1987,
+   "ceremony": 60,
+   "titleEn": "Au Revoir Les Enfants (Goodbye, Children)",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Louis Malle",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/166.jpg"
+  },
+  {
+   "ceremonyYear": 1988,
+   "filmYear": 1987,
+   "ceremony": 60,
+   "titleEn": "Course Completed",
+   "titleZh": "",
+   "countryRaw": "Spain",
+   "director": "José Luis Garci",
+   "result": "nominee",
+   "honorary": false,
+   "country": "西班牙",
+   "iso": "ES",
+   "continent": "欧洲",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1988,
+   "filmYear": 1987,
+   "ceremony": 60,
+   "titleEn": "Pathfinder",
+   "titleZh": "",
+   "countryRaw": "Norway",
+   "director": "Nils Gaup",
+   "result": "nominee",
+   "honorary": false,
+   "country": "挪威",
+   "iso": "NO",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    61.0
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 1989,
+   "filmYear": 1988,
+   "ceremony": 61,
+   "titleEn": "Pelle the Conqueror",
+   "titleZh": "征服者佩尔",
+   "countryRaw": "Denmark",
+   "director": "Bille August",
+   "result": "winner",
+   "honorary": false,
+   "country": "丹麦",
+   "iso": "DK",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    56.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/169.jpg"
+  },
+  {
+   "ceremonyYear": 1989,
+   "filmYear": 1988,
+   "ceremony": 61,
+   "titleEn": "Salaam Bombay!",
+   "titleZh": "",
+   "countryRaw": "India",
+   "director": "Mira Nair",
+   "result": "nominee",
+   "honorary": false,
+   "country": "印度",
+   "iso": "IN",
+   "continent": "亚洲",
+   "lnglat": [
+    79.0,
+    22.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/170.jpg"
+  },
+  {
+   "ceremonyYear": 1989,
+   "filmYear": 1988,
+   "ceremony": 61,
+   "titleEn": "Women on the Verge of a Nervous Breakdown",
+   "titleZh": "",
+   "countryRaw": "Spain",
+   "director": "Pedro Almodóvar",
+   "result": "nominee",
+   "honorary": false,
+   "country": "西班牙",
+   "iso": "ES",
+   "continent": "欧洲",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/171.jpg"
+  },
+  {
+   "ceremonyYear": 1989,
+   "filmYear": 1988,
+   "ceremony": 61,
+   "titleEn": "Hanussen",
+   "titleZh": "",
+   "countryRaw": "Hungary",
+   "director": "István Szabó",
+   "result": "nominee",
+   "honorary": false,
+   "country": "匈牙利",
+   "iso": "HU",
+   "continent": "欧洲",
+   "lnglat": [
+    19.5,
+    47.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/172.jpg"
+  },
+  {
+   "ceremonyYear": 1989,
+   "filmYear": 1988,
+   "ceremony": 61,
+   "titleEn": "The Music Teacher",
+   "titleZh": "",
+   "countryRaw": "Belgium",
+   "director": "Gérard Corbiau",
+   "result": "nominee",
+   "honorary": false,
+   "country": "比利时",
+   "iso": "BE",
+   "continent": "欧洲",
+   "lnglat": [
+    4.5,
+    50.5
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/173.jpg"
+  },
+  {
+   "ceremonyYear": 1990,
+   "filmYear": 1989,
+   "ceremony": 62,
+   "titleEn": "Cinema Paradiso",
+   "titleZh": "天堂电影院",
+   "countryRaw": "Italy",
+   "director": "Giuseppe Tornatore",
+   "result": "winner",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/174.jpg"
+  },
+  {
+   "ceremonyYear": 1990,
+   "filmYear": 1989,
+   "ceremony": 62,
+   "titleEn": "Camille Claudel",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Bruno Nuytten",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/175.jpg"
+  },
+  {
+   "ceremonyYear": 1990,
+   "filmYear": 1989,
+   "ceremony": 62,
+   "titleEn": "Jesus of Montreal",
+   "titleZh": "",
+   "countryRaw": "Canada",
+   "director": "Denys Arcand",
+   "result": "nominee",
+   "honorary": false,
+   "country": "加拿大",
+   "iso": "CA",
+   "continent": "美洲",
+   "lnglat": [
+    -106.3,
+    56.1
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/176.jpg"
+  },
+  {
+   "ceremonyYear": 1990,
+   "filmYear": 1989,
+   "ceremony": 62,
+   "titleEn": "Waltzing Regitze",
+   "titleZh": "",
+   "countryRaw": "Denmark",
+   "director": "Kaspar Rostrup",
+   "result": "nominee",
+   "honorary": false,
+   "country": "丹麦",
+   "iso": "DK",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    56.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/177.jpg"
+  },
+  {
+   "ceremonyYear": 1990,
+   "filmYear": 1989,
+   "ceremony": 62,
+   "titleEn": "What Happened to Santiago",
+   "titleZh": "",
+   "countryRaw": "Puerto Rico",
+   "director": "Jacobo Morales",
+   "result": "nominee",
+   "honorary": false,
+   "country": "波多黎各",
+   "iso": "PR",
+   "continent": "美洲",
+   "lnglat": [
+    -66.5,
+    18.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/178.jpg"
+  },
+  {
+   "ceremonyYear": 1991,
+   "filmYear": 1990,
+   "ceremony": 63,
+   "titleEn": "Journey of Hope",
+   "titleZh": "希望之旅",
+   "countryRaw": "Switzerland",
+   "director": "Xavier Koller",
+   "result": "winner",
+   "honorary": false,
+   "country": "瑞士",
+   "iso": "CH",
+   "continent": "欧洲",
+   "lnglat": [
+    8.2,
+    46.8
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/179.jpg"
+  },
+  {
+   "ceremonyYear": 1991,
+   "filmYear": 1990,
+   "ceremony": 63,
+   "titleEn": "Cyrano de Bergerac",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Jean-Paul Rappeneau",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/180.jpg"
+  },
+  {
+   "ceremonyYear": 1991,
+   "filmYear": 1990,
+   "ceremony": 63,
+   "titleEn": "Ju Dou",
+   "titleZh": "",
+   "countryRaw": "China, Zhang Yimou",
+   "director": "Zhang Yimou, Yang Fengliang",
+   "result": "nominee",
+   "honorary": false,
+   "country": "中国",
+   "iso": "CN",
+   "continent": "亚洲",
+   "lnglat": [
+    104.0,
+    35.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/181.jpg"
+  },
+  {
+   "ceremonyYear": 1991,
+   "filmYear": 1990,
+   "ceremony": 63,
+   "titleEn": "Open Doors",
+   "titleZh": "",
+   "countryRaw": "Italy",
+   "director": "Gianni Amelio",
+   "result": "nominee",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/182.jpg"
+  },
+  {
+   "ceremonyYear": 1991,
+   "filmYear": 1990,
+   "ceremony": 63,
+   "titleEn": "The Nasty Girl",
+   "titleZh": "",
+   "countryRaw": "Germany",
+   "director": "Michael Verhoeven",
+   "result": "nominee",
+   "honorary": false,
+   "country": "德国",
+   "iso": "DE",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/183.jpg"
+  },
+  {
+   "ceremonyYear": 1992,
+   "filmYear": 1991,
+   "ceremony": 64,
+   "titleEn": "Mediterraneo",
+   "titleZh": "地中海",
+   "countryRaw": "Italy",
+   "director": "Gabriele Salvatores",
+   "result": "winner",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/184.jpg"
+  },
+  {
+   "ceremonyYear": 1992,
+   "filmYear": 1991,
+   "ceremony": 64,
+   "titleEn": "The Ox",
+   "titleZh": "",
+   "countryRaw": "Sweden",
+   "director": "Sven Nykvist",
+   "result": "nominee",
+   "honorary": false,
+   "country": "瑞典",
+   "iso": "SE",
+   "continent": "欧洲",
+   "lnglat": [
+    15.0,
+    62.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/185.jpg"
+  },
+  {
+   "ceremonyYear": 1992,
+   "filmYear": 1991,
+   "ceremony": 64,
+   "titleEn": "Children of Nature",
+   "titleZh": "",
+   "countryRaw": "Iceland",
+   "director": "Friðrik Þór Friðriksson",
+   "result": "nominee",
+   "honorary": false,
+   "country": "冰岛",
+   "iso": "IS",
+   "continent": "欧洲",
+   "lnglat": [
+    -19.0,
+    64.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/186.jpg"
+  },
+  {
+   "ceremonyYear": 1992,
+   "filmYear": 1991,
+   "ceremony": 64,
+   "titleEn": "The Elementary School",
+   "titleZh": "",
+   "countryRaw": "Czechoslovakia",
+   "director": "Jan Svěrák",
+   "result": "nominee",
+   "honorary": false,
+   "country": "捷克",
+   "iso": "CZ",
+   "continent": "欧洲",
+   "lnglat": [
+    15.5,
+    49.8
+   ],
+   "countryNote": "原捷克斯洛伐克选送",
+   "poster": "/maps/oscar-best-film/data/posters/187.jpg"
+  },
+  {
+   "ceremonyYear": 1992,
+   "filmYear": 1991,
+   "ceremony": 64,
+   "titleEn": "Raise the Red Lantern",
+   "titleZh": "",
+   "countryRaw": "Hong Kong",
+   "director": "Zhang Yimou",
+   "result": "nominee",
+   "honorary": false,
+   "country": "中国",
+   "iso": "CN",
+   "continent": "亚洲",
+   "lnglat": [
+    104.0,
+    35.0
+   ],
+   "countryNote": "中国香港地区选送",
+   "poster": "/maps/oscar-best-film/data/posters/188.jpg"
+  },
+  {
+   "ceremonyYear": 1993,
+   "filmYear": 1992,
+   "ceremony": 65,
+   "titleEn": "Indochine",
+   "titleZh": "印度支那",
+   "countryRaw": "France",
+   "director": "Régis Wargnier",
+   "result": "winner",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/189.jpg"
+  },
+  {
+   "ceremonyYear": 1993,
+   "filmYear": 1992,
+   "ceremony": 65,
+   "titleEn": "A Place in the World",
+   "titleZh": "",
+   "countryRaw": "Uruguay",
+   "director": "Adolfo Aristarain",
+   "result": "nominee",
+   "honorary": false,
+   "country": "乌拉圭",
+   "iso": "UY",
+   "continent": "美洲",
+   "lnglat": [
+    -56.0,
+    -33.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/190.jpg"
+  },
+  {
+   "ceremonyYear": 1993,
+   "filmYear": 1992,
+   "ceremony": 65,
+   "titleEn": "Close to Eden",
+   "titleZh": "",
+   "countryRaw": "Russia",
+   "director": "Nikita Mikhalkov",
+   "result": "nominee",
+   "honorary": false,
+   "country": "俄罗斯",
+   "iso": "RU",
+   "continent": "欧洲",
+   "lnglat": [
+    95.0,
+    61.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/191.jpg"
+  },
+  {
+   "ceremonyYear": 1993,
+   "filmYear": 1992,
+   "ceremony": 65,
+   "titleEn": "Daens",
+   "titleZh": "",
+   "countryRaw": "Belgium",
+   "director": "Stijn Coninx",
+   "result": "nominee",
+   "honorary": false,
+   "country": "比利时",
+   "iso": "BE",
+   "continent": "欧洲",
+   "lnglat": [
+    4.5,
+    50.5
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/192.jpg"
+  },
+  {
+   "ceremonyYear": 1993,
+   "filmYear": 1992,
+   "ceremony": 65,
+   "titleEn": "Schtonk!",
+   "titleZh": "",
+   "countryRaw": "Germany",
+   "director": "Helmut Dietl",
+   "result": "nominee",
+   "honorary": false,
+   "country": "德国",
+   "iso": "DE",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/193.jpg"
+  },
+  {
+   "ceremonyYear": 1994,
+   "filmYear": 1993,
+   "ceremony": 66,
+   "titleEn": "Belle Époque",
+   "titleZh": "四千金的情人",
+   "countryRaw": "Spain",
+   "director": "Fernando Trueba",
+   "result": "winner",
+   "honorary": false,
+   "country": "西班牙",
+   "iso": "ES",
+   "continent": "欧洲",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/194.jpg"
+  },
+  {
+   "ceremonyYear": 1994,
+   "filmYear": 1993,
+   "ceremony": 66,
+   "titleEn": "The Wedding Banquet",
+   "titleZh": "",
+   "countryRaw": "Taiwan",
+   "director": "Ang Lee",
+   "result": "nominee",
+   "honorary": false,
+   "country": "中国",
+   "iso": "CN",
+   "continent": "亚洲",
+   "lnglat": [
+    104.0,
+    35.0
+   ],
+   "countryNote": "中国台湾地区选送",
+   "poster": "/maps/oscar-best-film/data/posters/195.jpg"
+  },
+  {
+   "ceremonyYear": 1994,
+   "filmYear": 1993,
+   "ceremony": 66,
+   "titleEn": "Farewell My Concubine",
+   "titleZh": "",
+   "countryRaw": "Hong Kong",
+   "director": "Chen Kaige",
+   "result": "nominee",
+   "honorary": false,
+   "country": "中国",
+   "iso": "CN",
+   "continent": "亚洲",
+   "lnglat": [
+    104.0,
+    35.0
+   ],
+   "countryNote": "中国香港地区选送",
+   "poster": "/maps/oscar-best-film/data/posters/196.jpg"
+  },
+  {
+   "ceremonyYear": 1994,
+   "filmYear": 1993,
+   "ceremony": 66,
+   "titleEn": "Hedd Wyn",
+   "titleZh": "",
+   "countryRaw": "United Kingdom",
+   "director": "Paul Turner",
+   "result": "nominee",
+   "honorary": false,
+   "country": "英国",
+   "iso": "GB",
+   "continent": "欧洲",
+   "lnglat": [
+    -2.0,
+    54.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/197.jpg"
+  },
+  {
+   "ceremonyYear": 1994,
+   "filmYear": 1993,
+   "ceremony": 66,
+   "titleEn": "The Scent of Green Papaya",
+   "titleZh": "",
+   "countryRaw": "Vietnam",
+   "director": "Trần Anh Hùng",
+   "result": "nominee",
+   "honorary": false,
+   "country": "越南",
+   "iso": "VN",
+   "continent": "亚洲",
+   "lnglat": [
+    106.0,
+    16.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/198.jpg"
+  },
+  {
+   "ceremonyYear": 1995,
+   "filmYear": 1994,
+   "ceremony": 67,
+   "titleEn": "Burnt by the Sun",
+   "titleZh": "烈日灼人",
+   "countryRaw": "Russia",
+   "director": "Nikita Mikhalkov",
+   "result": "winner",
+   "honorary": false,
+   "country": "俄罗斯",
+   "iso": "RU",
+   "continent": "欧洲",
+   "lnglat": [
+    95.0,
+    61.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/199.jpg"
+  },
+  {
+   "ceremonyYear": 1995,
+   "filmYear": 1994,
+   "ceremony": 67,
+   "titleEn": "Strawberry and Chocolate",
+   "titleZh": "",
+   "countryRaw": "Cuba, Tomás Gutiérrez Alea",
+   "director": "Tomás Gutiérrez Alea, Juan Carlos Tabío",
+   "result": "nominee",
+   "honorary": false,
+   "country": "古巴",
+   "iso": "CU",
+   "continent": "美洲",
+   "lnglat": [
+    -79.0,
+    22.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/200.jpg"
+  },
+  {
+   "ceremonyYear": 1995,
+   "filmYear": 1994,
+   "ceremony": 67,
+   "titleEn": "Eat Drink Man Woman",
+   "titleZh": "",
+   "countryRaw": "Taiwan",
+   "director": "Ang Lee",
+   "result": "nominee",
+   "honorary": false,
+   "country": "中国",
+   "iso": "CN",
+   "continent": "亚洲",
+   "lnglat": [
+    104.0,
+    35.0
+   ],
+   "countryNote": "中国台湾地区选送",
+   "poster": "/maps/oscar-best-film/data/posters/201.jpg"
+  },
+  {
+   "ceremonyYear": 1995,
+   "filmYear": 1994,
+   "ceremony": 67,
+   "titleEn": "Before the Rain",
+   "titleZh": "",
+   "countryRaw": "Macedonia",
+   "director": "Milčo Mančevski",
+   "result": "nominee",
+   "honorary": false,
+   "country": "北马其顿",
+   "iso": "MK",
+   "continent": "欧洲",
+   "lnglat": [
+    21.4,
+    41.6
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/202.jpg"
+  },
+  {
+   "ceremonyYear": 1995,
+   "filmYear": 1994,
+   "ceremony": 67,
+   "titleEn": "Farinelli: Il Castrato",
+   "titleZh": "",
+   "countryRaw": "Belgium",
+   "director": "Gérard Corbiau",
+   "result": "nominee",
+   "honorary": false,
+   "country": "比利时",
+   "iso": "BE",
+   "continent": "欧洲",
+   "lnglat": [
+    4.5,
+    50.5
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/203.jpg"
+  },
+  {
+   "ceremonyYear": 1996,
+   "filmYear": 1995,
+   "ceremony": 68,
+   "titleEn": "Antonia's Line",
+   "titleZh": "安东尼亚家族",
+   "countryRaw": "Netherlands",
+   "director": "Marleen Gorris",
+   "result": "winner",
+   "honorary": false,
+   "country": "荷兰",
+   "iso": "NL",
+   "continent": "欧洲",
+   "lnglat": [
+    5.3,
+    52.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/204.jpg"
+  },
+  {
+   "ceremonyYear": 1996,
+   "filmYear": 1995,
+   "ceremony": 68,
+   "titleEn": "All Things Fair",
+   "titleZh": "",
+   "countryRaw": "Sweden",
+   "director": "Bo Widerberg",
+   "result": "nominee",
+   "honorary": false,
+   "country": "瑞典",
+   "iso": "SE",
+   "continent": "欧洲",
+   "lnglat": [
+    15.0,
+    62.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/205.jpg"
+  },
+  {
+   "ceremonyYear": 1996,
+   "filmYear": 1995,
+   "ceremony": 68,
+   "titleEn": "Dust of Life",
+   "titleZh": "",
+   "countryRaw": "Algeria",
+   "director": "Rachid Bouchareb",
+   "result": "nominee",
+   "honorary": false,
+   "country": "阿尔及利亚",
+   "iso": "DZ",
+   "continent": "非洲",
+   "lnglat": [
+    2.6,
+    28.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/206.jpg"
+  },
+  {
+   "ceremonyYear": 1996,
+   "filmYear": 1995,
+   "ceremony": 68,
+   "titleEn": "O Quatrilho",
+   "titleZh": "",
+   "countryRaw": "Brazil",
+   "director": "Fábio Barreto",
+   "result": "nominee",
+   "honorary": false,
+   "country": "巴西",
+   "iso": "BR",
+   "continent": "美洲",
+   "lnglat": [
+    -51.9,
+    -14.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/207.jpg"
+  },
+  {
+   "ceremonyYear": 1996,
+   "filmYear": 1995,
+   "ceremony": 68,
+   "titleEn": "The Star Maker",
+   "titleZh": "",
+   "countryRaw": "Italy",
+   "director": "Giuseppe Tornatore",
+   "result": "nominee",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/208.jpg"
+  },
+  {
+   "ceremonyYear": 1997,
+   "filmYear": 1996,
+   "ceremony": 69,
+   "titleEn": "Kolya",
+   "titleZh": "给我一个爸",
+   "countryRaw": "Czech Republic",
+   "director": "Jan Svěrák",
+   "result": "winner",
+   "honorary": false,
+   "country": "捷克",
+   "iso": "CZ",
+   "continent": "欧洲",
+   "lnglat": [
+    15.5,
+    49.8
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/209.jpg"
+  },
+  {
+   "ceremonyYear": 1997,
+   "filmYear": 1996,
+   "ceremony": 69,
+   "titleEn": "A Chef in Love",
+   "titleZh": "",
+   "countryRaw": "Georgia",
+   "director": "Nana Dzhordzhadze",
+   "result": "nominee",
+   "honorary": false,
+   "country": "格鲁吉亚",
+   "iso": "GE",
+   "continent": "亚洲",
+   "lnglat": [
+    43.5,
+    42.3
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/210.jpg"
+  },
+  {
+   "ceremonyYear": 1997,
+   "filmYear": 1996,
+   "ceremony": 69,
+   "titleEn": "The Other Side of Sunday",
+   "titleZh": "",
+   "countryRaw": "Norway",
+   "director": "Berit Nesheim",
+   "result": "nominee",
+   "honorary": false,
+   "country": "挪威",
+   "iso": "NO",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    61.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/211.jpg"
+  },
+  {
+   "ceremonyYear": 1997,
+   "filmYear": 1996,
+   "ceremony": 69,
+   "titleEn": "Prisoner of the Mountains",
+   "titleZh": "",
+   "countryRaw": "Russia",
+   "director": "Sergei Bodrov",
+   "result": "nominee",
+   "honorary": false,
+   "country": "俄罗斯",
+   "iso": "RU",
+   "continent": "欧洲",
+   "lnglat": [
+    95.0,
+    61.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/212.jpg"
+  },
+  {
+   "ceremonyYear": 1997,
+   "filmYear": 1996,
+   "ceremony": 69,
+   "titleEn": "Ridicule",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Patrice Leconte",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/213.jpg"
+  },
+  {
+   "ceremonyYear": 1998,
+   "filmYear": 1997,
+   "ceremony": 70,
+   "titleEn": "Character",
+   "titleZh": "角色",
+   "countryRaw": "Netherlands",
+   "director": "Mike van Diem",
+   "result": "winner",
+   "honorary": false,
+   "country": "荷兰",
+   "iso": "NL",
+   "continent": "欧洲",
+   "lnglat": [
+    5.3,
+    52.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/214.jpg"
+  },
+  {
+   "ceremonyYear": 1998,
+   "filmYear": 1997,
+   "ceremony": 70,
+   "titleEn": "Beyond Silence",
+   "titleZh": "",
+   "countryRaw": "Germany",
+   "director": "Caroline Link",
+   "result": "nominee",
+   "honorary": false,
+   "country": "德国",
+   "iso": "DE",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/215.jpg"
+  },
+  {
+   "ceremonyYear": 1998,
+   "filmYear": 1997,
+   "ceremony": 70,
+   "titleEn": "Four Days in September",
+   "titleZh": "",
+   "countryRaw": "Brazil",
+   "director": "Bruno Barreto",
+   "result": "nominee",
+   "honorary": false,
+   "country": "巴西",
+   "iso": "BR",
+   "continent": "美洲",
+   "lnglat": [
+    -51.9,
+    -14.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/216.jpg"
+  },
+  {
+   "ceremonyYear": 1998,
+   "filmYear": 1997,
+   "ceremony": 70,
+   "titleEn": "Secrets of the Heart",
+   "titleZh": "",
+   "countryRaw": "Spain",
+   "director": "Montxo Armendáriz",
+   "result": "nominee",
+   "honorary": false,
+   "country": "西班牙",
+   "iso": "ES",
+   "continent": "欧洲",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/217.jpg"
+  },
+  {
+   "ceremonyYear": 1998,
+   "filmYear": 1997,
+   "ceremony": 70,
+   "titleEn": "The Thief",
+   "titleZh": "",
+   "countryRaw": "Russia",
+   "director": "Pavel Chukhray",
+   "result": "nominee",
+   "honorary": false,
+   "country": "俄罗斯",
+   "iso": "RU",
+   "continent": "欧洲",
+   "lnglat": [
+    95.0,
+    61.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/218.jpg"
+  },
+  {
+   "ceremonyYear": 1999,
+   "filmYear": 1998,
+   "ceremony": 71,
+   "titleEn": "Life Is Beautiful",
+   "titleZh": "美丽人生",
+   "countryRaw": "Italy",
+   "director": "Roberto Benigni",
+   "result": "winner",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/219.jpg"
+  },
+  {
+   "ceremonyYear": 1999,
+   "filmYear": 1998,
+   "ceremony": 71,
+   "titleEn": "Central Station",
+   "titleZh": "",
+   "countryRaw": "Brazil",
+   "director": "Walter Salles",
+   "result": "nominee",
+   "honorary": false,
+   "country": "巴西",
+   "iso": "BR",
+   "continent": "美洲",
+   "lnglat": [
+    -51.9,
+    -14.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/220.jpg"
+  },
+  {
+   "ceremonyYear": 1999,
+   "filmYear": 1998,
+   "ceremony": 71,
+   "titleEn": "Children of Heaven",
+   "titleZh": "",
+   "countryRaw": "Iran",
+   "director": "Majid Majidi",
+   "result": "nominee",
+   "honorary": false,
+   "country": "伊朗",
+   "iso": "IR",
+   "continent": "亚洲",
+   "lnglat": [
+    53.7,
+    32.4
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/221.jpg"
+  },
+  {
+   "ceremonyYear": 1999,
+   "filmYear": 1998,
+   "ceremony": 71,
+   "titleEn": "The Grandfather",
+   "titleZh": "",
+   "countryRaw": "Spain",
+   "director": "José Luis Garci",
+   "result": "nominee",
+   "honorary": false,
+   "country": "西班牙",
+   "iso": "ES",
+   "continent": "欧洲",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/222.jpg"
+  },
+  {
+   "ceremonyYear": 1999,
+   "filmYear": 1998,
+   "ceremony": 71,
+   "titleEn": "Tango",
+   "titleZh": "",
+   "countryRaw": "Argentina",
+   "director": "Carlos Saura",
+   "result": "nominee",
+   "honorary": false,
+   "country": "阿根廷",
+   "iso": "AR",
+   "continent": "美洲",
+   "lnglat": [
+    -63.6,
+    -35.7
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/223.jpg"
+  },
+  {
+   "ceremonyYear": 2000,
+   "filmYear": 1999,
+   "ceremony": 72,
+   "titleEn": "All About My Mother",
+   "titleZh": "关于我母亲的一切",
+   "countryRaw": "Spain",
+   "director": "Pedro Almodóvar",
+   "result": "winner",
+   "honorary": false,
+   "country": "西班牙",
+   "iso": "ES",
+   "continent": "欧洲",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/224.jpg"
+  },
+  {
+   "ceremonyYear": 2000,
+   "filmYear": 1999,
+   "ceremony": 72,
+   "titleEn": "Himalaya",
+   "titleZh": "",
+   "countryRaw": "Nepal",
+   "director": "Eric Valli",
+   "result": "nominee",
+   "honorary": false,
+   "country": "尼泊尔",
+   "iso": "NP",
+   "continent": "亚洲",
+   "lnglat": [
+    84.0,
+    28.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/225.jpg"
+  },
+  {
+   "ceremonyYear": 2000,
+   "filmYear": 1999,
+   "ceremony": 72,
+   "titleEn": "East-West",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Régis Wargnier",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/226.jpg"
+  },
+  {
+   "ceremonyYear": 2000,
+   "filmYear": 1999,
+   "ceremony": 72,
+   "titleEn": "Solomon and Gaenor",
+   "titleZh": "",
+   "countryRaw": "United Kingdom",
+   "director": "Paul Morrison",
+   "result": "nominee",
+   "honorary": false,
+   "country": "英国",
+   "iso": "GB",
+   "continent": "欧洲",
+   "lnglat": [
+    -2.0,
+    54.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/227.jpg"
+  },
+  {
+   "ceremonyYear": 2000,
+   "filmYear": 1999,
+   "ceremony": 72,
+   "titleEn": "Under the Sun",
+   "titleZh": "",
+   "countryRaw": "Sweden",
+   "director": "Colin Nutley",
+   "result": "nominee",
+   "honorary": false,
+   "country": "瑞典",
+   "iso": "SE",
+   "continent": "欧洲",
+   "lnglat": [
+    15.0,
+    62.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/228.jpg"
+  },
+  {
+   "ceremonyYear": 2001,
+   "filmYear": 2000,
+   "ceremony": 73,
+   "titleEn": "Crouching Tiger, Hidden Dragon",
+   "titleZh": "卧虎藏龙",
+   "countryRaw": "Taiwan",
+   "director": "Ang Lee",
+   "result": "winner",
+   "honorary": false,
+   "country": "中国",
+   "iso": "CN",
+   "continent": "亚洲",
+   "lnglat": [
+    104.0,
+    35.0
+   ],
+   "countryNote": "中国台湾地区选送",
+   "poster": "/maps/oscar-best-film/data/posters/229.jpg"
+  },
+  {
+   "ceremonyYear": 2001,
+   "filmYear": 2000,
+   "ceremony": 73,
+   "titleEn": "Amores Perros",
+   "titleZh": "",
+   "countryRaw": "Mexico",
+   "director": "Alejandro González Iñárritu",
+   "result": "nominee",
+   "honorary": false,
+   "country": "墨西哥",
+   "iso": "MX",
+   "continent": "美洲",
+   "lnglat": [
+    -102.5,
+    23.6
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/230.jpg"
+  },
+  {
+   "ceremonyYear": 2001,
+   "filmYear": 2000,
+   "ceremony": 73,
+   "titleEn": "Divided We Fall",
+   "titleZh": "",
+   "countryRaw": "Czech Republic",
+   "director": "Jan Hřebejk",
+   "result": "nominee",
+   "honorary": false,
+   "country": "捷克",
+   "iso": "CZ",
+   "continent": "欧洲",
+   "lnglat": [
+    15.5,
+    49.8
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/231.jpg"
+  },
+  {
+   "ceremonyYear": 2001,
+   "filmYear": 2000,
+   "ceremony": 73,
+   "titleEn": "Everybody's Famous!",
+   "titleZh": "",
+   "countryRaw": "Belgium",
+   "director": "Dominique Deruddere",
+   "result": "nominee",
+   "honorary": false,
+   "country": "比利时",
+   "iso": "BE",
+   "continent": "欧洲",
+   "lnglat": [
+    4.5,
+    50.5
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/232.jpg"
+  },
+  {
+   "ceremonyYear": 2001,
+   "filmYear": 2000,
+   "ceremony": 73,
+   "titleEn": "The Taste of Others",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Agnès Jaoui",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/233.jpg"
+  },
+  {
+   "ceremonyYear": 2002,
+   "filmYear": 2001,
+   "ceremony": 74,
+   "titleEn": "No Man's Land",
+   "titleZh": "无主之地",
+   "countryRaw": "Bosnia and Herzegovina",
+   "director": "Danis Tanović",
+   "result": "winner",
+   "honorary": false,
+   "country": "波黑",
+   "iso": "BA",
+   "continent": "欧洲",
+   "lnglat": [
+    17.9,
+    43.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/234.jpg"
+  },
+  {
+   "ceremonyYear": 2002,
+   "filmYear": 2001,
+   "ceremony": 74,
+   "titleEn": "Amélie",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Jean-Pierre Jeunet",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/235.jpg"
+  },
+  {
+   "ceremonyYear": 2002,
+   "filmYear": 2001,
+   "ceremony": 74,
+   "titleEn": "Elling",
+   "titleZh": "",
+   "countryRaw": "Norway",
+   "director": "Petter Næss",
+   "result": "nominee",
+   "honorary": false,
+   "country": "挪威",
+   "iso": "NO",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    61.0
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 2002,
+   "filmYear": 2001,
+   "ceremony": 74,
+   "titleEn": "Lagaan",
+   "titleZh": "",
+   "countryRaw": "India",
+   "director": "Ashutosh Gowariker",
+   "result": "nominee",
+   "honorary": false,
+   "country": "印度",
+   "iso": "IN",
+   "continent": "亚洲",
+   "lnglat": [
+    79.0,
+    22.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/237.jpg"
+  },
+  {
+   "ceremonyYear": 2002,
+   "filmYear": 2001,
+   "ceremony": 74,
+   "titleEn": "Son of the Bride",
+   "titleZh": "",
+   "countryRaw": "Argentina",
+   "director": "Juan J. Campanella",
+   "result": "nominee",
+   "honorary": false,
+   "country": "阿根廷",
+   "iso": "AR",
+   "continent": "美洲",
+   "lnglat": [
+    -63.6,
+    -35.7
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/238.jpg"
+  },
+  {
+   "ceremonyYear": 2003,
+   "filmYear": 2002,
+   "ceremony": 75,
+   "titleEn": "Nowhere in Africa",
+   "titleZh": "何处是我家",
+   "countryRaw": "Germany",
+   "director": "Caroline Link",
+   "result": "winner",
+   "honorary": false,
+   "country": "德国",
+   "iso": "DE",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/239.jpg"
+  },
+  {
+   "ceremonyYear": 2003,
+   "filmYear": 2002,
+   "ceremony": 75,
+   "titleEn": "The Crime of Father Amaro",
+   "titleZh": "",
+   "countryRaw": "Mexico",
+   "director": "Carlos Carrera",
+   "result": "nominee",
+   "honorary": false,
+   "country": "墨西哥",
+   "iso": "MX",
+   "continent": "美洲",
+   "lnglat": [
+    -102.5,
+    23.6
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/240.jpg"
+  },
+  {
+   "ceremonyYear": 2003,
+   "filmYear": 2002,
+   "ceremony": 75,
+   "titleEn": "Hero",
+   "titleZh": "",
+   "countryRaw": "China",
+   "director": "Zhang Yimou",
+   "result": "nominee",
+   "honorary": false,
+   "country": "中国",
+   "iso": "CN",
+   "continent": "亚洲",
+   "lnglat": [
+    104.0,
+    35.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/241.jpg"
+  },
+  {
+   "ceremonyYear": 2003,
+   "filmYear": 2002,
+   "ceremony": 75,
+   "titleEn": "The Man Without a Past",
+   "titleZh": "",
+   "countryRaw": "Finland",
+   "director": "Aki Kaurismäki",
+   "result": "nominee",
+   "honorary": false,
+   "country": "芬兰",
+   "iso": "FI",
+   "continent": "欧洲",
+   "lnglat": [
+    26.0,
+    64.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/242.jpg"
+  },
+  {
+   "ceremonyYear": 2003,
+   "filmYear": 2002,
+   "ceremony": 75,
+   "titleEn": "Zus & Zo",
+   "titleZh": "",
+   "countryRaw": "Netherlands",
+   "director": "Paula van der Oest",
+   "result": "nominee",
+   "honorary": false,
+   "country": "荷兰",
+   "iso": "NL",
+   "continent": "欧洲",
+   "lnglat": [
+    5.3,
+    52.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/243.jpg"
+  },
+  {
+   "ceremonyYear": 2004,
+   "filmYear": 2003,
+   "ceremony": 76,
+   "titleEn": "The Barbarian Invasions",
+   "titleZh": "野蛮入侵",
+   "countryRaw": "Canada",
+   "director": "Denys Arcand",
+   "result": "winner",
+   "honorary": false,
+   "country": "加拿大",
+   "iso": "CA",
+   "continent": "美洲",
+   "lnglat": [
+    -106.3,
+    56.1
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/244.jpg"
+  },
+  {
+   "ceremonyYear": 2004,
+   "filmYear": 2003,
+   "ceremony": 76,
+   "titleEn": "Evil Ondskan",
+   "titleZh": "",
+   "countryRaw": "Sweden",
+   "director": "Mikael Håfström",
+   "result": "nominee",
+   "honorary": false,
+   "country": "瑞典",
+   "iso": "SE",
+   "continent": "欧洲",
+   "lnglat": [
+    15.0,
+    62.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/245.jpg"
+  },
+  {
+   "ceremonyYear": 2004,
+   "filmYear": 2003,
+   "ceremony": 76,
+   "titleEn": "The Twilight Samurai",
+   "titleZh": "",
+   "countryRaw": "Japan",
+   "director": "Yoji Yamada",
+   "result": "nominee",
+   "honorary": false,
+   "country": "日本",
+   "iso": "JP",
+   "continent": "亚洲",
+   "lnglat": [
+    138.3,
+    36.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/246.jpg"
+  },
+  {
+   "ceremonyYear": 2004,
+   "filmYear": 2003,
+   "ceremony": 76,
+   "titleEn": "Twin Sisters",
+   "titleZh": "",
+   "countryRaw": "Netherlands",
+   "director": "Ben Sombogaart",
+   "result": "nominee",
+   "honorary": false,
+   "country": "荷兰",
+   "iso": "NL",
+   "continent": "欧洲",
+   "lnglat": [
+    5.3,
+    52.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/247.jpg"
+  },
+  {
+   "ceremonyYear": 2004,
+   "filmYear": 2003,
+   "ceremony": 76,
+   "titleEn": "Želary",
+   "titleZh": "",
+   "countryRaw": "Czech Republic",
+   "director": "Ondřej Trojan",
+   "result": "nominee",
+   "honorary": false,
+   "country": "捷克",
+   "iso": "CZ",
+   "continent": "欧洲",
+   "lnglat": [
+    15.5,
+    49.8
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/248.jpg"
+  },
+  {
+   "ceremonyYear": 2005,
+   "filmYear": 2004,
+   "ceremony": 77,
+   "titleEn": "The Sea Inside",
+   "titleZh": "深海长眠",
+   "countryRaw": "Spain",
+   "director": "Alejandro Amenábar",
+   "result": "winner",
+   "honorary": false,
+   "country": "西班牙",
+   "iso": "ES",
+   "continent": "欧洲",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/249.jpg"
+  },
+  {
+   "ceremonyYear": 2005,
+   "filmYear": 2004,
+   "ceremony": 77,
+   "titleEn": "Downfall",
+   "titleZh": "",
+   "countryRaw": "Germany",
+   "director": "Oliver Hirschbiegel",
+   "result": "nominee",
+   "honorary": false,
+   "country": "德国",
+   "iso": "DE",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 2005,
+   "filmYear": 2004,
+   "ceremony": 77,
+   "titleEn": "As It Is in Heaven",
+   "titleZh": "",
+   "countryRaw": "Sweden",
+   "director": "Kay Pollak",
+   "result": "nominee",
+   "honorary": false,
+   "country": "瑞典",
+   "iso": "SE",
+   "continent": "欧洲",
+   "lnglat": [
+    15.0,
+    62.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/251.jpg"
+  },
+  {
+   "ceremonyYear": 2005,
+   "filmYear": 2004,
+   "ceremony": 77,
+   "titleEn": "The Chorus (France, Christophe Barratier) Yesterday",
+   "titleZh": "",
+   "countryRaw": "South Africa",
+   "director": "Darrell Roodt",
+   "result": "nominee",
+   "honorary": false,
+   "country": "南非",
+   "iso": "ZA",
+   "continent": "非洲",
+   "lnglat": [
+    25.0,
+    -29.0
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 2006,
+   "filmYear": 2005,
+   "ceremony": 78,
+   "titleEn": "Tsotsi",
+   "titleZh": "黑帮暴徒",
+   "countryRaw": "South Africa",
+   "director": "Gavin Hood",
+   "result": "winner",
+   "honorary": false,
+   "country": "南非",
+   "iso": "ZA",
+   "continent": "非洲",
+   "lnglat": [
+    25.0,
+    -29.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/253.jpg"
+  },
+  {
+   "ceremonyYear": 2006,
+   "filmYear": 2005,
+   "ceremony": 78,
+   "titleEn": "Don't Tell",
+   "titleZh": "",
+   "countryRaw": "Italy",
+   "director": "Cristina Comencini",
+   "result": "nominee",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/254.jpg"
+  },
+  {
+   "ceremonyYear": 2006,
+   "filmYear": 2005,
+   "ceremony": 78,
+   "titleEn": "Joyeux Noël",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Christian Carion",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/255.jpg"
+  },
+  {
+   "ceremonyYear": 2006,
+   "filmYear": 2005,
+   "ceremony": 78,
+   "titleEn": "Paradise Now",
+   "titleZh": "",
+   "countryRaw": "Palestine",
+   "director": "Hany Abu-Assad",
+   "result": "nominee",
+   "honorary": false,
+   "country": "巴勒斯坦",
+   "iso": "PS",
+   "continent": "亚洲",
+   "lnglat": [
+    35.2,
+    31.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/256.jpg"
+  },
+  {
+   "ceremonyYear": 2006,
+   "filmYear": 2005,
+   "ceremony": 78,
+   "titleEn": "Sophie Scholl — The Final Days",
+   "titleZh": "",
+   "countryRaw": "Germany",
+   "director": "Marc Rothemund",
+   "result": "nominee",
+   "honorary": false,
+   "country": "德国",
+   "iso": "DE",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/257.jpg"
+  },
+  {
+   "ceremonyYear": 2007,
+   "filmYear": 2006,
+   "ceremony": 79,
+   "titleEn": "The Lives of Others",
+   "titleZh": "窃听风暴",
+   "countryRaw": "Germany",
+   "director": "Florian Henckel von Donnersmarck",
+   "result": "winner",
+   "honorary": false,
+   "country": "德国",
+   "iso": "DE",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/258.jpg"
+  },
+  {
+   "ceremonyYear": 2007,
+   "filmYear": 2006,
+   "ceremony": 79,
+   "titleEn": "Pan's Labyrinth",
+   "titleZh": "",
+   "countryRaw": "Mexico",
+   "director": "Guillermo del Toro",
+   "result": "nominee",
+   "honorary": false,
+   "country": "墨西哥",
+   "iso": "MX",
+   "continent": "美洲",
+   "lnglat": [
+    -102.5,
+    23.6
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/259.jpg"
+  },
+  {
+   "ceremonyYear": 2007,
+   "filmYear": 2006,
+   "ceremony": 79,
+   "titleEn": "Water",
+   "titleZh": "",
+   "countryRaw": "Canada",
+   "director": "Deepa Mehta",
+   "result": "nominee",
+   "honorary": false,
+   "country": "加拿大",
+   "iso": "CA",
+   "continent": "美洲",
+   "lnglat": [
+    -106.3,
+    56.1
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/260.jpg"
+  },
+  {
+   "ceremonyYear": 2007,
+   "filmYear": 2006,
+   "ceremony": 79,
+   "titleEn": "After the Wedding",
+   "titleZh": "",
+   "countryRaw": "Denmark",
+   "director": "Susanne Bier",
+   "result": "nominee",
+   "honorary": false,
+   "country": "丹麦",
+   "iso": "DK",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    56.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/261.jpg"
+  },
+  {
+   "ceremonyYear": 2007,
+   "filmYear": 2006,
+   "ceremony": 79,
+   "titleEn": "Days of Glory",
+   "titleZh": "",
+   "countryRaw": "Algeria",
+   "director": "Rachid Bouchareb",
+   "result": "nominee",
+   "honorary": false,
+   "country": "阿尔及利亚",
+   "iso": "DZ",
+   "continent": "非洲",
+   "lnglat": [
+    2.6,
+    28.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/262.jpg"
+  },
+  {
+   "ceremonyYear": 2008,
+   "filmYear": 2007,
+   "ceremony": 80,
+   "titleEn": "The Counterfeiters",
+   "titleZh": "伪钞制造者",
+   "countryRaw": "Austria",
+   "director": "Stefan Ruzowitzky",
+   "result": "winner",
+   "honorary": false,
+   "country": "奥地利",
+   "iso": "AT",
+   "continent": "欧洲",
+   "lnglat": [
+    14.6,
+    47.5
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/263.jpg"
+  },
+  {
+   "ceremonyYear": 2008,
+   "filmYear": 2007,
+   "ceremony": 80,
+   "titleEn": "Katyń",
+   "titleZh": "",
+   "countryRaw": "Poland",
+   "director": "Andrzej Wajda",
+   "result": "nominee",
+   "honorary": false,
+   "country": "波兰",
+   "iso": "PL",
+   "continent": "欧洲",
+   "lnglat": [
+    19.1,
+    52.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/264.jpg"
+  },
+  {
+   "ceremonyYear": 2008,
+   "filmYear": 2007,
+   "ceremony": 80,
+   "titleEn": "12",
+   "titleZh": "",
+   "countryRaw": "Russia",
+   "director": "Nikita Mikhalkov",
+   "result": "nominee",
+   "honorary": false,
+   "country": "俄罗斯",
+   "iso": "RU",
+   "continent": "欧洲",
+   "lnglat": [
+    95.0,
+    61.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/265.jpg"
+  },
+  {
+   "ceremonyYear": 2008,
+   "filmYear": 2007,
+   "ceremony": 80,
+   "titleEn": "Beaufort",
+   "titleZh": "",
+   "countryRaw": "Israel",
+   "director": "Joseph Cedar",
+   "result": "nominee",
+   "honorary": false,
+   "country": "以色列",
+   "iso": "IL",
+   "continent": "亚洲",
+   "lnglat": [
+    35.0,
+    31.5
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 2008,
+   "filmYear": 2007,
+   "ceremony": 80,
+   "titleEn": "Mongol",
+   "titleZh": "",
+   "countryRaw": "Kazakhstan",
+   "director": "Sergei Bodrov",
+   "result": "nominee",
+   "honorary": false,
+   "country": "哈萨克斯坦",
+   "iso": "KZ",
+   "continent": "亚洲",
+   "lnglat": [
+    68.0,
+    48.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/267.jpg"
+  },
+  {
+   "ceremonyYear": 2009,
+   "filmYear": 2008,
+   "ceremony": 81,
+   "titleEn": "Departures",
+   "titleZh": "入殓师",
+   "countryRaw": "Japan",
+   "director": "Yojiro Takita",
+   "result": "winner",
+   "honorary": false,
+   "country": "日本",
+   "iso": "JP",
+   "continent": "亚洲",
+   "lnglat": [
+    138.3,
+    36.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/268.jpg"
+  },
+  {
+   "ceremonyYear": 2009,
+   "filmYear": 2008,
+   "ceremony": 81,
+   "titleEn": "The Baader Meinhof Complex",
+   "titleZh": "",
+   "countryRaw": "Germany",
+   "director": "Uli Edel",
+   "result": "nominee",
+   "honorary": false,
+   "country": "德国",
+   "iso": "DE",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/269.jpg"
+  },
+  {
+   "ceremonyYear": 2009,
+   "filmYear": 2008,
+   "ceremony": 81,
+   "titleEn": "Revanche",
+   "titleZh": "",
+   "countryRaw": "Austria",
+   "director": "Götz Spielmann",
+   "result": "nominee",
+   "honorary": false,
+   "country": "奥地利",
+   "iso": "AT",
+   "continent": "欧洲",
+   "lnglat": [
+    14.6,
+    47.5
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/270.jpg"
+  },
+  {
+   "ceremonyYear": 2009,
+   "filmYear": 2008,
+   "ceremony": 81,
+   "titleEn": "The Class",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Laurent Cantet",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/271.jpg"
+  },
+  {
+   "ceremonyYear": 2009,
+   "filmYear": 2008,
+   "ceremony": 81,
+   "titleEn": "Waltz with Bashir",
+   "titleZh": "",
+   "countryRaw": "Israel",
+   "director": "Ari Folman",
+   "result": "nominee",
+   "honorary": false,
+   "country": "以色列",
+   "iso": "IL",
+   "continent": "亚洲",
+   "lnglat": [
+    35.0,
+    31.5
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/272.jpg"
+  },
+  {
+   "ceremonyYear": 2010,
+   "filmYear": 2009,
+   "ceremony": 82,
+   "titleEn": "The Secret in Their Eyes",
+   "titleZh": "谜一样的双眼",
+   "countryRaw": "Argentina",
+   "director": "Juan José Campanella",
+   "result": "winner",
+   "honorary": false,
+   "country": "阿根廷",
+   "iso": "AR",
+   "continent": "美洲",
+   "lnglat": [
+    -63.6,
+    -35.7
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/273.jpg"
+  },
+  {
+   "ceremonyYear": 2010,
+   "filmYear": 2009,
+   "ceremony": 82,
+   "titleEn": "The White Ribbon",
+   "titleZh": "",
+   "countryRaw": "Germany",
+   "director": "Michael Haneke",
+   "result": "nominee",
+   "honorary": false,
+   "country": "德国",
+   "iso": "DE",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/274.jpg"
+  },
+  {
+   "ceremonyYear": 2010,
+   "filmYear": 2009,
+   "ceremony": 82,
+   "titleEn": "Ajami",
+   "titleZh": "",
+   "countryRaw": "Israel, Scandar Copti",
+   "director": "Scandar Copti, Yaron Shani",
+   "result": "nominee",
+   "honorary": false,
+   "country": "以色列",
+   "iso": "IL",
+   "continent": "亚洲",
+   "lnglat": [
+    35.0,
+    31.5
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/275.jpg"
+  },
+  {
+   "ceremonyYear": 2010,
+   "filmYear": 2009,
+   "ceremony": 82,
+   "titleEn": "The Milk of Sorrow",
+   "titleZh": "",
+   "countryRaw": "Peru",
+   "director": "Claudia Llosa",
+   "result": "nominee",
+   "honorary": false,
+   "country": "秘鲁",
+   "iso": "PE",
+   "continent": "美洲",
+   "lnglat": [
+    -75.0,
+    -10.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/276.jpg"
+  },
+  {
+   "ceremonyYear": 2010,
+   "filmYear": 2009,
+   "ceremony": 82,
+   "titleEn": "A Prophet",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Jacques Audiard",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/277.jpg"
+  },
+  {
+   "ceremonyYear": 2011,
+   "filmYear": 2010,
+   "ceremony": 83,
+   "titleEn": "In a Better World",
+   "titleZh": "更好的世界",
+   "countryRaw": "Denmark",
+   "director": "Susanne Bier",
+   "result": "winner",
+   "honorary": false,
+   "country": "丹麦",
+   "iso": "DK",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    56.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/278.jpg"
+  },
+  {
+   "ceremonyYear": 2011,
+   "filmYear": 2010,
+   "ceremony": 83,
+   "titleEn": "Biutiful",
+   "titleZh": "",
+   "countryRaw": "Mexico",
+   "director": "Alejandro González Iñárritu",
+   "result": "nominee",
+   "honorary": false,
+   "country": "墨西哥",
+   "iso": "MX",
+   "continent": "美洲",
+   "lnglat": [
+    -102.5,
+    23.6
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/279.jpg"
+  },
+  {
+   "ceremonyYear": 2011,
+   "filmYear": 2010,
+   "ceremony": 83,
+   "titleEn": "Dogtooth",
+   "titleZh": "",
+   "countryRaw": "Greece",
+   "director": "Yorgos Lanthimos",
+   "result": "nominee",
+   "honorary": false,
+   "country": "希腊",
+   "iso": "GR",
+   "continent": "欧洲",
+   "lnglat": [
+    22.0,
+    39.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/280.jpg"
+  },
+  {
+   "ceremonyYear": 2011,
+   "filmYear": 2010,
+   "ceremony": 83,
+   "titleEn": "Incendies",
+   "titleZh": "",
+   "countryRaw": "Canada",
+   "director": "Denis Villeneuve",
+   "result": "nominee",
+   "honorary": false,
+   "country": "加拿大",
+   "iso": "CA",
+   "continent": "美洲",
+   "lnglat": [
+    -106.3,
+    56.1
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 2011,
+   "filmYear": 2010,
+   "ceremony": 83,
+   "titleEn": "Outside the Law",
+   "titleZh": "",
+   "countryRaw": "Algeria",
+   "director": "Rachid Bouchareb",
+   "result": "nominee",
+   "honorary": false,
+   "country": "阿尔及利亚",
+   "iso": "DZ",
+   "continent": "非洲",
+   "lnglat": [
+    2.6,
+    28.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/282.jpg"
+  },
+  {
+   "ceremonyYear": 2012,
+   "filmYear": 2011,
+   "ceremony": 84,
+   "titleEn": "A Separation",
+   "titleZh": "纳德和西敏：一次别离",
+   "countryRaw": "Iran",
+   "director": "Asghar Farhadi",
+   "result": "winner",
+   "honorary": false,
+   "country": "伊朗",
+   "iso": "IR",
+   "continent": "亚洲",
+   "lnglat": [
+    53.7,
+    32.4
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/283.jpg"
+  },
+  {
+   "ceremonyYear": 2012,
+   "filmYear": 2011,
+   "ceremony": 84,
+   "titleEn": "Footnote",
+   "titleZh": "",
+   "countryRaw": "Israel",
+   "director": "Joseph Cedar",
+   "result": "nominee",
+   "honorary": false,
+   "country": "以色列",
+   "iso": "IL",
+   "continent": "亚洲",
+   "lnglat": [
+    35.0,
+    31.5
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/284.jpg"
+  },
+  {
+   "ceremonyYear": 2012,
+   "filmYear": 2011,
+   "ceremony": 84,
+   "titleEn": "In Darkness",
+   "titleZh": "",
+   "countryRaw": "Poland",
+   "director": "Agnieszka Holland",
+   "result": "nominee",
+   "honorary": false,
+   "country": "波兰",
+   "iso": "PL",
+   "continent": "欧洲",
+   "lnglat": [
+    19.1,
+    52.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/285.jpg"
+  },
+  {
+   "ceremonyYear": 2012,
+   "filmYear": 2011,
+   "ceremony": 84,
+   "titleEn": "Monsieur Lazhar",
+   "titleZh": "",
+   "countryRaw": "Canada",
+   "director": "Philippe Falardeau",
+   "result": "nominee",
+   "honorary": false,
+   "country": "加拿大",
+   "iso": "CA",
+   "continent": "美洲",
+   "lnglat": [
+    -106.3,
+    56.1
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/286.jpg"
+  },
+  {
+   "ceremonyYear": 2012,
+   "filmYear": 2011,
+   "ceremony": 84,
+   "titleEn": "Bullhead",
+   "titleZh": "",
+   "countryRaw": "Belgium",
+   "director": "Michael R. Roskam",
+   "result": "nominee",
+   "honorary": false,
+   "country": "比利时",
+   "iso": "BE",
+   "continent": "欧洲",
+   "lnglat": [
+    4.5,
+    50.5
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/287.jpg"
+  },
+  {
+   "ceremonyYear": 2013,
+   "filmYear": 2012,
+   "ceremony": 85,
+   "titleEn": "Amour",
+   "titleZh": "爱",
+   "countryRaw": "Austria",
+   "director": "Michael Haneke",
+   "result": "winner",
+   "honorary": false,
+   "country": "奥地利",
+   "iso": "AT",
+   "continent": "欧洲",
+   "lnglat": [
+    14.6,
+    47.5
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/288.jpg"
+  },
+  {
+   "ceremonyYear": 2013,
+   "filmYear": 2012,
+   "ceremony": 85,
+   "titleEn": "A Royal Affair",
+   "titleZh": "",
+   "countryRaw": "Denmark",
+   "director": "Nikolaj Arcel",
+   "result": "nominee",
+   "honorary": false,
+   "country": "丹麦",
+   "iso": "DK",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    56.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/289.jpg"
+  },
+  {
+   "ceremonyYear": 2013,
+   "filmYear": 2012,
+   "ceremony": 85,
+   "titleEn": "No",
+   "titleZh": "",
+   "countryRaw": "Chile",
+   "director": "Pablo Larraín",
+   "result": "nominee",
+   "honorary": false,
+   "country": "智利",
+   "iso": "CL",
+   "continent": "美洲",
+   "lnglat": [
+    -71.5,
+    -35.7
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/290.jpg"
+  },
+  {
+   "ceremonyYear": 2013,
+   "filmYear": 2012,
+   "ceremony": 85,
+   "titleEn": "Kon-Tiki",
+   "titleZh": "",
+   "countryRaw": "Norway, Joachim Rønning",
+   "director": "Joachim Rønning, Espen Sandberg",
+   "result": "nominee",
+   "honorary": false,
+   "country": "挪威",
+   "iso": "NO",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    61.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/291.jpg"
+  },
+  {
+   "ceremonyYear": 2013,
+   "filmYear": 2012,
+   "ceremony": 85,
+   "titleEn": "War Witch",
+   "titleZh": "",
+   "countryRaw": "Canada",
+   "director": "Kim Nguyen",
+   "result": "nominee",
+   "honorary": false,
+   "country": "加拿大",
+   "iso": "CA",
+   "continent": "美洲",
+   "lnglat": [
+    -106.3,
+    56.1
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/292.jpg"
+  },
+  {
+   "ceremonyYear": 2014,
+   "filmYear": 2013,
+   "ceremony": 86,
+   "titleEn": "The Great Beauty",
+   "titleZh": "绝美之城",
+   "countryRaw": "Italy",
+   "director": "Paolo Sorrentino",
+   "result": "winner",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/293.jpg"
+  },
+  {
+   "ceremonyYear": 2014,
+   "filmYear": 2013,
+   "ceremony": 86,
+   "titleEn": "Omar",
+   "titleZh": "",
+   "countryRaw": "Palestine",
+   "director": "Hany Abu-Assad",
+   "result": "nominee",
+   "honorary": false,
+   "country": "巴勒斯坦",
+   "iso": "PS",
+   "continent": "亚洲",
+   "lnglat": [
+    35.2,
+    31.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/294.jpg"
+  },
+  {
+   "ceremonyYear": 2014,
+   "filmYear": 2013,
+   "ceremony": 86,
+   "titleEn": "The Broken Circle Breakdown",
+   "titleZh": "",
+   "countryRaw": "Belgium",
+   "director": "Felix Van Groeningen",
+   "result": "nominee",
+   "honorary": false,
+   "country": "比利时",
+   "iso": "BE",
+   "continent": "欧洲",
+   "lnglat": [
+    4.5,
+    50.5
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/295.jpg"
+  },
+  {
+   "ceremonyYear": 2014,
+   "filmYear": 2013,
+   "ceremony": 86,
+   "titleEn": "The Hunt",
+   "titleZh": "",
+   "countryRaw": "Denmark",
+   "director": "Thomas Vinterberg",
+   "result": "nominee",
+   "honorary": false,
+   "country": "丹麦",
+   "iso": "DK",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    56.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/296.jpg"
+  },
+  {
+   "ceremonyYear": 2014,
+   "filmYear": 2013,
+   "ceremony": 86,
+   "titleEn": "The Missing Picture",
+   "titleZh": "",
+   "countryRaw": "Cambodia",
+   "director": "Rithy Panh",
+   "result": "nominee",
+   "honorary": false,
+   "country": "柬埔寨",
+   "iso": "KH",
+   "continent": "亚洲",
+   "lnglat": [
+    105.0,
+    13.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/297.jpg"
+  },
+  {
+   "ceremonyYear": 2015,
+   "filmYear": 2014,
+   "ceremony": 87,
+   "titleEn": "Ida",
+   "titleZh": "修女艾达",
+   "countryRaw": "Poland",
+   "director": "Paweł Pawlikowski",
+   "result": "winner",
+   "honorary": false,
+   "country": "波兰",
+   "iso": "PL",
+   "continent": "欧洲",
+   "lnglat": [
+    19.1,
+    52.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/298.jpg"
+  },
+  {
+   "ceremonyYear": 2015,
+   "filmYear": 2014,
+   "ceremony": 87,
+   "titleEn": "Leviathan",
+   "titleZh": "",
+   "countryRaw": "Russia",
+   "director": "Andrey Zvyagintsev",
+   "result": "nominee",
+   "honorary": false,
+   "country": "俄罗斯",
+   "iso": "RU",
+   "continent": "欧洲",
+   "lnglat": [
+    95.0,
+    61.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/299.jpg"
+  },
+  {
+   "ceremonyYear": 2015,
+   "filmYear": 2014,
+   "ceremony": 87,
+   "titleEn": "Tangerines",
+   "titleZh": "",
+   "countryRaw": "Estonia",
+   "director": "Zaza Urushadze",
+   "result": "nominee",
+   "honorary": false,
+   "country": "爱沙尼亚",
+   "iso": "EE",
+   "continent": "欧洲",
+   "lnglat": [
+    25.0,
+    59.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/300.jpg"
+  },
+  {
+   "ceremonyYear": 2015,
+   "filmYear": 2014,
+   "ceremony": 87,
+   "titleEn": "Wild Tales",
+   "titleZh": "",
+   "countryRaw": "Argentina",
+   "director": "Damián Szifrón",
+   "result": "nominee",
+   "honorary": false,
+   "country": "阿根廷",
+   "iso": "AR",
+   "continent": "美洲",
+   "lnglat": [
+    -63.6,
+    -35.7
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/301.jpg"
+  },
+  {
+   "ceremonyYear": 2015,
+   "filmYear": 2014,
+   "ceremony": 87,
+   "titleEn": "Timbuktu",
+   "titleZh": "",
+   "countryRaw": "Mauritania",
+   "director": "Abderrahmane Sissako",
+   "result": "nominee",
+   "honorary": false,
+   "country": "毛里塔尼亚",
+   "iso": "MR",
+   "continent": "非洲",
+   "lnglat": [
+    -10.0,
+    20.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/302.jpg"
+  },
+  {
+   "ceremonyYear": 2016,
+   "filmYear": 2015,
+   "ceremony": 88,
+   "titleEn": "Son of Saul",
+   "titleZh": "索尔之子",
+   "countryRaw": "Hungary",
+   "director": "László Nemes",
+   "result": "winner",
+   "honorary": false,
+   "country": "匈牙利",
+   "iso": "HU",
+   "continent": "欧洲",
+   "lnglat": [
+    19.5,
+    47.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/303.jpg"
+  },
+  {
+   "ceremonyYear": 2016,
+   "filmYear": 2015,
+   "ceremony": 88,
+   "titleEn": "Mustang",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Deniz Gamze Ergüven",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/304.jpg"
+  },
+  {
+   "ceremonyYear": 2016,
+   "filmYear": 2015,
+   "ceremony": 88,
+   "titleEn": "Theeb",
+   "titleZh": "",
+   "countryRaw": "Jordan",
+   "director": "Naji Abu Nowar",
+   "result": "nominee",
+   "honorary": false,
+   "country": "约旦",
+   "iso": "JO",
+   "continent": "亚洲",
+   "lnglat": [
+    36.5,
+    31.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/305.jpg"
+  },
+  {
+   "ceremonyYear": 2016,
+   "filmYear": 2015,
+   "ceremony": 88,
+   "titleEn": "Embrace of the Serpent",
+   "titleZh": "",
+   "countryRaw": "Colombia",
+   "director": "Ciro Guerra",
+   "result": "nominee",
+   "honorary": false,
+   "country": "哥伦比亚",
+   "iso": "CO",
+   "continent": "美洲",
+   "lnglat": [
+    -74.0,
+    4.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/306.jpg"
+  },
+  {
+   "ceremonyYear": 2016,
+   "filmYear": 2015,
+   "ceremony": 88,
+   "titleEn": "A War",
+   "titleZh": "",
+   "countryRaw": "Denmark",
+   "director": "Tobias Lindholm",
+   "result": "nominee",
+   "honorary": false,
+   "country": "丹麦",
+   "iso": "DK",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    56.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/307.jpg"
+  },
+  {
+   "ceremonyYear": 2017,
+   "filmYear": 2016,
+   "ceremony": 89,
+   "titleEn": "The Salesman",
+   "titleZh": "推销员",
+   "countryRaw": "Iran",
+   "director": "Asghar Farhadi",
+   "result": "winner",
+   "honorary": false,
+   "country": "伊朗",
+   "iso": "IR",
+   "continent": "亚洲",
+   "lnglat": [
+    53.7,
+    32.4
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/308.jpg"
+  },
+  {
+   "ceremonyYear": 2017,
+   "filmYear": 2016,
+   "ceremony": 89,
+   "titleEn": "Toni Erdmann",
+   "titleZh": "",
+   "countryRaw": "Germany",
+   "director": "Maren Ade",
+   "result": "nominee",
+   "honorary": false,
+   "country": "德国",
+   "iso": "DE",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/309.jpg"
+  },
+  {
+   "ceremonyYear": 2017,
+   "filmYear": 2016,
+   "ceremony": 89,
+   "titleEn": "A Man Called Ove",
+   "titleZh": "",
+   "countryRaw": "Sweden",
+   "director": "Hannes Holm",
+   "result": "nominee",
+   "honorary": false,
+   "country": "瑞典",
+   "iso": "SE",
+   "continent": "欧洲",
+   "lnglat": [
+    15.0,
+    62.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/310.jpg"
+  },
+  {
+   "ceremonyYear": 2017,
+   "filmYear": 2016,
+   "ceremony": 89,
+   "titleEn": "Land of Mine",
+   "titleZh": "",
+   "countryRaw": "Denmark",
+   "director": "Martin Zandvliet",
+   "result": "nominee",
+   "honorary": false,
+   "country": "丹麦",
+   "iso": "DK",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    56.0
+   ],
+   "countryNote": "",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 2017,
+   "filmYear": 2016,
+   "ceremony": 89,
+   "titleEn": "Tanna",
+   "titleZh": "",
+   "countryRaw": "Australia, Martin Butler",
+   "director": "Martin Butler, Bentley Dean",
+   "result": "nominee",
+   "honorary": false,
+   "country": "澳大利亚",
+   "iso": "AU",
+   "continent": "大洋洲",
+   "lnglat": [
+    134.0,
+    -25.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/312.jpg"
+  },
+  {
+   "ceremonyYear": 2018,
+   "filmYear": 2017,
+   "ceremony": 90,
+   "titleEn": "A Fantastic Woman",
+   "titleZh": "普通女人",
+   "countryRaw": "Chile",
+   "director": "Sebastian Lelio",
+   "result": "winner",
+   "honorary": false,
+   "country": "智利",
+   "iso": "CL",
+   "continent": "美洲",
+   "lnglat": [
+    -71.5,
+    -35.7
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/313.jpg"
+  },
+  {
+   "ceremonyYear": 2018,
+   "filmYear": 2017,
+   "ceremony": 90,
+   "titleEn": "The Square",
+   "titleZh": "",
+   "countryRaw": "Sweden",
+   "director": "Ruben Östlund",
+   "result": "nominee",
+   "honorary": false,
+   "country": "瑞典",
+   "iso": "SE",
+   "continent": "欧洲",
+   "lnglat": [
+    15.0,
+    62.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/314.jpg"
+  },
+  {
+   "ceremonyYear": 2018,
+   "filmYear": 2017,
+   "ceremony": 90,
+   "titleEn": "The Insult",
+   "titleZh": "",
+   "countryRaw": "Lebanon",
+   "director": "Ziad Doueiri",
+   "result": "nominee",
+   "honorary": false,
+   "country": "黎巴嫩",
+   "iso": "LB",
+   "continent": "亚洲",
+   "lnglat": [
+    35.9,
+    33.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/315.jpg"
+  },
+  {
+   "ceremonyYear": 2018,
+   "filmYear": 2017,
+   "ceremony": 90,
+   "titleEn": "Loveless",
+   "titleZh": "",
+   "countryRaw": "Russia",
+   "director": "Andrey Zvyagintsev",
+   "result": "nominee",
+   "honorary": false,
+   "country": "俄罗斯",
+   "iso": "RU",
+   "continent": "欧洲",
+   "lnglat": [
+    95.0,
+    61.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/316.jpg"
+  },
+  {
+   "ceremonyYear": 2018,
+   "filmYear": 2017,
+   "ceremony": 90,
+   "titleEn": "On Body and Soul",
+   "titleZh": "",
+   "countryRaw": "Hungary",
+   "director": "Ildikó Enyedi",
+   "result": "nominee",
+   "honorary": false,
+   "country": "匈牙利",
+   "iso": "HU",
+   "continent": "欧洲",
+   "lnglat": [
+    19.5,
+    47.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/317.jpg"
+  },
+  {
+   "ceremonyYear": 2019,
+   "filmYear": 2018,
+   "ceremony": 91,
+   "titleEn": "Roma",
+   "titleZh": "罗马",
+   "countryRaw": "Mexico",
+   "director": "Alfonso Cuarón",
+   "result": "winner",
+   "honorary": false,
+   "country": "墨西哥",
+   "iso": "MX",
+   "continent": "美洲",
+   "lnglat": [
+    -102.5,
+    23.6
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/318.jpg"
+  },
+  {
+   "ceremonyYear": 2019,
+   "filmYear": 2018,
+   "ceremony": 91,
+   "titleEn": "Cold War",
+   "titleZh": "冷战",
+   "countryRaw": "Poland",
+   "director": "Paweł Pawlikowski",
+   "result": "nominee",
+   "honorary": false,
+   "country": "波兰",
+   "iso": "PL",
+   "continent": "欧洲",
+   "lnglat": [
+    19.1,
+    52.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/319.jpg"
+  },
+  {
+   "ceremonyYear": 2019,
+   "filmYear": 2018,
+   "ceremony": 91,
+   "titleEn": "Shoplifters",
+   "titleZh": "小偷家族",
+   "countryRaw": "Japan",
+   "director": "Hirokazu Kore-eda",
+   "result": "nominee",
+   "honorary": false,
+   "country": "日本",
+   "iso": "JP",
+   "continent": "亚洲",
+   "lnglat": [
+    138.3,
+    36.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/320.jpg"
+  },
+  {
+   "ceremonyYear": 2019,
+   "filmYear": 2018,
+   "ceremony": 91,
+   "titleEn": "Never Look Away",
+   "titleZh": "",
+   "countryRaw": "Germany",
+   "director": "Florian Henckel von Donnersmarck",
+   "result": "nominee",
+   "honorary": false,
+   "country": "德国",
+   "iso": "DE",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/321.jpg"
+  },
+  {
+   "ceremonyYear": 2019,
+   "filmYear": 2018,
+   "ceremony": 91,
+   "titleEn": "Capernaum",
+   "titleZh": "何以为家",
+   "countryRaw": "Lebanon",
+   "director": "Nadine Labaki",
+   "result": "nominee",
+   "honorary": false,
+   "country": "黎巴嫩",
+   "iso": "LB",
+   "continent": "亚洲",
+   "lnglat": [
+    35.9,
+    33.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/322.jpg"
+  },
+  {
+   "ceremonyYear": 2020,
+   "filmYear": 2019,
+   "ceremony": 92,
+   "titleEn": "Parasite",
+   "titleZh": "寄生虫",
+   "countryRaw": "South Korea",
+   "director": "Bong Joon Ho",
+   "result": "winner",
+   "honorary": false,
+   "country": "韩国",
+   "iso": "KR",
+   "continent": "亚洲",
+   "lnglat": [
+    127.8,
+    36.5
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/323.jpg"
+  },
+  {
+   "ceremonyYear": 2020,
+   "filmYear": 2019,
+   "ceremony": 92,
+   "titleEn": "Pain and Glory",
+   "titleZh": "",
+   "countryRaw": "Spain",
+   "director": "Pedro Almodóvar",
+   "result": "nominee",
+   "honorary": false,
+   "country": "西班牙",
+   "iso": "ES",
+   "continent": "欧洲",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/324.jpg"
+  },
+  {
+   "ceremonyYear": 2020,
+   "filmYear": 2019,
+   "ceremony": 92,
+   "titleEn": "Les Misérables",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Ladj Ly",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/325.jpg"
+  },
+  {
+   "ceremonyYear": 2020,
+   "filmYear": 2019,
+   "ceremony": 92,
+   "titleEn": "Honeyland",
+   "titleZh": "",
+   "countryRaw": "North Macedonia, Tamara Kotevska",
+   "director": "Tamara Kotevska, Ljubomir Stefanov",
+   "result": "nominee",
+   "honorary": false,
+   "country": "北马其顿",
+   "iso": "MK",
+   "continent": "欧洲",
+   "lnglat": [
+    21.4,
+    41.6
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/326.jpg"
+  },
+  {
+   "ceremonyYear": 2020,
+   "filmYear": 2019,
+   "ceremony": 92,
+   "titleEn": "Corpus Christi",
+   "titleZh": "",
+   "countryRaw": "Poland",
+   "director": "Jan Komasa",
+   "result": "nominee",
+   "honorary": false,
+   "country": "波兰",
+   "iso": "PL",
+   "continent": "欧洲",
+   "lnglat": [
+    19.1,
+    52.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/327.jpg"
+  },
+  {
+   "ceremonyYear": 2021,
+   "filmYear": 2020,
+   "ceremony": 93,
+   "titleEn": "Another Round",
+   "titleZh": "酒精计划",
+   "countryRaw": "Denmark",
+   "director": "Thomas Vinterberg",
+   "result": "winner",
+   "honorary": false,
+   "country": "丹麦",
+   "iso": "DK",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    56.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/328.jpg"
+  },
+  {
+   "ceremonyYear": 2021,
+   "filmYear": 2020,
+   "ceremony": 93,
+   "titleEn": "Better Days",
+   "titleZh": "少年的你",
+   "countryRaw": "Hong Kong",
+   "director": "Derek Tsang",
+   "result": "nominee",
+   "honorary": false,
+   "country": "中国",
+   "iso": "CN",
+   "continent": "亚洲",
+   "lnglat": [
+    104.0,
+    35.0
+   ],
+   "countryNote": "中国香港地区选送",
+   "poster": ""
+  },
+  {
+   "ceremonyYear": 2021,
+   "filmYear": 2020,
+   "ceremony": 93,
+   "titleEn": "Collective",
+   "titleZh": "",
+   "countryRaw": "Romania",
+   "director": "Alexander Nanau",
+   "result": "nominee",
+   "honorary": false,
+   "country": "罗马尼亚",
+   "iso": "RO",
+   "continent": "欧洲",
+   "lnglat": [
+    25.0,
+    46.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/330.jpg"
+  },
+  {
+   "ceremonyYear": 2021,
+   "filmYear": 2020,
+   "ceremony": 93,
+   "titleEn": "The Man Who Sold His Skin",
+   "titleZh": "",
+   "countryRaw": "Tunisia",
+   "director": "Kaouther Ben Hania",
+   "result": "nominee",
+   "honorary": false,
+   "country": "突尼斯",
+   "iso": "TN",
+   "continent": "非洲",
+   "lnglat": [
+    9.5,
+    34.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/331.jpg"
+  },
+  {
+   "ceremonyYear": 2021,
+   "filmYear": 2020,
+   "ceremony": 93,
+   "titleEn": "Quo Vadis, Aida?",
+   "titleZh": "",
+   "countryRaw": "Bosnia and Herzegovina",
+   "director": "Jasmila Žbanić",
+   "result": "nominee",
+   "honorary": false,
+   "country": "波黑",
+   "iso": "BA",
+   "continent": "欧洲",
+   "lnglat": [
+    17.9,
+    43.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/332.jpg"
+  },
+  {
+   "ceremonyYear": 2022,
+   "filmYear": 2021,
+   "ceremony": 94,
+   "titleEn": "Drive My Car",
+   "titleZh": "驾驶我的车",
+   "countryRaw": "Japan",
+   "director": "Ryusuke Hamaguchi",
+   "result": "winner",
+   "honorary": false,
+   "country": "日本",
+   "iso": "JP",
+   "continent": "亚洲",
+   "lnglat": [
+    138.3,
+    36.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/333.jpg"
+  },
+  {
+   "ceremonyYear": 2022,
+   "filmYear": 2021,
+   "ceremony": 94,
+   "titleEn": "The Worst Person in the World",
+   "titleZh": "世界上最糟糕的人",
+   "countryRaw": "Norway",
+   "director": "Joachim Trier",
+   "result": "nominee",
+   "honorary": false,
+   "country": "挪威",
+   "iso": "NO",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    61.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/334.jpg"
+  },
+  {
+   "ceremonyYear": 2022,
+   "filmYear": 2021,
+   "ceremony": 94,
+   "titleEn": "Flee",
+   "titleZh": "",
+   "countryRaw": "Denmark",
+   "director": "Jonas Poher Rasmussen",
+   "result": "nominee",
+   "honorary": false,
+   "country": "丹麦",
+   "iso": "DK",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    56.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/335.jpg"
+  },
+  {
+   "ceremonyYear": 2022,
+   "filmYear": 2021,
+   "ceremony": 94,
+   "titleEn": "Lunana: A Yak in the Classroom",
+   "titleZh": "",
+   "countryRaw": "Bhutan",
+   "director": "Pawo Choyning Dorji",
+   "result": "nominee",
+   "honorary": false,
+   "country": "不丹",
+   "iso": "BT",
+   "continent": "亚洲",
+   "lnglat": [
+    90.5,
+    27.5
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/336.jpg"
+  },
+  {
+   "ceremonyYear": 2022,
+   "filmYear": 2021,
+   "ceremony": 94,
+   "titleEn": "The Hand of God",
+   "titleZh": "上帝之手",
+   "countryRaw": "Italy",
+   "director": "Paolo Sorrentino",
+   "result": "nominee",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/337.jpg"
+  },
+  {
+   "ceremonyYear": 2023,
+   "filmYear": 2022,
+   "ceremony": 95,
+   "titleEn": "All Quiet on the Western Front",
+   "titleZh": "西线无战事",
+   "countryRaw": "Germany",
+   "director": "Edward Berger",
+   "result": "winner",
+   "honorary": false,
+   "country": "德国",
+   "iso": "DE",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/338.jpg"
+  },
+  {
+   "ceremonyYear": 2023,
+   "filmYear": 2022,
+   "ceremony": 95,
+   "titleEn": "Argentina, 1985",
+   "titleZh": "",
+   "countryRaw": "Argentina",
+   "director": "Santiago Mitre",
+   "result": "nominee",
+   "honorary": false,
+   "country": "阿根廷",
+   "iso": "AR",
+   "continent": "美洲",
+   "lnglat": [
+    -63.6,
+    -35.7
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/339.jpg"
+  },
+  {
+   "ceremonyYear": 2023,
+   "filmYear": 2022,
+   "ceremony": 95,
+   "titleEn": "EO",
+   "titleZh": "",
+   "countryRaw": "Poland",
+   "director": "Jerzy Skolimowski",
+   "result": "nominee",
+   "honorary": false,
+   "country": "波兰",
+   "iso": "PL",
+   "continent": "欧洲",
+   "lnglat": [
+    19.1,
+    52.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/340.jpg"
+  },
+  {
+   "ceremonyYear": 2023,
+   "filmYear": 2022,
+   "ceremony": 95,
+   "titleEn": "Close",
+   "titleZh": "",
+   "countryRaw": "Belgium",
+   "director": "Lukas Dhont",
+   "result": "nominee",
+   "honorary": false,
+   "country": "比利时",
+   "iso": "BE",
+   "continent": "欧洲",
+   "lnglat": [
+    4.5,
+    50.5
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/341.jpg"
+  },
+  {
+   "ceremonyYear": 2023,
+   "filmYear": 2022,
+   "ceremony": 95,
+   "titleEn": "The Quiet Girl",
+   "titleZh": "",
+   "countryRaw": "Ireland",
+   "director": "Colm Bairéad",
+   "result": "nominee",
+   "honorary": false,
+   "country": "爱尔兰",
+   "iso": "IE",
+   "continent": "欧洲",
+   "lnglat": [
+    -8.2,
+    53.4
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/342.jpg"
+  },
+  {
+   "ceremonyYear": 2024,
+   "filmYear": 2023,
+   "ceremony": 96,
+   "titleEn": "The Zone of Interest",
+   "titleZh": "利益区域",
+   "countryRaw": "United Kingdom",
+   "director": "Jonathan Glazer",
+   "result": "winner",
+   "honorary": false,
+   "country": "英国",
+   "iso": "GB",
+   "continent": "欧洲",
+   "lnglat": [
+    -2.0,
+    54.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/343.jpg"
+  },
+  {
+   "ceremonyYear": 2024,
+   "filmYear": 2023,
+   "ceremony": 96,
+   "titleEn": "Perfect Days",
+   "titleZh": "",
+   "countryRaw": "Japan",
+   "director": "Wim Wenders",
+   "result": "nominee",
+   "honorary": false,
+   "country": "日本",
+   "iso": "JP",
+   "continent": "亚洲",
+   "lnglat": [
+    138.3,
+    36.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/344.jpg"
+  },
+  {
+   "ceremonyYear": 2024,
+   "filmYear": 2023,
+   "ceremony": 96,
+   "titleEn": "Society of the Snow",
+   "titleZh": "",
+   "countryRaw": "Spain",
+   "director": "J.A. Bayona",
+   "result": "nominee",
+   "honorary": false,
+   "country": "西班牙",
+   "iso": "ES",
+   "continent": "欧洲",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/345.jpg"
+  },
+  {
+   "ceremonyYear": 2024,
+   "filmYear": 2023,
+   "ceremony": 96,
+   "titleEn": "Io Capitano",
+   "titleZh": "",
+   "countryRaw": "Italy",
+   "director": "Matteo Garrone",
+   "result": "nominee",
+   "honorary": false,
+   "country": "意大利",
+   "iso": "IT",
+   "continent": "欧洲",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/346.jpg"
+  },
+  {
+   "ceremonyYear": 2024,
+   "filmYear": 2023,
+   "ceremony": 96,
+   "titleEn": "The Teachers' Lounge",
+   "titleZh": "",
+   "countryRaw": "Germany",
+   "director": "İlker Çatak",
+   "result": "nominee",
+   "honorary": false,
+   "country": "德国",
+   "iso": "DE",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/347.jpg"
+  },
+  {
+   "ceremonyYear": 2025,
+   "filmYear": 2024,
+   "ceremony": 97,
+   "titleEn": "I'm Still Here",
+   "titleZh": "我仍在此",
+   "countryRaw": "Brazil",
+   "director": "Walter Salles",
+   "result": "winner",
+   "honorary": false,
+   "country": "巴西",
+   "iso": "BR",
+   "continent": "美洲",
+   "lnglat": [
+    -51.9,
+    -14.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/348.jpg"
+  },
+  {
+   "ceremonyYear": 2025,
+   "filmYear": 2024,
+   "ceremony": 97,
+   "titleEn": "Emilia Pérez",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Jacques Audiard",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/349.jpg"
+  },
+  {
+   "ceremonyYear": 2025,
+   "filmYear": 2024,
+   "ceremony": 97,
+   "titleEn": "The Girl with the Needle",
+   "titleZh": "",
+   "countryRaw": "Denmark",
+   "director": "Magnus von Horn",
+   "result": "nominee",
+   "honorary": false,
+   "country": "丹麦",
+   "iso": "DK",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    56.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/350.jpg"
+  },
+  {
+   "ceremonyYear": 2025,
+   "filmYear": 2024,
+   "ceremony": 97,
+   "titleEn": "The Seed of the Sacred Fig",
+   "titleZh": "",
+   "countryRaw": "Germany",
+   "director": "Mohammad Rasoulof",
+   "result": "nominee",
+   "honorary": false,
+   "country": "德国",
+   "iso": "DE",
+   "continent": "欧洲",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/351.jpg"
+  },
+  {
+   "ceremonyYear": 2025,
+   "filmYear": 2024,
+   "ceremony": 97,
+   "titleEn": "Flow",
+   "titleZh": "",
+   "countryRaw": "Latvia",
+   "director": "Gints Zilbalodis",
+   "result": "nominee",
+   "honorary": false,
+   "country": "拉脱维亚",
+   "iso": "LV",
+   "continent": "欧洲",
+   "lnglat": [
+    24.0,
+    57.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/352.jpg"
+  },
+  {
+   "ceremonyYear": 2026,
+   "filmYear": 2025,
+   "ceremony": 98,
+   "titleEn": "Sentimental Value",
+   "titleZh": "情感价值",
+   "countryRaw": "Norway",
+   "director": "Joachim Trier",
+   "result": "winner",
+   "honorary": false,
+   "country": "挪威",
+   "iso": "NO",
+   "continent": "欧洲",
+   "lnglat": [
+    9.5,
+    61.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/353.jpg"
+  },
+  {
+   "ceremonyYear": 2026,
+   "filmYear": 2025,
+   "ceremony": 98,
+   "titleEn": "The Secret Agent",
+   "titleZh": "",
+   "countryRaw": "Brazil",
+   "director": "Kleber Mendonça Filho",
+   "result": "nominee",
+   "honorary": false,
+   "country": "巴西",
+   "iso": "BR",
+   "continent": "美洲",
+   "lnglat": [
+    -51.9,
+    -14.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/354.jpg"
+  },
+  {
+   "ceremonyYear": 2026,
+   "filmYear": 2025,
+   "ceremony": 98,
+   "titleEn": "It Was Just an Accident",
+   "titleZh": "",
+   "countryRaw": "France",
+   "director": "Jafar Panahi",
+   "result": "nominee",
+   "honorary": false,
+   "country": "法国",
+   "iso": "FR",
+   "continent": "欧洲",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/355.jpg"
+  },
+  {
+   "ceremonyYear": 2026,
+   "filmYear": 2025,
+   "ceremony": 98,
+   "titleEn": "Sirât",
+   "titleZh": "",
+   "countryRaw": "Spain",
+   "director": "Óliver Laxe",
+   "result": "nominee",
+   "honorary": false,
+   "country": "西班牙",
+   "iso": "ES",
+   "continent": "欧洲",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/356.jpg"
+  },
+  {
+   "ceremonyYear": 2026,
+   "filmYear": 2025,
+   "ceremony": 98,
+   "titleEn": "The Voice of Hind Rajab",
+   "titleZh": "",
+   "countryRaw": "Tunisia",
+   "director": "Kaouther Ben Hania",
+   "result": "nominee",
+   "honorary": false,
+   "country": "突尼斯",
+   "iso": "TN",
+   "continent": "非洲",
+   "lnglat": [
+    9.5,
+    34.0
+   ],
+   "countryNote": "",
+   "poster": "/maps/oscar-best-film/data/posters/357.jpg"
+  }
+ ]
+}

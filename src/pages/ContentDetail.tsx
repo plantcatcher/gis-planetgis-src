@@ -373,10 +373,12 @@ export default function ContentDetail({ type }: Props) {
     boardIdx >= 0 && boardIdx < boardSiblings.length - 1 ? boardSiblings[boardIdx + 1] : undefined;
   // 互链前缀与 type 一一对应（map→maps、game→games、tool→tools、work→works），统一取自 BASE_PATH
   const boardBase = BASE_PATH[type];
-  // 系列作品正文中，把「打开/全部」入口卡插在「介绍」与「功能特点」两个小节之间
-  // （所有 map/game 作品正文都含这两个 H2，拆分位置稳定）。
+  // 系列作品正文中，把「打开/全部」入口卡插在「介绍」与「功能特点」两个小节之间。
+  // 部分作品正文没有「功能特点」小节（如奥斯卡最佳外语片图），此时退到第一个 H2，
+  // 让入口卡仍落在介绍段之后的正文开头，而不是沉到全文末尾。
   const splitMark = '\n## 功能特点';
-  const splitAt = body.indexOf(splitMark);
+  let splitAt = body.indexOf(splitMark);
+  if (splitAt < 0) splitAt = body.indexOf('\n## ');
   const bodyBefore = splitAt >= 0 ? body.slice(0, splitAt) : body;
   const bodyAfter = splitAt >= 0 ? body.slice(splitAt) : '';
 

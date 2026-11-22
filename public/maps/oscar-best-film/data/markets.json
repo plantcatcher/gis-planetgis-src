@@ -1,0 +1,3747 @@
+{
+ "meta": {
+  "total": 358,
+  "winners": 78,
+  "nominees": 280,
+  "countries": 58,
+  "yearMin": 1948,
+  "yearMax": 2026,
+  "note": "年份为颁奖年份；1947—1955 荣誉奖无提名；获奖按选送国统计；港澳台并入中国"
+ },
+ "markets": [
+  {
+   "iso": "IT",
+   "name": "意大利",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    12.6,
+    41.9
+   ],
+   "wins": 13,
+   "noms": 19,
+   "firstWin": 1948,
+   "films": [
+    {
+     "ceremonyYear": 2024,
+     "titleZh": "",
+     "titleEn": "Io Capitano",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Matteo Garrone"
+    },
+    {
+     "ceremonyYear": 2022,
+     "titleZh": "上帝之手",
+     "titleEn": "The Hand of God",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Paolo Sorrentino"
+    },
+    {
+     "ceremonyYear": 2014,
+     "titleZh": "绝美之城",
+     "titleEn": "The Great Beauty",
+     "result": "winner",
+     "honorary": false,
+     "director": "Paolo Sorrentino"
+    },
+    {
+     "ceremonyYear": 2006,
+     "titleZh": "",
+     "titleEn": "Don't Tell",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Cristina Comencini"
+    },
+    {
+     "ceremonyYear": 1999,
+     "titleZh": "美丽人生",
+     "titleEn": "Life Is Beautiful",
+     "result": "winner",
+     "honorary": false,
+     "director": "Roberto Benigni"
+    },
+    {
+     "ceremonyYear": 1996,
+     "titleZh": "",
+     "titleEn": "The Star Maker",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Giuseppe Tornatore"
+    },
+    {
+     "ceremonyYear": 1992,
+     "titleZh": "地中海",
+     "titleEn": "Mediterraneo",
+     "result": "winner",
+     "honorary": false,
+     "director": "Gabriele Salvatores"
+    },
+    {
+     "ceremonyYear": 1991,
+     "titleZh": "",
+     "titleEn": "Open Doors",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Gianni Amelio"
+    },
+    {
+     "ceremonyYear": 1990,
+     "titleZh": "天堂电影院",
+     "titleEn": "Cinema Paradiso",
+     "result": "winner",
+     "honorary": false,
+     "director": "Giuseppe Tornatore"
+    },
+    {
+     "ceremonyYear": 1988,
+     "titleZh": "",
+     "titleEn": "The Family",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Ettore Scola"
+    },
+    {
+     "ceremonyYear": 1982,
+     "titleZh": "",
+     "titleEn": "Three Brothers",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Francesco Rosi"
+    },
+    {
+     "ceremonyYear": 1980,
+     "titleZh": "",
+     "titleEn": "To Forget Venice",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Franco Brusati"
+    },
+    {
+     "ceremonyYear": 1979,
+     "titleZh": "",
+     "titleEn": "Viva Italia!",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Mario Monicelli, Dino Risi, Ettore Scola"
+    },
+    {
+     "ceremonyYear": 1978,
+     "titleZh": "",
+     "titleEn": "A Special Day",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Ettore Scola"
+    },
+    {
+     "ceremonyYear": 1977,
+     "titleZh": "",
+     "titleEn": "Seven Beauties",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Lina Wertmüller"
+    },
+    {
+     "ceremonyYear": 1976,
+     "titleZh": "",
+     "titleEn": "Scent of a Woman",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Dino Risi"
+    },
+    {
+     "ceremonyYear": 1975,
+     "titleZh": "阿玛柯德",
+     "titleEn": "Amarcord",
+     "result": "winner",
+     "honorary": false,
+     "director": "Federico Fellini"
+    },
+    {
+     "ceremonyYear": 1972,
+     "titleZh": "费尼兹花园",
+     "titleEn": "The Garden of the Finzi Continis",
+     "result": "winner",
+     "honorary": false,
+     "director": "Vittorio De Sica"
+    },
+    {
+     "ceremonyYear": 1971,
+     "titleZh": "对一个不容怀疑的公民的调查",
+     "titleEn": "Investigation of a Citizen Above Suspicion",
+     "result": "winner",
+     "honorary": false,
+     "director": "Elio Petri"
+    },
+    {
+     "ceremonyYear": 1969,
+     "titleZh": "",
+     "titleEn": "The Girl with the Pistol",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Mario Monicelli"
+    },
+    {
+     "ceremonyYear": 1967,
+     "titleZh": "",
+     "titleEn": "The Battle of Algiers",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Gillo Pontecorvo"
+    },
+    {
+     "ceremonyYear": 1966,
+     "titleZh": "",
+     "titleEn": "Marriage Italian Style",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Vittorio De Sica"
+    },
+    {
+     "ceremonyYear": 1965,
+     "titleZh": "昨日、今日和明日",
+     "titleEn": "Yesterday, Today and Tomorrow",
+     "result": "winner",
+     "honorary": false,
+     "director": "Vittorio De Sica"
+    },
+    {
+     "ceremonyYear": 1964,
+     "titleZh": "八部半",
+     "titleEn": "8½",
+     "result": "winner",
+     "honorary": false,
+     "director": "Federico Fellini"
+    },
+    {
+     "ceremonyYear": 1963,
+     "titleZh": "",
+     "titleEn": "The Four Days of Naples",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Nanni Loy"
+    },
+    {
+     "ceremonyYear": 1961,
+     "titleZh": "",
+     "titleEn": "Kapò",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Gillo Pontecorvo"
+    },
+    {
+     "ceremonyYear": 1960,
+     "titleZh": "",
+     "titleEn": "The Great War",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Mario Monicelli"
+    },
+    {
+     "ceremonyYear": 1959,
+     "titleZh": "",
+     "titleEn": "The Usual Unidentified Thieves",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Mario Monicelli"
+    },
+    {
+     "ceremonyYear": 1958,
+     "titleZh": "卡比利亚之夜",
+     "titleEn": "Nights of Cabiria",
+     "result": "winner",
+     "honorary": false,
+     "director": "Federico Fellini"
+    },
+    {
+     "ceremonyYear": 1957,
+     "titleZh": "大路",
+     "titleEn": "La Strada",
+     "result": "winner",
+     "honorary": false,
+     "director": "Federico Fellini"
+    },
+    {
+     "ceremonyYear": 1950,
+     "titleZh": "偷自行车的人",
+     "titleEn": "Bicycle Thieves",
+     "result": "winner",
+     "honorary": true,
+     "director": "Vittorio De Sica"
+    },
+    {
+     "ceremonyYear": 1948,
+     "titleZh": "擦鞋童",
+     "titleEn": "Shoe-Shine",
+     "result": "winner",
+     "honorary": true,
+     "director": "Vittorio De Sica"
+    }
+   ]
+  },
+  {
+   "iso": "FR",
+   "name": "法国",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    2.2,
+    46.2
+   ],
+   "wins": 12,
+   "noms": 30,
+   "firstWin": 1949,
+   "films": [
+    {
+     "ceremonyYear": 2026,
+     "titleZh": "",
+     "titleEn": "It Was Just an Accident",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jafar Panahi"
+    },
+    {
+     "ceremonyYear": 2025,
+     "titleZh": "",
+     "titleEn": "Emilia Pérez",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jacques Audiard"
+    },
+    {
+     "ceremonyYear": 2020,
+     "titleZh": "",
+     "titleEn": "Les Misérables",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Ladj Ly"
+    },
+    {
+     "ceremonyYear": 2016,
+     "titleZh": "",
+     "titleEn": "Mustang",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Deniz Gamze Ergüven"
+    },
+    {
+     "ceremonyYear": 2010,
+     "titleZh": "",
+     "titleEn": "A Prophet",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jacques Audiard"
+    },
+    {
+     "ceremonyYear": 2009,
+     "titleZh": "",
+     "titleEn": "The Class",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Laurent Cantet"
+    },
+    {
+     "ceremonyYear": 2006,
+     "titleZh": "",
+     "titleEn": "Joyeux Noël",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Christian Carion"
+    },
+    {
+     "ceremonyYear": 2002,
+     "titleZh": "",
+     "titleEn": "Amélie",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jean-Pierre Jeunet"
+    },
+    {
+     "ceremonyYear": 2001,
+     "titleZh": "",
+     "titleEn": "The Taste of Others",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Agnès Jaoui"
+    },
+    {
+     "ceremonyYear": 2000,
+     "titleZh": "",
+     "titleEn": "East-West",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Régis Wargnier"
+    },
+    {
+     "ceremonyYear": 1997,
+     "titleZh": "",
+     "titleEn": "Ridicule",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Patrice Leconte"
+    },
+    {
+     "ceremonyYear": 1993,
+     "titleZh": "印度支那",
+     "titleEn": "Indochine",
+     "result": "winner",
+     "honorary": false,
+     "director": "Régis Wargnier"
+    },
+    {
+     "ceremonyYear": 1991,
+     "titleZh": "",
+     "titleEn": "Cyrano de Bergerac",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jean-Paul Rappeneau"
+    },
+    {
+     "ceremonyYear": 1990,
+     "titleZh": "",
+     "titleEn": "Camille Claudel",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Bruno Nuytten"
+    },
+    {
+     "ceremonyYear": 1988,
+     "titleZh": "",
+     "titleEn": "Au Revoir Les Enfants (Goodbye, Children)",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Louis Malle"
+    },
+    {
+     "ceremonyYear": 1987,
+     "titleZh": "",
+     "titleEn": "Betty Blue",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jean-Jacques Beineix"
+    },
+    {
+     "ceremonyYear": 1986,
+     "titleZh": "",
+     "titleEn": "Three Men and a Cradle",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Coline Serreau"
+    },
+    {
+     "ceremonyYear": 1984,
+     "titleZh": "",
+     "titleEn": "Entre Nous",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Diane Kurys"
+    },
+    {
+     "ceremonyYear": 1983,
+     "titleZh": "",
+     "titleEn": "Coup de Torchon",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Bertrand Tavernier"
+    },
+    {
+     "ceremonyYear": 1981,
+     "titleZh": "",
+     "titleEn": "The Last Metro",
+     "result": "nominee",
+     "honorary": false,
+     "director": "François Truffaut"
+    },
+    {
+     "ceremonyYear": 1980,
+     "titleZh": "",
+     "titleEn": "A Simple Story",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Claude Sautet"
+    },
+    {
+     "ceremonyYear": 1979,
+     "titleZh": "掏出你的手帕",
+     "titleEn": "Get Out Your Handkerchiefs",
+     "result": "winner",
+     "honorary": false,
+     "director": "Bertrand Blier"
+    },
+    {
+     "ceremonyYear": 1978,
+     "titleZh": "罗莎夫人",
+     "titleEn": "Madame Rosa",
+     "result": "winner",
+     "honorary": false,
+     "director": "Moshé Mizrahi"
+    },
+    {
+     "ceremonyYear": 1977,
+     "titleZh": "",
+     "titleEn": "Cousin, Cousine",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jean-Charles Tacchella"
+    },
+    {
+     "ceremonyYear": 1975,
+     "titleZh": "",
+     "titleEn": "Lacombe, Lucien",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Louis Malle"
+    },
+    {
+     "ceremonyYear": 1974,
+     "titleZh": "日以继夜",
+     "titleEn": "Day for Night",
+     "result": "winner",
+     "honorary": false,
+     "director": "François Truffaut"
+    },
+    {
+     "ceremonyYear": 1973,
+     "titleZh": "资产阶级的审慎魅力",
+     "titleEn": "The Discreet Charm of the Bourgeoisie",
+     "result": "winner",
+     "honorary": false,
+     "director": "Luis Buñuel"
+    },
+    {
+     "ceremonyYear": 1971,
+     "titleZh": "",
+     "titleEn": "Hoa-Binh",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Raoul Coutard"
+    },
+    {
+     "ceremonyYear": 1970,
+     "titleZh": "",
+     "titleEn": "My Night with Maud",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Eric Rohmer"
+    },
+    {
+     "ceremonyYear": 1969,
+     "titleZh": "",
+     "titleEn": "Stolen Kisses",
+     "result": "nominee",
+     "honorary": false,
+     "director": "François Truffaut"
+    },
+    {
+     "ceremonyYear": 1968,
+     "titleZh": "",
+     "titleEn": "Live for Life",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Claude Lelouch"
+    },
+    {
+     "ceremonyYear": 1967,
+     "titleZh": "一个男人和一个女人",
+     "titleEn": "A Man and a Woman",
+     "result": "winner",
+     "honorary": false,
+     "director": "Claude Lelouch"
+    },
+    {
+     "ceremonyYear": 1965,
+     "titleZh": "",
+     "titleEn": "The Umbrellas of Cherbourg",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jacques Demy"
+    },
+    {
+     "ceremonyYear": 1963,
+     "titleZh": "花落莺啼春",
+     "titleEn": "Sundays and Cybele",
+     "result": "winner",
+     "honorary": false,
+     "director": "Serge Bourguignon"
+    },
+    {
+     "ceremonyYear": 1961,
+     "titleZh": "",
+     "titleEn": "La Vérité",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Henri-Georges Clouzot"
+    },
+    {
+     "ceremonyYear": 1960,
+     "titleZh": "黑人奥菲尔",
+     "titleEn": "Black Orpheus",
+     "result": "winner",
+     "honorary": false,
+     "director": "Marcel Camus"
+    },
+    {
+     "ceremonyYear": 1959,
+     "titleZh": "我的舅舅",
+     "titleEn": "My Uncle",
+     "result": "winner",
+     "honorary": false,
+     "director": "Jacques Tati"
+    },
+    {
+     "ceremonyYear": 1958,
+     "titleZh": "",
+     "titleEn": "Gates of Paris",
+     "result": "nominee",
+     "honorary": false,
+     "director": "René Clair"
+    },
+    {
+     "ceremonyYear": 1957,
+     "titleZh": "",
+     "titleEn": "Gervaise",
+     "result": "nominee",
+     "honorary": false,
+     "director": "René Clément"
+    },
+    {
+     "ceremonyYear": 1953,
+     "titleZh": "禁忌的游戏",
+     "titleEn": "Forbidden Games",
+     "result": "winner",
+     "honorary": true,
+     "director": "René Clément"
+    },
+    {
+     "ceremonyYear": 1951,
+     "titleZh": "玛拉帕加之墙",
+     "titleEn": "The Walls of Malapaga",
+     "result": "winner",
+     "honorary": true,
+     "director": "René Clément"
+    },
+    {
+     "ceremonyYear": 1949,
+     "titleZh": "文森特先生",
+     "titleEn": "Monsieur Vincent",
+     "result": "winner",
+     "honorary": true,
+     "director": "Maurice Cloche"
+    }
+   ]
+  },
+  {
+   "iso": "JP",
+   "name": "日本",
+   "continent": "亚洲",
+   "color": "#e8614f",
+   "lnglat": [
+    138.3,
+    36.2
+   ],
+   "wins": 5,
+   "noms": 14,
+   "firstWin": 1952,
+   "films": [
+    {
+     "ceremonyYear": 2024,
+     "titleZh": "",
+     "titleEn": "Perfect Days",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Wim Wenders"
+    },
+    {
+     "ceremonyYear": 2022,
+     "titleZh": "驾驶我的车",
+     "titleEn": "Drive My Car",
+     "result": "winner",
+     "honorary": false,
+     "director": "Ryusuke Hamaguchi"
+    },
+    {
+     "ceremonyYear": 2019,
+     "titleZh": "小偷家族",
+     "titleEn": "Shoplifters",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Hirokazu Kore-eda"
+    },
+    {
+     "ceremonyYear": 2009,
+     "titleZh": "入殓师",
+     "titleEn": "Departures",
+     "result": "winner",
+     "honorary": false,
+     "director": "Yojiro Takita"
+    },
+    {
+     "ceremonyYear": 2004,
+     "titleZh": "",
+     "titleEn": "The Twilight Samurai",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Yoji Yamada"
+    },
+    {
+     "ceremonyYear": 1982,
+     "titleZh": "",
+     "titleEn": "Muddy River",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Kōhei Oguri"
+    },
+    {
+     "ceremonyYear": 1981,
+     "titleZh": "",
+     "titleEn": "Kagemusha",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Akira Kurosawa"
+    },
+    {
+     "ceremonyYear": 1981,
+     "titleZh": "",
+     "titleEn": "",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Akira Kurosawa"
+    },
+    {
+     "ceremonyYear": 1976,
+     "titleZh": "",
+     "titleEn": "Sandakan No. 8",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Kei Kumai"
+    },
+    {
+     "ceremonyYear": 1972,
+     "titleZh": "",
+     "titleEn": "Dodes'ka-Den",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Akira Kurosawa"
+    },
+    {
+     "ceremonyYear": 1968,
+     "titleZh": "",
+     "titleEn": "Portrait of Chieko",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Noboru Nakamura"
+    },
+    {
+     "ceremonyYear": 1966,
+     "titleZh": "",
+     "titleEn": "Kwaidan",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Masaki Kobayashi"
+    },
+    {
+     "ceremonyYear": 1965,
+     "titleZh": "",
+     "titleEn": "The Woman in the Dunes",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Hiroshi Teshigahara"
+    },
+    {
+     "ceremonyYear": 1964,
+     "titleZh": "",
+     "titleEn": "Twin Sisters of Kyoto",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Noboru Nakamura"
+    },
+    {
+     "ceremonyYear": 1962,
+     "titleZh": "",
+     "titleEn": "Immortal Love",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Keisuke Kinoshita"
+    },
+    {
+     "ceremonyYear": 1957,
+     "titleZh": "",
+     "titleEn": "Harp of Burma",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Kon Ichikawa"
+    },
+    {
+     "ceremonyYear": 1956,
+     "titleZh": "宫本武藏",
+     "titleEn": "Samurai, The Legend of Musashi",
+     "result": "winner",
+     "honorary": true,
+     "director": "Hiroshi Inagaki"
+    },
+    {
+     "ceremonyYear": 1955,
+     "titleZh": "地狱门",
+     "titleEn": "Gate of Hell",
+     "result": "winner",
+     "honorary": true,
+     "director": "Teinosuke Kinugasa"
+    },
+    {
+     "ceremonyYear": 1952,
+     "titleZh": "罗生门",
+     "titleEn": "Rashomon",
+     "result": "winner",
+     "honorary": true,
+     "director": "Akira Kurosawa"
+    }
+   ]
+  },
+  {
+   "iso": "DE",
+   "name": "德国",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    10.5,
+    51.2
+   ],
+   "wins": 4,
+   "noms": 19,
+   "firstWin": 1980,
+   "films": [
+    {
+     "ceremonyYear": 2025,
+     "titleZh": "",
+     "titleEn": "The Seed of the Sacred Fig",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Mohammad Rasoulof"
+    },
+    {
+     "ceremonyYear": 2024,
+     "titleZh": "",
+     "titleEn": "The Teachers' Lounge",
+     "result": "nominee",
+     "honorary": false,
+     "director": "İlker Çatak"
+    },
+    {
+     "ceremonyYear": 2023,
+     "titleZh": "西线无战事",
+     "titleEn": "All Quiet on the Western Front",
+     "result": "winner",
+     "honorary": false,
+     "director": "Edward Berger"
+    },
+    {
+     "ceremonyYear": 2019,
+     "titleZh": "",
+     "titleEn": "Never Look Away",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Florian Henckel von Donnersmarck"
+    },
+    {
+     "ceremonyYear": 2017,
+     "titleZh": "",
+     "titleEn": "Toni Erdmann",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Maren Ade"
+    },
+    {
+     "ceremonyYear": 2010,
+     "titleZh": "",
+     "titleEn": "The White Ribbon",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Michael Haneke"
+    },
+    {
+     "ceremonyYear": 2009,
+     "titleZh": "",
+     "titleEn": "The Baader Meinhof Complex",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Uli Edel"
+    },
+    {
+     "ceremonyYear": 2007,
+     "titleZh": "窃听风暴",
+     "titleEn": "The Lives of Others",
+     "result": "winner",
+     "honorary": false,
+     "director": "Florian Henckel von Donnersmarck"
+    },
+    {
+     "ceremonyYear": 2006,
+     "titleZh": "",
+     "titleEn": "Sophie Scholl — The Final Days",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Marc Rothemund"
+    },
+    {
+     "ceremonyYear": 2005,
+     "titleZh": "",
+     "titleEn": "Downfall",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Oliver Hirschbiegel"
+    },
+    {
+     "ceremonyYear": 2003,
+     "titleZh": "何处是我家",
+     "titleEn": "Nowhere in Africa",
+     "result": "winner",
+     "honorary": false,
+     "director": "Caroline Link"
+    },
+    {
+     "ceremonyYear": 1998,
+     "titleZh": "",
+     "titleEn": "Beyond Silence",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Caroline Link"
+    },
+    {
+     "ceremonyYear": 1993,
+     "titleZh": "",
+     "titleEn": "Schtonk!",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Helmut Dietl"
+    },
+    {
+     "ceremonyYear": 1991,
+     "titleZh": "",
+     "titleEn": "The Nasty Girl",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Michael Verhoeven"
+    },
+    {
+     "ceremonyYear": 1986,
+     "titleZh": "",
+     "titleEn": "Angry Harvest",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Agnieszka Holland"
+    },
+    {
+     "ceremonyYear": 1980,
+     "titleZh": "铁皮鼓",
+     "titleEn": "The Tin Drum",
+     "result": "winner",
+     "honorary": false,
+     "director": "Volker Schlöndorff"
+    },
+    {
+     "ceremonyYear": 1979,
+     "titleZh": "",
+     "titleEn": "The Glass Cell",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Hans W. Geißendörfer"
+    },
+    {
+     "ceremonyYear": 1977,
+     "titleZh": "",
+     "titleEn": "Jacob the Liar",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Frank Beyer"
+    },
+    {
+     "ceremonyYear": 1974,
+     "titleZh": "",
+     "titleEn": "The Pedestrian",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Maximilian Schell"
+    },
+    {
+     "ceremonyYear": 1960,
+     "titleZh": "",
+     "titleEn": "The Bridge",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Bernhard Wicki"
+    },
+    {
+     "ceremonyYear": 1959,
+     "titleZh": "",
+     "titleEn": "Arms and the Man",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Franz Peter Wirth"
+    },
+    {
+     "ceremonyYear": 1958,
+     "titleZh": "",
+     "titleEn": "The Devil Strikes at Night",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Robert Siodmak"
+    },
+    {
+     "ceremonyYear": 1957,
+     "titleZh": "",
+     "titleEn": "Captain of Köpenick",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Helmut Käutner"
+    }
+   ]
+  },
+  {
+   "iso": "ES",
+   "name": "西班牙",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    -3.7,
+    40.4
+   ],
+   "wins": 4,
+   "noms": 18,
+   "firstWin": 1983,
+   "films": [
+    {
+     "ceremonyYear": 2026,
+     "titleZh": "",
+     "titleEn": "Sirât",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Óliver Laxe"
+    },
+    {
+     "ceremonyYear": 2024,
+     "titleZh": "",
+     "titleEn": "Society of the Snow",
+     "result": "nominee",
+     "honorary": false,
+     "director": "J.A. Bayona"
+    },
+    {
+     "ceremonyYear": 2020,
+     "titleZh": "",
+     "titleEn": "Pain and Glory",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Pedro Almodóvar"
+    },
+    {
+     "ceremonyYear": 2005,
+     "titleZh": "深海长眠",
+     "titleEn": "The Sea Inside",
+     "result": "winner",
+     "honorary": false,
+     "director": "Alejandro Amenábar"
+    },
+    {
+     "ceremonyYear": 2000,
+     "titleZh": "关于我母亲的一切",
+     "titleEn": "All About My Mother",
+     "result": "winner",
+     "honorary": false,
+     "director": "Pedro Almodóvar"
+    },
+    {
+     "ceremonyYear": 1999,
+     "titleZh": "",
+     "titleEn": "The Grandfather",
+     "result": "nominee",
+     "honorary": false,
+     "director": "José Luis Garci"
+    },
+    {
+     "ceremonyYear": 1998,
+     "titleZh": "",
+     "titleEn": "Secrets of the Heart",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Montxo Armendáriz"
+    },
+    {
+     "ceremonyYear": 1994,
+     "titleZh": "四千金的情人",
+     "titleEn": "Belle Époque",
+     "result": "winner",
+     "honorary": false,
+     "director": "Fernando Trueba"
+    },
+    {
+     "ceremonyYear": 1989,
+     "titleZh": "",
+     "titleEn": "Women on the Verge of a Nervous Breakdown",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Pedro Almodóvar"
+    },
+    {
+     "ceremonyYear": 1988,
+     "titleZh": "",
+     "titleEn": "Course Completed",
+     "result": "nominee",
+     "honorary": false,
+     "director": "José Luis Garci"
+    },
+    {
+     "ceremonyYear": 1985,
+     "titleZh": "",
+     "titleEn": "Double Feature",
+     "result": "nominee",
+     "honorary": false,
+     "director": "José Luis Garci"
+    },
+    {
+     "ceremonyYear": 1984,
+     "titleZh": "",
+     "titleEn": "Carmen",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Carlos Saura"
+    },
+    {
+     "ceremonyYear": 1983,
+     "titleZh": "重新开始",
+     "titleEn": "Volver a Empezar",
+     "result": "winner",
+     "honorary": false,
+     "director": "José Luis Garci"
+    },
+    {
+     "ceremonyYear": 1981,
+     "titleZh": "",
+     "titleEn": "The Nest",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jaime de Armiñán"
+    },
+    {
+     "ceremonyYear": 1980,
+     "titleZh": "",
+     "titleEn": "Mama Turns a Hundred",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Carlos Saura"
+    },
+    {
+     "ceremonyYear": 1978,
+     "titleZh": "",
+     "titleEn": "That Obscure Object of Desire",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Luis Buñuel"
+    },
+    {
+     "ceremonyYear": 1973,
+     "titleZh": "",
+     "titleEn": "My Dearest Señorita",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jaime de Armiñán"
+    },
+    {
+     "ceremonyYear": 1971,
+     "titleZh": "",
+     "titleEn": "Tristana",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Luis Buñuel"
+    },
+    {
+     "ceremonyYear": 1968,
+     "titleZh": "",
+     "titleEn": "El Amor Brujo",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Francisco Rovira Beleta"
+    },
+    {
+     "ceremonyYear": 1964,
+     "titleZh": "",
+     "titleEn": "Los Tarantos",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Francisco Rovira Beleta"
+    },
+    {
+     "ceremonyYear": 1962,
+     "titleZh": "",
+     "titleEn": "Plácido",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Luis García Berlanga"
+    },
+    {
+     "ceremonyYear": 1959,
+     "titleZh": "",
+     "titleEn": "La Venganza",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Juan Antonio Bardem"
+    }
+   ]
+  },
+  {
+   "iso": "RU",
+   "name": "俄罗斯",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    95.0,
+    61.0
+   ],
+   "wins": 4,
+   "noms": 12,
+   "firstWin": 1969,
+   "films": [
+    {
+     "ceremonyYear": 2018,
+     "titleZh": "",
+     "titleEn": "Loveless",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Andrey Zvyagintsev"
+    },
+    {
+     "ceremonyYear": 2015,
+     "titleZh": "",
+     "titleEn": "Leviathan",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Andrey Zvyagintsev"
+    },
+    {
+     "ceremonyYear": 2008,
+     "titleZh": "",
+     "titleEn": "12",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Nikita Mikhalkov"
+    },
+    {
+     "ceremonyYear": 1998,
+     "titleZh": "",
+     "titleEn": "The Thief",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Pavel Chukhray"
+    },
+    {
+     "ceremonyYear": 1997,
+     "titleZh": "",
+     "titleEn": "Prisoner of the Mountains",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Sergei Bodrov"
+    },
+    {
+     "ceremonyYear": 1995,
+     "titleZh": "烈日灼人",
+     "titleEn": "Burnt by the Sun",
+     "result": "winner",
+     "honorary": false,
+     "director": "Nikita Mikhalkov"
+    },
+    {
+     "ceremonyYear": 1993,
+     "titleZh": "",
+     "titleEn": "Close to Eden",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Nikita Mikhalkov"
+    },
+    {
+     "ceremonyYear": 1985,
+     "titleZh": "",
+     "titleEn": "Wartime Romance",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Pyotr Todorovsky"
+    },
+    {
+     "ceremonyYear": 1983,
+     "titleZh": "",
+     "titleEn": "Private Life",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Yuli Raizman"
+    },
+    {
+     "ceremonyYear": 1981,
+     "titleZh": "莫斯科不相信眼泪",
+     "titleEn": "Moscow Does Not Believe in Tears",
+     "result": "winner",
+     "honorary": false,
+     "director": "Vladimir Menshov"
+    },
+    {
+     "ceremonyYear": 1979,
+     "titleZh": "",
+     "titleEn": "White Bim Black Ear",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Stanislav Rostotsky"
+    },
+    {
+     "ceremonyYear": 1976,
+     "titleZh": "德尔苏·乌扎拉",
+     "titleEn": "Dersu Uzala",
+     "result": "winner",
+     "honorary": false,
+     "director": "Akira Kurosawa"
+    },
+    {
+     "ceremonyYear": 1973,
+     "titleZh": "",
+     "titleEn": "The Dawns Here Are Quiet",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Stanislav Rostotsky"
+    },
+    {
+     "ceremonyYear": 1972,
+     "titleZh": "",
+     "titleEn": "Tchaikovsky",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Igor Talankin"
+    },
+    {
+     "ceremonyYear": 1970,
+     "titleZh": "",
+     "titleEn": "The Brothers Karamazov",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Kirill Lavrov and Ivan Pyryev and Mikhail Ulyanov"
+    },
+    {
+     "ceremonyYear": 1969,
+     "titleZh": "战争与和平",
+     "titleEn": "War and Peace",
+     "result": "winner",
+     "honorary": false,
+     "director": "Sergei Bondarchuk"
+    }
+   ]
+  },
+  {
+   "iso": "DK",
+   "name": "丹麦",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    9.5,
+    56.0
+   ],
+   "wins": 4,
+   "noms": 11,
+   "firstWin": 1988,
+   "films": [
+    {
+     "ceremonyYear": 2025,
+     "titleZh": "",
+     "titleEn": "The Girl with the Needle",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Magnus von Horn"
+    },
+    {
+     "ceremonyYear": 2022,
+     "titleZh": "",
+     "titleEn": "Flee",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jonas Poher Rasmussen"
+    },
+    {
+     "ceremonyYear": 2021,
+     "titleZh": "酒精计划",
+     "titleEn": "Another Round",
+     "result": "winner",
+     "honorary": false,
+     "director": "Thomas Vinterberg"
+    },
+    {
+     "ceremonyYear": 2017,
+     "titleZh": "",
+     "titleEn": "Land of Mine",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Martin Zandvliet"
+    },
+    {
+     "ceremonyYear": 2016,
+     "titleZh": "",
+     "titleEn": "A War",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Tobias Lindholm"
+    },
+    {
+     "ceremonyYear": 2014,
+     "titleZh": "",
+     "titleEn": "The Hunt",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Thomas Vinterberg"
+    },
+    {
+     "ceremonyYear": 2013,
+     "titleZh": "",
+     "titleEn": "A Royal Affair",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Nikolaj Arcel"
+    },
+    {
+     "ceremonyYear": 2011,
+     "titleZh": "更好的世界",
+     "titleEn": "In a Better World",
+     "result": "winner",
+     "honorary": false,
+     "director": "Susanne Bier"
+    },
+    {
+     "ceremonyYear": 2007,
+     "titleZh": "",
+     "titleEn": "After the Wedding",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Susanne Bier"
+    },
+    {
+     "ceremonyYear": 1990,
+     "titleZh": "",
+     "titleEn": "Waltzing Regitze",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Kaspar Rostrup"
+    },
+    {
+     "ceremonyYear": 1989,
+     "titleZh": "征服者佩尔",
+     "titleEn": "Pelle the Conqueror",
+     "result": "winner",
+     "honorary": false,
+     "director": "Bille August"
+    },
+    {
+     "ceremonyYear": 1988,
+     "titleZh": "巴贝特之宴",
+     "titleEn": "Babette's Feast",
+     "result": "winner",
+     "honorary": false,
+     "director": "Gabriel Axel"
+    },
+    {
+     "ceremonyYear": 1962,
+     "titleZh": "",
+     "titleEn": "Harry and the Butler",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Bent Christensen"
+    },
+    {
+     "ceremonyYear": 1960,
+     "titleZh": "",
+     "titleEn": "Paw",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Astrid Henning-Jensen"
+    },
+    {
+     "ceremonyYear": 1957,
+     "titleZh": "",
+     "titleEn": "Qivitoq",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Erik Balling"
+    }
+   ]
+  },
+  {
+   "iso": "SE",
+   "name": "瑞典",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    15.0,
+    62.0
+   ],
+   "wins": 3,
+   "noms": 13,
+   "firstWin": 1961,
+   "films": [
+    {
+     "ceremonyYear": 2018,
+     "titleZh": "",
+     "titleEn": "The Square",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Ruben Östlund"
+    },
+    {
+     "ceremonyYear": 2017,
+     "titleZh": "",
+     "titleEn": "A Man Called Ove",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Hannes Holm"
+    },
+    {
+     "ceremonyYear": 2005,
+     "titleZh": "",
+     "titleEn": "As It Is in Heaven",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Kay Pollak"
+    },
+    {
+     "ceremonyYear": 2004,
+     "titleZh": "",
+     "titleEn": "Evil Ondskan",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Mikael Håfström"
+    },
+    {
+     "ceremonyYear": 2000,
+     "titleZh": "",
+     "titleEn": "Under the Sun",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Colin Nutley"
+    },
+    {
+     "ceremonyYear": 1996,
+     "titleZh": "",
+     "titleEn": "All Things Fair",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Bo Widerberg"
+    },
+    {
+     "ceremonyYear": 1992,
+     "titleZh": "",
+     "titleEn": "The Ox",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Sven Nykvist"
+    },
+    {
+     "ceremonyYear": 1984,
+     "titleZh": "芬妮与亚历山大",
+     "titleEn": "Fanny & Alexander",
+     "result": "winner",
+     "honorary": false,
+     "director": "Ingmar Bergman"
+    },
+    {
+     "ceremonyYear": 1983,
+     "titleZh": "",
+     "titleEn": "The Flight of the Eagle",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jan Troell"
+    },
+    {
+     "ceremonyYear": 1973,
+     "titleZh": "",
+     "titleEn": "The New Land",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jan Troell"
+    },
+    {
+     "ceremonyYear": 1972,
+     "titleZh": "",
+     "titleEn": "The Emigrants",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jan Troell"
+    },
+    {
+     "ceremonyYear": 1970,
+     "titleZh": "",
+     "titleEn": "Ådalen '31",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Bo Widerberg"
+    },
+    {
+     "ceremonyYear": 1966,
+     "titleZh": "",
+     "titleEn": "Dear John",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Lars-Magnus Lindgren"
+    },
+    {
+     "ceremonyYear": 1965,
+     "titleZh": "",
+     "titleEn": "Raven's End",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Bo Widerberg"
+    },
+    {
+     "ceremonyYear": 1962,
+     "titleZh": "犹在镜中",
+     "titleEn": "Through a Glass Darkly",
+     "result": "winner",
+     "honorary": false,
+     "director": "Ingmar Bergman"
+    },
+    {
+     "ceremonyYear": 1961,
+     "titleZh": "处女泉",
+     "titleEn": "The Virgin Spring",
+     "result": "winner",
+     "honorary": false,
+     "director": "Ingmar Bergman"
+    }
+   ]
+  },
+  {
+   "iso": "CZ",
+   "name": "捷克",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    15.5,
+    49.8
+   ],
+   "wins": 3,
+   "noms": 6,
+   "firstWin": 1966,
+   "films": [
+    {
+     "ceremonyYear": 2004,
+     "titleZh": "",
+     "titleEn": "Želary",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Ondřej Trojan"
+    },
+    {
+     "ceremonyYear": 2001,
+     "titleZh": "",
+     "titleEn": "Divided We Fall",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jan Hřebejk"
+    },
+    {
+     "ceremonyYear": 1997,
+     "titleZh": "给我一个爸",
+     "titleEn": "Kolya",
+     "result": "winner",
+     "honorary": false,
+     "director": "Jan Svěrák"
+    },
+    {
+     "ceremonyYear": 1992,
+     "titleZh": "",
+     "titleEn": "The Elementary School",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jan Svěrák"
+    },
+    {
+     "ceremonyYear": 1987,
+     "titleZh": "",
+     "titleEn": "My Sweet Little Village",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jiří Menzel"
+    },
+    {
+     "ceremonyYear": 1969,
+     "titleZh": "",
+     "titleEn": "The Firemen's Ball",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Miloš Forman"
+    },
+    {
+     "ceremonyYear": 1968,
+     "titleZh": "严密监视的火车",
+     "titleEn": "Closely Watched Trains",
+     "result": "winner",
+     "honorary": false,
+     "director": "Jiří Menzel"
+    },
+    {
+     "ceremonyYear": 1967,
+     "titleZh": "",
+     "titleEn": "Loves of a Blonde",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Miloš Forman"
+    },
+    {
+     "ceremonyYear": 1966,
+     "titleZh": "大街上的商店",
+     "titleEn": "The Shop on Main Street",
+     "result": "winner",
+     "honorary": false,
+     "director": "Ján Kadár and Elmar Klos Slovak"
+    }
+   ]
+  },
+  {
+   "iso": "NL",
+   "name": "荷兰",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    5.3,
+    52.2
+   ],
+   "wins": 3,
+   "noms": 4,
+   "firstWin": 1987,
+   "films": [
+    {
+     "ceremonyYear": 2004,
+     "titleZh": "",
+     "titleEn": "Twin Sisters",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Ben Sombogaart"
+    },
+    {
+     "ceremonyYear": 2003,
+     "titleZh": "",
+     "titleEn": "Zus & Zo",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Paula van der Oest"
+    },
+    {
+     "ceremonyYear": 1998,
+     "titleZh": "角色",
+     "titleEn": "Character",
+     "result": "winner",
+     "honorary": false,
+     "director": "Mike van Diem"
+    },
+    {
+     "ceremonyYear": 1996,
+     "titleZh": "安东尼亚家族",
+     "titleEn": "Antonia's Line",
+     "result": "winner",
+     "honorary": false,
+     "director": "Marleen Gorris"
+    },
+    {
+     "ceremonyYear": 1987,
+     "titleZh": "战火葬童年",
+     "titleEn": "The Assault",
+     "result": "winner",
+     "honorary": false,
+     "director": "Fons Rademakers"
+    },
+    {
+     "ceremonyYear": 1974,
+     "titleZh": "",
+     "titleEn": "Turkish Delight",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Paul Verhoeven"
+    },
+    {
+     "ceremonyYear": 1960,
+     "titleZh": "",
+     "titleEn": "The Village on the River",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Fons Rademakers"
+    }
+   ]
+  },
+  {
+   "iso": "HU",
+   "name": "匈牙利",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    19.5,
+    47.2
+   ],
+   "wins": 2,
+   "noms": 8,
+   "firstWin": 1982,
+   "films": [
+    {
+     "ceremonyYear": 2018,
+     "titleZh": "",
+     "titleEn": "On Body and Soul",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Ildikó Enyedi"
+    },
+    {
+     "ceremonyYear": 2016,
+     "titleZh": "索尔之子",
+     "titleEn": "Son of Saul",
+     "result": "winner",
+     "honorary": false,
+     "director": "László Nemes"
+    },
+    {
+     "ceremonyYear": 1989,
+     "titleZh": "",
+     "titleEn": "Hanussen",
+     "result": "nominee",
+     "honorary": false,
+     "director": "István Szabó"
+    },
+    {
+     "ceremonyYear": 1986,
+     "titleZh": "",
+     "titleEn": "Colonel Redl",
+     "result": "nominee",
+     "honorary": false,
+     "director": "István Szabó"
+    },
+    {
+     "ceremonyYear": 1984,
+     "titleZh": "",
+     "titleEn": "Job's Revolt",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Imre Gyöngyössy, Barna Kabay"
+    },
+    {
+     "ceremonyYear": 1982,
+     "titleZh": "靡菲斯特",
+     "titleEn": "Mephisto",
+     "result": "winner",
+     "honorary": false,
+     "director": "István Szabó"
+    },
+    {
+     "ceremonyYear": 1981,
+     "titleZh": "",
+     "titleEn": "Confidence",
+     "result": "nominee",
+     "honorary": false,
+     "director": "István Szabó"
+    },
+    {
+     "ceremonyYear": 1979,
+     "titleZh": "",
+     "titleEn": "Hungarians",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Zoltán Fábri"
+    },
+    {
+     "ceremonyYear": 1975,
+     "titleZh": "",
+     "titleEn": "Cats' Play",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Károly Makk"
+    },
+    {
+     "ceremonyYear": 1969,
+     "titleZh": "",
+     "titleEn": "The Boys of Paul Street",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Zoltán Fábri"
+    }
+   ]
+  },
+  {
+   "iso": "AR",
+   "name": "阿根廷",
+   "continent": "美洲",
+   "color": "#e0a63c",
+   "lnglat": [
+    -63.6,
+    -35.7
+   ],
+   "wins": 2,
+   "noms": 6,
+   "firstWin": 1986,
+   "films": [
+    {
+     "ceremonyYear": 2023,
+     "titleZh": "",
+     "titleEn": "Argentina, 1985",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Santiago Mitre"
+    },
+    {
+     "ceremonyYear": 2015,
+     "titleZh": "",
+     "titleEn": "Wild Tales",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Damián Szifrón"
+    },
+    {
+     "ceremonyYear": 2010,
+     "titleZh": "谜一样的双眼",
+     "titleEn": "The Secret in Their Eyes",
+     "result": "winner",
+     "honorary": false,
+     "director": "Juan José Campanella"
+    },
+    {
+     "ceremonyYear": 2002,
+     "titleZh": "",
+     "titleEn": "Son of the Bride",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Juan J. Campanella"
+    },
+    {
+     "ceremonyYear": 1999,
+     "titleZh": "",
+     "titleEn": "Tango",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Carlos Saura"
+    },
+    {
+     "ceremonyYear": 1986,
+     "titleZh": "官方说法",
+     "titleEn": "The Official Story",
+     "result": "winner",
+     "honorary": false,
+     "director": "Luis Puenzo"
+    },
+    {
+     "ceremonyYear": 1985,
+     "titleZh": "",
+     "titleEn": "Camila",
+     "result": "nominee",
+     "honorary": false,
+     "director": "María Luisa Bemberg"
+    },
+    {
+     "ceremonyYear": 1975,
+     "titleZh": "",
+     "titleEn": "The Truce",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Sergio Renán"
+    }
+   ]
+  },
+  {
+   "iso": "CH",
+   "name": "瑞士",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    8.2,
+    46.8
+   ],
+   "wins": 2,
+   "noms": 3,
+   "firstWin": 1985,
+   "films": [
+    {
+     "ceremonyYear": 1991,
+     "titleZh": "希望之旅",
+     "titleEn": "Journey of Hope",
+     "result": "winner",
+     "honorary": false,
+     "director": "Xavier Koller"
+    },
+    {
+     "ceremonyYear": 1985,
+     "titleZh": "危险行动",
+     "titleEn": "Dangerous Moves",
+     "result": "winner",
+     "honorary": false,
+     "director": "Richard Dembo"
+    },
+    {
+     "ceremonyYear": 1982,
+     "titleZh": "",
+     "titleEn": "The Boat Is Full",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Markus Imhoof"
+    },
+    {
+     "ceremonyYear": 1974,
+     "titleZh": "",
+     "titleEn": "L'Invitation",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Claude Goretta"
+    },
+    {
+     "ceremonyYear": 1971,
+     "titleZh": "",
+     "titleEn": "First Love",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Maximilian Schell"
+    }
+   ]
+  },
+  {
+   "iso": "AT",
+   "name": "奥地利",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    14.6,
+    47.5
+   ],
+   "wins": 2,
+   "noms": 2,
+   "firstWin": 2008,
+   "films": [
+    {
+     "ceremonyYear": 2013,
+     "titleZh": "爱",
+     "titleEn": "Amour",
+     "result": "winner",
+     "honorary": false,
+     "director": "Michael Haneke"
+    },
+    {
+     "ceremonyYear": 2009,
+     "titleZh": "",
+     "titleEn": "Revanche",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Götz Spielmann"
+    },
+    {
+     "ceremonyYear": 2008,
+     "titleZh": "伪钞制造者",
+     "titleEn": "The Counterfeiters",
+     "result": "winner",
+     "honorary": false,
+     "director": "Stefan Ruzowitzky"
+    },
+    {
+     "ceremonyYear": 1987,
+     "titleZh": "",
+     "titleEn": "'38 — Vienna Before the Fall",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Wolfgang Glück"
+    }
+   ]
+  },
+  {
+   "iso": "IR",
+   "name": "伊朗",
+   "continent": "亚洲",
+   "color": "#e8614f",
+   "lnglat": [
+    53.7,
+    32.4
+   ],
+   "wins": 2,
+   "noms": 1,
+   "firstWin": 2012,
+   "films": [
+    {
+     "ceremonyYear": 2017,
+     "titleZh": "推销员",
+     "titleEn": "The Salesman",
+     "result": "winner",
+     "honorary": false,
+     "director": "Asghar Farhadi"
+    },
+    {
+     "ceremonyYear": 2012,
+     "titleZh": "纳德和西敏：一次别离",
+     "titleEn": "A Separation",
+     "result": "winner",
+     "honorary": false,
+     "director": "Asghar Farhadi"
+    },
+    {
+     "ceremonyYear": 1999,
+     "titleZh": "",
+     "titleEn": "Children of Heaven",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Majid Majidi"
+    }
+   ]
+  },
+  {
+   "iso": "PL",
+   "name": "波兰",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    19.1,
+    52.2
+   ],
+   "wins": 1,
+   "noms": 12,
+   "firstWin": 2015,
+   "films": [
+    {
+     "ceremonyYear": 2023,
+     "titleZh": "",
+     "titleEn": "EO",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jerzy Skolimowski"
+    },
+    {
+     "ceremonyYear": 2020,
+     "titleZh": "",
+     "titleEn": "Corpus Christi",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jan Komasa"
+    },
+    {
+     "ceremonyYear": 2019,
+     "titleZh": "冷战",
+     "titleEn": "Cold War",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Paweł Pawlikowski"
+    },
+    {
+     "ceremonyYear": 2015,
+     "titleZh": "修女艾达",
+     "titleEn": "Ida",
+     "result": "winner",
+     "honorary": false,
+     "director": "Paweł Pawlikowski"
+    },
+    {
+     "ceremonyYear": 2012,
+     "titleZh": "",
+     "titleEn": "In Darkness",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Agnieszka Holland"
+    },
+    {
+     "ceremonyYear": 2008,
+     "titleZh": "",
+     "titleEn": "Katyń",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Andrzej Wajda"
+    },
+    {
+     "ceremonyYear": 1982,
+     "titleZh": "",
+     "titleEn": "Man of Iron",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Andrzej Wajda"
+    },
+    {
+     "ceremonyYear": 1980,
+     "titleZh": "",
+     "titleEn": "The Maids of Wilko",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Andrzej Wajda"
+    },
+    {
+     "ceremonyYear": 1977,
+     "titleZh": "",
+     "titleEn": "Nights and Days",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jerzy Antczak"
+    },
+    {
+     "ceremonyYear": 1976,
+     "titleZh": "",
+     "titleEn": "The Promised Land",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Andrzej Wajda"
+    },
+    {
+     "ceremonyYear": 1975,
+     "titleZh": "",
+     "titleEn": "The Deluge",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jerzy Hoffman"
+    },
+    {
+     "ceremonyYear": 1967,
+     "titleZh": "",
+     "titleEn": "Pharaoh",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jerzy Kawalerowicz"
+    },
+    {
+     "ceremonyYear": 1964,
+     "titleZh": "",
+     "titleEn": "Knife in the Water",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Roman Polanski"
+    }
+   ]
+  },
+  {
+   "iso": "MX",
+   "name": "墨西哥",
+   "continent": "美洲",
+   "color": "#e0a63c",
+   "lnglat": [
+    -102.5,
+    23.6
+   ],
+   "wins": 1,
+   "noms": 8,
+   "firstWin": 2019,
+   "films": [
+    {
+     "ceremonyYear": 2019,
+     "titleZh": "罗马",
+     "titleEn": "Roma",
+     "result": "winner",
+     "honorary": false,
+     "director": "Alfonso Cuarón"
+    },
+    {
+     "ceremonyYear": 2011,
+     "titleZh": "",
+     "titleEn": "Biutiful",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Alejandro González Iñárritu"
+    },
+    {
+     "ceremonyYear": 2007,
+     "titleZh": "",
+     "titleEn": "Pan's Labyrinth",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Guillermo del Toro"
+    },
+    {
+     "ceremonyYear": 2003,
+     "titleZh": "",
+     "titleEn": "The Crime of Father Amaro",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Carlos Carrera"
+    },
+    {
+     "ceremonyYear": 2001,
+     "titleZh": "",
+     "titleEn": "Amores Perros",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Alejandro González Iñárritu"
+    },
+    {
+     "ceremonyYear": 1976,
+     "titleZh": "",
+     "titleEn": "Letters from Marusia",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Miguel Littín"
+    },
+    {
+     "ceremonyYear": 1963,
+     "titleZh": "",
+     "titleEn": "Tlayucan",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Luis Alcoriza"
+    },
+    {
+     "ceremonyYear": 1962,
+     "titleZh": "",
+     "titleEn": "The Important Man",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Ismael Rodríguez"
+    },
+    {
+     "ceremonyYear": 1961,
+     "titleZh": "",
+     "titleEn": "Macario",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Roberto Gavaldón"
+    }
+   ]
+  },
+  {
+   "iso": "CN",
+   "name": "中国",
+   "continent": "亚洲",
+   "color": "#e8614f",
+   "lnglat": [
+    104.0,
+    35.0
+   ],
+   "wins": 1,
+   "noms": 7,
+   "firstWin": 2001,
+   "films": [
+    {
+     "ceremonyYear": 2021,
+     "titleZh": "少年的你",
+     "titleEn": "Better Days",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Derek Tsang"
+    },
+    {
+     "ceremonyYear": 2003,
+     "titleZh": "",
+     "titleEn": "Hero",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Zhang Yimou"
+    },
+    {
+     "ceremonyYear": 2001,
+     "titleZh": "卧虎藏龙",
+     "titleEn": "Crouching Tiger, Hidden Dragon",
+     "result": "winner",
+     "honorary": false,
+     "director": "Ang Lee"
+    },
+    {
+     "ceremonyYear": 1995,
+     "titleZh": "",
+     "titleEn": "Eat Drink Man Woman",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Ang Lee"
+    },
+    {
+     "ceremonyYear": 1994,
+     "titleZh": "",
+     "titleEn": "The Wedding Banquet",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Ang Lee"
+    },
+    {
+     "ceremonyYear": 1994,
+     "titleZh": "",
+     "titleEn": "Farewell My Concubine",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Chen Kaige"
+    },
+    {
+     "ceremonyYear": 1992,
+     "titleZh": "",
+     "titleEn": "Raise the Red Lantern",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Zhang Yimou"
+    },
+    {
+     "ceremonyYear": 1991,
+     "titleZh": "",
+     "titleEn": "Ju Dou",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Zhang Yimou, Yang Fengliang"
+    }
+   ]
+  },
+  {
+   "iso": "CA",
+   "name": "加拿大",
+   "continent": "美洲",
+   "color": "#e0a63c",
+   "lnglat": [
+    -106.3,
+    56.1
+   ],
+   "wins": 1,
+   "noms": 6,
+   "firstWin": 2004,
+   "films": [
+    {
+     "ceremonyYear": 2013,
+     "titleZh": "",
+     "titleEn": "War Witch",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Kim Nguyen"
+    },
+    {
+     "ceremonyYear": 2012,
+     "titleZh": "",
+     "titleEn": "Monsieur Lazhar",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Philippe Falardeau"
+    },
+    {
+     "ceremonyYear": 2011,
+     "titleZh": "",
+     "titleEn": "Incendies",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Denis Villeneuve"
+    },
+    {
+     "ceremonyYear": 2007,
+     "titleZh": "",
+     "titleEn": "Water",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Deepa Mehta"
+    },
+    {
+     "ceremonyYear": 2004,
+     "titleZh": "野蛮入侵",
+     "titleEn": "The Barbarian Invasions",
+     "result": "winner",
+     "honorary": false,
+     "director": "Denys Arcand"
+    },
+    {
+     "ceremonyYear": 1990,
+     "titleZh": "",
+     "titleEn": "Jesus of Montreal",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Denys Arcand"
+    },
+    {
+     "ceremonyYear": 1987,
+     "titleZh": "",
+     "titleEn": "The Decline of the American Empire",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Denys Arcand"
+    }
+   ]
+  },
+  {
+   "iso": "NO",
+   "name": "挪威",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    9.5,
+    61.0
+   ],
+   "wins": 1,
+   "noms": 6,
+   "firstWin": 2026,
+   "films": [
+    {
+     "ceremonyYear": 2026,
+     "titleZh": "情感价值",
+     "titleEn": "Sentimental Value",
+     "result": "winner",
+     "honorary": false,
+     "director": "Joachim Trier"
+    },
+    {
+     "ceremonyYear": 2022,
+     "titleZh": "世界上最糟糕的人",
+     "titleEn": "The Worst Person in the World",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Joachim Trier"
+    },
+    {
+     "ceremonyYear": 2013,
+     "titleZh": "",
+     "titleEn": "Kon-Tiki",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Joachim Rønning, Espen Sandberg"
+    },
+    {
+     "ceremonyYear": 2002,
+     "titleZh": "",
+     "titleEn": "Elling",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Petter Næss"
+    },
+    {
+     "ceremonyYear": 1997,
+     "titleZh": "",
+     "titleEn": "The Other Side of Sunday",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Berit Nesheim"
+    },
+    {
+     "ceremonyYear": 1988,
+     "titleZh": "",
+     "titleEn": "Pathfinder",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Nils Gaup"
+    },
+    {
+     "ceremonyYear": 1958,
+     "titleZh": "",
+     "titleEn": "Nine Lives",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Arne Skouen"
+    }
+   ]
+  },
+  {
+   "iso": "BR",
+   "name": "巴西",
+   "continent": "美洲",
+   "color": "#e0a63c",
+   "lnglat": [
+    -51.9,
+    -14.2
+   ],
+   "wins": 1,
+   "noms": 5,
+   "firstWin": 2025,
+   "films": [
+    {
+     "ceremonyYear": 2026,
+     "titleZh": "",
+     "titleEn": "The Secret Agent",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Kleber Mendonça Filho"
+    },
+    {
+     "ceremonyYear": 2025,
+     "titleZh": "我仍在此",
+     "titleEn": "I'm Still Here",
+     "result": "winner",
+     "honorary": false,
+     "director": "Walter Salles"
+    },
+    {
+     "ceremonyYear": 1999,
+     "titleZh": "",
+     "titleEn": "Central Station",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Walter Salles"
+    },
+    {
+     "ceremonyYear": 1998,
+     "titleZh": "",
+     "titleEn": "Four Days in September",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Bruno Barreto"
+    },
+    {
+     "ceremonyYear": 1996,
+     "titleZh": "",
+     "titleEn": "O Quatrilho",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Fábio Barreto"
+    },
+    {
+     "ceremonyYear": 1963,
+     "titleZh": "",
+     "titleEn": "Keeper of Promises",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Anselmo Duarte"
+    }
+   ]
+  },
+  {
+   "iso": "DZ",
+   "name": "阿尔及利亚",
+   "continent": "非洲",
+   "color": "#4fbfa0",
+   "lnglat": [
+    2.6,
+    28.0
+   ],
+   "wins": 1,
+   "noms": 4,
+   "firstWin": 1970,
+   "films": [
+    {
+     "ceremonyYear": 2011,
+     "titleZh": "",
+     "titleEn": "Outside the Law",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Rachid Bouchareb"
+    },
+    {
+     "ceremonyYear": 2007,
+     "titleZh": "",
+     "titleEn": "Days of Glory",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Rachid Bouchareb"
+    },
+    {
+     "ceremonyYear": 1996,
+     "titleZh": "",
+     "titleEn": "Dust of Life",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Rachid Bouchareb"
+    },
+    {
+     "ceremonyYear": 1984,
+     "titleZh": "",
+     "titleEn": "Le Bal",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Ettore Scola"
+    },
+    {
+     "ceremonyYear": 1970,
+     "titleZh": "焦点新闻 Z",
+     "titleEn": "Z",
+     "result": "winner",
+     "honorary": false,
+     "director": "Costa-Gavras"
+    }
+   ]
+  },
+  {
+   "iso": "GB",
+   "name": "英国",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    -2.0,
+    54.0
+   ],
+   "wins": 1,
+   "noms": 2,
+   "firstWin": 2024,
+   "films": [
+    {
+     "ceremonyYear": 2024,
+     "titleZh": "利益区域",
+     "titleEn": "The Zone of Interest",
+     "result": "winner",
+     "honorary": false,
+     "director": "Jonathan Glazer"
+    },
+    {
+     "ceremonyYear": 2000,
+     "titleZh": "",
+     "titleEn": "Solomon and Gaenor",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Paul Morrison"
+    },
+    {
+     "ceremonyYear": 1994,
+     "titleZh": "",
+     "titleEn": "Hedd Wyn",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Paul Turner"
+    }
+   ]
+  },
+  {
+   "iso": "ZA",
+   "name": "南非",
+   "continent": "非洲",
+   "color": "#4fbfa0",
+   "lnglat": [
+    25.0,
+    -29.0
+   ],
+   "wins": 1,
+   "noms": 1,
+   "firstWin": 2006,
+   "films": [
+    {
+     "ceremonyYear": 2006,
+     "titleZh": "黑帮暴徒",
+     "titleEn": "Tsotsi",
+     "result": "winner",
+     "honorary": false,
+     "director": "Gavin Hood"
+    },
+    {
+     "ceremonyYear": 2005,
+     "titleZh": "",
+     "titleEn": "The Chorus (France, Christophe Barratier) Yesterday",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Darrell Roodt"
+    }
+   ]
+  },
+  {
+   "iso": "CL",
+   "name": "智利",
+   "continent": "美洲",
+   "color": "#e0a63c",
+   "lnglat": [
+    -71.5,
+    -35.7
+   ],
+   "wins": 1,
+   "noms": 1,
+   "firstWin": 2018,
+   "films": [
+    {
+     "ceremonyYear": 2018,
+     "titleZh": "普通女人",
+     "titleEn": "A Fantastic Woman",
+     "result": "winner",
+     "honorary": false,
+     "director": "Sebastian Lelio"
+    },
+    {
+     "ceremonyYear": 2013,
+     "titleZh": "",
+     "titleEn": "No",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Pablo Larraín"
+    }
+   ]
+  },
+  {
+   "iso": "BA",
+   "name": "波黑",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    17.9,
+    43.9
+   ],
+   "wins": 1,
+   "noms": 1,
+   "firstWin": 2002,
+   "films": [
+    {
+     "ceremonyYear": 2021,
+     "titleZh": "",
+     "titleEn": "Quo Vadis, Aida?",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jasmila Žbanić"
+    },
+    {
+     "ceremonyYear": 2002,
+     "titleZh": "无主之地",
+     "titleEn": "No Man's Land",
+     "result": "winner",
+     "honorary": false,
+     "director": "Danis Tanović"
+    }
+   ]
+  },
+  {
+   "iso": "CI",
+   "name": "科特迪瓦",
+   "continent": "非洲",
+   "color": "#4fbfa0",
+   "lnglat": [
+    -5.6,
+    6.8
+   ],
+   "wins": 1,
+   "noms": 0,
+   "firstWin": 1977,
+   "films": [
+    {
+     "ceremonyYear": 1977,
+     "titleZh": "黑人为白人作战",
+     "titleEn": "Black and White in Color",
+     "result": "winner",
+     "honorary": false,
+     "director": "Jean-Jacques Annaud"
+    }
+   ]
+  },
+  {
+   "iso": "KR",
+   "name": "韩国",
+   "continent": "亚洲",
+   "color": "#e8614f",
+   "lnglat": [
+    127.8,
+    36.5
+   ],
+   "wins": 1,
+   "noms": 0,
+   "firstWin": 2020,
+   "films": [
+    {
+     "ceremonyYear": 2020,
+     "titleZh": "寄生虫",
+     "titleEn": "Parasite",
+     "result": "winner",
+     "honorary": false,
+     "director": "Bong Joon Ho"
+    }
+   ]
+  },
+  {
+   "iso": "IL",
+   "name": "以色列",
+   "continent": "亚洲",
+   "color": "#e8614f",
+   "lnglat": [
+    35.0,
+    31.5
+   ],
+   "wins": 0,
+   "noms": 10,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 2012,
+     "titleZh": "",
+     "titleEn": "Footnote",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Joseph Cedar"
+    },
+    {
+     "ceremonyYear": 2010,
+     "titleZh": "",
+     "titleEn": "Ajami",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Scandar Copti, Yaron Shani"
+    },
+    {
+     "ceremonyYear": 2009,
+     "titleZh": "",
+     "titleEn": "Waltz with Bashir",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Ari Folman"
+    },
+    {
+     "ceremonyYear": 2008,
+     "titleZh": "",
+     "titleEn": "Beaufort",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Joseph Cedar"
+    },
+    {
+     "ceremonyYear": 1985,
+     "titleZh": "",
+     "titleEn": "Beyond the Walls",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Uri Barbash"
+    },
+    {
+     "ceremonyYear": 1978,
+     "titleZh": "",
+     "titleEn": "Operation Thunderbolt",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Menahem Golan"
+    },
+    {
+     "ceremonyYear": 1974,
+     "titleZh": "",
+     "titleEn": "The House on Chelouche Street",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Moshé Mizrahi"
+    },
+    {
+     "ceremonyYear": 1973,
+     "titleZh": "",
+     "titleEn": "I Love You Rosa Ani",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Moshé Mizrahi"
+    },
+    {
+     "ceremonyYear": 1972,
+     "titleZh": "",
+     "titleEn": "The Policeman",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Ephraim Kishon"
+    },
+    {
+     "ceremonyYear": 1965,
+     "titleZh": "",
+     "titleEn": "Sallah",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Ephraim Kishon"
+    }
+   ]
+  },
+  {
+   "iso": "BE",
+   "name": "比利时",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    4.5,
+    50.5
+   ],
+   "wins": 0,
+   "noms": 8,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 2023,
+     "titleZh": "",
+     "titleEn": "Close",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Lukas Dhont"
+    },
+    {
+     "ceremonyYear": 2014,
+     "titleZh": "",
+     "titleEn": "The Broken Circle Breakdown",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Felix Van Groeningen"
+    },
+    {
+     "ceremonyYear": 2012,
+     "titleZh": "",
+     "titleEn": "Bullhead",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Michael R. Roskam"
+    },
+    {
+     "ceremonyYear": 2001,
+     "titleZh": "",
+     "titleEn": "Everybody's Famous!",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Dominique Deruddere"
+    },
+    {
+     "ceremonyYear": 1995,
+     "titleZh": "",
+     "titleEn": "Farinelli: Il Castrato",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Gérard Corbiau"
+    },
+    {
+     "ceremonyYear": 1993,
+     "titleZh": "",
+     "titleEn": "Daens",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Stijn Coninx"
+    },
+    {
+     "ceremonyYear": 1989,
+     "titleZh": "",
+     "titleEn": "The Music Teacher",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Gérard Corbiau"
+    },
+    {
+     "ceremonyYear": 1971,
+     "titleZh": "",
+     "titleEn": "Paix Sur Les Champs",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jacques Boigelot"
+    }
+   ]
+  },
+  {
+   "iso": "RS",
+   "name": "塞尔维亚",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    20.5,
+    44.0
+   ],
+   "wins": 0,
+   "noms": 6,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 1986,
+     "titleZh": "",
+     "titleEn": "When Father Was Away on Business",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Emir Kusturica"
+    },
+    {
+     "ceremonyYear": 1970,
+     "titleZh": "",
+     "titleEn": "The Battle of Neretva",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Veljko Bulajić"
+    },
+    {
+     "ceremonyYear": 1968,
+     "titleZh": "",
+     "titleEn": "Even Met Happy Gypsies",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Aleksandar Petrović"
+    },
+    {
+     "ceremonyYear": 1967,
+     "titleZh": "",
+     "titleEn": "Three",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Aleksandar Petrović"
+    },
+    {
+     "ceremonyYear": 1961,
+     "titleZh": "",
+     "titleEn": "The Ninth Circle",
+     "result": "nominee",
+     "honorary": false,
+     "director": "France Štiglic"
+    },
+    {
+     "ceremonyYear": 1959,
+     "titleZh": "",
+     "titleEn": "The Road a Year Long",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Giuseppe De Santis"
+    }
+   ]
+  },
+  {
+   "iso": "GR",
+   "name": "希腊",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    22.0,
+    39.0
+   ],
+   "wins": 0,
+   "noms": 5,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 2011,
+     "titleZh": "",
+     "titleEn": "Dogtooth",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Yorgos Lanthimos"
+    },
+    {
+     "ceremonyYear": 1978,
+     "titleZh": "",
+     "titleEn": "Iphigenia",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Michael Cacoyannis"
+    },
+    {
+     "ceremonyYear": 1966,
+     "titleZh": "",
+     "titleEn": "Blood on the Land",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Vasilis Georgiadis"
+    },
+    {
+     "ceremonyYear": 1964,
+     "titleZh": "",
+     "titleEn": "The Red Lanterns",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Vasilis Georgiadis"
+    },
+    {
+     "ceremonyYear": 1963,
+     "titleZh": "",
+     "titleEn": "Electra",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Michael Cacoyannis"
+    }
+   ]
+  },
+  {
+   "iso": "IN",
+   "name": "印度",
+   "continent": "亚洲",
+   "color": "#e8614f",
+   "lnglat": [
+    79.0,
+    22.0
+   ],
+   "wins": 0,
+   "noms": 3,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 2002,
+     "titleZh": "",
+     "titleEn": "Lagaan",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Ashutosh Gowariker"
+    },
+    {
+     "ceremonyYear": 1989,
+     "titleZh": "",
+     "titleEn": "Salaam Bombay!",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Mira Nair"
+    },
+    {
+     "ceremonyYear": 1958,
+     "titleZh": "",
+     "titleEn": "Mother India",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Mehboob Khan"
+    }
+   ]
+  },
+  {
+   "iso": "MK",
+   "name": "北马其顿",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    21.4,
+    41.6
+   ],
+   "wins": 0,
+   "noms": 2,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 2020,
+     "titleZh": "",
+     "titleEn": "Honeyland",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Tamara Kotevska, Ljubomir Stefanov"
+    },
+    {
+     "ceremonyYear": 1995,
+     "titleZh": "",
+     "titleEn": "Before the Rain",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Milčo Mančevski"
+    }
+   ]
+  },
+  {
+   "iso": "PS",
+   "name": "巴勒斯坦",
+   "continent": "亚洲",
+   "color": "#e8614f",
+   "lnglat": [
+    35.2,
+    31.9
+   ],
+   "wins": 0,
+   "noms": 2,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 2014,
+     "titleZh": "",
+     "titleEn": "Omar",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Hany Abu-Assad"
+    },
+    {
+     "ceremonyYear": 2006,
+     "titleZh": "",
+     "titleEn": "Paradise Now",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Hany Abu-Assad"
+    }
+   ]
+  },
+  {
+   "iso": "TN",
+   "name": "突尼斯",
+   "continent": "非洲",
+   "color": "#4fbfa0",
+   "lnglat": [
+    9.5,
+    34.0
+   ],
+   "wins": 0,
+   "noms": 2,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 2026,
+     "titleZh": "",
+     "titleEn": "The Voice of Hind Rajab",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Kaouther Ben Hania"
+    },
+    {
+     "ceremonyYear": 2021,
+     "titleZh": "",
+     "titleEn": "The Man Who Sold His Skin",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Kaouther Ben Hania"
+    }
+   ]
+  },
+  {
+   "iso": "LB",
+   "name": "黎巴嫩",
+   "continent": "亚洲",
+   "color": "#e8614f",
+   "lnglat": [
+    35.9,
+    33.9
+   ],
+   "wins": 0,
+   "noms": 2,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 2019,
+     "titleZh": "何以为家",
+     "titleEn": "Capernaum",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Nadine Labaki"
+    },
+    {
+     "ceremonyYear": 2018,
+     "titleZh": "",
+     "titleEn": "The Insult",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Ziad Doueiri"
+    }
+   ]
+  },
+  {
+   "iso": "BT",
+   "name": "不丹",
+   "continent": "亚洲",
+   "color": "#e8614f",
+   "lnglat": [
+    90.5,
+    27.5
+   ],
+   "wins": 0,
+   "noms": 1,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 2022,
+     "titleZh": "",
+     "titleEn": "Lunana: A Yak in the Classroom",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Pawo Choyning Dorji"
+    }
+   ]
+  },
+  {
+   "iso": "UY",
+   "name": "乌拉圭",
+   "continent": "美洲",
+   "color": "#e0a63c",
+   "lnglat": [
+    -56.0,
+    -33.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 1993,
+     "titleZh": "",
+     "titleEn": "A Place in the World",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Adolfo Aristarain"
+    }
+   ]
+  },
+  {
+   "iso": "IS",
+   "name": "冰岛",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    -19.0,
+    64.9
+   ],
+   "wins": 0,
+   "noms": 1,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 1992,
+     "titleZh": "",
+     "titleEn": "Children of Nature",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Friðrik Þór Friðriksson"
+    }
+   ]
+  },
+  {
+   "iso": "CU",
+   "name": "古巴",
+   "continent": "美洲",
+   "color": "#e0a63c",
+   "lnglat": [
+    -79.0,
+    22.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 1995,
+     "titleZh": "",
+     "titleEn": "Strawberry and Chocolate",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Tomás Gutiérrez Alea, Juan Carlos Tabío"
+    }
+   ]
+  },
+  {
+   "iso": "KZ",
+   "name": "哈萨克斯坦",
+   "continent": "亚洲",
+   "color": "#e8614f",
+   "lnglat": [
+    68.0,
+    48.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 2008,
+     "titleZh": "",
+     "titleEn": "Mongol",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Sergei Bodrov"
+    }
+   ]
+  },
+  {
+   "iso": "CO",
+   "name": "哥伦比亚",
+   "continent": "美洲",
+   "color": "#e0a63c",
+   "lnglat": [
+    -74.0,
+    4.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 2016,
+     "titleZh": "",
+     "titleEn": "Embrace of the Serpent",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Ciro Guerra"
+    }
+   ]
+  },
+  {
+   "iso": "NI",
+   "name": "尼加拉瓜",
+   "continent": "美洲",
+   "color": "#e0a63c",
+   "lnglat": [
+    -85.0,
+    13.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 1983,
+     "titleZh": "",
+     "titleEn": "Alsino and the Condor",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Miguel Littín"
+    }
+   ]
+  },
+  {
+   "iso": "NP",
+   "name": "尼泊尔",
+   "continent": "亚洲",
+   "color": "#e8614f",
+   "lnglat": [
+    84.0,
+    28.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 2000,
+     "titleZh": "",
+     "titleEn": "Himalaya",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Eric Valli"
+    }
+   ]
+  },
+  {
+   "iso": "LV",
+   "name": "拉脱维亚",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    24.0,
+    57.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 2025,
+     "titleZh": "",
+     "titleEn": "Flow",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Gints Zilbalodis"
+    }
+   ]
+  },
+  {
+   "iso": "KH",
+   "name": "柬埔寨",
+   "continent": "亚洲",
+   "color": "#e8614f",
+   "lnglat": [
+    105.0,
+    13.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 2014,
+     "titleZh": "",
+     "titleEn": "The Missing Picture",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Rithy Panh"
+    }
+   ]
+  },
+  {
+   "iso": "GE",
+   "name": "格鲁吉亚",
+   "continent": "亚洲",
+   "color": "#e8614f",
+   "lnglat": [
+    43.5,
+    42.3
+   ],
+   "wins": 0,
+   "noms": 1,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 1997,
+     "titleZh": "",
+     "titleEn": "A Chef in Love",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Nana Dzhordzhadze"
+    }
+   ]
+  },
+  {
+   "iso": "MR",
+   "name": "毛里塔尼亚",
+   "continent": "非洲",
+   "color": "#4fbfa0",
+   "lnglat": [
+    -10.0,
+    20.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 2015,
+     "titleZh": "",
+     "titleEn": "Timbuktu",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Abderrahmane Sissako"
+    }
+   ]
+  },
+  {
+   "iso": "PR",
+   "name": "波多黎各",
+   "continent": "美洲",
+   "color": "#e0a63c",
+   "lnglat": [
+    -66.5,
+    18.2
+   ],
+   "wins": 0,
+   "noms": 1,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 1990,
+     "titleZh": "",
+     "titleEn": "What Happened to Santiago",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Jacobo Morales"
+    }
+   ]
+  },
+  {
+   "iso": "AU",
+   "name": "澳大利亚",
+   "continent": "大洋洲",
+   "color": "#a876e0",
+   "lnglat": [
+    134.0,
+    -25.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 2017,
+     "titleZh": "",
+     "titleEn": "Tanna",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Martin Butler, Bentley Dean"
+    }
+   ]
+  },
+  {
+   "iso": "IE",
+   "name": "爱尔兰",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    -8.2,
+    53.4
+   ],
+   "wins": 0,
+   "noms": 1,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 2023,
+     "titleZh": "",
+     "titleEn": "The Quiet Girl",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Colm Bairéad"
+    }
+   ]
+  },
+  {
+   "iso": "EE",
+   "name": "爱沙尼亚",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    25.0,
+    59.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 2015,
+     "titleZh": "",
+     "titleEn": "Tangerines",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Zaza Urushadze"
+    }
+   ]
+  },
+  {
+   "iso": "PE",
+   "name": "秘鲁",
+   "continent": "美洲",
+   "color": "#e0a63c",
+   "lnglat": [
+    -75.0,
+    -10.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 2010,
+     "titleZh": "",
+     "titleEn": "The Milk of Sorrow",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Claudia Llosa"
+    }
+   ]
+  },
+  {
+   "iso": "JO",
+   "name": "约旦",
+   "continent": "亚洲",
+   "color": "#e8614f",
+   "lnglat": [
+    36.5,
+    31.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 2016,
+     "titleZh": "",
+     "titleEn": "Theeb",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Naji Abu Nowar"
+    }
+   ]
+  },
+  {
+   "iso": "RO",
+   "name": "罗马尼亚",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    25.0,
+    46.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 2021,
+     "titleZh": "",
+     "titleEn": "Collective",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Alexander Nanau"
+    }
+   ]
+  },
+  {
+   "iso": "FI",
+   "name": "芬兰",
+   "continent": "欧洲",
+   "color": "#4f9de0",
+   "lnglat": [
+    26.0,
+    64.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 2003,
+     "titleZh": "",
+     "titleEn": "The Man Without a Past",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Aki Kaurismäki"
+    }
+   ]
+  },
+  {
+   "iso": "VN",
+   "name": "越南",
+   "continent": "亚洲",
+   "color": "#e8614f",
+   "lnglat": [
+    106.0,
+    16.0
+   ],
+   "wins": 0,
+   "noms": 1,
+   "firstWin": null,
+   "films": [
+    {
+     "ceremonyYear": 1994,
+     "titleZh": "",
+     "titleEn": "The Scent of Green Papaya",
+     "result": "nominee",
+     "honorary": false,
+     "director": "Trần Anh Hùng"
+    }
+   ]
+  }
+ ]
+}

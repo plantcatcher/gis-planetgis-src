@@ -3021,6 +3021,38 @@
     ]
   },
   {
+    "slug": "oscar-best-film",
+    "entry": "/maps/oscar-best-film/index.html",
+    "bbox": [-180.0, -60.0, 180.0, 80.0],
+    "crs": "WGS84 / EPSG:4326（按选送国聚合，坐标为国家代表点：地理中心；与 Esri 全球底图直接对齐，无偏移。国界数据已将台湾并入中国）",
+    "basemap": "Esri World Imagery 卫星影像（默认）/ 深色无底图 / Esri World Shaded Relief 地形晕渲；全球尺度不用高德瓦片（境外空白）",
+    "source": "widescreenings.com 完整获奖与提名列表（源出 Oscars.org / IMDb / 维基百科），2026-11-23 抓取快照：1948—2026 颁奖年份共 78 次获奖（含 1947—1955 荣誉奖 8 部、1954 年空缺）与 280 次提名，按选送国聚合到 58 国。年份统一为颁奖年份（《卧虎藏龙》影片年 2000、颁奖年 2001，记 2001）。按一个中国原则，中国香港/中国台湾/中国大陆选送全部并入「中国」（1 获奖：2001《卧虎藏龙》中国台湾地区选送；7 提名），卡片注明原选送地区；苏联→俄罗斯、南斯拉夫→塞尔维亚、捷克斯洛伐克→捷克、东德/西德→德国，均注明原选送国。海报从 OMDb 获取并下载到本站 data/posters/，共 324 张（约 91%），缺失显示片名首字占位，不提供下载。本图只含获奖与最终提名，不含各国全部选送，故「零获奖者榜」是有提名无获奖，非有选送无获奖。",
+    "updated": "2026-11-23",
+    "viewport": "全球取景：renderWorldCopies=true，桌面 minZoom=1.5、初始 center=[-8,25] zoom=1.5；竖屏 minZoom=0、初始 center=[20,25]。主视觉按大洲分色（欧洲蓝 / 亚洲红 / 美洲橙 / 非洲绿 / 大洋洲紫），无获奖国家灰色；国家标签为「国名 + 获奖数(+提名数)」，不用圆点面积。点标签或填色区域打开右侧面板，列该国完整获奖与提名影片海报墙（含荣誉奖与提名角标）。时间轴 1948—2026 按颁奖年份回放；左侧三阶段按钮（欧洲中心/缓慢松动/全球多点）一键跳转；右上角榜单按钮含零获奖者榜、导演榜、大洲榜。",
+    "data": [
+      {
+        "file": "maps/oscar-best-film/data/markets.json",
+        "features": 58,
+        "desc": "选送国聚合目录：58 国（中文名、ISO、大洲、大洲色、代表点、获奖数/提名数、首获奖年、完整获奖与提名影片列表），驱动左侧排行、大洲筛选、搜索、详情面板与榜单"
+      },
+      {
+        "file": "maps/oscar-best-film/data/films.json",
+        "features": 358,
+        "desc": "影片明细：358 条（颁奖年份、影片年份、届次、中英文片名、选送国归一、ISO、大洲、导演、获奖/提名/荣誉奖标记、国家说明、本地海报路径），驱动时间轴过滤、搜索与右侧海报墙；78 获奖 + 280 提名"
+      },
+      {
+        "file": "maps/oscar-best-film/data/country-fills.geojson",
+        "features": 176,
+        "desc": "Natural Earth 110m 国界面（含 name_zh，台湾已并入中国）：构建期注入 awWins/awNoms/awIso/awCont/awColor，按大洲分色 choropleth；无获奖国家灰色。跨反子午线要素已切割"
+      },
+      {
+        "file": "maps/oscar-best-film/data/posters/",
+        "features": 324,
+        "desc": "本地海报目录：324 张 JPG（OMDb / IMDb 源），按 films.json 索引 {index:03d}.jpg 命名；加载失败显示片名首字占位"
+      }
+    ]
+  },
+  {
     "slug": "tesla-gigafactory",
     "entry": "/maps/tesla-gigafactory/index.html",
     "bbox": [
