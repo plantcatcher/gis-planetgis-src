@@ -1,15 +1,13 @@
-/* 三大运营商市级分布图 · cn-telecom-city
-   主视图：337 城按「谁是移动在该市的主要挑战者」着色（北方联通红 / 南方电信蓝 /
-   移动独大绿 / 充分竞争灰）。单家视角：按该家市级估算份额 12–68% 连续色阶。
-   点城市 → 右侧详情卡三家份额 + 城市能级与榜单标注；实时搜索 / 按省折叠目录 /
-   #u/<城市名> 分享。
+/* 三大运营商省级分布图 · cn-telecom
+   主视图：31 省按「谁是移动在该省的主要挑战者」着色（北方联通红 / 南方电信蓝 /
+   移动独大绿 / 充分竞争灰）。单家视角：按该家省级估算份额 12–68% 连续色阶。
+   点省 → 右侧详情卡三家份额 + 格局解读；实时搜索 / 分组目录 / #u/<省名> 分享。
 
-   数据（_g/build_cn_telecom_city.py 生成）：
-     data/cities.geojson  339 要素（337 城市 + 香港 + 澳门；属性 m/c/u 估算份额）
-     data/index.json      [adcode, 简称, 类型, 省份]
+   数据（_g/build_cn_telecom.py 生成）：
+     data/provinces.geojson  35 要素（31 省 + 港澳台 + 九段线；属性 m/c/u 估算份额）
+     data/index.json         [adcode, 简称, 类型, 全名]
 
-   口径声明：市级无官方逐市逐家用户份额，本图为省级估算表的二次推算，可信度低于省级；
-   全国份额取 2025 年报实数。 */
+   口径声明：省级无官方逐省逐家用户份额，全部估算；全国份额取 2025 年报实数。 */
 (function () {
   'use strict';
 
@@ -37,14 +35,22 @@
   }
 
   /* ── 着色表达式 ── */
+  /* 主视图：lead 分组着色；港澳台灰；选中退到 0.1；分组高亮时其余压暗 */
   function allColorExpr() {
     var a = ['match', ['get', 'lead']];
     LEADS.forEach(function (g) { a.push(g.key, g.color); });
     a.push(COLORS.na);
     return a;
   }
+  /* 单家视角：按各家实际份额区间插值五档色。
+     VIEWS key 为 cm/ct/cu，数据字段是 m/c/u，必须映射，否则取到 null 不显色。
+     每家用自己的区间，贴合真实分布，避免电信/联通挤在暗档。 */
+  var RAMP_FIELD = { cm: 'm', ct: 'c', cu: 'u' };
+  var RAMP_RANGE = { cm: [38, 72], ct: [10, 38], cu: [8, 44] };
   function rampColorExpr(key) {
-    var stops = RAMPS[key], n = stops.length - 1, lo = 12, hi = 68, a = ['interpolate', ['linear'], ['get', key]];
+    var stops = RAMPS[key], n = stops.length - 1;
+    var range = RAMP_RANGE[key] || [12, 68], lo = range[0], hi = range[1];
+    var a = ['interpolate', ['linear'], ['get', RAMP_FIELD[key] || key]];
     for (var i = 0; i <= n; i++) a.push(lo + (hi - lo) * i / n, stops[i]);
     return a;
   }
@@ -61,22 +67,21 @@
 
   /* ── 启动 ── */
   var app = Thematic.create({
-    slug: 'cn-telecom-city',
+    slug: 'cn-telecom',
     view: CFG.view, bounds: CFG.bounds, boundsMobile: CFG.boundsMobile, extent: CFG.extent,
     graticuleStep: CFG.graticuleStep,
     imgPaint: CFG.imgPaint,
-    /* 保留引擎默认省界 prov-line；自己再压一条更亮的省界在最上层 */
+    /* 省界自己画（tele-fill / tele-line），关掉引擎默认 prov-* 防止 id 冲突 */
+    province: false,
     sources: {
-      main: { data: 'data/cities.geojson', promoteId: 'adcode' },
+      main: { data: 'data/provinces.geojson', promoteId: 'adcode' },
       sel: { data: Thematic.EMPTY, promoteId: 'adcode' }
     },
     layers: [
       { id: 'tele-fill', type: 'fill', source: 'main',
         paint: { 'fill-color': colorExpr(), 'fill-opacity': opacityExpr() } },
       { id: 'tele-line', type: 'line', source: 'main',
-        paint: { 'line-color': '#ffffff', 'line-width': 0.45, 'line-opacity': 0.3 } },
-      { id: 'city-prov-line', type: 'line', source: 'prov',
-        paint: { 'line-color': '#e2e8f0', 'line-width': 1.05, 'line-opacity': 0.52 } },
+        paint: { 'line-color': '#ffffff', 'line-width': 0.65, 'line-opacity': 0.34 } },
       { id: 'sel-halo', type: 'line', source: 'sel', layout: { visibility: 'none' },
         paint: { 'line-color': '#7dd3fc', 'line-width': 7, 'line-opacity': 0, 'line-blur': 2 } },
       { id: 'sel-line', type: 'line', source: 'sel', layout: { visibility: 'none' },
@@ -87,21 +92,20 @@
     onClose: function () { setSel(null); }
   });
   window.__app = app;
-  /* 封面脚本统一用 window.__map 取 map 实例 */
+  /* 封面生成脚本（_gen_cn_store_covers.mjs）统一用 window.__map 取 map 实例 */
   window.__map = app.map;
 
   function boot() {
-    fetch('data/cities.geojson').then(function (r) { return r.json(); }).then(function (fc) {
+    fetch('data/provinces.geojson').then(function (r) { return r.json(); }).then(function (fc) {
       S.feats = fc.features || [];
       S.feats.forEach(function (f) {
         var p = f.properties;
-        if (p.level === 'city' || p.level === 'special') S.byName[String(p.short)] = f;
+        if (p.level === 'prov' || p.level === 'special') S.byName[String(p.short)] = f;
       });
 
       el.fCm.textContent = NATION.cm.toFixed(1);
-      /* 左栏三格较窄，短写为 24/20；完整口径在下方声明与详情卡中给出 */
-      el.fOthers.textContent = NATION.ct.toFixed(0) + '/' + NATION.cu.toFixed(0);
-      el.fProv.textContent = String(S.feats.filter(function (f) { return f.properties.level === 'city'; }).length);
+      el.fOthers.textContent = NATION.ct.toFixed(1) + ' / ' + NATION.cu.toFixed(1);
+      el.fProv.textContent = String(S.feats.filter(function (f) { return f.properties.level === 'prov'; }).length);
 
       renderViews();
       renderGrpStrip();
@@ -111,7 +115,7 @@
       bindPanel();
       app.fitAll({ animate: false });
       updateLabels();
-      window.__cnTelecomCityReady = true;
+      window.__cnTelecomReady = true;
 
       var m = location.hash.match(/^#u\/(.+)$/);
       if (m) goToName(decodeURIComponent(m[1]));
@@ -125,7 +129,7 @@
         if (S.sel || !el.detail.hidden) { setSel(null); app.fitAll({ animate: true }); }
       });
     }).catch(function (err) {
-      console.error('[cn-telecom-city] 数据加载失败', err);
+      console.error('[cn-telecom] 数据加载失败', err);
       el.unitList.innerHTML = '<div class="sr-more">数据加载失败，请刷新重试。</div>';
     });
   }
@@ -148,6 +152,7 @@
     Array.prototype.forEach.call(el.viewStrip.querySelectorAll('.vw-btn'), function (b) {
       b.classList.toggle('is-on', b.getAttribute('data-mode') === mode);
     });
+    /* 单家视角下分组高亮无意义，清掉 */
     if (mode !== 'all' && S.hi) {
       S.hi = null;
       if (map.getLayer('tele-fill')) map.setPaintProperty('tele-fill', 'fill-opacity', opacityExpr());
@@ -173,48 +178,35 @@
     });
   }
 
-  /* ── 目录：按省折叠，组内按移动份额降序 ── */
+  /* ── 目录：按格局分组，组内按份额降序 ── */
   function renderUnitList() {
     var groups = {};
     S.feats.forEach(function (f) {
       var p = f.properties;
-      if (p.level !== 'city') return;
-      (groups[p.prov] || (groups[p.prov] = [])).push(f);
+      if (p.level !== 'prov') return;
+      (groups[p.lead] || (groups[p.lead] = [])).push(f);
     });
-    var provs = Object.keys(groups).sort(function (a, b) { return groups[b].length - groups[a].length; });
     var html = '';
-    provs.forEach(function (prov) {
-      var arr = groups[prov];
+    LEADS.forEach(function (g) {
+      var arr = groups[g.key] || []; if (!arr.length) return;
       arr.sort(function (a, b) { return b.properties.m - a.properties.m; });
-      var lead = arr[0].properties.lead;
-      html += '<button type="button" class="unit-prov" data-prov="' + esc(prov) + '">' +
-        '<i class="dot" style="background:' + (COLORS[lead] || '#7c8eb0') + '"></i>' +
-        esc(prov) + '<em>' + arr.length + ' 市 ›</em></button>';
-      html += '<div class="unit-children" data-prov="' + esc(prov) + '">';
+      html += '<button type="button" class="unit-prov" data-name="' + esc(g.key) + '">' +
+        '<i class="dot" style="background:' + g.color + '"></i>' + esc(g.name) +
+        '<em>' + arr.length + ' 省 ›</em></button>';
       arr.forEach(function (f) {
         var p = f.properties;
         html += '<button type="button" class="unit-row" data-name="' + esc(p.short) + '">' +
-          '<span class="nm">' + esc(p.short) + (p.anchor ? '<i class="anchor-dot" title="地市百强榜上榜"></i>' : '') + '</span>' +
+          '<span class="nm">' + esc(p.short) + '</span>' +
           '<span class="sh">移 ' + p.m + '</span>' +
           '<span class="sh">电 ' + p.c + '</span>' +
           '<span class="sh">联 ' + p.u + '</span>' +
           '</button>';
       });
-      html += '</div>';
     });
     el.unitList.innerHTML = html;
   }
 
-  function toggleProv(prov, force) {
-    var box = el.unitList.querySelector('.unit-children[data-prov="' + prov + '"]');
-    var head = el.unitList.querySelector('.unit-prov[data-prov="' + prov + '"]');
-    if (!box || !head) return;
-    var open = typeof force === 'boolean' ? force : !box.classList.contains('open');
-    box.classList.toggle('open', open);
-    head.classList.toggle('is-open', open);
-  }
-
-  /* ── 搜索：城市名 / 省名即时下拉 ── */
+  /* ── 搜索：省名 / 简称即时下拉 ── */
   function bindSearch() {
     var box = el.searchInput, out = el.searchResults, timer = 0;
     function run() {
@@ -223,21 +215,21 @@
       var hits = [];
       for (var i = 0; i < S.feats.length && hits.length < 12; i++) {
         var p = S.feats[i].properties;
-        if (p.level !== 'city' && p.level !== 'special') continue;
+        if (p.level !== 'prov' && p.level !== 'special') continue;
         if (p.short.indexOf(q) !== -1 || p.name.indexOf(q) !== -1 ||
-            (p.prov && p.prov.indexOf(q) !== -1)) hits.push(p);
+            (p.region && p.region.indexOf(q) !== -1)) hits.push(p);
       }
       hits.sort(function (a, b) {
         return (a.short === q ? 0 : 1) - (b.short === q ? 0 : 1);
       });
       out.innerHTML = hits.length
         ? hits.map(function (p) {
-            var badge = p.prov.replace(/省$|市$|自治区$|特别行政区$/, '');
+            var badge = p.level === 'special' ? '港澳台' : CFG.LEAD_LABEL[p.lead];
             return '<button type="button" class="sr-row" data-name="' + esc(p.short) + '">' +
               '<span class="nm">' + esc(p.short) + '</span>' +
               '<span class="lv">' + esc(badge) + '</span></button>';
           }).join('')
-        : '<div class="sr-more">没有匹配 “' + esc(q) + '” 的城市</div>';
+        : '<div class="sr-more">没有匹配 “' + esc(q) + '” 的省份</div>';
     }
     box.addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(run, 120); });
     out.addEventListener('click', function (e) {
@@ -252,7 +244,7 @@
     if (!f) return;
     setSel(f);
     var b = Thematic.bboxOf(f.geometry);
-    if (b) app.fitBounds(Thematic.padBbox(b, 0.18), { withDetail: true, animate: true, maxZoom: 10 });
+    if (b) app.fitBounds(Thematic.padBbox(b, 0.18), { withDetail: true, animate: true, maxZoom: 8 });
     app.collapseDrawer();
   }
 
@@ -290,8 +282,6 @@
     var rows = list.querySelectorAll('.unit-row');
     for (var j = 0; j < rows.length; j++) {
       if (rows[j].dataset.name === name) {
-        var box = rows[j].closest('.unit-children');
-        if (box && box.dataset.prov) toggleProv(box.dataset.prov, true);
         rows[j].classList.add('active');
         if (rows[j].scrollIntoView) rows[j].scrollIntoView({ block: 'nearest' });
         break;
@@ -303,20 +293,20 @@
   function openCard(f) {
     var p = f.properties;
     if (p.level === 'special') {
-      el.dtLevel.textContent = '特别行政区 · 不适用';
+      el.dtLevel.textContent = '港澳台 · 不适用';
       el.dtName.textContent = p.short;
       el.dtSub.textContent = p.note || '';
-      el.shareBox.innerHTML = '<div class="na-note">本地运营商体系，不计入三大运营商</div>';
+      el.shareBox.innerHTML = '<div class="na-note">不属三大运营商大陆市场体系</div>';
       el.dtMeta.innerHTML = '';
       el.provNote.textContent = p.note || '';
-      el.dtFooter.innerHTML = '<a href="/learn/city-telecom-share" target="_top">看市级数据的估算方法 ›</a>';
+      el.dtFooter.innerHTML = '<a href="/learn/south-telecom-north-unicom" target="_top">了解三大运营商的格局由来 ›</a>';
       el.detail.hidden = false; app.setDetailOpen(true);
       return;
     }
 
-    el.dtLevel.textContent = p.prov + ' · ' + p.tierLabel;
+    el.dtLevel.textContent = p.region + ' · ' + CFG.LEAD_LABEL[p.lead];
     el.dtName.textContent = p.short;
-    el.dtSub.textContent = (p.anchor ? '地市百强榜上榜 · ' : '') + '市级二次推算 · 三家份额合计 100%';
+    el.dtSub.textContent = (p.anchor ? '含公开硬锚点' : '省级估算') + ' · 三家份额合计 100%';
 
     el.shareBox.innerHTML = [
       { k: '移动', v: p.m, cls: 'cm' },
@@ -328,7 +318,7 @@
         '<span class="sb"><i style="width:' + Math.round(o.v / 70 * 100) + '%"></i></span>' +
         '<b>' + o.v + '<small>%</small></b></div>';
     }).join('') +
-    '<div class="share-foot">市级为二次推算 · 全国口径：移 ' + NATION.cm + ' / 电 ' + NATION.ct + ' / 联 ' + NATION.cu + '%</div>';
+    '<div class="share-foot">省级为估算 · 全国口径：移 ' + NATION.cm + ' / 电 ' + NATION.ct + ' / 联 ' + NATION.cu + '%</div>';
 
     el.dtMeta.innerHTML =
       '<span><small>主要挑战者</small><b style="color:' + (COLORS[p.lead] || '#cbd5e1') + '">' +
@@ -336,21 +326,18 @@
       '<span><small>移动领先第二名</small><b>' + (p.m - Math.max(p.c, p.u)) + ' pt</b></span>';
 
     el.provNote.textContent = p.note || '';
-    el.dtFooter.innerHTML = '<a href="/learn/city-telecom-share" target="_top">在「城市级份额怎么估」中看方法 ›</a>' +
-      '<a href="/maps/cn-telecom/full" target="_top">看省级分布图 ›</a>';
+    el.dtFooter.innerHTML = '<a href="/learn/south-telecom-north-unicom" target="_top">在「南电信、北联通是怎么来的」中看格局成因 ›</a>';
     el.detail.hidden = false;
     app.setDetailOpen(true);
   }
 
-  /* ── 标注：缩放阈值分级显示 ── */
+  /* ── 标注：缩放 > 5 时显示省名 ── */
   function updateLabels() {
-    if (!S.labelsOn || app.map.getZoom() < 5.5) { app.setLabels([]); return; }
-    var z = app.map.getZoom(), items = [];
+    if (!S.labelsOn || app.map.getZoom() < 5) { app.setLabels([]); return; }
+    var items = [];
     S.feats.forEach(function (f) {
       var p = f.properties;
-      if (p.level !== 'city') return;
-      /* 5.5–7 只显示直辖市/省会/计划单列/榜上城市；>7 显示全部 */
-      if (z < 7 && p.tier === 'normal') return;
+      if (p.level !== 'prov') return;
       var c = p.center || (function () { var b = Thematic.bboxOf(f.geometry); return b ? [(b[0] + b[2]) / 2, (b[1] + b[3]) / 2] : null; })();
       if (!c) return;
       items.push({ id: String(p.adcode), text: p.short, lng: c[0], lat: c[1], color: '#dbeafe' });
@@ -366,13 +353,14 @@
       if (!f) { map.getCanvas().style.cursor = ''; app.tooltip(null); return; }
       map.getCanvas().style.cursor = 'pointer';
       var p = f.properties;
-      if (p.level !== 'city') {
+      if (p.level !== 'prov') {
         app.tooltip('<b>' + esc(p.short || p.name || '') + '</b><br><span style="color:#64748b">' + esc(p.note || '') + '</span>', e.point.x, e.point.y);
         return;
       }
-      app.tooltip('<b>' + esc(p.short) + '</b> <span style="color:#9fb4cd">' + esc(p.prov) + '</span><br>' +
+      var lab = CFG.LEAD_LABEL[p.lead];
+      app.tooltip('<b>' + esc(p.short) + '</b> <span style="color:#9fb4cd">' + esc(p.region) + '</span><br>' +
         '<span style="color:#d1d5db">移 ' + p.m + '% · 电 ' + p.c + '% · 联 ' + p.u + '%</span><br>' +
-        '<span style="color:#64748b">' + esc(p.tierLabel) + ' · ' + esc(CFG.LEAD_LABEL[p.lead]) + ' · 估算</span>', e.point.x, e.point.y);
+        '<span style="color:#64748b">' + esc(lab) + ' · 估算 · 点开看详情</span>', e.point.x, e.point.y);
     });
     map.on('mouseleave', function () { app.tooltip(null); });
     map.on('click', function (e) {
@@ -380,17 +368,16 @@
       if (f) {
         setSel(f);
         var b = Thematic.bboxOf(f.geometry);
-        if (b) app.fitBounds(Thematic.padBbox(b, 0.18), { withDetail: true, animate: true, maxZoom: 10 });
+        if (b) app.fitBounds(Thematic.padBbox(b, 0.18), { withDetail: true, animate: true, maxZoom: 8 });
       } else setSel(null);
     });
     map.on('idle', updateLabels);
     window.addEventListener('keydown', function (e) { if (e.key === 'Escape') setSel(null); });
 
     el.unitList.addEventListener('click', function (e) {
-      var head = e.target.closest('.unit-prov');
-      if (head) { toggleProv(head.dataset.prov); return; }
       var b = e.target.closest('.unit-row');
-      if (b && b.dataset.name) goToName(b.dataset.name);
+      if (!b || !b.dataset.name) return;
+      goToName(b.dataset.name);
     });
     var ckLabel = document.getElementById('ckLabel');
     if (ckLabel) ckLabel.addEventListener('change', function () { S.labelsOn = !!ckLabel.checked; updateLabels(); });
