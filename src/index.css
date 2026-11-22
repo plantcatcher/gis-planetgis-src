@@ -453,3 +453,42 @@ aside::-webkit-scrollbar-track {
   line-height: 1.8;
   letter-spacing: normal;
 }
+
+/* :::chart 内联 SVG 图表：构建期生成，随正文预渲染，明暗主题共用 */
+.md-chart {
+  margin: 1.75rem 0;
+  padding: 1rem 1.1rem 0.9rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.75rem;
+  background: hsl(var(--card));
+}
+.md-chart svg {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+}
+.md-chart figcaption {
+  margin: 0 0 0.75rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: hsl(var(--foreground));
+  text-align: left;
+}
+.md-chart figcaption.md-chart-note {
+  margin: 0.5rem 0 0;
+  padding-top: 0.5rem;
+  border-top: 1px dashed hsl(var(--border));
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: hsl(var(--muted-foreground));
+}
+@media (max-width: 640px) {
+  .md-chart {
+    padding: 0.75rem 0.6rem;
+    margin: 1.25rem 0;
+  }
+  .md-chart figcaption {
+    font-size: 0.875rem;
+  }
+}

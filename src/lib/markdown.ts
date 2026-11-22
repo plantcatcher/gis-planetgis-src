@@ -1,9 +1,11 @@
 // 零依赖的轻量 Markdown -> HTML 渲染器。
 // 支持本项目内容用到的子集：标题、段落、粗体/斜体/行内代码、链接、图片、
-// 无序/有序列表、引用、分隔线、围栏代码块，以及原生 <details>/<summary> 块
-// （用于 AdSense 友好的可折叠 FAQ）。
+// 无序/有序列表、引用、分隔线、围栏代码块、:::chart 内联 SVG 图表块，
+// 以及原生 <details>/<summary> 块（用于 AdSense 友好的可折叠 FAQ）。
 //
 // 设计目标：可控、可预测。内容由我们自己撰写，只用到上述语法即可。
+
+import { renderChart } from './md-charts';
 
 function escapeHtml(s: string): string {
   return s
@@ -118,6 +120,22 @@ export function renderMarkdown(md: string): string {
 
   while (i < lines.length) {
     const line = lines[i];
+
+    // :::chart 内联图表块：构建期输出纯 SVG，随正文一起预渲染。
+    // 语法：:::chart <type> / key: value 行 / :::
+    if (/^:::chart\b/.test(line.trim())) {
+      closeList();
+      const type = line.trim().replace(/^:::chart\s*/, '').trim();
+      const buf: string[] = [];
+      i++;
+      while (i < lines.length && !/^:::\s*$/.test(lines[i].trim())) {
+        buf.push(lines[i]);
+        i++;
+      }
+      i++; // 跳过收尾 :::
+      html.push(renderChart(type, buf.join('\n')));
+      continue;
+    }
 
     // 围栏代码块
     if (/^```/.test(line)) {
