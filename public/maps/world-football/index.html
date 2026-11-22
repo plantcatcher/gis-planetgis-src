@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <script src="/shared/map-i18n.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>世界杯历届冠军与参赛版图 · 互动地图</title>
+  <meta name="description" content="一张能点的世界杯版图——1930 至 2026 共 23 届、84 支球队、537 个参赛席位。按届回放冠军归属与参赛足迹，查看每支球队的夺冠年份与最好成绩。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="css/style.v1.css" />
+</head>
+<body>
+  <div id="map"></div>
+
+  <div class="topbar">
+    <h1>世界杯历届冠军与参赛版图</h1>
+    <p class="sub">23 届赛事 · 84 支球队 · 537 个参赛席位 · 1930—2026 逐届回放</p>
+  </div>
+
+  <!-- 当前届冠军横幅 -->
+  <div class="champ-banner" id="champ-banner">
+    <span class="cb-trophy">★</span>
+    <div class="cb-text">
+      <div class="cb-line1"><b id="cb-year">2026</b> · 第 <b id="cb-edition">23</b> 届 · <b id="cb-host">美国 / 加拿大 / 墨西哥</b></div>
+      <div class="cb-line2"><span id="cb-champion">西班牙</span> 夺冠 <i id="cb-detail">亚军 阿根廷 · 季军 英格兰</i></div>
+    </div>
+    <span class="cb-apps" id="cb-apps">48 队参赛</span>
+  </div>
+
+  <!-- 左侧球队目录（移动端为底部抽屉） -->
+  <aside class="side-panel" id="side-panel">
+    <button class="drawer-handle" id="drawer-handle" type="button" aria-label="展开或收起目录" aria-expanded="true"><i></i></button>
+    <div class="panel-head">
+      <h2>球队目录 / 夺冠榜</h2>
+      <button class="panel-close" id="panel-close" aria-label="收起目录">×</button>
+    </div>
+    <div class="panel-stats">
+      <div><b id="stat-teams">–</b><span>参赛球队</span></div>
+      <div><b id="stat-champs">–</b><span>夺冠球队</span></div>
+      <div><b id="stat-editions">–</b><span>届赛事</span></div>
+      <div><b>2026</b><span>最新一届</span></div>
+    </div>
+    <div class="panel-tools">
+      <div class="pt-group">
+        <span class="pt-label">版图口径</span>
+        <div class="mode-seg" id="mode-seg">
+          <button class="mode-btn active" data-mode="apps" type="button">累计参赛</button>
+          <button class="mode-btn" data-mode="titles" type="button">累计夺冠</button>
+          <button class="mode-btn" data-mode="current" type="button">本届参赛</button>
+        </div>
+        <div class="era-filter" id="era-filter"><!-- JS 渲染图例 --></div>
+      </div>
+      <div class="pt-group">
+        <span class="pt-label">大洲筛选</span>
+        <select class="prov-select" id="prov-select"><!-- JS 渲染 --></select>
+      </div>
+    </div>
+    <div class="city-list" id="city-list"><!-- JS 渲染 --></div>
+    <div class="list-count" id="list-count"></div>
+    <div class="panel-foot">
+      <div class="ctrl-nav">
+        <a href="/maps/world-football" target="_top">作品介绍</a>
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </aside>
+  <button class="panel-open" id="panel-open" type="button" aria-label="展开球队目录" aria-expanded="true">目录</button>
+
+  <!-- 右上角：搜索 + 底图/叠加设置 -->
+  <div class="top-right">
+    <div class="top-search">
+      <input type="text" id="search" placeholder="搜索球队 / 国家 / 英文 / FIFA 代码" autocomplete="off" />
+      <ul id="searchResult"></ul>
+    </div>
+    <button class="map-opts-btn" id="map-opts-btn" type="button" aria-label="底图与叠加设置" aria-expanded="false" title="底图与叠加设置">⚙</button>
+    <div class="map-opts" id="map-opts" role="dialog" aria-label="底图与叠加设置">
+      <div class="mo-group">
+        <span class="mo-label">底图（三选一）</span>
+        <div class="bm-seg">
+          <label class="bm-opt"><input type="radio" name="basemap" value="none" checked /><span>深色</span></label>
+          <label class="bm-opt"><input type="radio" name="basemap" value="img" /><span>卫星影像</span></label>
+          <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>地形晕渲</span></label>
+        </div>
+      </div>
+      <div class="mo-group">
+        <span class="mo-label">叠加</span>
+        <div class="mo-row">
+          <button class="tool-btn" id="toggleProv" aria-pressed="true">国家版图</button>
+          <button class="tool-btn" id="toggleLabel" aria-pressed="true">球队标注</button>
+        </div>
+      </div>
+      <div class="mo-group">
+        <span class="mo-label">口径</span>
+        <span style="font-size:11px;color:var(--text-muted);line-height:1.6">参赛按球队计：英格兰、苏格兰、威尔士、北爱尔兰为四支独立球队；国界版图合并计入英国。西德并入德国，苏联并入俄罗斯，捷克斯洛伐克并入捷克，南斯拉夫并入塞尔维亚。国界数据已将台湾并入中国。</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部逐届时间轴 -->
+  <div class="timeline">
+    <button class="tl-play" id="tl-play" type="button" aria-label="播放世界杯时间轴">▶</button>
+    <div class="tl-slider-wrap">
+      <div class="tl-top"><span class="tl-year" id="tl-year">2026 年 · 第 23 届 · 西班牙夺冠</span><span class="tl-cum" id="tl-cum">累计登场 <b>84</b> 支球队</span></div>
+      <input type="range" class="tl-slider" id="tl-slider" min="0" max="22" step="1" value="22" />
+      <div class="tl-scale"><span>1930</span><span>1954</span><span>1978</span><span>2002</span><span>2026</span></div>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="js/app.v1.js"></script>
+</body>
+</html>

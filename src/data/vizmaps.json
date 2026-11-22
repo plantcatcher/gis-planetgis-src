@@ -3085,6 +3085,38 @@
     ]
   },
   {
+    "slug": "world-football",
+    "entry": "/maps/world-football/index.html",
+    "bbox": [
+      -180.0,
+      -60.0,
+      180.0,
+      80.0
+    ],
+    "crs": "WGS84 / EPSG:4326（球队坐标为首都或地理中心代表点，非比赛场地；与 Esri 全球底图直接对齐。国界数据已将台湾并入中国）",
+    "basemap": "深色无底图（默认，叠 Natural Earth 国界 choropleth）/ Esri World Imagery 卫星影像 / Esri World Shaded Relief 地形晕渲；全球尺度不用高德瓦片（境外空白）",
+    "source": "历届四强、主办国与参赛队数取自 Wikipedia《FIFA World Cup》Results 表；逐队参赛年份取自《National team appearances in the FIFA World Cup》Comprehensive team results by tournament 表，解析结果与维基表末列 Total appearances 逐队核对一致（84/84）。覆盖 1930—2026 共 23 届、84 支球队、537 个参赛席位；2026 届已回填：西班牙加时 1-0 胜阿根廷夺冠，英格兰季军、法国殿军，48 队参赛。历史球队按 FIFA 继承口径归并：西德→德国、苏联→俄罗斯、捷克斯洛伐克→捷克、南斯拉夫→塞尔维亚；英格兰、苏格兰、威尔士、北爱尔兰为四支独立球队，国界版图合并计入英国。国界源为 Natural Earth 110m（truesize/countries.geojson），台湾已并入中国，跨反子午线要素已切割。",
+    "updated": "2026-11-23",
+    "viewport": "全球取景：renderWorldCopies=true 跨 180° 日界线，桌面 minZoom=1.5 / 初始 center=[-8,25] zoom=1.5；竖屏 minZoom=0 / 初始 zoom=0.15，center=[20,25]，左右拖动可看世界副本。时间轴按届索引 0—22 回放，冠军国以金色填色与描边高亮；三种口径（累计参赛 / 累计夺冠 / 本届参赛）切换时国界面与点图层同步重算。",
+    "data": [
+      {
+        "file": "maps/world-football/data/stores.geojson",
+        "features": 84,
+        "desc": "球队代表点（WGS84）：含 id（FIFA 三字母代码）/ ISO / 中文名 / 英文名 / 大洲 / 累计参赛次数 apps / 累计夺冠次数 titles / 夺冠年份 titleYears / 参赛年份 years / 最好成绩 best；半径由 apps 驱动，颜色随版图口径切换"
+      },
+      {
+        "file": "maps/world-football/data/teams.json",
+        "features": 84,
+        "desc": "球队与赛事目录：teams 含 84 支球队（参赛年份、夺冠/亚军/季军/殿军年份、主办年份、六大赛区、代表坐标），editions 含 23 届赛事（主办国、冠军、亚军、季军、殿军、参赛队数），meta 含 537 个总参赛席位；驱动左侧排行、搜索、大洲筛选、时间轴横幅与详情卡"
+      },
+      {
+        "file": "maps/world-football/data/country-fills.geojson",
+        "features": 176,
+        "desc": "Natural Earth 110m 国界面（含 name_zh，台湾已并入中国）：构建期注入 wcIso / wcCount / wcTitles / wcTeams，英格兰等四支英国球队合并为英国面；运行时按届次与口径重算 wcCount 与 wcChampion 后 setData，冠军国金色高亮。跨反子午线要素已切割"
+      }
+    ]
+  },
+  {
     "slug": "world-semiconductor",
     "entry": "/maps/world-semiconductor/index.html",
     "bbox": [

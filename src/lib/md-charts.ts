@@ -116,13 +116,14 @@ function stack(cfg: Record<string, string>): string {
     }
     x += bw;
   });
-  // 图例：两列排布
-  const cols = rows.length > 6 ? 2 : rows.length;
+  // 图例：按项数自适应列数，列宽均分画布宽度（固定 350px 列距会让 4—6 项溢出画布）
+  const cols = rows.length > 6 ? 2 : rows.length > 3 ? 3 : rows.length;
   const perCol = Math.ceil(rows.length / cols);
+  const colW = 688 / cols;
   rows.forEach((r, i) => {
     const col = Math.floor(i / perCol);
     const row = i % perCol;
-    const lx = x0 + col * 350;
+    const lx = x0 + col * colW;
     const ly = 76 + row * 22;
     out.push(`<rect x="${lx}" y="${ly - 10}" width="10" height="10" rx="2" style="fill:${C[i % C.length]}" />`);
     out.push(txt(lx + 16, ly, `${r.label}  ${r.raw}`, 12, FG));
@@ -153,15 +154,15 @@ function duo(cfg: Record<string, string>): string {
   const rowH = 32;
   const top = 38;
   const h = top + raw.length * rowH + 12;
-  const xa = 330;
-  const xb = 520;
+  const xa = 356;
+  const xb = 546;
   const out: string[] = [];
   out.push(txt(xa, 16, cfg.labelA || '指标 A', 11, C[0], 'end'));
   out.push(txt(xb, 16, cfg.labelB || '指标 B', 11, C[3], 'end'));
   raw.forEach((r, i) => {
     const y = top + i * rowH + 10;
-    const ax = xa - (r.av / maxA) * 220;
-    const bx = xb - (r.bv / maxB) * 220;
+    const ax = xa - (r.av / maxA) * 200;
+    const bx = xb - (r.bv / maxB) * 200;
     out.push(txt(128, y + 4, r.label, 12.5, FG, 'end'));
     out.push(`<line x1="${ax.toFixed(1)}" y1="${y}" x2="${bx.toFixed(1)}" y2="${y}" stroke="${BORDER}" stroke-width="2" />`);
     out.push(`<circle cx="${ax.toFixed(1)}" cy="${y}" r="5" style="fill:${C[0]}" />`);
@@ -224,13 +225,17 @@ function line(cfg: Record<string, string>): string {
     const val = minY + (spanY / 4) * g;
     out.push(txt(x0 - 8, y + 4, cfg.unit ? `${Math.round(val)}${cfg.unit}` : String(Math.round(val)), 11, MUTED, 'end'));
   }
-  // x 轴刻度（最多 9 个）
+  // x 轴刻度（最多 9 个）：末尾标签与前一个太近时丢掉前一个，避免年份叠字
   const step = Math.max(1, Math.ceil(xs.length / 9));
-  xs.forEach((x, i) => {
-    if (i % step && i !== xs.length - 1) return;
-    const px = x0 + (xs.length === 1 ? 0 : (i / (xs.length - 1)) * (x1 - x0));
-    out.push(txt(px, y1 + 20, x, 11, MUTED, 'middle'));
+  const pxAt = (i: number) => x0 + (xs.length === 1 ? 0 : (i / (xs.length - 1)) * (x1 - x0));
+  const shown: number[] = [];
+  xs.forEach((_, i) => {
+    if (i % step === 0 || i === xs.length - 1) shown.push(i);
   });
+  while (shown.length > 1 && pxAt(shown[shown.length - 1]) - pxAt(shown[shown.length - 2]) < 36) {
+    shown.splice(shown.length - 2, 1);
+  }
+  shown.forEach((i) => out.push(txt(pxAt(i), y1 + 20, xs[i], 11, MUTED, 'middle')));
   // 折线
   series.forEach((s, si) => {
     let seg: string[] = [];
