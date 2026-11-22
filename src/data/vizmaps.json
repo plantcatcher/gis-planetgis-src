@@ -3333,6 +3333,29 @@
         "desc": "[adcode, 名称, 类型, 省全名]，类型 city / city-op（城市+运营商）/ special；供左侧实时搜索下拉使用"
       }
     ]
+  },
+  {
+    "slug": "cn-telecom-county",
+    "entry": "/maps/cn-telecom-county/index.html",
+    "bbox": [73.0, 17.0, 136.0, 54.5],
+    "crs": "GCJ-02（火星坐标，与高德瓦片对齐）；县级边界复用 china-postal-codes/data/counties.geojson，含台湾省与港澳，按本站统一合规口径绘制",
+    "basemap": "高德瓦片：卫星影像 style=6（默认，压暗）/ 矢量路网 style=7 / 深色无底图；叠加省界参考线与 2° 经纬网格",
+    "source": "全国三家移动用户份额取 2025 年报实数：中国移动 10.05 亿户（55.8%）、中国电信 4.39 亿户（24.4%）、中国联通 3.57 亿户（19.8%），合计 18.01 亿户。县级无任何公开逐县逐家用户份额表，本图为三次推算：省级估算表（_g/build_cn_telecom.py）→ 市级二次推算（_g/build_cn_telecom_city.py）→ 县级按层级偏移（市辖区 -4 / 县级市 -1 / 县与旗 +2 / 林区特区 +1 pt）+ 南北微调 + 县名确定性微扰，归一到 100 并钳制移动第一。35 个省直辖县（海南、新疆兵团、湖北、甘肃、河南）无地级市父级，回退省级基准。台湾省与港澳标灰不适用。共 2852 大陆县 + 39 港澳台单元，全表标估算，可信度低于市级与省级，只适合看格局与相对差异。生成脚本 _g/build_cn_telecom_county.py。与知识库文章 /learn/county-telecom-share 双向互链。",
+    "updated": "2026-11-22",
+    "data": [
+      {
+        "file": "maps/cn-telecom-county/data/counties.geojson",
+        "features": 2891,
+        "unit": "个县级单元",
+        "desc": "2852 大陆县 + 港澳台 39 单元；县级属性含移动/电信/联通三次推算份额(m/c/u, 和为100)、主要挑战者 lead、县级层级 tier(市辖区/县级市/县旗/林区特区)、父级 parent 与基准层级 baseLevel、所属省市 prov/city；center 由几何 bbox 计算；30 组重名县用 adcode 唯一定位"
+      },
+      {
+        "file": "maps/cn-telecom-county/data/index.json",
+        "features": 2891,
+        "unit": "条搜索索引",
+        "desc": "[adcode, 名称, 类型, 省, 父级]，类型 county / special；供左侧实时搜索下拉使用"
+      }
+    ]
   }
 ]
 }
