@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <script src="/shared/map-i18n.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>三大运营商省级分布图 · 移动 / 电信 / 联通 · 南电信北联通格局</title>
+  <meta name="description" content="一张能点的中国移动、中国电信、中国联通省级分布图。全国口径用 2025 年报实数：移动 55.8%、电信 24.4%、联通 19.8%；省级按主要挑战者着色，北方联通红、南方电信蓝、西部移动绿。搜省看三家份额，切单家看色阶，与「南电信北联通」知识库文章互链。" />
+  <meta name="keywords" content="中国移动,中国联通,中国电信,省级分布,市场份额,南电信北联通,网通,电信拆分,互动地图,GIS" />
+  <meta name="author" content="PlanetGIS" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="/maps/_shared/thematic/thematic.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div id="map"></div>
+  <div id="labels"></div>
+
+  <aside class="intro" id="intro">
+    <div class="intro-head">
+      <a class="btn-back" href="/maps/cn-telecom" target="_top"><i>&#8249;</i> 作品介绍</a>
+      <button class="btn-overview" id="btnOverview" type="button"><i>&#9673;</i> 全国总览</button>
+    </div>
+
+    <div class="intro-bar" id="introBar" role="button" tabindex="0" aria-expanded="true">
+      <i class="ic-eq"></i>
+      <b>三大运营商分布图</b>
+      <span><em id="introBarText">收起</em><i class="caret"></i></span>
+    </div>
+
+    <div class="intro-body" id="introBody">
+      <small class="eyebrow"><i class="ic-eq"></i> TELECOM · 31 PROVINCES</small>
+      <h1><span>三大运营商</span><b>省级分布图</b></h1>
+      <p class="lead">中国移动的份额在 31 个省都是第一。真正分出南北的，是<b>第二名是谁</b>：北方十省是联通，南方是电信。点任意省份，看三家的估算份额。</p>
+
+      <div class="facts">
+        <span><small>移动用户份额</small><b><span class="v"><em id="fCm">—</em></span><i>%</i></b></span>
+        <span><small>电信 / 联通</small><b><span class="v"><em id="fOthers">—</em></span><i>%</i></b></span>
+        <span><small>覆盖省区</small><b><span class="v"><em id="fProv">—</em></span><i>个</i></b></span>
+      </div>
+
+      <section class="block">
+        <header><small>视角</small><small class="hint-n">切换着色口径</small></header>
+        <div class="view-strip" id="viewStrip"></div>
+      </section>
+
+      <section class="block">
+        <header><small>格局分组</small><small class="hint-n">点色块高亮</small></header>
+        <div class="grp-strip" id="grpStrip"></div>
+      </section>
+
+      <section class="block">
+        <header><small>搜索省份</small><small class="hint-n">如 广东 / 内蒙古</small></header>
+        <div class="searchbox">
+          <input type="search" id="searchInput" placeholder="输入省份名…" autocomplete="off" spellcheck="false" />
+        </div>
+        <div class="search-results" id="searchResults"></div>
+      </section>
+
+      <section class="block">
+        <header><small>省份目录</small><small class="hint-n" id="listHint">点击定位到地图</small></header>
+        <div class="unit-list" id="unitList"></div>
+      </section>
+
+      <section class="block src">
+        <p><b>数据口径</b>：全国份额取三家 2025 年报（移动 10.05 亿 / 电信 4.39 亿 / 联通 3.57 亿户，合计 18.01 亿）。<b>省级无官方逐省逐家用户份额表</b>，本图按「主导格局 + 公开锚点」估算：北方十省联通强、南方电信强，广东移动 41.94%、云南移动 67.95% 为公开硬锚点；每省三家之和为 100，全部标「估算」。政企市场榜单只用于定南北顺序，不用于填数字（政企份额 ≠ 用户份额）。背景见<a href="/learn/south-telecom-north-unicom" target="_top">「南电信、北联通」是怎么来的</a>。边界含台湾省与九段线，符合本站合规口径。</p>
+      </section>
+
+      <div class="intro-nav">
+        <a href="/maps/cn-telecom" target="_top">作品介绍</a>
+        <a href="/learn/south-telecom-north-unicom" target="_top">格局由来</a>
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </aside>
+
+  <aside class="detail" id="detail" hidden>
+    <header>
+      <small id="dtLevel">—</small>
+      <div class="dt-actions"><button type="button" id="dtClose" title="关闭">✕</button></div>
+    </header>
+    <h2 id="dtName">—</h2>
+    <p id="dtSub">—</p>
+
+    <div class="share-box" id="shareBox"></div>
+
+    <div class="dt-meta" id="dtMeta"></div>
+
+    <section class="dt-desc">
+      <small id="dtNoteLabel">格局解读</small>
+      <div class="prov-note" id="provNote">—</div>
+    </section>
+
+    <footer id="dtFooter">—</footer>
+  </aside>
+
+  <button class="panel-gear" id="panelGear" type="button" title="图层与底图设置" aria-label="图层与底图设置">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="3"></circle>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0-1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+    </svg>
+  </button>
+
+  <div class="panel closed" id="panel">
+    <div class="panel-head">
+      <span>图层与底图</span>
+      <button type="button" id="panelClose" class="panel-close" title="收起（Esc）">✕</button>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <label class="row"><input type="checkbox" id="ckLabel" checked /><span>省份标注</span></label>
+      <label class="row"><input type="checkbox" id="ckGraticule" /><span>2° 经纬网格</span></label>
+      <div class="divider"></div>
+      <div class="bm-title">底图</div>
+      <div class="bm-seg">
+        <label class="bm-opt"><input type="radio" name="basemap" value="img" checked /><span>卫星影像</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>矢量路网</span></label>
+        <label class="bm-opt"><input type="radio" name="basemap" value="none" /><span>深色</span></label>
+      </div>
+      <div class="divider"></div>
+      <p class="panel-note">主视图按<b>主要挑战者</b>着色；切到单家视角看该家份额色阶。地址栏带 <b>#u/省名</b> 可分享某个省；按 <b>Esc</b> 退出选中。</p>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="/maps/_shared/thematic/thematic.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.v2.js"></script>
+</body>
+</html>
