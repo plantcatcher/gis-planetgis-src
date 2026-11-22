@@ -3310,6 +3310,29 @@
         "desc": "[adcode, 名称, 类型, 省全名]，类型 prov / prov-op（省+运营商）/ special；供左侧实时搜索下拉使用"
       }
     ]
+  },
+  {
+    "slug": "cn-telecom-city",
+    "entry": "/maps/cn-telecom-city/index.html",
+    "bbox": [73.0, 17.0, 136.0, 54.5],
+    "crs": "GCJ-02（火星坐标，与高德瓦片对齐）；市级边界复用站内 cn-adcode/data/prefectures.geojson，含香港、澳门，合规口径",
+    "basemap": "高德瓦片：卫星影像 style=6（默认，压暗）/ 矢量路网 style=7 / 深色无底图；叠加省界参考线与 2° 经纬网格",
+    "source": "全国三家移动用户份额取 2025 年报实数：中国移动 10.05 亿户（55.8%）、中国电信 4.39 亿户（24.4%）、中国联通 3.57 亿户（19.8%），合计 18.01 亿户。市级无官方逐市逐家用户份额表，本图为省级估算表的二次推算：省份额 + 城市能级偏移（直辖市 -7 / 省会 -5 / 计划单列 -4 / 百强榜城市 -2 / 普通地市 +2 pt）+ 南北微调（北方联通权重 +3、南方电信权重 +3）+ 城市名确定性微扰（±2），三家归一到 100。地市分公司百强榜（营收）仅标注上榜城市，不用于填用户份额数字。共 337 城市 + 港澳 2 单元，全表标估算，可信度低于省级。生成脚本 _g/build_cn_telecom_city.py。与知识库文章 /learn/city-telecom-share 双向互链。",
+    "updated": "2026-11-22",
+    "data": [
+      {
+        "file": "maps/cn-telecom-city/data/cities.geojson",
+        "features": 339,
+        "unit": "个城市级单元",
+        "desc": "337 城市 + 香港 + 澳门；337 城市属性含移动/电信/联通估算份额(m/c/u, 和为100)、主要挑战者 lead(北方 cu 红/南方 ct 蓝/移动独大 cm 绿/充分竞争 flat 灰)、城市能级 tier、地市百强榜标记 anchor、所属省份 prov"
+      },
+      {
+        "file": "maps/cn-telecom-city/data/index.json",
+        "features": 1350,
+        "unit": "条搜索索引",
+        "desc": "[adcode, 名称, 类型, 省全名]，类型 city / city-op（城市+运营商）/ special；供左侧实时搜索下拉使用"
+      }
+    ]
   }
 ]
 }
