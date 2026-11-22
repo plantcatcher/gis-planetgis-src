@@ -162,6 +162,7 @@ const LEGACY_UI = {
   'cn-costco': '.topbar, .side-panel, .top-right, .panel-open',
   'cn-starbucks': '.topbar, .side-panel, .top-right, .panel-open',
   'cn-tesla': '.topbar, .side-panel, .top-right, .panel-open',
+  'douban-top250': '.topbar, .side-panel, .top-right, .panel-open',
   'cn-rivers': '.topbar, .panel, .legend, .hint, .brand',
   'cn-yangtze': '.topbar, .panel, .legend, .intro, .brand',
   'hist-imagery': '.topbar, .panel, .legend, .timeline, .brand',

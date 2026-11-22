@@ -2984,6 +2984,43 @@
     ]
   },
   {
+    "slug": "douban-top250",
+    "entry": "/maps/douban-top250/index.html",
+    "bbox": [
+      -180.0,
+      -60.0,
+      180.0,
+      80.0
+    ],
+    "crs": "WGS84 / EPSG:4326（按主产国聚合，坐标为国家代表点：地理中心，非城市或摄影点；与 Esri 全球底图直接对齐，无偏移。国界数据已将台湾并入中国）",
+    "basemap": "Esri World Imagery 卫星影像（默认）/ 深色无底图 / Esri World Shaded Relief 地形晕渲；全球尺度不用高德瓦片（境外空白）",
+    "source": "豆瓣电影 Top250（movie.douban.com/top250）2026-11-23 抓取快照，250 条，含排名/片名/年份/制片国家/地区/评分/评价人数/海报/导演/主演/短评，海报零缺失。主产国法：取「制片国家/地区」第一项计入，故各国数量之和恰为 250，合拍片不重复计数；完整合拍国家列表保留在 movies.json 的 countries 字段。按一个中国原则，中国香港/中国台湾/中国大陆的制片条目全部并入「中国」（44 部：香港 18、大陆 18、台湾 7，含少量混合），国界底图亦将台湾并入中国。时间轴按上映年份 1931—2023 回放，口径为「上映年份 ≤ 当前年且已上榜的电影累计部数」，非当年电影产量，UI 已写明。250 张海报已全部下载到本站 data/posters/{rank}.jpg，不走豆瓣图片服务器（规避防盗链），卡片走本地路径稳定加载，加载失败显示片名首字占位，不提供下载。",
+    "updated": "2026-11-23",
+    "viewport": "全球取景：renderWorldCopies=true（关掉时 center 经度被锁在 ±34°、跨 180° 看不到日界线另一侧），桌面 minZoom=1.5 防宽屏并排多个地球副本、初始 center=[-8,25] zoom=1.5；竖屏 minZoom=0、初始 center=[20,25] 收窄取景对准欧亚内容重心，左右拖动跨世界副本看美洲。19 个国家用「国名+数量」标签标注（不用圆点面积），国界按上榜数着色：0 部灰色，1 部起绿→红渐变（越多越红）；点标签或国家填色区域弹海报墙卡片（9.0+ 金边），海报墙最多先显示 12 部并提示看左侧完整榜单。",
+    "data": [
+      {
+        "file": "maps/douban-top250/data/stores.geojson",
+        "features": 19,
+        "desc": "主产国代表点（WGS84）：含 id/ISO / 中文名 / 英文名 / 大洲 / 上榜数 count / 首部上榜年份 enterYear / 均分 avgRating / 最高名次 bestRank；19 个主产国，供定位与数据集说明（视觉上不再用圆点半径表达数量，改用国名+数量标签）"
+      },
+      {
+        "file": "maps/douban-top250/data/markets.json",
+        "features": 19,
+        "desc": "主产国聚合目录：19 个国家（中文名、英文名、ISO、大洲、上榜数、均分、最高名次及片名、年份范围、原始制片国别名、完整上榜电影列表），驱动左侧排行、大洲筛选、搜索与时间轴；另含 continentCount 五大洲汇总与 meta 总量 250"
+      },
+      {
+        "file": "maps/douban-top250/data/movies.json",
+        "features": 250,
+        "desc": "电影明细：250 部（排名、豆瓣 subject ID、中文名、英文名、年份、制片国家列表、主产国归一 countryStd、ISO、类型、评分、评价人数、海报 URL、导演、主演、短评），驱动片名搜索与按 ISO 分组的海报墙"
+      },
+      {
+        "file": "maps/douban-top250/data/country-fills.geojson",
+        "features": 176,
+        "desc": "Natural Earth 110m 国界面（含 name_zh，台湾已并入中国）：构建期注入 dbCount/dbIso/dbAvg，按国家上榜数 choropleth；运行时按时间轴年份重算 dbCount 后 setData。跨反子午线要素已切割"
+      }
+    ]
+  },
+  {
     "slug": "tesla-gigafactory",
     "entry": "/maps/tesla-gigafactory/index.html",
     "bbox": [
