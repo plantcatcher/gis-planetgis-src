@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <script src="/shared/ga-bridge.js"></script>
+  <script src="/shared/map-i18n.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>奥运金牌百年迁移图 · 互动地图</title>
+  <meta name="description" content="一张能回放的奥运金牌版图——1896 至 2024 共 30 届夏季奥运会、104 个代表队、5837 枚计入国家榜的金牌。拖动时间轴看每一届的金牌榜首如何更替，从美国、苏联到中国。" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/maps/_shared/maplibre-gl.css" />
+  <link rel="stylesheet" href="css/style.v1.css" />
+</head>
+<body>
+  <div id="map"></div>
+
+  <div class="topbar">
+    <h1>奥运金牌百年迁移图</h1>
+    <p class="sub">30 届夏季奥运会 · 104 个代表队 · 1896—2024 逐届回放</p>
+  </div>
+
+  <!-- 当前届金牌榜首 -->
+  <div class="champ-banner" id="champ-banner">
+    <span class="cb-trophy">★</span>
+    <div class="cb-text">
+      <div class="cb-line1"><b id="cb-year">2024</b> · 第 <b id="cb-edition">33</b> 届 · 主办 <b id="cb-host">法国</b></div>
+      <div class="cb-line2">当届榜首 <span id="cb-champion">中国 + 美国</span><i id="cb-detail">各 40 金</i></div>
+    </div>
+    <span class="cb-apps" id="cb-apps">64 国夺金</span>
+  </div>
+
+  <!-- 左侧国家目录（移动端为底部抽屉） -->
+  <aside class="side-panel" id="side-panel">
+    <button class="drawer-handle" id="drawer-handle" type="button" aria-label="展开或收起目录" aria-expanded="true"><i></i></button>
+    <div class="panel-head">
+      <h2 id="panel-title">本届金牌榜 / 国家目录</h2>
+      <button class="panel-close" id="panel-close" aria-label="收起目录">×</button>
+    </div>
+    <div class="panel-stats">
+      <div><b id="stat-nations">–</b><span>夺金国家</span></div>
+      <div><b id="stat-golds">–</b><span>本届金牌</span></div>
+      <div><b id="stat-teams">–</b><span>代表队总数</span></div>
+      <div><b>2024</b><span>最新一届</span></div>
+    </div>
+    <div class="panel-tools">
+      <div class="pt-group">
+        <span class="pt-label">版图口径</span>
+        <div class="mode-seg" id="mode-seg">
+          <button class="mode-btn active" data-mode="now" type="button">本届金牌</button>
+          <button class="mode-btn" data-mode="cum" type="button">累计金牌</button>
+        </div>
+        <div class="era-filter" id="era-filter"><!-- JS 渲染图例 --></div>
+      </div>
+      <div class="pt-group">
+        <span class="pt-label">大洲筛选</span>
+        <select class="prov-select" id="prov-select"><!-- JS 渲染 --></select>
+      </div>
+    </div>
+    <div class="city-list" id="city-list"><!-- JS 渲染 --></div>
+    <div class="list-count" id="list-count"></div>
+    <div class="panel-foot">
+      <div class="ctrl-nav">
+        <a href="/maps/world-olympics" target="_top">作品介绍</a>
+        <a href="/maps" target="_top">全部地图</a>
+      </div>
+    </div>
+  </aside>
+  <button class="panel-open" id="panel-open" type="button" aria-label="展开国家目录" aria-expanded="true">目录</button>
+
+  <!-- 右上角：搜索 + 底图/叠加设置 -->
+  <div class="top-right">
+    <div class="top-search">
+      <input type="text" id="search" placeholder="搜索国家 / 代表团 / 英文 / 代码" autocomplete="off" />
+      <ul id="searchResult"></ul>
+    </div>
+    <button class="map-opts-btn" id="map-opts-btn" type="button" aria-label="底图与叠加设置" aria-expanded="false" title="底图与叠加设置">⚙</button>
+    <div class="map-opts" id="map-opts" role="dialog" aria-label="底图与叠加设置">
+      <div class="mo-group">
+        <span class="mo-label">底图（三选一）</span>
+        <div class="bm-seg">
+          <label class="bm-opt"><input type="radio" name="basemap" value="none" checked /><span>深色</span></label>
+          <label class="bm-opt"><input type="radio" name="basemap" value="img" /><span>卫星影像</span></label>
+          <label class="bm-opt"><input type="radio" name="basemap" value="vec" /><span>地形晕渲</span></label>
+        </div>
+      </div>
+      <div class="mo-group">
+        <span class="mo-label">叠加</span>
+        <div class="mo-row">
+          <button class="tool-btn" id="toggleProv" aria-pressed="true">国家版图</button>
+          <button class="tool-btn" id="toggleLabel" aria-pressed="true">国家标注</button>
+        </div>
+      </div>
+      <div class="mo-group">
+        <span class="mo-label">口径</span>
+        <span style="font-size:11px;color:var(--text-muted);line-height:1.6">金牌数按国际奥委会注册代表团统计，含团体与并列金牌。历史代表团按继承口径并入现代国家：苏联、独联体联合队、俄罗斯奥委会并入俄罗斯；东德、西德并入德国；捷克斯洛伐克并入捷克；南斯拉夫、塞尔维亚和黑山并入塞尔维亚；澳大拉西亚并入澳大利亚；中立运动员并入白俄罗斯。1900／1904 年跨国混合队共 4 金未计入国家。中国台北、中国香港为独立代表团，在榜单中单列，国界版图统一着色于中国。数据源 Olympedia，含赛后追授与剥夺调整。</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部逐届时间轴 -->
+  <div class="timeline">
+    <button class="tl-play" id="tl-play" type="button" aria-label="播放奥运会时间轴">▶</button>
+    <div class="tl-slider-wrap">
+      <div class="tl-top"><span class="tl-year" id="tl-year">2024 年 · 第 33 届 · 巴黎</span><span class="tl-cum" id="tl-cum">榜首 <b>中国 + 美国 · 各 40 金</b></span></div>
+      <input type="range" class="tl-slider" id="tl-slider" min="0" max="29" step="1" value="29" />
+      <div class="tl-scale"><span>1896</span><span>1928</span><span>1960</span><span>1992</span><span>2024</span></div>
+    </div>
+  </div>
+
+  <script src="/maps/_shared/maplibre-gl.js"></script>
+  <script src="js/app.v1.js"></script>
+</body>
+</html>

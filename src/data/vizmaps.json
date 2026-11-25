@@ -3117,6 +3117,38 @@
     ]
   },
   {
+    "slug": "world-olympics",
+    "entry": "/maps/world-olympics/index.html",
+    "bbox": [
+      -180.0,
+      -60.0,
+      180.0,
+      84.0
+    ],
+    "crs": "WGS84 / EPSG:4326（国家代表点由国界多边形面积加权质心求得，非首都点；与 Esri 全球底图直接对齐。国界数据已将台湾并入中国）",
+    "basemap": "深色无底图（默认，叠 Natural Earth 国界 choropleth）/ Esri World Imagery 卫星影像 / Esri World Shaded Relief 地形晕渲；全球尺度不用高德瓦片（境外空白）",
+    "source": "逐届逐项目金银铜牌得主取自 Olympedia《Medal Winners by Games》（editions/<id>/medal），共 30 届夏季奥运会 1896—2024、5 万余条奖牌记录，按比赛项目统计金牌归属国。覆盖 104 个聚合代表队、5837 枚计入国家榜的金牌；2024 巴黎核对为中国 40、美国 40、日本 20、澳大利亚 18、法国 16、荷兰 15，与国际奥委会公布一致。历史代表团按继承口径归并：苏联／独联体联合队／俄罗斯奥委会→俄罗斯，东德／西德→德国，捷克斯洛伐克→捷克，南斯拉夫／塞尔维亚和黑山→塞尔维亚，澳大拉西亚→澳大利亚，中立运动员→白俄罗斯。1900／1904 跨国混合队 4 金与独立运动员 1 金不计入国家。数据含赛后追授与剥夺调整。国界源为 Natural Earth 110m（truesize/countries.geojson），台湾已并入中国，跨反子午线要素已切割。",
+    "updated": "2026-11-25",
+    "viewport": "全球取景：renderWorldCopies=false，桌面 minZoom=1.5 / 初始 center=[-2,25] zoom=1.5；竖屏 minZoom=0 / 初始 zoom=0.15，center=[10,30]。时间轴按届索引 0—29 回放，两种口径（本届金牌 / 累计金牌）切换时国界面与环形节点同步重算；顶部横幅与时间轴同步显示当届榜首及金牌数，并列榜首全部列出。",
+    "data": [
+      {
+        "file": "maps/world-olympics/data/stores.geojson",
+        "features": 102,
+        "desc": "夺金国家代表点（WGS84，国家面积加权质心）：含 id（聚合键）/ total（累计金牌）/ series（30 届金牌数组）；运行期展开为 g0—g29 与 c0—c29 两套字段供表达式直接索引，半径按 √金牌数 分档，白环金心。中国台北、中国香港不单独立点"
+      },
+      {
+        "file": "maps/world-olympics/data/teams.json",
+        "features": 104,
+        "desc": "国家与赛事目录：teams 含 104 个聚合代表队（30 届金牌序列、累计金牌、夺金届数、最好名次与年份、代表团沿革 aliases、代表点坐标），editions 含 30 届赛事（主办城市与国别、项目数、金牌数、夺金国数、榜首前八 top、当届实际名义 names、历史注记 note），codeNames 为 116 个 IOC 代码的中文名；驱动左侧排行、搜索、大洲筛选、时间轴横幅与详情卡"
+      },
+      {
+        "file": "maps/world-olympics/data/country-fills.geojson",
+        "features": 176,
+        "desc": "Natural Earth 110m 国界面（含 name_zh，台湾已并入中国）：构建期注入 k（聚合键）与 g0—g29 逐届金牌数；运行期再补 c0—c29 累计前缀和，按口径与届次 setPaintProperty 切换字段，无需 setData。跨反子午线要素已切割"
+      }
+    ]
+  },
+  {
     "slug": "world-semiconductor",
     "entry": "/maps/world-semiconductor/index.html",
     "bbox": [
