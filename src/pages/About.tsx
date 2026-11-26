@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import PageMeta from '@/components/common/PageMeta';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import { useI18n } from '@/i18n/LocaleContext';
+import { useJsonLd, AUTHOR, SITE } from '@/lib/seo';
 import { getTools, getMaps, getWorks, getLearns, getResources } from '@/lib/content';
 
 // 社交渠道的稳定 id：平台名与描述走词典（中英切换），id 用于二维码弹窗判定。
@@ -14,6 +15,13 @@ type SocialId = 'wechat' | 'official' | 'weibo' | 'bilibili' | 'xiaohongshu' | '
 
 const About = () => {
   const { t, lang } = useI18n();
+  // 作者主页（E-E-A-T）：与文章 JSON-LD 的 author 共用同一个 Person @id
+  useJsonLd({
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    url: `${SITE}/about`,
+    mainEntity: { ...AUTHOR, email: 'mailto:planetcatcherr@gmail.com', worksFor: { '@type': 'Organization', name: '星球小捕手', url: SITE } },
+  });
   const [wechatOpen, setWechatOpen] = useState(false);
   const [officialOpen, setOfficialOpen] = useState(false);
   // 工具数量从 content/tools/*.md 实时统计，避免手工维护的数字过时

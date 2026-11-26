@@ -42,8 +42,11 @@ function loadDir(dir) {
   return readdirSync(p)
     .filter((f) => f.endsWith('.md'))
     .map((f) => {
-      const fm = parseFrontmatter(readFileSync(join(p, f), 'utf-8'));
-      return { ...fm, _file: f };
+      const raw = readFileSync(join(p, f), 'utf-8');
+      const fm = parseFrontmatter(raw);
+      // 正文仅供 llms-full.txt 使用
+      const _body = raw.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/, '');
+      return { ...fm, _file: f, _body };
     })
     .filter((x) => x.slug && x.title);
 }
@@ -222,7 +225,8 @@ push();
 push('## Optional');
 push();
 push(`- [互动地图在线体验](${SITE}/maps): 地图全屏交互入口（每张地图的介绍正文在 /maps/<slug>）。`);
-push(`- [Sitemap](${SITE}/sitemap.xml): 全站 ${learn.length + downloads.length + works.length + tools.length}+ 页面的完整 URL 清单。`);
+push(`- [全文版 llms-full.txt](${SITE}/llms-full.txt): 全部科普文章与互动地图介绍的 Markdown 正文合集，便于 AI 一次性读取。`);
+push(`- [Sitemap](${SITE}/sitemap.xml): 全站 ${learn.length + downloads.length + works.length + tools.length + maps.length + games.length}+ 页面的完整 URL 清单。`);
 push();
 
 const out = L.join('\n');
@@ -235,6 +239,67 @@ for (const t of targets) {
   mkdirSync(join(t, '..'), { recursive: true });
   writeFileSync(t, out, 'utf-8');
   console.log(`[gen-llms] 已写入 ${t}（${out.length} 字节）`);
+}
+
+// ── llms-full.txt：全文合集（llmstxt.org 约定的扩展文件）─────────────────────
+// AI 引擎 / Agent 一次请求就能拿到全部文章与地图介绍的正文，免去逐页抓取。
+// 正文做轻度清洗：去掉图片（只留说明文字）、HTML 标签（FAQ 的 <summary>Q: 保留为纯文本）。
+// 速查页的 HTML 表格压成 Markdown 管道行（体积约降一半，AI 解析也更稳）
+function htmlTablesToMd(md) {
+  return md.replace(/<table[\s\S]*?<\/table>/gi, (tbl) => {
+    const rows = [...tbl.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi)].map((r) =>
+      [...r[1].matchAll(/<t[hd][^>]*>([\s\S]*?)<\/t[hd]>/gi)].map((c) =>
+        c[1].replace(/<[^>]+>/g, '').replace(/\|/g, '/').replace(/\s+/g, ' ').trim(),
+      ),
+    );
+    if (!rows.length) return '';
+    const out = rows.map((r) => `| ${r.join(' | ')} |`);
+    out.splice(1, 0, `|${' --- |'.repeat(rows[0].length)}`);
+    return `\n${out.join('\n')}\n`;
+  });
+}
+
+function cleanBody(md) {
+  return htmlTablesToMd(md)
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/!\[([^\]]*)\]\([^)]*\)/g, (_, alt) => (alt.trim() ? `（图：${alt.trim()}）` : ''))
+    .replace(/<summary>\s*(.*?)\s*<\/summary>/g, '**$1**')
+    .replace(/<\/?(details|div|span|figure|figcaption|br|iframe|center|font|section|img|p|a|b|strong|em|i|u|code|small|sup|sub)[^>]*>/gi, '')
+    .replace(/\]\(\/(?!\/)/g, `](${SITE}/`)
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
+const F = [];
+F.push('# 星球小捕手 PlanetGIS · 全文');
+F.push('');
+F.push(`> 本文件收录 planetgis.cn 全部 ${learnSorted.length} 篇地理科普文章与 ${maps.length} 张互动地图的介绍正文（Markdown）。作者 Zayn Huang（星球小捕手）。引用请注明来源与原文链接。站点导读见 ${SITE}/llms.txt`);
+F.push('');
+const fullSection = (title, items, base) => {
+  F.push(`## ${title}`);
+  F.push('');
+  for (const it of items) {
+    F.push(`### ${it.title}`);
+    F.push('');
+    F.push(`- URL: ${SITE}/${base}/${it.slug}`);
+    if (it.date) F.push(`- 发布: ${it.date}${it.updated && it.updated !== it.date ? ` · 更新: ${it.updated}` : ''}`);
+    if (it.summary) F.push(`- 摘要: ${oneLine(it.summary, 400)}`);
+    if (it.takeaways) F.push(`- 要点: ${it.takeaways.split('|').map((x) => x.trim()).filter(Boolean).join('；')}`);
+    F.push('');
+    F.push(cleanBody(it._body || '').replace(/^(#{1,3})\s/gm, (_, h) => `${'#'.repeat(Math.min(6, h.length + 3))} `));
+    F.push('');
+    F.push('---');
+    F.push('');
+  }
+};
+fullSection('地理科普文章', learnSorted, 'learn');
+fullSection('互动地图', maps, 'maps');
+const full = F.join('\n');
+// 全文版只写 dist：2.6MB+ 的构建产物不进 public/（避免进 git）
+const fullTargets = [join(ROOT, 'dist', 'llms-full.txt')];
+for (const t of fullTargets) {
+  writeFileSync(t, full, 'utf-8');
+  console.log(`[gen-llms] 已写入 ${t}（${(Buffer.byteLength(full) / 1024 / 1024).toFixed(2)} MB）`);
 }
 
 console.log(

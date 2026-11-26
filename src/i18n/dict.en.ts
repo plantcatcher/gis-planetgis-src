@@ -564,6 +564,7 @@ export const en: Record<keyof Dict, string> = {
   'detail.read': 'Read',
   'detail.langNote': 'This article is currently available in Chinese only; an English translation is in progress.',
   'detail.updatedAt': 'Updated {d}',
+  'detail.takeaways': 'Key takeaways',
   'detail.tableSearch.label': 'Search this page',
   'detail.tableSearch.placeholder': 'Filter by code or name, e.g. 440300 / Shenzhen',
   'detail.tableSearch.matched': '{n} matches',

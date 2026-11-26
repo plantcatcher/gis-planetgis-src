@@ -10,7 +10,7 @@ import LearningTracker from '@/components/learning/LearningTracker';
 import FavoriteButton from '@/components/learning/FavoriteButton';
 import ShareButton from '@/components/common/ShareButton';
 import RewardCallout from '@/components/common/RewardCallout';
-import { useJsonLd, localizeCanonical } from '@/lib/seo';
+import { useJsonLd, localizeCanonical, AUTHOR } from '@/lib/seo';
 import { useI18n, type LocaleValue } from '@/i18n/LocaleContext';
 import { HTML_LANG } from '@/i18n/config';
 import { useImageLightbox, ImageLightbox } from '@/components/common/ImageLightbox';
@@ -228,7 +228,8 @@ const ArticleJsonLd: React.FC<{ item: ContentItem; type: ContentType }> = ({ ite
     ...(item.summary ? { description: item.summary } : {}),
     ...(item.cover ? { image: [item.cover] } : {}),
     ...(item.date ? { datePublished: item.date, dateModified: item.updated || item.date } : {}),
-    author: { '@type': 'Organization', name: brand },
+    ...(item.takeaways?.length ? { abstract: item.takeaways.join('；') } : {}),
+    author: AUTHOR,
     publisher: {
       '@type': 'Organization',
       name: brand,
@@ -434,7 +435,14 @@ export default function ContentDetail({ type }: Props) {
         </p>
         <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight tracking-tight">{item.title}</h1>
         <div className="byline flex flex-wrap items-center gap-x-3 gap-y-1">
-          <span>{t('brand.name')}</span>
+          {type === 'article' || type === 'learn' ? (
+            <span>
+              <Link to="/about" rel="author" className="hover:text-primary">{AUTHOR.name}</Link>
+              <span className="opacity-60"> · {t('brand.name')}</span>
+            </span>
+          ) : (
+            <span>{t('brand.name')}</span>
+          )}
           {item.date && (<><span className="opacity-40">·</span><span>{item.date}</span></>)}
           {item.updated && item.updated !== item.date && (
             <><span className="opacity-40">·</span><span>{t('detail.updatedAt', { d: item.updated })}</span></>
@@ -476,6 +484,18 @@ export default function ContentDetail({ type }: Props) {
       {(type === 'article' || type === 'learn') && item.summary && (
         <p className="standfirst">{item.summary}</p>
       )}
+
+      {/* 要点速览（GEO）：结论先行，给读者与 AI 引擎一段可直接引用的摘要 */}
+      {(type === 'article' || type === 'learn') && item.takeaways?.length ? (
+        <aside className="takeaways" aria-label={t('detail.takeaways')}>
+          <p className="takeaways-title">{t('detail.takeaways')}</p>
+          <ul>
+            {item.takeaways.map((k) => (
+              <li key={k}>{k}</li>
+            ))}
+          </ul>
+        </aside>
+      ) : null}
 
       {item.tableSearch && (
         <TableSearch bodyRef={bodyRef} body={body} placeholder={item.tableSearchPlaceholder} />

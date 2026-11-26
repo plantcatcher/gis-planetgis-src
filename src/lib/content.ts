@@ -66,6 +66,10 @@ export interface ContentItem {
    */
   scope?: string;
   tags?: string[];
+  /** 核心要点（GEO）：frontmatter `takeaways: 要点一 | 要点二 | 要点三`，竖线分隔。
+   *  详情页在导语下渲染为「要点速览」框，Article JSON-LD 的 abstract 也取它——
+   *  给 AI 搜索引擎一段可直接引用的结论，而不是故事式导语。 */
+  takeaways?: string[];
   body: string;
   /** 资料下载专用：关注公众号后获取的专属验证码（大小写不敏感） */
   code?: string;
@@ -203,6 +207,7 @@ function parseFrontmatter(raw: string): { data: Frontmatter; content: string } {
 function detailFields(data: Frontmatter): Partial<ContentItem> {
   return {
     code: data.code,
+    takeaways: data.takeaways ? data.takeaways.split('|').map((s) => s.trim()).filter(Boolean) : undefined,
     download: data.download,
     author: data.author,
     publisher: data.publisher,

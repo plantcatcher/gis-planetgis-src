@@ -356,6 +356,29 @@ h1, h2, h3, .font-serif {
   font-weight: 400;
   margin-bottom: 1.6rem;
 }
+/* 要点速览（GEO）：导语下方的结论框 */
+.takeaways {
+  margin: 0 0 2rem;
+  padding: 1rem 1.25rem;
+  border-left: 3px solid hsl(var(--primary));
+  border-radius: 0.75rem;
+  background: hsl(var(--muted) / 0.5);
+}
+.takeaways-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: hsl(var(--primary));
+  margin-bottom: 0.5rem;
+}
+.takeaways ul {
+  list-style: disc;
+  padding-left: 1.2rem;
+  line-height: 1.75;
+}
+.takeaways li + li {
+  margin-top: 0.25rem;
+}
 /* 引用块：左侧竖线 + 浅底，普通引文样式（覆盖基础 .md-body blockquote 的编辑式居中） */
 .md-body blockquote {
   border: none;

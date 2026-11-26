@@ -1399,7 +1399,7 @@ const Listing: React.FC<{ type: ListingType }> = ({ type }) => {
           爬虫于是永远只收录第 1 页。交给 PageMeta 按当前 pathname 自引用。 */}
       <PageMeta
         title={pageTag ? `${m.title}（${pageTag}） - ${t('brand.name')}` : `${m.title} - ${t('brand.name')}`}
-        description={m.subtitle}
+        description={pageTag ? `${pageTag} · ${m.subtitle}` : m.subtitle}
       />
       <Breadcrumb />
       <div className="min-h-screen bg-background text-foreground">

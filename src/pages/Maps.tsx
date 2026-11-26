@@ -160,7 +160,7 @@ const Maps: React.FC = () => {
     <>
       <PageMeta
         title={pageTag ? `${t('maps.title')}（${pageTag}） - ${t('brand.name')}` : `${t('maps.title')} - ${t('brand.name')}`}
-        description={t('maps.metaDescription')}
+        description={pageTag ? `${pageTag} · ${t('maps.metaDescription')}` : t('maps.metaDescription')}
       />
       <Breadcrumb />
       <div className="min-h-screen bg-background text-foreground">

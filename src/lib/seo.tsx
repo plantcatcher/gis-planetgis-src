@@ -42,6 +42,26 @@ export interface AlternateLink {
 
 /** 站点 baseURL：全站 canonical / OG / 结构化数据的唯一来源 */
 export const SITE = 'https://planetgis.cn';
+
+/**
+ * 站点作者（E-E-A-T / GEO）：文章 JSON-LD 的 author 用真实的人而非品牌组织，
+ * AI 引擎引用时能落到具体作者；About 页同时输出同一个 Person（@id 相同，互相印证）。
+ */
+export const AUTHOR = {
+  '@type': 'Person',
+  '@id': `${SITE}/about#zayn-huang`,
+  name: 'Zayn Huang',
+  alternateName: '星球小捕手',
+  url: `${SITE}/about`,
+  jobTitle: '地理科普作者 · GIS 开发者',
+  sameAs: [
+    'https://weibo.com/u/5860040514',
+    'https://space.bilibili.com/31959835',
+    'https://www.xiaohongshu.com/user/profile/5f91772d00000000010077da',
+    'https://www.youtube.com/@ZaynHuang',
+    'https://blog.planetgis.cn',
+  ],
+} as const;
 const DEFAULT_OG = 'https://blogphoto.planetgis.cn/PicGo/2026-02-27-favicon-dec42c.png';
 /** 判断一个图片地址是否已是绝对 URL（http/https），用于决定是否补站点前缀 */
 const ABSOLUTE_URL = /^https?:\/\//i;
@@ -135,7 +155,22 @@ interface PageMetaProps {
   modifiedTime?: string;
 }
 
-export function PageMeta({ title, description, canonical, image, type = 'website', keywords, publishedTime, modifiedTime }: PageMetaProps) {
+/**
+ * meta description 截断：搜索结果页只展示约 80（百度）~150（Google）个汉字，
+ * 过长的摘要会被引擎截在任意位置，甚至被判为堆砌而改用正文摘录。
+ * 这里只截 <meta> 用的描述（页面上的导语原样展示），尽量断在句末标点。
+ */
+const META_DESC_MAX = 150;
+export function clampDescription(desc: string, max = META_DESC_MAX): string {
+  const s = (desc || '').replace(/\s+/g, ' ').trim();
+  if (s.length <= max) return s;
+  const cut = s.slice(0, max);
+  const end = Math.max(...['。', '！', '？', '；', '.', '!', '?'].map((c) => cut.lastIndexOf(c)));
+  return end >= max * 0.6 ? cut.slice(0, end + 1) : `${cut.slice(0, max - 1)}…`;
+}
+
+export function PageMeta({ title, description: rawDescription, canonical, image, type = 'website', keywords, publishedTime, modifiedTime }: PageMetaProps) {
+  const description = clampDescription(rawDescription);
   // 缺省 canonical 由当前路由生成，保证「自引用」。
   // 旧实现是用页面标题拼 URL（`${SITE}/${title.split(' ')[0]}`），会产出
   // https://planetgis.cn/星球小捕手 这类根本不存在的地址，被搜索引擎判定为

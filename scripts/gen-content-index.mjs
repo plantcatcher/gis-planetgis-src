@@ -147,6 +147,7 @@ console.log(`[content-index] 写出 ${rows.length} 条元数据 -> src/data/cont
 //      列表页 / 首页的徽标与筛选因此无需 code / download / viewUrl。
 // ⚠️ 若某个列表卡片 / 搜索开始用到 DETAIL_KEYS 里的字段，要把它从这里移出。
 const DETAIL_KEYS = [
+  'takeaways',
   'code', 'download', 'viewUrl', 'officialUrl', 'officialName', 'standardNo', 'stdStatus',
   'stdDate', 'source', 'keywordAliases', 'trigger', 'panCode', 'downloadAlt', 'downloadAltType',
   'downloadAltCode', 'downloadType', 'timeline', 'publisher', 'isbn', 'pubYear', 'pages',

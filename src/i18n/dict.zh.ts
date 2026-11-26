@@ -554,6 +554,7 @@ export const zh = {
   'detail.read': '阅读',
   'detail.langNote': '本文正文当前为中文，英文翻译正在准备中，敬请期待。',
   'detail.updatedAt': '更新于 {d}',
+  'detail.takeaways': '要点速览',
   'detail.tableSearch.label': '表内搜索',
   'detail.tableSearch.placeholder': '输入代码或名称筛选，如 440300 / 深圳',
   'detail.tableSearch.matched': '共匹配 {n} 条',
