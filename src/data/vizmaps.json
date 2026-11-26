@@ -2611,6 +2611,37 @@
     ]
   },
   {
+    "slug": "cn-highspeed-rail",
+    "entry": "/maps/cn-highspeed-rail/index.html",
+    "bbox": [
+      73.0,
+      17.5,
+      135.5,
+      54.5
+    ],
+    "crs": "GCJ-02（火星坐标；城市节点取 437 城坐标表中的城市中心点，与高德瓦片同源）",
+    "basemap": "高德瓦片：卫星影像 style=6（默认）/ 矢量路网 style=7 / 无底图；可选叠加 DataV 省级边界做线路数 choropleth",
+    "source": "52 条主要高铁干线，开通年份、里程、沿线城市取自百度百科线路词条，并与国铁集团、新华社、人民铁道网、中国中铁等公开报道交叉核对；每条线路详情卡附来源链接。覆盖 2008—2026 年，每年均有线路；2024 年补齐沪苏湖、集大原、南玉、潍烟、荆荆、渝昆渝宜段六条。里程为本图收录线路相加，存在区段重叠，不等于全国高铁营业里程。线路用沿线城市中心点顺序连线示意，非精确轨道几何；城市节点不代表具体车站位置。分阶段开通线路取主体或全线贯通年份，卡片内注明分段年份。宜兴高铁因沿线城市坐标缺失未入图。",
+    "updated": "2026-11-26",
+    "data": [
+      {
+        "file": "maps/cn-highspeed-rail/data/lines.geojson",
+        "features": 52,
+        "desc": "线路骨架（GCJ-02）：LineString，含 id / 名称 / 简称 / 开通年份 / 年代分档 / 起讫 / 里程 / 沿线城市数组 / 途经省份 / 来源 / 分段说明"
+      },
+      {
+        "file": "maps/cn-highspeed-rail/data/stations.json",
+        "features": 179,
+        "desc": "城市节点聚合：点要素，含城市名 / GCJ-02 坐标 / 首条通车年 / 本图收录线路数 / 经过线路列表（按年份升序）"
+      },
+      {
+        "file": "maps/_shared/china-provinces.json",
+        "features": 35,
+        "desc": "省级行政区边界（_shared 跨地图复用），按本图收录线路数 interpolate 着色，可选叠加"
+      }
+    ]
+  },
+  {
     "slug": "cn-sams",
     "entry": "/maps/cn-sams/index.html",
     "bbox": [
