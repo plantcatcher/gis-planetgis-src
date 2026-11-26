@@ -54,6 +54,17 @@ function leadOf(summary, body) {
 }
 
 const rows = [];
+// 字数口径：表格是「数据」，不是「正文」。速查页的表格动辄数千行（邮政编码 2900+ 行、
+// 行政区划代码 3200+ 行），计入后会出现「90 万字 / 435 分钟」这类无意义的数字，
+// 也会让卡片上的「N 字」失去参考价值。故统计前先剔除表格块，阅读时长随之按正文计算。
+// uniq（独有 8-gram）仍用全文，表格内容照常参与「是否模板化」的判断。
+function countWords(body) {
+  const text = body
+    .replace(/<table[\s\S]*?<\/table>/gi, '')
+    .replace(/<div class="admin-table-wrapper">\s*<\/div>/gi, '');
+  return text.replace(/\s/g, '').length;
+}
+
 for (const folder of FOLDERS) {
   const dir = join(CONTENT, folder);
   if (!existsSync(dir)) continue;
@@ -65,8 +76,8 @@ for (const folder of FOLDERS) {
       folder,
       filename: f.replace(/\.md$/, ''),
       fm,
-      // 正文字数（去空白），卡片「N字」与阅读时长由它推导
-      words: body.replace(/\s/g, '').length,
+      // 正文字数（去空白、不含表格），卡片「N字」与阅读时长由它推导
+      words: countWords(body),
       lead: leadOf(fm.summary, body),
       // 下面按目录统计「独有 8-gram 数」，先占位
       uniq: 0,
