@@ -2611,6 +2611,38 @@
     ]
   },
   {
+    "slug": "world-ai-compute",
+    "entry": "/maps/world-ai-compute/index.html",
+    "bbox": [
+      -180.0,
+      -60.0,
+      180.0,
+      80.0
+    ],
+    "crs": "WGS84 / EPSG:4326（设施坐标为城市代表点，非门址；与 Esri 全球底图对齐，无偏移。国界数据已将台湾并入中国）",
+    "basemap": "深色无底图（默认，叠 Natural Earth 国界 choropleth）/ Esri World Imagery 卫星影像 / Esri World Shaded Relief 地形晕渲；全球尺度不用高德瓦片（境外空白）",
+    "source": "66 处全球超大规模数据中心与 AI 智算枢纽，只收运营方官方地点页公布或权威媒体报道的已运营 / 已宣布项目，不收传闻与未动工规划。覆盖 36 国、6 大洲，年份 2006—2026。其中 56 处 hyperscale、10 处 ai-cluster；AWS 27 处、Google 13 处。仅 9 处有公开容量数字（合计 7143 MW），其中 8 处为媒体或第三方披露的园区电力规模 / 规划容量，非官方 IT 负载口径；只有 1 处明确写 IT 负载。其余不估算。3 处 Google 设施官方列为运营中但年份未公开确认，图中以 2026 显示并在卡片注明。坐标为 WGS84 城市代表点，非门址。国界数据沿用站内统一底图，台湾并入中国，中国台湾设施的国家代码归入 CN。",
+    "updated": "2026-11-26",
+    "viewport": "全球取景：renderWorldCopies=true，桌面 minZoom=1.5 / 初始 center=[-30,25] zoom=1.5（北美、欧洲、东亚三大集群同时入屏）；移动端初始 center=[150,25] 对准亚太。国界面由 country-fills.geojson 注入 aiIso 与 aiCount 后按各国设施数 choropleth，随年份重算后 setData。",
+    "data": [
+      {
+        "file": "maps/world-ai-compute/data/stores.geojson",
+        "features": 66,
+        "desc": "算力枢纽环形节点（WGS84）：含 id / 名称 / 运营方 / 大洲 / 国家 / 城市 / 国家 ISO / 公开容量 MW（未披露为 0，多为园区电力或规划规模）/ 启用或宣布年份 / 年份未披露标记 / 类型（hyperscale 或 ai-cluster）/ 来源 / 备注；半径按 √公开容量 绘制"
+      },
+      {
+        "file": "maps/world-ai-compute/data/markets.json",
+        "features": 66,
+        "desc": "设施目录：66 处（名称、运营方、大洲、国家、城市、ISO、容量、年份、类型、来源、备注、经纬度），驱动左侧排行、大洲筛选、搜索与时间轴；另含 continentCount 六大洲汇总与 meta 总量"
+      },
+      {
+        "file": "maps/world-ai-compute/data/country-fills.geojson",
+        "features": 176,
+        "desc": "国家 / 地区边界（复用 unified 底图，台湾并入中国），属性 aiIso 与 aiCount，按本图收录设施数 interpolate 着色，随年份重算"
+      }
+    ]
+  },
+  {
     "slug": "cn-highspeed-rail",
     "entry": "/maps/cn-highspeed-rail/index.html",
     "bbox": [
