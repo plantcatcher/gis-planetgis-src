@@ -3212,6 +3212,43 @@
     ]
   },
   {
+    "slug": "world-nobel-literature",
+    "entry": "/maps/world-nobel-literature/index.html",
+    "bbox": [
+      -180.0,
+      -60.0,
+      180.0,
+      84.0
+    ],
+    "crs": "WGS84 / EPSG:4326（国家代表点沿用 Olympic 图面积加权质心，非首都点；与 Esri 全球底图直接对齐。国界数据已将台湾并入中国）",
+    "basemap": "深色无底图（默认，叠 Natural Earth 国界 choropleth）/ Esri World Imagery 卫星影像 / Esri World Shaded Relief 地形晕渲；全球尺度不用高德瓦片（境外空白）",
+    "source": "得主名单与年份取自诺贝尔基金会官网文学奖得主列表，经 Wikipedia《List of Nobel laureates in Literature》表格逐行整理，覆盖 1901—2026 全部 123 位得主。国家采用官网列示口径（非出生地、非完全等同国籍）；历史政权归并：法兰西第三／第四共和国→法国，德意志帝国／魏玛共和国／西德→德国，苏联→俄罗斯，南斯拉夫→塞尔维亚，捷克斯洛伐克→捷克，爱尔兰自由邦→爱尔兰，英属印度→印度。14 位双重列示作家分别计入两国，国家配对总数 137；1933 年无国籍的布宁不计入任何国家。国界源为 Natural Earth 110m（truesize/countries.geojson），台湾已并入中国，跨反子午线要素已切割。解析脚本 _g/_parse_nobel_literature.py，汇总脚本 _g/build_world_nobel_literature.py。",
+    "updated": "2026-11-28",
+    "viewport": "全球取景：renderWorldCopies=false，桌面 minZoom=1.5 / 初始 center=[-2,25] zoom=1.5；竖屏 minZoom=0 / 初始 zoom=0.15，center=[10,30]。时间轴逐年索引 0—125 回放，两种口径（本年获奖 / 累计获奖）切换时国界面与环形节点同步重算；顶部横幅显示当年获奖国家与并列情况，详情卡按 13 个十年时段汇总并支持点击跳转。",
+    "data": [
+      {
+        "file": "maps/world-nobel-literature/data/teams.json",
+        "features": 45,
+        "desc": "国家与年份目录：teams 含 45 个获奖国家（126 年获奖序列、累计人次、首次与最近获奖年、获奖作家中英名单、代表点坐标、大洲），editions 含 126 个年份（获奖人次、获奖国数、并列榜首 top、未颁奖注记），codeNames 为国家代码中文名；驱动左侧排行、搜索、大洲筛选、时间轴横幅与详情卡"
+      },
+      {
+        "file": "maps/world-nobel-literature/data/stores.geojson",
+        "features": 45,
+        "desc": "获奖国家代表点（WGS84，面积加权质心）：含 id（国家代码）/ total（累计人次）/ series（126 年获奖数组）；运行期展开为 g0—g125 与 c0—c125 两套字段供表达式直接索引，半径按 √人次 分档，白环金心。圣卢西亚、毛里求斯无独立国界面，只有环"
+      },
+      {
+        "file": "maps/world-nobel-literature/data/country-fills.geojson",
+        "features": 176,
+        "desc": "Natural Earth 110m 国界面（含 name_zh，台湾已并入中国）：构建期注入 k（国家代码）与 g0—g125 逐年获奖人次；运行期再补 c0—c125 累计前缀和，按口径与年份 setPaintProperty 切换字段，无需 setData。跨反子午线要素已切割"
+      },
+      {
+        "file": "maps/world-nobel-literature/data/laureates.json",
+        "features": 123,
+        "desc": "得主明细：123 条记录，含获奖年份、中文译名、英文原名、官网列示国家代码数组与主国家代码；供核对双重列示与历史归并口径"
+      }
+    ]
+  },
+  {
     "slug": "world-semiconductor",
     "entry": "/maps/world-semiconductor/index.html",
     "bbox": [
