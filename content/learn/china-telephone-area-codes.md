@@ -874,6 +874,7 @@ tableSearchPlaceholder: 输入区号或城市名，如 0755 / 深圳
 - [全国邮政编码表](/learn/china-postal-codes)
 - [全国机场三字码 / 四字码](/learn/china-airport-codes)
 - [世界国家和地区代码（ISO 3166）](/learn/iso-3166-country-codes)
+- [全球手机国家区号表](/learn/world-phone-country-codes)
 - [中国常用坐标系 EPSG 代码](/learn/china-epsg-codes)
 - [高斯-克吕格分带带号对照](/learn/gauss-kruger-zone-table)
 - [用地用海分类代码表](/learn/land-sea-use-classification-codes)

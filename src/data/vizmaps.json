@@ -2643,6 +2643,35 @@
     ]
   },
   {
+    "slug": "world-phone-codes",
+    "entry": "/maps/world-phone-codes/index.html",
+    "bbox": [
+      -180.0,
+      -60.0,
+      180.0,
+      84.0
+    ],
+    "crs": "WGS84 / EPSG:4326（国界面与本站全球图统一底图一致，无偏移；台湾已并入中国）",
+    "basemap": "深色无底图（默认，叠 ITU 编号区国界 choropleth）/ Esri World Imagery 卫星影像 / Esri World Shaded Relief 地形晕渲；全球尺度不用高德瓦片（境外空白）",
+    "source": "176 个国家和地区的国际电话区号，取 ITU-T E.164 国家呼叫代码（country calling code），即国际拨号时加在本国号码前的 +86 / +1。与 2025 年公开国家代码对照表交叉核对。175 个要素有区号，合计 165 个不同代码；南极洲无代码。按区号首位数字归入 ITU 九大编号区。+1 为北美编号计划，由美国、加拿大与加勒比多国共用；+7 俄罗斯与哈萨克斯坦共用。中国大陆 +86，中国香港 +852、中国澳门 +853、中国台湾 +886 同属中国，统一列在中国详情卡，国界底图已将台湾并入中国。",
+    "updated": "2026-11-28",
+    "viewport": "全球取景：renderWorldCopies=true，桌面 minZoom=1.5 / 初始 center=[-30,25] zoom=1.5；移动端初始 center=[150,25] 对准亚太。国界面按 zone 属性（区号首位数字）九色着色，点选描边高亮；放大到 zoom≥2.1 后按碰撞网格显示区号标注。",
+    "data": [
+      {
+        "file": "maps/world-phone-codes/data/countries.geojson",
+        "features": 176,
+        "unit": "个国家/地区面",
+        "desc": "国界复用本站统一底图（台湾并入中国），属性含 name / name_zh / a2（ISO 两位码）/ dial（E.164 呼叫代码，无码为空）/ zone（首位数字）/ zoneName（编号区中文名）/ center（代表点）；按 zone 分九色着色，可筛选"
+      },
+      {
+        "file": "maps/world-phone-codes/data/codes.json",
+        "features": 176,
+        "unit": "条区号目录",
+        "desc": "meta（国家数 176 / 不同区号 165 / 编号区 9 / 无码 1 / zoneNames / shareNotes）+ codes 去重代码表 + rows 目录（中文名 / 英文名 / a2 / dial / zone / center / 共用数 / 备注 / 中国的港澳台地区号）"
+      }
+    ]
+  },
+  {
     "slug": "cn-highspeed-rail",
     "entry": "/maps/cn-highspeed-rail/index.html",
     "bbox": [
